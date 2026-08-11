@@ -1,0 +1,684 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<meta name="robots" content="noindex, nofollow" />
+<title>Bana Uygun Olanı Bul — Nereden Başlayacağını Öğren | DadaDiet</title>
+<link rel="shortcut icon" type="image/x-icon"
+      href="assets/img/favicon.ico" />
+<!-- FontAwesome 6.5.2 (kilitli ikon seti) -->
+<link rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css"
+      integrity="sha512-SnH5WK+bZxgPHs44uWIX+LLJAJ9/2PkPKZ5QiAj6Ta86w+fsb2TkcmfRyVX3pBnMFcV7oQPJkl9QevSCWr3W6A=="
+      crossorigin="anonymous" referrerpolicy="no-referrer" />
+<link rel="stylesheet" href="assets/css/dd-shell.css" />
+<style>
+/* ===== SAYFA CSS — kabuk CSS'i assets/css/dd-shell.css'te ===== */
+/* =====================================================================
+   BANA UYGUN OLANI BUL — modülleri bağlayan ortak başlangıç ve yönlendirme.
+   Ana menüde başlık DEĞİLDİR; ana sayfa hero'sundan ve iki merkez sayfadan
+   birincil çağrı olarak girilir.
+
+   YENİ SINIF YOK. Sihirbaz dili diyetisyen-bul-v1'den BİREBİR alındı:
+     .wzp-top / .wzp-hero / .wzp-trust / .wz-sec / .wz-card / .wz-steps /
+     .wz-step / .wz-num / .wz-lbl / .wz-body / .wz-pane / .wz-q / .wz-opts /
+     .wz-opt / .wz-oico / .wz-otxt / .wz-otick / .wz-nav / .wz-back /
+     .wz-next / .wz-progress-txt / .wz-result / .wz-res-head / .wz-res-ico /
+     .wz-sum / .wz-pill / .wz-relax / .wz-res-actions / .wz-disc / .dz-grid
+     .rd-crumb / .reh-note
+   Öneri kartı .calc-card + .calc-ico  ← saglik-hub-v1
+   Satır etiketi .proc-head            ← diyetisyen-ol-v1
+   ===================================================================== */
+
+/* ---- breadcrumb (dizin rd-crumb dili MİRAS) ---- */
+.rd-crumb{display:flex;align-items:center;flex-wrap:wrap;gap:9px;padding:18px 0 2px;font-size:13px;font-weight:500;color:var(--muted)}
+.rd-crumb a{color:var(--muted);transition:.18s}
+.rd-crumb a:hover{color:var(--green)}
+.rd-crumb i{font-size:9px;color:#c7c7c7}
+.rd-crumb b{color:var(--slate);font-weight:700}
+
+/* ---- hero (açık, sihirbaza odaklı) ---- */
+/* Koyu görselli banner — reçete .reh-hero'nun birebir aynısı (aynı 40px h1
+   ölçüsü, aynı iki katmanlı gradyan + görsel, aynı alt boşluk ritmi: hero'nun
+   30px'i + buradaki 20px = 50px). Görsel: saglik-araclari / saglik-testler / arama-diet ile aynı — ortak başlangıç sihirbazının girişleri o sayfalar
+   Krem zemin 17. tura kadar görünmez bir banttı; breadcrumb taşıyıp banner
+   taşımayan tek aile buydu (§5.1). */
+.wzp-top{position:relative;background-color:#15241c;background-image:linear-gradient(90deg,rgba(18,28,22,.94),rgba(20,32,25,.74)),url('https://images.unsplash.com/photo-1490645935967-10de6ba17061?w=1600&q=80&auto=format&fit=crop&exp=7&gam=6&sat=-9&high=8&vib=5');background-size:cover;background-position:center;overflow:hidden;padding:128px 0 20px}
+.wzp-top .wrap{position:relative}
+.wzp-top .rd-crumb{color:#bcd0c4}
+.wzp-top .rd-crumb a{color:#bcd0c4}
+.wzp-top .rd-crumb a:hover{color:#7fe0b0}
+.wzp-top .rd-crumb i{color:rgba(255,255,255,.4)}
+.wzp-top .rd-crumb b{color:#fff}
+.wzp-hero{padding:8px 0 30px;text-align:center;max-width:700px;margin:0 auto}
+.wzp-hero .eyebrow{color:#7fe0b0;justify-content:center}
+.wzp-hero .eyebrow::before{background:var(--green)}
+.wzp-hero h1{color:#fff;font-size:40px;letter-spacing:-.03em;margin:14px 0 12px;text-shadow:0 2px 24px rgba(0,0,0,.25)}
+.wzp-hero h1 .accent{color:#54d39a}
+.wzp-hero .lead{color:#e3ede7;font-weight:500;font-size:15.5px;max-width:580px;margin:0 auto;text-shadow:0 1px 14px rgba(0,0,0,.3)}
+.wzp-trust{display:flex;flex-wrap:wrap;justify-content:center;gap:10px 22px;margin-top:20px}
+.wzp-trust span{display:inline-flex;align-items:center;gap:8px;font-size:13px;font-weight:600;color:#cfe6da}
+.wzp-trust i{color:var(--green);font-size:13px}
+
+/* ---- sihirbaz kabuğu ---- */
+.wz-sec{padding:6px 0 70px;background:var(--bg-cream)}
+.wz-card{max-width:820px;margin:0 auto;background:var(--paper);border:1px solid var(--line);border-radius:var(--radius-xl);box-shadow:var(--sh-md);overflow:hidden}
+
+/* ---- ADIM YOLU ---- */
+.wz-steps{display:flex;align-items:flex-start;gap:0;padding:26px 30px 6px;background:var(--bg-cream);border-bottom:1px solid var(--line)}
+.wz-step{flex:1;display:flex;flex-direction:column;align-items:center;gap:9px;position:relative;background:none;border:none;font-family:inherit;min-width:0;padding:0;cursor:default}
+.wz-step:disabled{cursor:default}
+.wz-num{width:38px;height:38px;border-radius:var(--radius-circle);display:grid;place-items:center;font-size:15px;font-weight:800;background:var(--paper);border:2px solid var(--line);color:var(--muted);transition:.25s var(--ease);z-index:2}
+.wz-lbl{font-size:12.5px;font-weight:700;color:var(--muted);text-align:center;line-height:1.2;transition:color .25s}
+.wz-lbl small{display:block;font-size:11px;font-weight:500;color:#a3a3a3;margin-top:2px}
+.wz-step::before,.wz-step::after{content:"";position:absolute;top:19px;height:2px;background:var(--line);z-index:1;transition:background .3s var(--ease)}
+.wz-step::before{left:0;right:50%;margin-right:19px}
+.wz-step::after{left:50%;right:0;margin-left:19px}
+.wz-step:first-child::before{display:none}
+.wz-step:last-child::after{display:none}
+.wz-step.done .wz-num{background:var(--green);border-color:var(--green);color:#fff}
+.wz-step.done .wz-lbl{color:var(--slate)}
+.wz-step.done::before,.wz-step.done::after{background:var(--green)}
+.wz-step.current .wz-num{border-color:var(--green);color:var(--green);background:var(--tomato-tint);box-shadow:0 0 0 4px rgba(59,183,126,.14)}
+.wz-step.current .wz-lbl{color:var(--slate)}
+.wz-step.done{cursor:pointer}
+.wz-step.done:hover .wz-num{filter:brightness(1.06)}
+.wz-num .wz-check{display:none;font-size:14px}
+.wz-step.done .wz-num .wz-check{display:inline}
+.wz-step.done .wz-num .wz-digit{display:none}
+.wz-step:focus-visible{outline:none}
+.wz-step:focus-visible .wz-num{outline:3px solid var(--tomato-tint);outline-offset:2px}
+
+/* ---- PANELLER ---- */
+.wz-body{padding:32px 34px 6px}
+.wz-pane{display:none;animation:fadeUp .35s var(--ease)}
+.wz-pane.active{display:block}
+.wz-q{text-align:center;margin-bottom:24px}
+.wz-q h2{font-size:24px;letter-spacing:-.02em}
+.wz-q p{font-size:14px;color:var(--muted);font-weight:500;margin-top:6px}
+.wz-q h2:focus,.wz-res-head h2:focus{outline:none}
+
+/* ---- seçenek kutucukları ---- */
+.wz-opts{display:grid;gap:12px}
+.wz-opts.cols-2{grid-template-columns:1fr 1fr}
+.wz-opts.cols-3{grid-template-columns:repeat(3,1fr)}
+.wz-opt{display:flex;align-items:center;gap:14px;text-align:left;font-family:inherit;background:var(--paper);border:1.5px solid var(--line);border-radius:var(--radius-lg);padding:16px 18px;cursor:pointer;transition:.18s var(--ease);position:relative}
+.wz-oico{flex:none;width:44px;height:44px;border-radius:var(--radius-md);background:var(--bg-cream);color:var(--green);display:grid;place-items:center;font-size:18px;transition:.18s var(--ease)}
+.wz-otxt{min-width:0}
+.wz-otxt b{display:block;font-size:15px;font-weight:700;color:var(--slate);line-height:1.25}
+.wz-otxt small{display:block;font-size:12.5px;color:var(--muted);font-weight:500;margin-top:2px}
+.wz-otick{margin-left:auto;flex:none;width:22px;height:22px;border-radius:var(--radius-circle);border:1.5px solid #d8d8d8;display:grid;place-items:center;color:#fff;font-size:11px;transition:.18s var(--ease)}
+.wz-otick i{transform:scale(0);transition:transform .16s var(--ease)}
+.wz-opt:hover{border-color:var(--green);background:var(--tomato-tint)}
+.wz-opt:hover .wz-oico{background:#fff}
+.wz-opt:focus-visible{outline:3px solid var(--tomato-tint);outline-offset:2px}
+.wz-opt.selected{border-color:var(--green);background:var(--tomato-tint)}
+.wz-opt.selected .wz-oico{background:var(--green);color:#fff}
+.wz-opt.selected .wz-otick{background:var(--green);border-color:var(--green)}
+.wz-opt.selected .wz-otick i{transform:scale(1)}
+.wz-opts.tiles .wz-opt{flex-direction:column;text-align:center;align-items:center;gap:11px;padding:24px 16px}
+.wz-opts.tiles .wz-oico{width:52px;height:52px;font-size:21px}
+.wz-opts.tiles .wz-otick{position:absolute;top:12px;right:12px;margin:0}
+.wz-opts.tiles .wz-otxt b{font-size:15.5px}
+
+/* ---- NAV AYAK ---- */
+.wz-nav{display:flex;align-items:center;justify-content:space-between;gap:14px;padding:18px 34px 28px}
+.wz-back{display:inline-flex;align-items:center;gap:9px;font-family:inherit;font-weight:700;font-size:14px;color:var(--slate);background:none;border:none;cursor:pointer;padding:12px 6px;transition:.18s var(--ease)}
+.wz-back i{font-size:12px;transition:transform .2s var(--ease)}
+.wz-back:hover{color:var(--green)}
+.wz-back:hover i{transform:translateX(-3px)}
+.wz-back:focus-visible{outline:3px solid var(--tomato-tint);outline-offset:2px;border-radius:var(--radius-sm)}
+.wz-back[hidden]{visibility:hidden;display:inline-flex}
+.wz-progress-txt{font-size:12.5px;font-weight:600;color:var(--muted)}
+.wz-next{display:inline-flex;align-items:center;gap:10px;font-family:inherit;font-weight:700;font-size:14.5px;color:#fff;background:var(--green-deep);border:none;border-radius:var(--radius-md);padding:14px 28px;cursor:pointer;transition:.2s var(--ease)}
+.wz-next i{font-size:13px;transition:transform .2s var(--ease)}
+.wz-next:hover{background:var(--green);transform:translateY(-2px)}
+.wz-next:hover i{transform:translateX(3px)}
+.wz-next:focus-visible{outline:3px solid var(--tomato-tint);outline-offset:2px}
+.wz-next:disabled{background:#c3e4d3;cursor:not-allowed;transform:none}
+
+/* ---- SONUÇ ---- */
+.wz-result{display:none}
+.wz-result.active{display:block;animation:fadeUp .4s var(--ease)}
+.wz-res-head{text-align:center;max-width:600px;margin:0 auto}
+.wz-res-ico{width:64px;height:64px;border-radius:var(--radius-circle);background:#EAF7F0;color:var(--green);display:grid;place-items:center;font-size:26px;margin:0 auto 16px}
+.wz-res-head h2{font-size:26px;letter-spacing:-.02em}
+.wz-res-head p{font-size:14.5px;color:var(--muted);font-weight:500;margin-top:8px}
+.wz-sum{display:flex;flex-wrap:wrap;justify-content:center;gap:8px;margin:18px 0 2px}
+.wz-pill{display:inline-flex;align-items:center;gap:8px;font-size:12.5px;font-weight:700;color:var(--green-deep);background:#EAF7F0;border:1px solid rgba(59,183,126,.25);padding:8px 13px;border-radius:var(--radius-pill)}
+.wz-pill i{font-size:11px}
+.wz-relax{display:flex;gap:11px;align-items:flex-start;max-width:640px;margin:16px auto 0;background:var(--tomato-tint);border:1px solid #cdeadd;border-radius:var(--radius-lg);padding:13px 16px}
+.wz-relax[hidden]{display:none}
+.wz-relax i{color:var(--green-deep);font-size:15px;margin-top:2px;flex:none}
+.wz-relax p{font-size:13px;color:var(--slate-2);font-weight:500;line-height:1.55}
+.wz-res-actions{display:flex;flex-wrap:wrap;justify-content:center;gap:12px;margin-top:30px}
+
+/* ---- öneri kartı (saglik-hub .calc-card dili BİREBİR) ---- */
+.proc-head{display:flex;align-items:center;gap:9px;font-size:11.5px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);margin:28px 0 12px}
+.proc-head i{color:var(--green);font-size:12px}
+.calc-card{display:flex;align-items:center;gap:14px;padding:16px;background:var(--paper);border:1px solid #e2efe8;border-radius:var(--radius-lg);cursor:pointer;transition:.25s var(--ease)}
+.calc-card:hover{transform:translateY(-4px);border-color:var(--green);box-shadow:var(--sh-md)}
+.calc-ico{flex:none;width:50px;height:50px;border-radius:var(--radius-lg);background:#EAF7F0;display:grid;place-items:center}
+.calc-ico i{font-size:21px;color:var(--tomato-deep)}
+.calc-card h4{font-size:16px;margin-bottom:3px}
+.calc-card p{font-size:12.5px;color:var(--muted);font-weight:500}
+.calc-card .go{margin-left:auto;color:var(--green);font-size:13px;transition:.2s var(--ease)}
+.calc-card:hover .go{transform:translateX(3px)}
+.dz-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:20px}
+
+/* ---- disclaimer ---- */
+.reh-note{display:flex;gap:14px;align-items:flex-start;background:var(--tomato-tint);border:1px solid #cdeadd;border-radius:var(--radius-lg);padding:18px 20px}
+.reh-note>i{color:var(--tomato-deep);font-size:18px;margin-top:2px;flex:none}
+.reh-note p{font-size:14px;color:var(--slate-2);font-weight:500;line-height:1.6}
+.reh-note p a{color:var(--tomato-deep);font-weight:700}
+.reh-note p a:hover{text-decoration:underline}
+.wz-disc{max-width:820px;margin:26px auto 0}
+
+@media (max-width:1024px){
+  .wzp-hero h1{font-size:34px}
+  .dz-grid{grid-template-columns:1fr 1fr}
+}
+@media (max-width:640px){
+  .wzp-top{padding-top:82px}
+  .wzp-hero{padding:2px 0 22px}
+  .wzp-hero h1{font-size:27px}
+  .wzp-hero .lead{font-size:14.5px}
+  .wzp-trust{gap:8px 16px;margin-top:16px}
+  .wzp-trust span{font-size:12px}
+  .wz-sec{padding:2px 0 46px}
+  .wz-steps{padding:20px 14px 4px}
+  .wz-num{width:34px;height:34px;font-size:14px}
+  .wz-step::before,.wz-step::after{top:17px}
+  .wz-lbl{font-size:11.5px}
+  .wz-lbl small{display:none}
+  .wz-body{padding:24px 18px 4px}
+  .wz-q h2{font-size:20px}
+  .wz-opts.cols-2{grid-template-columns:1fr}
+  .wz-opts.cols-3{grid-template-columns:1fr}
+  .wz-opts.tiles.cols-3{grid-template-columns:1fr 1fr 1fr}
+  .wz-opts.tiles .wz-opt{padding:16px 8px;gap:8px}
+  .wz-opts.tiles .wz-oico{width:44px;height:44px;font-size:18px}
+  .wz-opts.tiles .wz-otxt b{font-size:12.5px}
+  .wz-opts.tiles .wz-otick{top:8px;right:8px;width:18px;height:18px}
+  .wz-nav{padding:14px 18px 24px}
+  .wz-next{padding:13px 20px;font-size:13.5px}
+  .wz-back{font-size:13px}
+  .wz-res-head h2{font-size:22px}
+  .dz-grid{grid-template-columns:1fr;gap:14px}
+  .wz-disc{margin-top:20px}
+}
+</style>
+</head>
+<body data-brand="diet">
+
+<div id="ddChromeTop"></div>
+<script src="assets/js/dd-shell.js"></script>
+
+<main class="page-main" id="pageMain">
+
+<section class="wzp-top">
+  <div class="wrap">
+    <nav class="rd-crumb" aria-label="Sayfa yolu">
+      <a href="saglik-hub-v1.html"><i class="fa-solid fa-house"></i></a><i class="fa-solid fa-chevron-right"></i>
+      <b>Bana Uygun Olanı Bul</b>
+    </nav>
+    <div class="wzp-hero">
+      <span class="eyebrow"><i class="fa-solid fa-compass"></i> Başlangıç Rehberi</span>
+      <h1>Nereden başlayacağını <span class="accent">birlikte bulalım</span></h1>
+      <p class="lead">Dört kısa soru: neyi amaçladığın, neyi hedeflediğin, gününde ne kadar yer olduğu ve beslenme tercihin. Sonunda sana uygun ilk adımı ve alternatiflerini gösteriyoruz.</p>
+      <div class="wzp-trust">
+        <span><i class="fa-solid fa-stopwatch"></i> 1 dakikadan kısa</span>
+        <span><i class="fa-solid fa-shuffle"></i> Araç, program ve uzman önerisi</span>
+        <span><i class="fa-solid fa-shield-halved"></i> Tıbbi teşhis üretmez</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="wz-sec">
+  <div class="wrap">
+    <div class="wz-card">
+      <!-- ADIM YOLU -->
+      <div class="wz-steps" id="wzSteps" aria-label="Sihirbaz adımları">
+        <button class="wz-step current" type="button" data-step="1" disabled aria-current="step">
+          <span class="wz-num"><span class="wz-digit">1</span><span class="wz-check"><i class="fa-solid fa-check"></i></span></span>
+          <span class="wz-lbl">Amacın<small>Ne yapmak istiyorsun?</small></span>
+        </button>
+        <button class="wz-step" type="button" data-step="2" disabled>
+          <span class="wz-num"><span class="wz-digit">2</span><span class="wz-check"><i class="fa-solid fa-check"></i></span></span>
+          <span class="wz-lbl">Hedefin<small>Neye ulaşmak istiyorsun?</small></span>
+        </button>
+        <button class="wz-step" type="button" data-step="3" disabled>
+          <span class="wz-num"><span class="wz-digit">3</span><span class="wz-check"><i class="fa-solid fa-check"></i></span></span>
+          <span class="wz-lbl">Günlük Düzen<small>Ne kadar vaktin var?</small></span>
+        </button>
+        <button class="wz-step" type="button" data-step="4" disabled>
+          <span class="wz-num"><span class="wz-digit">4</span><span class="wz-check"><i class="fa-solid fa-check"></i></span></span>
+          <span class="wz-lbl">Tercih<small>Beslenme ve özel durum</small></span>
+        </button>
+      </div>
+
+      <!-- FORM -->
+      <div id="wzForm">
+        <div class="wz-body">
+          <!-- ADIM 1 — Amaç -->
+          <div class="wz-pane active" data-pane="1" role="group" aria-label="Adım 1: Amacın">
+            <div class="wz-q">
+              <h2 tabindex="-1" id="wzH1">Bugün burada ne yapmak istiyorsun?</h2>
+              <p>Seni doğru modüle yönlendirelim.</p>
+            </div>
+            <div class="wz-opts cols-2" data-field="amac" role="radiogroup" aria-label="Amacın">
+              <button class="wz-opt" type="button" role="radio" aria-checked="false" data-val="bilgi">
+                <span class="wz-oico"><i class="fa-solid fa-book-open"></i></span>
+                <span class="wz-otxt"><b>Bilgi edinmek</b><small>Beslenmenin mantığını öğren</small></span>
+                <span class="wz-otick"><i class="fa-solid fa-check"></i></span>
+              </button>
+              <button class="wz-opt" type="button" role="radio" aria-checked="false" data-val="hesap">
+                <span class="wz-oico"><i class="fa-solid fa-calculator"></i></span>
+                <span class="wz-otxt"><b>Hesaplama yapmak</b><small>Kalori, BKİ, makro, su</small></span>
+                <span class="wz-otick"><i class="fa-solid fa-check"></i></span>
+              </button>
+              <button class="wz-opt" type="button" role="radio" aria-checked="false" data-val="program">
+                <span class="wz-oico"><i class="fa-solid fa-clipboard-list"></i></span>
+                <span class="wz-otxt"><b>Program bulmak</b><small>Hazır bir beslenme planı</small></span>
+                <span class="wz-otick"><i class="fa-solid fa-check"></i></span>
+              </button>
+              <button class="wz-opt" type="button" role="radio" aria-checked="false" data-val="uzman">
+                <span class="wz-oico"><i class="fa-solid fa-user-doctor"></i></span>
+                <span class="wz-otxt"><b>Uzman desteği almak</b><small>Diyetisyenle birebir çalış</small></span>
+                <span class="wz-otick"><i class="fa-solid fa-check"></i></span>
+              </button>
+            </div>
+          </div>
+
+          <!-- ADIM 2 — Hedef -->
+          <div class="wz-pane" data-pane="2" role="group" aria-label="Adım 2: Hedefin">
+            <div class="wz-q">
+              <h2 tabindex="-1" id="wzH2">Neyi hedefliyorsun?</h2>
+              <p>Öneriyi hedefine göre daraltalım.</p>
+            </div>
+            <div class="wz-opts cols-2" data-field="hedef" role="radiogroup" aria-label="Hedefin">
+              <button class="wz-opt" type="button" role="radio" aria-checked="false" data-val="dengeli">
+                <span class="wz-oico"><i class="fa-solid fa-scale-balanced"></i></span>
+                <span class="wz-otxt"><b>Dengeli beslenme</b><small>Düzeni oturt, sürdürülebilir kıl</small></span>
+                <span class="wz-otick"><i class="fa-solid fa-check"></i></span>
+              </button>
+              <button class="wz-opt" type="button" role="radio" aria-checked="false" data-val="kilo">
+                <span class="wz-oico"><i class="fa-solid fa-weight-scale"></i></span>
+                <span class="wz-otxt"><b>Kilo kontrolü</b><small>Sağlıklı kiloya ulaş, koru</small></span>
+                <span class="wz-otick"><i class="fa-solid fa-check"></i></span>
+              </button>
+              <button class="wz-opt" type="button" role="radio" aria-checked="false" data-val="sporcu">
+                <span class="wz-oico"><i class="fa-solid fa-person-running"></i></span>
+                <span class="wz-otxt"><b>Sporcu beslenmesi</b><small>Performans ve toparlanma</small></span>
+                <span class="wz-otick"><i class="fa-solid fa-check"></i></span>
+              </button>
+              <button class="wz-opt" type="button" role="radio" aria-checked="false" data-val="bitkisel">
+                <span class="wz-oico"><i class="fa-solid fa-leaf"></i></span>
+                <span class="wz-otxt"><b>Bitkisel beslenme</b><small>Vejetaryen veya vegan düzen</small></span>
+                <span class="wz-otick"><i class="fa-solid fa-check"></i></span>
+              </button>
+              <button class="wz-opt" type="button" role="radio" aria-checked="false" data-val="kesif">
+                <span class="wz-oico"><i class="fa-solid fa-compass"></i></span>
+                <span class="wz-otxt"><b>Genel keşif</b><small>Henüz net bir hedefim yok</small></span>
+                <span class="wz-otick"><i class="fa-solid fa-check"></i></span>
+              </button>
+            </div>
+          </div>
+
+          <!-- ADIM 3 — Günlük düzen ve süre -->
+          <div class="wz-pane" data-pane="3" role="group" aria-label="Adım 3: Günlük düzen">
+            <div class="wz-q">
+              <h2 tabindex="-1" id="wzH3">Gününde beslenmeye ne kadar yer var?</h2>
+              <p>Hazırlık ve takip için ayırabileceğin süreyi seç.</p>
+            </div>
+            <div class="wz-opts tiles cols-3" data-field="duzen" role="radiogroup" aria-label="Günlük düzen">
+              <button class="wz-opt" type="button" role="radio" aria-checked="false" data-val="kisa">
+                <span class="wz-oico"><i class="fa-solid fa-bolt"></i></span>
+                <span class="wz-otxt"><b>Günde 15 dk'dan az</b><small>Yoğun tempo, pratik çözüm</small></span>
+                <span class="wz-otick"><i class="fa-solid fa-check"></i></span>
+              </button>
+              <button class="wz-opt" type="button" role="radio" aria-checked="false" data-val="orta">
+                <span class="wz-oico"><i class="fa-regular fa-clock"></i></span>
+                <span class="wz-otxt"><b>15–30 dk</b><small>Dengeli bir düzen kurabilirim</small></span>
+                <span class="wz-otick"><i class="fa-solid fa-check"></i></span>
+              </button>
+              <button class="wz-opt" type="button" role="radio" aria-checked="false" data-val="uzun">
+                <span class="wz-oico"><i class="fa-solid fa-kitchen-set"></i></span>
+                <span class="wz-otxt"><b>30 dk ve üzeri</b><small>Mutfakta vakit geçirebilirim</small></span>
+                <span class="wz-otick"><i class="fa-solid fa-check"></i></span>
+              </button>
+            </div>
+          </div>
+
+          <!-- ADIM 4 — Beslenme tercihi + özel durum -->
+          <div class="wz-pane" data-pane="4" role="group" aria-label="Adım 4: Beslenme tercihi ve özel durum">
+            <div class="wz-q">
+              <h2 tabindex="-1" id="wzH4">Beslenme tercihin ve özel bir durumun var mı?</h2>
+              <p>İkisini de seç; ikincisi öneriyi belirgin biçimde değiştirir.</p>
+            </div>
+            <div class="wz-opts cols-2" data-field="tercih" role="radiogroup" aria-label="Beslenme tercihi">
+              <button class="wz-opt" type="button" role="radio" aria-checked="false" data-val="standart">
+                <span class="wz-oico"><i class="fa-solid fa-utensils"></i></span>
+                <span class="wz-otxt"><b>Standart</b><small>Özel bir kısıtım yok</small></span>
+                <span class="wz-otick"><i class="fa-solid fa-check"></i></span>
+              </button>
+              <button class="wz-opt" type="button" role="radio" aria-checked="false" data-val="vejetaryen">
+                <span class="wz-oico"><i class="fa-solid fa-carrot"></i></span>
+                <span class="wz-otxt"><b>Vejetaryen</b><small>Et yok, süt ve yumurta var</small></span>
+                <span class="wz-otick"><i class="fa-solid fa-check"></i></span>
+              </button>
+              <button class="wz-opt" type="button" role="radio" aria-checked="false" data-val="vegan">
+                <span class="wz-oico"><i class="fa-solid fa-seedling"></i></span>
+                <span class="wz-otxt"><b>Vegan</b><small>Tamamen bitkisel</small></span>
+                <span class="wz-otick"><i class="fa-solid fa-check"></i></span>
+              </button>
+              <button class="wz-opt" type="button" role="radio" aria-checked="false" data-val="diger">
+                <span class="wz-oico"><i class="fa-solid fa-ellipsis"></i></span>
+                <span class="wz-otxt"><b>Diğer</b><small>Glutensiz, laktozsuz, başka</small></span>
+                <span class="wz-otick"><i class="fa-solid fa-check"></i></span>
+              </button>
+            </div>
+            <div class="proc-head"><i class="fa-solid fa-triangle-exclamation"></i> Alerji veya özel durum</div>
+            <div class="wz-opts tiles cols-3" data-field="ozel" role="radiogroup" aria-label="Alerji veya özel durum">
+              <button class="wz-opt" type="button" role="radio" aria-checked="false" data-val="yok">
+                <span class="wz-oico"><i class="fa-solid fa-circle-check"></i></span>
+                <span class="wz-otxt"><b>Yok</b><small>Bildiğim bir durum yok</small></span>
+                <span class="wz-otick"><i class="fa-solid fa-check"></i></span>
+              </button>
+              <button class="wz-opt" type="button" role="radio" aria-checked="false" data-val="alerji">
+                <span class="wz-oico"><i class="fa-solid fa-shield-halved"></i></span>
+                <span class="wz-otxt"><b>Besin alerjim var</b><small>Alerji veya intolerans</small></span>
+                <span class="wz-otick"><i class="fa-solid fa-check"></i></span>
+              </button>
+              <button class="wz-opt" type="button" role="radio" aria-checked="false" data-val="saglik">
+                <span class="wz-oico"><i class="fa-solid fa-heart-pulse"></i></span>
+                <span class="wz-otxt"><b>Sağlık durumum var</b><small>Gebelik, kronik hastalık, ilaç</small></span>
+                <span class="wz-otick"><i class="fa-solid fa-check"></i></span>
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <div class="wz-nav">
+          <button class="wz-back" id="wzBack" type="button" hidden><i class="fa-solid fa-arrow-left"></i> Geri</button>
+          <span class="wz-progress-txt" id="wzProg">Adım 1 / 4</span>
+          <button class="wz-next" id="wzNext" type="button" disabled>İleri <i class="fa-solid fa-arrow-right"></i></button>
+        </div>
+      </div>
+
+      <!-- SONUÇ -->
+      <div class="wz-result" id="wzResult" aria-live="polite">
+        <div class="wz-body">
+          <div class="wz-res-head">
+            <span class="wz-res-ico"><i class="fa-solid fa-compass"></i></span>
+            <h2 tabindex="-1" id="wzResH">Önerilen başlangıç adımın</h2>
+            <p id="wzResWhy">Seçimlerine göre buradan başlamanı öneriyoruz.</p>
+            <div class="wz-sum" id="wzSumPills"></div>
+          </div>
+
+          <div class="wz-relax" id="wzRelax" hidden>
+            <i class="fa-solid fa-circle-info"></i>
+            <p id="wzRelaxTxt"></p>
+          </div>
+
+          <div class="proc-head"><i class="fa-solid fa-star"></i> Birincil öneri</div>
+          <div id="wzPrimary"></div>
+
+          <div class="proc-head"><i class="fa-solid fa-layer-group"></i> İkinci seçenekler</div>
+          <div class="dz-grid" id="wzSecondary"></div>
+
+          <div class="wz-res-actions">
+            <button class="btn btn-primary" type="button" id="wzSave"
+                    data-lg-gate
+                    data-lg-title="Sonucunu kaydetmek için giriş yap"
+                    data-lg-desc="Başlangıç önerini hesabına kaydet, sonra kaldığın yerden devam et.">
+              <i class="fa-regular fa-bookmark"></i> Sonucu Kaydet
+            </button>
+            <button class="btn btn-ghost" type="button" id="wzRestart"><i class="fa-solid fa-rotate-left"></i> Baştan başla</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="reh-note wz-disc">
+      <i class="fa-solid fa-circle-info"></i>
+      <p>Bu sihirbaz bir <b>yönlendirmedir</b>; <b>sağlık teşhisi koymaz, kişiye özel tıbbi ya da diyet önerisi üretmez.</b> Verdiği sonuç genel bilgi ve seçimlerine dayanan bir başlangıç önerisidir. Gebelik, kronik hastalık, düzenli ilaç kullanımı, besin alerjisi veya klinik bir durum varsa plana başlamadan önce <a href="diyetisyen-dizin-v1.html">bir diyetisyene</a> ve hekimine danış.</p>
+    </div>
+  </div>
+</section>
+
+</main><!-- /.page-main -->
+
+<div id="ddChromeGate"></div>
+<div id="ddChromeFooter"></div>
+<div id="ddChromeFab"></div>
+
+<script>
+/* ===== SAYFA JS — Bana Uygun Olanı Bul: 4 adım + yönlendirme ===== */
+(function(){
+  var FIELD={1:['amac'],2:['hedef'],3:['duzen'],4:['tercih','ozel']};
+  var MAX=4;
+  var state={amac:null,hedef:null,duzen:null,tercih:null,ozel:null};
+  var cur=1;
+
+  var form=document.getElementById('wzForm');
+  var result=document.getElementById('wzResult');
+  var steps=Array.prototype.slice.call(document.querySelectorAll('.wz-step'));
+  var panes=Array.prototype.slice.call(document.querySelectorAll('.wz-pane'));
+  var backBtn=document.getElementById('wzBack');
+  var nextBtn=document.getElementById('wzNext');
+  var progTxt=document.getElementById('wzProg');
+
+  function esc(s){return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;');}
+
+  /* ---- repoda GERÇEKTEN var olan hedefler; yeni sayfa uydurulmaz ---- */
+  var REC={
+    rehber:   {ico:'fa-book-open',        t:'Beslenme Rehberi',      d:'Dengeli tabak, öğün planı, porsiyon — mantığı önce anla.', h:'beslenme-hub-v1.html'},
+    beslenme: {ico:'fa-seedling',         t:'Beslenme Merkezi',      d:'Besin kütüphanesi, rehberler ve makro kaynakları.',       h:'beslenme-hub-v1.html'},
+    kutuphane:{ico:'fa-magnifying-glass', t:'Besin Kütüphanesi',     d:'2.400+ besinin kalori ve makro değeri.',                   h:'besin-kutuphanesi-v1.html'},
+    kalori:   {ico:'fa-utensils',         t:'Günlük Kalori İhtiyacı',d:'Hedefine göre günlük kalori ihtiyacını hesapla.',          h:'gunluk-kalori-v1.html'},
+    bki:      {ico:'fa-weight-scale',     t:'Beden Kütle Endeksi',   d:'Boy ve kilona göre BKİ değerin.',                          h:'beden-kutle-endeksi-v1.html'},
+    makro:    {ico:'fa-chart-pie',        t:'Makro Dağılım',         d:'Protein, karbonhidrat ve yağ dağılımını kur.',             h:'makro-dagilim-v1.html'},
+    protein:  {ico:'fa-egg',              t:'Protein Rehberi',       d:'Günlük protein ihtiyacın ve bitkisel kaynaklar.',          h:'protein-rehberi-v1.html'},
+    su:       {ico:'fa-droplet',          t:'Günlük Su İhtiyacı',    d:'Kilona ve hareketine göre su miktarın.',                   h:'gunluk-su-v1.html'},
+    araclar:  {ico:'fa-toolbox',          t:'Sağlık Araçları',       d:'Ne öğrenmek istediğini seç, doğru araca git.',             h:'saglik-araclari-v1.html'},
+    test:     {ico:'fa-clipboard-question',t:'Beslenme Testi',       d:'Birkaç soruda alışkanlığını ölç.',                         h:'saglik-testler-v1.html'},
+    programBul:{ico:'fa-wand-magic-sparkles',t:'Programını Bul',     d:'Birkaç soruyla sana uygun programı eşleştir.',             h:'program-bul-v1.html'},
+    programlar:{ico:'fa-clipboard-list',  t:'Tüm Programlar',        d:'Sekiz hazır beslenme programı.',                           h:'diyet-listeleri-v1.html'},
+    vegan:    {ico:'fa-leaf',             t:'Bitkisel Temelli Hafta',d:'Yedi günlük bitkisel program.',                            h:'diyet-program-vegan-v1.html'},
+    ogrenci:  {ico:'fa-bolt',             t:'Öğrenci Dostu Menü',    d:'Pratik, kısa hazırlıklı yedi günlük menü.',                h:'diyet-program-ogrenci-v1.html'},
+    dytBul:   {ico:'fa-user-doctor',      t:'Sana Uygun Diyetisyeni Bul', d:'Üç adımda uzman eşleştirme.',                         h:'diyetisyen-bul-v1.html'},
+    dytDizin: {ico:'fa-users',            t:'Tüm Diyetisyenler',     d:'320 doğrulanmış uzman, filtreleyerek seç.',                h:'diyetisyen-dizin-v1.html'}
+  };
+
+  var AMAC_LBL={bilgi:'Bilgi edinmek',hesap:'Hesaplama yapmak',program:'Program bulmak',uzman:'Uzman desteği'};
+  var AMAC_ICO={bilgi:'fa-book-open',hesap:'fa-calculator',program:'fa-clipboard-list',uzman:'fa-user-doctor'};
+  var HEDEF_LBL={dengeli:'Dengeli beslenme',kilo:'Kilo kontrolü',sporcu:'Sporcu beslenmesi',bitkisel:'Bitkisel beslenme',kesif:'Genel keşif'};
+  var HEDEF_ICO={dengeli:'fa-scale-balanced',kilo:'fa-weight-scale',sporcu:'fa-person-running',bitkisel:'fa-leaf',kesif:'fa-compass'};
+  var DUZEN_LBL={kisa:'Günde 15 dk’dan az',orta:'15–30 dk',uzun:'30 dk ve üzeri'};
+  var TERCIH_LBL={standart:'Standart',vejetaryen:'Vejetaryen',vegan:'Vegan',diger:'Özel tercih'};
+  var OZEL_LBL={yok:'',alerji:'Besin alerjisi',saglik:'Sağlık durumu'};
+
+  /* ---- seçenek tıklama ---- */
+  document.querySelectorAll('.wz-opts').forEach(function(grp){
+    var field=grp.getAttribute('data-field');
+    grp.querySelectorAll('.wz-opt').forEach(function(opt){
+      opt.addEventListener('click',function(){
+        grp.querySelectorAll('.wz-opt').forEach(function(o){o.classList.remove('selected');o.setAttribute('aria-checked','false');});
+        opt.classList.add('selected');opt.setAttribute('aria-checked','true');
+        state[field]=opt.getAttribute('data-val');
+        syncNav();
+      });
+    });
+  });
+
+  steps.forEach(function(st){
+    st.addEventListener('click',function(){
+      var n=parseInt(st.getAttribute('data-step'),10);
+      if(n<cur)goStep(n);
+    });
+  });
+
+  function ready(n){ return FIELD[n].every(function(f){return !!state[f];}); }
+  function syncSteps(){
+    steps.forEach(function(st){
+      var n=parseInt(st.getAttribute('data-step'),10);
+      st.classList.toggle('done',n<cur);
+      st.classList.toggle('current',n===cur);
+      st.disabled=!(n<cur);
+      if(n===cur)st.setAttribute('aria-current','step'); else st.removeAttribute('aria-current');
+    });
+  }
+  function syncNav(){
+    nextBtn.disabled=!ready(cur);
+    nextBtn.innerHTML=(cur===MAX?'Önerimi Gör':'İleri')+' <i class="fa-solid fa-arrow-right"></i>';
+    if(cur===1)backBtn.setAttribute('hidden',''); else backBtn.removeAttribute('hidden');
+    progTxt.textContent='Adım '+cur+' / '+MAX;
+  }
+  function showPane(n,focus){
+    panes.forEach(function(p){p.classList.toggle('active',parseInt(p.getAttribute('data-pane'),10)===n);});
+    if(focus){var h=document.getElementById('wzH'+n);if(h)h.focus();}
+  }
+  function goStep(n,focus){ cur=n;syncSteps();syncNav();showPane(n,focus!==false); }
+
+  backBtn.addEventListener('click',function(){if(cur>1)goStep(cur-1);});
+  nextBtn.addEventListener('click',function(){
+    if(!ready(cur))return;
+    if(cur<MAX)goStep(cur+1); else finish();
+  });
+
+  /* ---- yönlendirme kuralı ---- */
+  function planla(){
+    var s=state, ozel=(s.ozel&&s.ozel!=='yok');
+    var primary, why, others=[];
+
+    if(ozel){
+      // Alerji / sağlık durumu → kişisel tıbbi öneri ÜRETİLMEZ, profesyonele yönlendirilir.
+      primary='dytBul';
+      why='Besin alerjisi ya da bir sağlık durumu işaretledin. Bu durumda sana kişiye özel bir beslenme önerisi üretmiyoruz; doğru adım yetkili bir diyetisyenle çalışmaktır.';
+      others=['dytDizin','rehber','araclar'];
+    }else if(s.amac==='bilgi'){
+      primary = s.hedef==='bitkisel' ? 'protein' : 'rehber';
+      why='Önce mantığı öğrenmek istiyorsun. Rehber içerikleri kısa, genel ve uygulanabilir; hesaplama ve programa oradan geçmek daha kolay olur.';
+      others=['beslenme','kutuphane','test'];
+    }else if(s.amac==='hesap'){
+      primary = s.hedef==='kilo' ? 'kalori'
+              : s.hedef==='sporcu' ? 'makro'
+              : s.hedef==='bitkisel' ? 'protein'
+              : s.hedef==='dengeli' ? 'bki' : 'araclar';
+      why='Rakamla başlamak istiyorsun. Bu hesaplayıcı hedefine en yakın çıktıyı veriyor; sonucunu aldıktan sonra program veya rehbere geçebilirsin.';
+      others=['araclar','su','test'];
+    }else if(s.amac==='program'){
+      primary='programBul';
+      why='Hazır bir plan arıyorsun. Program sihirbazı hedefini, süreni ve beslenme tercihini alıp mevcut programlar içinden en uygun üçünü çıkarır.';
+      others=[ s.hedef==='bitkisel'?'vegan':(s.duzen==='kisa'?'ogrenci':'programlar'), 'programlar', 'kalori'];
+    }else{
+      primary='dytBul';
+      why='Birebir destek istiyorsun. Uzman sihirbazı hedefine ve görüşme tercihine göre doğrulanmış diyetisyenleri eşleştirir.';
+      others=['dytDizin','programBul','araclar'];
+    }
+
+    if(!ozel&&s.duzen==='kisa'&&s.amac==='program'){
+      why+=' Gününde 15 dakikadan az yer olduğu için pratik hazırlıklı programları öne çıkardık.';
+    }
+    // birincil öneriyi ikincillerden çıkar, üçe tamamla
+    var pool=['araclar','rehber','beslenme','kutuphane','programlar','programBul','dytDizin','test','kalori'];
+    others=others.filter(function(k,i,a){return k!==primary&&a.indexOf(k)===i;});
+    pool.forEach(function(k){ if(others.length<3&&k!==primary&&others.indexOf(k)<0)others.push(k); });
+    return {primary:primary,why:why,others:others.slice(0,3)};
+  }
+
+  function card(k){
+    var r=REC[k];
+    return '<a class="calc-card" href="'+r.h+'">'
+      +'<span class="calc-ico"><i class="fa-solid '+r.ico+'"></i></span>'
+      +'<div><h4>'+esc(r.t)+'</h4><p>'+esc(r.d)+'</p></div>'
+      +'<span class="go"><i class="fa-solid fa-arrow-right"></i></span></a>';
+  }
+  function pill(ico,txt){return '<span class="wz-pill"><i class="fa-solid '+ico+'"></i> '+esc(txt)+'</span>';}
+
+  function finish(){
+    var p=planla();
+    var pills='';
+    if(state.amac)pills+=pill(AMAC_ICO[state.amac],AMAC_LBL[state.amac]);
+    if(state.hedef)pills+=pill(HEDEF_ICO[state.hedef],HEDEF_LBL[state.hedef]);
+    if(state.duzen)pills+=pill('fa-clock',DUZEN_LBL[state.duzen]);
+    if(state.tercih)pills+=pill('fa-utensils',TERCIH_LBL[state.tercih]);
+    if(state.ozel&&state.ozel!=='yok')pills+=pill('fa-triangle-exclamation',OZEL_LBL[state.ozel]);
+    document.getElementById('wzSumPills').innerHTML=pills;
+
+    document.getElementById('wzResWhy').textContent=p.why;
+    document.getElementById('wzPrimary').innerHTML=card(p.primary);
+    document.getElementById('wzSecondary').innerHTML=p.others.map(card).join('');
+
+    var relax=document.getElementById('wzRelax');
+    if(state.ozel&&state.ozel!=='yok'){
+      document.getElementById('wzRelaxTxt').innerHTML='Bu sayfa <b>sağlık teşhisi koymaz ve kişiye özel tıbbi öneri üretmez.</b> İşaretlediğin durum için planını yetkili bir diyetisyen ve hekim birlikte kurmalı. Aşağıdaki öneri seni doğrudan profesyonel desteğe yönlendirir.';
+      relax.removeAttribute('hidden');
+    }else{
+      relax.setAttribute('hidden','');
+    }
+
+    form.style.display='none';
+    result.classList.add('active');
+    var rh=document.getElementById('wzResH');if(rh)rh.focus();
+    var card0=document.querySelector('.wz-card');
+    if(card0&&card0.scrollIntoView)card0.scrollIntoView({behavior:'smooth',block:'start'});
+  }
+
+  function restart(){
+    state={amac:null,hedef:null,duzen:null,tercih:null,ozel:null};
+    document.querySelectorAll('.wz-opt.selected').forEach(function(o){o.classList.remove('selected');o.setAttribute('aria-checked','false');});
+    result.classList.remove('active');
+    form.style.display='';
+    goStep(1,false);
+    var c=document.querySelector('.wz-card');
+    if(c&&c.scrollIntoView)c.scrollIntoView({behavior:'smooth',block:'start'});
+  }
+  document.getElementById('wzRestart').addEventListener('click',restart);
+
+  /* ---- Sonucu Kaydet — çıkışta giriş daveti (kabuk lg-gate), girişte Yakında ---- */
+  (function(){
+    var save=document.getElementById('wzSave');
+    if(!document.body.classList.contains('is-auth'))return;   // logged-out: lg-gate devrede
+    save.removeAttribute('data-lg-gate');
+    save.addEventListener('click',function(){ location.href='planim-kaydettiklerim-v1.html?sekme=sonuclar'; });
+  })();
+
+  syncSteps();syncNav();
+
+  /* ---- SS/QA paramları ---- */
+  var qs=location.search;
+  function preselect(field,val){
+    var grp=document.querySelector('.wz-opts[data-field="'+field+'"]');
+    if(!grp)return;
+    var opt=grp.querySelector('.wz-opt[data-val="'+val+'"]');
+    if(!opt)return;
+    grp.querySelectorAll('.wz-opt').forEach(function(o){o.classList.remove('selected');o.setAttribute('aria-checked','false');});
+    opt.classList.add('selected');opt.setAttribute('aria-checked','true');
+    state[field]=val;
+  }
+  if(qs.indexOf('result=1')>-1){
+    preselect('amac','program');preselect('hedef','kilo');preselect('duzen','orta');
+    preselect('tercih','standart');preselect('ozel','yok');
+    finish();
+  }else if(qs.indexOf('ozel=1')>-1){
+    preselect('amac','hesap');preselect('hedef','dengeli');preselect('duzen','orta');
+    preselect('tercih','standart');preselect('ozel','alerji');
+    finish();
+  }else{
+    var sm=/[?&]step=(\d)/.exec(qs);
+    if(sm){
+      var t=Math.max(1,Math.min(MAX,parseInt(sm[1],10)));
+      if(t>=2)preselect('amac','program');
+      if(t>=3)preselect('hedef','kilo');
+      if(t>=4)preselect('duzen','orta');
+      goStep(t,false);
+    }
+  }
+})();
+</script>
+</body>
+</html>

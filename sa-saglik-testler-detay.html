@@ -1,0 +1,330 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<meta name="robots" content="noindex, nofollow" />
+<title>Test Detay — Sağlık &amp; Diyet · DadaMutfak</title>
+<link rel="shortcut icon" type="image/x-icon" href="assets/img/favicon.ico" />
+<link rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css"
+      integrity="sha512-SnH5WK+bZxgPHs44uWIX+LLJAJ9/2PkPKZ5QiAj6Ta86w+fsb2TkcmfRyVX3pBnMFcV7oQPJkl9QevSCWr3W6A=="
+      crossorigin="anonymous" referrerpolicy="no-referrer" />
+<link rel="stylesheet" href="assets/css/sa-shell.css" />
+<style>
+/* =====================================================================
+   SA-SAGLIK-TESTLER-DETAY — SAYFA CSS (kabuk sa-shell.css'te).
+   Gözetim detayı: test başlığı + sonuç tablosu + yorum + denetim.
+   Token: SADECE var(--acc)/rgba(var(--acc-rgb),..). Durum rozetleri .pstat (semantik).
+   ===================================================================== */
+/* ORTAK FORM ALANLARI */
+.frow{display:flex;flex-direction:column;gap:7px}
+.frow label{font-size:12.5px;font-weight:700;color:var(--slate-2)}
+.ftext{width:100%;font-family:inherit;font-size:13.5px;font-weight:500;color:var(--ink);background:var(--paper);border:1px solid var(--line);border-radius:var(--radius-md);padding:12px 14px;line-height:1.5;resize:vertical;min-height:96px;outline:none;transition:.2s var(--ease)}
+.ftext:focus{border-color:var(--acc);box-shadow:0 0 0 3px rgba(var(--acc-rgb),.12)}
+
+/* Detay 2-kolon düzeni */
+.detail-grid{display:grid;grid-template-columns:minmax(0,1.6fr) minmax(0,1fr);gap:20px;align-items:start}
+.detail-grid>*{min-width:0}/* grid çocuğu min-content'in altına inebilsin → res-scroll gerçekten kaydırsın */
+.detail-side{position:sticky;top:calc(var(--pnl-top-h) + 28px)}
+@media(max-width:980px){.detail-grid{grid-template-columns:1fr}.detail-side{position:static}}
+
+/* Test başlık bloğu */
+.ts-header{display:flex;align-items:flex-start;gap:16px;padding:22px}
+.ts-bigico{width:56px;height:56px;flex:none;border-radius:var(--radius-md);background:rgba(var(--acc-rgb),.10);color:var(--acc-deep);display:grid;place-items:center;font-size:22px}
+.ts-hmeta{min-width:0;line-height:1.4}
+.ts-hmeta h2{font-size:19px;margin-bottom:4px}
+.ts-hmeta .ts-sub{font-size:13px;color:var(--muted)}
+.ts-hmeta .ts-tags{display:flex;gap:8px;flex-wrap:wrap;margin-top:10px}
+.ts-tag{display:inline-flex;align-items:center;gap:5px;font-size:12px;font-weight:700;padding:4px 10px;border-radius:6px;background:rgba(var(--acc-rgb),.10);color:var(--acc-deep)}
+
+/* Sonuç tablosu — dar ekranda yatay kaydır (klinik veri kısaltılmaz) */
+.res-scroll{width:100%;overflow-x:auto;-webkit-overflow-scrolling:touch}
+.res-table{width:100%;min-width:480px;border-collapse:collapse}
+.res-table thead th{font-size:11px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:var(--muted);padding:11px 16px;text-align:left;background:var(--bg);border-bottom:1px solid var(--line);white-space:nowrap}
+.res-table thead th:first-child{padding-left:22px}
+.res-table thead th:last-child{padding-right:22px;text-align:right}
+.res-table tbody tr{border-bottom:1px solid var(--line)}
+.res-table tbody tr:last-child{border-bottom:none}
+.res-table tbody td{padding:12px 16px;font-size:13.5px;color:var(--slate-2);vertical-align:middle}
+.res-table tbody td:first-child{padding-left:22px}
+.res-table tbody td:last-child{padding-right:22px;text-align:right}
+.res-param{font-weight:700;color:var(--slate)}
+.res-val{font-weight:700;color:var(--slate)}
+.res-ref{font-size:12.5px;color:var(--muted);white-space:nowrap}
+
+/* Bilgi satırları */
+.info-list{display:flex;flex-direction:column}
+.info-row{display:flex;align-items:baseline;gap:12px;padding:11px 22px;border-bottom:1px solid var(--line)}
+.info-row:last-child{border-bottom:none}
+.info-lbl{font-size:11.5px;font-weight:700;color:var(--muted);text-transform:uppercase;letter-spacing:.06em;min-width:130px;flex:none}
+.info-val{font-size:13.5px;color:var(--slate);font-weight:500}
+
+/* Katılımcı kartı (danışan/diyetisyen) */
+.party{display:flex;align-items:center;gap:12px;padding:14px 20px;border-bottom:1px solid var(--line)}
+.party:last-child{border-bottom:none}
+.party-ava{width:44px;height:44px;flex:none;border-radius:var(--radius-circle);background-size:cover;background-position:center;border:2px solid var(--line)}
+.party-meta{line-height:1.35}
+.party-role{font-size:10.5px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:var(--muted)}
+.party-meta strong{font-size:14px;font-weight:700;color:var(--slate);display:block}
+.party-meta span{font-size:12.5px;color:var(--muted)}
+
+/* Denetim aksiyonları */
+.act-btn{display:inline-flex;align-items:center;gap:5px;font-family:inherit;font-size:12.5px;font-weight:700;padding:6px 11px;border-radius:var(--radius-sm);border:1px solid var(--line);background:var(--paper);color:var(--slate-2);cursor:pointer;transition:.15s var(--ease);white-space:nowrap;width:100%;justify-content:center}
+.act-btn:hover{border-color:var(--slate);color:var(--slate)}
+
+/* Sağ meta kart içi */
+.meta-section{padding:18px 20px;border-bottom:1px solid var(--line)}
+.meta-section:last-child{border-bottom:none}
+.meta-section-tt{font-size:11px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);margin-bottom:12px}
+.meta-stat{display:flex;justify-content:space-between;align-items:center;margin-bottom:9px}
+.meta-stat:last-child{margin-bottom:0}
+.meta-stat-lbl{font-size:13px;color:var(--slate-2)}
+.meta-stat-val{font-size:13.5px;font-weight:700;color:var(--slate)}
+.action-stack{display:flex;flex-direction:column;gap:8px}
+
+/* Geri linki */
+.back-link{display:inline-flex;align-items:center;gap:7px;font-size:13px;font-weight:700;color:var(--muted);transition:.15s var(--ease);margin-bottom:6px}
+.back-link:hover{color:var(--slate)}
+.back-link i{font-size:11px}
+</style>
+</head>
+<body data-brand="mutfak" data-sec="saglik" data-screen="testler">
+
+<div class="sa-app">
+
+  <!-- §1 İKON-RAIL -->
+  <aside class="sa-rail" id="saRail">
+    <a class="sa-rail-logo" href="sa-giris-v1.html" title="Yönetim Girişi"><img src="assets/img/logo-mark.png" alt="DadaMutfak" /></a>
+    <a class="sa-rail-ico" data-sec="genel" href="sa-shell.html?sec=genel" title="Genel Bakış"><i class="fa-solid fa-gauge-high"></i></a>
+    <span class="sa-rail-div"></span>
+    <a class="sa-rail-ico" data-sec="admin"   href="sa-admin.html"   title="Admin"><i class="fa-solid fa-shield-halved"></i></a>
+    <a class="sa-rail-ico" data-sec="saglik"  href="sa-saglik.html"  title="Sağlık &amp; Diyet"><i class="fa-solid fa-heart-pulse"></i></a>
+    <a class="sa-rail-ico" data-sec="store"   href="sa-store.html"   title="DadaStore"><i class="fa-solid fa-bag-shopping"></i></a>
+    <a class="sa-rail-ico" data-sec="dadafit" href="sa-dadafit.html" title="DadaFit"><i class="fa-solid fa-dumbbell"></i></a>
+    <a class="sa-rail-ico" data-sec="isletme" href="sa-isletme.html" title="İşletmeler"><i class="fa-solid fa-store"></i></a>
+    <a class="sa-rail-ico is-locked" data-sec="akademi" href="#" title="DadaAkademi — Yakında"><i class="fa-solid fa-graduation-cap"></i><i class="fa-solid fa-lock sr-lock"></i></a>
+    <div class="sa-rail-foot"><a class="sa-rail-ico" href="anasayfa-portal-v3a.html" title="Siteye Dön"><i class="fa-solid fa-arrow-left"></i></a></div>
+  </aside>
+
+  <!-- §2 BÖLÜM MENÜSÜ (JS) -->
+  <nav class="sa-menu" id="saMenu"></nav>
+
+  <div class="sa-divider" id="saDivider" role="separator" aria-label="Menüyü daralt/genişlet" title="Sürükle veya tıkla — menüyü daralt/genişlet">
+    <span class="sa-grip"><i class="fa-solid fa-grip-lines-vertical"></i></span>
+  </div>
+
+  <div class="pnl-overlay" id="pnlOverlay"></div>
+
+  <!-- §3 ÜST BAR -->
+  <header class="pnl-top">
+    <button class="pnl-burger" id="pnlBurger" aria-label="Menü"><i class="fa-solid fa-bars"></i></button>
+    <div class="pnl-search">
+      <i class="fa-solid fa-magnifying-glass"></i>
+      <input type="text" placeholder="Test, danışan, diyetisyen ara…" />
+    </div>
+    <div class="pnl-top-tools">
+      <button class="pnl-bell" aria-label="Bildirimler"><i class="fa-regular fa-bell"></i><span class="pb-dot"></span></button>
+      <div class="pnl-me">
+        <div class="pm-ava"><i class="fa-solid fa-user"></i></div>
+        <div class="pm-id">
+          <div class="pm-name" id="pmName">Süper Admin</div>
+          <div class="pm-role" id="pmRole">Tüm yetki</div>
+        </div>
+        <i class="fa-solid fa-chevron-down"></i>
+      </div>
+    </div>
+  </header>
+
+  <!-- §4 İÇERİK — Test detay (gözetim) -->
+  <main class="pnl-main" id="saMain">
+
+    <!-- Geri + sayfa başlığı -->
+    <a class="back-link" href="sa-saglik-testler.html"><i class="fa-solid fa-arrow-left"></i> Testler &amp; Tahliller</a>
+    <div class="pnl-page-head">
+      <div>
+        <h1>Açlık Kan Şekeri &amp; Lipid Paneli</h1>
+        <div class="ph-sub" style="display:flex;align-items:center;gap:10px;margin-top:6px">
+          <span class="pstat ok">Gözden Geçirildi</span>
+          <span style="font-size:13px;color:var(--muted)">Test No: TST-2026-0339 · 21 Haziran 2026</span>
+        </div>
+      </div>
+      <!-- DENETİM: "Düzenle" yok -->
+    </div>
+
+    <!-- 2-kolon detay düzeni -->
+    <div class="detail-grid">
+
+      <!-- SOL: Test başlığı + sonuç tablosu + yorum -->
+      <div style="display:flex;flex-direction:column;gap:16px">
+
+        <!-- Test başlığı -->
+        <div class="pnl-card">
+          <div class="ts-header">
+            <div class="ts-bigico"><i class="fa-solid fa-droplet"></i></div>
+            <div class="ts-hmeta">
+              <h2>Açlık Kan Şekeri &amp; Lipid Paneli</h2>
+              <div class="ts-sub">Laboratuvar tahlil sonucu · 12 saat açlık sonrası alınmıştır</div>
+              <div class="ts-tags">
+                <span class="ts-tag"><i class="fa-solid fa-vial"></i> Kan tahlili</span>
+                <span class="ts-tag"><i class="fa-solid fa-flask"></i> 6 parametre</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Sonuç tablosu: parametre | değer | referans | durum -->
+        <div class="pnl-card" style="overflow:hidden">
+          <div class="pc-head">
+            <div class="pc-title"><i class="fa-solid fa-table-list"></i> Test Sonuçları</div>
+          </div>
+          <div class="pc-body flush">
+           <div class="res-scroll">
+            <table class="res-table">
+              <thead>
+                <tr>
+                  <th>Parametre</th>
+                  <th>Değer</th>
+                  <th>Referans Aralığı</th>
+                  <th>Durum</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td class="res-param">Açlık Glukozu</td>
+                  <td class="res-val">108 mg/dL</td>
+                  <td class="res-ref">70 – 100 mg/dL</td>
+                  <td><span class="pstat wait">Sınırda</span></td>
+                </tr>
+                <tr>
+                  <td class="res-param">HbA1c</td>
+                  <td class="res-val">5.9 %</td>
+                  <td class="res-ref">&lt; 5.7 %</td>
+                  <td><span class="pstat warm">Yüksek</span></td>
+                </tr>
+                <tr>
+                  <td class="res-param">Total Kolesterol</td>
+                  <td class="res-val">185 mg/dL</td>
+                  <td class="res-ref">&lt; 200 mg/dL</td>
+                  <td><span class="pstat ok">Normal</span></td>
+                </tr>
+                <tr>
+                  <td class="res-param">LDL Kolesterol</td>
+                  <td class="res-val">142 mg/dL</td>
+                  <td class="res-ref">&lt; 130 mg/dL</td>
+                  <td><span class="pstat warm">Yüksek</span></td>
+                </tr>
+                <tr>
+                  <td class="res-param">HDL Kolesterol</td>
+                  <td class="res-val">52 mg/dL</td>
+                  <td class="res-ref">&gt; 40 mg/dL</td>
+                  <td><span class="pstat ok">Normal</span></td>
+                </tr>
+                <tr>
+                  <td class="res-param">Trigliserit</td>
+                  <td class="res-val">118 mg/dL</td>
+                  <td class="res-ref">&lt; 150 mg/dL</td>
+                  <td><span class="pstat ok">Normal</span></td>
+                </tr>
+              </tbody>
+            </table>
+           </div>
+          </div>
+        </div>
+
+        <!-- Diyetisyen yorumu -->
+        <div class="pnl-card">
+          <div class="pc-head">
+            <div class="pc-title"><i class="fa-solid fa-comment-dots"></i> Diyetisyen Yorumu</div>
+          </div>
+          <div class="pc-body">
+            <div style="font-size:13.5px;color:var(--slate-2);line-height:1.65;padding:14px;background:var(--bg);border-radius:var(--radius-md);border:1px solid var(--line)">
+              Açlık glukozu ve HbA1c değerleri prediyabet sınırında. LDL hafif yüksek. Düşük glisemik indeksli beslenme planı (İnsülin Direnci Programı) başlatıldı. 8 hafta sonra kontrol tahlili önerilir. Doymuş yağ alımının azaltılması ve haftalık 150 dk orta tempolu egzersiz hedeflenmiştir.
+            </div>
+          </div>
+        </div>
+
+      </div><!-- /sol sütun -->
+
+      <!-- SAĞ: Katılımcılar + Denetim + Özet -->
+      <div class="detail-side" style="display:flex;flex-direction:column;gap:16px">
+
+        <!-- Katılımcılar -->
+        <div class="pnl-card">
+          <div class="pc-head">
+            <div class="pc-title"><i class="fa-solid fa-user-group"></i> İlgili Kişiler</div>
+          </div>
+          <div class="party">
+            <div class="party-ava" style="background-image:url('https://images.unsplash.com/photo-1544005313-94ddf0286df2?w=140&q=80&auto=format&fit=crop')"></div>
+            <div class="party-meta">
+              <div class="party-role">Danışan</div>
+              <strong>Zeynep Aksoy</strong>
+              <span>34 yaş · Kadın</span>
+            </div>
+          </div>
+          <div class="party">
+            <div class="party-ava" style="background-image:url('https://images.unsplash.com/photo-1607746882042-944635dfe10e?w=140&q=80&auto=format&fit=crop')"></div>
+            <div class="party-meta">
+              <div class="party-role">Değerlendiren Diyetisyen</div>
+              <strong>Dyt. Ayça Yıldız</strong>
+              <span>Klinik Beslenme</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Denetim aksiyonları -->
+        <div class="pnl-card">
+          <div class="pc-head">
+            <div class="pc-title"><i class="fa-solid fa-shield-halved"></i> Denetim Aksiyonları</div>
+          </div>
+          <div class="meta-section">
+            <div class="meta-section-tt">Mevcut Durum</div>
+            <div style="margin-bottom:14px"><span class="pstat ok" style="font-size:13px;padding:6px 14px">Gözden Geçirildi</span></div>
+            <div class="meta-section-tt" style="margin-top:14px">İşlem Yap</div>
+            <div class="action-stack">
+              <a class="act-btn" href="#" data-no-confirm onclick="saToast('PDF indirme demo');return false"><i class="fa-solid fa-file-arrow-down"></i> Sonuç PDF'i İndir</a>
+            </div>
+            <div style="font-size:11.5px;color:var(--muted);margin-top:10px;line-height:1.5">
+              Gözetim modülü: test sonuçları danışan ve diyetisyen tarafından yönetilir. Süper admin yalnızca kayıt denetimi yapar.
+            </div>
+          </div>
+          <div class="meta-section">
+            <div class="meta-section-tt">Not Ekle (Dahili)</div>
+            <textarea class="ftext" placeholder="Denetim notu girin…" style="font-size:13px;min-height:80px"></textarea>
+            <div style="margin-top:10px;text-align:right">
+              <button class="btn btn-ghost btn-sm" style="font-size:12.5px">Not Kaydet</button>
+            </div>
+          </div>
+        </div>
+
+        <!-- Özet -->
+        <div class="pnl-card">
+          <div class="pc-head">
+            <div class="pc-title"><i class="fa-solid fa-chart-bar"></i> Özet</div>
+          </div>
+          <div class="meta-section">
+            <div class="meta-section-tt">Test Detayları</div>
+            <div class="meta-stat"><span class="meta-stat-lbl">Test No</span><span class="meta-stat-val">TST-2026-0339</span></div>
+            <div class="meta-stat"><span class="meta-stat-lbl">Tip</span><span class="meta-stat-val">Kan tahlili</span></div>
+            <div class="meta-stat"><span class="meta-stat-lbl">Parametre</span><span class="meta-stat-val">6</span></div>
+            <div class="meta-stat"><span class="meta-stat-lbl">Yükleme</span><span class="meta-stat-val">21 Haz 2026</span></div>
+          </div>
+          <div class="meta-section">
+            <div class="meta-section-tt">Değerlendirme</div>
+            <div class="meta-stat"><span class="meta-stat-lbl">Normal</span><span class="meta-stat-val">3</span></div>
+            <div class="meta-stat"><span class="meta-stat-lbl">Sınırda</span><span class="meta-stat-val">1</span></div>
+            <div class="meta-stat"><span class="meta-stat-lbl">Yüksek</span><span class="meta-stat-val">2</span></div>
+          </div>
+        </div>
+
+      </div><!-- /sağ sütun -->
+
+    </div><!-- /detail-grid -->
+
+  </main>
+
+</div>
+
+<script src="assets/js/sa-shell.js"></script>
+</body>
+</html>

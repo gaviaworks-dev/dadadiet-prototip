@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<meta name="robots" content="noindex, nofollow" />
+<title>Günlük Takip — Planım | DadaDiet</title>
+<link rel="shortcut icon" type="image/x-icon"
+      href="assets/img/favicon.ico" />
+<!-- FontAwesome 6.5.2 (kilitli ikon seti) -->
+<link rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css"
+      integrity="sha512-SnH5WK+bZxgPHs44uWIX+LLJAJ9/2PkPKZ5QiAj6Ta86w+fsb2TkcmfRyVX3pBnMFcV7oQPJkl9QevSCWr3W6A=="
+      crossorigin="anonymous" referrerpolicy="no-referrer" />
+<link rel="stylesheet" href="assets/css/dd-shell.css" />
+<!-- kişisel alan bileşenleri (diyetisyen panelinden birebir; kabuk DEĞİL) -->
+<link rel="stylesheet" href="assets/css/planim.css" />
+</head>
+<body data-brand="diet" data-planim="gunluk">
+
+<div id="ddChromeTop"></div>
+<script src="assets/js/dd-shell.js"></script>
+
+<main class="page-main" id="pageMain">
+  <section class="sec below-header" style="background:var(--bg)">
+    <div class="wrap">
+
+      <!-- başlık + alt gezinme: assets/js/planim.js üretir -->
+      <div id="planimTop"></div>
+
+      <!-- İÇERİK (üye, verisi var) -->
+      <div id="planimData" hidden>
+        <div class="pnl-card dash-row"><div class="pc-body" style="display:flex;align-items:center;gap:14px;flex-wrap:wrap"><div class="vw-seg"><button class="vs-btn" type="button"><i class="fa-solid fa-chevron-left"></i> Dün</button><button class="vs-btn is-on" type="button">Bugün · 10 Ağustos</button><button class="vs-btn" type="button">Yarın <i class="fa-solid fa-chevron-right"></i></button></div><span class="pstat ok" style="margin-left:auto">Günlük hedefin %69'u tamam</span></div></div>
+        <div class="dd-stats dash-row"><div class="dd-stat hl"><b>1.240<em> / 1.800 kcal</em></b><span>Enerji</span></div><div class="dd-stat"><b>78<em> / 110 g</em></b><span>Protein</span></div><div class="dd-stat"><b>132<em> / 190 g</em></b><span>Karbonhidrat</span></div><div class="dd-stat"><b>41<em> / 60 g</em></b><span>Yağ</span></div></div>
+        <div class="dash-cols">
+          <div>
+        <div class="pnl-card">
+          <div class="pc-head"><span class="pc-title"><i class="fa-solid fa-utensils"></i> Bugünün öğünleri</span></div>
+          <div class="pc-body flush">
+            <table class="ptable"><thead><tr><th>Öğün</th><th>Enerji</th><th style="text-align:right">Durum</th></tr></thead><tbody>
+              <tr><td><b>Kahvaltı</b> <span class="muted" style="font-size:12px">07:40</span><div class="muted" style="font-size:12.5px;margin-top:3px">Yulaf ezmesi 60 g · Süzme yoğurt 150 g · Ceviz 15 g</div></td><td style="white-space:nowrap">410 kcal</td><td style="text-align:right"><span class="pstat ok">Girildi</span></td></tr>
+              <tr><td><b>Ara Öğün</b> <span class="muted" style="font-size:12px">10:30</span><div class="muted" style="font-size:12.5px;margin-top:3px">Elma 1 orta · Badem 10 adet</div></td><td style="white-space:nowrap">180 kcal</td><td style="text-align:right"><span class="pstat ok">Girildi</span></td></tr>
+              <tr><td><b>Öğle</b> <span class="muted" style="font-size:12px">13:00</span><div class="muted" style="font-size:12.5px;margin-top:3px">Mercimek çorbası 1 kase · Tavuklu salata</div></td><td style="white-space:nowrap">520 kcal</td><td style="text-align:right"><span class="pstat ok">Girildi</span></td></tr>
+              <tr><td><b>Ara Öğün</b> <span class="muted" style="font-size:12px">16:30</span><div class="muted" style="font-size:12.5px;margin-top:3px">Yoğurt 150 g · Tarçın</div></td><td style="white-space:nowrap">130 kcal</td><td style="text-align:right"><span class="pstat off">Bekliyor</span></td></tr>
+              <tr><td><b>Akşam</b> <span class="muted" style="font-size:12px">19:30</span><div class="muted" style="font-size:12.5px;margin-top:3px">Fırında somon 120 g · Bulgur pilavı 5 yk · Salata</div></td><td style="white-space:nowrap">560 kcal</td><td style="text-align:right"><span class="pstat off">Bekliyor</span></td></tr>
+            </tbody></table>
+          </div>
+          <div class="pc-foot"><a class="btn btn-green btn-sm" href="#ekle"><i class="fa-solid fa-plus"></i> Öğün Ekle</a></div>
+        </div>
+        <div class="pnl-card">
+          <div class="pc-head"><span class="pc-title"><i class="fa-solid fa-magnifying-glass"></i> Besin, tarif veya öğün ekle</span></div>
+          <div class="pc-body">
+            <div class="tsr-head" style="border-bottom:none;padding-bottom:12px">
+              <input class="fk-input" type="search" placeholder="Besin, tarif veya öğün ara — örn. yulaf, somon, mercimek" aria-label="Besin ara" />
+            </div>
+            <div class="tsr-list" style="max-height:none;padding:0">
+              <button class="tsr-row" type="button"><span class="tsr-info"><b>Yulaf Ezmesi</b><span class="muted" style="display:block;font-size:12px">100 g · 389 kcal · P 17 g · K 66 g · Y 7 g</span></span><span class="bc-sum"><i class="fa-solid fa-plus"></i> Ekle</span></button>
+              <button class="tsr-row" type="button"><span class="tsr-info"><b>Somon (fırında)</b><span class="muted" style="display:block;font-size:12px">120 g · 250 kcal · P 25 g · K 0 g · Y 16 g</span></span><span class="bc-sum"><i class="fa-solid fa-plus"></i> Ekle</span></button>
+              <button class="tsr-row" type="button"><span class="tsr-info"><b>Yeşil Mercimek Çorbası</b><span class="muted" style="display:block;font-size:12px">1 kase · 180 kcal · P 11 g · K 27 g · Y 3 g</span></span><span class="bc-sum"><i class="fa-solid fa-plus"></i> Ekle</span></button>
+            </div>
+            <div class="fk-help"><i class="fa-solid fa-circle-info"></i><span>Değerler <a href="besin-kutuphanesi-v1.html" style="color:var(--green-deep);font-weight:700">Besin Kütüphanesi</a>'den gelir; porsiyonu girdikten sonra günlük toplamına eklenir.</span></div>
+          </div>
+        </div>
+          </div>
+          <div>
+        <div class="pnl-card">
+          <div class="pc-head"><span class="pc-title"><i class="fa-solid fa-droplet"></i> Su takibi</span></div>
+          <div class="pc-body">
+            <a id="su"></a><div class="cl-prog"><div class="cl-prog-row"><span>Bugün içilen</span><b>1,6 / 2,4 L</b></div><div class="cl-bar"><i style="width:67%"></i></div></div>
+            <div class="chips" style="margin-top:14px"><button class="chip" type="button">+200 ml</button><button class="chip" type="button">+330 ml</button><button class="chip" type="button">+500 ml</button></div>
+            <div class="fk-help"><i class="fa-solid fa-circle-info"></i><span>Hedef, <a href="gunluk-su-v1.html" style="color:var(--green-deep);font-weight:700">Günlük Su İhtiyacı</a> hesaplayıcısından geliyor.</span></div>
+          </div>
+        </div>
+        <div class="pnl-card">
+          <div class="pc-head"><span class="pc-title"><i class="fa-solid fa-bullseye"></i> Günlük hedef özeti</span></div>
+          <div class="pc-body">
+            <div class="cl-prog"><div class="cl-prog-row"><span>Enerji</span><b>1.240 / 1.800 kcal</b></div><div class="cl-bar"><i style="width:69%"></i></div></div>
+            <div style="height:12px"></div><div class="cl-prog"><div class="cl-prog-row"><span>Protein</span><b>78 / 110 g</b></div><div class="cl-bar"><i style="width:71%"></i></div></div>
+            <div style="height:12px"></div><div class="cl-prog"><div class="cl-prog-row"><span>Karbonhidrat</span><b>132 / 190 g</b></div><div class="cl-bar"><i style="width:69%"></i></div></div>
+            <div style="height:12px"></div><div class="cl-prog"><div class="cl-prog-row"><span>Yağ</span><b>41 / 60 g</b></div><div class="cl-bar"><i style="width:68%"></i></div></div>
+          </div>
+        </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- BAŞLANGIÇ DURUMU (üye, henüz içeriği yok) — boş kart gösterilmez -->
+      <div id="planimStart" hidden>
+        <div class="pnl-card">
+          <div class="pnl-empty">
+            <div class="pe-ico"><i class="fa-solid fa-utensils"></i></div>
+            <h4>Bugün için henüz kayıt yok</h4>
+            <p>İlk öğününü ekle; günlük hedefin ve makro dengen bu ekranda oluşmaya başlasın.</p>
+            <a class="btn btn-primary btn-sm" href="program-bul-v1.html"><i class="fa-solid fa-wand-magic-sparkles"></i> Programını Bul</a>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </section>
+</main>
+
+<div id="ddChromeGate"></div>
+<div id="ddChromeFooter"></div>
+<div id="ddChromeFab"></div>
+
+<script src="assets/js/planim.js"></script>
+</body>
+</html>

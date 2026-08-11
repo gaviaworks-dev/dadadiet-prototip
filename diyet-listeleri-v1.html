@@ -1,0 +1,391 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<meta name="robots" content="noindex, nofollow" />
+<title>Diyet Listeleri & Beslenme Programları — DadaMutfak</title>
+<link rel="shortcut icon" type="image/x-icon"
+      href="assets/img/favicon.ico" />
+<!-- FontAwesome 6.5.2 (kilitli ikon seti) -->
+<link rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css"
+      integrity="sha512-SnH5WK+bZxgPHs44uWIX+LLJAJ9/2PkPKZ5QiAj6Ta86w+fsb2TkcmfRyVX3pBnMFcV7oQPJkl9QevSCWr3W6A=="
+      crossorigin="anonymous" referrerpolicy="no-referrer" />
+<link rel="stylesheet" href="assets/css/dd-shell.css" />
+<style>
+/* ===== SAYFA CSS — kabuk CSS'i assets/css/dd-shell.css'te ===== */
+/* T5 STICKY FIX (faz6, page-local): kok overflow-x hidden body-yi scroll-container yapip position:sticky panelleri kiriyor; clip yatayi keser ama overflow-y visible kalir -> sticky calisir. */
+html,body{overflow-x:clip}
+
+/* =====================================================================
+   F10 — DİYET LİSTELERİ (research m6) · landing hero + program kartları
+   Takip araçları = app işi → web'de TANITIM dili
+   ===================================================================== */
+
+/* ---- HERO: koyu band (liste hero dili) — yeşil sağlık aksanı ---- */
+.dl-top{
+  position:relative;padding-top:112px;
+  background-image:linear-gradient(90deg,rgba(18,28,22,.94),rgba(20,32,25,.74)),
+    url('https://images.unsplash.com/photo-1512621776951-a57141f2eefd?w=1600&q=80&auto=format&fit=crop&exp=7&gam=6&sat=-9&high=8&vib=5');
+  background-size:cover;background-position:center;
+}
+
+.dl-top .wrap{position:relative}
+.dl-top .rd-crumb{color:#bcd0c4}
+.dl-top .rd-crumb a{color:#bcd0c4}
+.dl-top .rd-crumb a:hover{color:#7fe0b0}
+.dl-top .rd-crumb i{color:rgba(255,255,255,.4)}
+.dl-top .rd-crumb b{color:#fff}
+.rd-crumb{display:flex;align-items:center;flex-wrap:wrap;gap:9px;padding:18px 0 14px;font-size:13px;font-weight:500}
+.rd-crumb i{font-size:9px}
+.dl-hero{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:44px;align-items:end;padding:10px 0 44px}
+.dl-hero .eyebrow{color:#7fe0b0}
+.dl-hero .eyebrow::before{background:var(--green)}
+.dl-hero h1{color:#fff;font-size:44px;margin:14px 0 12px;letter-spacing:-.03em;text-shadow:0 2px 24px rgba(0,0,0,.25)}
+.dl-hero h1 .accent{color:#54d39a;white-space:nowrap}
+.dl-hero .lead{color:#e3ede7;font-weight:500;font-size:15.5px;max-width:560px;text-shadow:0 1px 14px rgba(0,0,0,.3)}
+.dl-stats{display:flex;flex-direction:column;gap:16px;padding-left:38px;border-left:1px solid rgba(255,255,255,.18)}
+.dl-stats .st b{display:block;font-size:29px;font-weight:700;color:#fff;letter-spacing:-.02em;line-height:1.1}
+.dl-stats .st span{font-size:12.5px;color:#9fb7a8;font-weight:500}
+
+/* ---- FİLTRE ÇİPLERİ (facet-lite) ---- */
+.dl-filter{background:var(--bg-white);border-bottom:1px solid var(--line);position:sticky;top:112px;z-index:40}
+.dl-fbar{justify-content:center;display:flex;flex-wrap:wrap;align-items:center;gap:4px;padding:4px 4px 4px 14px;width:fit-content;max-width:100%;margin:16px auto;background:var(--bg);border:1px solid var(--line);border-radius:var(--radius-md)}
+.dl-fbar::-webkit-scrollbar{display:none}
+.dl-fbar .lbl{font-size:13px;color:var(--muted);font-weight:600;flex:none}
+.dl-fchip{flex:none;font-size:13px;font-weight:700;color:var(--muted);background:transparent;border:0;padding:9px 14px;border-radius:var(--radius-sm);cursor:pointer;transition:.18s var(--ease);white-space:nowrap}
+.dl-fchip:hover{color:var(--tomato-deep);background:rgba(59,183,126,.08)}
+.dl-fchip.active{background:var(--tomato-deep);border-color:var(--tomato-deep);color:#fff}
+/* Eksen menüden seçilir; sayfada yalnız gelen eksenin çip satırı durur.
+   .dl-fbar display:flex olduğu için [hidden] açıkça yazılmalıdır. */
+.dl-fbar[hidden]{display:none}
+
+/* ---- PROGRAM KARTLARI ---- */
+.prog-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:26px}
+.prog-card{background:var(--paper);border:1px solid var(--line);border-radius:var(--radius-lg);overflow:hidden;display:flex;flex-direction:column;cursor:pointer;transition:.3s var(--ease)}
+.prog-card:hover{transform:translateY(-6px);border-color:#dcdcdc;box-shadow:var(--sh-md)}
+.prog-media{position:relative;height:185px;background-size:cover;background-position:center}
+.prog-media::after{content:"";position:absolute;inset:0;background:linear-gradient(180deg,rgba(33,30,22,0) 50%,rgba(20,18,12,.55))}
+.prog-cat{position:absolute;top:13px;left:13px;z-index:2;background:rgba(255,255,255,.94);color:var(--slate);font-size:11.5px;font-weight:700;padding:6px 12px;border-radius:var(--radius-sm);letter-spacing:.02em}
+.prog-cat.green{background:var(--tomato-deep);color:#fff}
+.prog-dur{position:absolute;bottom:13px;left:13px;z-index:2;display:inline-flex;align-items:center;gap:6px;background:rgba(20,18,12,.72);color:#fff;font-size:11.5px;font-weight:700;padding:6px 11px;border-radius:var(--radius-sm);backdrop-filter:blur(4px)}
+.prog-body{padding:20px;display:flex;flex-direction:column;flex:1}
+.prog-body h3{font-size:19px;margin-bottom:9px;letter-spacing:-.01em}
+.prog-card:hover .prog-body h3{color:var(--green-deep)}
+.prog-body p{font-size:13.5px;color:var(--muted);font-weight:500;line-height:1.55;margin-bottom:16px}
+.prog-tags{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:18px}
+.prog-tag{display:inline-flex;align-items:center;gap:6px;font-size:12px;font-weight:600;color:var(--slate-2);background:#EAF7F0;border:1px solid #d9efe3;padding:6px 11px;border-radius:var(--radius-sm)}
+.prog-tag i{color:var(--green);font-size:11px}
+.prog-foot{display:flex;align-items:center;justify-content:space-between;gap:10px;margin-top:auto;padding-top:16px;border-top:1px solid var(--line)}
+.prog-foot .meals{font-size:12.5px;color:var(--muted);font-weight:500}
+.prog-foot .go{display:inline-flex;align-items:center;gap:7px;color:var(--green-deep);font-weight:700;font-size:13.5px}
+.prog-card:hover .prog-foot .go i{transform:translateX(3px)}
+.prog-foot .go i{transition:.2s var(--ease)}
+
+/* ---- APP TANITIM BANDI (takip araçları = uygulama) ---- */
+.app-band{background:var(--slate);border-radius:var(--radius-xl);padding:46px;color:#fff;position:relative;overflow:hidden}
+.app-band::before{content:"";position:absolute;top:-80px;left:-60px;width:280px;height:280px;border-radius:var(--radius-circle);background:radial-gradient(circle,rgba(59,183,126,.32),transparent 70%)}
+.app-grid{display:grid;grid-template-columns:1.1fr .9fr;gap:48px;align-items:center;position:relative}
+.app-band .eyebrow{color:#7fe0b0}
+.app-band .eyebrow::before{background:var(--green)}
+.app-band h2{color:#fff;font-size:30px;margin:13px 0 12px;letter-spacing:-.02em}
+.app-band .lead{color:#b9c6d1;font-weight:500;font-size:15px;margin-bottom:24px}
+.app-feats{display:flex;flex-direction:column;gap:14px;margin-bottom:28px}
+.app-feat{display:flex;align-items:center;gap:13px;font-size:14.5px;font-weight:500;color:#e3ede7}
+.app-feat .fi{flex:none;width:38px;height:38px;border-radius:var(--radius-md);background:rgba(59,183,126,.16);border:1px solid rgba(59,183,126,.3);display:grid;place-items:center;color:#7fe0b0;font-size:15px}
+.app-stores{display:flex;gap:12px;flex-wrap:wrap}
+.app-store{display:inline-flex;align-items:center;gap:11px;background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.16);border-radius:var(--radius-md);padding:11px 18px;transition:.2s var(--ease)}
+.app-store:hover{background:rgba(255,255,255,.14);transform:translateY(-2px)}
+.app-store i{font-size:24px;color:#fff}
+.app-store span{display:block;font-size:10.5px;color:#9fb0bc;font-weight:500;line-height:1.2}
+.app-store b{display:block;font-size:14px;color:#fff;font-weight:700}
+.app-visual{position:relative;display:flex;align-items:center;justify-content:center}
+.app-phone{width:230px;aspect-ratio:9/17.5;border-radius:32px;background-size:cover;background-position:center;border:8px solid #2b2820;box-shadow:0 30px 70px rgba(0,0,0,.5)}
+.app-soon{position:absolute;bottom:18px;right:0;background:var(--tomato-deep);color:#fff;font-size:11px;font-weight:700;padding:7px 13px;border-radius:var(--radius-sm);letter-spacing:.04em}
+
+/* ---- responsive ---- */
+@media (max-width:1024px){
+  .dl-hero{grid-template-columns:1fr;align-items:start;gap:22px;padding-bottom:34px}
+  .dl-stats{flex-direction:row;gap:34px;padding-left:0;border-left:none;padding-top:18px;border-top:1px solid rgba(255,255,255,.18)}
+  .dl-filter{top:62px}
+  .prog-grid{grid-template-columns:1fr 1fr}
+  .app-grid{grid-template-columns:1fr;gap:32px}
+  .app-visual{order:-1}
+}
+@media (max-width:640px){
+  .dl-hero h1{font-size:29px}
+  .dl-hero .lead{font-size:14.5px}
+  .dl-stats{gap:12px}
+  .dl-stats .st{flex:1}
+  .dl-stats .st b{font-size:20px}
+  .prog-grid{grid-template-columns:1fr;gap:18px}
+  .app-band{padding:28px}
+  .app-band h2{font-size:24px}
+  .app-phone{width:180px}
+}
+
+/* saglik-dropdown: scoped health chrome */
+/* diğer dropdown/mega aktif-item (turuncu kanon, underline gizli) */
+.dropdown:not(.dropdown-health) a.active{background:var(--tomato-tint)}
+.dropdown a.active::after,.mega-cats a.active::after{display:none}
+.mega-cats a.active{background:var(--tomato-tint)}
+.nav a[href="saglik-hub-v1.html"]:hover{color:var(--green);background:rgba(59,183,126,.10)}
+</style>
+</head>
+<body data-brand="diet" data-nav="programlar">
+
+<div id="ddChromeTop"></div>
+<script src="assets/js/dd-shell.js"></script>
+
+<main class="page-main" id="pageMain">
+
+<!-- SAYFA İÇERİĞİ — F10: DİYET LİSTELERİ (research m6) -->
+
+<!-- ===== HERO ===== -->
+<section class="below-header dl-top">
+  <div class="wrap">
+    <nav class="rd-crumb" aria-label="Sayfa yolu">
+      <a href="saglik-hub-v1.html"><i class="fa-solid fa-house"></i></a>
+      <i class="fa-solid fa-chevron-right"></i>
+      <b>Diyet Listeleri</b>
+    </nav>
+    <div class="dl-hero">
+      <div class="dl-main">
+        <span class="eyebrow"><i class="fa-solid fa-list-check"></i> Beslenme Programları</span>
+        <h1>Hedefine göre <span class="accent">hazır programlar</span></h1>
+        <p class="lead">Uzman onaylı örnek menüler ve günlük listeler. İncele, ister tek tarif olarak uygula ister uygulamadan adım adım takip et.</p>
+      </div>
+      <div class="dl-stats">
+        <div class="st"><b>8</b><span>Program</span></div>
+        <div class="st"><b>168</b><span>Örnek öğün</span></div>
+        <div class="st"><b>12</b><span>Diyetisyen</span></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== FİLTRE — TEK EKSEN, ADRESTEN =====
+     Kullanıcı ekseni menüden seçerek gelir; sayfada ikinci bir seçim yoktur.
+     ?hedef=<deger> → yalnız hedef çip satırı  (menüdeki "Hedefe Göre" kalemi)
+     ?yasam=<deger> → yalnız yaşam biçimi çip satırı
+     parametresiz    → hedef ekseni varsayılan. -->
+<div class="dl-filter">
+  <div class="wrap">
+    <div class="dl-fbar" id="dlFilter" data-eksen="hedef" role="group" aria-label="Hedef filtresi">
+      <span class="lbl">Hedef:</span>
+      <button class="dl-fchip active" type="button" data-val="tumu">Tümü</button>
+      <button class="dl-fchip" type="button" data-val="kilo">Kilo Ver</button>
+      <button class="dl-fchip" type="button" data-val="dengeli">Dengeli Beslen</button>
+      <button class="dl-fchip" type="button" data-val="detoks">Detoks</button>
+      <button class="dl-fchip" type="button" data-val="kas">Kas Yap</button>
+      <button class="dl-fchip" type="button" data-val="vegan">Vegan</button>
+      <button class="dl-fchip" type="button" data-val="oruc">Aralıklı Oruç</button>
+    </div>
+    <div class="dl-fbar" id="dlYasam" data-eksen="yasam" role="group" aria-label="Yaşam biçimi filtresi" hidden>
+      <span class="lbl">Yaşam Biçimi:</span>
+      <button class="dl-fchip active" type="button" data-val="tumu">Tümü</button>
+      <button class="dl-fchip" type="button" data-val="genel">Genel</button>
+      <button class="dl-fchip" type="button" data-val="aile">Aile</button>
+      <button class="dl-fchip" type="button" data-val="ogrenci">Öğrenci</button>
+      <button class="dl-fchip" type="button" data-val="sporcu">Sporcu</button>
+      <button class="dl-fchip" type="button" data-val="bitkisel">Bitkisel</button>
+    </div>
+  </div>
+</div>
+
+<!-- ===== PROGRAM KARTLARI ===== -->
+<section class="sec" style="background:var(--bg-white);padding-top:42px">
+  <div class="wrap">
+    <div class="prog-grid">
+      <a class="prog-card" href="diyet-program-detay-v1.html" data-hedef="dengeli" data-yasam="genel">
+        <div class="prog-media" style="background-image:url('https://images.unsplash.com/photo-1540420773420-3366772f4999?w=700&q=80&auto=format&fit=crop&exp=7&gam=6&sat=-9&high=8&vib=5')">
+          <span class="prog-cat green">Popüler</span>
+          <span class="prog-dur"><i class="fa-regular fa-calendar"></i> 7 günlük</span>
+        </div>
+        <div class="prog-body">
+          <h3>Akdeniz Tipi Beslenme</h3>
+          <p>Zeytinyağı, sebze, balık ve baklagil ağırlıklı; kalbe dost dengeli haftalık menü.</p>
+          <div class="prog-tags"><span class="prog-tag"><i class="fa-solid fa-fire"></i> ~1.600 kcal</span><span class="prog-tag"><i class="fa-solid fa-signal"></i> Başlangıç</span></div>
+          <div class="prog-foot"><span class="meals">21 öğün planı</span><span class="go">İncele <i class="fa-solid fa-arrow-right"></i></span></div>
+        </div>
+      </a>
+      <a class="prog-card" href="diyet-program-detoks-v1.html" data-hedef="detoks" data-yasam="genel">
+        <div class="prog-media" style="background-image:url('https://images.unsplash.com/photo-1467453678174-768ec283a940?w=700&q=80&auto=format&fit=crop&exp=7&gam=6&sat=-9&high=8&vib=5')">
+          <span class="prog-cat">Detoks</span>
+          <span class="prog-dur"><i class="fa-regular fa-calendar"></i> 7 günlük</span>
+        </div>
+        <div class="prog-body">
+          <h3>Hafif Detoks Programı</h3>
+          <p>Sebze çorbaları ve smoothie odaklı, sindirimi rahatlatan kısa başlangıç programı.</p>
+          <div class="prog-tags"><span class="prog-tag"><i class="fa-solid fa-fire"></i> ~1.200 kcal</span><span class="prog-tag"><i class="fa-solid fa-signal"></i> Kolay</span></div>
+          <div class="prog-foot"><span class="meals">21 öğün planı</span><span class="go">İncele <i class="fa-solid fa-arrow-right"></i></span></div>
+        </div>
+      </a>
+      <a class="prog-card" href="diyet-program-oruc-v1.html" data-hedef="oruc" data-yasam="genel">
+        <div class="prog-media" style="background-image:url('https://images.unsplash.com/photo-1490818387583-1baba5e638af?w=700&q=80&auto=format&fit=crop&exp=7&gam=6&sat=-9&high=8&vib=5')">
+          <span class="prog-cat">Aralıklı Oruç</span>
+          <span class="prog-dur"><i class="fa-regular fa-calendar"></i> 7 günlük</span>
+        </div>
+        <div class="prog-body">
+          <h3>16:8 Aralıklı Oruç</h3>
+          <p>8 saatlik öğün penceresine uygun, dengeli ve doyurucu iki haftalık örnek menü.</p>
+          <div class="prog-tags"><span class="prog-tag"><i class="fa-solid fa-fire"></i> ~1.700 kcal</span><span class="prog-tag"><i class="fa-solid fa-signal"></i> Orta</span></div>
+          <div class="prog-foot"><span class="meals">21 öğün planı</span><span class="go">İncele <i class="fa-solid fa-arrow-right"></i></span></div>
+        </div>
+      </a>
+      <a class="prog-card" href="diyet-program-protein-v1.html" data-hedef="kas" data-yasam="sporcu">
+        <div class="prog-media" style="background-image:url('https://images.unsplash.com/photo-1512852939750-1305098529bf?w=700&q=80&auto=format&fit=crop&exp=7&gam=6&sat=-9&high=8&vib=5')">
+          <span class="prog-cat green">Yeni</span>
+          <span class="prog-dur"><i class="fa-regular fa-calendar"></i> 7 günlük</span>
+        </div>
+        <div class="prog-body">
+          <h3>Yüksek Proteinli Plan</h3>
+          <p>Kas koruyan ve tok tutan, antrenman günlerine uygun protein ağırlıklı menü.</p>
+          <div class="prog-tags"><span class="prog-tag"><i class="fa-solid fa-fire"></i> ~1.900 kcal</span><span class="prog-tag"><i class="fa-solid fa-signal"></i> Orta</span></div>
+          <div class="prog-foot"><span class="meals">21 öğün planı</span><span class="go">İncele <i class="fa-solid fa-arrow-right"></i></span></div>
+        </div>
+      </a>
+      <a class="prog-card" href="diyet-program-vegan-v1.html" data-hedef="vegan dengeli" data-yasam="bitkisel">
+        <div class="prog-media" style="background-image:url('https://images.unsplash.com/photo-1512621776951-a57141f2eefd?w=700&q=80&auto=format&fit=crop&exp=7&gam=6&sat=-9&high=8&vib=5')">
+          <span class="prog-cat">Vegan</span>
+          <span class="prog-dur"><i class="fa-regular fa-calendar"></i> 7 günlük</span>
+        </div>
+        <div class="prog-body">
+          <h3>Bitkisel Temelli Hafta</h3>
+          <p>Tamamen bitkisel, B12 ve protein dengesi gözetilmiş çeşitli vegan menü.</p>
+          <div class="prog-tags"><span class="prog-tag"><i class="fa-solid fa-fire"></i> ~1.500 kcal</span><span class="prog-tag"><i class="fa-solid fa-signal"></i> Başlangıç</span></div>
+          <div class="prog-foot"><span class="meals">21 öğün planı</span><span class="go">İncele <i class="fa-solid fa-arrow-right"></i></span></div>
+        </div>
+      </a>
+      <a class="prog-card" href="diyet-program-seker-v1.html" data-hedef="kilo" data-yasam="genel">
+        <div class="prog-media" style="background-image:url('https://images.unsplash.com/photo-1505576399279-565b52d4ac71?w=700&q=80&auto=format&fit=crop&exp=7&gam=6&sat=-9&high=8&vib=5')">
+          <span class="prog-cat">Şekersiz</span>
+          <span class="prog-dur"><i class="fa-regular fa-calendar"></i> 7 günlük</span>
+        </div>
+        <div class="prog-body">
+          <h3>Düşük Şeker Programı</h3>
+          <p>Kan şekerini dengede tutmaya yardımcı, rafine şekerden uzak doyurucu liste.</p>
+          <div class="prog-tags"><span class="prog-tag"><i class="fa-solid fa-fire"></i> ~1.550 kcal</span><span class="prog-tag"><i class="fa-solid fa-signal"></i> Orta</span></div>
+          <div class="prog-foot"><span class="meals">21 öğün planı</span><span class="go">İncele <i class="fa-solid fa-arrow-right"></i></span></div>
+        </div>
+      </a>
+      <a class="prog-card" href="diyet-program-aile-v1.html" data-hedef="dengeli" data-yasam="aile">
+        <div class="prog-media" style="background-image:url('https://images.unsplash.com/photo-1467003909585-2f8a72700288?w=700&q=80&auto=format&fit=crop&exp=7&gam=6&sat=-9&high=8&vib=5')">
+          <span class="prog-cat green">Aile</span>
+          <span class="prog-dur"><i class="fa-regular fa-calendar"></i> 7 günlük</span>
+        </div>
+        <div class="prog-body">
+          <h3>Aile Haftalık Menü</h3>
+          <p>Herkesin sofrada buluştuğu; pratik, ekonomik ve çeşitli ev menüsü.</p>
+          <div class="prog-tags"><span class="prog-tag"><i class="fa-solid fa-fire"></i> ~2.000 kcal</span><span class="prog-tag"><i class="fa-solid fa-signal"></i> Kolay</span></div>
+          <div class="prog-foot"><span class="meals">21 öğün planı</span><span class="go">İncele <i class="fa-solid fa-arrow-right"></i></span></div>
+        </div>
+      </a>
+      <a class="prog-card" href="diyet-program-ogrenci-v1.html" data-hedef="kilo" data-yasam="ogrenci">
+        <div class="prog-media" style="background-image:url('https://images.unsplash.com/photo-1547592180-85f173990554?w=700&q=80&auto=format&fit=crop&exp=7&gam=6&sat=-9&high=8&vib=5')">
+          <span class="prog-cat">Pratik</span>
+          <span class="prog-dur"><i class="fa-regular fa-calendar"></i> 7 günlük</span>
+        </div>
+        <div class="prog-body">
+          <h3>Öğrenci Dostu Menü</h3>
+          <p>Sınırlı bütçe ve zamana uygun; hızlı hazırlanan, doyurucu pratik öğünler.</p>
+          <div class="prog-tags"><span class="prog-tag"><i class="fa-solid fa-fire"></i> ~1.700 kcal</span><span class="prog-tag"><i class="fa-solid fa-signal"></i> Kolay</span></div>
+          <div class="prog-foot"><span class="meals">21 öğün planı</span><span class="go">İncele <i class="fa-solid fa-arrow-right"></i></span></div>
+        </div>
+      </a>
+    </div>
+  </div>
+</section>
+
+<!-- ===== APP TANITIM BANDI (takip araçları uygulamada) ===== -->
+<section class="sec" style="background:var(--bg-cream)">
+  <div class="wrap">
+    <div class="app-band">
+      <div class="app-grid">
+        <div class="app-intro">
+          <span class="eyebrow"><i class="fa-solid fa-mobile-screen"></i> DadaMutfak Uygulaması</span>
+          <h2>Listeyi seç, takibi cebine al</h2>
+          <p class="lead">Web'de programı keşfet; günlük öğün takibi, su sayacı, alışveriş listesi ve ilerleme grafiği uygulamada seni bekliyor.</p>
+          <div class="app-feats">
+            <div class="app-feat"><span class="fi"><i class="fa-solid fa-check"></i></span> Günlük öğün ve kalori takibi</div>
+            <div class="app-feat"><span class="fi"><i class="fa-solid fa-droplet"></i></span> Su ve hidrasyon hatırlatıcısı</div>
+            <div class="app-feat"><span class="fi"><i class="fa-solid fa-cart-shopping"></i></span> Programa özel alışveriş listesi</div>
+            <div class="app-feat"><span class="fi"><i class="fa-solid fa-chart-line"></i></span> Haftalık ilerleme grafiği</div>
+          </div>
+          <div class="app-stores">
+            <a class="app-store" style="cursor:default"><i class="fa-brands fa-apple"></i><span>İndir<b>App Store</b></span></a>
+            <a class="app-store" style="cursor:default"><i class="fa-brands fa-google-play"></i><span>İndir<b>Google Play</b></span></a>
+          </div>
+        </div>
+        <div class="app-visual">
+          <div class="app-phone" style="background-image:url('https://images.unsplash.com/photo-1490645935967-10de6ba17061?w=500&q=80&auto=format&fit=crop&exp=7&gam=6&sat=-9&high=8&vib=5')"></div>
+          <span class="app-soon">Yakında</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+</main><!-- /.page-main -->
+
+<div id="ddChromeGate"></div>
+
+<div id="ddChromeFooter"></div>
+
+<div id="ddChromeFab"></div>
+
+<script>
+/* ===== SAYFA JS — program filtresi: TEK EKSEN, adresten =====
+   Ekseni menü belirler, sayfada geçiş kontrolü yoktur. Görünen tek çip satırı
+   gelinen eksenindir; süzme o eksenin seçili değeriyle yapılır.
+   ?hedef=<deger> → hedef ekseni   (menüdeki "Hedefe Göre" kalemi)
+   ?yasam=<deger> → yaşam ekseni   (menüdeki "Yaşam Biçimine Göre" kalemi)
+   parametresiz   → hedef ekseni; deger "tumu" olabilir. */
+(function(){
+  var p=new URLSearchParams(location.search);
+  var eksen=p.has('yasam')&&!p.has('hedef')?'yasam':'hedef';
+  var bar=document.querySelector('.dl-fbar[data-eksen="'+eksen+'"]');
+  if(!bar)return;
+  var cards=Array.prototype.slice.call(document.querySelectorAll('.prog-card'));
+
+  // yalnız gelinen eksenin çip satırı durur, diğeri gizlenir
+  document.querySelectorAll('.dl-fbar').forEach(function(b){ b.hidden = b!==bar; });
+
+  function apply(val){
+    cards.forEach(function(c){
+      var on = val==='tumu' ||
+               (c.getAttribute('data-'+eksen)||'').split(/\s+/).indexOf(val)>-1;
+      c.style.display = on?'':'none';
+    });
+  }
+  var chips=Array.prototype.slice.call(bar.querySelectorAll('.dl-fchip'));
+  function select(val){
+    var hit=null;
+    chips.forEach(function(x){ if(x.getAttribute('data-val')===val)hit=x; });
+    if(!hit)return false;
+    chips.forEach(function(x){x.classList.remove('active')});
+    hit.classList.add('active');
+    apply(val);
+    return true;
+  }
+
+  chips.forEach(function(c){
+    c.addEventListener('click',function(){
+      var val=c.getAttribute('data-val');
+      select(val);
+      history.replaceState(null,'','?'+eksen+'='+val);
+    });
+  });
+
+  // adresten filtreyi seçili aç
+  var v=p.get(eksen);
+  if(v&&select(v)){
+    var f=document.querySelector('.dl-filter');
+    if(f)window.requestAnimationFrame(function(){
+      window.scrollTo({top:f.getBoundingClientRect().top+window.pageYOffset-120,behavior:'smooth'});
+    });
+  }
+})();
+</script>
+</body>

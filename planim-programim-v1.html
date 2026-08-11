@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<meta name="robots" content="noindex, nofollow" />
+<title>Programım — Planım | DadaDiet</title>
+<link rel="shortcut icon" type="image/x-icon"
+      href="assets/img/favicon.ico" />
+<!-- FontAwesome 6.5.2 (kilitli ikon seti) -->
+<link rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css"
+      integrity="sha512-SnH5WK+bZxgPHs44uWIX+LLJAJ9/2PkPKZ5QiAj6Ta86w+fsb2TkcmfRyVX3pBnMFcV7oQPJkl9QevSCWr3W6A=="
+      crossorigin="anonymous" referrerpolicy="no-referrer" />
+<link rel="stylesheet" href="assets/css/dd-shell.css" />
+<!-- kişisel alan bileşenleri (diyetisyen panelinden birebir; kabuk DEĞİL) -->
+<link rel="stylesheet" href="assets/css/planim.css" />
+</head>
+<body data-brand="diet" data-planim="program">
+
+<div id="ddChromeTop"></div>
+<script src="assets/js/dd-shell.js"></script>
+
+<main class="page-main" id="pageMain">
+  <section class="sec below-header" style="background:var(--bg)">
+    <div class="wrap">
+
+      <!-- başlık + alt gezinme: assets/js/planim.js üretir -->
+      <div id="planimTop"></div>
+
+      <!-- İÇERİK (üye, verisi var) -->
+      <div id="planimData" hidden>
+        <div class="pnl-card">
+          <div class="pc-head"><span class="pc-title"><i class="fa-solid fa-clipboard-list"></i> Akdeniz Tipi Beslenme</span><a class="pc-link" href="diyet-program-detay-v1.html">Program detayı <i class="fa-solid fa-arrow-right"></i></a></div>
+          <div class="pc-body">
+            <div class="muted" style="font-size:13px;margin-bottom:14px">7 günlük · ~1.600 kcal/gün · Başlangıç seviyesi · <span class="pstat ok">Aktif</span></div>
+            <div class="cl-prog"><div class="cl-prog-row"><span>Programın 4. günündesin</span><b>4 / 7 gün</b></div><div class="cl-bar"><i style="width:57%"></i></div></div>
+          </div>
+          <div class="pc-foot"><a class="btn btn-ghost btn-sm" href="program-bul-v1.html"><i class="fa-solid fa-rotate"></i> Program Değiştir</a> <a class="btn btn-ghost btn-sm" href="planim-alisveris-v1.html"><i class="fa-solid fa-basket-shopping"></i> Alışveriş listesine aktar</a></div>
+        </div>
+        <div class="dash-row"></div>
+        <div class="pnl-card">
+          <div class="pc-head"><span class="pc-title"><i class="fa-solid fa-calendar-days"></i> Günler</span></div>
+          <div class="pc-body">
+            <div class="pf-tabbar"><div class="pf-tabs" id="gunTabs" role="tablist" aria-label="Program günleri">
+            <button class="dt" type="button" role="tab" data-tab="g1">1. Gün</button>
+            <button class="dt" type="button" role="tab" data-tab="g2">2. Gün</button>
+            <button class="dt" type="button" role="tab" data-tab="g3">3. Gün</button>
+            <button class="dt active" type="button" role="tab" data-tab="g4">4. Gün</button>
+            <button class="dt" type="button" role="tab" data-tab="g5">5. Gün</button>
+            <button class="dt" type="button" role="tab" data-tab="g6">6. Gün</button>
+            <button class="dt" type="button" role="tab" data-tab="g7">7. Gün</button>
+            </div></div>
+          </div>
+          <div class="pc-body flush">
+          <div class="pf-pane" data-pane="g1" hidden>
+            <table class="ptable"><thead><tr><th>Öğün</th><th>Alternatif</th><th>Enerji</th><th style="text-align:right">Durum</th></tr></thead><tbody>
+              <tr><td><b>Kahvaltı</b><div class="muted" style="font-size:12.5px;margin-top:3px">Yulaf ezmesi, süzme yoğurt, ceviz</div></td><td class="muted" style="font-size:12.5px">Zeytinli tam buğday tost, lor</td><td style="white-space:nowrap">410 kcal</td><td style="text-align:right"><span class="pstat ok">Tamam</span></td></tr>
+              <tr><td><b>Ara Öğün</b><div class="muted" style="font-size:12.5px;margin-top:3px">Elma ve badem</div></td><td class="muted" style="font-size:12.5px">Kefir, 1 avuç kuru dut</td><td style="white-space:nowrap">180 kcal</td><td style="text-align:right"><span class="pstat ok">Tamam</span></td></tr>
+              <tr><td><b>Öğle</b><div class="muted" style="font-size:12.5px;margin-top:3px">Mercimek çorbası, tavuklu salata</div></td><td class="muted" style="font-size:12.5px">Nohut salatası, ayran</td><td style="white-space:nowrap">520 kcal</td><td style="text-align:right"><span class="pstat ok">Tamam</span></td></tr>
+              <tr><td><b>Ara Öğün</b><div class="muted" style="font-size:12.5px;margin-top:3px">Yoğurt ve tarçın</div></td><td class="muted" style="font-size:12.5px">Havuç çubukları, humus</td><td style="white-space:nowrap">130 kcal</td><td style="text-align:right"><span class="pstat ok">Tamam</span></td></tr>
+              <tr><td><b>Akşam</b><div class="muted" style="font-size:12.5px;margin-top:3px">Fırında somon, bulgur pilavı, salata</div></td><td class="muted" style="font-size:12.5px">Sebzeli kısır, ızgara hindi</td><td style="white-space:nowrap">560 kcal</td><td style="text-align:right"><span class="pstat ok">Tamam</span></td></tr>
+            </tbody></table>
+          </div>
+          <div class="pf-pane" data-pane="g2" hidden>
+            <table class="ptable"><thead><tr><th>Öğün</th><th>Alternatif</th><th>Enerji</th><th style="text-align:right">Durum</th></tr></thead><tbody>
+              <tr><td><b>Kahvaltı</b><div class="muted" style="font-size:12.5px;margin-top:3px">Yulaf ezmesi, süzme yoğurt, ceviz</div></td><td class="muted" style="font-size:12.5px">Zeytinli tam buğday tost, lor</td><td style="white-space:nowrap">410 kcal</td><td style="text-align:right"><span class="pstat ok">Tamam</span></td></tr>
+              <tr><td><b>Ara Öğün</b><div class="muted" style="font-size:12.5px;margin-top:3px">Elma ve badem</div></td><td class="muted" style="font-size:12.5px">Kefir, 1 avuç kuru dut</td><td style="white-space:nowrap">180 kcal</td><td style="text-align:right"><span class="pstat ok">Tamam</span></td></tr>
+              <tr><td><b>Öğle</b><div class="muted" style="font-size:12.5px;margin-top:3px">Mercimek çorbası, tavuklu salata</div></td><td class="muted" style="font-size:12.5px">Nohut salatası, ayran</td><td style="white-space:nowrap">520 kcal</td><td style="text-align:right"><span class="pstat ok">Tamam</span></td></tr>
+              <tr><td><b>Ara Öğün</b><div class="muted" style="font-size:12.5px;margin-top:3px">Yoğurt ve tarçın</div></td><td class="muted" style="font-size:12.5px">Havuç çubukları, humus</td><td style="white-space:nowrap">130 kcal</td><td style="text-align:right"><span class="pstat ok">Tamam</span></td></tr>
+              <tr><td><b>Akşam</b><div class="muted" style="font-size:12.5px;margin-top:3px">Fırında somon, bulgur pilavı, salata</div></td><td class="muted" style="font-size:12.5px">Sebzeli kısır, ızgara hindi</td><td style="white-space:nowrap">560 kcal</td><td style="text-align:right"><span class="pstat ok">Tamam</span></td></tr>
+            </tbody></table>
+          </div>
+          <div class="pf-pane" data-pane="g3" hidden>
+            <table class="ptable"><thead><tr><th>Öğün</th><th>Alternatif</th><th>Enerji</th><th style="text-align:right">Durum</th></tr></thead><tbody>
+              <tr><td><b>Kahvaltı</b><div class="muted" style="font-size:12.5px;margin-top:3px">Yulaf ezmesi, süzme yoğurt, ceviz</div></td><td class="muted" style="font-size:12.5px">Zeytinli tam buğday tost, lor</td><td style="white-space:nowrap">410 kcal</td><td style="text-align:right"><span class="pstat ok">Tamam</span></td></tr>
+              <tr><td><b>Ara Öğün</b><div class="muted" style="font-size:12.5px;margin-top:3px">Elma ve badem</div></td><td class="muted" style="font-size:12.5px">Kefir, 1 avuç kuru dut</td><td style="white-space:nowrap">180 kcal</td><td style="text-align:right"><span class="pstat ok">Tamam</span></td></tr>
+              <tr><td><b>Öğle</b><div class="muted" style="font-size:12.5px;margin-top:3px">Mercimek çorbası, tavuklu salata</div></td><td class="muted" style="font-size:12.5px">Nohut salatası, ayran</td><td style="white-space:nowrap">520 kcal</td><td style="text-align:right"><span class="pstat ok">Tamam</span></td></tr>
+              <tr><td><b>Ara Öğün</b><div class="muted" style="font-size:12.5px;margin-top:3px">Yoğurt ve tarçın</div></td><td class="muted" style="font-size:12.5px">Havuç çubukları, humus</td><td style="white-space:nowrap">130 kcal</td><td style="text-align:right"><span class="pstat ok">Tamam</span></td></tr>
+              <tr><td><b>Akşam</b><div class="muted" style="font-size:12.5px;margin-top:3px">Fırında somon, bulgur pilavı, salata</div></td><td class="muted" style="font-size:12.5px">Sebzeli kısır, ızgara hindi</td><td style="white-space:nowrap">560 kcal</td><td style="text-align:right"><span class="pstat ok">Tamam</span></td></tr>
+            </tbody></table>
+          </div>
+          <div class="pf-pane" data-pane="g4">
+            <table class="ptable"><thead><tr><th>Öğün</th><th>Alternatif</th><th>Enerji</th><th style="text-align:right">Durum</th></tr></thead><tbody>
+              <tr><td><b>Kahvaltı</b><div class="muted" style="font-size:12.5px;margin-top:3px">Yulaf ezmesi, süzme yoğurt, ceviz</div></td><td class="muted" style="font-size:12.5px">Zeytinli tam buğday tost, lor</td><td style="white-space:nowrap">410 kcal</td><td style="text-align:right"><span class="pstat ok">Tamam</span></td></tr>
+              <tr><td><b>Ara Öğün</b><div class="muted" style="font-size:12.5px;margin-top:3px">Elma ve badem</div></td><td class="muted" style="font-size:12.5px">Kefir, 1 avuç kuru dut</td><td style="white-space:nowrap">180 kcal</td><td style="text-align:right"><span class="pstat ok">Tamam</span></td></tr>
+              <tr><td><b>Öğle</b><div class="muted" style="font-size:12.5px;margin-top:3px">Mercimek çorbası, tavuklu salata</div></td><td class="muted" style="font-size:12.5px">Nohut salatası, ayran</td><td style="white-space:nowrap">520 kcal</td><td style="text-align:right"><span class="pstat ok">Tamam</span></td></tr>
+              <tr><td><b>Ara Öğün</b><div class="muted" style="font-size:12.5px;margin-top:3px">Yoğurt ve tarçın</div></td><td class="muted" style="font-size:12.5px">Havuç çubukları, humus</td><td style="white-space:nowrap">130 kcal</td><td style="text-align:right"><span class="pstat off">Bekliyor</span></td></tr>
+              <tr><td><b>Akşam</b><div class="muted" style="font-size:12.5px;margin-top:3px">Fırında somon, bulgur pilavı, salata</div></td><td class="muted" style="font-size:12.5px">Sebzeli kısır, ızgara hindi</td><td style="white-space:nowrap">560 kcal</td><td style="text-align:right"><span class="pstat off">Bekliyor</span></td></tr>
+            </tbody></table>
+          </div>
+          <div class="pf-pane" data-pane="g5" hidden>
+            <table class="ptable"><thead><tr><th>Öğün</th><th>Alternatif</th><th>Enerji</th><th style="text-align:right">Durum</th></tr></thead><tbody>
+              <tr><td><b>Kahvaltı</b><div class="muted" style="font-size:12.5px;margin-top:3px">Yulaf ezmesi, süzme yoğurt, ceviz</div></td><td class="muted" style="font-size:12.5px">Zeytinli tam buğday tost, lor</td><td style="white-space:nowrap">410 kcal</td><td style="text-align:right"><span class="pstat off">Bekliyor</span></td></tr>
+              <tr><td><b>Ara Öğün</b><div class="muted" style="font-size:12.5px;margin-top:3px">Elma ve badem</div></td><td class="muted" style="font-size:12.5px">Kefir, 1 avuç kuru dut</td><td style="white-space:nowrap">180 kcal</td><td style="text-align:right"><span class="pstat off">Bekliyor</span></td></tr>
+              <tr><td><b>Öğle</b><div class="muted" style="font-size:12.5px;margin-top:3px">Mercimek çorbası, tavuklu salata</div></td><td class="muted" style="font-size:12.5px">Nohut salatası, ayran</td><td style="white-space:nowrap">520 kcal</td><td style="text-align:right"><span class="pstat off">Bekliyor</span></td></tr>
+              <tr><td><b>Ara Öğün</b><div class="muted" style="font-size:12.5px;margin-top:3px">Yoğurt ve tarçın</div></td><td class="muted" style="font-size:12.5px">Havuç çubukları, humus</td><td style="white-space:nowrap">130 kcal</td><td style="text-align:right"><span class="pstat off">Bekliyor</span></td></tr>
+              <tr><td><b>Akşam</b><div class="muted" style="font-size:12.5px;margin-top:3px">Fırında somon, bulgur pilavı, salata</div></td><td class="muted" style="font-size:12.5px">Sebzeli kısır, ızgara hindi</td><td style="white-space:nowrap">560 kcal</td><td style="text-align:right"><span class="pstat off">Bekliyor</span></td></tr>
+            </tbody></table>
+          </div>
+          <div class="pf-pane" data-pane="g6" hidden>
+            <table class="ptable"><thead><tr><th>Öğün</th><th>Alternatif</th><th>Enerji</th><th style="text-align:right">Durum</th></tr></thead><tbody>
+              <tr><td><b>Kahvaltı</b><div class="muted" style="font-size:12.5px;margin-top:3px">Yulaf ezmesi, süzme yoğurt, ceviz</div></td><td class="muted" style="font-size:12.5px">Zeytinli tam buğday tost, lor</td><td style="white-space:nowrap">410 kcal</td><td style="text-align:right"><span class="pstat off">Bekliyor</span></td></tr>
+              <tr><td><b>Ara Öğün</b><div class="muted" style="font-size:12.5px;margin-top:3px">Elma ve badem</div></td><td class="muted" style="font-size:12.5px">Kefir, 1 avuç kuru dut</td><td style="white-space:nowrap">180 kcal</td><td style="text-align:right"><span class="pstat off">Bekliyor</span></td></tr>
+              <tr><td><b>Öğle</b><div class="muted" style="font-size:12.5px;margin-top:3px">Mercimek çorbası, tavuklu salata</div></td><td class="muted" style="font-size:12.5px">Nohut salatası, ayran</td><td style="white-space:nowrap">520 kcal</td><td style="text-align:right"><span class="pstat off">Bekliyor</span></td></tr>
+              <tr><td><b>Ara Öğün</b><div class="muted" style="font-size:12.5px;margin-top:3px">Yoğurt ve tarçın</div></td><td class="muted" style="font-size:12.5px">Havuç çubukları, humus</td><td style="white-space:nowrap">130 kcal</td><td style="text-align:right"><span class="pstat off">Bekliyor</span></td></tr>
+              <tr><td><b>Akşam</b><div class="muted" style="font-size:12.5px;margin-top:3px">Fırında somon, bulgur pilavı, salata</div></td><td class="muted" style="font-size:12.5px">Sebzeli kısır, ızgara hindi</td><td style="white-space:nowrap">560 kcal</td><td style="text-align:right"><span class="pstat off">Bekliyor</span></td></tr>
+            </tbody></table>
+          </div>
+          <div class="pf-pane" data-pane="g7" hidden>
+            <table class="ptable"><thead><tr><th>Öğün</th><th>Alternatif</th><th>Enerji</th><th style="text-align:right">Durum</th></tr></thead><tbody>
+              <tr><td><b>Kahvaltı</b><div class="muted" style="font-size:12.5px;margin-top:3px">Yulaf ezmesi, süzme yoğurt, ceviz</div></td><td class="muted" style="font-size:12.5px">Zeytinli tam buğday tost, lor</td><td style="white-space:nowrap">410 kcal</td><td style="text-align:right"><span class="pstat off">Bekliyor</span></td></tr>
+              <tr><td><b>Ara Öğün</b><div class="muted" style="font-size:12.5px;margin-top:3px">Elma ve badem</div></td><td class="muted" style="font-size:12.5px">Kefir, 1 avuç kuru dut</td><td style="white-space:nowrap">180 kcal</td><td style="text-align:right"><span class="pstat off">Bekliyor</span></td></tr>
+              <tr><td><b>Öğle</b><div class="muted" style="font-size:12.5px;margin-top:3px">Mercimek çorbası, tavuklu salata</div></td><td class="muted" style="font-size:12.5px">Nohut salatası, ayran</td><td style="white-space:nowrap">520 kcal</td><td style="text-align:right"><span class="pstat off">Bekliyor</span></td></tr>
+              <tr><td><b>Ara Öğün</b><div class="muted" style="font-size:12.5px;margin-top:3px">Yoğurt ve tarçın</div></td><td class="muted" style="font-size:12.5px">Havuç çubukları, humus</td><td style="white-space:nowrap">130 kcal</td><td style="text-align:right"><span class="pstat off">Bekliyor</span></td></tr>
+              <tr><td><b>Akşam</b><div class="muted" style="font-size:12.5px;margin-top:3px">Fırında somon, bulgur pilavı, salata</div></td><td class="muted" style="font-size:12.5px">Sebzeli kısır, ızgara hindi</td><td style="white-space:nowrap">560 kcal</td><td style="text-align:right"><span class="pstat off">Bekliyor</span></td></tr>
+            </tbody></table>
+          </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- BAŞLANGIÇ DURUMU (üye, henüz içeriği yok) — boş kart gösterilmez -->
+      <div id="planimStart" hidden>
+        <div class="pnl-card">
+          <div class="pnl-empty">
+            <div class="pe-ico"><i class="fa-solid fa-clipboard-list"></i></div>
+            <h4>Aktif bir programın yok</h4>
+            <p>Hedefine ve günlük düzenine uyan programı seç; günler ve öğün alternatifleri burada açılsın.</p>
+            <a class="btn btn-primary btn-sm" href="program-bul-v1.html"><i class="fa-solid fa-wand-magic-sparkles"></i> Programını Bul</a>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </section>
+</main>
+
+<div id="ddChromeGate"></div>
+<div id="ddChromeFooter"></div>
+<div id="ddChromeFab"></div>
+
+<script src="assets/js/planim.js"></script>
+<script>
+/* ===== SAYFA JS — program günleri sekmesi (saglik-testler-v1 deseni) ===== */
+(function(){
+  var tabs=document.querySelectorAll('#gunTabs .dt');
+  if(!tabs.length)return;
+  tabs.forEach(function(b){
+    b.addEventListener('click',function(){
+      var n=b.getAttribute('data-tab');
+      tabs.forEach(function(x){x.classList.toggle('active',x===b);});
+      document.querySelectorAll('.pf-pane').forEach(function(p){p.hidden=p.getAttribute('data-pane')!==n;});
+    });
+  });
+})();
+</script>
+</body>
+</html>

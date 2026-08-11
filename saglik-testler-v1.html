@@ -1,0 +1,361 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<meta name="robots" content="noindex, nofollow" />
+<title>Beslenme Testleri — DadaMutfak</title>
+<link rel="shortcut icon" type="image/x-icon"
+      href="assets/img/favicon.ico" />
+<!-- FontAwesome 6.5.2 (kilitli ikon seti) -->
+<link rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css"
+      integrity="sha512-SnH5WK+bZxgPHs44uWIX+LLJAJ9/2PkPKZ5QiAj6Ta86w+fsb2TkcmfRyVX3pBnMFcV7oQPJkl9QevSCWr3W6A=="
+      crossorigin="anonymous" referrerpolicy="no-referrer" />
+<link rel="stylesheet" href="assets/css/dd-shell.css" />
+<style>
+/* ===== SAYFA CSS — kabuk CSS'i assets/css/dd-shell.css'te ===== */
+/* =====================================================================
+   F10 — BESLENME TESTLERİ · quiz akışı (soru → ilerleme → sonuç)
+   ?sonuc=1 → sonuç hâli · r-card (v3a) · hub-card (hub'dan)
+   ===================================================================== */
+
+/* ---- ÜST BÖLGE (H1 kanon — sağlık yeşil-tint koyu hero, saglik-hub .sh-top dili) ---- */
+.tst-top{
+  position:relative;padding-top:128px;
+  background-image:linear-gradient(90deg,rgba(18,28,22,.94),rgba(20,32,25,.74)),
+    url('https://images.unsplash.com/photo-1490645935967-10de6ba17061?w=1600&q=80&auto=format&fit=crop&exp=7&gam=6&sat=-9&high=8&vib=5');
+  background-size:cover;background-position:center;
+}
+.tst-top .wrap{position:relative}
+.rd-crumb{display:flex;align-items:center;flex-wrap:wrap;gap:9px;padding:18px 0 14px;font-size:13px;font-weight:500;color:var(--muted)}
+.rd-crumb a{color:var(--muted);transition:.18s}
+.rd-crumb a:hover{color:var(--green-deep)}
+.rd-crumb i{font-size:9px;color:#c7c7c7}
+.rd-crumb b{color:var(--slate);font-weight:700}
+.tst-top .rd-crumb{color:#bcd0c4}
+.tst-top .rd-crumb a{color:#bcd0c4}
+.tst-top .rd-crumb a:hover{color:#7fe0b0}
+.tst-top .rd-crumb i{color:rgba(255,255,255,.4)}
+.tst-top .rd-crumb b{color:#fff}
+.tst-head{padding:10px 0 44px;max-width:680px}
+.tst-head .eyebrow{color:#7fe0b0}
+.tst-head .eyebrow::before{background:var(--green)}
+.tst-head h1{color:#fff;font-size:44px;margin:14px 0 12px;letter-spacing:-.03em;text-shadow:0 2px 24px rgba(0,0,0,.25)}
+.tst-head .lead{color:#e3ede7;font-weight:500;font-size:15.5px;text-shadow:0 1px 14px rgba(0,0,0,.3)}
+.tst-meta{display:flex;align-items:center;gap:22px;margin-top:18px;font-size:13px;color:#cfe0d6;font-weight:600}
+.tst-meta span{display:inline-flex;align-items:center;gap:8px}
+.tst-meta i{color:#54d39a}
+
+/* ---- QUIZ KARTI ---- */
+.quiz-wrap{max-width:720px;margin:0 auto}
+.qz-card{background:var(--paper);border:1px solid var(--line);border-radius:var(--radius-xl);padding:34px 36px;box-shadow:var(--sh-md)}
+.qz-prog-row{display:flex;align-items:center;justify-content:space-between;gap:16px;margin-bottom:10px}
+.qz-step{font-size:13px;color:var(--green-deep);font-weight:700;letter-spacing:.02em}
+.qz-pct{font-size:13px;color:var(--muted);font-weight:600}
+.qz-bar{height:8px;background:var(--line);border-radius:var(--radius-sm);overflow:hidden}
+.qz-bar i{display:block;height:100%;width:12.5%;background:var(--green);border-radius:var(--radius-sm);transition:width .4s var(--ease)}
+.qz-q{font-size:24px;font-weight:700;color:var(--slate);margin:26px 0 22px;letter-spacing:-.01em;line-height:1.25}
+.qz-opts{display:flex;flex-direction:column;gap:12px}
+.qz-opt{display:flex;align-items:center;gap:15px;width:100%;text-align:left;font-family:inherit;font-size:15px;font-weight:600;color:var(--slate);background:var(--paper);border:1px solid var(--line);border-radius:var(--radius-md);padding:16px 18px;cursor:pointer;transition:.18s var(--ease)}
+.qz-opt .dot{flex:none;width:22px;height:22px;border-radius:var(--radius-circle);border:2px solid #d4d4d4;display:grid;place-items:center;transition:.18s var(--ease)}
+.qz-opt .dot i{font-size:11px;color:#fff;opacity:0;transition:.15s}
+.qz-opt:hover{border-color:var(--green);background:#F4FBF7}
+.qz-opt.sel{border-color:var(--green);background:#EAF7F0}
+.qz-opt.sel .dot{background:var(--green);border-color:var(--green)}
+.qz-opt.sel .dot i{opacity:1}
+.qz-nav{display:flex;align-items:center;justify-content:space-between;gap:14px;margin-top:28px}
+.qz-back{font-family:inherit;font-size:14px;font-weight:700;color:var(--muted);background:none;border:none;cursor:pointer;display:inline-flex;align-items:center;gap:8px;transition:.2s}
+.qz-back:hover{color:var(--slate)}
+.qz-back[disabled]{opacity:.35;cursor:default}
+.qz-next{background:var(--tomato-deep);color:#fff}
+.qz-next:hover{background:var(--green-deep);transform:translateY(-2px)}
+.qz-next[disabled]{opacity:.5;cursor:default;transform:none;background:#9fcdb5}
+
+/* ---- SONUÇ EKRANI ---- */
+.qz-result{max-width:720px;margin:0 auto}
+.qz-res-card{background:linear-gradient(180deg,#F2FBF6,#EAF7F0);border:1px solid #d9efe3;border-radius:var(--radius-xl);padding:40px;text-align:center}
+.qz-res-ico{width:78px;height:78px;border-radius:var(--radius-circle);background:var(--tomato-deep);color:#fff;display:grid;place-items:center;font-size:34px;margin:0 auto 20px;box-shadow:0 12px 30px rgba(59,183,126,.35)}
+.qz-res-eyebrow{font-size:12px;font-weight:700;letter-spacing:.16em;text-transform:uppercase;color:var(--green-deep)}
+.qz-res-card h2{font-size:30px;margin:10px 0 8px;letter-spacing:-.02em}
+.qz-res-card .qz-score{font-size:15px;color:var(--slate-2);font-weight:600;margin-bottom:16px}
+.qz-res-card .qz-score b{color:var(--green-deep)}
+.qz-res-card p{font-size:15px;color:var(--slate-2);font-weight:500;line-height:1.65;max-width:520px;margin:0 auto 8px}
+.qz-bars{display:flex;flex-direction:column;gap:14px;max-width:480px;margin:26px auto 0;text-align:left}
+.qz-brow .ql{display:flex;justify-content:space-between;font-size:13px;font-weight:600;color:var(--slate);margin-bottom:7px}
+.qz-brow .ql span:last-child{color:var(--green-deep);font-weight:700}
+.qz-btrack{height:9px;background:#fff;border:1px solid #d9efe3;border-radius:var(--radius-sm);overflow:hidden}
+.qz-btrack i{display:block;height:100%;background:var(--green);border-radius:var(--radius-sm)}
+.qz-res-actions{display:flex;gap:12px;justify-content:center;flex-wrap:wrap;margin-top:30px}
+.btn-green{background:var(--tomato-deep);color:#fff}
+.btn-green:hover{background:var(--green-deep);transform:translateY(-2px)}
+
+/* ---- r-card sistemi (v3a VERBATIM) ---- */
+.r-card{background:var(--paper);border:1px solid var(--line);border-radius:var(--radius-lg);overflow:hidden;transition:.3s var(--ease);cursor:pointer;display:flex;flex-direction:column}
+.r-card:hover{transform:translateY(-6px);border-color:#dcdcdc}
+.r-media-wrap{overflow:hidden}
+.r-media{position:relative;height:200px;background-size:cover;background-position:center;transition:.5s var(--ease)}
+.r-card:hover .r-media{transform:scale(1.04)}
+.r-chip{position:absolute;top:13px;left:13px;background:rgba(255,255,255,.94);color:var(--slate);font-size:11.5px;font-weight:700;padding:6px 12px;border-radius:var(--radius-sm);letter-spacing:.02em}
+.r-save{position:absolute;top:11px;right:11px;width:38px;height:38px;border-radius:var(--radius-circle);background:rgba(255,255,255,.94);border:none;color:var(--slate);cursor:pointer;display:grid;place-items:center;font-size:15px;transition:.2s var(--ease)}
+.r-save:hover{background:#fff;color:var(--tomato)}
+.r-save.saved{background:var(--tomato);color:#fff}
+.m-types{position:absolute;bottom:13px;right:13px;display:flex;gap:6px}
+.mt{display:inline-flex;align-items:center;gap:5px;background:rgba(20,18,12,.72);color:#fff;font-size:11px;font-weight:700;padding:6px 10px;border-radius:var(--radius-sm);backdrop-filter:blur(4px)}
+.r-body{padding:17px 18px 19px;display:flex;flex-direction:column;flex:1}
+.r-body h4{font-size:18px;margin-bottom:11px;letter-spacing:-.01em;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden;min-height:2.4em}
+.r-card:hover .r-body h4{color:var(--tomato)}
+.r-facts{display:flex;align-items:center;font-size:12.5px;color:var(--muted);font-weight:500;margin-bottom:13px}
+.r-facts span{display:inline-flex;align-items:center;gap:6px;white-space:nowrap}
+.r-facts i{font-size:12px;color:var(--tomato)}
+.r-facts span+span{border-left:1px solid var(--line);padding-left:12px;margin-left:12px}
+.r-foot{display:flex;align-items:center;justify-content:space-between;gap:10px;margin-top:auto;padding-top:13px;border-top:1px solid var(--line)}
+.r-author{display:flex;align-items:center;gap:9px;min-width:0}
+.r-author .av{width:28px;height:28px;border-radius:var(--radius-circle);background-size:cover;background-position:center;flex:none}
+.r-author span{font-size:12.5px;color:var(--muted);font-weight:500;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;min-width:0}
+.r-author b{color:var(--slate);font-weight:700}
+.r-stats{display:flex;align-items:center;gap:12px;flex:none}
+.r-rate{display:inline-flex;align-items:center;gap:5px;font-size:13px;color:var(--slate);font-weight:700}
+.r-rate i{color:var(--yellow)}
+.grid-4{display:grid;grid-template-columns:repeat(4,1fr);gap:26px;margin-top:0}
+
+/* ---- hub-card (benzer testler — hub'dan) ---- */
+.hub-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:24px}
+.hub-card{background:var(--paper);border:1px solid var(--line);border-radius:var(--radius-lg);overflow:hidden;display:flex;flex-direction:column;cursor:pointer;transition:.3s var(--ease)}
+.hub-card:hover{transform:translateY(-6px);border-color:#dcdcdc;box-shadow:var(--sh-md)}
+.hub-media{position:relative;height:160px;background-size:cover;background-position:center}
+.hub-media::after{content:"";position:absolute;inset:0;background:linear-gradient(180deg,rgba(33,30,22,0) 52%,rgba(20,18,12,.5))}
+.hub-cat{position:absolute;top:12px;left:12px;z-index:2;font-size:11.5px;font-weight:700;padding:6px 12px;border-radius:var(--radius-sm);letter-spacing:.02em;background:var(--tomato-deep);color:#fff}
+.hub-tags{position:absolute;bottom:12px;left:12px;z-index:2;display:flex;gap:6px}
+.hub-tag{display:inline-flex;align-items:center;gap:5px;background:rgba(20,18,12,.72);color:#fff;font-size:11px;font-weight:700;padding:6px 10px;border-radius:var(--radius-sm);backdrop-filter:blur(4px)}
+.hub-body{padding:18px;display:flex;flex-direction:column;flex:1}
+.hub-body h4{font-size:16.5px;margin-bottom:8px;letter-spacing:-.01em}
+.hub-card:hover .hub-body h4{color:var(--green-deep)}
+.hub-body p{font-size:13.5px;color:var(--muted);font-weight:500;line-height:1.55}
+.hub-foot{display:flex;align-items:center;justify-content:space-between;gap:10px;margin-top:16px;padding-top:14px;border-top:1px solid var(--line);font-size:12.5px;color:var(--muted);font-weight:500}
+.hub-foot .go{display:inline-flex;align-items:center;gap:7px;color:var(--green-deep);font-weight:700}
+.hub-foot .go i{transition:.2s var(--ease)}
+.hub-card:hover .hub-foot .go i{transform:translateX(3px)}
+/* eğlence grubu kartları domates aksanına döner (sağlık yeşili yalnız bilgi grubunda) */
+.hub-card.fun .hub-cat{background:var(--tomato)}
+.hub-card.fun:hover .hub-body h4{color:var(--tomato)}
+.hub-card.fun .hub-foot .go{color:var(--tomato)}
+
+/* ---- GRUP SEKME BARI (.pf-tabbar/.pf-tabs MİRAS — diyetisyen-profil'den) ---- */
+.tst-tabwrap{display:flex;justify-content:center;margin:0 0 30px}
+.pf-tabs{display:inline-flex;gap:4px;background:var(--paper);border:1px solid var(--line);border-radius:var(--radius-md);padding:4px;overflow-x:auto;scrollbar-width:none;max-width:100%}
+.pf-tabs::-webkit-scrollbar{display:none}
+.pf-tabs .dt{font-family:inherit;font-weight:700;font-size:13.5px;color:var(--muted);background:transparent;border:none;border-radius:var(--radius-sm);padding:11px 22px;cursor:pointer;display:inline-flex;align-items:center;gap:8px;transition:.2s var(--ease);white-space:nowrap;flex:none}
+.pf-tabs .dt:hover{color:var(--green-deep)}
+.pf-tabs .dt.active{background:var(--tomato-deep);color:#fff}
+.pf-tabs .dt .cnt{font-size:11px;font-weight:700;opacity:.6}
+.pf-tabs .dt.active .cnt{opacity:.85}
+.pf-pane{animation:fadeUp .35s var(--ease)}
+.pf-pane[hidden]{display:none}
+.tst-pane-head{margin-bottom:22px}
+.tst-pane-head h2{font-size:23px}
+.tst-pane-head p{font-size:14px;color:var(--muted);font-weight:500;margin-top:7px;max-width:560px}
+
+/* ---- responsive ---- */
+@media (max-width:1024px){
+  .grid-4{grid-template-columns:1fr 1fr}
+  .hub-grid{grid-template-columns:1fr 1fr}
+  .tst-head h1{font-size:30px}
+}
+@media (max-width:640px){
+  .tst-top{padding-top:74px}
+  .grid-4,.hub-grid{grid-template-columns:1fr;gap:18px}
+  .qz-card{padding:24px 20px}
+  .qz-q{font-size:20px}
+  .tst-head h1{font-size:25px}
+  .tst-meta{flex-wrap:wrap;gap:12px 18px}
+  .qz-res-card{padding:28px 20px}
+  .tst-tabwrap{justify-content:stretch}
+  .pf-tabs{width:100%}
+  .pf-tabs .dt{flex:1;justify-content:center;padding:11px 12px}
+}
+.nav a.active[href="saglik-hub-v1.html"]{color:var(--green)}
+.nav a.active[href="saglik-hub-v1.html"]::after{background:var(--green)}
+/* saglik-dropdown: scoped health chrome */
+/* diğer dropdown/mega aktif-item (turuncu kanon, underline gizli) */
+.dropdown:not(.dropdown-health) a.active{background:var(--tomato-tint)}
+.dropdown a.active::after,.mega-cats a.active::after{display:none}
+.mega-cats a.active{background:var(--tomato-tint)}
+.nav a[href="saglik-hub-v1.html"]:hover{color:var(--green);background:rgba(59,183,126,.10)}
+</style>
+</head>
+<body data-brand="diet" data-nav="testler">
+
+<div id="ddChromeTop"></div>
+<script src="assets/js/dd-shell.js"></script>
+
+<main class="page-main" id="pageMain">
+
+<!-- SAYFA İÇERİĞİ — F10: BESLENME TESTLERİ (quiz akışı) -->
+
+<!-- ===== ÜST BÖLGE ===== -->
+<section class="below-header tst-top">
+  <div class="wrap">
+    <nav class="rd-crumb" aria-label="Sayfa yolu">
+      <a href="saglik-hub-v1.html"><i class="fa-solid fa-house"></i></a>
+      <i class="fa-solid fa-chevron-right"></i>
+      <b>Beslenme Testi</b>
+    </nav>
+    <div class="tst-head">
+      <span class="eyebrow"><i class="fa-solid fa-clipboard-question"></i> Beslenme Testi</span>
+      <h1>Beslenme alışkanlıkların ne durumda?</h1>
+      <p class="lead">8 kısa soruyla günlük tabağını analiz et; sonunda kişisel değerlendirmeni ve sana uygun tarifleri al.</p>
+      <div class="tst-meta">
+        <span><i class="fa-solid fa-circle-question"></i> 8 soru</span>
+        <span><i class="fa-regular fa-clock"></i> ~3 dakika</span>
+        <span><i class="fa-solid fa-users"></i> 12.4B kişi çözdü</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== TEST LİSTESİ — 2 GRUP, SEKMELİ ===== -->
+<section class="sec" style="background:var(--bg-white);padding-top:36px">
+  <div class="wrap">
+
+    <!-- GRUP SEKME BARI (pf-tabs MİRAS) — ?grup=saglik|eglence derin link -->
+    <div class="tst-tabwrap">
+      <div class="pf-tabs" role="tablist" aria-label="Test grupları">
+        <button class="dt active" type="button" role="tab" data-tab="saglik"><i class="fa-solid fa-heart-pulse"></i> Sağlık &amp; Beslenme <span class="cnt">6</span></button>
+        <button class="dt" type="button" role="tab" data-tab="eglence"><i class="fa-solid fa-face-grin-stars"></i> Eğlence &amp; Kişilik <span class="cnt">4</span></button>
+      </div>
+    </div>
+
+    <!-- PANE 1 — SAĞLIK & BESLENME (bilgi/sağlık odaklı) -->
+    <div class="pf-pane" data-pane="saglik">
+      <div class="tst-pane-head">
+        <h2>Sağlık &amp; beslenme testleri</h2>
+        <p>Beslenme alışkanlığını, metabolizmanı ve mutfak bilgini ölçen, sonunda kişisel değerlendirme veren testler.</p>
+      </div>
+      <div class="hub-grid">
+        <a class="hub-card" href="test-detay-v1.html?test=beslenme">
+          <div class="hub-media" style="background-image:url('https://images.unsplash.com/photo-1512621776951-a57141f2eefd?w=600&q=80&auto=format&fit=crop&exp=7&gam=6&sat=-9&high=8&vib=5')">
+            <span class="hub-cat">Beslenme</span>
+            <div class="hub-tags"><span class="hub-tag"><i class="fa-solid fa-circle-question"></i> 8 soru</span></div>
+          </div>
+          <div class="hub-body"><h4>Beslenme alışkanlığın ne durumda?</h4><p>Günlük tabağını analiz et, dengeni gör.</p>
+            <div class="hub-foot"><span>~3 dk · 12.4B kişi</span><span class="go">Başla <i class="fa-solid fa-arrow-right"></i></span></div></div>
+        </a>
+        <a class="hub-card" href="test-detay-v1.html?test=metabolizma">
+          <div class="hub-media" style="background-image:url('https://images.unsplash.com/photo-1490645935967-10de6ba17061?w=600&q=80&auto=format&fit=crop&exp=7&gam=6&sat=-9&high=8&vib=5')">
+            <span class="hub-cat">Metabolizma</span>
+            <div class="hub-tags"><span class="hub-tag"><i class="fa-solid fa-circle-question"></i> 10 soru</span></div>
+          </div>
+          <div class="hub-body"><h4>Metabolizman hızlı mı yavaş mı?</h4><p>Enerji ritmini öğren, planını ona göre kur.</p>
+            <div class="hub-foot"><span>~4 dk · 9.4B kişi</span><span class="go">Başla <i class="fa-solid fa-arrow-right"></i></span></div></div>
+        </a>
+        <a class="hub-card" href="test-detay-v1.html?test=su-hidrasyon">
+          <div class="hub-media" style="background-image:url('https://images.unsplash.com/photo-1498837167922-ddd27525d352?w=600&q=80&auto=format&fit=crop&exp=7&gam=6&sat=-9&high=8&vib=5')">
+            <span class="hub-cat">Su &amp; Hidrasyon</span>
+            <div class="hub-tags"><span class="hub-tag"><i class="fa-solid fa-circle-question"></i> 6 soru</span></div>
+          </div>
+          <div class="hub-body"><h4>Yeterince su içiyor musun?</h4><p>Hidrasyon seviyeni ölç, hedefini belirle.</p>
+            <div class="hub-foot"><span>~2 dk · 6.8B kişi</span><span class="go">Başla <i class="fa-solid fa-arrow-right"></i></span></div></div>
+        </a>
+        <a class="hub-card" href="test-detay-v1.html?test=temel-pisirme">
+          <div class="hub-media" style="background-image:url('https://images.unsplash.com/photo-1556910103-1c02745aae4d?w=600&q=80&auto=format&fit=crop&exp=7&gam=6&sat=-9&high=8&vib=5')">
+            <span class="hub-cat">Mutfak Bilgisi</span>
+            <div class="hub-tags"><span class="hub-tag"><i class="fa-solid fa-circle-question"></i> 8 soru</span></div>
+          </div>
+          <div class="hub-body"><h4>Mutfak bilgin ne kadar sağlam?</h4><p>Temel pişirme tekniklerini ne kadar biliyorsun?</p>
+            <div class="hub-foot"><span>~3 dk · 5.2B kişi</span><span class="go">Başla <i class="fa-solid fa-arrow-right"></i></span></div></div>
+        </a>
+        <a class="hub-card" href="test-detay-v1.html?test=beslenme">
+          <div class="hub-media" style="background-image:url('https://images.unsplash.com/photo-1565958011703-44f9829ba187?w=600&q=80&auto=format&fit=crop&exp=7&gam=6&sat=-9&high=8&vib=5')">
+            <span class="hub-cat">Şeker Dengesi</span>
+            <div class="hub-tags"><span class="hub-tag"><i class="fa-solid fa-circle-question"></i> 7 soru</span></div>
+          </div>
+          <div class="hub-body"><h4>Şekerle aran nasıl?</h4><p>Gizli şeker tüketimini fark et, dengele.</p>
+            <div class="hub-foot"><span>~3 dk · 4.1B kişi</span><span class="go">Başla <i class="fa-solid fa-arrow-right"></i></span></div></div>
+        </a>
+        <a class="hub-card" href="test-detay-v1.html?test=metabolizma">
+          <div class="hub-media" style="background-image:url('https://images.unsplash.com/photo-1490818387583-1baba5e638af?w=600&q=80&auto=format&fit=crop&exp=7&gam=6&sat=-9&high=8&vib=5')">
+            <span class="hub-cat">Uyku &amp; Enerji</span>
+            <div class="hub-tags"><span class="hub-tag"><i class="fa-solid fa-circle-question"></i> 8 soru</span></div>
+          </div>
+          <div class="hub-body"><h4>Enerji ritmin günü taşıyor mu?</h4><p>Uyku ve öğün düzeninin enerjine etkisini gör.</p>
+            <div class="hub-foot"><span>~3 dk · 3.6B kişi</span><span class="go">Başla <i class="fa-solid fa-arrow-right"></i></span></div></div>
+        </a>
+      </div>
+    </div>
+
+    <!-- PANE 2 — EĞLENCE & KİŞİLİK (eğlence testleri) -->
+    <div class="pf-pane" data-pane="eglence" hidden>
+      <div class="tst-pane-head">
+        <h2>Eğlence &amp; kişilik testleri</h2>
+        <p>Sonucu eğlencesine — mutfak kişiliğini, damak zevkini ve tarzını keşfet. Skor değil, karakter çıkar.</p>
+      </div>
+      <div class="hub-grid">
+        <a class="hub-card fun" href="test-detay-v1.html?test=hangi-yemek">
+          <div class="hub-media" style="background-image:url('https://images.unsplash.com/photo-1547592180-85f173990554?w=600&q=80&auto=format&fit=crop&exp=7&gam=6&sat=-9&high=8&vib=5')">
+            <span class="hub-cat">Kişilik</span>
+            <div class="hub-tags"><span class="hub-tag"><i class="fa-solid fa-circle-question"></i> 6 soru</span></div>
+          </div>
+          <div class="hub-body"><h4>Sen bir yemek olsan hangisi olurdun?</h4><p>Mutfak kişiliğini keşfet — eğlencesine.</p>
+            <div class="hub-foot"><span>~2 dk · 18.2B kişi</span><span class="go">Başla <i class="fa-solid fa-arrow-right"></i></span></div></div>
+        </a>
+        <a class="hub-card fun" href="test-detay-v1.html?test=hangi-yemek">
+          <div class="hub-media" style="background-image:url('https://images.unsplash.com/photo-1565299624946-b28f40a0ae38?w=600&q=80&auto=format&fit=crop&exp=7&gam=6&sat=-9&high=8&vib=5')">
+            <span class="hub-cat">Damak</span>
+            <div class="hub-tags"><span class="hub-tag"><i class="fa-solid fa-circle-question"></i> 6 soru</span></div>
+          </div>
+          <div class="hub-body"><h4>Tatlıcı mısın, tuzcu musun?</h4><p>Damak zevkinin asıl yönünü ortaya çıkar.</p>
+            <div class="hub-foot"><span>~2 dk · 14.7B kişi</span><span class="go">Başla <i class="fa-solid fa-arrow-right"></i></span></div></div>
+        </a>
+        <a class="hub-card fun" href="test-detay-v1.html?test=hangi-yemek">
+          <div class="hub-media" style="background-image:url('https://images.unsplash.com/photo-1473093295043-cdd812d0e601?w=600&q=80&auto=format&fit=crop&exp=7&gam=6&sat=-9&high=8&vib=5')">
+            <span class="hub-cat">Mutfak Ruhu</span>
+            <div class="hub-tags"><span class="hub-tag"><i class="fa-solid fa-circle-question"></i> 7 soru</span></div>
+          </div>
+          <div class="hub-body"><h4>Hangi dünya mutfağı senin ruhun?</h4><p>İç sesin İtalyan mı, uzakdoğu mu, Anadolu mu?</p>
+            <div class="hub-foot"><span>~2 dk · 11.3B kişi</span><span class="go">Başla <i class="fa-solid fa-arrow-right"></i></span></div></div>
+        </a>
+        <a class="hub-card fun" href="test-detay-v1.html?test=hangi-yemek">
+          <div class="hub-media" style="background-image:url('https://images.unsplash.com/photo-1414235077428-338989a2e8c0?w=600&q=80&auto=format&fit=crop&exp=7&gam=6&sat=-9&high=8&vib=5')">
+            <span class="hub-cat">Tarz</span>
+            <div class="hub-tags"><span class="hub-tag"><i class="fa-solid fa-circle-question"></i> 6 soru</span></div>
+          </div>
+          <div class="hub-body"><h4>Mutfaktaki tarzın ne?</h4><p>Planlı şef mi, doğaçlama dahisi misin?</p>
+            <div class="hub-foot"><span>~2 dk · 9.9B kişi</span><span class="go">Başla <i class="fa-solid fa-arrow-right"></i></span></div></div>
+        </a>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+</main><!-- /.page-main -->
+
+<div id="ddChromeFab"></div>
+
+<div id="ddChromeGate"></div>
+
+<div id="ddChromeFooter"></div>
+
+<script>
+/* ===== SAYFA JS — TEST GRUP SEKMELERİ (pf-tabs MİRAS) =====
+   ?grup=saglik|eglence derin link · sekme tıklamasında URL güncellenir */
+(function(){
+  var tabs=document.querySelectorAll('.pf-tabs .dt');
+  if(!tabs.length)return;
+  var valid=['saglik','eglence'];
+  var params=new URLSearchParams(location.search);
+  var start=params.get('grup'); if(valid.indexOf(start)<0)start='saglik';
+  function activate(name,push){
+    tabs.forEach(function(b){
+      var on=b.getAttribute('data-tab')===name;
+      b.classList.toggle('active',on); b.setAttribute('aria-selected',on?'true':'false');
+    });
+    document.querySelectorAll('.pf-pane').forEach(function(p){p.hidden=p.getAttribute('data-pane')!==name;});
+    if(push)history.replaceState(null,'','?grup='+name);
+  }
+  tabs.forEach(function(b){b.addEventListener('click',function(){activate(b.getAttribute('data-tab'),true);});});
+  activate(start,false);
+})();
+</script>
+</body>

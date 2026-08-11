@@ -1,0 +1,727 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<meta name="robots" content="noindex, nofollow" />
+<title>Danışanlar — DadaMutfak Diyetisyen Paneli</title>
+<link rel="shortcut icon" type="image/x-icon" href="assets/img/favicon.ico" />
+<!-- FontAwesome 6.5.2 (kilitli ikon seti) -->
+<link rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css"
+      integrity="sha512-SnH5WK+bZxgPHs44uWIX+LLJAJ9/2PkPKZ5QiAj6Ta86w+fsb2TkcmfRyVX3pBnMFcV7oQPJkl9QevSCWr3W6A=="
+      crossorigin="anonymous" referrerpolicy="no-referrer" />
+<link rel="stylesheet" href="assets/css/sa-ui.css" />
+<link rel="stylesheet" href="assets/css/sa-gozetim.css" />
+<!-- panel kabuğu: assets/css/panel.css + assets/js/panel.js -->
+<link rel="stylesheet" href="assets/css/panel.css" />
+<style>
+/* =====================================================================
+   SAYFA CSS — sayfa-spesifik stiller BU İŞARETİN ALTINA
+   ===================================================================== */
+
+/* ---- LİSTE ARAÇ ÇUBUĞU: arama + filtre chip'leri + görünüm segmenti ---- */
+.dn-tools{display:flex;align-items:center;gap:12px;flex-wrap:wrap;margin-bottom:16px}
+.dn-search{position:relative;flex:1;min-width:200px;max-width:330px}
+.dn-search i{position:absolute;left:14px;top:50%;transform:translateY(-50%);font-size:13px;color:var(--muted);pointer-events:none}
+.dn-search input{
+  width:100%;height:42px;padding:0 14px 0 38px;
+  font-family:inherit;font-size:13.5px;font-weight:500;color:var(--ink);
+  background:var(--paper);border:1px solid var(--line);border-radius:var(--radius-md);
+  outline:none;transition:.2s var(--ease);
+}
+.dn-search input::placeholder{color:var(--muted)}
+.dn-search input:focus{border-color:var(--green);box-shadow:0 0 0 3px rgba(59,183,126,.12)}
+/* tablo/kart segmenti — randevulardaki .vw-seg ile AYNI dil (pf-tabs türevi) */
+.vw-seg{display:flex;gap:4px;background:var(--paper);border:1px solid var(--line);border-radius:var(--radius-md);padding:4px;margin-left:auto}
+
+/* ---- tablo hücre yardımcıları ---- */
+.tc-who{display:flex;align-items:center;gap:11px;min-width:0}
+.tc-ava{width:38px;height:38px;flex:none;border-radius:var(--radius-circle);background-size:cover;background-position:center}
+.tc-id{min-width:0;line-height:1.3}
+.tc-name{font-size:13.5px;font-weight:700;color:var(--slate);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.tc-mail{font-size:11.5px;color:var(--muted);margin-top:2px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.tc-prog{width:130px}
+.tc-prog .cl-prog-row{margin-bottom:5px}
+.tc-go{
+  width:34px;height:34px;border:1px solid var(--line);border-radius:var(--radius-sm);
+  background:var(--paper);color:var(--slate);cursor:pointer;font-size:12px;
+  display:inline-flex;align-items:center;justify-content:center;transition:.2s var(--ease);
+}
+.tc-go:hover{border-color:var(--green);color:var(--green-deep);background:var(--green-tint)}
+.cl-card .pstat{align-self:flex-start}
+
+/* ---- DANIŞAN DETAYI (?danisan=1) ---- */
+.dd-back{display:inline-flex;align-items:center;gap:8px;font-size:13px;font-weight:700;color:var(--muted);margin-bottom:14px;transition:.2s}
+.dd-back:hover{color:var(--green-deep)}
+.dd-back i{font-size:11.5px}
+.dd-head{padding:22px;display:flex;align-items:center;gap:18px;flex-wrap:wrap;margin-bottom:16px}
+.dd-ava{width:64px;height:64px;flex:none;border-radius:var(--radius-circle);background-size:cover;background-position:center}
+.dd-id{min-width:0;line-height:1.35;flex:1}
+.dd-nrow{display:flex;align-items:center;gap:10px;flex-wrap:wrap}
+.dd-nrow h2{font-size:20px}
+.dd-meta{font-size:13px;color:var(--muted);margin-top:4px;display:flex;align-items:center;gap:7px;flex-wrap:wrap}
+.dd-meta i{font-size:11.5px;color:var(--green-deep)}
+.dd-actions{display:flex;gap:10px;flex:none}
+/* özet istatistik şeridi — haftalik-menu .ss-stats dilinin panel türevi */
+.dd-stats{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));border:1px solid var(--line);border-radius:var(--radius-md);overflow:hidden;flex-basis:100%}
+/* detay iki kolon */
+.dd-cols{display:grid;grid-template-columns:minmax(0,1.55fr) minmax(0,1fr);gap:16px;align-items:start}
+.dd-colL,.dd-colR{display:flex;flex-direction:column;gap:16px;min-width:0}
+
+/* ölçüm grafiği (saf SVG — JS kütüphanesi YOK) */
+.wchart{width:100%;height:auto;display:block}
+.wc-legend{display:flex;gap:16px;margin-top:14px;flex-wrap:wrap}
+.wc-legend .lg{display:inline-flex;align-items:center;gap:7px;font-size:12px;font-weight:500;color:var(--muted)}
+.wc-legend .lg i{width:9px;height:9px;border-radius:var(--radius-circle)}
+.wc-legend .lg.cur i{background:var(--green)}
+.wc-legend .lg.tgt i{background:var(--yellow)}
+/* son ölçümler mini tablosu */
+.wc-table{margin-top:16px;border:1px solid var(--line);border-radius:var(--radius-md);overflow:hidden}
+.wc-table .ptable th,.wc-table .ptable td{padding:10px 14px}
+.wc-table .ptable th{background:var(--bg)}
+.delta-dn{color:var(--green-deep);font-weight:700}
+.delta-up{color:var(--tomato);font-weight:700}
+
+/* atanmış reçete satırı */
+.rx-list{display:flex;flex-direction:column}
+.rx-row{display:flex;align-items:center;gap:13px;padding:14px 22px;border-bottom:1px solid var(--line);transition:background .15s}
+.rx-row:last-child{border-bottom:none}
+.rx-row:hover{background:var(--bg)}
+.rx-ico{width:38px;height:38px;flex:none;border-radius:var(--radius-md);background:var(--green-tint);color:var(--green-deep);display:inline-flex;align-items:center;justify-content:center;font-size:14px}
+.rx-info{flex:1;min-width:0;line-height:1.3}
+.rx-name{font-size:13.5px;font-weight:700;color:var(--slate);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.rx-meta{font-size:11.5px;color:var(--muted);margin-top:2px}
+.rx-row .pstat{flex:none}
+.rx-row .tc-go{flex:none}
+
+/* diyetisyen notları */
+.note-list{display:flex;flex-direction:column;gap:12px;margin-bottom:18px}
+.note-item{background:var(--bg);border:1px solid var(--line);border-radius:var(--radius-md);padding:13px 15px}
+.note-date{font-size:11px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);margin-bottom:5px;display:flex;align-items:center;gap:7px}
+.note-date i{color:var(--green-deep);font-size:10.5px}
+.note-item p{font-size:13px;color:var(--slate-2);line-height:1.55}
+/* not ekleme — fk-* form kiti (tarif-ekle mirası) */
+.fk-field{margin-bottom:0}
+.fk-label{display:flex;align-items:baseline;gap:7px;font-size:14px;font-weight:700;color:var(--slate);margin-bottom:9px}
+.fk-textarea{
+  width:100%;font-family:inherit;font-size:14px;font-weight:500;color:var(--slate);
+  background:var(--bg);border:1px solid var(--line);border-radius:var(--radius-md);
+  padding:13px 15px;outline:none;transition:border-color .2s var(--ease),box-shadow .2s var(--ease);
+  min-height:96px;resize:vertical;line-height:1.6;
+}
+.fk-textarea::placeholder{color:#a7a7a7}
+.fk-textarea:focus{border-color:var(--green);box-shadow:0 0 0 3px rgba(59,183,126,.12)}
+.note-send{display:flex;justify-content:flex-end;margin-top:12px}
+
+/* ---- mobil ---- */
+@media(max-width:980px){
+  .dd-cols{grid-template-columns:minmax(0,1fr)}
+  .dn-tools .vw-seg{margin-left:0}
+}
+@media(max-width:640px){
+  .dn-search{max-width:none;flex-basis:100%}
+  .ptable .col-goal,.ptable .col-last{display:none}
+  /* tablo kart içinde yatay kaydırılır (sayfa taşmaz) — wk-board mobil pattern'ı */
+  #viewTablo .pc-body.flush{overflow-x:auto;-webkit-overflow-scrolling:touch;scrollbar-width:thin}
+  #viewTablo .ptable{min-width:540px}
+  .dd-head{padding:16px;gap:14px}
+  .dd-actions{flex-basis:100%}
+  .dd-actions .btn{flex:1}
+  .dd-stats{grid-template-columns:repeat(2,minmax(0,1fr))}
+  .dd-stat:nth-child(3){border-left:none}
+  .dd-stat:nth-child(n+3){border-top:1px solid var(--line)}
+  .rx-row{padding-left:16px;padding-right:16px}
+}
+</style>
+</head>
+<body data-brand="mutfak" data-nav="danisanlar">
+
+<div class="pnl-app">
+
+  <!-- sidebar + üst bar: assets/js/panel.js üretir -->
+  <div id="pnlChrome"></div>
+  <script src="assets/js/panel.js"></script>
+
+  <main class="pnl-main">
+
+    <!-- ============ LİSTE GÖRÜNÜMÜ ============ -->
+    <section id="viewListe">
+      <div class="pnl-page-head">
+        <div>
+          <h1>Danışanlar</h1>
+          <div class="ph-sub">34 aktif danışan — 3'ü bu hafta kontrol randevusunda.</div>
+        </div>
+        <div class="ph-actions">
+          <button class="btn btn-ghost btn-sm"><i class="fa-solid fa-file-export"></i> Dışa Aktar</button>
+          <button class="btn btn-green btn-sm" type="button" onclick="saToast('Danışan ekleme formu açıldı.')"><i class="fa-solid fa-user-plus"></i> Danışan Ekle</button>
+        </div>
+      </div>
+
+      <!-- arama + filtre chip'leri + tablo/kart segmenti -->
+      <div class="dn-tools">
+        <div class="dn-search">
+          <i class="fa-solid fa-magnifying-glass"></i>
+          <input type="text" placeholder="Danışan ara…" />
+        </div>
+        <div class="chips">
+          <button class="chip is-on" type="button">Tümü</button>
+          <button class="chip" type="button">Aktif</button>
+          <button class="chip" type="button">Onay bekleyen</button>
+          <button class="chip" type="button">Hedefe yakın</button>
+          <button class="chip" type="button">Pasif</button>
+        </div>
+        <div class="vw-seg" id="vwSeg">
+          <button class="vs-btn is-on" type="button" data-view="tablo" aria-label="Tablo görünümü"><i class="fa-solid fa-table-list"></i> Tablo</button>
+          <button class="vs-btn" type="button" data-view="kart" aria-label="Kart görünümü"><i class="fa-solid fa-grip"></i> Kart</button>
+        </div>
+      </div>
+
+      <!-- tablo görünümü -->
+      <div class="pnl-card" id="viewTablo">
+        <div class="pc-body flush">
+          <table class="ptable">
+            <thead>
+              <tr>
+                <th>Danışan</th>
+                <th class="col-goal">Hedef</th>
+                <th class="col-last">Son Görüşme</th>
+                <th>İlerleme</th>
+                <th>Durum</th>
+                <th></th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>
+                  <div class="tc-who">
+                    <div class="tc-ava" style="background-image:url('https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=160&q=80&auto=format&fit=crop&exp=7&gam=6&sat=-9&high=8&vib=5')"></div>
+                    <div class="tc-id">
+                      <div class="tc-name">Zeynep Arslan</div>
+                      <div class="tc-mail">zeynep.arslan@example.com</div>
+                    </div>
+                  </div>
+                </td>
+                <td class="col-goal">−6 kg · 8. hafta</td>
+                <td class="col-last">Bugün, 09.00</td>
+                <td>
+                  <div class="tc-prog">
+                    <div class="cl-prog-row"><span class="muted">%70</span><b>−4,2 kg</b></div>
+                    <div class="cl-bar"><i style="width:70%"></i></div>
+                  </div>
+                </td>
+                <td><span class="pstat ok">Aktif</span></td>
+                <td><a class="tc-go" href="dyt-danisanlar-v1.html?danisan=1" aria-label="Danışan detayı"><i class="fa-solid fa-chevron-right"></i></a></td>
+              </tr>
+              <tr>
+                <td>
+                  <div class="tc-who">
+                    <div class="tc-ava" style="background-image:url('https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=160&q=80&auto=format&fit=crop&exp=7&gam=6&sat=-9&high=8&vib=5')"></div>
+                    <div class="tc-id">
+                      <div class="tc-name">Mert Kaya</div>
+                      <div class="tc-mail">mert.kaya@example.com</div>
+                    </div>
+                  </div>
+                </td>
+                <td class="col-goal">Kas kazanımı · 3. hafta</td>
+                <td class="col-last">Dün, 11.00</td>
+                <td>
+                  <div class="tc-prog">
+                    <div class="cl-prog-row"><span class="muted">%35</span><b>+1,8 kg</b></div>
+                    <div class="cl-bar"><i style="width:35%"></i></div>
+                  </div>
+                </td>
+                <td><span class="pstat ok">Aktif</span></td>
+                <td><a class="tc-go" href="dyt-danisanlar-v1.html?danisan=1" aria-label="Danışan detayı"><i class="fa-solid fa-chevron-right"></i></a></td>
+              </tr>
+              <tr>
+                <td>
+                  <div class="tc-who">
+                    <div class="tc-ava" style="background-image:url('https://images.unsplash.com/photo-1438761681033-6461ffad8d80?w=160&q=80&auto=format&fit=crop&exp=7&gam=6&sat=-9&high=8&vib=5')"></div>
+                    <div class="tc-id">
+                      <div class="tc-name">Selin Demir</div>
+                      <div class="tc-mail">selin.demir@example.com</div>
+                    </div>
+                  </div>
+                </td>
+                <td class="col-goal">−10 kg · 12. hafta</td>
+                <td class="col-last">Bugün, 14.00</td>
+                <td>
+                  <div class="tc-prog">
+                    <div class="cl-prog-row"><span class="muted">%75</span><b>−7,5 kg</b></div>
+                    <div class="cl-bar"><i style="width:75%"></i></div>
+                  </div>
+                </td>
+                <td><span class="pstat ok">Aktif</span></td>
+                <td><a class="tc-go" href="dyt-danisanlar-v1.html?danisan=1" aria-label="Danışan detayı"><i class="fa-solid fa-chevron-right"></i></a></td>
+              </tr>
+              <tr>
+                <td>
+                  <div class="tc-who">
+                    <div class="tc-ava" style="background-image:url('https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=160&q=80&auto=format&fit=crop&exp=7&gam=6&sat=-9&high=8&vib=5')"></div>
+                    <div class="tc-id">
+                      <div class="tc-name">Caner Tunç</div>
+                      <div class="tc-mail">caner.tunc@example.com</div>
+                    </div>
+                  </div>
+                </td>
+                <td class="col-goal">Kas kazanımı · yeni</td>
+                <td class="col-last">—</td>
+                <td>
+                  <div class="tc-prog">
+                    <div class="cl-prog-row"><span class="muted">%0</span><b>başlamadı</b></div>
+                    <div class="cl-bar"><i style="width:0%"></i></div>
+                  </div>
+                </td>
+                <td><span class="pstat wait">Onay Bekliyor</span></td>
+                <td><a class="tc-go" href="dyt-danisanlar-v1.html?danisan=1" aria-label="Danışan detayı"><i class="fa-solid fa-chevron-right"></i></a></td>
+              </tr>
+              <tr>
+                <td>
+                  <div class="tc-who">
+                    <div class="tc-ava" style="background-image:url('https://images.unsplash.com/photo-1438761681033-6461ffad8d80?w=160&q=80&auto=format&fit=crop&exp=7&gam=6&sat=-9&high=8&vib=5')"></div>
+                    <div class="tc-id">
+                      <div class="tc-name">Derya Koç</div>
+                      <div class="tc-mail">derya.koc@example.com</div>
+                    </div>
+                  </div>
+                </td>
+                <td class="col-goal">−8 kg · 6. hafta</td>
+                <td class="col-last">9 Haziran</td>
+                <td>
+                  <div class="tc-prog">
+                    <div class="cl-prog-row"><span class="muted">%55</span><b>−4,4 kg</b></div>
+                    <div class="cl-bar"><i style="width:55%"></i></div>
+                  </div>
+                </td>
+                <td><span class="pstat ok">Aktif</span></td>
+                <td><a class="tc-go" href="dyt-danisanlar-v1.html?danisan=1" aria-label="Danışan detayı"><i class="fa-solid fa-chevron-right"></i></a></td>
+              </tr>
+              <tr>
+                <td>
+                  <div class="tc-who">
+                    <div class="tc-ava" style="background-image:url('https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=160&q=80&auto=format&fit=crop&exp=7&gam=6&sat=-9&high=8&vib=5')"></div>
+                    <div class="tc-id">
+                      <div class="tc-name">Hakan Yılmaz</div>
+                      <div class="tc-mail">hakan.yilmaz@example.com</div>
+                    </div>
+                  </div>
+                </td>
+                <td class="col-goal">−12 kg · 10. hafta</td>
+                <td class="col-last">10 Haziran</td>
+                <td>
+                  <div class="tc-prog">
+                    <div class="cl-prog-row"><span class="muted">%48</span><b>−5,8 kg</b></div>
+                    <div class="cl-bar"><i style="width:48%"></i></div>
+                  </div>
+                </td>
+                <td><span class="pstat warm">Kontrol Gecikti</span></td>
+                <td><a class="tc-go" href="dyt-danisanlar-v1.html?danisan=1" aria-label="Danışan detayı"><i class="fa-solid fa-chevron-right"></i></a></td>
+              </tr>
+              <tr>
+                <td>
+                  <div class="tc-who">
+                    <div class="tc-ava" style="background-image:url('https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=160&q=80&auto=format&fit=crop&exp=7&gam=6&sat=-9&high=8&vib=5')"></div>
+                    <div class="tc-id">
+                      <div class="tc-name">Gizem Acar</div>
+                      <div class="tc-mail">gizem.acar@example.com</div>
+                    </div>
+                  </div>
+                </td>
+                <td class="col-goal">Koruma · 14. hafta</td>
+                <td class="col-last">5 Haziran</td>
+                <td>
+                  <div class="tc-prog">
+                    <div class="cl-prog-row"><span class="muted">%100</span><b>−9,0 kg</b></div>
+                    <div class="cl-bar"><i style="width:100%"></i></div>
+                  </div>
+                </td>
+                <td><span class="pstat off">Pasif</span></td>
+                <td><a class="tc-go" href="dyt-danisanlar-v1.html?danisan=1" aria-label="Danışan detayı"><i class="fa-solid fa-chevron-right"></i></a></td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+        <div class="pc-foot">
+          <span class="muted" style="font-size:12.5px">34 danışandan 7'si gösteriliyor</span>
+        </div>
+      </div>
+
+      <!-- kart görünümü (?kart=1) -->
+      <div class="pnl-card" id="viewKart" hidden>
+        <div class="pc-body">
+          <div class="cl-grid">
+            <a class="cl-card" href="dyt-danisanlar-v1.html?danisan=1">
+              <div class="cl-top">
+                <div class="cl-ava" style="background-image:url('https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=160&q=80&auto=format&fit=crop&exp=7&gam=6&sat=-9&high=8&vib=5')"></div>
+                <div class="cl-id">
+                  <div class="cl-name">Zeynep Arslan</div>
+                  <div class="cl-goal">Hedef: −6 kg · 8. hafta</div>
+                </div>
+              </div>
+              <div class="cl-prog">
+                <div class="cl-prog-row"><span class="muted">İlerleme</span><b>−4,2 kg</b></div>
+                <div class="cl-bar"><i style="width:70%"></i></div>
+              </div>
+              <span class="pstat ok">Aktif</span>
+            </a>
+            <a class="cl-card" href="dyt-danisanlar-v1.html?danisan=1">
+              <div class="cl-top">
+                <div class="cl-ava" style="background-image:url('https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=160&q=80&auto=format&fit=crop&exp=7&gam=6&sat=-9&high=8&vib=5')"></div>
+                <div class="cl-id">
+                  <div class="cl-name">Mert Kaya</div>
+                  <div class="cl-goal">Hedef: kas kazanımı · 3. hafta</div>
+                </div>
+              </div>
+              <div class="cl-prog">
+                <div class="cl-prog-row"><span class="muted">İlerleme</span><b>+1,8 kg</b></div>
+                <div class="cl-bar"><i style="width:35%"></i></div>
+              </div>
+              <span class="pstat ok">Aktif</span>
+            </a>
+            <a class="cl-card" href="dyt-danisanlar-v1.html?danisan=1">
+              <div class="cl-top">
+                <div class="cl-ava" style="background-image:url('https://images.unsplash.com/photo-1438761681033-6461ffad8d80?w=160&q=80&auto=format&fit=crop&exp=7&gam=6&sat=-9&high=8&vib=5')"></div>
+                <div class="cl-id">
+                  <div class="cl-name">Selin Demir</div>
+                  <div class="cl-goal">Hedef: −10 kg · 12. hafta</div>
+                </div>
+              </div>
+              <div class="cl-prog">
+                <div class="cl-prog-row"><span class="muted">İlerleme</span><b>−7,5 kg</b></div>
+                <div class="cl-bar"><i style="width:75%"></i></div>
+              </div>
+              <span class="pstat ok">Aktif</span>
+            </a>
+            <a class="cl-card" href="dyt-danisanlar-v1.html?danisan=1">
+              <div class="cl-top">
+                <div class="cl-ava" style="background-image:url('https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=160&q=80&auto=format&fit=crop&exp=7&gam=6&sat=-9&high=8&vib=5')"></div>
+                <div class="cl-id">
+                  <div class="cl-name">Caner Tunç</div>
+                  <div class="cl-goal">Hedef: kas kazanımı · yeni</div>
+                </div>
+              </div>
+              <div class="cl-prog">
+                <div class="cl-prog-row"><span class="muted">İlerleme</span><b>başlamadı</b></div>
+                <div class="cl-bar"><i style="width:0%"></i></div>
+              </div>
+              <span class="pstat wait">Onay Bekliyor</span>
+            </a>
+            <a class="cl-card" href="dyt-danisanlar-v1.html?danisan=1">
+              <div class="cl-top">
+                <div class="cl-ava" style="background-image:url('https://images.unsplash.com/photo-1438761681033-6461ffad8d80?w=160&q=80&auto=format&fit=crop&exp=7&gam=6&sat=-9&high=8&vib=5')"></div>
+                <div class="cl-id">
+                  <div class="cl-name">Derya Koç</div>
+                  <div class="cl-goal">Hedef: −8 kg · 6. hafta</div>
+                </div>
+              </div>
+              <div class="cl-prog">
+                <div class="cl-prog-row"><span class="muted">İlerleme</span><b>−4,4 kg</b></div>
+                <div class="cl-bar"><i style="width:55%"></i></div>
+              </div>
+              <span class="pstat ok">Aktif</span>
+            </a>
+            <a class="cl-card" href="dyt-danisanlar-v1.html?danisan=1">
+              <div class="cl-top">
+                <div class="cl-ava" style="background-image:url('https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=160&q=80&auto=format&fit=crop&exp=7&gam=6&sat=-9&high=8&vib=5')"></div>
+                <div class="cl-id">
+                  <div class="cl-name">Hakan Yılmaz</div>
+                  <div class="cl-goal">Hedef: −12 kg · 10. hafta</div>
+                </div>
+              </div>
+              <div class="cl-prog">
+                <div class="cl-prog-row"><span class="muted">İlerleme</span><b>−5,8 kg</b></div>
+                <div class="cl-bar"><i style="width:48%"></i></div>
+              </div>
+              <span class="pstat warm">Kontrol Gecikti</span>
+            </a>
+          </div>
+        </div>
+      </div>
+
+      <!-- boş durum (?bos=1 — filtre sonucu boş) -->
+      <div class="pnl-card" id="viewBos" hidden>
+        <div class="pnl-empty">
+          <div class="pe-ico"><i class="fa-solid fa-filter-circle-xmark"></i></div>
+          <h4>Bu filtreyle eşleşen danışan yok</h4>
+          <p>Arama terimini veya seçili filtreleri değiştirerek tekrar dene.</p>
+          <a class="btn btn-ghost btn-sm" href="dyt-danisanlar-v1.html"><i class="fa-solid fa-rotate-left"></i> Filtreleri Temizle</a>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============ DANIŞAN DETAYI (?danisan=1) ============ -->
+    <section id="viewDetay" hidden>
+      <a class="dd-back" href="dyt-danisanlar-v1.html"><i class="fa-solid fa-arrow-left"></i> Danışanlara dön</a>
+
+      <!-- profil başlığı -->
+      <div class="pnl-card dd-head">
+        <div class="dd-ava" style="background-image:url('https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=240&q=80&auto=format&fit=crop&exp=7&gam=6&sat=-9&high=8&vib=5')"></div>
+        <div class="dd-id">
+          <div class="dd-nrow">
+            <h2>Zeynep Arslan</h2>
+            <span class="pstat ok">Aktif</span>
+          </div>
+          <div class="dd-meta">
+            <span><i class="fa-regular fa-user"></i> 29 yaş</span> ·
+            <span><i class="fa-solid fa-ruler-vertical"></i> 168 cm</span> ·
+            <span><i class="fa-solid fa-weight-scale"></i> 64,8 kg</span> ·
+            <span><i class="fa-solid fa-bullseye"></i> Hedef: −6 kg</span> ·
+            <span><i class="fa-regular fa-calendar"></i> 8. hafta</span>
+          </div>
+        </div>
+        <div class="dd-actions">
+          <a class="btn btn-ghost btn-sm" href="dyt-mesajlar-v1.html"><i class="fa-regular fa-comment-dots"></i> Mesaj Gönder</a>
+          <a class="btn btn-green btn-sm" href="dyt-recete-builder-v1.html"><i class="fa-solid fa-plus"></i> Yeni Reçete</a>
+        </div>
+        <div class="dd-stats">
+          <div class="dd-stat"><b>69,0 <em>kg</em></b><span>Başlangıç</span></div>
+          <div class="dd-stat hl"><b>64,8 <em>kg</em></b><span>Güncel</span></div>
+          <div class="dd-stat"><b>63,0 <em>kg</em></b><span>Hedef</span></div>
+          <div class="dd-stat hl"><b>%70</b><span>İlerleme</span></div>
+        </div>
+      </div>
+
+      <div class="dd-cols">
+        <div class="dd-colL">
+          <!-- ölçüm geçmişi -->
+          <div class="pnl-card">
+            <div class="pc-head">
+              <div class="pc-title"><i class="fa-solid fa-chart-line"></i> Ölçüm Geçmişi</div>
+              <button class="pc-link" type="button" style="background:none;border:none;cursor:pointer;font-family:inherit">Ölçüm Ekle <i class="fa-solid fa-plus"></i></button>
+            </div>
+            <div class="pc-body">
+              <svg class="wchart" viewBox="0 0 600 224" role="img" aria-label="8 haftalık kilo eğrisi: 69,0 kg'dan 64,8 kg'a">
+                <!-- yatay kılavuzlar -->
+                <line class="grid-l" x1="36" y1="20"  x2="584" y2="20"/>
+                <line class="grid-l" x1="36" y1="72"  x2="584" y2="72"/>
+                <line class="grid-l" x1="36" y1="124" x2="584" y2="124"/>
+                <line class="grid-l" x1="36" y1="176" x2="584" y2="176"/>
+                <text class="lbl" x="8" y="24">70</text>
+                <text class="lbl" x="8" y="76">68</text>
+                <text class="lbl" x="8" y="128">66</text>
+                <text class="lbl" x="8" y="180">64</text>
+                <!-- hedef çizgisi (63 kg) -->
+                <line class="target" x1="36" y1="202" x2="584" y2="202"/>
+                <text class="lbl" x="540" y="197">Hedef 63</text>
+                <!-- alan dolgusu -->
+                <defs>
+                  <linearGradient id="wfill" x1="0" y1="0" x2="0" y2="1">
+                    <stop offset="0" stop-color="#3BB77E" stop-opacity=".18"/>
+                    <stop offset="1" stop-color="#3BB77E" stop-opacity="0"/>
+                  </linearGradient>
+                </defs>
+                <path fill="url(#wfill)" d="M40,46 L108,62 L176,75 L244,95 L312,108 L380,119 L448,134 L516,147 L580,155 L580,210 L40,210 Z"/>
+                <!-- kilo eğrisi -->
+                <polyline class="curve" points="40,46 108,62 176,75 244,95 312,108 380,119 448,134 516,147 580,155"/>
+                <circle class="dot" cx="40"  cy="46"  r="4"/>
+                <circle class="dot" cx="108" cy="62"  r="4"/>
+                <circle class="dot" cx="176" cy="75"  r="4"/>
+                <circle class="dot" cx="244" cy="95"  r="4"/>
+                <circle class="dot" cx="312" cy="108" r="4"/>
+                <circle class="dot" cx="380" cy="119" r="4"/>
+                <circle class="dot" cx="448" cy="134" r="4"/>
+                <circle class="dot" cx="516" cy="147" r="4"/>
+                <circle class="dot last" cx="580" cy="155" r="4.5"/>
+                <!-- hafta etiketleri -->
+                <text class="lbl" x="32" y="222">Hafta 1</text>
+                <text class="lbl" x="166" y="222">Hafta 3</text>
+                <text class="lbl" x="302" y="222">Hafta 5</text>
+                <text class="lbl" x="438" y="222">Hafta 7</text>
+                <text class="lbl" x="556" y="222">Bugün</text>
+              </svg>
+              <div class="wc-legend">
+                <span class="lg cur"><i></i> Kilo (kg)</span>
+                <span class="lg tgt"><i></i> Hedef çizgisi</span>
+              </div>
+              <div class="wc-table">
+                <table class="ptable">
+                  <thead>
+                    <tr><th>Tarih</th><th>Kilo</th><th>Bel</th><th>Değişim</th></tr>
+                  </thead>
+                  <tbody>
+                    <tr><td>9 Haziran</td><td><b>64,8 kg</b></td><td>74 cm</td><td><span class="delta-dn">−0,3 kg</span></td></tr>
+                    <tr><td>2 Haziran</td><td>65,1 kg</td><td>75 cm</td><td><span class="delta-dn">−0,5 kg</span></td></tr>
+                    <tr><td>26 Mayıs</td><td>65,6 kg</td><td>75 cm</td><td><span class="delta-dn">−0,6 kg</span></td></tr>
+                    <tr><td>19 Mayıs</td><td>66,2 kg</td><td>76 cm</td><td><span class="delta-up">+0,1 kg</span></td></tr>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+
+          <!-- atanmış reçeteler -->
+          <div class="pnl-card">
+            <div class="pc-head">
+              <div class="pc-title"><i class="fa-solid fa-utensils"></i> Atanmış Reçeteler</div>
+              <a class="pc-link" href="dyt-recete-builder-v1.html">Yeni Reçete <i class="fa-solid fa-plus"></i></a>
+            </div>
+            <div class="rx-list">
+              <div class="rx-row">
+                <div class="rx-ico"><i class="fa-regular fa-file-lines"></i></div>
+                <div class="rx-info">
+                  <div class="rx-name">Akdeniz Tipi Beslenme — 1.450 kcal</div>
+                  <div class="rx-meta">1 Haziran – devam ediyor · 4 öğün · laktozsuz</div>
+                </div>
+                <span class="pstat ok">Aktif</span>
+                <a class="tc-go" href="dyt-recete-builder-v1.html" aria-label="Reçeteyi aç"><i class="fa-solid fa-chevron-right"></i></a>
+              </div>
+              <div class="rx-row">
+                <div class="rx-ico"><i class="fa-regular fa-file-lines"></i></div>
+                <div class="rx-info">
+                  <div class="rx-name">Geçiş Dönemi Planı — 1.350 kcal</div>
+                  <div class="rx-meta">4 Mayıs – 31 Mayıs · 5 öğün</div>
+                </div>
+                <span class="pstat off">Tamamlandı</span>
+                <a class="tc-go" href="dyt-recete-builder-v1.html" aria-label="Reçeteyi aç"><i class="fa-solid fa-chevron-right"></i></a>
+              </div>
+              <div class="rx-row">
+                <div class="rx-ico"><i class="fa-regular fa-file-lines"></i></div>
+                <div class="rx-info">
+                  <div class="rx-name">Başlangıç Programı — 1.300 kcal</div>
+                  <div class="rx-meta">13 Nisan – 3 Mayıs · 5 öğün</div>
+                </div>
+                <span class="pstat off">Tamamlandı</span>
+                <a class="tc-go" href="dyt-recete-builder-v1.html" aria-label="Reçeteyi aç"><i class="fa-solid fa-chevron-right"></i></a>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="dd-colR">
+          <!-- diyetisyen notları -->
+          <div class="pnl-card">
+            <div class="pc-head">
+              <div class="pc-title"><i class="fa-regular fa-note-sticky"></i> Diyetisyen Notları</div>
+            </div>
+            <div class="pc-body">
+              <div class="note-list">
+                <div class="note-item">
+                  <div class="note-date"><i class="fa-regular fa-calendar"></i> 9 Haziran 2026</div>
+                  <p>Su tüketimi hedefin altında (1,2 L). Günlük 2 L için hatırlatma kuruldu; ara öğüne ayran eklendi.</p>
+                </div>
+                <div class="note-item">
+                  <div class="note-date"><i class="fa-regular fa-calendar"></i> 2 Haziran 2026</div>
+                  <p>Laktoz hassasiyeti teyit edildi — süt ürünleri laktozsuz alternatiflerle değiştirildi. Uyum çok iyi.</p>
+                </div>
+                <div class="note-item">
+                  <div class="note-date"><i class="fa-regular fa-calendar"></i> 19 Mayıs 2026</div>
+                  <p>Tatil haftasında 0,1 kg alım — moral bozmadan rutine dönüş planı konuşuldu.</p>
+                </div>
+              </div>
+              <div class="fk-field">
+                <label class="fk-label" for="ddNote">Yeni Not</label>
+                <textarea class="fk-textarea" id="ddNote" placeholder="Görüşme notu, gözlem veya hatırlatma yaz…"></textarea>
+              </div>
+              <div class="note-send">
+                <button class="btn btn-green btn-sm" type="button" onclick="saToast('Not kaydedildi.')"><i class="fa-solid fa-plus"></i> Not Ekle</button>
+              </div>
+            </div>
+          </div>
+
+          <!-- yaklaşan randevu -->
+          <div class="pnl-card">
+            <div class="pc-head">
+              <div class="pc-title"><i class="fa-regular fa-calendar-check"></i> Yaklaşan Randevu</div>
+              <a class="pc-link" href="dyt-randevular-v1.html">Takvim <i class="fa-solid fa-arrow-right"></i></a>
+            </div>
+            <div class="pc-body">
+              <div class="note-item" style="background:var(--green-tint);border-color:rgba(59,183,126,.25)">
+                <div class="note-date" style="color:var(--green-deep)"><i class="fa-regular fa-clock"></i> Bugün · 09.00 – 09.45</div>
+                <p style="color:var(--slate)">Yüz yüze görüşme — başlangıç ölçümleri ve 8. hafta değerlendirmesi.</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+  </main>
+</div>
+
+<script>
+/* panel ortak JS (burger + overlay + ?nav=1) assets/js/panel.js içinde */
+
+/* ============ SAYFA JS — liste/detay + tablo/kart + boş durum ============ */
+(function(){
+  var q=new URLSearchParams(location.search);
+
+  /* liste ↔ detay (?danisan=1) */
+  if(q.get('danisan')==='1'){
+    document.getElementById('viewListe').hidden=true;
+    document.getElementById('viewDetay').hidden=false;
+  }
+
+  /* tablo ↔ kart segmenti (?kart=1) */
+  var segBtns=document.querySelectorAll('.vs-btn'),
+      vTablo=document.getElementById('viewTablo'),
+      vKart=document.getElementById('viewKart'),
+      vBos=document.getElementById('viewBos');
+  function setView(v){
+    segBtns.forEach(function(b){b.classList.toggle('is-on',b.dataset.view===v)});
+    vTablo.hidden=(v!=='tablo');
+    vKart.hidden=(v!=='kart');
+  }
+  segBtns.forEach(function(b){
+    b.addEventListener('click',function(){setView(b.dataset.view)});
+  });
+  if(q.get('kart')==='1') setView('kart');
+
+  /* filtre sonucu boş (?bos=1) */
+  if(q.get('bos')==='1'){
+    vTablo.hidden=true;vKart.hidden=true;vBos.hidden=false;
+  }
+})();
+</script>
+
+<script>
+/* ===== Faz3 — işletme-sahibi rolü (has-business): is-auth kardeşi =====
+   ?business=1 → localStorage dm_business='1' + body.has-business ; ?business=0 → temizle.
+   param yoksa localStorage'a bakılır. Adım 1 işletme linkleri (İşletmem→Panele Git,
+   panel topbar account chip) body.has-business ile rol-koşullu gösterilir. */
+(function(){
+  /* C1 — tek auth/rol token dm_user{auth,roles[],verified,level}. Eski dm_auth/dm_business
+     migrate+silinir. Kök kuralı: auth ⟹ roles "kullanici" ile başlar; isletme operatörü
+     ["kullanici","isletme"]. Class additive (is-auth/has-business AYNEN) + body[data-roles]. */
+  var KEY='dm_user', OK={kullanici:1,antrenor:1,diyetisyen:1,isletme:1};
+  function rd(){ try{var r=localStorage.getItem(KEY);return r?JSON.parse(r):null;}catch(e){return null;} }
+  function wr(u){ try{localStorage.setItem(KEY,JSON.stringify(u));}catch(e){} }
+  var u=rd();
+  if(!u){                                   // migrasyon: eski binary flag → dm_user (bir kez)
+    var oa=false,ob=false;
+    try{oa=localStorage.getItem('dm_auth')==='1';}catch(e){}
+    try{ob=localStorage.getItem('dm_business')==='1';}catch(e){}
+    if(oa||ob){ u={auth:true,roles:['kullanici'],verified:false,level:0}; if(ob)u.roles.push('isletme'); wr(u); }
+  }
+  try{localStorage.removeItem('dm_auth');localStorage.removeItem('dm_business');}catch(e){}  // eski anahtar temizliği
+  var qs=location.search;                    // URL-param (demo/SS akışı korunur + yeni roller)
+  function ens(){ if(!u)u={auth:false,roles:[],verified:false,level:0}; }
+  function addR(r){ ens(); if(OK[r]&&u.roles.indexOf(r)<0)u.roles.push(r); }
+  if(qs.indexOf('auth=1')>-1){ ens(); u.auth=true; }
+  else if(qs.indexOf('auth=0')>-1){ u=null; try{localStorage.removeItem(KEY);}catch(e){} }
+  if(qs.indexOf('business=1')>-1){ ens(); u.auth=true; addR('isletme'); }
+  else if(qs.indexOf('business=0')>-1){ if(u){var bi=u.roles.indexOf('isletme'); if(bi>-1)u.roles.splice(bi,1);} }
+  var rm=/[?&]role=(antrenor|diyetisyen|isletme)/.exec(qs); if(rm){ ens(); u.auth=true; addR(rm[1]); }
+  if(u){
+    if(qs.indexOf('verified=1')>-1)u.verified=true; else if(qs.indexOf('verified=0')>-1)u.verified=false;
+    var lm=/[?&]level=(\d+)/.exec(qs); if(lm)u.level=parseInt(lm[1],10)||0;
+    if(u.auth&&u.roles.indexOf('kullanici')<0)u.roles.unshift('kullanici');   // kök her zaman önde
+    wr(u);
+  }
+  var b=document.body, authed=!!(u&&u.auth);   // DOM: eski class kanalı (additive) + data-roles
+  if(authed){
+    b.classList.add('is-auth');
+    if(u.roles.indexOf('isletme')>-1)b.classList.add('has-business');   // C3 köprü sinyali — AYNEN
+    b.setAttribute('data-roles',u.roles.join(' '));
+    if(u.verified)b.setAttribute('data-verified','1');
+    if(u.level)b.setAttribute('data-level',String(u.level));
+  }
+  var bnA=document.getElementById('bnAccount');   // M6 — bottom-nav Hesap hedefi
+  if(bnA)bnA.setAttribute('href', authed?'mutfak-defteri-v1.html':'giris-v1.html');
+})();
+</script>
+
+<script src="assets/js/sa-ui.js"></script>
+<script src="assets/js/sa-gozetim.js" defer></script>
+</body>
+</html>

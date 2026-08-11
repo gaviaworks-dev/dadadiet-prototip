@@ -1,0 +1,716 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<meta name="robots" content="noindex, nofollow" />
+<title>Programını Bul — Sana Uygun Beslenme Programı | DadaDiet</title>
+<link rel="shortcut icon" type="image/x-icon"
+      href="assets/img/favicon.ico" />
+<!-- FontAwesome 6.5.2 (kilitli ikon seti) -->
+<link rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css"
+      integrity="sha512-SnH5WK+bZxgPHs44uWIX+LLJAJ9/2PkPKZ5QiAj6Ta86w+fsb2TkcmfRyVX3pBnMFcV7oQPJkl9QevSCWr3W6A=="
+      crossorigin="anonymous" referrerpolicy="no-referrer" />
+<link rel="stylesheet" href="assets/css/dd-shell.css" />
+<style>
+/* ===== SAYFA CSS — kabuk CSS'i assets/css/dd-shell.css'te ===== */
+/* =====================================================================
+   PROGRAMINI BUL — program eşleştirme sihirbazı.
+   YENİ SINIF YOK. Sihirbaz dili diyetisyen-bul-v1'den BİREBİR;
+   sonuç kartı .prog-card ailesi diyet-listeleri-v1'den BİREBİR;
+   satır etiketi .proc-head diyetisyen-ol-v1'den.
+
+   VERİ DÜRÜSTLÜĞÜ: bu repoda yayında olan sekiz programın SEKİZİ DE
+   yedi günlüktür. Süre adımı sorulur ama sonuç ekranında bu durum
+   görünür biçimde belirtilir; olmayan bir çeşitlilik gösterilmez.
+   ===================================================================== */
+
+/* ---- breadcrumb ---- */
+.rd-crumb{display:flex;align-items:center;flex-wrap:wrap;gap:9px;padding:18px 0 2px;font-size:13px;font-weight:500;color:var(--muted)}
+.rd-crumb a{color:var(--muted);transition:.18s}
+.rd-crumb a:hover{color:var(--green)}
+.rd-crumb i{font-size:9px;color:#c7c7c7}
+.rd-crumb b{color:var(--slate);font-weight:700}
+
+/* ---- hero ---- */
+/* Koyu görselli banner — reçete .reh-hero'nun birebir aynısı (aynı 40px h1
+   ölçüsü, aynı iki katmanlı gradyan + görsel, aynı alt boşluk ritmi: hero'nun
+   30px'i + buradaki 20px = 50px). Görsel: sekiz diyet programı sayfasıyla aynı — sihirbazın ürettiği aile
+   Krem zemin 17. tura kadar görünmez bir banttı; breadcrumb taşıyıp banner
+   taşımayan tek aile buydu (§5.1). */
+.wzp-top{position:relative;background-color:#15241c;background-image:linear-gradient(90deg,rgba(18,28,22,.94),rgba(20,32,25,.74)),url('https://images.unsplash.com/photo-1540420773420-3366772f4999?w=1600&q=80&auto=format&fit=crop&exp=7&gam=6&sat=-9&high=8&vib=5');background-size:cover;background-position:center;overflow:hidden;padding:128px 0 20px}
+.wzp-top .wrap{position:relative}
+.wzp-top .rd-crumb{color:#bcd0c4}
+.wzp-top .rd-crumb a{color:#bcd0c4}
+.wzp-top .rd-crumb a:hover{color:#7fe0b0}
+.wzp-top .rd-crumb i{color:rgba(255,255,255,.4)}
+.wzp-top .rd-crumb b{color:#fff}
+.wzp-hero{padding:8px 0 30px;text-align:center;max-width:700px;margin:0 auto}
+.wzp-hero .eyebrow{color:#7fe0b0;justify-content:center}
+.wzp-hero .eyebrow::before{background:var(--green)}
+.wzp-hero h1{color:#fff;font-size:40px;letter-spacing:-.03em;margin:14px 0 12px;text-shadow:0 2px 24px rgba(0,0,0,.25)}
+.wzp-hero h1 .accent{color:#54d39a}
+.wzp-hero .lead{color:#e3ede7;font-weight:500;font-size:15.5px;max-width:580px;margin:0 auto;text-shadow:0 1px 14px rgba(0,0,0,.3)}
+.wzp-trust{display:flex;flex-wrap:wrap;justify-content:center;gap:10px 22px;margin-top:20px}
+.wzp-trust span{display:inline-flex;align-items:center;gap:8px;font-size:13px;font-weight:600;color:#cfe6da}
+.wzp-trust i{color:var(--green);font-size:13px}
+
+/* ---- sihirbaz kabuğu ---- */
+.wz-sec{padding:6px 0 70px;background:var(--bg-cream)}
+.wz-card{max-width:900px;margin:0 auto;background:var(--paper);border:1px solid var(--line);border-radius:var(--radius-xl);box-shadow:var(--sh-md);overflow:hidden}
+
+/* ---- ADIM YOLU ---- */
+.wz-steps{display:flex;align-items:flex-start;gap:0;padding:26px 30px 6px;background:var(--bg-cream);border-bottom:1px solid var(--line)}
+.wz-step{flex:1;display:flex;flex-direction:column;align-items:center;gap:9px;position:relative;background:none;border:none;font-family:inherit;min-width:0;padding:0;cursor:default}
+.wz-step:disabled{cursor:default}
+.wz-num{width:38px;height:38px;border-radius:var(--radius-circle);display:grid;place-items:center;font-size:15px;font-weight:800;background:var(--paper);border:2px solid var(--line);color:var(--muted);transition:.25s var(--ease);z-index:2}
+.wz-lbl{font-size:12.5px;font-weight:700;color:var(--muted);text-align:center;line-height:1.2;transition:color .25s}
+.wz-lbl small{display:block;font-size:11px;font-weight:500;color:#a3a3a3;margin-top:2px}
+.wz-step::before,.wz-step::after{content:"";position:absolute;top:19px;height:2px;background:var(--line);z-index:1;transition:background .3s var(--ease)}
+.wz-step::before{left:0;right:50%;margin-right:19px}
+.wz-step::after{left:50%;right:0;margin-left:19px}
+.wz-step:first-child::before{display:none}
+.wz-step:last-child::after{display:none}
+.wz-step.done .wz-num{background:var(--green);border-color:var(--green);color:#fff}
+.wz-step.done .wz-lbl{color:var(--slate)}
+.wz-step.done::before,.wz-step.done::after{background:var(--green)}
+.wz-step.current .wz-num{border-color:var(--green);color:var(--green);background:var(--tomato-tint);box-shadow:0 0 0 4px rgba(59,183,126,.14)}
+.wz-step.current .wz-lbl{color:var(--slate)}
+.wz-step.done{cursor:pointer}
+.wz-step.done:hover .wz-num{filter:brightness(1.06)}
+.wz-num .wz-check{display:none;font-size:14px}
+.wz-step.done .wz-num .wz-check{display:inline}
+.wz-step.done .wz-num .wz-digit{display:none}
+.wz-step:focus-visible{outline:none}
+.wz-step:focus-visible .wz-num{outline:3px solid var(--tomato-tint);outline-offset:2px}
+
+/* ---- PANELLER ---- */
+.wz-body{padding:32px 34px 6px}
+.wz-pane{display:none;animation:fadeUp .35s var(--ease)}
+.wz-pane.active{display:block}
+.wz-q{text-align:center;margin-bottom:24px}
+.wz-q h2{font-size:24px;letter-spacing:-.02em}
+.wz-q p{font-size:14px;color:var(--muted);font-weight:500;margin-top:6px}
+.wz-q h2:focus,.wz-res-head h2:focus{outline:none}
+
+/* ---- seçenek kutucukları ---- */
+.wz-opts{display:grid;gap:12px}
+.wz-opts.cols-2{grid-template-columns:1fr 1fr}
+.wz-opts.cols-3{grid-template-columns:repeat(3,1fr)}
+.wz-opt{display:flex;align-items:center;gap:14px;text-align:left;font-family:inherit;background:var(--paper);border:1.5px solid var(--line);border-radius:var(--radius-lg);padding:16px 18px;cursor:pointer;transition:.18s var(--ease);position:relative}
+.wz-oico{flex:none;width:44px;height:44px;border-radius:var(--radius-md);background:var(--bg-cream);color:var(--green);display:grid;place-items:center;font-size:18px;transition:.18s var(--ease)}
+.wz-otxt{min-width:0}
+.wz-otxt b{display:block;font-size:15px;font-weight:700;color:var(--slate);line-height:1.25}
+.wz-otxt small{display:block;font-size:12.5px;color:var(--muted);font-weight:500;margin-top:2px}
+.wz-otick{margin-left:auto;flex:none;width:22px;height:22px;border-radius:var(--radius-circle);border:1.5px solid #d8d8d8;display:grid;place-items:center;color:#fff;font-size:11px;transition:.18s var(--ease)}
+.wz-otick i{transform:scale(0);transition:transform .16s var(--ease)}
+.wz-opt:hover{border-color:var(--green);background:var(--tomato-tint)}
+.wz-opt:hover .wz-oico{background:#fff}
+.wz-opt:focus-visible{outline:3px solid var(--tomato-tint);outline-offset:2px}
+.wz-opt.selected{border-color:var(--green);background:var(--tomato-tint)}
+.wz-opt.selected .wz-oico{background:var(--green);color:#fff}
+.wz-opt.selected .wz-otick{background:var(--green);border-color:var(--green)}
+.wz-opt.selected .wz-otick i{transform:scale(1)}
+.wz-opts.tiles .wz-opt{flex-direction:column;text-align:center;align-items:center;gap:11px;padding:24px 16px}
+.wz-opts.tiles .wz-oico{width:52px;height:52px;font-size:21px}
+.wz-opts.tiles .wz-otick{position:absolute;top:12px;right:12px;margin:0}
+.wz-opts.tiles .wz-otxt b{font-size:15.5px}
+
+/* ---- NAV AYAK ---- */
+.wz-nav{display:flex;align-items:center;justify-content:space-between;gap:14px;padding:18px 34px 28px}
+.wz-back{display:inline-flex;align-items:center;gap:9px;font-family:inherit;font-weight:700;font-size:14px;color:var(--slate);background:none;border:none;cursor:pointer;padding:12px 6px;transition:.18s var(--ease)}
+.wz-back i{font-size:12px;transition:transform .2s var(--ease)}
+.wz-back:hover{color:var(--green)}
+.wz-back:hover i{transform:translateX(-3px)}
+.wz-back:focus-visible{outline:3px solid var(--tomato-tint);outline-offset:2px;border-radius:var(--radius-sm)}
+.wz-back[hidden]{visibility:hidden;display:inline-flex}
+.wz-progress-txt{font-size:12.5px;font-weight:600;color:var(--muted)}
+.wz-next{display:inline-flex;align-items:center;gap:10px;font-family:inherit;font-weight:700;font-size:14.5px;color:#fff;background:var(--green-deep);border:none;border-radius:var(--radius-md);padding:14px 28px;cursor:pointer;transition:.2s var(--ease)}
+.wz-next i{font-size:13px;transition:transform .2s var(--ease)}
+.wz-next:hover{background:var(--green);transform:translateY(-2px)}
+.wz-next:hover i{transform:translateX(3px)}
+.wz-next:focus-visible{outline:3px solid var(--tomato-tint);outline-offset:2px}
+.wz-next:disabled{background:#c3e4d3;cursor:not-allowed;transform:none}
+
+/* ---- SONUÇ ---- */
+.wz-result{display:none}
+.wz-result.active{display:block;animation:fadeUp .4s var(--ease)}
+.wz-res-head{text-align:center;max-width:620px;margin:0 auto}
+.wz-res-ico{width:64px;height:64px;border-radius:var(--radius-circle);background:#EAF7F0;color:var(--green);display:grid;place-items:center;font-size:26px;margin:0 auto 16px}
+.wz-res-head h2{font-size:26px;letter-spacing:-.02em}
+.wz-res-head p{font-size:14.5px;color:var(--muted);font-weight:500;margin-top:8px}
+.wz-sum{display:flex;flex-wrap:wrap;justify-content:center;gap:8px;margin:18px 0 2px}
+.wz-pill{display:inline-flex;align-items:center;gap:8px;font-size:12.5px;font-weight:700;color:var(--green-deep);background:#EAF7F0;border:1px solid rgba(59,183,126,.25);padding:8px 13px;border-radius:var(--radius-pill)}
+.wz-pill i{font-size:11px}
+.wz-relax{display:flex;gap:11px;align-items:flex-start;max-width:680px;margin:16px auto 0;background:var(--tomato-tint);border:1px solid #cdeadd;border-radius:var(--radius-lg);padding:13px 16px}
+.wz-relax[hidden]{display:none}
+.wz-relax i{color:var(--green-deep);font-size:15px;margin-top:2px;flex:none}
+.wz-relax p{font-size:13px;color:var(--slate-2);font-weight:500;line-height:1.55}
+.wz-res-actions{display:flex;flex-wrap:wrap;justify-content:center;gap:12px;margin-top:30px}
+.proc-head{display:flex;align-items:center;gap:9px;font-size:11.5px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);margin:28px 0 12px}
+.proc-head i{color:var(--green);font-size:12px}
+
+/* ---- PROGRAM KARTI (diyet-listeleri .prog-card dili BİREBİR) ---- */
+.prog-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:22px}
+.prog-card{background:var(--paper);border:1px solid var(--line);border-radius:var(--radius-lg);overflow:hidden;display:flex;flex-direction:column;cursor:pointer;transition:.3s var(--ease)}
+.prog-card:hover{transform:translateY(-6px);border-color:#dcdcdc;box-shadow:var(--sh-md)}
+.prog-media{position:relative;height:160px;background-size:cover;background-position:center}
+.prog-media::after{content:"";position:absolute;inset:0;background:linear-gradient(180deg,rgba(33,30,22,0) 50%,rgba(20,18,12,.55))}
+.prog-cat{position:absolute;top:13px;left:13px;z-index:2;background:rgba(255,255,255,.94);color:var(--slate);font-size:11.5px;font-weight:700;padding:6px 12px;border-radius:var(--radius-sm);letter-spacing:.02em}
+.prog-cat.green{background:var(--tomato-deep);color:#fff}
+.prog-dur{position:absolute;bottom:13px;left:13px;z-index:2;display:inline-flex;align-items:center;gap:6px;background:rgba(20,18,12,.72);color:#fff;font-size:11.5px;font-weight:700;padding:6px 11px;border-radius:var(--radius-sm);backdrop-filter:blur(4px)}
+.prog-body{padding:20px;display:flex;flex-direction:column;flex:1}
+.prog-body h3{font-size:18px;margin-bottom:9px;letter-spacing:-.01em}
+.prog-card:hover .prog-body h3{color:var(--green-deep)}
+.prog-body p{font-size:13.5px;color:var(--muted);font-weight:500;line-height:1.55;margin-bottom:16px}
+.prog-tags{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:18px}
+.prog-tag{display:inline-flex;align-items:center;gap:6px;font-size:12px;font-weight:600;color:var(--slate-2);background:#EAF7F0;border:1px solid #d9efe3;padding:6px 11px;border-radius:var(--radius-sm)}
+.prog-tag i{color:var(--green);font-size:11px}
+.prog-foot{display:flex;align-items:center;justify-content:space-between;gap:10px;margin-top:auto;padding-top:16px;border-top:1px solid var(--line)}
+.prog-foot .meals{font-size:12.5px;color:var(--muted);font-weight:500}
+.prog-foot .go{display:inline-flex;align-items:center;gap:7px;color:var(--green-deep);font-weight:700;font-size:13.5px}
+.prog-card:hover .prog-foot .go i{transform:translateX(3px)}
+.prog-foot .go i{transition:.2s var(--ease)}
+
+/* ---- disclaimer ---- */
+.reh-note{display:flex;gap:14px;align-items:flex-start;background:var(--tomato-tint);border:1px solid #cdeadd;border-radius:var(--radius-lg);padding:18px 20px}
+.reh-note>i{color:var(--tomato-deep);font-size:18px;margin-top:2px;flex:none}
+.reh-note p{font-size:14px;color:var(--slate-2);font-weight:500;line-height:1.6}
+.reh-note p a{color:var(--tomato-deep);font-weight:700}
+.reh-note p a:hover{text-decoration:underline}
+.wz-disc{max-width:900px;margin:26px auto 0}
+
+@media (max-width:1024px){
+  .wzp-hero h1{font-size:34px}
+  .prog-grid{grid-template-columns:1fr 1fr}
+}
+@media (max-width:640px){
+  .wzp-top{padding-top:82px}
+  .wzp-hero{padding:2px 0 22px}
+  .wzp-hero h1{font-size:27px}
+  .wzp-hero .lead{font-size:14.5px}
+  .wzp-trust{gap:8px 16px;margin-top:16px}
+  .wzp-trust span{font-size:12px}
+  .wz-sec{padding:2px 0 46px}
+  .wz-steps{padding:20px 10px 4px}
+  .wz-num{width:34px;height:34px;font-size:14px}
+  .wz-step::before,.wz-step::after{top:17px}
+  .wz-lbl{font-size:11px}
+  .wz-lbl small{display:none}
+  .wz-body{padding:24px 18px 4px}
+  .wz-q h2{font-size:20px}
+  .wz-opts.cols-2,.wz-opts.cols-3{grid-template-columns:1fr}
+  .wz-opts.tiles.cols-3{grid-template-columns:1fr 1fr 1fr}
+  .wz-opts.tiles.cols-2{grid-template-columns:1fr 1fr}
+  .wz-opts.tiles .wz-opt{padding:16px 8px;gap:8px}
+  .wz-opts.tiles .wz-oico{width:44px;height:44px;font-size:18px}
+  .wz-opts.tiles .wz-otxt b{font-size:12.5px}
+  .wz-opts.tiles .wz-otick{top:8px;right:8px;width:18px;height:18px}
+  .wz-nav{padding:14px 18px 24px}
+  .wz-next{padding:13px 20px;font-size:13.5px}
+  .wz-back{font-size:13px}
+  .wz-res-head h2{font-size:22px}
+  .prog-grid{grid-template-columns:1fr;gap:16px}
+  .wz-disc{margin-top:20px}
+}
+</style>
+</head>
+<body data-brand="diet" data-nav="programlar">
+
+<div id="ddChromeTop"></div>
+<script src="assets/js/dd-shell.js"></script>
+
+<main class="page-main" id="pageMain">
+
+<section class="wzp-top">
+  <div class="wrap">
+    <nav class="rd-crumb" aria-label="Sayfa yolu">
+      <a href="saglik-hub-v1.html"><i class="fa-solid fa-house"></i></a><i class="fa-solid fa-chevron-right"></i>
+      <a href="diyet-listeleri-v1.html">Programlar</a><i class="fa-solid fa-chevron-right"></i>
+      <b>Programını Bul</b>
+    </nav>
+    <div class="wzp-hero">
+      <span class="eyebrow"><i class="fa-solid fa-wand-magic-sparkles"></i> Program Eşleştirme</span>
+      <h1>Sana uygun <span class="accent">programı</span> birlikte seçelim</h1>
+      <p class="lead">Hedefini, süreni, beslenme tercihini ve günlük düzenini al; yayındaki programlar içinden en uygun üçünü nedenleriyle gösterelim.</p>
+      <div class="wzp-trust">
+        <span><i class="fa-solid fa-clipboard-list"></i> 8 program yayında</span>
+        <span><i class="fa-solid fa-stopwatch"></i> 1 dakikadan kısa</span>
+        <span><i class="fa-solid fa-shield-halved"></i> Tıbbi teşhis üretmez</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="wz-sec">
+  <div class="wrap">
+    <div class="wz-card">
+      <div class="wz-steps" id="wzSteps" aria-label="Sihirbaz adımları">
+        <button class="wz-step current" type="button" data-step="1" disabled aria-current="step">
+          <span class="wz-num"><span class="wz-digit">1</span><span class="wz-check"><i class="fa-solid fa-check"></i></span></span>
+          <span class="wz-lbl">Hedef<small>Ne için?</small></span>
+        </button>
+        <button class="wz-step" type="button" data-step="2" disabled>
+          <span class="wz-num"><span class="wz-digit">2</span><span class="wz-check"><i class="fa-solid fa-check"></i></span></span>
+          <span class="wz-lbl">Süre<small>Kaç gün?</small></span>
+        </button>
+        <button class="wz-step" type="button" data-step="3" disabled>
+          <span class="wz-num"><span class="wz-digit">3</span><span class="wz-check"><i class="fa-solid fa-check"></i></span></span>
+          <span class="wz-lbl">Tercih<small>Beslenme türü</small></span>
+        </button>
+        <button class="wz-step" type="button" data-step="4" disabled>
+          <span class="wz-num"><span class="wz-digit">4</span><span class="wz-check"><i class="fa-solid fa-check"></i></span></span>
+          <span class="wz-lbl">Düzen<small>Öğün ve hazırlık</small></span>
+        </button>
+        <button class="wz-step" type="button" data-step="5" disabled>
+          <span class="wz-num"><span class="wz-digit">5</span><span class="wz-check"><i class="fa-solid fa-check"></i></span></span>
+          <span class="wz-lbl">Özel Durum<small>Alerji, sağlık</small></span>
+        </button>
+      </div>
+
+      <div id="wzForm">
+        <div class="wz-body">
+          <!-- ADIM 1 — Hedef -->
+          <div class="wz-pane active" data-pane="1" role="group" aria-label="Adım 1: Hedef">
+            <div class="wz-q">
+              <h2 tabindex="-1" id="wzH1">Programdan ne bekliyorsun?</h2>
+              <p>Eşleştirmenin en belirleyici adımı bu.</p>
+            </div>
+            <div class="wz-opts cols-2" data-field="hedef" role="radiogroup" aria-label="Hedef">
+              <button class="wz-opt" type="button" role="radio" aria-checked="false" data-val="dengeli">
+                <span class="wz-oico"><i class="fa-solid fa-scale-balanced"></i></span>
+                <span class="wz-otxt"><b>Dengeli beslenme</b><small>Sürdürülebilir bir düzen kur</small></span>
+                <span class="wz-otick"><i class="fa-solid fa-check"></i></span>
+              </button>
+              <button class="wz-opt" type="button" role="radio" aria-checked="false" data-val="kilo">
+                <span class="wz-oico"><i class="fa-solid fa-weight-scale"></i></span>
+                <span class="wz-otxt"><b>Kilo kontrolü</b><small>Kalori dengesini yönet</small></span>
+                <span class="wz-otick"><i class="fa-solid fa-check"></i></span>
+              </button>
+              <button class="wz-opt" type="button" role="radio" aria-checked="false" data-val="sporcu">
+                <span class="wz-oico"><i class="fa-solid fa-person-running"></i></span>
+                <span class="wz-otxt"><b>Sporcu beslenmesi</b><small>Protein ve toparlanma odaklı</small></span>
+                <span class="wz-otick"><i class="fa-solid fa-check"></i></span>
+              </button>
+              <button class="wz-opt" type="button" role="radio" aria-checked="false" data-val="bitkisel">
+                <span class="wz-oico"><i class="fa-solid fa-leaf"></i></span>
+                <span class="wz-otxt"><b>Bitkisel beslenme</b><small>Vejetaryen veya vegan düzen</small></span>
+                <span class="wz-otick"><i class="fa-solid fa-check"></i></span>
+              </button>
+            </div>
+          </div>
+
+          <!-- ADIM 2 — Süre -->
+          <div class="wz-pane" data-pane="2" role="group" aria-label="Adım 2: Süre">
+            <div class="wz-q">
+              <h2 tabindex="-1" id="wzH2">Ne kadar sürelik bir plan istiyorsun?</h2>
+              <p>Seçimini not alıyoruz; yayındaki programların süresini sonuçta açıkça belirteceğiz.</p>
+            </div>
+            <div class="wz-opts tiles cols-2" data-field="sure" role="radiogroup" aria-label="Süre">
+              <button class="wz-opt" type="button" role="radio" aria-checked="false" data-val="3">
+                <span class="wz-oico"><i class="fa-regular fa-calendar"></i></span>
+                <span class="wz-otxt"><b>3 gün</b><small>Kısa deneme</small></span>
+                <span class="wz-otick"><i class="fa-solid fa-check"></i></span>
+              </button>
+              <button class="wz-opt" type="button" role="radio" aria-checked="false" data-val="7">
+                <span class="wz-oico"><i class="fa-regular fa-calendar-check"></i></span>
+                <span class="wz-otxt"><b>7 gün</b><small>Bir haftalık düzen</small></span>
+                <span class="wz-otick"><i class="fa-solid fa-check"></i></span>
+              </button>
+              <button class="wz-opt" type="button" role="radio" aria-checked="false" data-val="14">
+                <span class="wz-oico"><i class="fa-regular fa-calendar-days"></i></span>
+                <span class="wz-otxt"><b>14 gün</b><small>İki hafta</small></span>
+                <span class="wz-otick"><i class="fa-solid fa-check"></i></span>
+              </button>
+              <button class="wz-opt" type="button" role="radio" aria-checked="false" data-val="21">
+                <span class="wz-oico"><i class="fa-regular fa-calendar-plus"></i></span>
+                <span class="wz-otxt"><b>21 gün</b><small>Alışkanlık kurma</small></span>
+                <span class="wz-otick"><i class="fa-solid fa-check"></i></span>
+              </button>
+            </div>
+          </div>
+
+          <!-- ADIM 3 — Beslenme tercihi -->
+          <div class="wz-pane" data-pane="3" role="group" aria-label="Adım 3: Beslenme tercihi">
+            <div class="wz-q">
+              <h2 tabindex="-1" id="wzH3">Beslenme tercihin nedir?</h2>
+              <p>Uyumsuz programları listeden çıkaralım.</p>
+            </div>
+            <div class="wz-opts tiles cols-2" data-field="tercih" role="radiogroup" aria-label="Beslenme tercihi">
+              <button class="wz-opt" type="button" role="radio" aria-checked="false" data-val="standart">
+                <span class="wz-oico"><i class="fa-solid fa-utensils"></i></span>
+                <span class="wz-otxt"><b>Standart</b><small>Kısıt yok</small></span>
+                <span class="wz-otick"><i class="fa-solid fa-check"></i></span>
+              </button>
+              <button class="wz-opt" type="button" role="radio" aria-checked="false" data-val="vejetaryen">
+                <span class="wz-oico"><i class="fa-solid fa-carrot"></i></span>
+                <span class="wz-otxt"><b>Vejetaryen</b><small>Et yok</small></span>
+                <span class="wz-otick"><i class="fa-solid fa-check"></i></span>
+              </button>
+              <button class="wz-opt" type="button" role="radio" aria-checked="false" data-val="vegan">
+                <span class="wz-oico"><i class="fa-solid fa-seedling"></i></span>
+                <span class="wz-otxt"><b>Vegan</b><small>Tamamen bitkisel</small></span>
+                <span class="wz-otick"><i class="fa-solid fa-check"></i></span>
+              </button>
+              <button class="wz-opt" type="button" role="radio" aria-checked="false" data-val="diger">
+                <span class="wz-oico"><i class="fa-solid fa-ellipsis"></i></span>
+                <span class="wz-otxt"><b>Diğer</b><small>Glutensiz, laktozsuz</small></span>
+                <span class="wz-otick"><i class="fa-solid fa-check"></i></span>
+              </button>
+            </div>
+          </div>
+
+          <!-- ADIM 4 — Günlük düzen -->
+          <div class="wz-pane" data-pane="4" role="group" aria-label="Adım 4: Günlük düzen">
+            <div class="wz-q">
+              <h2 tabindex="-1" id="wzH4">Günlük düzenin nasıl?</h2>
+              <p>Öğün sayısı, hazırlama süresi ve pratiklik beklentin.</p>
+            </div>
+            <div class="proc-head"><i class="fa-solid fa-utensils"></i> Öğün sayısı</div>
+            <div class="wz-opts tiles cols-3" data-field="ogun" role="radiogroup" aria-label="Öğün sayısı">
+              <button class="wz-opt" type="button" role="radio" aria-checked="false" data-val="3">
+                <span class="wz-oico"><i class="fa-solid fa-plate-wheat"></i></span>
+                <span class="wz-otxt"><b>3 öğün</b><small>Ara öğün yok</small></span>
+                <span class="wz-otick"><i class="fa-solid fa-check"></i></span>
+              </button>
+              <button class="wz-opt" type="button" role="radio" aria-checked="false" data-val="3-2">
+                <span class="wz-oico"><i class="fa-solid fa-apple-whole"></i></span>
+                <span class="wz-otxt"><b>3 + 2 ara</b><small>Ara öğünlü</small></span>
+                <span class="wz-otick"><i class="fa-solid fa-check"></i></span>
+              </button>
+              <button class="wz-opt" type="button" role="radio" aria-checked="false" data-val="5">
+                <span class="wz-oico"><i class="fa-solid fa-layer-group"></i></span>
+                <span class="wz-otxt"><b>5 öğün</b><small>Sık ve küçük</small></span>
+                <span class="wz-otick"><i class="fa-solid fa-check"></i></span>
+              </button>
+            </div>
+            <div class="proc-head"><i class="fa-regular fa-clock"></i> Hazırlama süresi</div>
+            <div class="wz-opts tiles cols-3" data-field="hazirlik" role="radiogroup" aria-label="Hazırlama süresi">
+              <button class="wz-opt" type="button" role="radio" aria-checked="false" data-val="kisa">
+                <span class="wz-oico"><i class="fa-solid fa-bolt"></i></span>
+                <span class="wz-otxt"><b>15 dk'dan az</b><small>Hızlı olsun</small></span>
+                <span class="wz-otick"><i class="fa-solid fa-check"></i></span>
+              </button>
+              <button class="wz-opt" type="button" role="radio" aria-checked="false" data-val="orta">
+                <span class="wz-oico"><i class="fa-regular fa-clock"></i></span>
+                <span class="wz-otxt"><b>15–30 dk</b><small>Dengeli</small></span>
+                <span class="wz-otick"><i class="fa-solid fa-check"></i></span>
+              </button>
+              <button class="wz-opt" type="button" role="radio" aria-checked="false" data-val="uzun">
+                <span class="wz-oico"><i class="fa-solid fa-kitchen-set"></i></span>
+                <span class="wz-otxt"><b>30 dk üzeri</b><small>Vaktim var</small></span>
+                <span class="wz-otick"><i class="fa-solid fa-check"></i></span>
+              </button>
+            </div>
+            <div class="proc-head"><i class="fa-solid fa-gauge-high"></i> Pratiklik beklentin</div>
+            <div class="wz-opts tiles cols-3" data-field="pratiklik" role="radiogroup" aria-label="Pratiklik beklentisi">
+              <button class="wz-opt" type="button" role="radio" aria-checked="false" data-val="yuksek">
+                <span class="wz-oico"><i class="fa-solid fa-gauge-high"></i></span>
+                <span class="wz-otxt"><b>Çok önemli</b><small>Basit tarifler</small></span>
+                <span class="wz-otick"><i class="fa-solid fa-check"></i></span>
+              </button>
+              <button class="wz-opt" type="button" role="radio" aria-checked="false" data-val="orta">
+                <span class="wz-oico"><i class="fa-solid fa-scale-balanced"></i></span>
+                <span class="wz-otxt"><b>Orta</b><small>Dengeli olsun</small></span>
+                <span class="wz-otick"><i class="fa-solid fa-check"></i></span>
+              </button>
+              <button class="wz-opt" type="button" role="radio" aria-checked="false" data-val="dusuk">
+                <span class="wz-oico"><i class="fa-solid fa-kitchen-set"></i></span>
+                <span class="wz-otxt"><b>Önemli değil</b><small>Uğraşabilirim</small></span>
+                <span class="wz-otick"><i class="fa-solid fa-check"></i></span>
+              </button>
+            </div>
+          </div>
+
+          <!-- ADIM 5 — Alerji ve özel durum -->
+          <div class="wz-pane" data-pane="5" role="group" aria-label="Adım 5: Alerji ve özel durum">
+            <div class="wz-q">
+              <h2 tabindex="-1" id="wzH5">Alerji ya da özel bir sağlık durumun var mı?</h2>
+              <p>Varsa program önerisini uzman desteğiyle birlikte veriyoruz.</p>
+            </div>
+            <div class="wz-opts tiles cols-3" data-field="ozel" role="radiogroup" aria-label="Alerji ve özel durum">
+              <button class="wz-opt" type="button" role="radio" aria-checked="false" data-val="yok">
+                <span class="wz-oico"><i class="fa-solid fa-circle-check"></i></span>
+                <span class="wz-otxt"><b>Yok</b><small>Bildiğim bir durum yok</small></span>
+                <span class="wz-otick"><i class="fa-solid fa-check"></i></span>
+              </button>
+              <button class="wz-opt" type="button" role="radio" aria-checked="false" data-val="alerji">
+                <span class="wz-oico"><i class="fa-solid fa-shield-halved"></i></span>
+                <span class="wz-otxt"><b>Besin alerjim var</b><small>Alerji veya intolerans</small></span>
+                <span class="wz-otick"><i class="fa-solid fa-check"></i></span>
+              </button>
+              <button class="wz-opt" type="button" role="radio" aria-checked="false" data-val="saglik">
+                <span class="wz-oico"><i class="fa-solid fa-heart-pulse"></i></span>
+                <span class="wz-otxt"><b>Sağlık durumum var</b><small>Gebelik, kronik hastalık, ilaç</small></span>
+                <span class="wz-otick"><i class="fa-solid fa-check"></i></span>
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <div class="wz-nav">
+          <button class="wz-back" id="wzBack" type="button" hidden><i class="fa-solid fa-arrow-left"></i> Geri</button>
+          <span class="wz-progress-txt" id="wzProg">Adım 1 / 5</span>
+          <button class="wz-next" id="wzNext" type="button" disabled>İleri <i class="fa-solid fa-arrow-right"></i></button>
+        </div>
+      </div>
+
+      <!-- SONUÇ -->
+      <div class="wz-result" id="wzResult" aria-live="polite">
+        <div class="wz-body">
+          <div class="wz-res-head">
+            <span class="wz-res-ico"><i class="fa-solid fa-clipboard-list"></i></span>
+            <h2 tabindex="-1" id="wzResH">Sana uygun 3 program</h2>
+            <p>Seçimlerinle eşleşme nedenleri her kartın içinde yazılı.</p>
+            <div class="wz-sum" id="wzSumPills"></div>
+          </div>
+
+          <!-- SÜRE DÜRÜSTLÜĞÜ — her sonuçta görünür, gizlenmez -->
+          <div class="wz-relax">
+            <i class="fa-solid fa-circle-info"></i>
+            <p id="wzSureTxt"></p>
+          </div>
+
+          <div class="wz-relax" id="wzOzel" hidden>
+            <i class="fa-solid fa-triangle-exclamation"></i>
+            <p>Alerji ya da sağlık durumu işaretledin. Programlar <b>genel örnek menülerdir; kişiye özel tıbbi ya da diyet önerisi değildir.</b> Aşağıdaki programlardan birine başlamadan önce <a href="diyetisyen-bul-v1.html">bir diyetisyene</a> ve hekimine danış — menüyü senin durumuna göre uyarlamaları gerekir.</p>
+          </div>
+
+          <div class="proc-head"><i class="fa-solid fa-star"></i> Eşleşen programlar</div>
+          <div class="prog-grid" id="wzGrid"></div>
+
+          <div class="wz-res-actions">
+            <a class="btn btn-primary" href="diyet-listeleri-v1.html"><i class="fa-solid fa-clipboard-list"></i> Tüm programları gör</a>
+            <button class="btn btn-ghost" type="button" id="wzRestart"><i class="fa-solid fa-rotate-left"></i> Baştan başla</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="reh-note wz-disc">
+      <i class="fa-solid fa-circle-info"></i>
+      <p>Bu sihirbaz bir <b>yönlendirmedir</b>; <b>sağlık teşhisi koymaz, kişiye özel tıbbi ya da diyet önerisi üretmez.</b> Programlar genel örnek menülerdir. Gebelik, kronik hastalık, düzenli ilaç kullanımı, besin alerjisi veya klinik bir durum varsa plana başlamadan önce <a href="diyetisyen-dizin-v1.html">bir diyetisyene</a> ve hekimine danış.</p>
+    </div>
+  </div>
+</section>
+
+</main><!-- /.page-main -->
+
+<div id="ddChromeGate"></div>
+<div id="ddChromeFooter"></div>
+<div id="ddChromeFab"></div>
+
+<script>
+/* ===== SAYFA JS — Programını Bul: 5 adım + eşleştirme ===== */
+(function(){
+  var FIELD={1:['hedef'],2:['sure'],3:['tercih'],4:['ogun','hazirlik','pratiklik'],5:['ozel']};
+  var MAX=5;
+  var state={hedef:null,sure:null,tercih:null,ogun:null,hazirlik:null,pratiklik:null,ozel:null};
+  var cur=1;
+
+  var IMG='?w=700&q=80&auto=format&fit=crop&exp=7&gam=6&sat=-9&high=8&vib=5';
+  var U='https://images.unsplash.com/photo-';
+
+  /* diyet-listeleri-v1'deki SEKİZ program — yeni program uydurulmaz.
+     gun: hepsi 7. Bu bilinçli; sonuçta görünür biçimde belirtiliyor. */
+  var DATA=[
+    {t:'Akdeniz Tipi Beslenme',h:'diyet-program-detay-v1.html',cat:'Popüler',catCls:' green',img:U+'1540420773420-3366772f4999',
+     d:'Zeytinyağı, sebze, balık ve baklagil ağırlıklı; kalbe dost dengeli haftalık menü.',
+     gun:7,kcal:'~1.600 kcal',zor:'Başlangıç',hedef:['dengeli'],tercih:['standart','vejetaryen'],hazirlik:'orta',pratiklik:'orta',ogun:['3','3-2']},
+    {t:'Hafif Detoks Programı',h:'diyet-program-detoks-v1.html',cat:'Detoks',catCls:'',img:U+'1467453678174-768ec283a940',
+     d:'Sebze çorbaları ve smoothie odaklı, sindirimi rahatlatan kısa başlangıç programı.',
+     gun:7,kcal:'~1.200 kcal',zor:'Kolay',hedef:['dengeli','kilo'],tercih:['standart','vejetaryen','vegan'],hazirlik:'kisa',pratiklik:'yuksek',ogun:['3','5']},
+    {t:'16:8 Aralıklı Oruç',h:'diyet-program-oruc-v1.html',cat:'Aralıklı Oruç',catCls:'',img:U+'1490818387583-1baba5e638af',
+     d:'8 saatlik öğün penceresine uygun, dengeli ve doyurucu örnek menü.',
+     gun:7,kcal:'~1.700 kcal',zor:'Orta',hedef:['kilo'],tercih:['standart','vejetaryen'],hazirlik:'orta',pratiklik:'orta',ogun:['3']},
+    {t:'Yüksek Proteinli Plan',h:'diyet-program-protein-v1.html',cat:'Yeni',catCls:' green',img:U+'1546069901-ba9599a7e63c',
+     d:'Antrenman günlerine uygun, protein ağırlıklı ve toparlanmayı destekleyen menü.',
+     gun:7,kcal:'~1.900 kcal',zor:'Orta',hedef:['sporcu'],tercih:['standart'],hazirlik:'orta',pratiklik:'orta',ogun:['3-2','5']},
+    {t:'Bitkisel Temelli Hafta',h:'diyet-program-vegan-v1.html',cat:'Vegan',catCls:'',img:U+'1512621776951-a57141f2eefd',
+     d:'Baklagil, tam tahıl ve sebze ağırlıklı, tamamen bitkisel haftalık menü.',
+     gun:7,kcal:'~1.500 kcal',zor:'Başlangıç',hedef:['bitkisel','dengeli'],tercih:['vegan','vejetaryen'],hazirlik:'orta',pratiklik:'orta',ogun:['3','3-2']},
+    {t:'Düşük Şeker Programı',h:'diyet-program-seker-v1.html',cat:'Şekersiz',catCls:'',img:U+'1505576399279-565b52d4ac71',
+     d:'Eklenmiş şekeri azaltan, kan şekerini dengede tutmayı hedefleyen menü.',
+     gun:7,kcal:'~1.550 kcal',zor:'Orta',hedef:['kilo','dengeli'],tercih:['standart','vejetaryen'],hazirlik:'orta',pratiklik:'orta',ogun:['3','3-2']},
+    {t:'Aile Haftalık Menü',h:'diyet-program-aile-v1.html',cat:'Aile',catCls:' green',img:U+'1498837167922-ddd27525d352',
+     d:'Tek mutfakta herkese uyan, pratik ve doyurucu haftalık aile menüsü.',
+     gun:7,kcal:'~2.000 kcal',zor:'Kolay',hedef:['dengeli'],tercih:['standart'],hazirlik:'uzun',pratiklik:'dusuk',ogun:['3','3-2']},
+    {t:'Öğrenci Dostu Menü',h:'diyet-program-ogrenci-v1.html',cat:'Pratik',catCls:'',img:U+'1547592180-85f173990554',
+     d:'Kısa hazırlıklı, bütçe dostu ve yurt mutfağında yapılabilir haftalık menü.',
+     gun:7,kcal:'~1.700 kcal',zor:'Kolay',hedef:['kilo','dengeli'],tercih:['standart','vejetaryen'],hazirlik:'kisa',pratiklik:'yuksek',ogun:['3']}
+  ];
+
+  var HEDEF_LBL={dengeli:'Dengeli beslenme',kilo:'Kilo kontrolü',sporcu:'Sporcu beslenmesi',bitkisel:'Bitkisel beslenme'};
+  var HEDEF_ICO={dengeli:'fa-scale-balanced',kilo:'fa-weight-scale',sporcu:'fa-person-running',bitkisel:'fa-leaf'};
+  var TERCIH_LBL={standart:'Standart',vejetaryen:'Vejetaryen',vegan:'Vegan',diger:'Özel tercih'};
+  var OGUN_LBL={'3':'3 öğün','3-2':'3 + 2 ara öğün','5':'5 öğün'};
+  var HAZ_LBL={kisa:'15 dk’dan az hazırlık',orta:'15–30 dk hazırlık',uzun:'30 dk üzeri hazırlık'};
+  var PRT_LBL={yuksek:'Pratiklik çok önemli',orta:'Pratiklik orta',dusuk:'Pratiklik önemli değil'};
+
+  var form=document.getElementById('wzForm');
+  var result=document.getElementById('wzResult');
+  var steps=Array.prototype.slice.call(document.querySelectorAll('.wz-step'));
+  var panes=Array.prototype.slice.call(document.querySelectorAll('.wz-pane'));
+  var backBtn=document.getElementById('wzBack');
+  var nextBtn=document.getElementById('wzNext');
+  var progTxt=document.getElementById('wzProg');
+
+  function esc(s){return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;');}
+
+  document.querySelectorAll('.wz-opts').forEach(function(grp){
+    var field=grp.getAttribute('data-field');
+    grp.querySelectorAll('.wz-opt').forEach(function(opt){
+      opt.addEventListener('click',function(){
+        grp.querySelectorAll('.wz-opt').forEach(function(o){o.classList.remove('selected');o.setAttribute('aria-checked','false');});
+        opt.classList.add('selected');opt.setAttribute('aria-checked','true');
+        state[field]=opt.getAttribute('data-val');
+        syncNav();
+      });
+    });
+  });
+
+  steps.forEach(function(st){
+    st.addEventListener('click',function(){
+      var n=parseInt(st.getAttribute('data-step'),10);
+      if(n<cur)goStep(n);
+    });
+  });
+
+  function ready(n){ return FIELD[n].every(function(f){return !!state[f];}); }
+  function syncSteps(){
+    steps.forEach(function(st){
+      var n=parseInt(st.getAttribute('data-step'),10);
+      st.classList.toggle('done',n<cur);
+      st.classList.toggle('current',n===cur);
+      st.disabled=!(n<cur);
+      if(n===cur)st.setAttribute('aria-current','step'); else st.removeAttribute('aria-current');
+    });
+  }
+  function syncNav(){
+    nextBtn.disabled=!ready(cur);
+    nextBtn.innerHTML=(cur===MAX?'Programları Gör':'İleri')+' <i class="fa-solid fa-arrow-right"></i>';
+    if(cur===1)backBtn.setAttribute('hidden',''); else backBtn.removeAttribute('hidden');
+    progTxt.textContent='Adım '+cur+' / '+MAX;
+  }
+  function showPane(n,focus){
+    panes.forEach(function(p){p.classList.toggle('active',parseInt(p.getAttribute('data-pane'),10)===n);});
+    if(focus){var h=document.getElementById('wzH'+n);if(h)h.focus();}
+  }
+  function goStep(n,focus){ cur=n;syncSteps();syncNav();showPane(n,focus!==false); }
+
+  backBtn.addEventListener('click',function(){if(cur>1)goStep(cur-1);});
+  nextBtn.addEventListener('click',function(){
+    if(!ready(cur))return;
+    if(cur<MAX)goStep(cur+1); else finish();
+  });
+
+  /* ---- eşleştirme: puan + neden listesi ---- */
+  function score(p){
+    var pts=0, why=[];
+    if(p.hedef.indexOf(state.hedef)>-1){ pts+=4; why.push({i:'fa-bullseye',t:HEDEF_LBL[state.hedef]+' hedefine uygun'}); }
+    if(state.tercih==='diger'){ pts+=1; }
+    else if(p.tercih.indexOf(state.tercih)>-1){ pts+=3; why.push({i:'fa-utensils',t:TERCIH_LBL[state.tercih]+' beslenmeye uygun'}); }
+    if(p.hazirlik===state.hazirlik){ pts+=2; why.push({i:'fa-clock',t:HAZ_LBL[state.hazirlik]}); }
+    if(p.pratiklik===state.pratiklik){ pts+=2; why.push({i:'fa-gauge-high',t:PRT_LBL[state.pratiklik]}); }
+    if(p.ogun.indexOf(state.ogun)>-1){ pts+=1; why.push({i:'fa-plate-wheat',t:OGUN_LBL[state.ogun]+' düzenine uyar'}); }
+    if(!why.length) why.push({i:'fa-circle-check',t:'Yayındaki en yakın örnek menü'});
+    return {p:p,pts:pts,why:why.slice(0,3)};
+  }
+
+  function buildCard(m){
+    var p=m.p;
+    var h='<a class="prog-card" href="'+p.h+'">';
+    h+='<div class="prog-media" style="background-image:url(\''+p.img+IMG+'\')">';
+    h+='<span class="prog-cat'+p.catCls+'">'+esc(p.cat)+'</span>';
+    h+='<span class="prog-dur"><i class="fa-regular fa-calendar"></i> '+p.gun+' günlük</span>';
+    h+='</div><div class="prog-body"><h3>'+esc(p.t)+'</h3><p>'+esc(p.d)+'</p>';
+    h+='<div class="prog-tags">'+m.why.map(function(w){
+      return '<span class="prog-tag"><i class="fa-solid '+w.i+'"></i> '+esc(w.t)+'</span>';
+    }).join('')+'</div>';
+    h+='<div class="prog-foot"><span class="meals">'+esc(p.kcal)+' · '+esc(p.zor)+'</span><span class="go">İncele <i class="fa-solid fa-arrow-right"></i></span></div>';
+    h+='</div></a>';
+    return h;
+  }
+
+  function pill(ico,txt){return '<span class="wz-pill"><i class="fa-solid '+ico+'"></i> '+esc(txt)+'</span>';}
+
+  function finish(){
+    var ranked=DATA.map(score).sort(function(a,b){return b.pts-a.pts;}).slice(0,3);
+
+    var pills='';
+    pills+=pill(HEDEF_ICO[state.hedef],HEDEF_LBL[state.hedef]);
+    pills+=pill('fa-calendar',state.sure+' günlük plan');
+    pills+=pill('fa-utensils',TERCIH_LBL[state.tercih]);
+    pills+=pill('fa-plate-wheat',OGUN_LBL[state.ogun]);
+    pills+=pill('fa-clock',HAZ_LBL[state.hazirlik]);
+    if(state.ozel&&state.ozel!=='yok')pills+=pill('fa-triangle-exclamation',state.ozel==='alerji'?'Besin alerjisi':'Sağlık durumu');
+    document.getElementById('wzSumPills').innerHTML=pills;
+
+    // SÜRE DÜRÜSTLÜĞÜ — seçilen süre ne olursa olsun açıkça yazılır
+    var t;
+    if(state.sure==='7'){
+      t='Yayında olan <b>sekiz programın sekizi de 7 günlüktür</b> — seçtiğin süreyle birebir örtüşüyor.';
+    }else{
+      t='<b>'+state.sure+' günlük</b> bir plan seçtin. Şu an yayında olan <b>sekiz programın sekizi de 7 günlüktür</b>; '+state.sure+' günlük ayrı bir program henüz yok. Aşağıdaki 7 günlük menüyü tekrarlayarak '+state.sure+' güne uzatabilir ya da <a href="diyetisyen-bul-v1.html">bir diyetisyenden</a> sana özel bir plan isteyebilirsin.';
+    }
+    document.getElementById('wzSureTxt').innerHTML=t;
+
+    var ozel=document.getElementById('wzOzel');
+    if(state.ozel&&state.ozel!=='yok')ozel.removeAttribute('hidden'); else ozel.setAttribute('hidden','');
+
+    document.getElementById('wzGrid').innerHTML=ranked.map(buildCard).join('');
+
+    form.style.display='none';
+    result.classList.add('active');
+    var rh=document.getElementById('wzResH');if(rh)rh.focus();
+    var c=document.querySelector('.wz-card');
+    if(c&&c.scrollIntoView)c.scrollIntoView({behavior:'smooth',block:'start'});
+  }
+
+  function restart(){
+    state={hedef:null,sure:null,tercih:null,ogun:null,hazirlik:null,pratiklik:null,ozel:null};
+    document.querySelectorAll('.wz-opt.selected').forEach(function(o){o.classList.remove('selected');o.setAttribute('aria-checked','false');});
+    result.classList.remove('active');
+    form.style.display='';
+    goStep(1,false);
+    var c=document.querySelector('.wz-card');
+    if(c&&c.scrollIntoView)c.scrollIntoView({behavior:'smooth',block:'start'});
+  }
+  document.getElementById('wzRestart').addEventListener('click',restart);
+
+  syncSteps();syncNav();
+
+  /* ---- SS/QA paramları ---- */
+  var qs=location.search;
+  function preselect(field,val){
+    var grp=document.querySelector('.wz-opts[data-field="'+field+'"]');
+    if(!grp)return;
+    var opt=grp.querySelector('.wz-opt[data-val="'+val+'"]');
+    if(!opt)return;
+    grp.querySelectorAll('.wz-opt').forEach(function(o){o.classList.remove('selected');o.setAttribute('aria-checked','false');});
+    opt.classList.add('selected');opt.setAttribute('aria-checked','true');
+    state[field]=val;
+  }
+  function fill(sure,ozel){
+    preselect('hedef','kilo');preselect('sure',sure);preselect('tercih','standart');
+    preselect('ogun','3');preselect('hazirlik','kisa');preselect('pratiklik','yuksek');
+    preselect('ozel',ozel);
+  }
+  if(qs.indexOf('result=1')>-1){ fill('21','yok'); finish(); }
+  else if(qs.indexOf('ozel=1')>-1){ fill('7','alerji'); finish(); }
+  else{
+    var sm=/[?&]step=(\d)/.exec(qs);
+    if(sm){
+      var tgt=Math.max(1,Math.min(MAX,parseInt(sm[1],10)));
+      if(tgt>=2)preselect('hedef','kilo');
+      if(tgt>=3)preselect('sure','7');
+      if(tgt>=4)preselect('tercih','standart');
+      if(tgt>=5){preselect('ogun','3');preselect('hazirlik','kisa');preselect('pratiklik','yuksek');}
+      goStep(tgt,false);
+    }
+  }
+})();
+</script>
+</body>
+</html>

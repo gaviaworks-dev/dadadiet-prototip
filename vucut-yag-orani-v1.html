@@ -1,0 +1,486 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<meta name="robots" content="noindex, nofollow" />
+<title>Vücut Yağ Oranı Hesapla — DadaMutfak</title>
+<link rel="shortcut icon" type="image/x-icon"
+      href="assets/img/favicon.ico" />
+<!-- FontAwesome 6.5.2 (kilitli ikon seti) -->
+<link rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css"
+      integrity="sha512-SnH5WK+bZxgPHs44uWIX+LLJAJ9/2PkPKZ5QiAj6Ta86w+fsb2TkcmfRyVX3pBnMFcV7oQPJkl9QevSCWr3W6A=="
+      crossorigin="anonymous" referrerpolicy="no-referrer" />
+<link rel="stylesheet" href="assets/css/dd-shell.css" />
+<style>
+/* ===== SAYFA CSS — kabuk CSS'i assets/css/dd-shell.css'te ===== */
+/* =====================================================================
+   F10 — HESAPLAYICI ŞABLONU · ideal-kilo-v1 / beden-kutle-endeksi-v1 ile
+   AYNI blok. Tek fark: ilgili içerik bölümü tarif kartı yerine program
+   kartı kullanır (.prog-grid / .prog-card ← diyet-listeleri-v1), çünkü
+   tarif sayfaları bu repoda yok, program sayfaları var.
+   Form kiti .fk- · r-card yerine prog-card · gauge · kcal-bands
+   ===================================================================== */
+
+/* ---- FORM KİTİ (tarif-ekle-v1.html VERBATIM — miras) ---- */
+.fk-field{margin-bottom:22px}
+.fk-field:last-child{margin-bottom:0}
+.fk-label{display:flex;align-items:baseline;gap:7px;font-size:14px;font-weight:700;color:var(--slate);margin-bottom:9px}
+.fk-label .req{color:var(--tomato);font-weight:700}
+.fk-label .opt{font-size:11.5px;color:var(--muted);font-weight:500}
+.fk-label .fk-count{margin-left:auto;font-size:11.5px;color:var(--muted);font-weight:500;letter-spacing:.02em}
+.fk-input,.fk-select,.fk-textarea{
+  width:100%;font-family:inherit;font-size:14px;font-weight:500;color:var(--slate);
+  background:var(--bg);border:1px solid var(--line);border-radius:var(--radius-md);
+  padding:13px 15px;outline:none;transition:border-color .2s var(--ease),box-shadow .2s var(--ease);
+}
+.fk-input::placeholder,.fk-textarea::placeholder{color:#a7a7a7}
+.fk-input:focus,.fk-select:focus,.fk-textarea:focus{border-color:var(--green);box-shadow:0 0 0 3px rgba(59,183,126,.12)}
+.fk-select{
+  appearance:none;-webkit-appearance:none;cursor:pointer;
+  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='6'%3E%3Cpath d='M1 1l4 4 4-4' stroke='%237E7E7E' stroke-width='1.6' fill='none' stroke-linecap='round'/%3E%3C/svg%3E");
+  background-repeat:no-repeat;background-position:right 15px center;padding-right:40px;
+}
+.fk-select:invalid{color:#a7a7a7}
+.fk-help{display:flex;align-items:flex-start;gap:7px;font-size:12.5px;color:var(--muted);font-weight:500;margin-top:8px;line-height:1.5}
+.fk-help i{color:var(--green);font-size:12px;margin-top:2px;flex:none}
+.fk-grid{display:grid;gap:16px 18px}
+.fk-grid .fk-field{margin-bottom:0}
+.fk-grid.c2{grid-template-columns:1fr 1fr}
+.fk-suffix{position:relative}
+.fk-suffix .fk-input{padding-right:64px}
+.fk-suffix>span{position:absolute;right:15px;top:50%;transform:translateY(-50%);font-size:12px;font-weight:700;color:var(--muted);pointer-events:none}
+/* segment toggle (cinsiyet) — token dili, sağlık yeşili aktif */
+.fk-seg{display:flex;background:var(--bg);border:1px solid var(--line);border-radius:var(--radius-md);padding:4px;gap:4px}
+.fk-seg button{flex:1;border:none;background:transparent;font-family:inherit;font-weight:700;font-size:14px;color:var(--muted);padding:11px 14px;border-radius:var(--radius-sm);cursor:pointer;transition:.2s var(--ease);display:inline-flex;align-items:center;justify-content:center;gap:8px}
+.fk-seg button i{font-size:14px}
+.fk-seg button.active{background:var(--tomato-deep);color:#fff}
+
+/* ---- ÜST BÖLGE (kompakt, krem) — breadcrumb + başlık + hesaplayıcı rayı ---- */
+.calc-top{position:relative;padding-top:128px;background-image:linear-gradient(90deg,rgba(18,28,22,.94),rgba(20,32,25,.74)),url('https://images.unsplash.com/photo-1517836357463-d25dfeac3438?w=1600&q=80&auto=format&fit=crop&exp=7&gam=6&sat=-9&high=8&vib=5');background-size:cover;background-position:center}
+.calc-top .rd-crumb{padding:18px 0 14px}
+.rd-crumb{display:flex;align-items:center;flex-wrap:wrap;gap:9px;font-size:13px;font-weight:500;color:var(--muted)}
+.rd-crumb a{color:var(--muted);transition:.18s}
+.rd-crumb a:hover{color:var(--green-deep)}
+.rd-crumb i{font-size:9px;color:#c7c7c7}
+.rd-crumb b{color:var(--slate);font-weight:700}
+.calc-head{padding:6px 0 26px}
+.calc-head .eyebrow{color:var(--green-deep)}
+.calc-head .eyebrow::before{background:var(--green)}
+.calc-head h1{font-size:38px;margin:13px 0 10px;letter-spacing:-.02em}
+.calc-head .lead{color:var(--muted);font-weight:500;font-size:15.5px;max-width:560px}
+/* .calc-switch + .calc-switch-band → assets/css/dd-shell.css (§5.2, on sayfada birebir aynıydı) */
+.calc-top .wrap{padding-bottom:30px}
+
+/* ---- LAYOUT: form | sonuç ---- */
+.calc-layout{display:grid;grid-template-columns:1fr 1.02fr;gap:30px;align-items:start}
+.calc-card-box{background:var(--paper);border:1px solid var(--line);border-radius:var(--radius-xl);padding:30px;box-shadow:var(--sh-sm)}
+.calc-card-box h3{font-size:19px;margin-bottom:4px}
+.calc-card-box .box-sub{font-size:13px;color:var(--muted);font-weight:500;margin-bottom:24px}
+.calc-actions{display:flex;gap:12px;margin-top:26px}
+.btn-green{background:var(--tomato-deep);color:#fff;flex:1}
+.btn-green:hover{background:var(--green-deep);transform:translateY(-2px)}
+
+/* ---- SONUÇ KARTI + GAUGE ---- */
+.res-box{background:linear-gradient(180deg,#F2FBF6,#EAF7F0);border:1px solid #d9efe3}
+.res-num-row{display:flex;align-items:flex-end;gap:16px;margin-bottom:6px}
+.res-num{font-size:58px;font-weight:700;color:var(--slate);line-height:.9;letter-spacing:-.03em}
+.res-num small{font-size:18px;color:var(--muted);font-weight:600;margin-left:4px}
+.res-cat{display:inline-flex;align-items:center;gap:8px;font-size:13px;font-weight:700;padding:8px 14px;border-radius:var(--radius-sm);margin-bottom:6px}
+.res-desc{font-size:14px;color:var(--slate-2);font-weight:500;line-height:1.6;margin:14px 0 6px}
+/* gauge — yatay segmentli ölçek + ibre */
+.gauge{margin-top:26px}
+.gauge-bar{position:relative;padding-top:26px}
+.gauge-track{display:flex;height:12px;border-radius:var(--radius-sm);overflow:hidden;box-shadow:inset 0 1px 2px rgba(0,0,0,.06)}
+.g-seg{height:100%}
+.g-seg.s1{background:#6aa9d8;width:14%}
+.g-seg.s2{background:var(--green);width:26%}
+.g-seg.s3{background:var(--tomato);width:20%}
+.g-seg.s4{background:var(--tomato-deep);width:40%}
+.gauge-needle{position:absolute;top:8px;left:34%;width:0;height:0;transform:translateX(-50%);transition:left .55s var(--ease);z-index:2}
+.gauge-needle::before{content:"";position:absolute;left:50%;top:0;transform:translateX(-50%);border-left:7px solid transparent;border-right:7px solid transparent;border-top:9px solid var(--slate)}
+.gauge-needle::after{content:"";position:absolute;left:50%;top:9px;transform:translateX(-50%);width:3px;height:18px;background:var(--slate);border-radius:2px}
+.gauge-labels{display:flex;margin-top:12px}
+.gauge-labels span{font-size:10.5px;color:var(--muted);font-weight:600;text-align:center;line-height:1.3}
+.gauge-labels span:nth-child(1){width:14%}
+.gauge-labels span:nth-child(2){width:26%}
+.gauge-labels span:nth-child(3){width:20%}
+.gauge-labels span:nth-child(4){width:40%}
+.gauge-scale{display:flex;justify-content:space-between;margin-top:6px;font-size:10px;color:#b6b6b6;font-weight:600}
+
+/* ---- SONUÇTAN İÇERİĞE KÖPRÜ ---- */
+.bridge{display:flex;align-items:center;gap:16px;background:var(--paper);border:1px solid #d9efe3;border-radius:var(--radius-lg);padding:18px 20px;margin-top:22px}
+.bridge .br-ico{flex:none;width:46px;height:46px;border-radius:var(--radius-md);background:#EAF7F0;display:grid;place-items:center;color:var(--green);font-size:19px}
+.bridge .br-txt b{font-size:14.5px;color:var(--slate);display:block}
+.bridge .br-txt span{font-size:12.5px;color:var(--muted);font-weight:500}
+.bridge .br-go{margin-left:auto;flex:none}
+
+/* ---- ara değer kartları — gunluk-kalori kb dili (VERBATIM) ---- */
+.kcal-bands{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-top:20px}
+.kb{background:#fff;border:1px solid #d9efe3;border-radius:var(--radius-md);padding:13px 10px;text-align:center}
+.kb i{display:block;font-size:14px;color:var(--muted);margin-bottom:6px}
+.kb b{display:block;font-size:19px;color:var(--slate);letter-spacing:-.01em;line-height:1.1}
+.kb b small{font-size:11px;color:var(--muted);font-weight:600;margin-left:2px}
+.kb span{display:block;font-size:11.5px;color:var(--muted);font-weight:600;margin-top:4px}
+.kb.on{border-color:var(--green);box-shadow:0 0 0 3px rgba(59,183,126,.12)}
+.kb.on i,.kb.on span{color:var(--green-deep)}
+@media (max-width:640px){.kcal-bands{gap:7px}.kb b{font-size:16px}}
+
+/* ---- ilgili içerik: program kartı (diyet-listeleri-v1 VERBATIM) ---- */
+.prog-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:26px}
+.prog-card{background:var(--paper);border:1px solid var(--line);border-radius:var(--radius-lg);overflow:hidden;display:flex;flex-direction:column;cursor:pointer;transition:.3s var(--ease)}
+.prog-card:hover{transform:translateY(-6px);border-color:#dcdcdc;box-shadow:var(--sh-md)}
+.prog-media{position:relative;height:185px;background-size:cover;background-position:center}
+.prog-media::after{content:"";position:absolute;inset:0;background:linear-gradient(180deg,rgba(33,30,22,0) 50%,rgba(20,18,12,.55))}
+.prog-cat{position:absolute;top:13px;left:13px;z-index:2;background:rgba(255,255,255,.94);color:var(--slate);font-size:11.5px;font-weight:700;padding:6px 12px;border-radius:var(--radius-sm);letter-spacing:.02em}
+.prog-cat.green{background:var(--tomato-deep);color:#fff}
+.prog-dur{position:absolute;bottom:13px;left:13px;z-index:2;display:inline-flex;align-items:center;gap:6px;background:rgba(20,18,12,.72);color:#fff;font-size:11.5px;font-weight:700;padding:6px 11px;border-radius:var(--radius-sm);backdrop-filter:blur(4px)}
+.prog-body{padding:20px;display:flex;flex-direction:column;flex:1}
+.prog-body h3{font-size:19px;margin-bottom:9px;letter-spacing:-.01em}
+.prog-card:hover .prog-body h3{color:var(--green-deep)}
+.prog-body p{font-size:13.5px;color:var(--muted);font-weight:500;line-height:1.55;margin-bottom:16px}
+.prog-tags{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:18px}
+.prog-tag{display:inline-flex;align-items:center;gap:6px;font-size:12px;font-weight:600;color:var(--slate-2);background:#EAF7F0;border:1px solid #d9efe3;padding:6px 11px;border-radius:var(--radius-sm)}
+.prog-tag i{color:var(--green);font-size:11px}
+.prog-foot{display:flex;align-items:center;justify-content:space-between;gap:10px;margin-top:auto;padding-top:16px;border-top:1px solid var(--line)}
+.prog-foot .meals{font-size:12.5px;color:var(--muted);font-weight:500}
+.prog-foot .go{display:inline-flex;align-items:center;gap:7px;color:var(--green-deep);font-weight:700;font-size:13.5px}
+.prog-foot .go i{transition:.2s var(--ease)}
+.prog-card:hover .prog-foot .go i{transform:translateX(3px)}
+
+/* ---- responsive ---- */
+@media (max-width:1024px){
+  .calc-layout{grid-template-columns:1fr;gap:24px}
+  .prog-grid{grid-template-columns:1fr 1fr}
+  .calc-head h1{font-size:30px}
+}
+@media (max-width:640px){
+  .prog-grid{grid-template-columns:1fr;gap:18px}
+  .calc-card-box{padding:22px}
+  .res-num{font-size:46px}
+  .calc-head h1{font-size:25px}
+}
+/* HERO ZENGINLESTIRME (hero-zengin ADIM2) */
+.calc-top .wrap{position:relative}
+.calc-top .rd-crumb,.calc-top .rd-crumb a{color:#bcd0c4}
+.calc-top .rd-crumb a:hover{color:#7fe0b0}
+.calc-top .rd-crumb i{color:rgba(255,255,255,.4)}
+.calc-top .rd-crumb b{color:#fff}
+.calc-top .eyebrow{color:#7fe0b0}
+.calc-top h1{color:#fff;text-shadow:0 2px 24px rgba(0,0,0,.25)}
+.calc-top h1 .accent{color:#54d39a}
+.calc-top .lead{color:#e3ede7;text-shadow:0 1px 14px rgba(0,0,0,.3)}
+@media (max-width:640px){.calc-top{padding-top:74px}}
+</style>
+</head>
+<body data-brand="diet" data-nav="hesaplayicilar">
+
+<div id="ddChromeTop"></div>
+<script src="assets/js/dd-shell.js"></script>
+
+<main class="page-main" id="pageMain">
+
+<!-- ===== ÜST BÖLGE: breadcrumb + başlık ===== -->
+<section class="below-header calc-top">
+  <div class="wrap">
+    <nav class="rd-crumb" aria-label="Sayfa yolu">
+      <a href="saglik-hub-v1.html"><i class="fa-solid fa-house"></i></a>
+      <i class="fa-solid fa-chevron-right"></i>
+      <a href="hesaplayicilar-v1.html">Hesaplayıcılar</a>
+      <i class="fa-solid fa-chevron-right"></i>
+      <b>Vücut Yağ Oranı</b>
+    </nav>
+    <div class="calc-head">
+      <span class="eyebrow"><i class="fa-solid fa-percent"></i> Hesaplayıcı</span>
+      <h1>Vücut Yağ Oranı</h1>
+      <p class="lead">Çevre ölçüleriyle vücudundaki yağın yüzdesini tahmin et. Terazi tek bir sayı verir; bu hesaplayıcı o sayının ne kadarının yağ olduğunu gösterir.</p>
+    </div>
+  </div>
+</section>
+
+<!-- S2: hesaplayıcı switcher — banner-dışı beyaz band -->
+<section class="calc-switch-band">
+  <div class="wrap">
+    <nav class="calc-switch" aria-label="Hesaplayıcılar">
+      <a href="bazal-metabolizma-v1.html"><i class="fa-solid fa-fire-flame-curved"></i> Bazal Metabolizma</a>
+      <a href="beden-kutle-endeksi-v1.html"><i class="fa-solid fa-weight-scale"></i> Beden Kütle Endeksi</a>
+      <a href="gunluk-kalori-v1.html"><i class="fa-solid fa-utensils"></i> Günlük Kalori</a>
+      <a href="vucut-tipi-v1.html"><i class="fa-solid fa-person"></i> Vücut Tipi</a>
+      <a class="active" href="vucut-yag-orani-v1.html"><i class="fa-solid fa-percent"></i> Vücut Yağ Oranı</a>
+      <a href="gunluk-su-v1.html"><i class="fa-solid fa-droplet"></i> Günlük Su</a>
+      <a href="ideal-kilo-v1.html"><i class="fa-solid fa-scale-balanced"></i> İdeal Kilo</a>
+      <a href="hedef-kilo-suresi-v1.html"><i class="fa-solid fa-calendar-check"></i> Hedef Süresi</a>
+      <a href="porsiyon-hesaplama-v1.html"><i class="fa-solid fa-scale-unbalanced"></i> Porsiyon</a>
+      <a href="makro-dagilim-v1.html"><i class="fa-solid fa-chart-pie"></i> Makro</a>
+    </nav>
+  </div>
+</section>
+
+<!-- ===== HESAPLAYICI: form | sonuç ===== -->
+<section class="sec" style="background:var(--bg-white);padding-top:40px">
+  <div class="wrap">
+    <div class="calc-layout">
+
+      <!-- FORM -->
+      <div class="calc-card-box">
+        <h3>Ölçülerini gir</h3>
+        <p class="box-sub">Sonuç anında güncellenir — istersen Hesapla'ya bas.</p>
+        <form id="bfForm" autocomplete="off">
+          <div class="fk-field">
+            <label class="fk-label">Cinsiyet <span class="req">*</span></label>
+            <div class="fk-seg" id="cinsiyet" role="group" aria-label="Cinsiyet">
+              <button type="button" class="active" data-val="kadin"><i class="fa-solid fa-venus"></i> Kadın</button>
+              <button type="button" data-val="erkek"><i class="fa-solid fa-mars"></i> Erkek</button>
+            </div>
+          </div>
+          <div class="fk-grid c2">
+            <div class="fk-field">
+              <label class="fk-label" for="boy">Boy <span class="req">*</span></label>
+              <div class="fk-suffix"><input class="fk-input" type="number" id="boy" value="167" min="120" max="230" inputmode="numeric"><span>cm</span></div>
+            </div>
+            <div class="fk-field">
+              <label class="fk-label" for="kilo">Kilo <span class="opt">opsiyonel</span></label>
+              <div class="fk-suffix"><input class="fk-input" type="number" id="kilo" value="64" min="30" max="300" inputmode="numeric"><span>kg</span></div>
+            </div>
+          </div>
+          <div class="fk-grid c2" style="margin-top:18px">
+            <div class="fk-field">
+              <label class="fk-label" for="boyun">Boyun çevresi <span class="req">*</span></label>
+              <div class="fk-suffix"><input class="fk-input" type="number" id="boyun" value="32" min="20" max="70" inputmode="numeric"><span>cm</span></div>
+            </div>
+            <div class="fk-field">
+              <label class="fk-label" for="bel">Bel çevresi <span class="req">*</span></label>
+              <div class="fk-suffix"><input class="fk-input" type="number" id="bel" value="74" min="40" max="200" inputmode="numeric"><span>cm</span></div>
+            </div>
+          </div>
+          <div class="fk-field" id="kalcaField" style="margin-top:18px">
+            <label class="fk-label" for="kalca">Kalça çevresi <span class="req">*</span></label>
+            <div class="fk-suffix"><input class="fk-input" type="number" id="kalca" value="98" min="50" max="220" inputmode="numeric"><span>cm</span></div>
+            <div class="fk-help"><i class="fa-solid fa-circle-info"></i> Kalça ölçüsü yalnız kadınlarda kullanılır; formülün kadın sürümü bel, kalça ve boyun farkını birlikte okur.</div>
+          </div>
+          <div class="fk-help" style="margin-top:16px"><i class="fa-solid fa-circle-info"></i> ABD Donanması (U.S. Navy) çevre ölçüsü yöntemi kullanılır. Bel ölçüsü kadınlarda en dar noktadan, erkeklerde göbek deliği hizasından; boyun ölçüsü gırtlağın hemen altından alınır. Mezura teni sıkmadan, düz durur.</div>
+          <div class="calc-actions">
+            <button type="submit" class="btn btn-green"><i class="fa-solid fa-calculator"></i> Hesapla</button>
+            <button type="reset" class="btn btn-ghost" id="bfReset">Sıfırla</button>
+          </div>
+        </form>
+      </div>
+
+      <!-- SONUÇ -->
+      <div class="calc-card-box res-box">
+        <span class="eyebrow" style="color:var(--green-deep)"><i class="fa-solid fa-chart-simple"></i> Sonucun</span>
+        <div class="res-num-row" style="margin-top:14px">
+          <span class="res-num" id="bfVal">27,9</span><small>%</small>
+        </div>
+        <span class="res-cat" id="bfCat" style="background:#EAF7F0;color:var(--green-deep)"><i class="fa-solid fa-circle-check"></i> Sağlıklı aralık</span>
+        <p class="res-desc" id="bfDesc">Yağ oranın yaşına ve cinsiyetine göre sağlıklı kabul edilen bandın içinde. Bu aralığı korumak için protein alımını ve düzenli hareketi sürdürmen yeterli.</p>
+
+        <div class="gauge">
+          <div class="gauge-bar">
+            <div class="gauge-needle" id="bfNeedle" style="left:34%"></div>
+            <div class="gauge-track">
+              <span class="g-seg s1"></span><span class="g-seg s2"></span><span class="g-seg s3"></span><span class="g-seg s4"></span>
+            </div>
+          </div>
+          <div class="gauge-labels">
+            <span>Çok Düşük</span><span>Atletik</span><span>Sağlıklı</span><span>Yüksek</span>
+          </div>
+          <div class="gauge-scale" id="bfScale"><span>10</span><span>21</span><span>25</span><span>32</span><span>45</span></div>
+        </div>
+
+        <div class="kcal-bands">
+          <div class="kb" id="bfYag"><i class="fa-solid fa-droplet"></i><b>17,9<small>kg</small></b><span>Yağ kütlesi</span></div>
+          <div class="kb on" id="bfYagsiz"><i class="fa-solid fa-dumbbell"></i><b>46,1<small>kg</small></b><span>Yağsız kütle</span></div>
+          <div class="kb" id="bfHedef"><i class="fa-solid fa-bullseye"></i><b>31<small>%</small></b><span>Sağlıklı üst sınır</span></div>
+        </div>
+
+        <div class="bridge">
+          <span class="br-ico"><i class="fa-solid fa-weight-scale"></i></span>
+          <div class="br-txt"><b>BKİ ile birlikte oku</b><span>Kas ağırlığı yüksekse BKİ tek başına yanıltır</span></div>
+          <a class="see-all br-go" href="beden-kutle-endeksi-v1.html">BKİ Hesapla <i class="fa-solid fa-arrow-right"></i></a>
+        </div>
+        <div class="bridge">
+          <span class="br-ico"><i class="fa-solid fa-drumstick-bite"></i></span>
+          <div class="br-txt"><b>Yağsız kütleni koru</b><span>Yeterli protein olmadan kilo kaybının bir kısmı kastan gider</span></div>
+          <a class="see-all br-go" href="makro-dagilim-v1.html">Makro Dağılımı <i class="fa-solid fa-arrow-right"></i></a>
+        </div>
+
+        <div class="fk-help" style="margin-top:18px"><i class="fa-solid fa-circle-info"></i> Bu sonuç genel bilgilendirme amaçlıdır, tıbbi tavsiye değildir. Çevre ölçüsü yöntemi bir tahmindir; kesin ölçüm için vücut analizi gerekir. Kişisel değerlendirme için bir hekime veya <a href="diyetisyen-dizin-v1.html" style="color:var(--green-deep);font-weight:700">diyetisyene danış</a>.</div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- ===== İLGİLİ İÇERİK ===== -->
+<section class="sec" style="background:var(--bg-cream)">
+  <div class="wrap">
+    <div class="sec-head reveal">
+      <div>
+        <span class="eyebrow" style="color:var(--green-deep)"><i class="fa-solid fa-clipboard-list"></i> Sonucuna Göre</span>
+        <h2>Yağsız kütleni koruyan programlar</h2>
+        <p class="lead">Protein ağırlığı yüksek, dengeli ve haftalık kurgulanmış menüler.</p>
+      </div>
+      <div class="sec-tools"><a class="see-all" href="diyet-listeleri-v1.html">Tüm Programlar <i class="fa-solid fa-arrow-right"></i></a></div>
+    </div>
+    <div class="prog-grid">
+      <a class="prog-card" href="diyet-program-protein-v1.html">
+        <div class="prog-media" style="background-image:url('https://images.unsplash.com/photo-1512852939750-1305098529bf?w=700&q=80&auto=format&fit=crop&exp=7&gam=6&sat=-9&high=8&vib=5')">
+          <span class="prog-cat green">Yeni</span>
+          <span class="prog-dur"><i class="fa-regular fa-calendar"></i> 7 günlük</span>
+        </div>
+        <div class="prog-body">
+          <h3>Yüksek Proteinli Plan</h3>
+          <p>Kas koruyan ve tok tutan, antrenman günlerine uygun protein ağırlıklı menü.</p>
+          <div class="prog-tags"><span class="prog-tag"><i class="fa-solid fa-fire"></i> ~1.900 kcal</span><span class="prog-tag"><i class="fa-solid fa-signal"></i> Orta</span></div>
+          <div class="prog-foot"><span class="meals">21 öğün planı</span><span class="go">İncele <i class="fa-solid fa-arrow-right"></i></span></div>
+        </div>
+      </a>
+      <a class="prog-card" href="diyet-program-detay-v1.html">
+        <div class="prog-media" style="background-image:url('https://images.unsplash.com/photo-1540420773420-3366772f4999?w=700&q=80&auto=format&fit=crop&exp=7&gam=6&sat=-9&high=8&vib=5')">
+          <span class="prog-cat green">Popüler</span>
+          <span class="prog-dur"><i class="fa-regular fa-calendar"></i> 7 günlük</span>
+        </div>
+        <div class="prog-body">
+          <h3>Akdeniz Tipi Beslenme</h3>
+          <p>Zeytinyağı, sebze, balık ve baklagil ağırlıklı; kalbe dost dengeli haftalık menü.</p>
+          <div class="prog-tags"><span class="prog-tag"><i class="fa-solid fa-fire"></i> ~1.600 kcal</span><span class="prog-tag"><i class="fa-solid fa-signal"></i> Başlangıç</span></div>
+          <div class="prog-foot"><span class="meals">21 öğün planı</span><span class="go">İncele <i class="fa-solid fa-arrow-right"></i></span></div>
+        </div>
+      </a>
+      <a class="prog-card" href="diyet-program-vegan-v1.html">
+        <div class="prog-media" style="background-image:url('https://images.unsplash.com/photo-1512621776951-a57141f2eefd?w=700&q=80&auto=format&fit=crop&exp=7&gam=6&sat=-9&high=8&vib=5')">
+          <span class="prog-cat">Vegan</span>
+          <span class="prog-dur"><i class="fa-regular fa-calendar"></i> 7 günlük</span>
+        </div>
+        <div class="prog-body">
+          <h3>Bitkisel Temelli Hafta</h3>
+          <p>Tamamen bitkisel, B12 ve protein dengesi gözetilmiş çeşitli vegan menü.</p>
+          <div class="prog-tags"><span class="prog-tag"><i class="fa-solid fa-fire"></i> ~1.500 kcal</span><span class="prog-tag"><i class="fa-solid fa-signal"></i> Başlangıç</span></div>
+          <div class="prog-foot"><span class="meals">21 öğün planı</span><span class="go">İncele <i class="fa-solid fa-arrow-right"></i></span></div>
+        </div>
+      </a>
+    </div>
+  </div>
+</section>
+
+</main><!-- /.page-main -->
+
+<div id="ddChromeGate"></div>
+
+<div id="ddChromeFooter"></div>
+
+<div id="ddChromeFab"></div>
+
+<script>
+/* ===== SAYFA JS — Vücut yağ oranı (U.S. Navy çevre ölçüsü yöntemi) =====
+   Erkek : 495 / (1.0324 - 0.19077·log10(bel-boyun) + 0.15456·log10(boy)) - 450
+   Kadın : 495 / (1.29579 - 0.35004·log10(bel+kalça-boyun) + 0.22100·log10(boy)) - 450
+   Ölçüler santimetre. Sınıflandırma ACE bantları.                            */
+(function(){
+  var boy=document.getElementById('boy'), kilo=document.getElementById('kilo');
+  var boyun=document.getElementById('boyun'), bel=document.getElementById('bel'), kalca=document.getElementById('kalca');
+  var valEl=document.getElementById('bfVal'), catEl=document.getElementById('bfCat'), descEl=document.getElementById('bfDesc');
+  var needle=document.getElementById('bfNeedle'), scale=document.getElementById('bfScale');
+  var kalcaField=document.getElementById('kalcaField'), form=document.getElementById('bfForm');
+  if(!boy)return;
+  var sex='kadin';
+
+  /* cinsiyete göre bant sınırları: [çok düşük üst, atletik üst, sağlıklı üst, ölçek sonu] */
+  var BANDS={
+    kadin:{p:[10,21,25,32,45],hedef:31},
+    erkek:{p:[4,14,18,25,40],hedef:24}
+  };
+  var CUM=[0,14,40,60,100];              /* .g-seg genişliklerinin kümülatifi */
+
+  function fmt(n){return n.toFixed(1).replace('.',',');}
+  function setBand(id,txt,unit){
+    document.getElementById(id).querySelector('b').innerHTML=txt+'<small>'+unit+'</small>';
+  }
+  function pos(v,p){
+    if(v<=p[0])return 0;
+    if(v>=p[4])return 100;
+    for(var i=0;i<4;i++){
+      if(v<=p[i+1])return CUM[i]+(v-p[i])/(p[i+1]-p[i])*(CUM[i+1]-CUM[i]);
+    }
+    return 100;
+  }
+  function sinif(v,p){
+    if(v<p[1])return v<p[0]
+      ? {t:'Çok düşük',i:'fa-triangle-exclamation',bg:'#e8f1f8',c:'#2c6b96',
+         d:'Yağ oranın yaşamsal işlevler için gereken eşiğin altında görünüyor. Bu tabloda hormonal düzen, bağışıklık ve kemik sağlığı zorlanabilir; bir hekime danışmadan daha fazla düşürmeye çalışma.'}
+      : {t:'Atletik aralık',i:'fa-medal',bg:'#e8f1f8',c:'#2c6b96',
+         d:'Yağ oranın düzenli antrenman yapan kişilerin bandında. Bu seviyeyi korumak yeterli protein, yeterli uyku ve toparlanma süresi ister; enerji alımını fazla kısma.'};
+    if(v<p[2])return {t:'Fit aralık',i:'fa-circle-check',bg:'#EAF7F0',c:'var(--green-deep)',
+      d:'Yağ oranın sağlıklının da üstünde, fit kabul edilen bantta. Mevcut düzenin işe yarıyor; öğün düzenini ve hareketi sürdürmen yeterli.'};
+    if(v<p[3])return {t:'Sağlıklı aralık',i:'fa-circle-check',bg:'#EAF7F0',c:'var(--green-deep)',
+      d:'Yağ oranın sağlıklı kabul edilen bandın içinde. Bu aralığı korumak için protein alımını ve düzenli hareketi sürdürmen yeterli.'};
+    return {t:'Sağlıklı bandın üstünde',i:'fa-triangle-exclamation',bg:'var(--tomato-tint)',c:'var(--tomato-deep)',
+      d:'Yağ oranın sağlıklı kabul edilen bandın üstünde. Haftada 0,25-0,5 kg gibi ölçülü bir kayıp hedefi, yeterli protein ve düzenli hareket bu tabloyu en sürdürülebilir şekilde değiştirir.'};
+  }
+  function calc(){
+    var b=parseFloat(boy.value), n=parseFloat(boyun.value), w=parseFloat(bel.value), h=parseFloat(kalca.value);
+    var cfg=BANDS[sex], p=cfg.p;
+    var fark = sex==='erkek' ? (w-n) : (w+h-n);
+    if(!b||!n||!w||(sex==='kadin'&&!h)||fark<=0){
+      valEl.textContent='—';
+      catEl.innerHTML='<i class="fa-solid fa-circle-info"></i> Ölçüleri tamamla';
+      catEl.style.background='#EAF7F0'; catEl.style.color='var(--green-deep)';
+      descEl.textContent='Bel çevresi, boyun çevresinden büyük olmalı. Ölçüleri gözden geçir; kadınlarda kalça ölçüsü de gerekir.';
+      setBand('bfYag','—',''); setBand('bfYagsiz','—',''); setBand('bfHedef',String(cfg.hedef),'%');
+      return;
+    }
+    var yag = sex==='erkek'
+      ? 495/(1.0324-0.19077*Math.log(fark)/Math.LN10+0.15456*Math.log(b)/Math.LN10)-450
+      : 495/(1.29579-0.35004*Math.log(fark)/Math.LN10+0.22100*Math.log(b)/Math.LN10)-450;
+    if(!isFinite(yag)||yag<=0||yag>=70){
+      valEl.textContent='—';
+      catEl.innerHTML='<i class="fa-solid fa-circle-info"></i> Ölçüleri gözden geçir';
+      catEl.style.background='#EAF7F0'; catEl.style.color='var(--green-deep)';
+      descEl.textContent='Girilen ölçülerle anlamlı bir sonuç çıkmıyor. Mezurayı teni sıkmadan, doğru hizalardan geçirerek yeniden ölç.';
+      setBand('bfYag','—',''); setBand('bfYagsiz','—',''); setBand('bfHedef',String(cfg.hedef),'%');
+      return;
+    }
+    valEl.textContent=fmt(yag);
+    var s=sinif(yag,p);
+    catEl.innerHTML='<i class="fa-solid '+s.i+'"></i> '+s.t;
+    catEl.style.background=s.bg; catEl.style.color=s.c;
+    descEl.textContent=s.d;
+    needle.style.left=pos(yag,p).toFixed(1)+'%';
+    scale.innerHTML=p.map(function(x){return '<span>'+x+'</span>';}).join('');
+    var k=parseFloat(kilo.value);
+    if(k>0){
+      setBand('bfYag',fmt(k*yag/100),'kg');
+      setBand('bfYagsiz',fmt(k*(100-yag)/100),'kg');
+    }else{
+      setBand('bfYag','—',''); setBand('bfYagsiz','—','');
+    }
+    setBand('bfHedef',String(cfg.hedef),'%');
+  }
+  [boy,kilo,boyun,bel,kalca].forEach(function(el){el.addEventListener('input',calc);});
+  form.addEventListener('submit',function(e){e.preventDefault();calc();});
+  document.querySelectorAll('#cinsiyet button').forEach(function(b){
+    b.addEventListener('click',function(){
+      document.querySelectorAll('#cinsiyet button').forEach(function(x){x.classList.remove('active')});
+      b.classList.add('active'); sex=b.getAttribute('data-val');
+      kalcaField.hidden=(sex==='erkek');
+      calc();
+    });
+  });
+  document.getElementById('bfReset').addEventListener('click',function(){
+    setTimeout(function(){
+      boy.value='167'; kilo.value='64'; boyun.value='32'; bel.value='74'; kalca.value='98';
+      /* cinsiyet de başlangıcına döner — formülü ve kalça alanının görünürlüğünü o belirliyor */
+      sex='kadin'; kalcaField.hidden=false;
+      document.querySelectorAll('#cinsiyet button').forEach(function(x){
+        x.classList.toggle('active',x.getAttribute('data-val')==='kadin');
+      });
+      calc();
+    },0);
+  });
+  calc();
+})();
+</script>
+</body>
+</html>

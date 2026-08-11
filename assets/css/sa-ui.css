@@ -1,0 +1,97 @@
+/* =====================================================================
+   sa-ui — DadaMutfak PAYLAŞILAN UI primitifleri (kabuk-bağımsız)
+   Admin (sa-shell) + operatör panelleri (dyt-* / mekan-*) ORTAK kullanır.
+   Aksan: admin --acc tanımlar; operatörde tanımlı değilse --green'e düşer.
+   Bu dosya yalnız primitif görünüm taşır — kabuk/layout taşımaz.
+   ===================================================================== */
+
+/* ---- topbar ikon ipucu (site ikonu + zil) — anında, aşağı açılır ---- */
+.pnl-top-tools [data-tip]{position:relative}
+.pnl-top-tools [data-tip]::after{
+  content:attr(data-tip);position:absolute;top:calc(100% + 9px);left:50%;
+  transform:translateX(-50%) translateY(-3px);
+  background:var(--slate);color:#fff;font-size:11.5px;font-weight:600;white-space:nowrap;
+  padding:6px 10px;border-radius:8px;box-shadow:var(--sh-md);
+  opacity:0;pointer-events:none;transition:opacity .15s var(--ease),transform .15s var(--ease);z-index:130;
+}
+.pnl-top-tools [data-tip]:hover::after{opacity:1;transform:translateX(-50%) translateY(0)}
+
+/* ---- Gavia imzası — koyu sidebar/rail sol-alt, gerçek "g" markı (whitened, sessiz) ---- */
+.sa-sig{
+  margin-top:6px;align-self:center;width:34px;height:34px;display:grid;place-items:center;border-radius:9px;
+  opacity:.5;cursor:pointer;transition:.2s var(--ease);
+}
+.sa-sig img{width:21px;height:21px;object-fit:contain;filter:brightness(0) invert(1)}
+.sa-sig:hover{opacity:1;background:rgba(255,255,255,.06)}
+
+/* ---- hesap dropdown — üst bar persona çipi ---- */
+.pnl-me{position:relative}
+.pnl-me[aria-expanded="true"]{background:var(--bg)}
+.pnl-me[aria-expanded="true"]>i{transform:rotate(180deg)}
+.pnl-menu{
+  position:absolute;top:calc(100% + 10px);right:0;min-width:236px;z-index:120;
+  background:var(--paper);border:1px solid var(--line);border-radius:var(--radius-md);box-shadow:var(--sh-lg);
+  padding:7px;opacity:0;transform:translateY(-6px);pointer-events:none;transition:.16s var(--ease);
+}
+.pnl-menu.open{opacity:1;transform:none;pointer-events:auto}
+.pnl-menu .pmenu-head{padding:8px 12px 11px;border-bottom:1px solid var(--line);margin-bottom:6px}
+.pnl-menu .pmenu-head b{display:block;font-size:13.5px;color:var(--slate);font-weight:700}
+.pnl-menu .pmenu-head span{font-size:11.5px;color:var(--muted)}
+.pnl-menu a{display:flex;align-items:center;gap:11px;padding:9px 12px;border-radius:var(--radius-sm);font-size:13.5px;font-weight:600;color:var(--slate-2);transition:.15s var(--ease)}
+.pnl-menu a i{width:16px;text-align:center;font-size:14px;color:var(--muted);transition:.15s var(--ease)}
+.pnl-menu a:hover{background:var(--bg);color:var(--slate)}
+.pnl-menu a:hover i{color:var(--acc,var(--green))}
+.pnl-menu .pmenu-div{height:1px;background:var(--line);margin:6px 4px}
+.pnl-menu a.danger{color:var(--tomato)}
+.pnl-menu a.danger i{color:var(--tomato)}
+.pnl-menu a.danger:hover{background:var(--tomato-tint)}
+
+/* ---- onay modalı (saConfirm) ---- */
+.sa-modal-ov{
+  position:fixed;inset:0;z-index:200;display:flex;align-items:center;justify-content:center;padding:22px;
+  background:rgba(25,22,15,.55);-webkit-backdrop-filter:blur(2px);backdrop-filter:blur(2px);
+  opacity:0;pointer-events:none;transition:opacity .2s var(--ease);
+}
+.sa-modal-ov.open{opacity:1;pointer-events:auto}
+.sa-modal{
+  width:min(420px,100%);background:var(--paper);border:1px solid var(--line);
+  border-radius:var(--radius-lg);box-shadow:var(--sh-lg);padding:26px 26px 22px;
+  transform:translateY(10px) scale(.985);transition:transform .22s var(--ease);
+}
+.sa-modal-ov.open .sa-modal{transform:none}
+.sa-modal-ico{
+  width:46px;height:46px;border-radius:13px;display:grid;place-items:center;font-size:19px;margin-bottom:15px;
+  background:rgba(var(--acc-rgb,59,183,126),.12);color:var(--acc-deep,var(--green-deep));
+}
+.sa-modal.danger .sa-modal-ico{background:var(--tomato-tint);color:var(--tomato)}
+.sa-modal h3{font-size:18px;margin-bottom:7px;letter-spacing:-.01em;color:var(--slate)}
+.sa-modal p{font-size:13.5px;color:var(--muted);line-height:1.55;margin-bottom:22px}
+.sa-modal-acts{display:flex;gap:10px;justify-content:flex-end}
+.sa-modal-acts .btn{padding:11px 20px}
+
+/* modal aksiyon butonları (kabukta da tanımlı olabilir; burada operatör için garanti) */
+.btn-acc{background:var(--acc,var(--green));color:#fff}
+.btn-acc:hover{background:var(--acc-deep,var(--green-deep));transform:translateY(-2px)}
+.btn-danger{background:var(--tomato);color:#fff}
+.btn-danger:hover{background:var(--tomato-dark);transform:translateY(-2px)}
+
+/* ---- toast (saToast) — köşe geri bildirim ---- */
+.sa-toast-wrap{position:fixed;right:24px;bottom:24px;z-index:210;display:flex;flex-direction:column;gap:10px;align-items:flex-end}
+.sa-toast{
+  display:flex;align-items:center;gap:11px;background:var(--slate);color:#fff;
+  padding:13px 16px;border-radius:var(--radius-md);box-shadow:var(--sh-lg);
+  font-size:13.5px;font-weight:600;min-width:220px;max-width:360px;
+  transform:translateY(10px);opacity:0;transition:transform .25s var(--ease),opacity .25s var(--ease);
+}
+.sa-toast.show{transform:none;opacity:1}
+.sa-toast i{font-size:15px;flex:none;color:var(--green)}
+.sa-toast.danger i{color:#ff8a6e}
+.sa-toast.info i{color:#ffd479}
+
+@media(prefers-reduced-motion:reduce){
+  .sa-modal-ov,.sa-modal,.sa-toast{transition:none}
+}
+@media(max-width:640px){
+  .sa-toast-wrap{left:16px;right:16px;align-items:stretch}
+  .sa-toast{max-width:none}
+}

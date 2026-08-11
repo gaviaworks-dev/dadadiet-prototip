@@ -1,0 +1,361 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<meta name="robots" content="noindex, nofollow" />
+<title>Besin Değerleri — Kalori, Protein, Karbonhidrat, Yağ — DadaMutfak</title>
+<link rel="shortcut icon" type="image/x-icon"
+      href="assets/img/favicon.ico" />
+<!-- FontAwesome 6.5.2 (kilitli ikon seti) -->
+<link rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css"
+      integrity="sha512-SnH5WK+bZxgPHs44uWIX+LLJAJ9/2PkPKZ5QiAj6Ta86w+fsb2TkcmfRyVX3pBnMFcV7oQPJkl9QevSCWr3W6A=="
+      crossorigin="anonymous" referrerpolicy="no-referrer" />
+<link rel="stylesheet" href="assets/css/dd-shell.css" />
+<style>
+/* ===== SAYFA CSS — kabuk CSS'i assets/css/dd-shell.css'te ===== */
+/* ===== SAYFA CSS (T-B) ===== */
+
+.tb-top{position:relative;padding-top:128px;padding-bottom:46px;overflow:hidden;background:#3a352c}
+/* §2f H1 koyu-overlay hero — temsilî Unsplash görseli (data-img-pending KORUNUR: highfield gelince bu URL swap edilir). Kerem Bey pattern'ı: bg-image cover/center. */
+.tb-top .tb-hero-img{position:absolute;inset:0;background:#3a352c url("https://images.unsplash.com/photo-1490645935967-10de6ba17061?w=1600&q=80&auto=format&fit=crop&exp=7&gam=6&sat=-9&high=8&vib=5") center/cover no-repeat;z-index:0}
+.tb-top::after{content:"";position:absolute;inset:0;z-index:1;background:linear-gradient(90deg,rgba(18,28,22,.94),rgba(20,32,25,.74))}
+.tb-top .wrap{position:relative;z-index:2}
+.tb-top .rd-crumb,.tb-top .rd-crumb a{color:#bcd0c4}
+.tb-top .rd-crumb a:hover{color:#fff}
+.tb-top .rd-crumb i{color:rgba(255,255,255,.4)}
+.tb-top .rd-crumb b{color:#fff}
+.rd-crumb{display:flex;align-items:center;flex-wrap:wrap;gap:9px;padding:0 0 14px;font-size:13px;font-weight:500;color:var(--muted)}
+.rd-crumb a{color:var(--muted);transition:.18s}
+.rd-crumb i{font-size:9px;color:#c7c7c7}
+.rd-crumb b{color:var(--slate);font-weight:700}
+.tb-hero-main{max-width:760px}
+.tb-top .eyebrow{color:#7fe0b0}
+.tb-top h1{color:#fff;font-size:42px;margin:6px 0 12px;text-shadow:0 2px 24px rgba(0,0,0,.25)}
+.tb-top .lead{color:#e9e2d6;font-size:16.5px;font-weight:500;max-width:600px;text-shadow:0 1px 14px rgba(0,0,0,.3)}
+@media (max-width:1024px){.tb-top h1{font-size:34px}}
+@media (max-width:640px){.tb-top{padding-top:74px;padding-bottom:34px}.tb-top h1{font-size:27px}.tb-top .lead{font-size:15px}}
+
+/* besin rehber gövdesi */
+.bg-intro{padding:50px 0 14px;background:var(--bg-white)}
+.bg-intro .lead-wrap{max-width:760px}
+.bg-intro p{font-size:16px;color:var(--slate-2);font-weight:500;line-height:1.7;margin-bottom:16px}
+.bg-intro p:first-of-type{font-size:17.5px;color:var(--slate)}
+/* hızlı bilgi kartları */
+.bg-facts{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;margin-top:30px}
+.bg-fact{background:var(--paper);border:1px solid var(--line);border-radius:var(--radius-lg);padding:20px 22px;box-shadow:var(--sh-sm)}
+.bg-fact .bf-ico{width:42px;height:42px;border-radius:var(--radius-md);background:#e8f6ef;color:var(--green-deep);display:grid;place-items:center;font-size:17px;margin-bottom:13px}
+.bg-fact b{display:block;font-size:15px;color:var(--slate);margin-bottom:5px}
+.bg-fact p{font-size:13.5px;color:var(--muted);font-weight:500;line-height:1.6;margin:0}
+/* referans tablo */
+.bg-table-sec{padding:46px 0 64px;background:var(--bg-white)}
+.bg-tbl-note{font-size:13px;color:var(--muted);font-weight:500;margin-bottom:16px}
+.bg-tbl-note b{color:var(--slate);font-weight:700}
+.ref-table{width:100%;border-collapse:collapse;background:var(--paper);border:1px solid var(--line);border-radius:var(--radius-lg);overflow:hidden;box-shadow:var(--sh-sm)}
+.ref-table thead th{font-size:11.5px;font-weight:700;letter-spacing:.04em;text-transform:uppercase;color:var(--muted);text-align:right;padding:15px 20px 13px;background:#fafbf9;border-bottom:1px solid var(--line)}
+.ref-table thead th:first-child{text-align:left}
+.ref-table tbody td{text-align:right;font-size:14px;font-weight:600;color:var(--slate-2);padding:14px 20px}
+.ref-table tbody td:first-child{text-align:left}
+.ref-table tbody .fr-ico-cell{display:flex;align-items:center;gap:12px}
+.ref-table tbody .fr-ico{flex:none;width:36px;height:36px;border-radius:var(--radius-md);background:var(--cream-2);color:var(--green-deep);display:grid;place-items:center;font-size:15px}
+.ref-table tbody .f-name{font-weight:700;color:var(--slate)}
+.ref-table tbody .f-sub{display:block;font-size:11.5px;color:var(--muted);font-weight:500;margin-top:1px}
+.ref-table tbody tr+tr td{border-top:1px solid var(--line)}
+.ref-table tbody tr:nth-child(odd){background:#fafbf9}
+.ref-table .hl{color:var(--green-deep);font-weight:700}
+.bg-disc{display:flex;gap:11px;font-size:12.5px;color:var(--muted);font-weight:500;line-height:1.6;margin-top:18px;padding:16px 18px;background:var(--bg-cream);border-radius:var(--radius-md)}
+.bg-disc i{color:var(--green);margin-top:2px;flex:none}
+/* alt köprü */
+.bg-next{padding:50px 0 70px;background:var(--bg-cream);border-top:1px solid var(--line)}
+.bg-next-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:14px}
+.bg-next-card{display:flex;align-items:center;gap:13px;background:var(--paper);border:1px solid var(--line);border-radius:var(--radius-lg);padding:16px 18px;transition:.2s var(--ease)}
+.bg-next-card:hover{border-color:var(--green);transform:translateY(-3px);box-shadow:var(--sh-md)}
+.bg-next-card .nx-ico{flex:none;width:42px;height:42px;border-radius:var(--radius-md);background:#e8f6ef;color:var(--green-deep);display:grid;place-items:center;font-size:16px}
+.bg-next-card b{display:block;font-size:14px;color:var(--slate)}
+.bg-next-card span{display:block;font-size:12px;color:var(--muted);font-weight:500;margin-top:1px}
+@media (max-width:1024px){.bg-facts{grid-template-columns:1fr}.bg-next-grid{grid-template-columns:1fr 1fr}}
+@media (max-width:640px){.ref-table .col-opt{display:none}.bg-next-grid{grid-template-columns:1fr}}
+
+/* ===== Besin Değerleri — sekme çubuğu — kanonik au-seg segment dili (tray + dolu pill) ===== */
+/* giriş .au-seg grameri; aktif renk sağlık aksanı (green-deep), modül renk haritasıyla uyumlu */
+.bd-tabwrap{background:var(--bg-white);border-bottom:1px solid var(--line);padding:18px 0}
+.bd-tabs{max-width:560px;margin:0 auto;padding:4px;display:flex;gap:4px;background:var(--bg);border:1px solid var(--line);border-radius:var(--radius-md);flex-wrap:wrap}
+.bd-tab{flex:1 1 calc(50% - 4px);min-width:0;appearance:none;border:0;background:transparent;cursor:pointer;font-family:inherit;font-weight:700;font-size:13px;color:var(--muted);padding:9px 12px;border-radius:var(--radius-sm);transition:.2s var(--ease);display:inline-flex;align-items:center;justify-content:center;gap:7px;white-space:nowrap}
+.bd-tab i{font-size:12px;color:inherit}
+.bd-tab:hover{color:var(--green-deep)}
+.bd-tab.active{background:var(--tomato-deep);color:#fff}
+@media(min-width:600px){.bd-tab{flex:1 1 0}}
+.bd-panel[hidden]{display:none}
+.bd-panel .bg-intro{padding:38px 0 14px;border-top:1px solid var(--line)}
+.bd-panel .bg-intro .lead-wrap{max-width:760px}
+</style>
+</head>
+<body data-brand="diet" data-nav="besin">
+
+<div id="ddChromeTop"></div>
+<script src="assets/js/dd-shell.js"></script>
+
+<main class="page-main" id="pageMain">
+
+<!-- SAYFA İÇERİĞİ -->
+<section class="below-header tb-top" aria-label="Sayfa başlığı">
+  <div class="tb-hero-img" data-img-pending aria-hidden="true"></div>
+  <div class="wrap">
+    <nav class="rd-crumb" aria-label="Sayfa yolu">
+      <a href="saglik-hub-v1.html"><i class="fa-solid fa-house"></i></a>
+      <i class="fa-solid fa-chevron-right"></i>
+      <b>Besin Değerleri</b>
+    </nav>
+    <div class="tb-hero-main">
+      <span class="eyebrow"><i class="fa-solid fa-fire-flame-curved"></i> Besin Değerleri</span>
+      <h1>Besin Değerleri</h1>
+      <p class="lead">Kalori, protein, karbonhidrat ve sağlıklı yağ kaynakları — hepsi tek sayfada, sekmelerle.</p>
+    </div>
+  </div>
+</section>
+
+<div class="bd-tabwrap">
+  <div class="bd-tabs" role="tablist" aria-label="Besin değeri sekmeleri">
+      <button class="bd-tab" data-tab="kalori" role="tab" aria-selected="true"><i class="fa-solid fa-fire-flame-curved"></i> Kalori Cetveli</button>
+      <button class="bd-tab" data-tab="protein" role="tab" aria-selected="false"><i class="fa-solid fa-drumstick-bite"></i> Protein</button>
+      <button class="bd-tab" data-tab="karbonhidrat" role="tab" aria-selected="false"><i class="fa-solid fa-wheat-awn"></i> Karbonhidrat</button>
+      <button class="bd-tab" data-tab="yag" role="tab" aria-selected="false"><i class="fa-solid fa-bottle-droplet"></i> Yağ</button>
+  </div>
+</div>
+
+<div class="bd-panel" data-panel="kalori" role="tabpanel">
+<section class="bg-table-sec">
+  <div class="wrap">
+    <div class="sec-head reveal"><div>
+      <span class="eyebrow" style="color:var(--green-deep)"><i class="fa-solid fa-table-list"></i> Referans Tablosu</span>
+      <h2>Kalori değerleri</h2>
+      <p class="lead">En sık kullanılan besinlerin 100 gram başına kalori ve makro değerleri.</p>
+    </div></div>
+    <p class="bg-tbl-note"><b>100 gram</b> başına temsilî değerler · enerji kcal cinsinden</p>
+    <table class="ref-table">
+      <thead><tr><th>Besin</th><th class=col-opt>Protein (g)</th><th class=col-opt>Karb. (g)</th><th class=col-opt>Yağ (g)</th><th>Kalori (kcal)</th></tr></thead>
+      <tbody>
+        <tr><td><span class="fr-ico-cell"><span class="fr-ico"><i class="fa-solid fa-egg"></i></span><span><span class="f-name">Yumurta (haşlanmış)</span><span class="f-sub">1 büyük ~50 g</span></span></span></td><td class="col-opt">13</td><td class="col-opt">1</td><td class="col-opt">11</td><td class="hl">155</td></tr>
+        <tr><td><span class="fr-ico-cell"><span class="fr-ico"><i class="fa-solid fa-drumstick-bite"></i></span><span><span class="f-name">Tavuk Göğsü (ızgara)</span><span class="f-sub">derisiz</span></span></span></td><td class="col-opt">31</td><td class="col-opt">0</td><td class="col-opt">4</td><td class="hl">165</td></tr>
+        <tr><td><span class="fr-ico-cell"><span class="fr-ico"><i class="fa-solid fa-fish"></i></span><span><span class="f-name">Somon (fırın)</span><span class="f-sub">yağlı balık</span></span></span></td><td class="col-opt">20</td><td class="col-opt">0</td><td class="col-opt">13</td><td class="hl">208</td></tr>
+        <tr><td><span class="fr-ico-cell"><span class="fr-ico"><i class="fa-solid fa-bowl-rice"></i></span><span><span class="f-name">Pirinç (pişmiş)</span><span class="f-sub">beyaz</span></span></span></td><td class="col-opt">3</td><td class="col-opt">28</td><td class="col-opt">0</td><td class="hl">130</td></tr>
+        <tr><td><span class="fr-ico-cell"><span class="fr-ico"><i class="fa-solid fa-wheat-awn"></i></span><span><span class="f-name">Yulaf Ezmesi</span><span class="f-sub">kuru</span></span></span></td><td class="col-opt">13</td><td class="col-opt">66</td><td class="col-opt">7</td><td class="hl">389</td></tr>
+        <tr><td><span class="fr-ico-cell"><span class="fr-ico"><i class="fa-solid fa-bread-slice"></i></span><span><span class="f-name">Tam Buğday Ekmeği</span><span class="f-sub">tahıl</span></span></span></td><td class="col-opt">9</td><td class="col-opt">43</td><td class="col-opt">3</td><td class="hl">247</td></tr>
+        <tr><td><span class="fr-ico-cell"><span class="fr-ico"><i class="fa-solid fa-carrot"></i></span><span><span class="f-name">Brokoli (haşlanmış)</span><span class="f-sub">sebze</span></span></span></td><td class="col-opt">3</td><td class="col-opt">7</td><td class="col-opt">0</td><td class="hl">35</td></tr>
+        <tr><td><span class="fr-ico-cell"><span class="fr-ico"><i class="fa-solid fa-apple-whole"></i></span><span><span class="f-name">Elma</span><span class="f-sub">taze meyve</span></span></span></td><td class="col-opt">0</td><td class="col-opt">14</td><td class="col-opt">0</td><td class="hl">52</td></tr>
+        <tr><td><span class="fr-ico-cell"><span class="fr-ico"><i class="fa-solid fa-leaf"></i></span><span><span class="f-name">Avokado</span><span class="f-sub">taze</span></span></span></td><td class="col-opt">2</td><td class="col-opt">9</td><td class="col-opt">15</td><td class="hl">160</td></tr>
+        <tr><td><span class="fr-ico-cell"><span class="fr-ico"><i class="fa-solid fa-bowl-food"></i></span><span><span class="f-name">Yeşil Mercimek (pişmiş)</span><span class="f-sub">baklagil</span></span></span></td><td class="col-opt">9</td><td class="col-opt">20</td><td class="col-opt">0</td><td class="hl">116</td></tr>
+        <tr><td><span class="fr-ico-cell"><span class="fr-ico"><i class="fa-solid fa-jar"></i></span><span><span class="f-name">Yoğurt (yarım yağlı)</span><span class="f-sub">süt ürünü</span></span></span></td><td class="col-opt">4</td><td class="col-opt">5</td><td class="col-opt">2</td><td class="hl">61</td></tr>
+        <tr><td><span class="fr-ico-cell"><span class="fr-ico"><i class="fa-solid fa-cheese"></i></span><span><span class="f-name">Beyaz Peynir</span><span class="f-sub">tam yağlı</span></span></span></td><td class="col-opt">17</td><td class="col-opt">2</td><td class="col-opt">21</td><td class="hl">264</td></tr>
+        <tr><td><span class="fr-ico-cell"><span class="fr-ico"><i class="fa-solid fa-seedling"></i></span><span><span class="f-name">Badem</span><span class="f-sub">çiğ · kuruyemiş</span></span></span></td><td class="col-opt">21</td><td class="col-opt">22</td><td class="col-opt">49</td><td class="hl">579</td></tr>
+        <tr><td><span class="fr-ico-cell"><span class="fr-ico"><i class="fa-solid fa-bottle-droplet"></i></span><span><span class="f-name">Zeytinyağı</span><span class="f-sub">sıvı yağ</span></span></span></td><td class="col-opt">0</td><td class="col-opt">0</td><td class="col-opt">100</td><td class="hl">884</td></tr>
+      </tbody>
+    </table>
+    <div class="bg-disc"><i class="fa-solid fa-circle-info"></i><span>Değerler temsilîdir ve genel referans amaçlıdır. Kişisel kalori ihtiyacı yaş, cinsiyet, kilo ve aktiviteye göre değişir; bireysel öneri için bir diyetisyene danış.</span></div>
+  </div>
+</section>
+
+<section class="bg-intro">
+  <div class="wrap">
+    <div class="lead-wrap">
+      <p>Kalori, besinlerin vücuda sağladığı enerjinin ölçüsüdür. Sağlıklı bir denge için aldığın ve harcadığın enerjiyi kabaca tanımak, beslenmeni yönetmenin en pratik yoludur.</p>
+        <p>Aşağıdaki cetvel, mutfakta en sık kullanılan besinlerin 100 gram başına kalori değerlerini bir arada gösterir. Değerler temsilîdir; pişirme yöntemi, eklenen yağ ve porsiyon büyüklüğü gerçek değeri değiştirebilir.</p>
+        <p>Bir besinin kalorisi tek başına "iyi" ya da "kötü" anlamına gelmez — önemli olan günün geneline yayılan dengedir.</p>
+    </div>
+    <div class="bg-facts">
+      <div class="bg-fact"><span class="bf-ico"><i class="fa-solid fa-scale-balanced"></i></span><b>Denge esas</b><p>Tek bir besinin değil, gün boyu alınan toplam enerjinin dengesi belirleyicidir.</p></div>
+      <div class="bg-fact"><span class="bf-ico"><i class="fa-solid fa-fire"></i></span><b>1 g yağ = 9 kcal</b><p>Yağ gram başına en yüksek enerjiyi taşır; protein ve karbonhidrat 4 kcal/g.</p></div>
+      <div class="bg-fact"><span class="bf-ico"><i class="fa-solid fa-utensils"></i></span><b>Pişirme önemli</b><p>Kızartma ve eklenen yağ, aynı besinin kalorisini belirgin biçimde artırır.</p></div>
+    </div>
+  </div>
+</section>
+</div>
+
+<div class="bd-panel" data-panel="protein" role="tabpanel" hidden>
+<section class="bg-table-sec">
+  <div class="wrap">
+    <div class="sec-head reveal"><div>
+      <span class="eyebrow" style="color:var(--green-deep)"><i class="fa-solid fa-table-list"></i> Referans Tablosu</span>
+      <h2>Protein zengini besinler</h2>
+      <p class="lead">Protein bakımından en zengin besinler; protein değeri vurgulanmıştır.</p>
+    </div></div>
+    <p class="bg-tbl-note"><b>100 gram</b> başına temsilî değerler · enerji kcal cinsinden</p>
+    <table class="ref-table">
+      <thead><tr><th>Besin</th><th class=col-opt>Protein (g)</th><th class=col-opt>Karb. (g)</th><th class=col-opt>Yağ (g)</th><th>Kalori (kcal)</th></tr></thead>
+      <tbody>
+        <tr><td><span class="fr-ico-cell"><span class="fr-ico"><i class="fa-solid fa-drumstick-bite"></i></span><span><span class="f-name">Tavuk Göğsü (ızgara)</span><span class="f-sub">derisiz</span></span></span></td><td class="col-opt hl">31</td><td class="col-opt">0</td><td class="col-opt">4</td><td>165</td></tr>
+        <tr><td><span class="fr-ico-cell"><span class="fr-ico"><i class="fa-solid fa-bacon"></i></span><span><span class="f-name">Dana Eti (yağsız)</span><span class="f-sub">kırmızı et</span></span></span></td><td class="col-opt hl">26</td><td class="col-opt">0</td><td class="col-opt">15</td><td>250</td></tr>
+        <tr><td><span class="fr-ico-cell"><span class="fr-ico"><i class="fa-solid fa-fish"></i></span><span><span class="f-name">Ton Balığı (suda)</span><span class="f-sub">konserve</span></span></span></td><td class="col-opt hl">29</td><td class="col-opt">0</td><td class="col-opt">1</td><td>128</td></tr>
+        <tr><td><span class="fr-ico-cell"><span class="fr-ico"><i class="fa-solid fa-fish"></i></span><span><span class="f-name">Somon (fırın)</span><span class="f-sub">yağlı balık</span></span></span></td><td class="col-opt hl">20</td><td class="col-opt">0</td><td class="col-opt">13</td><td>208</td></tr>
+        <tr><td><span class="fr-ico-cell"><span class="fr-ico"><i class="fa-solid fa-egg"></i></span><span><span class="f-name">Yumurta (haşlanmış)</span><span class="f-sub">tam</span></span></span></td><td class="col-opt hl">13</td><td class="col-opt">1</td><td class="col-opt">11</td><td>155</td></tr>
+        <tr><td><span class="fr-ico-cell"><span class="fr-ico"><i class="fa-solid fa-seedling"></i></span><span><span class="f-name">Badem</span><span class="f-sub">kuruyemiş</span></span></span></td><td class="col-opt hl">21</td><td class="col-opt">22</td><td class="col-opt">49</td><td>579</td></tr>
+        <tr><td><span class="fr-ico-cell"><span class="fr-ico"><i class="fa-solid fa-bowl-food"></i></span><span><span class="f-name">Mercimek (pişmiş)</span><span class="f-sub">baklagil</span></span></span></td><td class="col-opt hl">9</td><td class="col-opt">20</td><td class="col-opt">0</td><td>116</td></tr>
+        <tr><td><span class="fr-ico-cell"><span class="fr-ico"><i class="fa-solid fa-bowl-food"></i></span><span><span class="f-name">Nohut (pişmiş)</span><span class="f-sub">baklagil</span></span></span></td><td class="col-opt hl">9</td><td class="col-opt">27</td><td class="col-opt">3</td><td>164</td></tr>
+        <tr><td><span class="fr-ico-cell"><span class="fr-ico"><i class="fa-solid fa-cheese"></i></span><span><span class="f-name">Lor Peyniri</span><span class="f-sub">az yağlı</span></span></span></td><td class="col-opt hl">11</td><td class="col-opt">3</td><td class="col-opt">4</td><td>98</td></tr>
+        <tr><td><span class="fr-ico-cell"><span class="fr-ico"><i class="fa-solid fa-jar"></i></span><span><span class="f-name">Yoğurt (süzme)</span><span class="f-sub">süt ürünü</span></span></span></td><td class="col-opt hl">10</td><td class="col-opt">4</td><td class="col-opt">5</td><td>97</td></tr>
+        <tr><td><span class="fr-ico-cell"><span class="fr-ico"><i class="fa-solid fa-leaf"></i></span><span><span class="f-name">Tofu</span><span class="f-sub">soya</span></span></span></td><td class="col-opt hl">8</td><td class="col-opt">2</td><td class="col-opt">5</td><td>76</td></tr>
+        <tr><td><span class="fr-ico-cell"><span class="fr-ico"><i class="fa-solid fa-wheat-awn"></i></span><span><span class="f-name">Yulaf Ezmesi</span><span class="f-sub">kuru</span></span></span></td><td class="col-opt hl">13</td><td class="col-opt">66</td><td class="col-opt">7</td><td>389</td></tr>
+      </tbody>
+    </table>
+    <div class="bg-disc"><i class="fa-solid fa-circle-info"></i><span>Protein ihtiyacı kilo, aktivite düzeyi ve hedefe göre değişir. Tablo değerleri temsilîdir; kişiye özel protein planı için bir diyetisyene danışman önerilir.</span></div>
+    <a class="bg-next-card" href="makro-dagilim-v1.html" style="margin-top:16px"><span class="nx-ico"><i class="fa-solid fa-chart-pie"></i></span><div><b>Kişisel makro dağılımını hesapla</b><span>Kilo · hedef · aktivite → gram olarak protein, karbonhidrat, yağ</span></div></a>
+  </div>
+</section>
+
+<section class="bg-intro">
+  <div class="wrap">
+    <div class="lead-wrap">
+      <p>Protein, vücudun yapı taşıdır: kasların onarımından enzim ve hormon üretimine, bağışıklık sisteminden hücre yenilenmesine kadar pek çok işlevin temelini oluşturur.</p>
+        <p>Protein hem hayvansal (et, balık, yumurta, süt ürünleri) hem de bitkisel (baklagiller, kuruyemiş, soya) kaynaklardan alınabilir. Bitkisel kaynakları çeşitlendirmek, tüm temel amino asitleri almanın anahtarıdır.</p>
+        <p>Aşağıdaki tablo protein bakımından en zengin besinleri 100 gram başına değerleriyle sıralar; protein sütunu vurgulanmıştır.</p>
+    </div>
+    <div class="bg-facts">
+      <div class="bg-fact"><span class="bf-ico"><i class="fa-solid fa-dumbbell"></i></span><b>Kasın yapı taşı</b><p>Protein kas dokusunun onarımı ve gelişimi için vazgeçilmezdir.</p></div>
+      <div class="bg-fact"><span class="bf-ico"><i class="fa-solid fa-seedling"></i></span><b>Bitkisel de güçlü</b><p>Mercimek, nohut ve kuruyemiş güçlü bitkisel protein kaynaklarıdır.</p></div>
+      <div class="bg-fact"><span class="bf-ico"><i class="fa-solid fa-clock"></i></span><b>Güne yay</b><p>Proteini öğünlere yayarak almak, tek seferde almaktan daha etkilidir.</p></div>
+    </div>
+  </div>
+</section>
+</div>
+
+<div class="bd-panel" data-panel="karbonhidrat" role="tabpanel" hidden>
+<section class="bg-table-sec">
+  <div class="wrap">
+    <div class="sec-head reveal"><div>
+      <span class="eyebrow" style="color:var(--green-deep)"><i class="fa-solid fa-table-list"></i> Referans Tablosu</span>
+      <h2>Karbonhidrat kaynakları</h2>
+      <p class="lead">Karbonhidrat bakımından zengin besinler; karbonhidrat değeri vurgulanmıştır.</p>
+    </div></div>
+    <p class="bg-tbl-note"><b>100 gram</b> başına temsilî değerler · enerji kcal cinsinden</p>
+    <table class="ref-table">
+      <thead><tr><th>Besin</th><th class=col-opt>Protein (g)</th><th class=col-opt>Karb. (g)</th><th class=col-opt>Yağ (g)</th><th>Kalori (kcal)</th></tr></thead>
+      <tbody>
+        <tr><td><span class="fr-ico-cell"><span class="fr-ico"><i class="fa-solid fa-bowl-rice"></i></span><span><span class="f-name">Pirinç (pişmiş)</span><span class="f-sub">beyaz</span></span></span></td><td class="col-opt">3</td><td class="col-opt hl">28</td><td class="col-opt">0</td><td>130</td></tr>
+        <tr><td><span class="fr-ico-cell"><span class="fr-ico"><i class="fa-solid fa-wheat-awn"></i></span><span><span class="f-name">Bulgur (pişmiş)</span><span class="f-sub">tam tahıl</span></span></span></td><td class="col-opt">3</td><td class="col-opt hl">19</td><td class="col-opt">0</td><td>83</td></tr>
+        <tr><td><span class="fr-ico-cell"><span class="fr-ico"><i class="fa-solid fa-wheat-awn"></i></span><span><span class="f-name">Yulaf Ezmesi</span><span class="f-sub">kuru</span></span></span></td><td class="col-opt">13</td><td class="col-opt hl">66</td><td class="col-opt">7</td><td>389</td></tr>
+        <tr><td><span class="fr-ico-cell"><span class="fr-ico"><i class="fa-solid fa-bread-slice"></i></span><span><span class="f-name">Tam Buğday Ekmeği</span><span class="f-sub">tahıl</span></span></span></td><td class="col-opt">9</td><td class="col-opt hl">43</td><td class="col-opt">3</td><td>247</td></tr>
+        <tr><td><span class="fr-ico-cell"><span class="fr-ico"><i class="fa-solid fa-bowl-food"></i></span><span><span class="f-name">Makarna (pişmiş)</span><span class="f-sub">durum buğdayı</span></span></span></td><td class="col-opt">6</td><td class="col-opt hl">25</td><td class="col-opt">1</td><td>131</td></tr>
+        <tr><td><span class="fr-ico-cell"><span class="fr-ico"><i class="fa-solid fa-bowl-food"></i></span><span><span class="f-name">Nohut (pişmiş)</span><span class="f-sub">baklagil</span></span></span></td><td class="col-opt">9</td><td class="col-opt hl">27</td><td class="col-opt">3</td><td>164</td></tr>
+        <tr><td><span class="fr-ico-cell"><span class="fr-ico"><i class="fa-solid fa-bowl-food"></i></span><span><span class="f-name">Mercimek (pişmiş)</span><span class="f-sub">baklagil</span></span></span></td><td class="col-opt">9</td><td class="col-opt hl">20</td><td class="col-opt">0</td><td>116</td></tr>
+        <tr><td><span class="fr-ico-cell"><span class="fr-ico"><i class="fa-solid fa-potato"></i></span><span><span class="f-name">Patates (haşlanmış)</span><span class="f-sub">nişastalı sebze</span></span></span></td><td class="col-opt">2</td><td class="col-opt hl">20</td><td class="col-opt">0</td><td>87</td></tr>
+        <tr><td><span class="fr-ico-cell"><span class="fr-ico"><i class="fa-solid fa-apple-whole"></i></span><span><span class="f-name">Muz</span><span class="f-sub">taze meyve</span></span></span></td><td class="col-opt">1</td><td class="col-opt hl">23</td><td class="col-opt">0</td><td>96</td></tr>
+        <tr><td><span class="fr-ico-cell"><span class="fr-ico"><i class="fa-solid fa-apple-whole"></i></span><span><span class="f-name">Elma</span><span class="f-sub">taze meyve</span></span></span></td><td class="col-opt">0</td><td class="col-opt hl">14</td><td class="col-opt">0</td><td>52</td></tr>
+        <tr><td><span class="fr-ico-cell"><span class="fr-ico"><i class="fa-solid fa-carrot"></i></span><span><span class="f-name">Tatlı Patates</span><span class="f-sub">nişastalı sebze</span></span></span></td><td class="col-opt">2</td><td class="col-opt hl">20</td><td class="col-opt">0</td><td>86</td></tr>
+        <tr><td><span class="fr-ico-cell"><span class="fr-ico"><i class="fa-solid fa-jar"></i></span><span><span class="f-name">Bal</span><span class="f-sub">basit şeker</span></span></span></td><td class="col-opt">0</td><td class="col-opt hl">82</td><td class="col-opt">0</td><td>304</td></tr>
+      </tbody>
+    </table>
+    <div class="bg-disc"><i class="fa-solid fa-circle-info"></i><span>Karbonhidrat ihtiyacı aktivite düzeyi ve beslenme hedefine göre değişir. Tablo değerleri temsilîdir; lif ve glisemik etki kişiden kişiye farklılık gösterebilir.</span></div>
+    <a class="bg-next-card" href="makro-dagilim-v1.html" style="margin-top:16px"><span class="nx-ico"><i class="fa-solid fa-chart-pie"></i></span><div><b>Kişisel makro dağılımını hesapla</b><span>Kilo · hedef · aktivite → gram olarak protein, karbonhidrat, yağ</span></div></a>
+  </div>
+</section>
+
+<section class="bg-intro">
+  <div class="wrap">
+    <div class="lead-wrap">
+      <p>Karbonhidratlar vücudun en hızlı ve temel enerji kaynağıdır; özellikle beyin ve kaslar düzenli karbonhidrat akışına ihtiyaç duyar.</p>
+        <p>Kaynak seçimi kalitede belirleyicidir: tam tahıllar, baklagiller ve sebzeler gibi kompleks karbonhidratlar lif açısından zengindir ve enerjiyi yavaş salar; rafine şeker ve beyaz un gibi basit karbonhidratlar ise hızlı yükselen enerji verir.</p>
+        <p>Aşağıdaki tablo karbonhidrat bakımından zengin besinleri 100 gram başına değerleriyle gösterir; karbonhidrat sütunu vurgulanmıştır.</p>
+    </div>
+    <div class="bg-facts">
+      <div class="bg-fact"><span class="bf-ico"><i class="fa-solid fa-bolt"></i></span><b>Temel yakıt</b><p>Karbonhidrat beyin ve kaslar için en hızlı erişilen enerji kaynağıdır.</p></div>
+      <div class="bg-fact"><span class="bf-ico"><i class="fa-solid fa-wheat-awn"></i></span><b>Tam tahılı seç</b><p>Tam tahıl ve baklagiller lif sayesinde enerjiyi yavaş ve dengeli salar.</p></div>
+      <div class="bg-fact"><span class="bf-ico"><i class="fa-solid fa-gauge"></i></span><b>Lif önemli</b><p>Lifli karbonhidratlar tokluk hissini artırır ve sindirimi destekler.</p></div>
+    </div>
+  </div>
+</section>
+</div>
+
+<div class="bd-panel" data-panel="yag" role="tabpanel" hidden>
+<section class="bg-table-sec">
+  <div class="wrap">
+    <div class="sec-head reveal"><div>
+      <span class="eyebrow" style="color:var(--green-deep)"><i class="fa-solid fa-table-list"></i> Referans Tablosu</span>
+      <h2>Sağlıklı yağ kaynakları</h2>
+      <p class="lead">Yağ bakımından zengin besinler; yağ değeri vurgulanmıştır.</p>
+    </div></div>
+    <p class="bg-tbl-note"><b>100 gram</b> başına temsilî değerler · enerji kcal cinsinden</p>
+    <table class="ref-table">
+      <thead><tr><th>Besin</th><th class=col-opt>Protein (g)</th><th class=col-opt>Karb. (g)</th><th class=col-opt>Yağ (g)</th><th>Kalori (kcal)</th></tr></thead>
+      <tbody>
+        <tr><td><span class="fr-ico-cell"><span class="fr-ico"><i class="fa-solid fa-bottle-droplet"></i></span><span><span class="f-name">Zeytinyağı</span><span class="f-sub">sıvı yağ</span></span></span></td><td class="col-opt">0</td><td class="col-opt">0</td><td class="col-opt hl">100</td><td>884</td></tr>
+        <tr><td><span class="fr-ico-cell"><span class="fr-ico"><i class="fa-solid fa-leaf"></i></span><span><span class="f-name">Avokado</span><span class="f-sub">taze</span></span></span></td><td class="col-opt">2</td><td class="col-opt">9</td><td class="col-opt hl">15</td><td>160</td></tr>
+        <tr><td><span class="fr-ico-cell"><span class="fr-ico"><i class="fa-solid fa-seedling"></i></span><span><span class="f-name">Badem</span><span class="f-sub">kuruyemiş</span></span></span></td><td class="col-opt">21</td><td class="col-opt">22</td><td class="col-opt hl">49</td><td>579</td></tr>
+        <tr><td><span class="fr-ico-cell"><span class="fr-ico"><i class="fa-solid fa-seedling"></i></span><span><span class="f-name">Ceviz</span><span class="f-sub">kuruyemiş</span></span></span></td><td class="col-opt">15</td><td class="col-opt">14</td><td class="col-opt hl">65</td><td>654</td></tr>
+        <tr><td><span class="fr-ico-cell"><span class="fr-ico"><i class="fa-solid fa-fish"></i></span><span><span class="f-name">Somon (fırın)</span><span class="f-sub">yağlı balık</span></span></span></td><td class="col-opt">20</td><td class="col-opt">0</td><td class="col-opt hl">13</td><td>208</td></tr>
+        <tr><td><span class="fr-ico-cell"><span class="fr-ico"><i class="fa-solid fa-cheese"></i></span><span><span class="f-name">Beyaz Peynir</span><span class="f-sub">tam yağlı</span></span></span></td><td class="col-opt">17</td><td class="col-opt">2</td><td class="col-opt hl">21</td><td>264</td></tr>
+        <tr><td><span class="fr-ico-cell"><span class="fr-ico"><i class="fa-solid fa-jar"></i></span><span><span class="f-name">Fıstık Ezmesi</span><span class="f-sub">şekersiz</span></span></span></td><td class="col-opt">25</td><td class="col-opt">20</td><td class="col-opt hl">50</td><td>588</td></tr>
+        <tr><td><span class="fr-ico-cell"><span class="fr-ico"><i class="fa-solid fa-seedling"></i></span><span><span class="f-name">Chia Tohumu</span><span class="f-sub">tohum</span></span></span></td><td class="col-opt">17</td><td class="col-opt">42</td><td class="col-opt hl">31</td><td>486</td></tr>
+        <tr><td><span class="fr-ico-cell"><span class="fr-ico"><i class="fa-solid fa-egg"></i></span><span><span class="f-name">Yumurta (haşlanmış)</span><span class="f-sub">tam</span></span></span></td><td class="col-opt">13</td><td class="col-opt">1</td><td class="col-opt hl">11</td><td>155</td></tr>
+        <tr><td><span class="fr-ico-cell"><span class="fr-ico"><i class="fa-solid fa-cheese"></i></span><span><span class="f-name">Kaşar Peyniri</span><span class="f-sub">tam yağlı</span></span></span></td><td class="col-opt">25</td><td class="col-opt">3</td><td class="col-opt hl">27</td><td>356</td></tr>
+        <tr><td><span class="fr-ico-cell"><span class="fr-ico"><i class="fa-solid fa-seedling"></i></span><span><span class="f-name">Ay Çekirdeği</span><span class="f-sub">çiğ</span></span></span></td><td class="col-opt">21</td><td class="col-opt">20</td><td class="col-opt hl">51</td><td>584</td></tr>
+        <tr><td><span class="fr-ico-cell"><span class="fr-ico"><i class="fa-solid fa-leaf"></i></span><span><span class="f-name">Tahin</span><span class="f-sub">susam ezmesi</span></span></span></td><td class="col-opt">17</td><td class="col-opt">21</td><td class="col-opt hl">54</td><td>595</td></tr>
+      </tbody>
+    </table>
+    <div class="bg-disc"><i class="fa-solid fa-circle-info"></i><span>Yağ ihtiyacı ve kaynak tercihi sağlık durumuna göre değişir. Tablo değerleri temsilîdir; doymuş ve doymamış yağ dengesi için bir uzmana danışman önerilir.</span></div>
+    <a class="bg-next-card" href="makro-dagilim-v1.html" style="margin-top:16px"><span class="nx-ico"><i class="fa-solid fa-chart-pie"></i></span><div><b>Kişisel makro dağılımını hesapla</b><span>Kilo · hedef · aktivite → gram olarak protein, karbonhidrat, yağ</span></div></a>
+  </div>
+</section>
+
+<section class="bg-intro">
+  <div class="wrap">
+    <div class="lead-wrap">
+      <p>Yağlar, gram başına en yüksek enerjiyi taşıyan besin ögesidir ve sıklıkla yanlış anlaşılır. Oysa yağ; hücre zarlarının yapımı, A-D-E-K vitaminlerinin emilimi ve hormon üretimi için zorunludur.</p>
+        <p>Önemli olan miktar kadar kaynaktır: zeytinyağı, avokado, kuruyemiş ve yağlı balıklardaki doymamış yağlar kalp sağlığını destekler; doymuş ve trans yağları sınırlı tutmak ise genel sağlık açısından önerilir.</p>
+        <p>Aşağıdaki tablo yağ bakımından zengin besinleri 100 gram başına değerleriyle gösterir; yağ sütunu vurgulanmıştır.</p>
+    </div>
+    <div class="bg-facts">
+      <div class="bg-fact"><span class="bf-ico"><i class="fa-solid fa-heart-pulse"></i></span><b>Sağlıklı yağı seç</b><p>Zeytinyağı, avokado ve yağlı balıktaki doymamış yağlar kalbi destekler.</p></div>
+      <div class="bg-fact"><span class="bf-ico"><i class="fa-solid fa-fire"></i></span><b>En yoğun enerji</b><p>Yağ gram başına 9 kcal taşır; porsiyona dikkat etmek önemlidir.</p></div>
+      <div class="bg-fact"><span class="bf-ico"><i class="fa-solid fa-pills"></i></span><b>Vitamin taşıyıcı</b><p>A, D, E ve K vitaminlerinin emilimi yağ varlığına bağlıdır.</p></div>
+    </div>
+  </div>
+</section>
+</div>
+
+<section class="bg-next">
+  <div class="wrap">
+    <div class="sec-head reveal"><div>
+      <span class="eyebrow" style="color:var(--green-deep)"><i class="fa-solid fa-compass"></i> İlgili</span>
+      <h2>Besin değerlerini keşfetmeye devam et</h2>
+    </div></div>
+    <div class="bg-next-grid">
+      <a class="bg-next-card" href="?tab=kalori" data-bdtab="kalori"><span class="nx-ico"><i class="fa-solid fa-fire-flame-curved"></i></span><div><b>Kalori Cetveli</b><span>Yaygın besinlerin kalorisi</span></div></a>
+      <a class="bg-next-card" href="?tab=protein" data-bdtab="protein"><span class="nx-ico"><i class="fa-solid fa-drumstick-bite"></i></span><div><b>Protein Rehberi</b><span>Protein kaynakları</span></div></a>
+      <a class="bg-next-card" href="?tab=karbonhidrat" data-bdtab="karbonhidrat"><span class="nx-ico"><i class="fa-solid fa-wheat-awn"></i></span><div><b>Karbonhidrat Rehberi</b><span>Karbonhidrat kaynakları</span></div></a>
+      <a class="bg-next-card" href="?tab=yag" data-bdtab="yag"><span class="nx-ico"><i class="fa-solid fa-bottle-droplet"></i></span><div><b>Yağ Rehberi</b><span>Sağlıklı yağ kaynakları</span></div></a>
+    </div>
+  </div>
+</section>
+
+</main><!-- /.page-main -->
+
+<div id="ddChromeGate"></div>
+
+<div id="ddChromeFooter"></div>
+
+<div id="ddChromeFab"></div>
+
+<script>
+/* ===== SAYFA JS — sayfa-spesifik script BU İŞARETİN ALTINA eklenir ===== */
+</script>
+
+<script>
+/* Besin Değerleri sekme geçişi (Dalga 0 / D) */
+(function(){
+  var tabs=[].slice.call(document.querySelectorAll('.bd-tab'));
+  var panels=[].slice.call(document.querySelectorAll('.bd-panel'));
+  var valid=panels.map(function(p){return p.dataset.panel;});
+  function show(key){
+    tabs.forEach(function(t){var on=t.dataset.tab===key;t.classList.toggle('active',on);t.setAttribute('aria-selected',on?'true':'false');});
+    panels.forEach(function(p){p.hidden=(p.dataset.panel!==key);});
+  }
+  function topTo(){var w=document.querySelector('.bd-tabwrap');if(w)w.scrollIntoView({behavior:'smooth',block:'start'});}
+  var init=new URLSearchParams(location.search).get('tab');
+  if(valid.indexOf(init)<0)init=valid[0];
+  show(init);
+  tabs.forEach(function(t){t.addEventListener('click',function(){show(t.dataset.tab);history.replaceState(null,'','?tab='+t.dataset.tab);});});
+  document.querySelectorAll('a[data-bdtab]').forEach(function(a){a.addEventListener('click',function(e){e.preventDefault();show(a.dataset.bdtab);history.replaceState(null,'','?tab='+a.dataset.bdtab);topTo();});});
+})();
+</script>
+</body>

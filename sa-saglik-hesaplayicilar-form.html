@@ -1,0 +1,380 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<meta name="robots" content="noindex, nofollow" />
+<title>Hesaplayıcı Yapılandır — Sağlık &amp; Diyet · DadaMutfak</title>
+<link rel="shortcut icon" type="image/x-icon" href="assets/img/favicon.ico" />
+<link rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css"
+      integrity="sha512-SnH5WK+bZxgPHs44uWIX+LLJAJ9/2PkPKZ5QiAj6Ta86w+fsb2TkcmfRyVX3pBnMFcV7oQPJkl9QevSCWr3W6A=="
+      crossorigin="anonymous" referrerpolicy="no-referrer" />
+<link rel="stylesheet" href="assets/css/sa-shell.css" />
+<style>
+/* =====================================================================
+   SA-SAGLIK-HESAPLAYICILAR-FORM — SAYFA CSS (kabuk sa-shell.css'te).
+   Config formu: hesaplayıcı parametre + aktiflik. Ref: sa-store-urunler-form
+   (2-kolon form-layout). Token: SADECE var(--acc)/rgba(var(--acc-rgb),..).
+   ===================================================================== */
+
+/* ORTAK FORM ALANLARI — sa-* form ekranlarında AYNEN */
+.form-grid{display:grid;gap:18px}
+.frow{display:flex;flex-direction:column;gap:7px}
+.frow label{font-size:12.5px;font-weight:700;color:var(--slate-2)}
+.frow .fhint{font-size:11.5px;color:var(--muted);font-weight:500}
+.finput,.fselect,.ftext{width:100%;font-family:inherit;font-size:13.5px;font-weight:500;color:var(--ink);background:var(--paper);border:1px solid var(--line);border-radius:var(--radius-md);padding:0 14px;height:44px;outline:none;transition:.2s var(--ease)}
+.ftext{height:auto;padding:12px 14px;line-height:1.5;resize:vertical;min-height:96px}
+.finput:focus,.fselect:focus,.ftext:focus{border-color:var(--acc);box-shadow:0 0 0 3px rgba(var(--acc-rgb),.12)}
+.frow.two{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+.form-sec{padding:18px 22px;border-bottom:1px solid var(--line)}
+.form-sec:last-child{border-bottom:none}
+.form-sec-tt{font-size:13px;font-weight:700;color:var(--slate);margin-bottom:14px;display:flex;align-items:center;gap:8px}
+.form-sec-tt i{color:var(--acc)}
+.form-actions{display:flex;gap:10px;justify-content:flex-end;padding:16px 22px}
+
+/* ---- form düzeni: 2-kolon (sol içerik, sağ yan kart) — kanon sa-store-urunler-form ---- */
+.form-layout{display:grid;grid-template-columns:minmax(0,1fr) minmax(280px,360px);gap:24px;align-items:start}
+@media(max-width:980px){.form-layout{grid-template-columns:1fr}}
+
+/* ---- geri link ---- */
+.back-link{display:inline-flex;align-items:center;gap:8px;font-size:13px;font-weight:700;color:var(--muted);margin-bottom:18px;transition:.18s var(--ease)}
+.back-link:hover{color:var(--slate)}
+.back-link i{font-size:12px}
+
+/* ---- ikon seçici ---- */
+.icon-pick{display:flex;gap:8px;flex-wrap:wrap}
+.icon-opt{width:44px;height:44px;border-radius:var(--radius-md);border:1px solid var(--line);background:var(--paper);color:var(--slate-2);display:grid;place-items:center;font-size:16px;cursor:pointer;transition:.15s var(--ease)}
+.icon-opt:hover{border-color:var(--acc);color:var(--acc-deep)}
+.icon-opt.is-on{background:rgba(var(--acc-rgb),.12);border-color:rgba(var(--acc-rgb),.4);color:var(--acc-deep)}
+
+/* ---- parametre tablosu (ref: var-table) ---- */
+.par-table{width:100%;border-collapse:collapse;margin-top:4px}
+.par-table th{font-size:11.5px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:var(--muted);padding:10px 10px 10px 0;text-align:left;border-bottom:1px solid var(--line)}
+.par-table td{padding:10px 10px 10px 0;border-bottom:1px solid var(--line);vertical-align:middle}
+.par-table tr:last-child td{border-bottom:none}
+.par-table .finput{height:38px;font-size:13px}
+.par-table .fselect{height:38px;font-size:13px}
+.par-add-btn{display:inline-flex;align-items:center;gap:7px;font-size:13px;font-weight:700;color:var(--acc-deep);cursor:pointer;margin-top:10px;background:none;border:none;font-family:inherit;padding:0;transition:.15s}
+.par-add-btn:hover{color:var(--acc)}
+.par-remove{width:30px;height:30px;border:none;background:none;color:var(--muted);font-size:13px;cursor:pointer;border-radius:var(--radius-sm);transition:.15s;display:inline-flex;align-items:center;justify-content:center}
+.par-remove:hover{background:var(--tomato-tint);color:var(--tomato)}
+/* parametre tablosu da daralan ekranda taşmasın */
+.par-scroll{width:100%;overflow-x:auto}
+
+/* ---- yan kart ---- */
+.side-card{position:sticky;top:calc(var(--pnl-top-h) + 28px);display:flex;flex-direction:column;gap:16px}
+@media(max-width:980px){.side-card{position:static}}
+.sc-field{display:flex;flex-direction:column;gap:7px}
+.sc-field label{font-size:12.5px;font-weight:700;color:var(--slate-2)}
+
+/* toggle switch */
+.toggle-row{display:flex;align-items:center;justify-content:space-between;gap:12px}
+.toggle-row span{font-size:13.5px;color:var(--slate)}
+.toggle{position:relative;width:40px;height:22px;flex:none}
+.toggle input{opacity:0;width:0;height:0;position:absolute}
+.toggle-track{position:absolute;inset:0;border-radius:999px;background:var(--line);transition:.2s var(--ease);cursor:pointer}
+.toggle input:checked+.toggle-track{background:var(--acc)}
+.toggle-thumb{position:absolute;top:3px;left:3px;width:16px;height:16px;border-radius:50%;background:#fff;transition:.2s var(--ease);pointer-events:none}
+.toggle input:checked~.toggle-thumb{left:21px}
+</style>
+</head>
+<body data-brand="mutfak" data-sec="saglik" data-screen="hesaplayicilar">
+
+<div class="sa-app">
+
+  <!-- §1 İKON-RAIL -->
+  <aside class="sa-rail" id="saRail">
+    <a class="sa-rail-logo" href="sa-giris-v1.html" title="Yönetim Girişi"><img src="assets/img/logo-mark.png" alt="DadaMutfak" /></a>
+    <a class="sa-rail-ico" data-sec="genel" href="sa-shell.html?sec=genel" title="Genel Bakış"><i class="fa-solid fa-gauge-high"></i></a>
+    <span class="sa-rail-div"></span>
+    <a class="sa-rail-ico" data-sec="admin"   href="sa-admin.html"   title="Admin"><i class="fa-solid fa-shield-halved"></i></a>
+    <a class="sa-rail-ico" data-sec="saglik"  href="sa-saglik.html"  title="Sağlık &amp; Diyet"><i class="fa-solid fa-heart-pulse"></i></a>
+    <a class="sa-rail-ico" data-sec="store"   href="sa-store.html"   title="DadaStore"><i class="fa-solid fa-bag-shopping"></i></a>
+    <a class="sa-rail-ico" data-sec="dadafit" href="sa-dadafit.html" title="DadaFit"><i class="fa-solid fa-dumbbell"></i></a>
+    <a class="sa-rail-ico" data-sec="isletme" href="sa-isletme.html" title="İşletmeler"><i class="fa-solid fa-store"></i></a>
+    <a class="sa-rail-ico is-locked" data-sec="akademi" href="#" title="DadaAkademi — Yakında"><i class="fa-solid fa-graduation-cap"></i><i class="fa-solid fa-lock sr-lock"></i></a>
+    <div class="sa-rail-foot"><a class="sa-rail-ico" href="anasayfa-portal-v3a.html" title="Siteye Dön"><i class="fa-solid fa-arrow-left"></i></a></div>
+  </aside>
+
+  <!-- §2 BÖLÜM MENÜSÜ (JS) -->
+  <nav class="sa-menu" id="saMenu"></nav>
+
+  <div class="sa-divider" id="saDivider" role="separator" aria-label="Menüyü daralt/genişlet" title="Sürükle veya tıkla — menüyü daralt/genişlet">
+    <span class="sa-grip"><i class="fa-solid fa-grip-lines-vertical"></i></span>
+  </div>
+
+  <div class="pnl-overlay" id="pnlOverlay"></div>
+
+  <!-- §3 ÜST BAR -->
+  <header class="pnl-top">
+    <button class="pnl-burger" id="pnlBurger" aria-label="Menü"><i class="fa-solid fa-bars"></i></button>
+    <div class="pnl-search">
+      <i class="fa-solid fa-magnifying-glass"></i>
+      <input type="text" placeholder="Hesaplayıcı ara…" />
+    </div>
+    <div class="pnl-top-tools">
+      <button class="pnl-bell" aria-label="Bildirimler"><i class="fa-regular fa-bell"></i><span class="pb-dot"></span></button>
+      <div class="pnl-me">
+        <div class="pm-ava"><i class="fa-solid fa-user"></i></div>
+        <div class="pm-id">
+          <div class="pm-name" id="pmName">Süper Admin</div>
+          <div class="pm-role" id="pmRole">Tüm yetki</div>
+        </div>
+        <i class="fa-solid fa-chevron-down"></i>
+      </div>
+    </div>
+  </header>
+
+  <!-- §4 İÇERİK — Hesaplayıcı Yapılandırma Formu -->
+  <main class="pnl-main" id="saMain">
+
+    <a class="back-link" href="sa-saglik-hesaplayicilar.html"><i class="fa-solid fa-arrow-left"></i> Hesaplayıcılar</a>
+
+    <div class="pnl-page-head">
+      <div>
+        <h1>Hesaplayıcı Yapılandır</h1>
+        <div class="ph-sub">Vücut Kitle İndeksi (VKİ) — parametre ve görünürlük ayarları</div>
+      </div>
+    </div>
+
+    <div class="form-layout">
+
+      <!-- sol: ana form -->
+      <div style="display:flex;flex-direction:column;gap:16px">
+
+        <!-- temel bilgiler -->
+        <div class="pnl-card">
+          <div class="form-sec">
+            <div class="form-sec-tt"><i class="fa-solid fa-calculator"></i> Temel Bilgiler</div>
+            <div class="form-grid">
+              <div class="frow">
+                <label>Hesaplayıcı Adı</label>
+                <input class="finput" type="text" value="Vücut Kitle İndeksi (VKİ)" />
+              </div>
+              <div class="frow">
+                <label>Kısa Açıklama</label>
+                <textarea class="ftext" rows="3">Boy ve kilo bilgisinden vücut kitle indeksini hesaplar ve sağlık aralığını gösterir.</textarea>
+              </div>
+              <div class="frow two">
+                <div class="frow">
+                  <label>Kategori</label>
+                  <select class="fselect">
+                    <option>Sağlık</option>
+                    <option>Beslenme</option>
+                    <option>Fitness</option>
+                  </select>
+                </div>
+                <div class="frow">
+                  <label>Birim Sistemi</label>
+                  <select class="fselect">
+                    <option>Metrik (kg / cm)</option>
+                    <option>İmperyal (lb / inch)</option>
+                  </select>
+                </div>
+              </div>
+              <div class="frow">
+                <label>İkon</label>
+                <div class="icon-pick">
+                  <div class="icon-opt is-on" title="Tartı"><i class="fa-solid fa-weight-scale"></i></div>
+                  <div class="icon-opt" title="Kalori"><i class="fa-solid fa-fire-flame-curved"></i></div>
+                  <div class="icon-opt" title="Metabolizma"><i class="fa-solid fa-gauge-high"></i></div>
+                  <div class="icon-opt" title="Su"><i class="fa-solid fa-glass-water"></i></div>
+                  <div class="icon-opt" title="Cetvel"><i class="fa-solid fa-ruler-vertical"></i></div>
+                  <div class="icon-opt" title="Kalp"><i class="fa-solid fa-heart-pulse"></i></div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- giriş parametreleri -->
+          <div class="form-sec">
+            <div class="form-sec-tt"><i class="fa-solid fa-sliders"></i> Giriş Parametreleri</div>
+            <div class="par-scroll">
+              <table class="par-table">
+                <thead>
+                  <tr>
+                    <th style="width:30%">Parametre Adı</th>
+                    <th style="width:22%">Tip</th>
+                    <th style="width:22%">Varsayılan</th>
+                    <th style="width:18%">Zorunlu</th>
+                    <th style="width:8%"></th>
+                  </tr>
+                </thead>
+                <tbody id="parBody">
+                  <tr>
+                    <td><input class="finput" type="text" value="Boy (cm)" /></td>
+                    <td>
+                      <select class="fselect">
+                        <option>Sayı</option>
+                        <option>Metin</option>
+                        <option>Seçim</option>
+                      </select>
+                    </td>
+                    <td><input class="finput" type="number" placeholder="170" /></td>
+                    <td>
+                      <select class="fselect">
+                        <option>Evet</option>
+                        <option>Hayır</option>
+                      </select>
+                    </td>
+                    <td><button class="par-remove" title="Satırı kaldır"><i class="fa-solid fa-xmark"></i></button></td>
+                  </tr>
+                  <tr>
+                    <td><input class="finput" type="text" value="Kilo (kg)" /></td>
+                    <td>
+                      <select class="fselect">
+                        <option>Sayı</option>
+                        <option>Metin</option>
+                        <option>Seçim</option>
+                      </select>
+                    </td>
+                    <td><input class="finput" type="number" placeholder="70" /></td>
+                    <td>
+                      <select class="fselect">
+                        <option>Evet</option>
+                        <option>Hayır</option>
+                      </select>
+                    </td>
+                    <td><button class="par-remove" title="Satırı kaldır"><i class="fa-solid fa-xmark"></i></button></td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+            <button class="par-add-btn" id="parAdd"><i class="fa-solid fa-plus"></i> Parametre Ekle</button>
+          </div>
+
+          <!-- formül & sonuç metni -->
+          <div class="form-sec">
+            <div class="form-sec-tt"><i class="fa-solid fa-square-root-variable"></i> Formül &amp; Sonuç</div>
+            <div class="form-grid">
+              <div class="frow">
+                <label>Hesaplama Formülü</label>
+                <input class="finput" type="text" value="kilo / (boy_m * boy_m)" />
+                <span class="fhint">Parametre adlarını değişken olarak kullanın (boy_m = boy/100)</span>
+              </div>
+              <div class="frow">
+                <label>Sonuç Açıklama Metni</label>
+                <textarea class="ftext" rows="3">Sonucunuz {deger} → {kategori}. Sağlıklı aralık 18.5–24.9 arasındadır. Diyetisyene danışmanız önerilir.</textarea>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- form aksiyonları -->
+        <div class="pnl-card">
+          <div class="form-actions">
+            <a class="btn btn-ghost btn-sm" href="sa-saglik-hesaplayicilar.html">İptal</a>
+            <button class="btn btn-ghost btn-sm"><i class="fa-solid fa-floppy-disk"></i> Taslak Kaydet</button>
+            <button class="btn btn-acc btn-sm"><i class="fa-solid fa-check"></i> Kaydet &amp; Yayınla</button>
+          </div>
+        </div>
+
+      </div>
+
+      <!-- sağ: yan kart -->
+      <div class="side-card">
+
+        <!-- yayın durumu -->
+        <div class="pnl-card">
+          <div class="pc-head"><div class="pc-title"><i class="fa-solid fa-circle-dot"></i> Durum</div></div>
+          <div class="pc-body">
+            <div style="display:flex;flex-direction:column;gap:14px">
+              <div class="toggle-row">
+                <span>Aktif (kullanıma açık)</span>
+                <label class="toggle">
+                  <input type="checkbox" checked />
+                  <div class="toggle-track"></div>
+                  <div class="toggle-thumb"></div>
+                </label>
+              </div>
+              <div class="toggle-row">
+                <span>Sonuç PDF çıktısı</span>
+                <label class="toggle">
+                  <input type="checkbox" checked />
+                  <div class="toggle-track"></div>
+                  <div class="toggle-thumb"></div>
+                </label>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- görünürlük -->
+        <div class="pnl-card">
+          <div class="pc-head"><div class="pc-title"><i class="fa-solid fa-eye"></i> Görünürlük</div></div>
+          <div class="pc-body">
+            <div style="display:flex;flex-direction:column;gap:14px">
+              <div class="sc-field">
+                <label>Gösterileceği Modül</label>
+                <select class="fselect">
+                  <option>Sağlık &amp; Diyet (herkese açık)</option>
+                  <option>Diyetisyen paneli</option>
+                  <option>DadaFit</option>
+                  <option>Tümü</option>
+                </select>
+              </div>
+              <div class="toggle-row">
+                <span>Ana sayfada öne çıkar</span>
+                <label class="toggle">
+                  <input type="checkbox" />
+                  <div class="toggle-track"></div>
+                  <div class="toggle-thumb"></div>
+                </label>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- kullanım özeti -->
+        <div class="pnl-card">
+          <div class="pc-head"><div class="pc-title"><i class="fa-solid fa-chart-line"></i> Kullanım</div></div>
+          <div class="pc-body">
+            <div style="display:flex;flex-direction:column;gap:11px">
+              <div style="display:flex;justify-content:space-between"><span style="font-size:13px;color:var(--slate-2)">Toplam kullanım</span><span style="font-size:13.5px;font-weight:700;color:var(--slate)">12.480</span></div>
+              <div style="display:flex;justify-content:space-between"><span style="font-size:13px;color:var(--slate-2)">Bu ay</span><span style="font-size:13.5px;font-weight:700;color:var(--slate)">1.204</span></div>
+              <div style="display:flex;justify-content:space-between"><span style="font-size:13px;color:var(--slate-2)">Son güncelleme</span><span style="font-size:13.5px;font-weight:700;color:var(--slate)">20 Haz 2026</span></div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+  </main>
+
+</div>
+
+<script src="assets/js/sa-shell.js"></script>
+
+<!-- Parametre satır yönetimi + ikon seçimi (sayfa-özel) -->
+<script>
+var parAdd = document.getElementById('parAdd');
+var parBody = document.getElementById('parBody');
+function parRowHTML(){
+  return '<td><input class="finput" type="text" placeholder="ör. Yaş" /></td>'
+    + '<td><select class="fselect"><option>Sayı</option><option>Metin</option><option>Seçim</option></select></td>'
+    + '<td><input class="finput" type="number" placeholder="0" /></td>'
+    + '<td><select class="fselect"><option>Evet</option><option>Hayır</option></select></td>'
+    + '<td><button class="par-remove" title="Satırı kaldır"><i class="fa-solid fa-xmark"></i></button></td>';
+}
+if(parAdd && parBody){
+  parAdd.addEventListener('click', function(){
+    var tr = document.createElement('tr');
+    tr.innerHTML = parRowHTML();
+    parBody.appendChild(tr);
+    tr.querySelector('.par-remove').addEventListener('click', function(){ tr.remove(); });
+  });
+  parBody.querySelectorAll('.par-remove').forEach(function(btn){
+    btn.addEventListener('click', function(){ btn.closest('tr').remove(); });
+  });
+}
+document.querySelectorAll('.icon-opt').forEach(function(opt){
+  opt.addEventListener('click', function(){
+    document.querySelectorAll('.icon-opt').forEach(function(o){ o.classList.remove('is-on'); });
+    opt.classList.add('is-on');
+  });
+});
+</script>
+</body>
+</html>

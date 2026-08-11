@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<meta name="robots" content="noindex, nofollow" />
+<title>Randevularım — Planım | DadaDiet</title>
+<link rel="shortcut icon" type="image/x-icon"
+      href="assets/img/favicon.ico" />
+<!-- FontAwesome 6.5.2 (kilitli ikon seti) -->
+<link rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css"
+      integrity="sha512-SnH5WK+bZxgPHs44uWIX+LLJAJ9/2PkPKZ5QiAj6Ta86w+fsb2TkcmfRyVX3pBnMFcV7oQPJkl9QevSCWr3W6A=="
+      crossorigin="anonymous" referrerpolicy="no-referrer" />
+<link rel="stylesheet" href="assets/css/dd-shell.css" />
+<!-- kişisel alan bileşenleri (diyetisyen panelinden birebir; kabuk DEĞİL) -->
+<link rel="stylesheet" href="assets/css/planim.css" />
+</head>
+<body data-brand="diet" data-planim="randevu">
+
+<div id="ddChromeTop"></div>
+<script src="assets/js/dd-shell.js"></script>
+
+<main class="page-main" id="pageMain">
+  <section class="sec below-header" style="background:var(--bg)">
+    <div class="wrap">
+
+      <!-- başlık + alt gezinme: assets/js/planim.js üretir -->
+      <div id="planimTop"></div>
+
+      <!-- İÇERİK (üye, verisi var) -->
+      <div id="planimData" hidden>
+        <div class="pf-tabbar"><div class="pf-tabs" id="rdvTabs" role="tablist" aria-label="Randevu grupları"><button class="dt active" type="button" data-tab="yaklasan"><i class="fa-regular fa-calendar-check"></i> Yaklaşan <span class="mm-cnt">2</span></button><button class="dt" type="button" data-tab="gecmis"><i class="fa-solid fa-clock-rotate-left"></i> Geçmiş <span class="mm-cnt">3</span></button></div></div>
+        <div class="pf-pane" data-pane="yaklasan">
+        <div class="pnl-card">
+          <div class="pc-head"><span class="pc-title"><i class="fa-solid fa-calendar-check"></i> Yaklaşan randevular</span></div>
+          <div class="pc-body flush">
+            <div class="appt-list">
+              <div class="appt-row">
+                <div class="appt-time">14<small>Ağu</small></div>
+                <span class="appt-ava" style="background-image:url('https://images.unsplash.com/photo-1559839734-2b71ea197ec2?w=200&q=80&auto=format&fit=crop')"></span>
+                <div class="appt-info"><div class="appt-name">Dyt. Elif Şahin</div>
+                  <div class="appt-meta"><i class="fa-solid fa-video"></i> Online · 16:00 · 45 dk <span class="pstat ok">Onaylı</span></div></div>
+                <div class="appt-act"><button class="btn btn-ghost btn-sm" type="button">Yeniden planla</button><button class="btn btn-ghost btn-sm" type="button">İptal</button></div>
+              </div>
+              <div class="appt-row is-online">
+                <div class="appt-time">28<small>Ağu</small></div>
+                <span class="appt-ava" style="background-image:url('https://images.unsplash.com/photo-1559839734-2b71ea197ec2?w=200&q=80&auto=format&fit=crop')"></span>
+                <div class="appt-info"><div class="appt-name">Dyt. Elif Şahin</div>
+                  <div class="appt-meta"><i class="fa-solid fa-video"></i> Online · 16:00 · Kontrol görüşmesi <span class="pstat wait">Onay bekliyor</span></div></div>
+                <div class="appt-act"><button class="btn btn-ghost btn-sm" type="button">Yeniden planla</button><button class="btn btn-ghost btn-sm" type="button">İptal</button></div>
+              </div>
+            </div>
+          </div>
+          <div class="pc-foot"><a class="btn btn-green btn-sm" href="diyetisyen-dizin-v1.html"><i class="fa-solid fa-plus"></i> Yeni Randevu Al</a></div>
+        </div>
+        </div>
+        <div class="pf-pane" data-pane="gecmis" hidden>
+        <div class="pnl-card">
+          <div class="pc-head"><span class="pc-title"><i class="fa-solid fa-clock-rotate-left"></i> Geçmiş randevular</span></div>
+          <div class="pc-body flush">
+            <div class="appt-list">
+              <div class="appt-row">
+                <div class="appt-time">31<small>Tem</small></div>
+                <span class="appt-ava" style="background-image:url('https://images.unsplash.com/photo-1559839734-2b71ea197ec2?w=200&q=80&auto=format&fit=crop')"></span>
+                <div class="appt-info"><div class="appt-name">Dyt. Elif Şahin</div>
+                  <div class="appt-meta"><i class="fa-solid fa-video"></i> Online · 16:00 · Plan revizyonu <span class="pstat off">Tamamlandı</span></div></div>
+                <div class="appt-act"><a class="btn btn-ghost btn-sm" href="planim-mesajlarim-v1.html">Notlar</a></div>
+              </div>
+              <div class="appt-row">
+                <div class="appt-time">17<small>Tem</small></div>
+                <span class="appt-ava" style="background-image:url('https://images.unsplash.com/photo-1559839734-2b71ea197ec2?w=200&q=80&auto=format&fit=crop')"></span>
+                <div class="appt-info"><div class="appt-name">Dyt. Elif Şahin</div>
+                  <div class="appt-meta"><i class="fa-solid fa-house-chimney"></i> Yüz yüze · 11:00 · İlk görüşme <span class="pstat off">Tamamlandı</span></div></div>
+                <div class="appt-act"><a class="btn btn-ghost btn-sm" href="planim-mesajlarim-v1.html">Notlar</a></div>
+              </div>
+              <div class="appt-row is-online">
+                <div class="appt-time">3<small>Tem</small></div>
+                <span class="appt-ava" style="background-image:url('https://images.unsplash.com/photo-1559839734-2b71ea197ec2?w=200&q=80&auto=format&fit=crop')"></span>
+                <div class="appt-info"><div class="appt-name">Dyt. Elif Şahin</div>
+                  <div class="appt-meta"><i class="fa-solid fa-video"></i> Online · 16:00 <span class="pstat warm">İptal edildi</span></div></div>
+                <div class="appt-act"><a class="btn btn-ghost btn-sm" href="diyetisyen-profil-v1.html">Yeniden al</a></div>
+              </div>
+            </div>
+          </div>
+        </div>
+        </div>
+      </div>
+
+      <!-- BAŞLANGIÇ DURUMU (üye, henüz içeriği yok) — boş kart gösterilmez -->
+      <div id="planimStart" hidden>
+        <div class="pnl-card">
+          <div class="pnl-empty">
+            <div class="pe-ico"><i class="fa-solid fa-calendar-check"></i></div>
+            <h4>Henüz randevun yok</h4>
+            <p>Doğrulanmış bir diyetisyenle görüşme al; yaklaşan ve geçmiş randevuların burada listelenir.</p>
+            <a class="btn btn-primary btn-sm" href="diyetisyen-bul-v1.html"><i class="fa-solid fa-wand-magic-sparkles"></i> Sana Uygun Diyetisyeni Bul</a>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </section>
+</main>
+
+<div id="ddChromeGate"></div>
+<div id="ddChromeFooter"></div>
+<div id="ddChromeFab"></div>
+
+<script src="assets/js/planim.js"></script>
+<script>
+/* ===== SAYFA JS — randevu grubu sekmesi (saglik-testler-v1 deseni) ===== */
+(function(){
+  var tabs=document.querySelectorAll('#rdvTabs .dt');
+  if(!tabs.length)return;
+  tabs.forEach(function(b){
+    b.addEventListener('click',function(){
+      var n=b.getAttribute('data-tab');
+      tabs.forEach(function(x){x.classList.toggle('active',x===b);});
+      document.querySelectorAll('.pf-pane').forEach(function(p){p.hidden=p.getAttribute('data-pane')!==n;});
+    });
+  });
+})();
+</script>
+</body>
+</html>

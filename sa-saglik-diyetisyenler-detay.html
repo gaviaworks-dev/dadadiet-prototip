@@ -1,0 +1,317 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<meta name="robots" content="noindex, nofollow" />
+<title>Diyetisyen Detay — Sağlık &amp; Diyet · DadaMutfak</title>
+<link rel="shortcut icon" type="image/x-icon" href="assets/img/favicon.ico" />
+<link rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css"
+      integrity="sha512-SnH5WK+bZxgPHs44uWIX+LLJAJ9/2PkPKZ5QiAj6Ta86w+fsb2TkcmfRyVX3pBnMFcV7oQPJkl9QevSCWr3W6A=="
+      crossorigin="anonymous" referrerpolicy="no-referrer" />
+<link rel="stylesheet" href="assets/css/sa-shell.css" />
+<link rel="stylesheet" href="assets/css/sa-gozetim.css" />
+<style>
+/* =====================================================================
+   SA-SAGLIK-DIYETISYENLER-DETAY — SAYFA CSS (kabuk sa-shell.css'te).
+   İçerik wave-1'den BİREBİR taşındı. "Panelini Aç" = Faz-3 placeholder.
+   ===================================================================== */
+/* ORTAK FORM ALANLARI */
+.form-grid{display:grid;gap:18px}
+.frow{display:flex;flex-direction:column;gap:7px}
+.frow label{font-size:12.5px;font-weight:700;color:var(--slate-2)}
+.frow .fhint{font-size:11.5px;color:var(--muted);font-weight:500}
+.finput,.fselect,.ftext{width:100%;font-family:inherit;font-size:13.5px;font-weight:500;color:var(--ink);background:var(--paper);border:1px solid var(--line);border-radius:var(--radius-md);padding:0 14px;height:44px;outline:none;transition:.2s var(--ease)}
+.ftext{height:auto;padding:12px 14px;line-height:1.5;resize:vertical;min-height:96px}
+.finput:focus,.fselect:focus,.ftext:focus{border-color:var(--acc);box-shadow:0 0 0 3px rgba(var(--acc-rgb),.12)}
+.frow.two{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+.form-sec{padding:18px 22px;border-bottom:1px solid var(--line)}
+.form-sec:last-child{border-bottom:none}
+.form-sec-tt{font-size:13px;font-weight:700;color:var(--slate);margin-bottom:14px;display:flex;align-items:center;gap:8px}
+.form-sec-tt i{color:var(--acc)}
+.form-actions{display:flex;gap:10px;justify-content:flex-end;padding:16px 22px}
+
+/* Detay 2-kolon düzeni */
+.detail-grid{display:grid;grid-template-columns:minmax(0,1.6fr) minmax(0,1fr);gap:20px;align-items:start}
+.detail-side{position:sticky;top:calc(var(--pnl-top-h) + 28px)}
+@media(max-width:980px){.detail-grid{grid-template-columns:1fr}.detail-side{position:static}}
+
+/* Profil header */
+.profile-header{display:flex;align-items:flex-start;gap:18px;padding:22px}
+.profile-ava{width:72px;height:72px;flex:none;border-radius:var(--radius-circle);background-size:cover;background-position:center;border:3px solid var(--line);box-shadow:0 0 0 3px rgba(var(--acc-rgb),.15)}
+.profile-meta{flex:1;min-width:0}
+.profile-meta h2{font-size:20px;margin-bottom:4px}
+.profile-meta .pm-unvan{font-size:13.5px;color:var(--muted);margin-bottom:10px}
+.profile-meta .pm-tags{display:flex;gap:8px;flex-wrap:wrap}
+.spec-tag{display:inline-flex;align-items:center;gap:5px;font-size:12px;font-weight:700;padding:4px 10px;border-radius:6px;background:rgba(var(--acc-rgb),.10);color:var(--acc-deep);white-space:nowrap}
+
+/* Detay bilgi satırları */
+.info-list{display:flex;flex-direction:column}
+.info-row{display:flex;align-items:baseline;gap:12px;padding:11px 22px;border-bottom:1px solid var(--line)}
+.info-row:last-child{border-bottom:none}
+.info-lbl{font-size:11.5px;font-weight:700;color:var(--muted);text-transform:uppercase;letter-spacing:.06em;min-width:130px;flex:none}
+.info-val{font-size:13.5px;color:var(--slate);font-weight:500}
+.info-val a{color:var(--acc-deep);text-decoration:underline;text-underline-offset:2px}
+
+/* Belge satırları */
+.doc-row{display:flex;align-items:center;gap:13px;padding:12px 22px;border-bottom:1px solid var(--line)}
+.doc-row:last-child{border-bottom:none}
+.doc-ico{width:36px;height:36px;flex:none;border-radius:var(--radius-sm);background:rgba(var(--acc-rgb),.10);color:var(--acc-deep);display:grid;place-items:center;font-size:14px}
+.doc-info{flex:1;min-width:0;line-height:1.3}
+.doc-info strong{font-size:13px;font-weight:700;color:var(--slate);display:block}
+.doc-info span{font-size:12px;color:var(--muted)}
+.doc-status{font-size:11.5px;font-weight:700;flex:none}
+
+/* Denetim aksiyonları */
+.act-btn{display:inline-flex;align-items:center;gap:5px;font-family:inherit;font-size:12.5px;font-weight:700;padding:6px 11px;border-radius:var(--radius-sm);border:1px solid var(--line);background:var(--paper);color:var(--slate-2);cursor:pointer;transition:.15s var(--ease);white-space:nowrap;width:100%;justify-content:center}
+.act-btn:hover{border-color:var(--slate);color:var(--slate)}
+.act-btn.ok{border-color:rgba(59,183,126,.35);background:var(--green-tint);color:var(--green-deep)}
+.act-btn.ok:hover{background:#d5f0e4;border-color:var(--green-deep)}
+.act-btn.warn{border-color:rgba(225,72,39,.3);background:var(--tomato-tint);color:var(--tomato)}
+.act-btn.warn:hover{background:#f7d6cd;border-color:var(--tomato)}
+
+/* Sağ meta kart içi */
+.meta-section{padding:18px 20px;border-bottom:1px solid var(--line)}
+.meta-section:last-child{border-bottom:none}
+.meta-section-tt{font-size:11px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);margin-bottom:12px}
+.meta-stat{display:flex;justify-content:space-between;align-items:center;margin-bottom:9px}
+.meta-stat:last-child{margin-bottom:0}
+.meta-stat-lbl{font-size:13px;color:var(--slate-2)}
+.meta-stat-val{font-size:13.5px;font-weight:700;color:var(--slate)}
+.action-stack{display:flex;flex-direction:column;gap:8px}
+
+/* Geri linki */
+.back-link{display:inline-flex;align-items:center;gap:7px;font-size:13px;font-weight:700;color:var(--muted);transition:.15s var(--ease);margin-bottom:6px}
+.back-link:hover{color:var(--slate)}
+.back-link i{font-size:11px}
+
+/* Panelini Aç — yer ayrıldı, bağlanmadı (Faz 3) */
+.panel-open-placeholder{display:flex;align-items:center;gap:8px;font-size:12.5px;font-weight:700;color:var(--muted);padding:10px 12px;border:1px dashed var(--line);border-radius:var(--radius-sm);background:var(--bg);cursor:not-allowed}
+.panel-open-placeholder i{font-size:12px}
+</style>
+</head>
+<body data-brand="mutfak" data-sec="saglik" data-screen="diyetisyenler">
+
+<div class="sa-app">
+
+  <!-- §1 İKON-RAIL -->
+  <aside class="sa-rail" id="saRail">
+    <a class="sa-rail-logo" href="sa-giris-v1.html" title="Yönetim Girişi"><img src="assets/img/logo-mark.png" alt="DadaMutfak" /></a>
+    <a class="sa-rail-ico" data-sec="genel" href="sa-shell.html?sec=genel" title="Genel Bakış"><i class="fa-solid fa-gauge-high"></i></a>
+    <span class="sa-rail-div"></span>
+    <a class="sa-rail-ico" data-sec="admin"   href="sa-admin.html"   title="Admin"><i class="fa-solid fa-shield-halved"></i></a>
+    <a class="sa-rail-ico" data-sec="saglik"  href="sa-saglik.html"  title="Sağlık &amp; Diyet"><i class="fa-solid fa-heart-pulse"></i></a>
+    <a class="sa-rail-ico" data-sec="store"   href="sa-store.html"   title="DadaStore"><i class="fa-solid fa-bag-shopping"></i></a>
+    <a class="sa-rail-ico" data-sec="dadafit" href="sa-dadafit.html" title="DadaFit"><i class="fa-solid fa-dumbbell"></i></a>
+    <a class="sa-rail-ico" data-sec="isletme" href="sa-isletme.html" title="İşletmeler"><i class="fa-solid fa-store"></i></a>
+    <a class="sa-rail-ico is-locked" data-sec="akademi" href="#" title="DadaAkademi — Yakında"><i class="fa-solid fa-graduation-cap"></i><i class="fa-solid fa-lock sr-lock"></i></a>
+    <div class="sa-rail-foot"><a class="sa-rail-ico" href="anasayfa-portal-v3a.html" title="Siteye Dön"><i class="fa-solid fa-arrow-left"></i></a></div>
+  </aside>
+
+  <!-- §2 BÖLÜM MENÜSÜ (JS) -->
+  <nav class="sa-menu" id="saMenu"></nav>
+
+  <div class="sa-divider" id="saDivider" role="separator" aria-label="Menüyü daralt/genişlet" title="Sürükle veya tıkla — menüyü daralt/genişlet">
+    <span class="sa-grip"><i class="fa-solid fa-grip-lines-vertical"></i></span>
+  </div>
+
+  <div class="pnl-overlay" id="pnlOverlay"></div>
+
+  <!-- §3 ÜST BAR -->
+  <header class="pnl-top">
+    <button class="pnl-burger" id="pnlBurger" aria-label="Menü"><i class="fa-solid fa-bars"></i></button>
+    <div class="pnl-search">
+      <i class="fa-solid fa-magnifying-glass"></i>
+      <input type="text" placeholder="Diyetisyen, başvuru ara…" />
+    </div>
+    <div class="pnl-top-tools">
+      <button class="pnl-bell" aria-label="Bildirimler"><i class="fa-regular fa-bell"></i><span class="pb-dot"></span></button>
+      <div class="pnl-me">
+        <div class="pm-ava"><i class="fa-solid fa-user"></i></div>
+        <div class="pm-id">
+          <div class="pm-name" id="pmName">Süper Admin</div>
+          <div class="pm-role" id="pmRole">Tüm yetki</div>
+        </div>
+        <i class="fa-solid fa-chevron-down"></i>
+      </div>
+    </div>
+  </header>
+
+  <!-- §4 İÇERİK — Diyetisyen detay (wave-1'den BİREBİR) -->
+  <main class="pnl-main" id="saMain">
+
+    <!-- Geri + sayfa başlığı -->
+    <a class="back-link" href="sa-saglik-diyetisyenler.html"><i class="fa-solid fa-arrow-left"></i> Diyetisyenler</a>
+    <div class="pnl-page-head">
+      <div>
+        <h1>Dyt. Ayça Yıldız</h1>
+        <div class="ph-sub" style="display:flex;align-items:center;gap:10px;margin-top:6px">
+          <span class="pstat wait">Bekliyor</span>
+          <span style="font-size:13px;color:var(--muted)">Başvuru: 18 Haziran 2026</span>
+        </div>
+      </div>
+      <!-- Panelini Aç: başlık satırı sağ ucu, dolgulu yatay-uzun CTA (gözetim köprüsü) -->
+      <a class="panel-open-link pol-head" href="dyt-danisanlar-v1.html?gozetim=1&amp;from=sa-saglik-diyetisyenler-detay.html" title="Diyetisyen panelini gözetim modunda aç">
+        <i class="fa-solid fa-arrow-up-right-from-square"></i> Panelini Aç
+      </a>
+    </div>
+
+    <!-- 2-kolon detay düzeni -->
+    <div class="detail-grid">
+
+      <!-- SOL: Profil + Belgeler + Biyografi -->
+      <div style="display:flex;flex-direction:column;gap:16px">
+
+        <!-- Profil kartı -->
+        <div class="pnl-card">
+          <div class="pc-head">
+            <div class="pc-title"><i class="fa-solid fa-id-card"></i> Profil Bilgileri</div>
+          </div>
+          <div class="profile-header">
+            <div class="profile-ava" style="background-image:url('https://images.unsplash.com/photo-1607746882042-944635dfe10e?w=200&q=80&auto=format&fit=crop')"></div>
+            <div class="profile-meta">
+              <h2>Dyt. Ayça Yıldız</h2>
+              <div class="pm-unvan">Diyetisyen · 3 yıl deneyim</div>
+              <div class="pm-tags">
+                <span class="spec-tag"><i class="fa-solid fa-stethoscope"></i> Klinik Beslenme</span>
+                <span class="spec-tag"><i class="fa-solid fa-apple-whole"></i> Zayıflama</span>
+              </div>
+            </div>
+          </div>
+          <div class="info-list">
+            <div class="info-row">
+              <span class="info-lbl">E-posta</span>
+              <span class="info-val"><a href="mailto:ayca.yildiz@ornek.com">ayca.yildiz@ornek.com</a></span>
+            </div>
+            <div class="info-row">
+              <span class="info-lbl">Telefon</span>
+              <span class="info-val">+90 532 123 45 67</span>
+            </div>
+            <div class="info-row">
+              <span class="info-lbl">Şehir</span>
+              <span class="info-val">İstanbul, Şişli</span>
+            </div>
+            <div class="info-row">
+              <span class="info-lbl">Üniversite</span>
+              <span class="info-val">Hacettepe Ün. — Beslenme ve Diyetetik (2021)</span>
+            </div>
+            <div class="info-row">
+              <span class="info-lbl">Lisans No</span>
+              <span class="info-val">TR-DYT-2021-04892</span>
+            </div>
+            <div class="info-row">
+              <span class="info-lbl">Kayıt Tarihi</span>
+              <span class="info-val">18 Haziran 2026, 14:32</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Biyografi -->
+        <div class="pnl-card">
+          <div class="pc-head">
+            <div class="pc-title"><i class="fa-solid fa-file-lines"></i> Biyografi &amp; Hizmetler</div>
+          </div>
+          <div class="pc-body">
+            <div class="frow" style="margin-bottom:16px">
+              <label>Diyetisyen Tanıtım Metni</label>
+              <div style="font-size:13.5px;color:var(--slate-2);line-height:1.65;padding:12px 14px;background:var(--bg);border-radius:var(--radius-md);border:1px solid var(--line)">
+                Klinik beslenme ve zayıflama alanlarında uzmanlaşmış bir diyetisyen olarak bireylere özel beslenme programları hazırlamakta ve sağlıklı yaşam yolculuklarında destek olmaktayım. Özellikle insülin direnci, PCOS ve tiroid sorunlarına yönelik diyet protokollerinde deneyim sahibiyim.
+              </div>
+            </div>
+            <div class="frow.two" style="display:grid;grid-template-columns:1fr 1fr;gap:14px">
+              <div class="frow">
+                <label>Görüşme Ücreti</label>
+                <div style="font-size:14px;font-weight:700;color:var(--slate);padding:10px 14px;background:var(--bg);border-radius:var(--radius-sm);border:1px solid var(--line)">₺550 / seans</div>
+              </div>
+              <div class="frow">
+                <label>Aylık Paket</label>
+                <div style="font-size:14px;font-weight:700;color:var(--slate);padding:10px 14px;background:var(--bg);border-radius:var(--radius-sm);border:1px solid var(--line)">₺2.200 / ay</div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Belgeler -->
+        <div class="pnl-card">
+          <div class="pc-head">
+            <div class="pc-title"><i class="fa-solid fa-folder-open"></i> Yüklenen Belgeler</div>
+          </div>
+          <div class="pc-body flush">
+            <div class="doc-row">
+              <div class="doc-ico"><i class="fa-solid fa-file-pdf"></i></div>
+              <div class="doc-info"><strong>Diploma — Hacettepe Üniversitesi</strong><span>diploma_ayca_yildiz.pdf · 1.2 MB · 18 Haz 2026</span></div>
+              <span class="doc-status"><span class="pstat ok" style="font-size:10.5px;padding:3px 8px">Doğrulandı</span></span>
+            </div>
+            <div class="doc-row">
+              <div class="doc-ico"><i class="fa-solid fa-file-pdf"></i></div>
+              <div class="doc-info"><strong>Diyetisyen Kimlik Kartı — TDB</strong><span>tdb_kimlik_ayca.pdf · 0.8 MB · 18 Haz 2026</span></div>
+              <span class="doc-status"><span class="pstat wait" style="font-size:10.5px;padding:3px 8px">İnceleniyor</span></span>
+            </div>
+            <div class="doc-row">
+              <div class="doc-ico"><i class="fa-solid fa-image"></i></div>
+              <div class="doc-info"><strong>Profil Fotoğrafı</strong><span>profil_ayca.jpg · 0.4 MB · 18 Haz 2026</span></div>
+              <span class="doc-status"><span class="pstat ok" style="font-size:10.5px;padding:3px 8px">Doğrulandı</span></span>
+            </div>
+          </div>
+        </div>
+
+      </div><!-- /sol sütun -->
+
+      <!-- SAĞ: Denetim meta + aksiyonlar -->
+      <div class="detail-side" style="display:flex;flex-direction:column;gap:16px">
+
+        <!-- Denetim aksiyonları kartı -->
+        <div class="pnl-card">
+          <div class="pc-head">
+            <div class="pc-title"><i class="fa-solid fa-shield-halved"></i> Denetim Aksiyonları</div>
+          </div>
+          <div class="meta-section">
+            <div class="meta-section-tt">Mevcut Durum</div>
+            <div style="margin-bottom:14px"><span class="pstat wait" style="font-size:13px;padding:6px 14px">Onay Bekliyor</span></div>
+            <div class="meta-section-tt" style="margin-top:14px">İşlem Yap</div>
+            <div class="action-stack">
+              <button class="act-btn ok"><i class="fa-solid fa-check"></i> Başvuruyu Onayla</button>
+              <button class="act-btn warn"><i class="fa-solid fa-ban"></i> Askıya Al</button>
+            </div>
+          </div>
+          <div class="meta-section">
+            <div class="meta-section-tt">Not Ekle (Dahili)</div>
+            <textarea class="ftext" placeholder="Denetim notu girin…" style="font-size:13px;min-height:80px"></textarea>
+            <div style="margin-top:10px;text-align:right">
+              <button class="btn btn-ghost btn-sm" style="font-size:12.5px">Not Kaydet</button>
+            </div>
+          </div>
+        </div>
+
+        <!-- İstatistik özet -->
+        <div class="pnl-card">
+          <div class="pc-head">
+            <div class="pc-title"><i class="fa-solid fa-chart-bar"></i> Özet</div>
+          </div>
+          <div class="meta-section">
+            <div class="meta-section-tt">Başvuru Detayları</div>
+            <div class="meta-stat"><span class="meta-stat-lbl">Kayıt tarihi</span><span class="meta-stat-val">18 Haz 2026</span></div>
+            <div class="meta-stat"><span class="meta-stat-lbl">Son güncelleme</span><span class="meta-stat-val">18 Haz 2026</span></div>
+            <div class="meta-stat"><span class="meta-stat-lbl">Belge sayısı</span><span class="meta-stat-val">3 / 3</span></div>
+            <div class="meta-stat"><span class="meta-stat-lbl">Profil doluluk</span><span class="meta-stat-val">%92</span></div>
+          </div>
+          <div class="meta-section">
+            <div class="meta-section-tt">Aktivite (onay sonrası)</div>
+            <div class="meta-stat"><span class="meta-stat-lbl">Randevu</span><span class="meta-stat-val muted">—</span></div>
+            <div class="meta-stat"><span class="meta-stat-lbl">Danışan</span><span class="meta-stat-val muted">—</span></div>
+            <div class="meta-stat"><span class="meta-stat-lbl">Reçete</span><span class="meta-stat-val muted">—</span></div>
+          </div>
+        </div>
+
+      </div><!-- /sağ sütun -->
+
+    </div><!-- /detail-grid -->
+
+  </main>
+
+</div>
+
+<script src="assets/js/sa-shell.js"></script>
+</body>
+</html>

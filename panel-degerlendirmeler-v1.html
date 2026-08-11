@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<meta name="robots" content="noindex, nofollow" />
+<title>Diyetisyen Paneli · Değerlendirmeler — DadaMutfak</title>
+<link rel="shortcut icon" type="image/x-icon" href="assets/img/favicon.ico" />
+<!-- FontAwesome 6.5.2 (kilitli ikon seti) -->
+<link rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css"
+      integrity="sha512-SnH5WK+bZxgPHs44uWIX+LLJAJ9/2PkPKZ5QiAj6Ta86w+fsb2TkcmfRyVX3pBnMFcV7oQPJkl9QevSCWr3W6A=="
+      crossorigin="anonymous" referrerpolicy="no-referrer" />
+<link rel="stylesheet" href="assets/css/sa-ui.css" />
+<!-- panel kabuğu: assets/css/panel.css + assets/js/panel.js -->
+<link rel="stylesheet" href="assets/css/panel.css" />
+<style>
+/* =====================================================================
+   SAYFA CSS — sayfa-spesifik stiller BU İŞARETİN ALTINA
+   Tümü panel.css bileşenleri: .pf-tabs · .fk-grid/.fk-field · .ptable · .cl-bar · .note-list · .pstat
+   ===================================================================== */
+</style>
+</head>
+<body data-brand="mutfak" data-nav="degerlendirme">
+
+<div class="pnl-app">
+
+  <!-- sidebar + üst bar: assets/js/panel.js üretir -->
+  <div id="pnlChrome"></div>
+  <script src="assets/js/panel.js"></script>
+
+  <main class="pnl-main">
+
+    <div class="pnl-page-head">
+      <div>
+        <h1>Değerlendirmeler</h1>
+        <div class="ph-sub">İlk görüşme formları, danışan hedefleri, görüşme notların ve takip değerlendirmeleri.</div>
+      </div>
+      <div class="ph-actions"><a class="btn btn-green btn-sm" href="panel-degerlendirmeler-v1.html?sekme=form"><i class="fa-solid fa-plus"></i> Yeni Değerlendirme</a></div>
+    </div>
+
+    <div class="pf-tabbar"><div class="pf-tabs" id="dgrTabs" role="tablist"><button class="dt active" type="button" role="tab" data-tab="form"><i class="fa-solid fa-clipboard-list"></i> İlk Görüşme Formu</button><button class="dt" type="button" role="tab" data-tab="hedef"><i class="fa-solid fa-bullseye"></i> Danışan Hedefleri</button><button class="dt" type="button" role="tab" data-tab="not"><i class="fa-solid fa-note-sticky"></i> Notlar</button><button class="dt" type="button" role="tab" data-tab="takip"><i class="fa-solid fa-clipboard-check"></i> Takip Değerlendirmesi</button></div></div>
+    <div class="pf-pane" data-pane="form">
+    <div class="pnl-card">
+      <div class="pc-head"><span class="pc-title"><i class="fa-solid fa-clipboard-list"></i> İlk görüşme formu</span></div>
+      <div class="pc-body">
+        <div class="fk-grid c2">
+          <div class="fk-field"><label class="fk-label">Danışan</label><select class="fk-select"><option>Zeynep Arslan</option><option>Selin Uysal</option><option>Emre Şen</option></select></div>
+          <div class="fk-field"><label class="fk-label">Görüşme tarihi</label><input class="fk-input" type="text" value="10 Ağustos 2026" /></div>
+          <div class="fk-field"><label class="fk-label">Boy</label><div class="fk-suffix"><input class="fk-input" type="text" value="168" /><span>cm</span></div></div>
+          <div class="fk-field"><label class="fk-label">Başlangıç kilosu</label><div class="fk-suffix"><input class="fk-input" type="text" value="74,2" /><span>kg</span></div></div>
+        </div>
+          <div class="fk-field"><label class="fk-label">Başvuru nedeni</label><textarea class="fk-textarea" style="min-height:90px">Kilo kontrolü ve düzenli bir öğün düzeni kurmak istiyor. Ofis çalışanı, öğle öğünlerini dışarıda yiyor.</textarea></div>
+          <div class="fk-field"><label class="fk-label">Alerji, intolerans ve sağlık durumu</label><textarea class="fk-textarea" style="min-height:80px">Laktoz intoleransı. Düzenli ilaç kullanımı yok.</textarea><div class="fk-help"><i class="fa-solid fa-circle-info"></i><span>Bu alan tıbbi bir değerlendirme değildir; klinik bir durum varsa hekim onayı istenir.</span></div></div>
+          <div class="fk-field"><label class="fk-label">Günlük hareket düzeyi</label><select class="fk-select"><option>Hareketsiz</option><option selected>Hafif hareketli</option><option>Orta hareketli</option><option>Çok hareketli</option></select></div>
+      </div>
+      <div class="pc-foot"><button class="btn btn-ghost btn-sm" type="button">Taslak Kaydet</button> <button class="btn btn-green btn-sm" type="button"><i class="fa-solid fa-check"></i> Değerlendirmeyi Tamamla</button></div>
+    </div>
+    </div>
+    <div class="pf-pane" data-pane="hedef" hidden>
+    <div class="pnl-card">
+      <div class="pc-head"><span class="pc-title"><i class="fa-solid fa-bullseye"></i> Danışan hedefleri</span><a class="pc-link" href="dyt-danisanlar-v1.html">Danışanlar <i class="fa-solid fa-arrow-right"></i></a></div>
+      <div class="pc-body flush">
+        <table class="ptable"><thead><tr><th>Danışan</th><th>Hedef</th><th>Başlangıç</th><th>Şu an</th><th>İlerleme</th></tr></thead><tbody>
+          <tr><td><b>Zeynep Arslan</b></td><td>Kilo kontrolü — 68 kg</td><td>74,2 kg</td><td>72,8 kg</td><td><div class="cl-prog" style="min-width:120px"><div class="cl-bar"><i style="width:22%"></i></div></div></td></tr>
+          <tr><td><b>Emre Şen</b></td><td>Dengeli beslenme düzeni</td><td>—</td><td>2. hafta</td><td><div class="cl-prog" style="min-width:120px"><div class="cl-bar"><i style="width:28%"></i></div></div></td></tr>
+          <tr><td><b>Burak Yalçın</b></td><td>Kas kütlesi koruma</td><td>78,0 kg</td><td>78,6 kg</td><td><div class="cl-prog" style="min-width:120px"><div class="cl-bar"><i style="width:64%"></i></div></div></td></tr>
+          <tr><td><b>Ayşe Kılıç</b></td><td>Bağırsak sağlığı</td><td>—</td><td>6. hafta</td><td><div class="cl-prog" style="min-width:120px"><div class="cl-bar"><i style="width:81%"></i></div></div></td></tr>
+        </tbody></table>
+      </div>
+    </div>
+    </div>
+    <div class="pf-pane" data-pane="not" hidden>
+    <div class="pnl-card">
+      <div class="pc-head"><span class="pc-title"><i class="fa-solid fa-note-sticky"></i> Görüşme notları</span></div>
+      <div class="pc-body">
+        <div class="note-list">
+          <div class="note-item"><div class="note-date"><i class="fa-solid fa-user"></i> Zeynep Arslan · 10 Ağustos</div><p>İlk görüşme tamamlandı. Öğle öğünü dışarıda olduğu için pratik seçenekler üzerinde duruldu. Laktoz intoleransı nedeniyle süt ürünleri bitkisel alternatiflerle değiştirildi.</p></div>
+          <div class="note-item"><div class="note-date"><i class="fa-solid fa-user"></i> Burak Yalçın · 8 Ağustos</div><p>Antrenman günlerinde protein alımı yeterli, dinlenme günlerinde düşük kalıyor. Ara öğün önerisi eklendi.</p></div>
+          <div class="note-item"><div class="note-date"><i class="fa-solid fa-user"></i> Ayşe Kılıç · 5 Ağustos</div><p>Şişkinlik şikâyeti azalmış. FODMAP kısıtı kademeli olarak gevşetilmeye başlandı.</p></div>
+        </div>
+        <div class="fk-field" style="margin-top:4px"><textarea class="fk-textarea" style="min-height:84px" placeholder="Yeni not ekle…"></textarea></div>
+        <div class="note-send"><button class="btn btn-green btn-sm" type="button"><i class="fa-solid fa-paper-plane"></i> Notu Kaydet</button></div>
+      </div>
+    </div>
+    </div>
+    <div class="pf-pane" data-pane="takip" hidden>
+    <div class="pnl-card">
+      <div class="pc-head"><span class="pc-title"><i class="fa-solid fa-clipboard-check"></i> Takip değerlendirmeleri</span></div>
+      <div class="pc-body flush">
+        <table class="ptable"><thead><tr><th>Danışan</th><th>Değerlendirme</th><th>Tarih</th><th>Sonuç</th><th style="text-align:right">Durum</th></tr></thead><tbody>
+          <tr><td><b>Ayşe Kılıç</b></td><td>6. hafta takip</td><td>5 Ağu 2026</td><td>Hedefe uygun</td><td style="text-align:right"><span class="pstat ok">Tamamlandı</span></td></tr>
+          <tr><td><b>Burak Yalçın</b></td><td>4. hafta takip</td><td>8 Ağu 2026</td><td>Protein dengesi düzeltildi</td><td style="text-align:right"><span class="pstat ok">Tamamlandı</span></td></tr>
+          <tr><td><b>Emre Şen</b></td><td>2. hafta takip</td><td>12 Ağu 2026</td><td>—</td><td style="text-align:right"><span class="pstat wait">Planlandı</span></td></tr>
+          <tr><td><b>Zeynep Arslan</b></td><td>2. hafta takip</td><td>24 Ağu 2026</td><td>—</td><td style="text-align:right"><span class="pstat wait">Planlandı</span></td></tr>
+        </tbody></table>
+      </div>
+      <div class="pc-foot"><button class="btn btn-green btn-sm" type="button"><i class="fa-solid fa-plus"></i> Değerlendirme Planla</button></div>
+    </div>
+    </div>
+
+  </main>
+</div>
+
+<script src="assets/js/sa-ui.js"></script>
+<script>
+/* ===== SAYFA JS — sekme barı (dyt-profil-ayar-v1 deseni) ===== */
+(function(){
+  var tabs=document.querySelectorAll('#dgrTabs .dt');
+  if(!tabs.length)return;
+  function go(n){
+    var hit=false;
+    tabs.forEach(function(b){var on=b.getAttribute('data-tab')===n;b.classList.toggle('active',on);
+      b.setAttribute('aria-selected',on?'true':'false');if(on)hit=true;});
+    if(!hit)return false;
+    document.querySelectorAll('.pf-pane').forEach(function(p){p.hidden=p.getAttribute('data-pane')!==n;});
+    return true;
+  }
+  tabs.forEach(function(b){b.addEventListener('click',function(){go(b.getAttribute('data-tab'));});});
+  var q=new URLSearchParams(location.search).get('sekme'); if(q)go(q);
+})();
+</script>
+</body>
+</html>

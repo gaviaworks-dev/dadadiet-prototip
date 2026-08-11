@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<meta name="robots" content="noindex, nofollow" />
+<title>Diyetisyen Paneli · Takvim — DadaMutfak</title>
+<link rel="shortcut icon" type="image/x-icon" href="assets/img/favicon.ico" />
+<!-- FontAwesome 6.5.2 (kilitli ikon seti) -->
+<link rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css"
+      integrity="sha512-SnH5WK+bZxgPHs44uWIX+LLJAJ9/2PkPKZ5QiAj6Ta86w+fsb2TkcmfRyVX3pBnMFcV7oQPJkl9QevSCWr3W6A=="
+      crossorigin="anonymous" referrerpolicy="no-referrer" />
+<link rel="stylesheet" href="assets/css/sa-ui.css" />
+<!-- panel kabuğu: assets/css/panel.css + assets/js/panel.js -->
+<link rel="stylesheet" href="assets/css/panel.css" />
+<style>
+/* =====================================================================
+   SAYFA CSS — sayfa-spesifik stiller BU İŞARETİN ALTINA
+   Tümü panel.css bileşenleri: .pf-tabs · .ptable · .tgl · .fk-grid · .pstat · .pnl-card
+   ===================================================================== */
+</style>
+</head>
+<body data-brand="mutfak" data-nav="takvim">
+
+<div class="pnl-app">
+
+  <!-- sidebar + üst bar: assets/js/panel.js üretir -->
+  <div id="pnlChrome"></div>
+  <script src="assets/js/panel.js"></script>
+
+  <main class="pnl-main">
+
+    <div class="pnl-page-head">
+      <div>
+        <h1>Takvim</h1>
+        <div class="ph-sub">Uygunluk saatlerin, kapalı günlerin ve danışanların alabileceği randevu tipleri.</div>
+      </div>
+      <div class="ph-actions"><a class="btn btn-ghost btn-sm" href="dyt-randevular-v1.html"><i class="fa-regular fa-calendar-check"></i> Randevulara Git</a></div>
+    </div>
+
+    <div class="pf-tabbar"><div class="pf-tabs" id="tkvTabs" role="tablist"><button class="dt active" type="button" role="tab" data-tab="uygunluk"><i class="fa-solid fa-clock"></i> Uygunluk Saatleri</button><button class="dt" type="button" role="tab" data-tab="kapali"><i class="fa-solid fa-calendar-xmark"></i> Kapalı Günler</button><button class="dt" type="button" role="tab" data-tab="tipler"><i class="fa-solid fa-tags"></i> Randevu Tipleri</button></div></div>
+    <div class="pf-pane" data-pane="uygunluk">
+    <div class="pnl-card">
+      <div class="pc-head"><span class="pc-title"><i class="fa-solid fa-clock"></i> Haftalık uygunluk</span></div>
+      <div class="pc-body flush">
+        <table class="ptable"><thead><tr><th>Gün</th><th>Sabah</th><th>Öğleden sonra</th><th style="text-align:right">Açık</th></tr></thead><tbody>
+          <tr><td><b>Pazartesi</b></td><td>09:00 – 13:00</td><td>14:00 – 18:00</td><td style="text-align:right"><label class="tgl"><input type="checkbox" checked /><span class="tk"></span></label></td></tr>
+          <tr><td><b>Salı</b></td><td>09:00 – 13:00</td><td>14:00 – 18:00</td><td style="text-align:right"><label class="tgl"><input type="checkbox" checked /><span class="tk"></span></label></td></tr>
+          <tr><td><b>Çarşamba</b></td><td>10:00 – 13:00</td><td>—</td><td style="text-align:right"><label class="tgl"><input type="checkbox" checked /><span class="tk"></span></label></td></tr>
+          <tr><td><b>Perşembe</b></td><td>09:00 – 13:00</td><td>14:00 – 18:00</td><td style="text-align:right"><label class="tgl"><input type="checkbox" checked /><span class="tk"></span></label></td></tr>
+          <tr><td><b>Cuma</b></td><td>09:00 – 13:00</td><td>14:00 – 16:00</td><td style="text-align:right"><label class="tgl"><input type="checkbox" checked /><span class="tk"></span></label></td></tr>
+          <tr><td><b>Cumartesi</b></td><td>—</td><td>—</td><td style="text-align:right"><label class="tgl"><input type="checkbox" /><span class="tk"></span></label></td></tr>
+          <tr><td><b>Pazar</b></td><td>—</td><td>—</td><td style="text-align:right"><label class="tgl"><input type="checkbox" /><span class="tk"></span></label></td></tr>
+        </tbody></table>
+      </div>
+      <div class="pc-foot"><button class="btn btn-green btn-sm" type="button"><i class="fa-solid fa-check"></i> Kaydet</button></div>
+    </div>
+    <div class="dash-row"></div>
+    <div class="pnl-card">
+      <div class="pc-head"><span class="pc-title"><i class="fa-solid fa-plus"></i> Saat aralığı ekle</span></div>
+      <div class="pc-body">
+        <div class="fk-grid c2">
+          <div class="fk-field"><label class="fk-label">Gün</label><select class="fk-select"><option>Pazartesi</option><option>Salı</option><option>Çarşamba</option><option>Perşembe</option><option>Cuma</option><option>Cumartesi</option><option>Pazar</option></select></div>
+          <div class="fk-field"><label class="fk-label">Aralık</label><input class="fk-input" type="text" placeholder="örn. 09:00 – 13:00" /></div>
+        </div>
+        <div class="fk-help"><i class="fa-solid fa-circle-info"></i><span>Danışanlar yalnız açık gün ve aralıklarda randevu alabilir. Kapalı günler bu takvimi geçersiz kılar.</span></div>
+      </div>
+      <div class="pc-foot"><button class="btn btn-green btn-sm" type="button"><i class="fa-solid fa-plus"></i> Aralık Ekle</button></div>
+    </div>
+    </div>
+    <div class="pf-pane" data-pane="kapali" hidden>
+    <div class="pnl-card">
+      <div class="pc-head"><span class="pc-title"><i class="fa-solid fa-calendar-xmark"></i> Kapalı günler</span></div>
+      <div class="pc-body flush">
+        <table class="ptable"><thead><tr><th>Tarih</th><th>Sebep</th><th>Süre</th><th style="text-align:right">Durum</th></tr></thead><tbody>
+          <tr><td><b>15 Ağustos 2026</b></td><td>Resmî tatil</td><td>Tam gün</td><td style="text-align:right"><span class="pstat off">Kapalı</span></td></tr>
+          <tr><td><b>22–29 Ağustos 2026</b></td><td>Yıllık izin</td><td>8 gün</td><td style="text-align:right"><span class="pstat off">Kapalı</span></td></tr>
+          <tr><td><b>4 Eylül 2026</b></td><td>Kongre</td><td>Öğleden sonra</td><td style="text-align:right"><span class="pstat wait">Kısmi</span></td></tr>
+        </tbody></table>
+      </div>
+      <div class="pc-foot"><button class="btn btn-green btn-sm" type="button"><i class="fa-solid fa-plus"></i> Kapalı Gün Ekle</button></div>
+    </div>
+    </div>
+    <div class="pf-pane" data-pane="tipler" hidden>
+    <div class="pnl-card">
+      <div class="pc-head"><span class="pc-title"><i class="fa-solid fa-tags"></i> Randevu tipleri ve süreleri</span></div>
+      <div class="pc-body flush">
+        <table class="ptable"><thead><tr><th>Randevu tipi</th><th>Süre</th><th>Ücret</th><th style="text-align:right">Durum</th></tr></thead><tbody>
+          <tr><td><b>İlk görüşme</b><div class="muted" style="font-size:12px;margin-top:2px">Detaylı değerlendirme ve hedef belirleme</div></td><td>45 dk</td><td>₺750</td><td style="text-align:right"><span class="pstat ok">Açık</span></td></tr>
+          <tr><td><b>Kontrol görüşmesi</b><div class="muted" style="font-size:12px;margin-top:2px">İki haftada bir takip</div></td><td>30 dk</td><td>₺450</td><td style="text-align:right"><span class="pstat ok">Açık</span></td></tr>
+          <tr><td><b>Plan revizyonu</b><div class="muted" style="font-size:12px;margin-top:2px">Mevcut planın güncellenmesi</div></td><td>45 dk</td><td>₺500</td><td style="text-align:right"><span class="pstat ok">Açık</span></td></tr>
+          <tr><td><b>Kısa danışma</b><div class="muted" style="font-size:12px;margin-top:2px">Tek soruluk hızlı görüşme</div></td><td>15 dk</td><td>₺250</td><td style="text-align:right"><span class="pstat off">Kapalı</span></td></tr>
+        </tbody></table>
+      </div>
+      <div class="pc-foot"><button class="btn btn-green btn-sm" type="button"><i class="fa-solid fa-plus"></i> Tip Ekle</button></div>
+    </div>
+    </div>
+
+  </main>
+</div>
+
+<script src="assets/js/sa-ui.js"></script>
+<script>
+/* ===== SAYFA JS — sekme barı (dyt-profil-ayar-v1 deseni) ===== */
+(function(){
+  var tabs=document.querySelectorAll('#tkvTabs .dt');
+  if(!tabs.length)return;
+  function go(n){
+    var hit=false;
+    tabs.forEach(function(b){var on=b.getAttribute('data-tab')===n;b.classList.toggle('active',on);
+      b.setAttribute('aria-selected',on?'true':'false');if(on)hit=true;});
+    if(!hit)return false;
+    document.querySelectorAll('.pf-pane').forEach(function(p){p.hidden=p.getAttribute('data-pane')!==n;});
+    return true;
+  }
+  tabs.forEach(function(b){b.addEventListener('click',function(){go(b.getAttribute('data-tab'));});});
+  var q=new URLSearchParams(location.search).get('sekme'); if(q)go(q);
+})();
+</script>
+</body>
+</html>

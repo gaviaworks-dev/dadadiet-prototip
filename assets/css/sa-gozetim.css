@@ -1,0 +1,88 @@
+/* ============================================================
+   sa-gozetim.css — Faz 3 gözetim→operatör köprüsü (izole katman)
+   Kanonik kabuğa (sa-shell / sa-ui / pnl-* inline) DOKUNULMAZ.
+   İki sorumluluk:
+   1) .panel-open-link — gözetim DETAY sayfalarında "Panelini Aç"
+      aktif link stili (modül aksanı var(--acc) ile).
+   2) .sa-gz-bar — operatör PANELLERİNDE üst impersonation şeridi.
+      body.has-gozetim ile fixed kabuk öğeleri aşağı itilir;
+      sınıf JS'ten eklenir, normal (gözetim-dışı) render değişmez.
+   ============================================================ */
+
+/* ---- 1) Detay sayfası: "Panelini Aç" aktif link ---- */
+.panel-open-link{
+  display:flex;align-items:center;gap:8px;
+  font-size:12.5px;font-weight:700;color:var(--acc);
+  padding:10px 12px;border:1px solid var(--acc);
+  border-radius:var(--radius-sm);background:var(--paper);
+  text-decoration:none;cursor:pointer;transition:.18s ease;
+}
+.panel-open-link:hover{background:var(--acc);color:#fff}
+.panel-open-link i{font-size:12px}
+/* ---- Detay header: dolgulu yatay-uzun CTA (başlık satırı sağ ucu) ---- */
+/* .pnl-page-head (flex, space-between, align-items:flex-end) içinde sağ uçta;
+   align-self:flex-start ile h1 satırının karşısına hizalanır.
+   Mobilde flex-wrap → başlık altına TAM GENİŞLİK sarar. */
+.panel-open-link.pol-head{
+  align-self:flex-start;flex:none;
+  background:var(--acc);color:#fff;border-color:var(--acc);
+  padding:12px 40px;min-width:220px;justify-content:center;
+  font-size:13.5px;border-radius:var(--radius-md);
+  box-shadow:0 1px 2px rgba(33,30,22,.08);
+}
+.panel-open-link.pol-head i{font-size:13px}
+.panel-open-link.pol-head:hover{
+  color:#fff;filter:brightness(.93);
+  transform:translateY(-1px);box-shadow:0 4px 12px -4px rgba(33,30,22,.32);
+}
+@media (max-width:640px){
+  .panel-open-link.pol-head{width:100%;min-width:0;margin-top:6px}
+}
+
+/* ---- Liste satırı: kompakt panel-aç aksiyonu ---- */
+/* Kanonik .act-btn boyutunu/şeklini korur; sayfanın .ok/.warn diline uyumlu
+   accent-outline (white zemin + aksan kenarlık/metin). 5 satırda sakin durur,
+   dolu .ok (Onayla) ve nötr Detay'dan ayrışır. */
+.act-btn.gz-act{border-color:rgba(var(--acc-rgb),.45);color:var(--acc-deep)}
+.act-btn.gz-act:hover{background:rgba(var(--acc-rgb),.12);border-color:var(--acc);color:var(--acc-deep)}
+
+/* ---- 2) Operatör paneli: gözetim üst şeridi ---- */
+.sa-gz-bar{
+  position:fixed;top:0;left:0;right:0;z-index:120;height:46px;
+  display:flex;align-items:center;gap:14px;padding:0 18px;
+  background:#E14827;color:#fff;
+  box-shadow:0 1px 0 rgba(0,0,0,.12), 0 6px 18px -10px rgba(0,0,0,.4);
+  font-size:13px;
+}
+.sa-gz-bar .sa-gz-pill{
+  flex:none;display:inline-flex;align-items:center;gap:6px;
+  font-size:10.5px;font-weight:800;letter-spacing:.1em;text-transform:uppercase;
+  color:#fff;background:#211E16;padding:5px 10px;border-radius:6px;
+}
+.sa-gz-bar .sa-gz-pill i{font-size:11px}
+.sa-gz-bar .sa-gz-txt{
+  flex:1;min-width:0;font-weight:500;line-height:1.2;
+  overflow:hidden;text-overflow:ellipsis;white-space:nowrap;color:rgba(255,255,255,.95);
+}
+.sa-gz-bar .sa-gz-txt strong{font-weight:800;color:#fff}
+.sa-gz-bar .sa-gz-back{
+  flex:none;display:inline-flex;align-items:center;gap:7px;
+  font-size:12.5px;font-weight:700;color:#fff;text-decoration:none;
+  padding:7px 13px;border:1px solid rgba(255,255,255,.55);
+  border-radius:8px;background:rgba(255,255,255,.08);transition:.18s ease;
+}
+.sa-gz-bar .sa-gz-back:hover{background:#fff;color:#E14827;border-color:#fff}
+.sa-gz-bar .sa-gz-back i{font-size:12px}
+
+/* Şerit açıkken kabuğu (fixed sidebar + topbar + main) aşağı it.
+   Tek-sınıflı yüksek-spesifisite override; salt top/padding-top dokunur,
+   pnl-* shorthand'lerin diğer kenarları korunur. */
+body.has-gozetim .pnl-side{top:46px}
+body.has-gozetim .pnl-top{top:46px}
+body.has-gozetim .pnl-main{padding-top:calc(var(--pnl-top-h) + 46px + 28px)}
+
+@media (max-width:640px){
+  .sa-gz-bar{gap:10px;padding:0 12px}
+  .sa-gz-bar .sa-gz-txt{font-size:12px}
+  .sa-gz-bar .sa-gz-back{padding:6px 11px;font-size:12px}
+}

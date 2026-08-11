@@ -1,0 +1,309 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<meta name="robots" content="noindex, nofollow" />
+<title>Diyetisyenler — Sağlık &amp; Diyet · DadaMutfak</title>
+<link rel="shortcut icon" type="image/x-icon" href="assets/img/favicon.ico" />
+<link rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css"
+      integrity="sha512-SnH5WK+bZxgPHs44uWIX+LLJAJ9/2PkPKZ5QiAj6Ta86w+fsb2TkcmfRyVX3pBnMFcV7oQPJkl9QevSCWr3W6A=="
+      crossorigin="anonymous" referrerpolicy="no-referrer" />
+<link rel="stylesheet" href="assets/css/sa-shell.css" />
+<link rel="stylesheet" href="assets/css/sa-list.css" />
+<link rel="stylesheet" href="assets/css/sa-gozetim.css" />
+<style>
+/* =====================================================================
+   SA-SAGLIK-DIYETISYENLER — SAYFA CSS (kabuk CSS'i sa-shell.css'te).
+   İçerik wave-1'den BİREBİR taşındı.
+   ===================================================================== */
+/* ---- Filtre çubuğu ---- */
+.filter-bar{display:flex;align-items:center;gap:10px;padding:14px 22px;border-bottom:1px solid var(--line);flex-wrap:wrap}
+.filter-bar .fb-search{flex:1;min-width:200px;max-width:320px;position:relative}
+.filter-bar .fb-search i{position:absolute;left:12px;top:50%;transform:translateY(-50%);font-size:13px;color:var(--muted);pointer-events:none}
+.filter-bar .fb-search input{width:100%;height:36px;padding:0 12px 0 34px;font-family:inherit;font-size:13px;font-weight:500;color:var(--ink);background:var(--bg);border:1px solid var(--line);border-radius:var(--radius-sm);outline:none;transition:.2s var(--ease)}
+.filter-bar .fb-search input::placeholder{color:var(--muted)}
+.filter-bar .fb-search input:focus{border-color:var(--acc);background:var(--paper);box-shadow:0 0 0 3px rgba(var(--acc-rgb),.10)}
+.chips{display:flex;gap:6px;flex-wrap:wrap}
+.chip{display:inline-flex;align-items:center;gap:6px;padding:7px 14px;border-radius:var(--radius-sm);font-size:12.5px;font-weight:500;cursor:pointer;border:1px solid var(--line);background:var(--paper);color:var(--slate-2);transition:.15s var(--ease)}
+.chip:hover{border-color:var(--acc);color:var(--acc-deep)}
+.chip.is-active{background:rgba(var(--acc-rgb),.12);border-color:rgba(var(--acc-rgb),.3);color:var(--acc-deep);font-weight:700}
+.chip .ch-cnt{white-space:nowrap;font-size:10.5px;font-weight:700;background:rgba(var(--acc-rgb),.15);color:var(--acc-deep);min-width:18px;height:17px;display:inline-flex;align-items:center;justify-content:center;padding:0 5px;border-radius:var(--radius-sm)}
+.chip.is-active .ch-cnt{background:rgba(var(--acc-rgb),.22)}
+
+/* ---- Tablo ---- */
+.ptable{width:100%;border-collapse:collapse}
+.ptable thead th{font-size:11px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);padding:10px 16px;text-align:left;background:var(--bg);border-bottom:1px solid var(--line);white-space:nowrap}
+.ptable thead th:first-child{padding-left:22px}
+.ptable thead th:last-child{padding-right:22px;text-align:right}
+.ptable tbody tr{border-bottom:1px solid var(--line);transition:background .12s}
+.ptable tbody tr:last-child{border-bottom:none}
+.ptable tbody tr:hover{background:rgba(var(--acc-rgb),.03)}
+.ptable tbody td{padding:12px 16px;font-size:13.5px;color:var(--slate-2);vertical-align:middle}
+.ptable tbody td:first-child{padding-left:22px}
+.ptable tbody td:last-child{padding-right:22px;text-align:right}
+
+/* ---- Diyetisyen kimlik hücresi ---- */
+.dyt-cell{display:flex;align-items:center;gap:11px}
+.dyt-ava{width:38px;height:38px;flex:none;border-radius:var(--radius-circle);background-size:cover;background-position:center;border:2px solid var(--line)}
+.dyt-id{line-height:1.3}
+.dyt-id strong{font-size:13.5px;font-weight:700;color:var(--slate);display:block}
+.dyt-id span{font-size:12px;color:var(--muted)}
+
+/* ---- Uzmanlık etiketi ---- */
+.spec-tag{display:inline-flex;align-items:center;gap:5px;font-size:12px;font-weight:700;padding:3px 9px;border-radius:6px;background:rgba(var(--acc-rgb),.10);color:var(--acc-deep);white-space:nowrap}
+
+/* ---- Aksiyon butonları ---- */
+.row-actions{display:flex;align-items:center;justify-content:flex-end;gap:6px}
+.act-btn{display:inline-flex;align-items:center;gap:5px;font-family:inherit;font-size:12.5px;font-weight:700;padding:6px 11px;border-radius:var(--radius-sm);border:1px solid var(--line);background:var(--paper);color:var(--slate-2);cursor:pointer;transition:.15s var(--ease);white-space:nowrap}
+.act-btn:hover{border-color:var(--slate);color:var(--slate)}
+.act-btn.ok{border-color:rgba(59,183,126,.35);background:var(--green-tint);color:var(--green-deep)}
+.act-btn.ok:hover{background:#d5f0e4;border-color:var(--green-deep)}
+.act-btn.warn{border-color:rgba(225,72,39,.3);background:var(--tomato-tint);color:var(--tomato)}
+.act-btn.warn:hover{background:#f7d6cd;border-color:var(--tomato)}
+</style>
+</head>
+<body data-brand="mutfak" data-sec="saglik" data-screen="diyetisyenler">
+
+<div class="sa-app">
+
+  <!-- §1 İKON-RAIL -->
+  <aside class="sa-rail" id="saRail">
+    <a class="sa-rail-logo" href="sa-giris-v1.html" title="Yönetim Girişi"><img src="assets/img/logo-mark.png" alt="DadaMutfak" /></a>
+    <a class="sa-rail-ico" data-sec="genel" href="sa-shell.html?sec=genel" title="Genel Bakış"><i class="fa-solid fa-gauge-high"></i></a>
+    <span class="sa-rail-div"></span>
+    <a class="sa-rail-ico" data-sec="admin"   href="sa-admin.html"   title="Admin"><i class="fa-solid fa-shield-halved"></i></a>
+    <a class="sa-rail-ico" data-sec="saglik"  href="sa-saglik.html"  title="Sağlık &amp; Diyet"><i class="fa-solid fa-heart-pulse"></i></a>
+    <a class="sa-rail-ico" data-sec="store"   href="sa-store.html"   title="DadaStore"><i class="fa-solid fa-bag-shopping"></i></a>
+    <a class="sa-rail-ico" data-sec="dadafit" href="sa-dadafit.html" title="DadaFit"><i class="fa-solid fa-dumbbell"></i></a>
+    <a class="sa-rail-ico" data-sec="isletme" href="sa-isletme.html" title="İşletmeler"><i class="fa-solid fa-store"></i></a>
+    <a class="sa-rail-ico is-locked" data-sec="akademi" href="#" title="DadaAkademi — Yakında"><i class="fa-solid fa-graduation-cap"></i><i class="fa-solid fa-lock sr-lock"></i></a>
+    <div class="sa-rail-foot"><a class="sa-rail-ico" href="anasayfa-portal-v3a.html" title="Siteye Dön"><i class="fa-solid fa-arrow-left"></i></a></div>
+  </aside>
+
+  <!-- §2 BÖLÜM MENÜSÜ (JS) -->
+  <nav class="sa-menu" id="saMenu"></nav>
+
+  <div class="sa-divider" id="saDivider" role="separator" aria-label="Menüyü daralt/genişlet" title="Sürükle veya tıkla — menüyü daralt/genişlet">
+    <span class="sa-grip"><i class="fa-solid fa-grip-lines-vertical"></i></span>
+  </div>
+
+  <div class="pnl-overlay" id="pnlOverlay"></div>
+
+  <!-- §3 ÜST BAR -->
+  <header class="pnl-top">
+    <button class="pnl-burger" id="pnlBurger" aria-label="Menü"><i class="fa-solid fa-bars"></i></button>
+    <div class="pnl-search">
+      <i class="fa-solid fa-magnifying-glass"></i>
+      <input type="text" placeholder="Diyetisyen, başvuru ara…" />
+    </div>
+    <div class="pnl-top-tools">
+      <button class="pnl-bell" aria-label="Bildirimler"><i class="fa-regular fa-bell"></i><span class="pb-dot"></span></button>
+      <div class="pnl-me">
+        <div class="pm-ava"><i class="fa-solid fa-user"></i></div>
+        <div class="pm-id">
+          <div class="pm-name" id="pmName">Süper Admin</div>
+          <div class="pm-role" id="pmRole">Tüm yetki</div>
+        </div>
+        <i class="fa-solid fa-chevron-down"></i>
+      </div>
+    </div>
+  </header>
+
+  <!-- §4 İÇERİK — Diyetisyenler listesi (wave-1'den BİREBİR) -->
+  <main class="pnl-main" id="saMain">
+
+    <!-- Sayfa başlığı -->
+    <div class="pnl-page-head">
+      <div>
+        <h1>Diyetisyenler</h1>
+        <div class="ph-sub">Platform'a kayıtlı tüm diyetisyenler — onay, askıya alma ve detay işlemleri.</div>
+      </div>
+      <!-- DENETİM deseni: "Yeni" butonu yok -->
+    </div>
+
+    <!-- Liste kartı -->
+    <div class="pnl-card">
+
+      <!-- Filtre çubuğu -->
+      <div class="filter-bar">
+        <div class="fb-search">
+          <i class="fa-solid fa-magnifying-glass"></i>
+          <input type="text" placeholder="Ad, unvan veya uzmanlık ara…" id="dytSearch" />
+        </div>
+        <div class="chips">
+          <button class="chip is-active" data-filter="tumu" onclick="filterDyt(this,'tumu')">
+            Tümü <span class="ch-cnt">4</span>
+          </button>
+          <button class="chip" data-filter="bekliyor" onclick="filterDyt(this,'bekliyor')">
+            Bekliyor <span class="ch-cnt">1</span>
+          </button>
+          <button class="chip" data-filter="onaylı" onclick="filterDyt(this,'onaylı')">
+            Onaylı <span class="ch-cnt">2</span>
+          </button>
+          <button class="chip" data-filter="askıda" onclick="filterDyt(this,'askıda')">
+            Askıda <span class="ch-cnt">1</span>
+          </button>
+        </div>
+      </div>
+
+      <!-- Tablo -->
+      <div class="pc-body flush">
+        <table class="ptable" id="dytTable">
+          <thead>
+            <tr>
+              <th>Diyetisyen</th>
+              <th>Uzmanlık</th>
+              <th>Başvuru Tarihi</th>
+              <th>Durum</th>
+              <th>Aksiyonlar</th>
+            </tr>
+          </thead>
+          <tbody>
+
+            <!-- Satır 1: Bekliyor -->
+            <tr data-status="bekliyor">
+              <td>
+                <div class="dyt-cell">
+                  <div class="dyt-ava" style="background-image:url('https://images.unsplash.com/photo-1607746882042-944635dfe10e?w=80&q=80&auto=format&fit=crop')"></div>
+                  <div class="dyt-id">
+                    <strong>Dyt. Ayça Yıldız</strong>
+                    <span>Diyetisyen</span>
+                  </div>
+                </div>
+              </td>
+              <td><span class="spec-tag">Klinik Beslenme</span></td>
+              <td class="muted">18 Haz 2026</td>
+              <td><span class="pstat wait">Bekliyor</span></td>
+              <td>
+                <div class="row-actions">
+                  <button class="act-btn ok"><i class="fa-solid fa-check"></i> Onayla</button>
+                  <button class="act-btn warn"><i class="fa-solid fa-ban"></i> Askıya Al</button>
+                  <a class="act-btn" href="sa-saglik-diyetisyenler-detay.html"><i class="fa-solid fa-eye"></i> Detay</a>
+                  <a class="act-btn gz-act" href="dyt-danisanlar-v1.html?gozetim=1&amp;from=sa-saglik-diyetisyenler.html" title="Diyetisyen panelini gözetim modunda aç"><i class="fa-solid fa-arrow-up-right-from-square"></i> Panel</a>
+                </div>
+              </td>
+            </tr>
+
+            <!-- Satır 2: Onaylı -->
+            <tr data-status="onaylı">
+              <td>
+                <div class="dyt-cell">
+                  <div class="dyt-ava" style="background-image:url('https://images.unsplash.com/photo-1559839734-2b71ea197ec2?w=80&q=80&auto=format&fit=crop')"></div>
+                  <div class="dyt-id">
+                    <strong>Dyt. Elif Şahin</strong>
+                    <span>Uzman Diyetisyen</span>
+                  </div>
+                </div>
+              </td>
+              <td><span class="spec-tag">Sporcu Beslenmesi</span></td>
+              <td class="muted">5 Mar 2026</td>
+              <td><span class="pstat ok">Onaylı</span></td>
+              <td>
+                <div class="row-actions">
+                  <button class="act-btn warn"><i class="fa-solid fa-ban"></i> Askıya Al</button>
+                  <a class="act-btn" href="sa-saglik-diyetisyenler-detay.html"><i class="fa-solid fa-eye"></i> Detay</a>
+                  <a class="act-btn gz-act" href="dyt-danisanlar-v1.html?gozetim=1&amp;from=sa-saglik-diyetisyenler.html" title="Diyetisyen panelini gözetim modunda aç"><i class="fa-solid fa-arrow-up-right-from-square"></i> Panel</a>
+                </div>
+              </td>
+            </tr>
+
+            <!-- Satır 3: Onaylı -->
+            <tr data-status="onaylı">
+              <td>
+                <div class="dyt-cell">
+                  <div class="dyt-ava" style="background-image:url('https://images.unsplash.com/photo-1612349317150-e413f6a5b16d?w=80&q=80&auto=format&fit=crop')"></div>
+                  <div class="dyt-id">
+                    <strong>Dyt. Murat Kaya</strong>
+                    <span>Uzman Diyetisyen</span>
+                  </div>
+                </div>
+              </td>
+              <td><span class="spec-tag">Çocuk Beslenmesi</span></td>
+              <td class="muted">12 Oca 2026</td>
+              <td><span class="pstat ok">Onaylı</span></td>
+              <td>
+                <div class="row-actions">
+                  <button class="act-btn warn"><i class="fa-solid fa-ban"></i> Askıya Al</button>
+                  <a class="act-btn" href="sa-saglik-diyetisyenler-detay.html"><i class="fa-solid fa-eye"></i> Detay</a>
+                  <a class="act-btn gz-act" href="dyt-danisanlar-v1.html?gozetim=1&amp;from=sa-saglik-diyetisyenler.html" title="Diyetisyen panelini gözetim modunda aç"><i class="fa-solid fa-arrow-up-right-from-square"></i> Panel</a>
+                </div>
+              </td>
+            </tr>
+
+            <!-- Satır 4: Askıda -->
+            <tr data-status="askıda">
+              <td>
+                <div class="dyt-cell">
+                  <div class="dyt-ava" style="background-image:url('https://images.unsplash.com/photo-1527613426441-4da17471b66d?w=80&q=80&auto=format&fit=crop')"></div>
+                  <div class="dyt-id">
+                    <strong>Dyt. Selin Demir</strong>
+                    <span>Diyetisyen</span>
+                  </div>
+                </div>
+              </td>
+              <td><span class="spec-tag">Diyabet Yönetimi</span></td>
+              <td class="muted">29 Kas 2025</td>
+              <td><span class="pstat warm">Askıda</span></td>
+              <td>
+                <div class="row-actions">
+                  <button class="act-btn ok"><i class="fa-solid fa-rotate-left"></i> Yeniden Onayla</button>
+                  <a class="act-btn" href="sa-saglik-diyetisyenler-detay.html"><i class="fa-solid fa-eye"></i> Detay</a>
+                  <a class="act-btn gz-act" href="dyt-danisanlar-v1.html?gozetim=1&amp;from=sa-saglik-diyetisyenler.html" title="Diyetisyen panelini gözetim modunda aç"><i class="fa-solid fa-arrow-up-right-from-square"></i> Panel</a>
+                </div>
+              </td>
+            </tr>
+
+          </tbody>
+        </table>
+      </div>
+
+      <!-- Boş durum (filtre sonucu) -->
+      <div class="pnl-empty" id="dytEmpty" style="display:none">
+        <div class="pe-ico"><i class="fa-solid fa-user-doctor"></i></div>
+        <h4>Kayıt bulunamadı</h4>
+        <p>Seçili filtreyle eşleşen diyetisyen yok. Filtreyi değiştirmeyi deneyin.</p>
+        <span class="pe-tag"><i class="fa-solid fa-filter"></i> Filtre temizle</span>
+      </div>
+
+    </div><!-- /pnl-card -->
+
+  </main>
+
+</div>
+
+<script src="assets/js/sa-shell.js"></script>
+<script src="assets/js/sa-chcnt.js"></script>
+
+<!-- Filtre / arama etkileşim JS (sayfa-özel — wave-1'den BİREBİR) -->
+<script>
+function filterDyt(btn, filter) {
+  document.querySelectorAll('.chip').forEach(function(c){ c.classList.remove('is-active'); });
+  btn.classList.add('is-active');
+  var rows = document.querySelectorAll('#dytTable tbody tr');
+  var visible = 0;
+  rows.forEach(function(row){
+    var show = (filter === 'tumu') || (row.dataset.status === filter);
+    row.style.display = show ? '' : 'none';
+    if(show) visible++;
+  });
+  var empty = document.getElementById('dytEmpty');
+  if(empty) empty.style.display = (visible === 0) ? '' : 'none';
+}
+document.getElementById('dytSearch').addEventListener('input', function(){
+  var q = this.value.toLowerCase().trim();
+  var rows = document.querySelectorAll('#dytTable tbody tr');
+  var visible = 0;
+  rows.forEach(function(row){
+    var txt = row.textContent.toLowerCase();
+    var show = !q || txt.indexOf(q) !== -1;
+    row.style.display = show ? '' : 'none';
+    if(show) visible++;
+  });
+  var empty = document.getElementById('dytEmpty');
+  if(empty) empty.style.display = (visible === 0) ? '' : 'none';
+});
+</script>
+</body>
+</html>

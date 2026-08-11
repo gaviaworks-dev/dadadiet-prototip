@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<meta name="robots" content="noindex, nofollow" />
+<title>Alışveriş Listem — Planım | DadaDiet</title>
+<link rel="shortcut icon" type="image/x-icon"
+      href="assets/img/favicon.ico" />
+<!-- FontAwesome 6.5.2 (kilitli ikon seti) -->
+<link rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css"
+      integrity="sha512-SnH5WK+bZxgPHs44uWIX+LLJAJ9/2PkPKZ5QiAj6Ta86w+fsb2TkcmfRyVX3pBnMFcV7oQPJkl9QevSCWr3W6A=="
+      crossorigin="anonymous" referrerpolicy="no-referrer" />
+<link rel="stylesheet" href="assets/css/dd-shell.css" />
+<!-- kişisel alan bileşenleri (diyetisyen panelinden birebir; kabuk DEĞİL) -->
+<link rel="stylesheet" href="assets/css/planim.css" />
+</head>
+<body data-brand="diet" data-planim="alisveris">
+
+<div id="ddChromeTop"></div>
+<script src="assets/js/dd-shell.js"></script>
+
+<main class="page-main" id="pageMain">
+  <section class="sec below-header" style="background:var(--bg)">
+    <div class="wrap">
+
+      <!-- başlık + alt gezinme: assets/js/planim.js üretir -->
+      <div id="planimTop"></div>
+
+      <!-- İÇERİK (üye, verisi var) -->
+      <div id="planimData" hidden>
+        <div class="pnl-card dash-row"><div class="pc-body" style="display:flex;align-items:center;gap:12px;flex-wrap:wrap"><span class="pstat ok">18 kalem</span><span class="pstat off">5 tamamlandı</span><span class="muted" style="font-size:13px">Akdeniz Tipi Beslenme programının 4–7. günlerinden ve kaydettiğin tariflerden otomatik geldi.</span><a class="btn btn-ghost btn-sm" href="planim-programim-v1.html" style="margin-left:auto"><i class="fa-solid fa-rotate"></i> Programdan yenile</a></div></div>
+        <div class="pnl-card">
+          <div class="pc-head"><span class="pc-title"><i class="fa-solid fa-plus"></i> Listeye ekle</span></div>
+          <div class="pc-body">
+            <div style="display:flex;gap:10px;flex-wrap:wrap"><input class="fk-input" style="flex:1;min-width:220px" type="text" placeholder="Ürün adı — örn. tam buğday ekmeği" aria-label="Ürün adı" /><input class="fk-input" style="width:130px" type="text" placeholder="Miktar" aria-label="Miktar" /><button class="btn btn-green btn-sm" type="button"><i class="fa-solid fa-plus"></i> Ekle</button></div>
+          </div>
+        </div>
+        <div class="dash-row"></div>
+        <div class="dash-cols">
+          <div>
+        <div class="pnl-card">
+          <div class="pc-head"><span class="pc-title"><i class="fa-solid fa-carrot"></i> Sebze ve meyve</span></div>
+          <div class="pc-body">
+            <div class="set-list">
+              <label class="fct-row"><input type="checkbox" /><span class="cbx"></span><span class="ft"><b style="color:var(--slate)">Ispanak</b> <span class="muted" style="font-size:12.5px">500 g</span></span><span class="pstat off">Programdan</span></label>
+              <label class="fct-row"><input type="checkbox" /><span class="cbx"></span><span class="ft"><b style="color:var(--slate)">Domates</b> <span class="muted" style="font-size:12.5px">1 kg</span></span><span class="pstat off">Programdan</span></label>
+              <label class="fct-row"><input type="checkbox" checked /><span class="cbx"></span><span class="ft"><b style="color:var(--slate)">Avokado</b> <span class="muted" style="font-size:12.5px">2 adet</span></span><span class="pstat off">Tariften</span></label>
+              <label class="fct-row"><input type="checkbox" /><span class="cbx"></span><span class="ft"><b style="color:var(--slate)">Elma</b> <span class="muted" style="font-size:12.5px">1 kg</span></span><span class="pstat off">Programdan</span></label>
+              <label class="fct-row"><input type="checkbox" /><span class="cbx"></span><span class="ft"><b style="color:var(--slate)">Limon</b> <span class="muted" style="font-size:12.5px">4 adet</span></span><span class="pstat off">Tariften</span></label>
+            </div>
+          </div>
+        </div>
+        <div class="pnl-card">
+          <div class="pc-head"><span class="pc-title"><i class="fa-solid fa-egg"></i> Protein</span></div>
+          <div class="pc-body">
+            <div class="set-list">
+              <label class="fct-row"><input type="checkbox" /><span class="cbx"></span><span class="ft"><b style="color:var(--slate)">Somon fileto</b> <span class="muted" style="font-size:12.5px">500 g</span></span><span class="pstat off">Programdan</span></label>
+              <label class="fct-row"><input type="checkbox" checked /><span class="cbx"></span><span class="ft"><b style="color:var(--slate)">Yumurta</b> <span class="muted" style="font-size:12.5px">15 adet</span></span><span class="pstat off">Programdan</span></label>
+              <label class="fct-row"><input type="checkbox" /><span class="cbx"></span><span class="ft"><b style="color:var(--slate)">Tavuk göğsü</b> <span class="muted" style="font-size:12.5px">600 g</span></span><span class="pstat off">Programdan</span></label>
+              <label class="fct-row"><input type="checkbox" /><span class="cbx"></span><span class="ft"><b style="color:var(--slate)">Yeşil mercimek</b> <span class="muted" style="font-size:12.5px">500 g</span></span><span class="pstat off">Programdan</span></label>
+            </div>
+          </div>
+        </div>
+          </div>
+          <div>
+        <div class="pnl-card">
+          <div class="pc-head"><span class="pc-title"><i class="fa-solid fa-cheese"></i> Süt ürünleri</span></div>
+          <div class="pc-body">
+            <div class="set-list">
+              <label class="fct-row"><input type="checkbox" checked /><span class="cbx"></span><span class="ft"><b style="color:var(--slate)">Süzme yoğurt</b> <span class="muted" style="font-size:12.5px">1 kg</span></span><span class="pstat off">Programdan</span></label>
+              <label class="fct-row"><input type="checkbox" /><span class="cbx"></span><span class="ft"><b style="color:var(--slate)">Lor peyniri</b> <span class="muted" style="font-size:12.5px">250 g</span></span><span class="pstat off">Tariften</span></label>
+              <label class="fct-row"><input type="checkbox" /><span class="cbx"></span><span class="ft"><b style="color:var(--slate)">Kefir</b> <span class="muted" style="font-size:12.5px">1 L</span></span><span class="pstat off">Programdan</span></label>
+            </div>
+          </div>
+        </div>
+        <div class="pnl-card">
+          <div class="pc-head"><span class="pc-title"><i class="fa-solid fa-wheat-awn"></i> Kuru gıda</span></div>
+          <div class="pc-body">
+            <div class="set-list">
+              <label class="fct-row"><input type="checkbox" checked /><span class="cbx"></span><span class="ft"><b style="color:var(--slate)">Yulaf ezmesi</b> <span class="muted" style="font-size:12.5px">1 kg</span></span><span class="pstat off">Programdan</span></label>
+              <label class="fct-row"><input type="checkbox" /><span class="cbx"></span><span class="ft"><b style="color:var(--slate)">Bulgur</b> <span class="muted" style="font-size:12.5px">1 kg</span></span><span class="pstat off">Programdan</span></label>
+              <label class="fct-row"><input type="checkbox" /><span class="cbx"></span><span class="ft"><b style="color:var(--slate)">Ceviz içi</b> <span class="muted" style="font-size:12.5px">250 g</span></span><span class="pstat off">Programdan</span></label>
+              <label class="fct-row"><input type="checkbox" checked /><span class="cbx"></span><span class="ft"><b style="color:var(--slate)">Zeytinyağı</b> <span class="muted" style="font-size:12.5px">1 L</span></span><span class="pstat off">Programdan</span></label>
+              <label class="fct-row"><input type="checkbox" /><span class="cbx"></span><span class="ft"><b style="color:var(--slate)">Tam buğday ekmeği</b> <span class="muted" style="font-size:12.5px">1 adet</span></span><span class="pstat off">Elle eklendi</span></label>
+              <label class="fct-row"><input type="checkbox" /><span class="cbx"></span><span class="ft"><b style="color:var(--slate)">Badem</b> <span class="muted" style="font-size:12.5px">200 g</span></span><span class="pstat off">Programdan</span></label>
+            </div>
+          </div>
+        </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- BAŞLANGIÇ DURUMU (üye, henüz içeriği yok) — boş kart gösterilmez -->
+      <div id="planimStart" hidden>
+        <div class="pnl-card">
+          <div class="pnl-empty">
+            <div class="pe-ico"><i class="fa-solid fa-basket-shopping"></i></div>
+            <h4>Alışveriş listen boş</h4>
+            <p>Bir program seçtiğinde ya da tarif kaydettiğinde malzemeler buraya otomatik düşer. İstediğin kalemi elle de ekleyebilirsin.</p>
+            <a class="btn btn-primary btn-sm" href="program-bul-v1.html"><i class="fa-solid fa-wand-magic-sparkles"></i> Programını Bul</a>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </section>
+</main>
+
+<div id="ddChromeGate"></div>
+<div id="ddChromeFooter"></div>
+<div id="ddChromeFab"></div>
+
+<script src="assets/js/planim.js"></script>
+</body>
+</html>

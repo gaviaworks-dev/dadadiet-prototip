@@ -1,0 +1,233 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<meta name="robots" content="noindex, nofollow" />
+<title>Yönetim Girişi — DadaMutfak</title>
+<link rel="shortcut icon" type="image/x-icon" href="assets/img/favicon.ico" />
+<link rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css"
+      integrity="sha512-SnH5WK+bZxgPHs44uWIX+LLJAJ9/2PkPKZ5QiAj6Ta86w+fsb2TkcmfRyVX3pBnMFcV7oQPJkl9QevSCWr3W6A=="
+      crossorigin="anonymous" referrerpolicy="no-referrer" />
+<style>
+/* =====================================================================
+   SA-GIRIS-V1.HTML — SÜPER ADMIN DEMO ROL SEÇİCİ (OMURGA girişi)
+   giris-v1.html'e DOKUNULMAZ — bu ayrı yönetim kapısı. Gerçek auth YOK.
+   İmza: her rol = kendi bölüm aksanını taşıyan bir "istasyon"; süper
+   admin öne çıkan kart, 4 bölüm yöneticisi kendi renginde alt grid.
+   KOYU yönetim zemini (KREM YOK — panelin koyu rail kimliğiyle uyumlu),
+   beyaz raised kart, Gilroy, domates birincil.
+   ===================================================================== */
+@font-face{font-family:"Gilroy";src:url("assets/fonts/Gilroy-Medium.ttf") format("truetype");font-weight:500;font-style:normal;font-display:swap}
+@font-face{font-family:"Gilroy";src:url("assets/fonts/Gilroy-ExtraBold.otf") format("opentype");font-weight:800;font-style:normal;font-display:swap}
+
+:root{
+  --tomato:#E14827; --tomato-dark:#C43D20; --tomato-tint:#FBE9E3;
+  --slate:#211E16; --slate-2:#56514a;
+  --muted:#7E7E7E; --line:#ECECEC;
+  --chip:#F3F4F4; --paper:#ffffff;
+  --radius-sm:8px; --radius-md:12px; --radius-lg:16px; --radius-xl:24px;
+  --sh-sm:0 1px 2px rgba(33,30,22,.05), 0 2px 8px rgba(33,30,22,.05);
+  --sh-md:0 30px 80px rgba(0,0,0,.46);
+  --ease:cubic-bezier(.22,.61,.36,1);
+}
+*{margin:0;padding:0;box-sizing:border-box}
+body{
+  font-family:"Gilroy",system-ui,sans-serif;font-weight:500;color:var(--slate);
+  line-height:1.55;-webkit-font-smoothing:antialiased;min-height:100vh;
+  display:flex;align-items:center;justify-content:center;padding:32px 20px;
+  background:
+    radial-gradient(720px 480px at 12% -8%, rgba(225,72,39,.16), transparent 60%),
+    radial-gradient(620px 460px at 100% 112%, rgba(0,96,114,.15), transparent 62%),
+    #16130D;
+}
+a{color:inherit;text-decoration:none}
+img{display:block;max-width:100%}
+
+.gate{
+  width:min(560px,100%);background:var(--paper);border:1px solid var(--line);
+  border-radius:var(--radius-xl);box-shadow:var(--sh-md);
+  padding:34px 34px 26px;animation:rise .5s var(--ease) both;
+}
+@keyframes rise{from{opacity:0;transform:translateY(14px)}to{opacity:1;transform:translateY(0)}}
+
+.gate-top{display:flex;align-items:center;gap:12px;margin-bottom:22px}
+.gate-top img{height:30px;width:auto}
+.gate-top .gt-pill{
+  margin-left:auto;display:inline-flex;align-items:center;gap:6px;
+  font-size:10.5px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;
+  color:var(--slate-2);background:var(--chip);border:1px solid var(--line);
+  padding:5px 11px;border-radius:999px;
+}
+.gate-head{margin-bottom:22px}
+.gate-head .eyebrow{font-size:11px;font-weight:700;letter-spacing:.16em;text-transform:uppercase;color:var(--tomato);margin-bottom:9px}
+.gate-head h1{font-family:"Gilroy",sans-serif;font-weight:800;font-size:27px;letter-spacing:-.02em;line-height:1.08}
+.gate-head p{font-size:13.5px;color:var(--muted);margin-top:8px;max-width:42ch}
+
+/* ROL = İSTASYON KARTI — sol aksan şeridi + ikon kovası */
+.role{
+  --c:var(--tomato); --cd:var(--tomato-dark); --crgb:225,72,39;
+  position:relative;display:flex;align-items:center;gap:15px;width:100%;
+  padding:16px 18px 16px 20px;border:1px solid var(--line);border-radius:var(--radius-lg);
+  background:var(--paper);cursor:pointer;transition:.22s var(--ease);overflow:hidden;
+}
+.role::before{content:"";position:absolute;left:0;top:0;bottom:0;width:4px;background:var(--c);transform:scaleY(.4);transform-origin:center;transition:transform .22s var(--ease)}
+.role:hover{border-color:rgba(var(--crgb),.5);box-shadow:0 8px 24px rgba(var(--crgb),.13);transform:translateY(-2px)}
+.role:hover::before{transform:scaleY(1)}
+.role:focus-visible{outline:2px solid var(--c);outline-offset:2px}
+.role .r-ico{
+  width:46px;height:46px;flex:none;border-radius:13px;display:grid;place-items:center;font-size:19px;
+  background:rgba(var(--crgb),.12);color:var(--cd);
+}
+.role .r-tt{flex:1;min-width:0;line-height:1.32}
+.role .r-tt b{display:block;font-size:15.5px;font-weight:700;color:var(--slate);letter-spacing:-.01em}
+.role .r-tt span{font-size:12.5px;color:var(--muted)}
+.role .r-go{flex:none;width:34px;height:34px;border-radius:10px;display:grid;place-items:center;font-size:13px;color:var(--cd);background:rgba(var(--crgb),.10);transition:.22s var(--ease)}
+.role:hover .r-go{background:var(--c);color:#fff;transform:translateX(3px)}
+
+/* öne çıkan süper kart */
+.role.feat{padding:20px 20px 20px 24px;background:linear-gradient(110deg,#FFF6F2 0%,#fff 64%)}
+.role.feat .r-ico{width:52px;height:52px;font-size:22px}
+.role.feat .r-tt b{font-size:17.5px}
+
+.role-sep{display:flex;align-items:center;gap:14px;margin:22px 2px 16px}
+.role-sep::before,.role-sep::after{content:"";flex:1;height:1px;background:var(--line)}
+.role-sep span{font-size:11px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--muted)}
+
+.role-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+
+/* bölüm aksanları */
+.role.r-saglik {--c:#3BB77E;--cd:#2c9963;--crgb:59,183,126}
+.role.r-store  {--c:#E14827;--cd:#C43D20;--crgb:225,72,39}
+.role.r-dadafit{--c:#009d4f;--cd:#007a3d;--crgb:0,157,79}
+.role.r-isletme{--c:#006072;--cd:#004b59;--crgb:0,96,114}
+
+/* operatör katmanı — kilitli kart (Antrenör: panel henüz yok) */
+.op-full{grid-column:1/-1}
+.role.is-locked{cursor:default;opacity:.7;background:var(--chip)}
+.role.is-locked::before{display:none}
+.role.is-locked:hover{transform:none;border-color:var(--line);box-shadow:none}
+.role.is-locked .r-ico{background:rgba(126,126,126,.14);color:var(--muted)}
+.r-soon{flex:none;display:inline-flex;align-items:center;gap:5px;font-size:10px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:var(--muted);background:var(--paper);border:1px solid var(--line);padding:5px 10px;border-radius:999px}
+
+.gate-foot{display:flex;align-items:center;gap:9px;margin-top:22px;padding-top:18px;border-top:1px solid var(--line);font-size:12px;color:var(--muted)}
+.gate-foot i{color:var(--slate-2)}
+.gate-foot a{color:var(--tomato-dark);font-weight:700}
+
+@media(max-width:520px){
+  .gate{padding:26px 20px 22px}
+  .gate-head h1{font-size:23px}
+  .role-grid{grid-template-columns:1fr}
+}
+/* TAB (segmented) — dikey uzamayı bitirir; Süper Admin üstte sabit kalır */
+.seg{display:flex;gap:4px;background:var(--chip);border:1px solid var(--line);border-radius:14px;padding:4px;margin:22px 0 18px}
+.seg-btn{flex:1;display:inline-flex;align-items:center;justify-content:center;gap:8px;font-family:inherit;font-weight:700;font-size:13.5px;color:var(--muted);background:transparent;border:none;cursor:pointer;padding:10px 12px;border-radius:10px;transition:.18s var(--ease)}
+.seg-btn i{font-size:13px}
+.seg-btn:hover{color:var(--slate-2)}
+.seg-btn.is-active{background:var(--paper);color:var(--tomato-dark);box-shadow:var(--sh-sm)}
+.seg-btn:focus-visible{outline:2px solid var(--tomato);outline-offset:2px}
+.tab-panel{display:none}
+.tab-panel.is-active{display:block;animation:tabfade .24s var(--ease)}
+@keyframes tabfade{from{opacity:0;transform:translateY(5px)}to{opacity:1;transform:none}}
+
+@media(prefers-reduced-motion:reduce){
+  .gate{animation:none}
+  .role,.role::before,.role .r-go{transition:none}
+  .role:hover{transform:none}
+  .tab-panel.is-active{animation:none}
+}
+</style>
+</head>
+<body>
+
+<main class="gate" role="main">
+  <div class="gate-top">
+    <img src="assets/img/logo-official.png" alt="DadaMutfak" />
+    <span class="gt-pill"><i class="fa-solid fa-shield-halved"></i> Yönetim</span>
+  </div>
+
+  <header class="gate-head">
+    <div class="eyebrow">DadaMutfak Paneli</div>
+    <h1>Hangi istasyondasın?</h1>
+    <p>Demo girişi — bir rol seç, panel o yetkiyle açılsın. Süper admin tüm bölümleri görür; bölüm yöneticisi yalnız kendi mutfağını; operatör ise doğrudan kendi çalışma paneline iner.</p>
+  </header>
+
+  <a class="role feat" href="sa-shell.html?role=super">
+    <span class="r-ico"><i class="fa-solid fa-crown"></i></span>
+    <span class="r-tt"><b>Süper Admin</b><span>Tüm bölümler · kullanıcı, yetki ve ayar yönetimi</span></span>
+    <span class="r-go"><i class="fa-solid fa-arrow-right"></i></span>
+  </a>
+
+  <div class="seg" role="tablist" aria-label="Giriş türü">
+    <button type="button" class="seg-btn is-active" role="tab" aria-selected="true" data-tab="yonetici"><i class="fa-solid fa-user-gear"></i> Bölüm Yöneticisi</button>
+    <button type="button" class="seg-btn" role="tab" aria-selected="false" data-tab="operator"><i class="fa-solid fa-headset"></i> Operatör Paneli</button>
+  </div>
+
+  <div class="tab-panel is-active" id="tab-yonetici" role="tabpanel">
+    <div class="role-grid">
+      <a class="role r-saglik" href="sa-shell.html?role=saglik-admin">
+        <span class="r-ico"><i class="fa-solid fa-heart-pulse"></i></span>
+        <span class="r-tt"><b>Sağlık</b><span>Diyetisyen, randevu, test</span></span>
+        <span class="r-go"><i class="fa-solid fa-arrow-right"></i></span>
+      </a>
+      <a class="role r-store" href="sa-shell.html?role=store-admin">
+        <span class="r-ico"><i class="fa-solid fa-bag-shopping"></i></span>
+        <span class="r-tt"><b>Store</b><span>Ürün, sipariş, kargo</span></span>
+        <span class="r-go"><i class="fa-solid fa-arrow-right"></i></span>
+      </a>
+      <a class="role r-dadafit" href="sa-shell.html?role=dadafit-admin">
+        <span class="r-ico"><i class="fa-solid fa-dumbbell"></i></span>
+        <span class="r-tt"><b>DadaFit</b><span>Antrenör, program, challenge</span></span>
+        <span class="r-go"><i class="fa-solid fa-arrow-right"></i></span>
+      </a>
+      <a class="role r-isletme" href="sa-shell.html?role=isletme-admin">
+        <span class="r-ico"><i class="fa-solid fa-store"></i></span>
+        <span class="r-tt"><b>İşletme</b><span>Mekan, rezervasyon, menü</span></span>
+        <span class="r-go"><i class="fa-solid fa-arrow-right"></i></span>
+      </a>
+    </div>
+  </div>
+
+  <div class="tab-panel" id="tab-operator" role="tabpanel">
+    <div class="role-grid">
+      <a class="role r-saglik" href="dyt-randevular-v1.html">
+        <span class="r-ico"><i class="fa-solid fa-user-doctor"></i></span>
+        <span class="r-tt"><b>Diyetisyen</b><span>Randevu, danışan, reçete paneli</span></span>
+        <span class="r-go"><i class="fa-solid fa-arrow-right"></i></span>
+      </a>
+      <a class="role r-isletme" href="mekan-panel-v1.html">
+        <span class="r-ico"><i class="fa-solid fa-store"></i></span>
+        <span class="r-tt"><b>Mekân</b><span>Rezervasyon, menü, masa paneli</span></span>
+        <span class="r-go"><i class="fa-solid fa-arrow-right"></i></span>
+      </a>
+      <a class="role r-dadafit" href="antrenor-panel-v1.html">
+        <span class="r-ico"><i class="fa-solid fa-dumbbell"></i></span>
+        <span class="r-tt"><b>Antrenör</b><span>Üye, program, seans paneli</span></span>
+        <span class="r-go"><i class="fa-solid fa-arrow-right"></i></span>
+      </a>
+    </div>
+  </div>
+
+  <div class="gate-foot">
+    <i class="fa-solid fa-circle-info"></i>
+    <span>Bu bir tasarım demosudur; gerçek kimlik doğrulama yok. <a href="anasayfa-portal-v3a.html">Siteye Git</a></span>
+  </div>
+</main>
+
+<script>
+(function(){
+  var btns=document.querySelectorAll('.seg-btn');
+  var panels=document.querySelectorAll('.tab-panel');
+  btns.forEach(function(b){
+    b.addEventListener('click',function(){
+      btns.forEach(function(x){ x.classList.remove('is-active'); x.setAttribute('aria-selected','false'); });
+      panels.forEach(function(p){ p.classList.remove('is-active'); });
+      b.classList.add('is-active'); b.setAttribute('aria-selected','true');
+      var pn=document.getElementById('tab-'+b.dataset.tab); if(pn) pn.classList.add('is-active');
+    });
+  });
+})();
+</script>
+</body>
+</html>

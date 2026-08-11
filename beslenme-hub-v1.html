@@ -1,0 +1,415 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<meta name="robots" content="noindex, nofollow" />
+<title>Beslenme — Besin Kütüphanesi, Rehberler ve Tarifler | DadaDiet</title>
+<link rel="shortcut icon" type="image/x-icon"
+      href="assets/img/favicon.ico" />
+<!-- FontAwesome 6.5.2 (kilitli ikon seti) -->
+<link rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css"
+      integrity="sha512-SnH5WK+bZxgPHs44uWIX+LLJAJ9/2PkPKZ5QiAj6Ta86w+fsb2TkcmfRyVX3pBnMFcV7oQPJkl9QevSCWr3W6A=="
+      crossorigin="anonymous" referrerpolicy="no-referrer" />
+<link rel="stylesheet" href="assets/css/dd-shell.css" />
+<style>
+/* ===== SAYFA CSS — kabuk CSS'i assets/css/dd-shell.css'te ===== */
+/* =====================================================================
+   BESLENME MERKEZİ — menü başlığı "Beslenme"nin merkezi.
+   YENİ SINIF YOK. Kullanılan yapılar ve geldikleri sayfa:
+     .reh-hero / .rd-crumb / .reh-htrust / .reh-grid / .reh-note (eski
+     beslenme-rehberi-v1 sayfasından; o sayfa 9. turda buraya katıldı)
+     .hub-card ailesi / .hub-card.hub-soon / .hub-tag.soon-badge
+                                                    ← beslenme-rehberi-v1
+     .nut-entry / .nut-search / .nut-pop / .nut-row  ← saglik-hub-v1
+     .calc-card / .calc-ico ailesi · .hub-grid       ← saglik-hub-v1
+     .sec-green .eyebrow                             ← saglik-hub-v1
+     .sec / .sec-head / .see-all / .lead / .soon     ← dd-shell.css (kabuk)
+   ===================================================================== */
+
+/* ---- HERO (kompakt koyu nane band — beslenme-rehberi dili) ---- */
+.rd-crumb{display:flex;align-items:center;flex-wrap:wrap;gap:9px;padding:18px 0 14px;font-size:13px;font-weight:500;color:var(--muted)}
+.rd-crumb a{color:var(--muted);transition:.18s}
+.rd-crumb a:hover{color:var(--green-deep)}
+.rd-crumb i{font-size:9px;color:#c7c7c7}
+.rd-crumb b{color:var(--slate);font-weight:700}
+.reh-hero{position:relative;background-color:#15241c;background-image:linear-gradient(90deg,rgba(18,28,22,.94),rgba(20,32,25,.74)),url('https://images.unsplash.com/photo-1512621776951-a57141f2eefd?w=1600&q=80&auto=format&fit=crop&exp=7&gam=6&sat=-9&high=8&vib=5');background-size:cover;background-position:center;overflow:hidden;padding:128px 0 46px}
+.reh-hero::before{content:"";position:absolute;inset:0;background:radial-gradient(760px 320px at 82% -10%,rgba(59,183,126,.20),transparent 60%),linear-gradient(180deg,rgba(18,28,22,0) 60%,rgba(16,26,20,.6));pointer-events:none}
+.reh-hero .wrap{position:relative;z-index:2}
+.reh-hero .rd-crumb{color:#bcd0c4;padding-bottom:16px;font-size:13px}
+.reh-hero .rd-crumb a{color:#bcd0c4}
+.reh-hero .rd-crumb a:hover{color:#7fe0b0}
+.reh-hero .rd-crumb i{color:rgba(255,255,255,.4)}
+.reh-hero .rd-crumb b{color:#fff}
+.reh-hero .eyebrow{color:#7fe0b0}
+.reh-hero .eyebrow::before{background:var(--green)}
+.reh-hero h1{color:#fff;font-size:42px;margin:12px 0 12px;letter-spacing:-.03em;text-shadow:0 2px 24px rgba(0,0,0,.25)}
+.reh-hero h1 .accent{color:#54d39a}
+.reh-hero .lead{color:#e3ede7;font-weight:500;font-size:16px;max-width:620px;text-shadow:0 1px 14px rgba(0,0,0,.3)}
+.reh-htrust{display:flex;flex-wrap:wrap;gap:14px 22px;margin-top:22px}
+.reh-htrust span{display:inline-flex;align-items:center;gap:8px;font-size:13px;font-weight:600;color:#cfe6da}
+.reh-htrust i{color:var(--green);font-size:13px}
+.reh-htrust b{color:#fff;font-weight:700}
+/* aynı künye şeridi rehber bölümünde açık zemindedir — hero varyantının
+   açık zemin karşılığı. Yeni sınıf yok, mevcut aile bölüme göre kapsandı. */
+#beslenme-rehberi .reh-htrust{margin-top:0}
+#beslenme-rehberi .reh-htrust span{color:var(--muted)}
+#beslenme-rehberi .reh-htrust b{color:var(--slate)}
+
+/* ---- sağlık bölümü eyebrow'u (saglik-hub) ---- */
+.sec-green .eyebrow{color:var(--green-deep)}
+.sec-green .eyebrow::before{background:var(--green)}
+
+/* ---- besin kütüphanesi girişi (saglik-hub) ---- */
+.nut-entry{display:grid;grid-template-columns:1.1fr .9fr;gap:40px;align-items:center;background:linear-gradient(180deg,#F2FBF6,#EAF7F0);border:1px solid #d9efe3;border-radius:var(--radius-xl);padding:40px}
+.nut-entry h3{font-size:27px;margin:12px 0 10px}
+.nut-entry p{color:var(--slate-2);font-weight:500;font-size:15px;margin-bottom:22px;max-width:440px}
+.nut-search{display:flex;align-items:center;gap:12px;background:#fff;border:1px solid #d9efe3;border-radius:var(--radius-md);padding:14px 18px;max-width:440px;box-shadow:var(--sh-sm)}
+.nut-search i{color:var(--green);font-size:16px}
+.nut-search span{color:var(--muted);font-size:14px;font-weight:500;flex:1}
+.nut-search .btn{padding:9px 16px;font-size:13px;color:#fff}
+.nut-pop{display:flex;flex-direction:column;gap:11px}
+.nut-row{display:flex;align-items:center;gap:14px;background:#fff;border:1px solid #d9efe3;border-radius:var(--radius-md);padding:13px 16px;transition:.2s var(--ease);cursor:pointer}
+.nut-row:hover{border-color:var(--green);transform:translateX(3px)}
+.nut-row .nr-ico{flex:none;width:42px;height:42px;border-radius:var(--radius-md);background:#EAF7F0;display:grid;place-items:center;color:var(--tomato-deep);font-size:17px}
+.nut-row b{font-size:14.5px;color:var(--slate);display:block}
+.nut-row span{font-size:12.5px;color:var(--muted);font-weight:500}
+.nut-row .kcal{margin-left:auto;font-size:13px;font-weight:700;color:var(--tomato-deep);white-space:nowrap}
+
+/* ---- calc-card (rehber kartı — saglik-hub'dan) ---- */
+.hub-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:24px}
+.calc-card{display:flex;align-items:center;gap:14px;padding:16px;background:var(--paper);border:1px solid #e2efe8;border-radius:var(--radius-lg);cursor:pointer;transition:.25s var(--ease)}
+.calc-card:hover{transform:translateY(-4px);border-color:var(--green);box-shadow:var(--sh-md)}
+.calc-ico{flex:none;width:50px;height:50px;border-radius:var(--radius-lg);background:#EAF7F0;display:grid;place-items:center}
+.calc-ico i{font-size:21px;color:var(--tomato-deep)}
+.calc-card h4{font-size:16px;margin-bottom:3px}
+.calc-card p{font-size:12.5px;color:var(--muted);font-weight:500}
+.calc-card .go{margin-left:auto;color:var(--green);font-size:13px;transition:.2s var(--ease)}
+.calc-card:hover .go{transform:translateX(3px)}
+
+/* ---- hub-card (rehber kartı — beslenme-rehberi'nden) ---- */
+.hub-card{background:var(--paper);border:1px solid var(--line);border-radius:var(--radius-lg);overflow:hidden;display:flex;flex-direction:column;cursor:pointer;transition:.3s var(--ease)}
+.hub-card:hover{transform:translateY(-6px);border-color:#dcdcdc;box-shadow:var(--sh-md)}
+.hub-media{position:relative;height:160px;background-size:cover;background-position:center}
+.hub-media::after{content:"";position:absolute;inset:0;background:linear-gradient(180deg,rgba(33,30,22,0) 52%,rgba(20,18,12,.5))}
+.hub-tags{position:absolute;bottom:12px;left:12px;z-index:2;display:flex;gap:6px}
+.hub-tag{display:inline-flex;align-items:center;gap:5px;background:rgba(20,18,12,.72);color:#fff;font-size:11px;font-weight:700;padding:6px 10px;border-radius:var(--radius-sm);backdrop-filter:blur(4px)}
+.hub-body{padding:18px;display:flex;flex-direction:column;flex:1}
+.hub-body h4{font-size:16.5px;margin-bottom:8px;letter-spacing:-.01em}
+.hub-card:hover .hub-body h4{color:var(--green-deep)}
+.hub-body p{font-size:13.5px;color:var(--muted);font-weight:500;line-height:1.55}
+.hub-foot{display:flex;align-items:center;justify-content:space-between;gap:10px;margin-top:16px;padding-top:14px;border-top:1px solid var(--line);font-size:12.5px;color:var(--muted);font-weight:500}
+.hub-foot .go{display:inline-flex;align-items:center;gap:7px;color:var(--green-deep);font-weight:700}
+.hub-foot .go i{transition:.2s var(--ease)}
+.hub-card:hover .hub-foot .go i{transform:translateX(3px)}
+/* 5-kart rehber grid — hub-card stilini yeniden kullanır (3 sütun) */
+.reh-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:24px}
+.reh-grid .hub-media{background-color:var(--tomato-tint)}
+/* "yakında" kart — henüz üretilmemiş kategoriler (dürüst placeholder, sessiz # değil) */
+.hub-card.hub-soon{cursor:default}
+.hub-card.hub-soon:hover{transform:none;border-color:var(--line);box-shadow:none}
+.hub-card.hub-soon:hover .hub-body h4{color:var(--slate)}
+.hub-card.hub-soon .hub-media{filter:grayscale(.3)}
+.hub-card.hub-soon .hub-foot .go{color:var(--muted);font-weight:600}
+.hub-tag.soon-badge{background:rgba(255,255,255,.94);color:var(--slate-2)}
+/* genel-bilgi notu (disclaimer) — nane info kutusu */
+.reh-note{display:flex;gap:14px;align-items:flex-start;margin-top:30px;background:var(--tomato-tint);border:1px solid #cdeadd;border-radius:var(--radius-lg);padding:18px 20px}
+.reh-note>i{color:var(--tomato-deep);font-size:18px;margin-top:2px;flex:none}
+.reh-note p{font-size:14px;color:var(--slate-2);font-weight:500;line-height:1.6}
+.reh-note p a{color:var(--tomato-deep);font-weight:700}
+.reh-note p a:hover{text-decoration:underline}
+
+/* ---- responsive ---- */
+@media (max-width:1024px){.reh-grid,.hub-grid{grid-template-columns:1fr 1fr}.nut-entry{grid-template-columns:1fr;gap:28px}}
+@media (max-width:640px){.reh-hero{padding:96px 0 34px}.reh-hero h1{font-size:29px}.reh-grid,.hub-grid{grid-template-columns:1fr}.nut-entry{padding:26px}}
+</style>
+</head>
+<body data-brand="diet" data-nav="beslenme">
+
+<div id="ddChromeTop"></div>
+<script src="assets/js/dd-shell.js"></script>
+
+<main class="page-main" id="pageMain">
+
+<!-- ===== HERO ===== -->
+<section class="reh-hero">
+  <div class="wrap">
+    <nav class="rd-crumb" aria-label="Sayfa yolu">
+      <a href="saglik-hub-v1.html"><i class="fa-solid fa-house"></i></a>
+      <i class="fa-solid fa-chevron-right"></i>
+      <b>Beslenme</b>
+    </nav>
+    <span class="eyebrow"><i class="fa-solid fa-seedling"></i> Beslenme</span>
+    <h1>Ne yediğini <span class="accent">bil</span>, nasıl besleneceğini öğren</h1>
+    <p class="lead">Besin değerleri, makro rehberleri ve uygulanabilir beslenme bilgisi tek merkezde. Önce mantığı anla, sonra tabağını kur.</p>
+    <div class="reh-htrust">
+      <span><i class="fa-solid fa-leaf"></i> <b>2.400+</b> besin değeri</span>
+      <span><i class="fa-solid fa-book-open"></i> <b>5</b> rehber kategorisi</span>
+      <span><i class="fa-solid fa-circle-info"></i> Genel bilgi</span>
+      <span><i class="fa-solid fa-user-nurse"></i> Diyetisyen desteği</span>
+    </div>
+    <!-- ortak başlangıç — birincil çağrı -->
+    <div class="chips" style="margin-top:22px">
+      <a class="btn btn-primary" href="bana-uygun-olani-bul-v1.html"><i class="fa-solid fa-compass"></i> Bana Uygun Olanı Bul</a>
+      <a class="btn btn-ghost" href="besin-kutuphanesi-v1.html"><i class="fa-solid fa-magnifying-glass"></i> Besin Ara</a>
+    </div>
+  </div>
+</section>
+
+<!-- ===== BESİN KÜTÜPHANESİ ===== -->
+<section class="sec sec-green" id="besin-kutuphanesi" style="background:var(--bg-white)">
+  <div class="wrap">
+    <div class="nut-entry">
+      <div class="nut-main">
+        <span class="eyebrow"><i class="fa-solid fa-seedling"></i> Besin Kütüphanesi</span>
+        <h3>2.400+ besinin değerini öğren</h3>
+        <p>Kalori, protein, yağ, karbonhidrat — aradığın besini bul, hangi tariflerde kullanıldığını gör.</p>
+        <a class="nut-search" href="besin-kutuphanesi-v1.html">
+          <i class="fa-solid fa-magnifying-glass"></i>
+          <span>Besin ara — örn. yumurta, mercimek, avokado…</span>
+          <span class="btn btn-primary">Ara</span>
+        </a>
+      </div>
+      <div class="nut-pop">
+        <a class="nut-row" href="besin-kutuphanesi-v1.html">
+          <span class="nr-ico"><i class="fa-solid fa-egg"></i></span>
+          <div><b>Yumurta (haşlanmış)</b><span>1 adet · 50 g</span></div>
+          <span class="kcal">78 kcal</span>
+        </a>
+        <a class="nut-row" href="besin-kutuphanesi-v1.html">
+          <span class="nr-ico"><i class="fa-solid fa-bowl-rice"></i></span>
+          <div><b>Yeşil Mercimek</b><span>1 kase · 100 g</span></div>
+          <span class="kcal">116 kcal</span>
+        </a>
+        <a class="nut-row" href="besin-kutuphanesi-v1.html">
+          <span class="nr-ico"><i class="fa-solid fa-leaf"></i></span>
+          <div><b>Avokado</b><span>1/2 adet · 100 g</span></div>
+          <span class="kcal">160 kcal</span>
+        </a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== BESLENME REHBERİ — 8 KATEGORİ ===== -->
+<section class="sec sec-green" id="beslenme-rehberi" style="background:var(--bg-cream)">
+  <div class="wrap">
+    <div class="sec-head reveal">
+      <div>
+        <span class="eyebrow"><i class="fa-solid fa-book-open"></i> Beslenme Rehberi</span>
+        <h2>Nereden başlamak istersin?</h2>
+        <p class="lead">Hesap yapmadan önce mantığı anla: dengeli tabak, öğün planı, porsiyon, alışveriş, mutfak alışkanlıkları, içecekler, dışarıda yemek ve ara öğünler — sade, genel ve suçlamasız bir rehber. Her başlık kısa ve uygulanabilir; sırayla okumak zorunda değilsin.</p>
+      </div>
+    </div>
+    <!-- rehberin künyesi — eski beslenme-rehberi-v1 hero'sundan taşındı (9. tur) -->
+    <div class="reh-htrust" style="margin-bottom:26px">
+      <span><i class="fa-solid fa-layer-group"></i> <b>8</b> kategori</span>
+      <span><i class="fa-solid fa-circle-info"></i> Genel bilgi</span>
+      <span><i class="fa-solid fa-user-nurse"></i> Diyetisyen desteği</span>
+      <span class="ht-meta"><i class="fa-regular fa-file-lines"></i> Kaynak: <b>—</b></span>
+      <span class="ht-meta"><i class="fa-solid fa-user-check"></i> Uzman onayı: <b>—</b></span>
+      <span class="ht-meta"><i class="fa-regular fa-calendar-check"></i> Son güncelleme: <b>Temmuz 2026</b></span>
+    </div>
+    <div class="reh-grid">
+      <a class="hub-card" href="beslenme-dengeli-tabak-v1.html">
+        <div class="hub-media" style="background-image:url('https://images.unsplash.com/photo-1512621776951-a57141f2eefd?w=600&q=80&auto=format&fit=crop&exp=7&gam=6&sat=-9&high=8&vib=5')">
+          <div class="hub-tags"><span class="hub-tag"><i class="fa-regular fa-circle-question"></i> 4 konu</span><span class="hub-tag"><i class="fa-regular fa-clock"></i> ~5 dk</span></div>
+        </div>
+        <div class="hub-body">
+          <h4>Dengeli Tabak</h4>
+          <p>Beslenmeyi karmaşık kurallara dönüştürmeden, tabağına bakarak sağlıklı bir denge kurmanın yolları.</p>
+          <div class="hub-foot"><span><i class="fa-solid fa-seedling"></i> Genel bilgi</span><span class="go">Rehberi Aç <i class="fa-solid fa-arrow-right"></i></span></div>
+        </div>
+      </a>
+      <a class="hub-card" href="beslenme-ogun-planlama-v1.html">
+        <div class="hub-media" style="background-image:url('https://images.unsplash.com/photo-1540420773420-3366772f4999?w=600&q=80&auto=format&fit=crop&exp=7&gam=6&sat=-9&high=8&vib=5')">
+          <div class="hub-tags"><span class="hub-tag"><i class="fa-regular fa-circle-question"></i> 4 konu</span><span class="hub-tag"><i class="fa-regular fa-clock"></i> ~5 dk</span></div>
+        </div>
+        <div class="hub-body">
+          <h4>Öğün Planlama</h4>
+          <p>Öğünleri ne zaman ve nasıl planlayacağın; herkesin bedenine ve gününe uyan esnek bir düzen.</p>
+          <div class="hub-foot"><span><i class="fa-solid fa-seedling"></i> Genel bilgi</span><span class="go">Rehberi Aç <i class="fa-solid fa-arrow-right"></i></span></div>
+        </div>
+      </a>
+      <a class="hub-card" href="beslenme-porsiyon-kontrolu-v1.html">
+        <div class="hub-media" style="background-image:url('https://images.unsplash.com/photo-1490645935967-10de6ba17061?w=600&q=80&auto=format&fit=crop&exp=7&gam=6&sat=-9&high=8&vib=5')">
+          <div class="hub-tags"><span class="hub-tag"><i class="fa-regular fa-circle-question"></i> 4 konu</span><span class="hub-tag"><i class="fa-regular fa-clock"></i> ~5 dk</span></div>
+        </div>
+        <div class="hub-body">
+          <h4>Porsiyon Kontrolü</h4>
+          <p>Ne yediğini kısıtlamak değil tanımak: porsiyonu farkındalıkla, suçlamadan yönetmenin yolları.</p>
+          <div class="hub-foot"><span><i class="fa-solid fa-seedling"></i> Genel bilgi</span><span class="go">Rehberi Aç <i class="fa-solid fa-arrow-right"></i></span></div>
+        </div>
+      </a>
+      <a class="hub-card" href="beslenme-alisveris-etiket-v1.html">
+        <div class="hub-media" style="background-image:url('https://images.unsplash.com/photo-1467453678174-768ec283a940?w=600&q=80&auto=format&fit=crop&exp=7&gam=6&sat=-9&high=8&vib=5')">
+          <div class="hub-tags"><span class="hub-tag"><i class="fa-regular fa-circle-question"></i> 4 konu</span><span class="hub-tag"><i class="fa-regular fa-clock"></i> ~5 dk</span></div>
+        </div>
+        <div class="hub-body">
+          <h4>Alışveriş ve Etiket Okuma</h4>
+          <p>Etiketi anlamaktan sağlıklı alışverişe — markete bilinçli bir gözle girmenin pratik rehberi.</p>
+          <div class="hub-foot"><span><i class="fa-solid fa-seedling"></i> Genel bilgi</span><span class="go">Rehberi Aç <i class="fa-solid fa-arrow-right"></i></span></div>
+        </div>
+      </a>
+      <a class="hub-card" href="beslenme-saglikli-mutfak-v1.html">
+        <div class="hub-media" style="background-image:url('https://images.unsplash.com/photo-1505576399279-565b52d4ac71?w=600&q=80&auto=format&fit=crop&exp=7&gam=6&sat=-9&high=8&vib=5')">
+          <div class="hub-tags"><span class="hub-tag"><i class="fa-regular fa-circle-question"></i> 4 konu</span><span class="hub-tag"><i class="fa-regular fa-clock"></i> ~5 dk</span></div>
+        </div>
+        <div class="hub-body">
+          <h4>Sağlıklı Mutfak Alışkanlıkları</h4>
+          <p>Kısıtlama değil keşif: pişirme yöntemi, baharat ve kademeli değişimle lezzeti korumak.</p>
+          <div class="hub-foot"><span><i class="fa-solid fa-seedling"></i> Genel bilgi</span><span class="go">Rehberi Aç <i class="fa-solid fa-arrow-right"></i></span></div>
+        </div>
+      </a>
+      <a class="hub-card" href="beslenme-su-ve-icecek-v1.html">
+        <div class="hub-media" style="background-image:url('https://images.unsplash.com/photo-1523362628745-0c100150b504?w=600&q=80&auto=format&fit=crop&exp=7&gam=6&sat=-9&high=8&vib=5')">
+          <div class="hub-tags"><span class="hub-tag"><i class="fa-regular fa-circle-question"></i> 4 konu</span><span class="hub-tag"><i class="fa-regular fa-clock"></i> ~5 dk</span></div>
+        </div>
+        <div class="hub-body">
+          <h4>Su ve İçecekler</h4>
+          <p>Beslenme yalnız tabakta değil bardakta da olur: su, çay, kahve ve şekerli içeceklerin günündeki yeri.</p>
+          <div class="hub-foot"><span><i class="fa-solid fa-seedling"></i> Genel bilgi</span><span class="go">Rehberi Aç <i class="fa-solid fa-arrow-right"></i></span></div>
+        </div>
+      </a>
+      <a class="hub-card" href="beslenme-disarida-yemek-v1.html">
+        <div class="hub-media" style="background-image:url('https://images.unsplash.com/photo-1517248135467-4c7edcad34c4?w=600&q=80&auto=format&fit=crop&exp=7&gam=6&sat=-9&high=8&vib=5')">
+          <div class="hub-tags"><span class="hub-tag"><i class="fa-regular fa-circle-question"></i> 4 konu</span><span class="hub-tag"><i class="fa-regular fa-clock"></i> ~5 dk</span></div>
+        </div>
+        <div class="hub-body">
+          <h4>Dışarıda Yemek</h4>
+          <p>Mutfağın senin olmadığı öğünler: menü, porsiyon ve sipariş — planı bozmadan devam etmenin yolları.</p>
+          <div class="hub-foot"><span><i class="fa-solid fa-seedling"></i> Genel bilgi</span><span class="go">Rehberi Aç <i class="fa-solid fa-arrow-right"></i></span></div>
+        </div>
+      </a>
+      <a class="hub-card" href="beslenme-atistirmalik-v1.html">
+        <div class="hub-media" style="background-image:url('https://images.unsplash.com/photo-1508061253366-f7da158b6d46?w=600&q=80&auto=format&fit=crop&exp=7&gam=6&sat=-9&high=8&vib=5')">
+          <div class="hub-tags"><span class="hub-tag"><i class="fa-regular fa-circle-question"></i> 4 konu</span><span class="hub-tag"><i class="fa-regular fa-clock"></i> ~5 dk</span></div>
+        </div>
+        <div class="hub-body">
+          <h4>Atıştırmalık ve Tatlı İsteği</h4>
+          <p>Öğünlerin arasında geçen saatler: ara öğünü kurmak ve isteği suçlamadan karşılamak.</p>
+          <div class="hub-foot"><span><i class="fa-solid fa-seedling"></i> Genel bilgi</span><span class="go">Rehberi Aç <i class="fa-solid fa-arrow-right"></i></span></div>
+        </div>
+      </a>
+    </div>
+  </div>
+</section>
+
+<!-- ===== BESİN VE MAKRO REHBERLERİ — menüden düşen 5 içerik sayfasının evi ===== -->
+<section class="sec sec-green" id="besin-rehberleri" style="background:var(--bg-white)">
+  <div class="wrap">
+    <div class="sec-head reveal">
+      <div>
+        <span class="eyebrow"><i class="fa-solid fa-table-list"></i> Besin ve Makro Rehberleri</span>
+        <h2>Değerleri ve kaynakları karşılaştır</h2>
+        <p class="lead">Kalori tabloları ve makro besin rehberleri — protein, karbonhidrat ve yağ kaynaklarını yan yana gör.</p>
+      </div>
+    </div>
+    <div class="hub-grid">
+      <a class="calc-card" href="besin-degerleri-v1.html">
+        <span class="calc-ico"><i class="fa-solid fa-leaf"></i></span>
+        <div><h4>Besin Değerleri</h4><p>Kalori, protein, karbonhidrat, yağ</p></div>
+        <span class="go"><i class="fa-solid fa-arrow-right"></i></span>
+      </a>
+      <a class="calc-card" href="besin-kalori-cetveli-v1.html">
+        <span class="calc-ico"><i class="fa-solid fa-table-list"></i></span>
+        <div><h4>Besin Kalori Cetveli</h4><p>Yüzlerce besinin kalori tablosu</p></div>
+        <span class="go"><i class="fa-solid fa-arrow-right"></i></span>
+      </a>
+      <a class="calc-card" href="protein-rehberi-v1.html">
+        <span class="calc-ico"><i class="fa-solid fa-egg"></i></span>
+        <div><h4>Protein Rehberi</h4><p>Günlük protein ihtiyacın ve kaynakları</p></div>
+        <span class="go"><i class="fa-solid fa-arrow-right"></i></span>
+      </a>
+      <a class="calc-card" href="karbonhidrat-rehberi-v1.html">
+        <span class="calc-ico"><i class="fa-solid fa-bread-slice"></i></span>
+        <div><h4>Karbonhidrat Rehberi</h4><p>Kompleks karbonhidrat kaynakları</p></div>
+        <span class="go"><i class="fa-solid fa-arrow-right"></i></span>
+      </a>
+      <a class="calc-card" href="yag-rehberi-v1.html">
+        <span class="calc-ico"><i class="fa-solid fa-bottle-droplet"></i></span>
+        <div><h4>Yağ Rehberi</h4><p>İyi yağ, kötü yağ bilgisi</p></div>
+        <span class="go"><i class="fa-solid fa-arrow-right"></i></span>
+      </a>
+    </div>
+  </div>
+</section>
+
+<!-- ===== HAZIRLANIYOR — karşılığı henüz olmayan iki menü kalemi ===== -->
+<section class="sec sec-green" id="hazirlaniyor" style="background:var(--bg-cream)">
+  <div class="wrap">
+    <div class="sec-head reveal">
+      <div>
+        <span class="eyebrow"><i class="fa-solid fa-hourglass-half"></i> Sırada</span>
+        <h2>Kısa yazılar ve tarifler</h2>
+        <p class="lead">Uzun rehber okumaya vaktin yoksa kısa yazılardan başla: ipuçları bir alışkanlığı anlatır, Kaç Kalori? tek bir sayıyı yanıtlar, Püf Noktaları mutfakta işe yarayan pratiği anlatır. Kaydettiklerin artık Planım alanında; sağlıklı tarifler bölümü üzerinde çalışıyoruz.</p>
+      </div>
+    </div>
+    <div class="reh-grid">
+      <a class="hub-card" href="beslenme-ipuclari-v1.html">
+        <div class="hub-media" style="background-image:url('https://images.unsplash.com/photo-1466637574441-749b8f19452f?w=600&q=80&auto=format&fit=crop&exp=7&gam=6&sat=-9&high=8&vib=5')">
+          <div class="hub-tags"><span class="hub-tag"><i class="fa-solid fa-lightbulb"></i> 10 ipucu</span></div>
+        </div>
+        <div class="hub-body">
+          <h4>Beslenme İpuçları</h4>
+          <p>Kısa, uygulanabilir ve tek soruya odaklı yazılar. Her biri iki dakikada okunur, bugün denenebilir.</p>
+          <div class="hub-foot"><span><i class="fa-regular fa-clock"></i> ~2 dk okuma</span><span class="go">İpuçlarını Aç <i class="fa-solid fa-arrow-right"></i></span></div>
+        </div>
+      </a>
+      <a class="hub-card" href="kac-kalori-v1.html">
+        <div class="hub-media" style="background-image:url('https://images.unsplash.com/photo-1482049016688-2d3e1b311543?w=600&q=80&auto=format&fit=crop&exp=7&gam=6&sat=-9&high=8&vib=5')">
+          <div class="hub-tags"><span class="hub-tag"><i class="fa-solid fa-fire"></i> 12 yazı</span></div>
+        </div>
+        <div class="hub-body">
+          <h4>Kaç Kalori?</h4>
+          <p>Bir besin ya da bir pişirme biçimi kaç kalori, o rakam hangi porsiyona karşılık geliyor, daha hafif bir alternatifi var mı.</p>
+          <div class="hub-foot"><span><i class="fa-regular fa-clock"></i> ~2 dk okuma</span><span class="go">Yazıları Aç <i class="fa-solid fa-arrow-right"></i></span></div>
+        </div>
+      </a>
+      <a class="hub-card" href="diyet-puf-noktalari-v1.html">
+        <div class="hub-media" style="background-image:url('https://images.unsplash.com/photo-1490645935967-10de6ba17061?w=600&q=80&auto=format&fit=crop&exp=7&gam=6&sat=-9&high=8&vib=5')">
+          <div class="hub-tags"><span class="hub-tag"><i class="fa-solid fa-lightbulb"></i> 10 yazı</span></div>
+        </div>
+        <div class="hub-body">
+          <h4>Diyetin Püf Noktaları</h4>
+          <p>Mutfakta işe yarayan pratik bilgiler: hazırlık, saklama, ölçü ve alışkanlık kurma — düz ve akıcı yazılar.</p>
+          <div class="hub-foot"><span><i class="fa-regular fa-clock"></i> ~4 dk okuma</span><span class="go">Yazıları Aç <i class="fa-solid fa-arrow-right"></i></span></div>
+        </div>
+      </a>
+      <div class="hub-card hub-soon" aria-disabled="true">
+        <div class="hub-media" style="background-image:url('https://images.unsplash.com/photo-1547592180-85f173990554?w=600&q=80&auto=format&fit=crop&exp=7&gam=6&sat=-9&high=8&vib=5')">
+          <div class="hub-tags"><span class="hub-tag soon-badge"><i class="fa-solid fa-hourglass-half"></i> Yakında</span></div>
+        </div>
+        <div class="hub-body">
+          <h4>Sağlıklı Tarifler <span class="soon">Yakında</span></h4>
+          <p>Dengeli tabak mantığına uygun, sağlık odaklı tarif koleksiyonu. Besin kütüphanesindeki her besinle eşleşecek.</p>
+          <div class="hub-foot"><span><i class="fa-solid fa-seedling"></i> Beslenme</span><span class="go">Hazırlanıyor</span></div>
+        </div>
+      </div>
+      <a class="hub-card" href="planim-kaydettiklerim-v1.html?sekme=besin">
+        <div class="hub-media" style="background-image:url('https://images.unsplash.com/photo-1505576399279-565b52d4ac71?w=600&q=80&auto=format&fit=crop&exp=7&gam=6&sat=-9&high=8&vib=5')">
+          <div class="hub-tags"><span class="hub-tag"><i class="fa-solid fa-lock"></i> Üyelere özel</span></div>
+        </div>
+        <div class="hub-body">
+          <h4>Kaydedilenler</h4>
+          <p>Beğendiğin besin, rehber ve programları hesabında topla; kaldığın yerden devam et.</p>
+          <div class="hub-foot"><span><i class="fa-solid fa-bookmark"></i> Planım</span><span class="go">Aç <i class="fa-solid fa-arrow-right"></i></span></div>
+        </div>
+      </a>
+    </div>
+    <div class="reh-note">
+      <i class="fa-solid fa-circle-info"></i>
+      <p>Bu sayfadaki içerikler <b>genel bilgi amaçlıdır</b>; <b>tıbbi teşhis veya tedavi yerine geçmez</b>, kişisel beslenme tavsiyesi değildir. Kişiye özel plan yalnızca <b>yetkili bir diyetisyen</b> tarafından hazırlanır; gebelik, kronik hastalık, düzenli ilaç kullanımı, çocuk beslenmesi veya klinik bir durum varsa plana başlamadan önce <b>hekim ve diyetisyen kontrolü zorunludur</b>. Sağlık durumuna ve hedeflerine özel bir plan için <a href="diyetisyen-dizin-v1.html">bir diyetisyene danış</a>.</p>
+    </div>
+  </div>
+</section>
+
+</main><!-- /.page-main -->
+
+<div id="ddChromeGate"></div>
+<div id="ddChromeFooter"></div>
+<div id="ddChromeFab"></div>
+
+</body>
+</html>

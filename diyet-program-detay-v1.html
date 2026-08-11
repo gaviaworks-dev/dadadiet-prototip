@@ -1,0 +1,364 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<meta name="robots" content="noindex, nofollow" />
+<title>Akdeniz Tipi Beslenme — 7 Günlük Program | DadaMutfak</title>
+<link rel="shortcut icon" type="image/x-icon"
+      href="assets/img/favicon.ico" />
+<!-- FontAwesome 6.5.2 (kilitli ikon seti) -->
+<link rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css"
+      integrity="sha512-SnH5WK+bZxgPHs44uWIX+LLJAJ9/2PkPKZ5QiAj6Ta86w+fsb2TkcmfRyVX3pBnMFcV7oQPJkl9QevSCWr3W6A=="
+      crossorigin="anonymous" referrerpolicy="no-referrer" />
+<link rel="stylesheet" href="assets/css/dd-shell.css" />
+<style>
+/* ===== SAYFA CSS — kabuk CSS'i assets/css/dd-shell.css'te ===== */
+/* =====================================================================
+   F10/DALGA3 — DİYET PROGRAM DETAYI · diyet-listeleri kartlarından inilen sayfa
+   dl-hero (diyet-listeleri VERBATIM) · prog-tag (diyet-listeleri VERBATIM)
+   wk-board ailesi (haftalik-menu VERBATIM) · note-duo (TD VERBATIM) · r-card (v3a)
+   ===================================================================== */
+
+/* ---- HERO: koyu band (diyet-listeleri dl-top VERBATIM — görsel programa göre) ---- */
+.dl-top{
+  position:relative;padding-top:112px;
+  background-image:linear-gradient(90deg,rgba(18,28,22,.94),rgba(20,32,25,.74)),
+    url('https://images.unsplash.com/photo-1540420773420-3366772f4999?w=1600&q=80&auto=format&fit=crop&exp=7&gam=6&sat=-9&high=8&vib=5');
+  background-size:cover;background-position:center;
+}
+
+.dl-top .wrap{position:relative}
+.dl-top .rd-crumb{color:#bcd0c4}
+.dl-top .rd-crumb a{color:#bcd0c4}
+.dl-top .rd-crumb a:hover{color:#7fe0b0}
+.dl-top .rd-crumb i{color:rgba(255,255,255,.4)}
+.dl-top .rd-crumb b{color:#fff}
+.rd-crumb{display:flex;align-items:center;flex-wrap:wrap;gap:9px;padding:18px 0 14px;font-size:13px;font-weight:500}
+.rd-crumb i{font-size:9px}
+.dl-hero{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:44px;align-items:end;padding:10px 0 44px}
+.dl-hero .eyebrow{color:#7fe0b0}
+.dl-hero .eyebrow::before{background:var(--green)}
+.dl-hero h1{color:#fff;font-size:44px;margin:14px 0 12px;letter-spacing:-.03em;text-shadow:0 2px 24px rgba(0,0,0,.25)}
+.dl-hero h1 .accent{color:#54d39a;white-space:nowrap}
+.dl-hero .lead{color:#e3ede7;font-weight:500;font-size:15.5px;max-width:560px;text-shadow:0 1px 14px rgba(0,0,0,.3)}
+.dl-stats{display:flex;flex-direction:column;gap:16px;padding-left:38px;border-left:1px solid rgba(255,255,255,.18)}
+.dl-stats .st b{display:block;font-size:29px;font-weight:700;color:#fff;letter-spacing:-.02em;line-height:1.1}
+.dl-stats .st span{font-size:12.5px;color:#9fb7a8;font-weight:500}
+
+/* ---- program rozetleri (diyet-listeleri prog-tag VERBATIM) + hero içi düzen ---- */
+.prog-tags{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:18px}
+.prog-tag{display:inline-flex;align-items:center;gap:6px;font-size:12px;font-weight:600;color:var(--slate-2);background:#EAF7F0;border:1px solid #d9efe3;padding:6px 11px;border-radius:var(--radius-sm)}
+.prog-tag i{color:var(--green);font-size:11px}
+.dl-hero .prog-tags{margin:16px 0 22px}
+.dl-hero .pd-actions{display:flex;gap:12px;flex-wrap:wrap}
+.btn-green{background:var(--tomato-deep);color:#fff}
+.btn-green:hover{background:var(--green-deep);transform:translateY(-2px)}
+.btn-ghost-light{background:rgba(255,255,255,.10);color:#fff;border:1px solid rgba(255,255,255,.30)}
+.btn-ghost-light:hover{background:rgba(255,255,255,.18);border-color:#fff;transform:translateY(-2px)}
+
+/* ---- 7 GÜN × 3 ÖĞÜN BOARD (haftalik-menu VERBATIM — statik örnek akış; ikon aksanı yeşil) ---- */
+.wk-board{background:var(--paper);border:1px solid var(--line);border-radius:var(--radius-lg);box-shadow:var(--sh-sm);overflow:hidden}
+.wk-grid{display:grid;grid-template-columns:104px repeat(7,minmax(0,1fr))}
+.wk-corner{border-bottom:1px solid var(--line);background:var(--bg)}
+.wk-day{padding:13px 8px;text-align:center;border-bottom:1px solid var(--line);border-left:1px solid var(--line)}
+.wk-day b{display:block;font-size:13.5px;font-weight:700;color:var(--slate);line-height:1.1}
+.wk-day span{display:block;font-size:11.5px;color:var(--muted);font-weight:500;margin-top:3px}
+.wk-mealcol{display:flex;flex-direction:column;justify-content:center;gap:5px;padding:12px 12px;border-bottom:1px solid var(--line);background:var(--bg)}
+.wk-mealcol i{width:30px;height:30px;border-radius:var(--radius-md);background:var(--paper);border:1px solid var(--line);color:var(--green-deep);display:grid;place-items:center;font-size:13px}
+.wk-mealcol b{font-size:13px;font-weight:700;color:var(--slate)}
+.wk-mealcol small{font-size:11px;color:var(--muted);font-weight:500}
+.wk-grid .wk-mealcol:last-of-type,.wk-grid .mcell.lastrow{border-bottom:none}
+.mcell{position:relative;padding:9px;border-bottom:1px solid var(--line);border-left:1px solid var(--line);min-height:126px}
+.mc-card{display:flex;flex-direction:column;gap:7px;height:100%;cursor:pointer}
+.mc-thumb{position:relative;height:60px;border-radius:var(--radius-sm);background-size:cover;background-position:center;overflow:hidden;flex:none}
+.mc-card:hover .mc-thumb::after{content:"";position:absolute;inset:0;background:rgba(59,183,126,.14)}
+.mc-name{font-size:11.5px;font-weight:700;color:var(--slate);line-height:1.25;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
+.mc-card:hover .mc-name{color:var(--green-deep)}
+.mc-meta{margin-top:auto;display:flex;align-items:center;gap:8px;font-size:10.5px;color:var(--muted);font-weight:500}
+.mc-meta i{font-size:9.5px;color:var(--green)}
+/* genel öğün hücresi — görselsiz, sahte-tarif-link/puan YOK (ürün kararı) */
+.mc-gen{background:var(--paper);border:1px solid var(--line);border-radius:var(--radius-sm);overflow:hidden;height:100%;display:flex;flex-direction:column}
+.mcg-thumb{height:62px;background-size:cover;background-position:center;flex:none}
+.mcg-txt{padding:9px 11px;font-size:11.5px;font-weight:600;color:var(--slate-2);line-height:1.38;flex:1;display:flex;align-items:center}
+/* program hakkında / kimler için */
+.prog-about{display:grid;grid-template-columns:1.25fr 1fr;gap:24px;align-items:start}
+.prog-about .pa-lead{font-size:14.5px;color:var(--slate-2);font-weight:500;line-height:1.75}
+.prog-about .pa-lead b{color:var(--slate)}
+.pa-who{background:var(--paper);border:1px solid var(--line);border-radius:var(--radius-lg);padding:20px 22px}
+.pa-who h3{font-size:15px;margin-bottom:14px}
+.pa-who ul{list-style:none;display:flex;flex-direction:column;gap:11px;margin:0;padding:0}
+.pa-who li{display:flex;gap:11px;font-size:13.5px;color:var(--slate-2);font-weight:500;line-height:1.45}
+.pa-who li i{color:var(--green-deep);margin-top:3px;flex:none;font-size:13px}
+@media(max-width:760px){.prog-about{grid-template-columns:1fr}}
+/* A4 diyetisyen disclaimer (reh-note-lg) */
+.reh-note{display:flex;gap:14px;align-items:flex-start;background:var(--tomato-tint);border:1px solid #cdeadd;border-radius:var(--radius-lg);padding:20px 22px;margin-top:26px}
+.reh-note>i{color:var(--tomato-deep);font-size:18px;margin-top:2px;flex:none}
+.reh-note p{font-size:14px;color:var(--slate-2);font-weight:500;line-height:1.6}
+.reh-note p a{color:var(--tomato-deep);font-weight:700}
+.reh-note p a:hover{text-decoration:underline}
+.reh-note-lg .btn{margin-top:14px}
+
+/* ---- DİYETİSYEN NOT KUTULARI (TD note-duo/remind-box/editor-box VERBATIM; editör şeridi sağlıkta yeşil) ---- */
+.note-duo{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-top:14px;align-items:stretch}
+.note-duo .remind-box,.note-duo .editor-box{margin-top:0}
+.remind-box{
+  display:flex;gap:16px;align-items:flex-start;
+  background:#FFF8E6;border:1px solid rgba(250,192,69,.5);border-radius:var(--radius-lg);
+  padding:20px 22px;margin-top:16px;
+}
+.remind-box .rb-ico{flex:none;width:42px;height:42px;border-radius:var(--radius-md);background:rgba(250,192,69,.25);color:#B8860B;display:grid;place-items:center;font-size:17px}
+.remind-box .rb-body{min-width:0}
+.remind-box .rb-body h4{font-size:15.5px;margin-bottom:5px;display:flex;align-items:center;gap:9px;flex-wrap:wrap}
+.remind-box .rb-auto{font-size:9.5px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:#B8860B;background:rgba(250,192,69,.22);padding:3px 8px;border-radius:var(--radius-sm)}
+.remind-box .rb-body p{font-size:13.5px;color:var(--slate-2);font-weight:500;line-height:1.6}
+.remind-box .rb-body p b{color:var(--slate)}
+.editor-box{
+  display:flex;gap:16px;align-items:flex-start;
+  background:var(--paper);border:1px solid var(--line);border-left:4px solid var(--green);
+  border-radius:var(--radius-lg);padding:16px 18px;margin-top:14px;box-shadow:var(--sh-sm);
+}
+.editor-box .eb-ico{flex:none;width:42px;height:42px;border-radius:var(--radius-md);background:#EAF7F0;color:var(--green-deep);display:grid;place-items:center;font-size:16px}
+.editor-box .eb-body{min-width:0}
+.editor-box h4{font-size:15.5px;margin-bottom:5px;display:flex;align-items:center;gap:9px;flex-wrap:wrap}
+.editor-box .eb-tag{font-size:9.5px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:var(--green-deep);background:#EAF7F0;padding:3px 8px;border-radius:var(--radius-sm)}
+.editor-box p{font-size:13.5px;color:var(--slate-2);font-weight:500;line-height:1.6}
+.editor-box p b{color:var(--slate)}
+.editor-box p a{color:var(--green-deep);font-weight:700;text-decoration:underline;text-underline-offset:2px}
+.editor-box .eb-sign{display:inline-flex;align-items:center;gap:7px;margin-top:8px;font-size:11.5px;font-weight:700;color:var(--muted)}
+.editor-box .eb-sign i{color:var(--green)}
+
+/* ---- r-card sistemi (v3a VERBATIM — programa uygun tarifler) ---- */
+.r-card{background:var(--paper);border:1px solid var(--line);border-radius:var(--radius-lg);overflow:hidden;transition:.3s var(--ease);cursor:pointer;display:flex;flex-direction:column}
+.r-card:hover{transform:translateY(-6px);border-color:#dcdcdc}
+.r-media-wrap{overflow:hidden}
+.r-media{position:relative;height:200px;background-size:cover;background-position:center;transition:.5s var(--ease)}
+.r-card:hover .r-media{transform:scale(1.04)}
+.r-chip{position:absolute;top:13px;left:13px;background:rgba(255,255,255,.94);color:var(--slate);font-size:11.5px;font-weight:700;padding:6px 12px;border-radius:var(--radius-sm);letter-spacing:.02em}
+.r-save,.p-fav{position:absolute;top:11px;right:11px;width:38px;height:38px;border-radius:var(--radius-circle);background:rgba(255,255,255,.94);border:none;color:var(--slate);cursor:pointer;display:grid;place-items:center;font-size:15px;transition:.2s var(--ease)}
+.r-save:hover,.p-fav:hover{background:#fff;color:var(--tomato)}
+.r-save.saved,.p-fav.saved{background:var(--tomato);color:#fff}
+.m-types{position:absolute;bottom:13px;right:13px;display:flex;gap:6px}
+.mt{display:inline-flex;align-items:center;gap:5px;background:rgba(20,18,12,.72);color:#fff;font-size:11px;font-weight:700;padding:6px 10px;border-radius:var(--radius-sm);backdrop-filter:blur(4px)}
+.r-body{padding:17px 18px 19px;display:flex;flex-direction:column;flex:1}
+.r-body h4{font-size:18px;margin-bottom:11px;letter-spacing:-.01em;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden;min-height:2.4em}
+.r-card:hover .r-body h4{color:var(--tomato)}
+.r-facts{display:flex;align-items:center;font-size:12.5px;color:var(--muted);font-weight:500;margin-bottom:13px}
+.r-facts span{display:inline-flex;align-items:center;gap:6px;white-space:nowrap}
+.r-facts i{font-size:12px;color:var(--tomato)}
+.r-facts span+span{border-left:1px solid var(--line);padding-left:12px;margin-left:12px}
+.r-foot{display:flex;align-items:center;justify-content:space-between;gap:10px;margin-top:auto;padding-top:13px;border-top:1px solid var(--line)}
+.r-author{display:flex;align-items:center;gap:9px;min-width:0}
+.r-author .av{width:28px;height:28px;border-radius:var(--radius-circle);background-size:cover;background-position:center;flex:none}
+.r-author span{font-size:12.5px;color:var(--muted);font-weight:500;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;min-width:0}
+.r-author b{color:var(--slate);font-weight:700}
+.r-stats{display:flex;align-items:center;gap:12px;flex:none}
+.r-rate{display:inline-flex;align-items:center;gap:5px;font-size:13px;color:var(--slate);font-weight:700}
+.r-rate i{color:var(--yellow)}
+.grid-4{display:grid;grid-template-columns:repeat(4,1fr);gap:26px;margin-top:0}
+
+/* ---- responsive (dl + wk miras kuralları) ---- */
+@media (max-width:1024px){
+  .dl-hero{grid-template-columns:1fr;align-items:start;gap:22px;padding-bottom:34px}
+  .dl-stats{flex-direction:row;gap:34px;padding-left:0;border-left:none;padding-top:18px;border-top:1px solid rgba(255,255,255,.18)}
+  .wk-scroll{overflow-x:auto;-webkit-overflow-scrolling:touch;scrollbar-width:thin}
+  .wk-board{min-width:880px}
+  .wk-grid{min-width:880px}
+  .note-duo{grid-template-columns:1fr}
+  .grid-4{grid-template-columns:1fr 1fr}
+}
+@media (max-width:640px){
+  .rd-crumb{padding:14px 0 10px;font-size:13px}
+  .dl-hero h1{font-size:29px}
+  .dl-hero .lead{font-size:14.5px}
+  .dl-stats{gap:12px}
+  .dl-stats .st{flex:1}
+  .dl-stats .st b{font-size:20px}
+  .dl-hero .pd-actions{width:100%}
+  .dl-hero .pd-actions .btn{flex:1}
+  .wk-board{min-width:760px}
+  .wk-grid{min-width:760px}
+  .wk-mealcol{position:sticky;left:0;z-index:2;box-shadow:2px 0 0 var(--line)}
+  .wk-corner{position:sticky;left:0;z-index:2}
+  .wk-scroll::-webkit-scrollbar{height:6px}
+  .wk-scroll::-webkit-scrollbar-thumb{background:#d8d8d8;border-radius:var(--radius-sm)}
+  .grid-4{grid-template-columns:1fr;gap:18px}
+}
+
+/* saglik-dropdown: scoped health chrome */
+/* diğer dropdown/mega aktif-item (turuncu kanon, underline gizli) */
+.dropdown:not(.dropdown-health) a.active{background:var(--tomato-tint)}
+.dropdown a.active::after,.mega-cats a.active::after{display:none}
+.mega-cats a.active{background:var(--tomato-tint)}
+.nav a[href="saglik-hub-v1.html"]:hover{color:var(--green);background:rgba(59,183,126,.10)}
+</style>
+</head>
+<body data-brand="diet" data-nav="programlar">
+
+<div id="ddChromeTop"></div>
+<script src="assets/js/dd-shell.js"></script>
+
+<main class="page-main" id="pageMain">
+
+<!-- SAYFA İÇERİĞİ — DALGA 3: DİYET PROGRAM DETAYI (Akdeniz Tipi Beslenme örneği) -->
+
+<!-- ===== HERO: koyu band (diyet-listeleri dl-top mirası) ===== -->
+<section class="below-header dl-top">
+  <div class="wrap">
+    <nav class="rd-crumb" aria-label="Sayfa yolu">
+      <a href="saglik-hub-v1.html"><i class="fa-solid fa-house"></i></a>
+      <i class="fa-solid fa-chevron-right"></i>
+      <a href="diyet-listeleri-v1.html">Diyet Listeleri</a>
+      <i class="fa-solid fa-chevron-right"></i>
+      <b>Akdeniz Tipi Beslenme</b>
+    </nav>
+    <div class="dl-hero">
+      <div class="dl-main">
+        <span class="eyebrow"><i class="fa-solid fa-list-check"></i> Beslenme Programı</span>
+        <h1>Akdeniz Tipi <span class="accent">Beslenme</span></h1>
+        <p class="lead">Zeytinyağı, sebze, balık ve baklagil ağırlıklı; kalbe dost, dengeli örnek haftalık düzen. İncele, beğendiğin öğünü uygula ya da tüm haftayı menüne aktar.</p>
+        <div class="prog-tags">
+          <span class="prog-tag"><i class="fa-solid fa-bullseye"></i> Dengeli Beslen</span>
+          <span class="prog-tag"><i class="fa-regular fa-calendar"></i> 7 günlük</span>
+          <span class="prog-tag"><i class="fa-solid fa-signal"></i> Başlangıç</span>
+          <span class="prog-tag"><i class="fa-solid fa-fire"></i> ~1.600 kcal/gün</span>
+        </div>
+        <div class="pd-actions">
+          <a class="btn btn-green" href="haftalik-menu-v1.html"><i class="fa-solid fa-calendar-plus"></i> Haftalık Menüme Aktar</a>
+          <button class="btn btn-ghost-light" type="button"><i class="fa-regular fa-bookmark"></i> Programı Kaydet</button>
+        </div>
+      </div>
+      <div class="dl-stats">
+        <div class="st"><b>7</b><span>Gün</span></div>
+        <div class="st"><b>21</b><span>Öğün planı</span></div>
+        <div class="st"><b>3</b><span>Öğün / gün</span></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== PROGRAM HAKKINDA / KİMLER İÇİN ===== -->
+<section class="sec" style="background:var(--bg-white);padding-top:44px;padding-bottom:8px">
+  <div class="wrap">
+    <div class="prog-about">
+      <div>
+        <span class="eyebrow" style="color:var(--green-deep)"><i class="fa-solid fa-circle-info"></i> Program Hakkında</span>
+        <h2 style="margin:8px 0 14px">Ne sunar?</h2>
+        <p class="pa-lead"><b>Akdeniz Tipi Beslenme</b>, zeytinyağı, sebze-meyve, tam tahıl, baklagil ve balığı öne çıkaran; kırmızı eti sınırlı tutan dengeli bir haftalık düzendir. Belirli bir besini katı biçimde yasaklamaz; kaynak kalitesi ve öğün çeşitliliğini önceler. Öğünler örnek niteliğindedir — kendi damak tadına ve mevsime göre uyarlayabilirsin.</p>
+      </div>
+      <div class="pa-who">
+        <h3>Kimler için uygun?</h3>
+        <ul>
+          <li><i class="fa-solid fa-check"></i> Genel sağlığını korumak isteyen yetişkinler</li>
+          <li><i class="fa-solid fa-check"></i> Beslenmeye yeni düzen getirmek isteyenler</li>
+          <li><i class="fa-solid fa-check"></i> Belirli bir kısıtlama olmadan çeşitli beslenmek isteyenler</li>
+          <li><i class="fa-solid fa-check"></i> Öğün planlamayı basit tutmak isteyenler</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== HAFTALIK ÖRNEK AKIŞ (haftalik-menu board mirası — statik döküm) ===== -->
+<section class="sec" style="background:var(--bg-cream);padding-top:46px">
+  <div class="wrap">
+    <div class="sec-head reveal">
+      <div>
+        <span class="eyebrow" style="color:var(--green-deep)"><i class="fa-solid fa-calendar-week"></i> Örnek Akış</span>
+        <h2>7 günlük öğün dökümü</h2>
+        <p class="lead">Gün gün kahvaltı, öğle ve akşam için genel öğün önerileri — örnek niteliğinde, uyarlanabilir.</p>
+      </div>
+      <div class="sec-tools"><a class="see-all" href="haftalik-menu-v1.html">Menü Planlayıcıda Aç <i class="fa-solid fa-arrow-right"></i></a></div>
+    </div>
+    <div class="wk-scroll">
+      <div class="wk-board">
+        <div class="wk-grid">
+          <div class="wk-corner"></div>
+          <div class="wk-day"><b>1. Gün</b><span>Pzt</span></div>
+          <div class="wk-day"><b>2. Gün</b><span>Sal</span></div>
+          <div class="wk-day"><b>3. Gün</b><span>Çar</span></div>
+          <div class="wk-day"><b>4. Gün</b><span>Per</span></div>
+          <div class="wk-day"><b>5. Gün</b><span>Cum</span></div>
+          <div class="wk-day"><b>6. Gün</b><span>Cmt</span></div>
+          <div class="wk-day"><b>7. Gün</b><span>Paz</span></div>
+
+          <!-- KAHVALTI -->
+          <div class="wk-mealcol"><i class="fa-solid fa-mug-saucer"></i><b>Kahvaltı</b><small>~450 kcal</small></div>
+          <div class="mcell"><div class="mc-gen"><div class="mcg-thumb" style="background-image:url('https://images.unsplash.com/photo-1525755662778-989d0524087e?w=300&q=80&auto=format&fit=crop&exp=7&gam=6&sat=-9&high=8&vib=5')"></div><span class="mcg-txt">Yumurta + peynir + domates-salatalık + tam buğday ekmeği</span></div></div>
+          <div class="mcell"><div class="mc-gen"><div class="mcg-thumb" style="background-image:url('https://images.unsplash.com/photo-1517673400267-0251440c45dc?w=300&q=80&auto=format&fit=crop&exp=7&gam=6&sat=-9&high=8&vib=5')"></div><span class="mcg-txt">Yulaf lapası + süt + mevsim meyvesi</span></div></div>
+          <div class="mcell"><div class="mc-gen"><div class="mcg-thumb" style="background-image:url('https://images.unsplash.com/photo-1525755662778-989d0524087e?w=300&q=80&auto=format&fit=crop&exp=7&gam=6&sat=-9&high=8&vib=5')"></div><span class="mcg-txt">Menemen + tam buğday ekmeği</span></div></div>
+          <div class="mcell"><div class="mc-gen"><div class="mcg-thumb" style="background-image:url('https://images.unsplash.com/photo-1490818387583-1baba5e638af?w=300&q=80&auto=format&fit=crop&exp=7&gam=6&sat=-9&high=8&vib=5')"></div><span class="mcg-txt">Yoğurt + granola + ceviz + bal</span></div></div>
+          <div class="mcell"><div class="mc-gen"><div class="mcg-thumb" style="background-image:url('https://images.unsplash.com/photo-1525755662778-989d0524087e?w=300&q=80&auto=format&fit=crop&exp=7&gam=6&sat=-9&high=8&vib=5')"></div><span class="mcg-txt">Peynirli omlet + yeşillik + zeytin</span></div></div>
+          <div class="mcell"><div class="mc-gen"><div class="mcg-thumb" style="background-image:url('https://images.unsplash.com/photo-1525755662778-989d0524087e?w=300&q=80&auto=format&fit=crop&exp=7&gam=6&sat=-9&high=8&vib=5')"></div><span class="mcg-txt">Haşlanmış yumurta + peynir + zeytin + tahıl ekmeği</span></div></div>
+          <div class="mcell"><div class="mc-gen"><div class="mcg-thumb" style="background-image:url('https://images.unsplash.com/photo-1517673400267-0251440c45dc?w=300&q=80&auto=format&fit=crop&exp=7&gam=6&sat=-9&high=8&vib=5')"></div><span class="mcg-txt">Süzme yoğurt + yulaf ezmesi + meyve</span></div></div>
+
+          <!-- ÖĞLE -->
+          <div class="wk-mealcol"><i class="fa-solid fa-bowl-food"></i><b>Öğle</b><small>~650 kcal</small></div>
+          <div class="mcell"><div class="mc-gen"><div class="mcg-thumb" style="background-image:url('https://images.unsplash.com/photo-1547592180-85f173990554?w=300&q=80&auto=format&fit=crop&exp=7&gam=6&sat=-9&high=8&vib=5')"></div><span class="mcg-txt">Mercimek çorbası + tam buğday ekmeği + mevsim salata</span></div></div>
+          <div class="mcell"><div class="mc-gen"><div class="mcg-thumb" style="background-image:url('https://images.unsplash.com/photo-1482049016688-2d3e1b311543?w=300&q=80&auto=format&fit=crop&exp=7&gam=6&sat=-9&high=8&vib=5')"></div><span class="mcg-txt">Izgara tavuk + bulgur pilavı + cacık</span></div></div>
+          <div class="mcell"><div class="mc-gen"><div class="mcg-thumb" style="background-image:url('https://images.unsplash.com/photo-1540420773420-3366772f4999?w=300&q=80&auto=format&fit=crop&exp=7&gam=6&sat=-9&high=8&vib=5')"></div><span class="mcg-txt">Zeytinyağlı nohut + yoğurt + salata</span></div></div>
+          <div class="mcell"><div class="mc-gen"><div class="mcg-thumb" style="background-image:url('https://images.unsplash.com/photo-1467003909585-2f8a72700288?w=300&q=80&auto=format&fit=crop&exp=7&gam=6&sat=-9&high=8&vib=5')"></div><span class="mcg-txt">Ton balıklı yeşil salata + tam buğday ekmeği</span></div></div>
+          <div class="mcell"><div class="mc-gen"><div class="mcg-thumb" style="background-image:url('https://images.unsplash.com/photo-1466637574441-749b8f19452f?w=300&q=80&auto=format&fit=crop&exp=7&gam=6&sat=-9&high=8&vib=5')"></div><span class="mcg-txt">Fırın sebze + peynir + salata</span></div></div>
+          <div class="mcell"><div class="mc-gen"><div class="mcg-thumb" style="background-image:url('https://images.unsplash.com/photo-1466637574441-749b8f19452f?w=300&q=80&auto=format&fit=crop&exp=7&gam=6&sat=-9&high=8&vib=5')"></div><span class="mcg-txt">Sebzeli bulgur pilavı + ayran</span></div></div>
+          <div class="mcell"><div class="mc-gen"><div class="mcg-thumb" style="background-image:url('https://images.unsplash.com/photo-1482049016688-2d3e1b311543?w=300&q=80&auto=format&fit=crop&exp=7&gam=6&sat=-9&high=8&vib=5')"></div><span class="mcg-txt">Tavuklu sebze sote + pirinç pilavı</span></div></div>
+
+          <!-- AKŞAM -->
+          <div class="wk-mealcol"><i class="fa-solid fa-utensils"></i><b>Akşam</b><small>~600 kcal</small></div>
+          <div class="mcell lastrow"><div class="mc-gen"><div class="mcg-thumb" style="background-image:url('https://images.unsplash.com/photo-1467003909585-2f8a72700288?w=300&q=80&auto=format&fit=crop&exp=7&gam=6&sat=-9&high=8&vib=5')"></div><span class="mcg-txt">Fırında balık + haşlanmış sebze + salata</span></div></div>
+          <div class="mcell lastrow"><div class="mc-gen"><div class="mcg-thumb" style="background-image:url('https://images.unsplash.com/photo-1529692236671-f1f6cf9683ba?w=300&q=80&auto=format&fit=crop&exp=7&gam=6&sat=-9&high=8&vib=5')"></div><span class="mcg-txt">Izgara köfte + közlenmiş sebze + ayran</span></div></div>
+          <div class="mcell lastrow"><div class="mc-gen"><div class="mcg-thumb" style="background-image:url('https://images.unsplash.com/photo-1540420773420-3366772f4999?w=300&q=80&auto=format&fit=crop&exp=7&gam=6&sat=-9&high=8&vib=5')"></div><span class="mcg-txt">Zeytinyağlı taze fasulye + yoğurt + ekmek</span></div></div>
+          <div class="mcell lastrow"><div class="mc-gen"><div class="mcg-thumb" style="background-image:url('https://images.unsplash.com/photo-1547592180-85f173990554?w=300&q=80&auto=format&fit=crop&exp=7&gam=6&sat=-9&high=8&vib=5')"></div><span class="mcg-txt">Sebze çorbası + peynirli tost + yeşillik</span></div></div>
+          <div class="mcell lastrow"><div class="mc-gen"><div class="mcg-thumb" style="background-image:url('https://images.unsplash.com/photo-1540420773420-3366772f4999?w=300&q=80&auto=format&fit=crop&exp=7&gam=6&sat=-9&high=8&vib=5')"></div><span class="mcg-txt">Nohutlu sebze türlüsü + bulgur</span></div></div>
+          <div class="mcell lastrow"><div class="mc-gen"><div class="mcg-thumb" style="background-image:url('https://images.unsplash.com/photo-1482049016688-2d3e1b311543?w=300&q=80&auto=format&fit=crop&exp=7&gam=6&sat=-9&high=8&vib=5')"></div><span class="mcg-txt">Fırın tavuk + fırın patates + mevsim salata</span></div></div>
+          <div class="mcell lastrow"><div class="mc-gen"><div class="mcg-thumb" style="background-image:url('https://images.unsplash.com/photo-1540420773420-3366772f4999?w=300&q=80&auto=format&fit=crop&exp=7&gam=6&sat=-9&high=8&vib=5')"></div><span class="mcg-txt">Mercimekli sebze yemeği + yoğurt</span></div></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== PROGRAMA UYGUN TARİFLER + DİYETİSYEN NOTU ===== -->
+<section class="sec" style="background:var(--bg-white)">
+  <div class="wrap">
+    <div class="sec-head reveal">
+      <div>
+        <span class="eyebrow" style="color:var(--green-deep)"><i class="fa-solid fa-heart"></i> İlham</span>
+        <h2>Programa uygun tarifler</h2>
+        <p class="lead">Dengeli tabaklar için sağlık odaklı tarif önerilerini keşfet.</p>
+      </div>
+      <div class="sec-tools"><a class="see-all" href="tarif-liste-v1.html">Tümünü Gör <i class="fa-solid fa-arrow-right"></i></a></div>
+    </div>
+    <a class="btn btn-green" href="tarif-liste-v1.html"><i class="fa-solid fa-utensils"></i> Uygun Tarifleri Keşfet</a>
+
+    <!-- A4 diyetisyen disclaimer (reh-note-lg) -->
+    <div class="reh-note reh-note-lg" style="margin-top:30px">
+      <i class="fa-solid fa-circle-info"></i>
+      <div>
+        <p><b>Genel bilgi notu.</b> Bu program genel beslenme okuryazarlığını desteklemek amacıyla hazırlanmış örnek bir düzendir; <b>tıbbi teşhis veya tedavi yerine geçmez</b>, kişisel beslenme tavsiyesi niteliği taşımaz. Kişiye özel plan yalnızca <b>yetkili bir diyetisyen</b> tarafından hazırlanır; gebelik, kronik hastalık, düzenli ilaç kullanımı, çocuk beslenmesi veya klinik bir durum varsa programa başlamadan önce <b>hekim ve diyetisyen kontrol&#252; zorunludur</b>. Sağlık durumuna ve bireysel gereksinimlerine özel bir plan için bir diyetisyene danış.</p>
+        <a class="btn btn-primary" href="diyetisyen-dizin-v1.html">Diyetisyen Bul <i class="fa-solid fa-arrow-right"></i></a>
+      </div>
+    </div>
+  </div>
+</section>
+
+</main><!-- /.page-main -->
+
+<div id="ddChromeGate"></div>
+
+<div id="ddChromeFooter"></div>
+
+<div id="ddChromeFab"></div>
+
+<script>
+/* ===== SAYFA JS — program detayı statik; kaydet butonu mock ===== */
+(function(){
+  var b=document.querySelector('.pd-actions .btn-ghost-light');
+  if(!b)return;
+  b.addEventListener('click',function(){
+    var on=b.classList.toggle('saved');
+    b.innerHTML=on?'<i class="fa-solid fa-bookmark"></i> Kaydedildi':'<i class="fa-regular fa-bookmark"></i> Programı Kaydet';
+  });
+})();
+</script>
+</body>

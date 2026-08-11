@@ -1,0 +1,341 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<meta name="robots" content="noindex, nofollow" />
+<title>Testler &amp; Tahliller — Sağlık &amp; Diyet · DadaMutfak</title>
+<link rel="shortcut icon" type="image/x-icon" href="assets/img/favicon.ico" />
+<link rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css"
+      integrity="sha512-SnH5WK+bZxgPHs44uWIX+LLJAJ9/2PkPKZ5QiAj6Ta86w+fsb2TkcmfRyVX3pBnMFcV7oQPJkl9QevSCWr3W6A=="
+      crossorigin="anonymous" referrerpolicy="no-referrer" />
+<link rel="stylesheet" href="assets/css/sa-shell.css" />
+<link rel="stylesheet" href="assets/css/sa-list.css" />
+<style>
+/* =====================================================================
+   SA-SAGLIK-TESTLER — SAYFA CSS (kabuk CSS'i sa-shell.css'te).
+   Gözetim listesi: danışan test/tahlil kayıtları (oku + denetim).
+   Token: SADECE var(--acc)/var(--acc-deep)/rgba(var(--acc-rgb),..).
+   ===================================================================== */
+/* ---- Filtre çubuğu ---- */
+.filter-bar{display:flex;align-items:center;gap:10px;padding:14px 22px;border-bottom:1px solid var(--line);flex-wrap:wrap}
+.filter-bar .fb-search{flex:1;min-width:200px;max-width:320px;position:relative}
+.filter-bar .fb-search i{position:absolute;left:12px;top:50%;transform:translateY(-50%);font-size:13px;color:var(--muted);pointer-events:none}
+.filter-bar .fb-search input{width:100%;height:36px;padding:0 12px 0 34px;font-family:inherit;font-size:13px;font-weight:500;color:var(--ink);background:var(--bg);border:1px solid var(--line);border-radius:var(--radius-sm);outline:none;transition:.2s var(--ease)}
+.filter-bar .fb-search input::placeholder{color:var(--muted)}
+.filter-bar .fb-search input:focus{border-color:var(--acc);background:var(--paper);box-shadow:0 0 0 3px rgba(var(--acc-rgb),.10)}
+.chips{display:flex;gap:6px;flex-wrap:wrap}
+.chip{display:inline-flex;align-items:center;gap:6px;padding:7px 14px;border-radius:var(--radius-sm);font-size:12.5px;font-weight:500;cursor:pointer;border:1px solid var(--line);background:var(--paper);color:var(--slate-2);transition:.15s var(--ease)}
+.chip:hover{border-color:var(--acc);color:var(--acc-deep)}
+.chip.is-active{background:rgba(var(--acc-rgb),.12);border-color:rgba(var(--acc-rgb),.3);color:var(--acc-deep);font-weight:700}
+.chip .ch-cnt{white-space:nowrap;font-size:10.5px;font-weight:700;background:rgba(var(--acc-rgb),.15);color:var(--acc-deep);min-width:18px;height:17px;display:inline-flex;align-items:center;justify-content:center;padding:0 5px;border-radius:var(--radius-sm)}
+.chip.is-active .ch-cnt{background:rgba(var(--acc-rgb),.22)}
+
+/* ---- Tablo ---- */
+.ptable{width:100%;border-collapse:collapse}
+.ptable thead th{font-size:11px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);padding:10px 16px;text-align:left;background:var(--bg);border-bottom:1px solid var(--line);white-space:nowrap}
+.ptable thead th:first-child{padding-left:22px}
+.ptable thead th:last-child{padding-right:22px;text-align:right}
+.ptable tbody tr{border-bottom:1px solid var(--line);transition:background .12s}
+.ptable tbody tr:last-child{border-bottom:none}
+.ptable tbody tr:hover{background:rgba(var(--acc-rgb),.03)}
+.ptable tbody td{padding:12px 16px;font-size:13.5px;color:var(--slate-2);vertical-align:middle}
+.ptable tbody td:first-child{padding-left:22px}
+.ptable tbody td:last-child{padding-right:22px;text-align:right}
+
+/* ---- Test kimlik hücresi (ikon + ad) ---- */
+.ts-cell{display:flex;align-items:center;gap:12px}
+.ts-ico{width:38px;height:38px;flex:none;border-radius:var(--radius-md);background:rgba(var(--acc-rgb),.10);color:var(--acc-deep);display:grid;place-items:center;font-size:15px}
+.ts-id{line-height:1.3;min-width:0}
+.ts-id strong{font-size:13.5px;font-weight:700;color:var(--slate);display:block}
+.ts-id span{font-size:12px;color:var(--muted)}
+
+/* ---- Test tipi etiketi ---- */
+.type-tag{display:inline-flex;align-items:center;gap:5px;font-size:12px;font-weight:700;padding:3px 9px;border-radius:6px;background:rgba(var(--acc-rgb),.10);color:var(--acc-deep);white-space:nowrap}
+
+/* ---- Aksiyon butonları ---- */
+.row-actions{display:flex;align-items:center;justify-content:flex-end;gap:6px}
+.act-btn{display:inline-flex;align-items:center;gap:5px;font-family:inherit;font-size:12.5px;font-weight:700;padding:6px 11px;border-radius:var(--radius-sm);border:1px solid var(--line);background:var(--paper);color:var(--slate-2);cursor:pointer;transition:.15s var(--ease);white-space:nowrap}
+.act-btn:hover{border-color:var(--slate);color:var(--slate)}
+
+/* ---- Responsif kolon gizleme (yatay taşma 0) — kanon: sa-store-urunler ---- */
+@media(max-width:980px){
+  /* Diyetisyen (3) + Tip (4) gizle */
+  .ptable thead th:nth-child(3),.ptable tbody td:nth-child(3),
+  .ptable thead th:nth-child(4),.ptable tbody td:nth-child(4){display:none}
+}
+@media(max-width:640px){
+  /* Danışan (2) + Tarih (5) gizle — Test + Durum + Aksiyon kalır */
+  .ptable thead th:nth-child(2),.ptable tbody td:nth-child(2),
+  .ptable thead th:nth-child(5),.ptable tbody td:nth-child(5){display:none}
+}
+</style>
+</head>
+<body data-brand="mutfak" data-sec="saglik" data-screen="testler">
+
+<div class="sa-app">
+
+  <!-- §1 İKON-RAIL -->
+  <aside class="sa-rail" id="saRail">
+    <a class="sa-rail-logo" href="sa-giris-v1.html" title="Yönetim Girişi"><img src="assets/img/logo-mark.png" alt="DadaMutfak" /></a>
+    <a class="sa-rail-ico" data-sec="genel" href="sa-shell.html?sec=genel" title="Genel Bakış"><i class="fa-solid fa-gauge-high"></i></a>
+    <span class="sa-rail-div"></span>
+    <a class="sa-rail-ico" data-sec="admin"   href="sa-admin.html"   title="Admin"><i class="fa-solid fa-shield-halved"></i></a>
+    <a class="sa-rail-ico" data-sec="saglik"  href="sa-saglik.html"  title="Sağlık &amp; Diyet"><i class="fa-solid fa-heart-pulse"></i></a>
+    <a class="sa-rail-ico" data-sec="store"   href="sa-store.html"   title="DadaStore"><i class="fa-solid fa-bag-shopping"></i></a>
+    <a class="sa-rail-ico" data-sec="dadafit" href="sa-dadafit.html" title="DadaFit"><i class="fa-solid fa-dumbbell"></i></a>
+    <a class="sa-rail-ico" data-sec="isletme" href="sa-isletme.html" title="İşletmeler"><i class="fa-solid fa-store"></i></a>
+    <a class="sa-rail-ico is-locked" data-sec="akademi" href="#" title="DadaAkademi — Yakında"><i class="fa-solid fa-graduation-cap"></i><i class="fa-solid fa-lock sr-lock"></i></a>
+    <div class="sa-rail-foot"><a class="sa-rail-ico" href="anasayfa-portal-v3a.html" title="Siteye Dön"><i class="fa-solid fa-arrow-left"></i></a></div>
+  </aside>
+
+  <!-- §2 BÖLÜM MENÜSÜ (JS) -->
+  <nav class="sa-menu" id="saMenu"></nav>
+
+  <div class="sa-divider" id="saDivider" role="separator" aria-label="Menüyü daralt/genişlet" title="Sürükle veya tıkla — menüyü daralt/genişlet">
+    <span class="sa-grip"><i class="fa-solid fa-grip-lines-vertical"></i></span>
+  </div>
+
+  <div class="pnl-overlay" id="pnlOverlay"></div>
+
+  <!-- §3 ÜST BAR -->
+  <header class="pnl-top">
+    <button class="pnl-burger" id="pnlBurger" aria-label="Menü"><i class="fa-solid fa-bars"></i></button>
+    <div class="pnl-search">
+      <i class="fa-solid fa-magnifying-glass"></i>
+      <input type="text" placeholder="Test, danışan, diyetisyen ara…" />
+    </div>
+    <div class="pnl-top-tools">
+      <button class="pnl-bell" aria-label="Bildirimler"><i class="fa-regular fa-bell"></i><span class="pb-dot"></span></button>
+      <div class="pnl-me">
+        <div class="pm-ava"><i class="fa-solid fa-user"></i></div>
+        <div class="pm-id">
+          <div class="pm-name" id="pmName">Süper Admin</div>
+          <div class="pm-role" id="pmRole">Tüm yetki</div>
+        </div>
+        <i class="fa-solid fa-chevron-down"></i>
+      </div>
+    </div>
+  </header>
+
+  <!-- §4 İÇERİK — Testler listesi (gözetim) -->
+  <main class="pnl-main" id="saMain">
+
+    <!-- Sayfa başlığı -->
+    <div class="pnl-page-head">
+      <div>
+        <h1>Testler &amp; Tahliller</h1>
+        <div class="ph-sub">Danışanların yüklediği tahlil ve vücut analizi kayıtları — gözetim ve değerlendirme izleme.</div>
+      </div>
+      <!-- DENETİM deseni: "Yeni" butonu yok -->
+    </div>
+
+    <!-- Liste kartı -->
+    <div class="pnl-card" style="overflow:hidden">
+
+      <!-- Filtre çubuğu -->
+      <div class="filter-bar">
+        <div class="fb-search">
+          <i class="fa-solid fa-magnifying-glass"></i>
+          <input type="text" placeholder="Test adı, danışan veya diyetisyen ara…" id="tsSearch" />
+        </div>
+        <div class="chips">
+          <button class="chip is-active" data-filter="tumu" onclick="filterTs(this,'tumu')">
+            Tümü <span class="ch-cnt">5</span>
+          </button>
+          <button class="chip" data-filter="bekliyor" onclick="filterTs(this,'bekliyor')">
+            Bekliyor <span class="ch-cnt">1</span>
+          </button>
+          <button class="chip" data-filter="tamamlandı" onclick="filterTs(this,'tamamlandı')">
+            Tamamlandı <span class="ch-cnt">2</span>
+          </button>
+          <button class="chip" data-filter="incelendi" onclick="filterTs(this,'incelendi')">
+            Gözden Geçirildi <span class="ch-cnt">2</span>
+          </button>
+        </div>
+      </div>
+
+      <!-- Tablo -->
+      <div class="pc-body flush">
+        <table class="ptable" id="tsTable">
+          <thead>
+            <tr>
+              <th>Test</th>
+              <th>Danışan</th>
+              <th>Diyetisyen</th>
+              <th>Tip</th>
+              <th>Tarih</th>
+              <th>Durum</th>
+              <th>Aksiyonlar</th>
+            </tr>
+          </thead>
+          <tbody>
+
+            <!-- Satır 1: Bekliyor -->
+            <tr data-status="bekliyor">
+              <td>
+                <div class="ts-cell">
+                  <div class="ts-ico"><i class="fa-solid fa-droplet"></i></div>
+                  <div class="ts-id">
+                    <strong>Açlık Kan Şekeri</strong>
+                    <span>HbA1c · Lipid paneli</span>
+                  </div>
+                </div>
+              </td>
+              <td>Zeynep Aksoy</td>
+              <td>Dyt. Ayça Yıldız</td>
+              <td><span class="type-tag"><i class="fa-solid fa-vial"></i> Kan tahlili</span></td>
+              <td class="muted">21 Haz 2026</td>
+              <td><span class="pstat wait">Bekliyor</span></td>
+              <td>
+                <div class="row-actions">
+                  <a class="act-btn" href="sa-saglik-testler-detay.html"><i class="fa-solid fa-eye"></i> Detay</a>
+                </div>
+              </td>
+            </tr>
+
+            <!-- Satır 2: Tamamlandı -->
+            <tr data-status="tamamlandı">
+              <td>
+                <div class="ts-cell">
+                  <div class="ts-ico"><i class="fa-solid fa-weight-scale"></i></div>
+                  <div class="ts-id">
+                    <strong>Vücut Kompozisyonu</strong>
+                    <span>Biyoempedans analizi</span>
+                  </div>
+                </div>
+              </td>
+              <td>Mehmet Demir</td>
+              <td>Dyt. Elif Şahin</td>
+              <td><span class="type-tag"><i class="fa-solid fa-weight-scale"></i> Vücut analizi</span></td>
+              <td class="muted">18 Haz 2026</td>
+              <td><span class="pstat off">Tamamlandı</span></td>
+              <td>
+                <div class="row-actions">
+                  <a class="act-btn" href="sa-saglik-testler-detay.html"><i class="fa-solid fa-eye"></i> Detay</a>
+                </div>
+              </td>
+            </tr>
+
+            <!-- Satır 3: Gözden geçirildi -->
+            <tr data-status="incelendi">
+              <td>
+                <div class="ts-cell">
+                  <div class="ts-ico"><i class="fa-solid fa-droplet"></i></div>
+                  <div class="ts-id">
+                    <strong>Tiroid Fonksiyon Testi</strong>
+                    <span>TSH · T3 · T4</span>
+                  </div>
+                </div>
+              </td>
+              <td>Selin Korkmaz</td>
+              <td>Dyt. Murat Kaya</td>
+              <td><span class="type-tag"><i class="fa-solid fa-vial"></i> Kan tahlili</span></td>
+              <td class="muted">15 Haz 2026</td>
+              <td><span class="pstat ok">Gözden Geçirildi</span></td>
+              <td>
+                <div class="row-actions">
+                  <a class="act-btn" href="sa-saglik-testler-detay.html"><i class="fa-solid fa-eye"></i> Detay</a>
+                </div>
+              </td>
+            </tr>
+
+            <!-- Satır 4: Gözden geçirildi -->
+            <tr data-status="incelendi">
+              <td>
+                <div class="ts-cell">
+                  <div class="ts-ico"><i class="fa-solid fa-clipboard-question"></i></div>
+                  <div class="ts-id">
+                    <strong>Beslenme Alışkanlık Anketi</strong>
+                    <span>24 saatlik hatırlatma</span>
+                  </div>
+                </div>
+              </td>
+              <td>Ahmet Çelik</td>
+              <td>Dyt. Elif Şahin</td>
+              <td><span class="type-tag"><i class="fa-solid fa-list-check"></i> Anket</span></td>
+              <td class="muted">10 Haz 2026</td>
+              <td><span class="pstat ok">Gözden Geçirildi</span></td>
+              <td>
+                <div class="row-actions">
+                  <a class="act-btn" href="sa-saglik-testler-detay.html"><i class="fa-solid fa-eye"></i> Detay</a>
+                </div>
+              </td>
+            </tr>
+
+            <!-- Satır 5: Tamamlandı -->
+            <tr data-status="tamamlandı">
+              <td>
+                <div class="ts-cell">
+                  <div class="ts-ico"><i class="fa-solid fa-weight-scale"></i></div>
+                  <div class="ts-id">
+                    <strong>Vücut Kompozisyonu</strong>
+                    <span>Biyoempedans analizi</span>
+                  </div>
+                </div>
+              </td>
+              <td>Burcu Yılmaz</td>
+              <td>Dyt. Murat Kaya</td>
+              <td><span class="type-tag"><i class="fa-solid fa-weight-scale"></i> Vücut analizi</span></td>
+              <td class="muted">5 Haz 2026</td>
+              <td><span class="pstat off">Tamamlandı</span></td>
+              <td>
+                <div class="row-actions">
+                  <a class="act-btn" href="sa-saglik-testler-detay.html"><i class="fa-solid fa-eye"></i> Detay</a>
+                </div>
+              </td>
+            </tr>
+
+          </tbody>
+        </table>
+      </div>
+
+      <!-- Boş durum (filtre sonucu) -->
+      <div class="pnl-empty" id="tsEmpty" style="display:none">
+        <div class="pe-ico"><i class="fa-solid fa-vials"></i></div>
+        <h4>Test kaydı bulunamadı</h4>
+        <p>Seçili filtreyle eşleşen test yok. Filtreyi değiştirmeyi deneyin.</p>
+        <span class="pe-tag"><i class="fa-solid fa-filter"></i> Filtre temizle</span>
+      </div>
+
+    </div><!-- /pnl-card -->
+
+  </main>
+
+</div>
+
+<script src="assets/js/sa-shell.js"></script>
+<script src="assets/js/sa-chcnt.js"></script>
+
+<!-- Filtre / arama etkileşim JS (sayfa-özel) -->
+<script>
+function filterTs(btn, filter) {
+  document.querySelectorAll('.chip').forEach(function(c){ c.classList.remove('is-active'); });
+  btn.classList.add('is-active');
+  var rows = document.querySelectorAll('#tsTable tbody tr');
+  var visible = 0;
+  rows.forEach(function(row){
+    var show = (filter === 'tumu') || (row.dataset.status === filter);
+    row.style.display = show ? '' : 'none';
+    if(show) visible++;
+  });
+  var empty = document.getElementById('tsEmpty');
+  if(empty) empty.style.display = (visible === 0) ? '' : 'none';
+}
+document.getElementById('tsSearch').addEventListener('input', function(){
+  var q = this.value.toLowerCase().trim();
+  var rows = document.querySelectorAll('#tsTable tbody tr');
+  var visible = 0;
+  rows.forEach(function(row){
+    var txt = row.textContent.toLowerCase();
+    var show = !q || txt.indexOf(q) !== -1;
+    row.style.display = show ? '' : 'none';
+    if(show) visible++;
+  });
+  var empty = document.getElementById('tsEmpty');
+  if(empty) empty.style.display = (visible === 0) ? '' : 'none';
+});
+</script>
+</body>
+</html>

@@ -1,0 +1,343 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<meta name="robots" content="noindex, nofollow" />
+<title>Beslenme İpuçları — Kısa ve Uygulanabilir | DadaDiet</title>
+<link rel="shortcut icon" type="image/x-icon"
+      href="assets/img/favicon.ico" />
+<!-- FontAwesome 6.5.2 (kilitli ikon seti) -->
+<link rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css"
+      integrity="sha512-SnH5WK+bZxgPHs44uWIX+LLJAJ9/2PkPKZ5QiAj6Ta86w+fsb2TkcmfRyVX3pBnMFcV7oQPJkl9QevSCWr3W6A=="
+      crossorigin="anonymous" referrerpolicy="no-referrer" />
+<link rel="stylesheet" href="assets/css/dd-shell.css" />
+<style>
+/* ===== SAYFA CSS — kabuk CSS'i assets/css/dd-shell.css'te ===== */
+/* =====================================================================
+   BESLENME İPUÇLARI — liste sayfası. Beslenme başlığının dördüncü modülü.
+   Yapı referansı DadaGastro "Püf Noktaları" listesi: breadcrumb + başlıklı
+   hero + sayaç şeridi, altında tek satır kategori çubuğu, sonra kart
+   ızgarası ve toplam sayısı. Renk ve tipografi DadaDiet'in kendi
+   kimliğinden gelir; Gastro'nun renkleri taşınmadı.
+
+   YENİ SINIF YOK. Kullanılan yapılar ve geldikleri sayfa:
+     .reh-hero / .rd-crumb / .reh-htrust / .reh-note   ← beslenme-hub-v1
+     .pf-tabs / .dt / .cnt / .pf-pane                  ← saglik-testler-v1
+     .lst-bar                                          ← dd-shell.css (kabuk)
+     .dl-filter / .dl-fbar / .dl-fchip / .lbl          ← diyet-listeleri-v1
+     .hub-grid / .hub-card / .hub-body / .hub-foot     ← beslenme-hub-v1
+     .prog-tags / .prog-tag                           ← diyet-listeleri-v1
+     .sec / .sec-head / .see-all / .lead              ← dd-shell.css (kabuk)
+   ===================================================================== */
+
+/* ---- HERO (beslenme merkezinin .reh-hero dili — birebir) ---- */
+.rd-crumb{display:flex;align-items:center;flex-wrap:wrap;gap:9px;padding:18px 0 14px;font-size:13px;font-weight:500;color:var(--muted)}
+.rd-crumb a{color:var(--muted);transition:.18s}
+.rd-crumb a:hover{color:var(--green-deep)}
+.rd-crumb i{font-size:9px;color:#c7c7c7}
+.rd-crumb b{color:var(--slate);font-weight:700}
+.reh-hero{position:relative;background-color:#15241c;background-image:linear-gradient(90deg,rgba(18,28,22,.94),rgba(20,32,25,.74)),url('https://images.unsplash.com/photo-1466637574441-749b8f19452f?w=1600&q=80&auto=format&fit=crop&exp=7&gam=6&sat=-9&high=8&vib=5');background-size:cover;background-position:center;overflow:hidden;padding:128px 0 46px}
+.reh-hero::before{content:"";position:absolute;inset:0;background:radial-gradient(760px 320px at 82% -10%,rgba(59,183,126,.20),transparent 60%),linear-gradient(180deg,rgba(18,28,22,0) 60%,rgba(16,26,20,.6));pointer-events:none}
+.reh-hero .wrap{position:relative;z-index:2}
+.reh-hero .rd-crumb{color:#bcd0c4;padding-bottom:16px;font-size:13px}
+.reh-hero .rd-crumb a{color:#bcd0c4}
+.reh-hero .rd-crumb a:hover{color:#7fe0b0}
+.reh-hero .rd-crumb i{color:rgba(255,255,255,.4)}
+.reh-hero .rd-crumb b{color:#fff}
+.reh-hero .eyebrow{color:#7fe0b0}
+.reh-hero .eyebrow::before{background:var(--green)}
+.reh-hero h1{color:#fff;font-size:42px;margin:12px 0 12px;letter-spacing:-.03em;text-shadow:0 2px 24px rgba(0,0,0,.25)}
+.reh-hero h1 .accent{color:#54d39a}
+.reh-hero .lead{color:#e3ede7;font-weight:500;font-size:16px;max-width:620px;text-shadow:0 1px 14px rgba(0,0,0,.3)}
+.reh-htrust{display:flex;flex-wrap:wrap;gap:14px 22px;margin-top:22px}
+.reh-htrust span{display:inline-flex;align-items:center;gap:8px;font-size:13px;font-weight:600;color:#cfe6da}
+.reh-htrust i{color:var(--green);font-size:13px}
+.reh-htrust b{color:#fff;font-weight:700}
+
+/* ---- KATEGORİ SEKME ÇUBUĞU (saglik-testler-v1 — birebir) ---- */
+/* ---- KATEGORİ + SIRALAMA TEK SATIRDA — kac-kalori-v1'in birebir aynısı.
+   Şeridin kendisi kabuktaki .lst-bar; solda sitenin tek kategori deseni
+   (.pf-tabs), sağ ucunda sıralama (.dl-fbar). flex:1 1 0 + min-width:0 ile
+   sekme çubuğunun taban genişliği sıfırdır: şerit alt satıra kırılmaz,
+   sekmeler kalan yere yayılır, yer yetmezse kendi içinde yatay kayar.
+   .tst-tabwrap sarmalayıcısı kalktı — iki kontrol artık kardeş. ---- */
+.lst-bar{margin:0 0 26px}
+.pf-tabs{display:inline-flex;gap:4px;background:var(--paper);border:1px solid var(--line);border-radius:var(--radius-md);padding:4px;overflow-x:auto;scrollbar-width:none;max-width:100%;flex:1 1 0;min-width:0}
+.pf-tabs::-webkit-scrollbar{display:none}
+.pf-tabs .dt{font-family:inherit;font-weight:700;font-size:13.5px;color:var(--muted);background:transparent;border:none;border-radius:var(--radius-sm);padding:11px 22px;cursor:pointer;display:inline-flex;align-items:center;gap:8px;transition:.2s var(--ease);white-space:nowrap;flex:none}
+.pf-tabs .dt:hover{color:var(--green-deep)}
+.pf-tabs .dt.active{background:var(--tomato-deep);color:#fff}
+.pf-tabs .dt .cnt{font-size:11px;font-weight:700;opacity:.6}
+.pf-tabs .dt.active .cnt{opacity:.85}
+
+/* ---- SIRALAMA ÇUBUĞU (diyet-listeleri-v1 .dl-fbar — birebir) ---- */
+.dl-fbar{display:flex;flex-wrap:wrap;align-items:center;gap:4px;padding:4px 4px 4px 14px;width:fit-content;max-width:100%;background:var(--bg);border:1px solid var(--line);border-radius:var(--radius-md);flex:none}
+.dl-fbar .lbl{font-size:13px;color:var(--muted);font-weight:600;flex:none}
+.dl-fchip{font-family:inherit;font-size:13px;font-weight:700;color:var(--muted);background:transparent;border:none;border-radius:var(--radius-sm);padding:9px 15px;cursor:pointer;transition:.2s var(--ease);white-space:nowrap}
+.dl-fchip:hover{color:var(--green-deep);background:rgba(59,183,126,.08)}
+.dl-fchip.active{background:var(--tomato-deep);color:#fff}
+
+/* ---- KART IZGARASI (beslenme-hub .hub-card — görselsiz varyant) ---- */
+.hub-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:24px}
+.hub-card{background:var(--paper);border:1px solid var(--line);border-radius:var(--radius-lg);overflow:hidden;display:flex;flex-direction:column;cursor:pointer;transition:.3s var(--ease)}
+.hub-card:hover{transform:translateY(-6px);border-color:#dcdcdc;box-shadow:var(--sh-md)}
+.hub-body{padding:18px;display:flex;flex-direction:column;flex:1}
+.hub-body h4{font-size:16.5px;margin-bottom:8px;letter-spacing:-.01em}
+.hub-card:hover .hub-body h4{color:var(--green-deep)}
+.hub-body p{font-size:13.5px;color:var(--muted);font-weight:500;line-height:1.55}
+.hub-foot{display:flex;align-items:center;justify-content:space-between;gap:10px;margin-top:16px;padding-top:14px;border-top:1px solid var(--line);font-size:12.5px;color:var(--muted);font-weight:500}
+.hub-foot .go{display:inline-flex;align-items:center;gap:7px;color:var(--green-deep);font-weight:700}
+.hub-foot .go i{transition:.2s var(--ease)}
+.hub-card:hover .hub-foot .go i{transform:translateX(3px)}
+.prog-tags{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:12px}
+.prog-tag{display:inline-flex;align-items:center;gap:6px;font-size:12px;font-weight:600;color:var(--slate-2);background:#EAF7F0;border:1px solid #d9efe3;padding:6px 11px;border-radius:var(--radius-sm)}
+.prog-tag i{color:var(--green);font-size:11px}
+.pf-pane{animation:fadeUp .35s var(--ease)}
+.pf-pane[hidden]{display:none}
+
+/* ---- toplam sayısı (referansın "… gösteriliyor" satırı) ---- */
+.macro-note{display:flex;gap:9px;font-size:12.5px;color:var(--muted);font-weight:500;line-height:1.5;margin-top:22px;padding-top:16px;border-top:1px solid var(--line)}
+
+/* ---- genel bilgi notu (beslenme-hub) ---- */
+.reh-note{display:flex;gap:14px;align-items:flex-start;margin-top:30px;background:var(--tomato-tint);border:1px solid #cdeadd;border-radius:var(--radius-lg);padding:18px 20px}
+.reh-note>i{color:var(--tomato-deep);font-size:18px;margin-top:2px;flex:none}
+.reh-note p{font-size:14px;color:var(--slate-2);font-weight:500;line-height:1.6}
+.reh-note p a{color:var(--tomato-deep);font-weight:700}
+.reh-note p a:hover{text-decoration:underline}
+
+/* ---- responsive ---- */
+@media (max-width:1024px){
+  .hub-grid{grid-template-columns:1fr 1fr}
+  /* Şerit iki satıra ayrılır: sekmeler tam genişliği alıp yatay kayar,
+     sıralama altına düşer. Tek satırda kalsalardı sekme çubuğuna dar bir
+     yer kalıyordu ve altı sekmenin yalnız birkaçı görünüyordu. */
+  .pf-tabs{flex-basis:100%}
+  .lst-bar{align-items:stretch;gap:12px}
+}
+@media (max-width:640px){
+  .reh-hero{padding:96px 0 34px}
+  .reh-hero h1{font-size:29px}
+  .hub-grid{grid-template-columns:1fr;gap:18px}
+  .pf-tabs .dt{padding:11px 16px}
+}
+</style>
+</head>
+<body data-brand="diet" data-nav="beslenme">
+
+<div id="ddChromeTop"></div>
+<script src="assets/js/dd-shell.js"></script>
+
+<main class="page-main" id="pageMain">
+
+<!-- ===== HERO ===== -->
+<section class="reh-hero">
+  <div class="wrap">
+    <nav class="rd-crumb" aria-label="Sayfa yolu">
+      <a href="saglik-hub-v1.html"><i class="fa-solid fa-house"></i></a>
+      <i class="fa-solid fa-chevron-right"></i>
+      <a href="beslenme-hub-v1.html">Beslenme</a>
+      <i class="fa-solid fa-chevron-right"></i>
+      <b>Beslenme İpuçları</b>
+    </nav>
+    <span class="eyebrow"><i class="fa-solid fa-lightbulb"></i> Beslenme İpuçları</span>
+    <h1>Küçük değişiklikler, <span class="accent">kalıcı</span> alışkanlıklar</h1>
+    <p class="lead">Uzun rehber okumaya vaktin yoksa buradan başla. Her ipucu tek bir soruyu yanıtlar, iki dakikada okunur ve bugün uygulanabilir.</p>
+    <div class="reh-htrust">
+      <span><i class="fa-solid fa-lightbulb"></i> <b>10</b> ipucu</span>
+      <span><i class="fa-solid fa-layer-group"></i> <b>5</b> kategori</span>
+      <span><i class="fa-regular fa-clock"></i> Ortalama <b>~2 dk</b> okuma</span>
+      <span><i class="fa-solid fa-circle-info"></i> Genel bilgi</span>
+    </div>
+  </div>
+</section>
+
+<!-- ===== KATEGORİ + SIRALAMA + KARTLAR ===== -->
+<section class="sec" id="ipuclari" style="background:var(--bg-white);padding-top:36px">
+  <div class="wrap">
+
+    <!-- KATEGORİ ÇUBUĞU — sitedeki tek kategori deseni · ?kategori= derin link -->
+    <div class="lst-bar">
+      <div class="pf-tabs" id="ipTabs" role="tablist" aria-label="İpucu kategorileri">
+        <button class="dt active" type="button" role="tab" data-tab="tumu"><i class="fa-solid fa-border-all"></i> Tümü <span class="cnt">10</span></button>
+        <button class="dt" type="button" role="tab" data-tab="ogun"><i class="fa-solid fa-utensils"></i> Öğün Düzeni <span class="cnt">2</span></button>
+        <button class="dt" type="button" role="tab" data-tab="porsiyon"><i class="fa-solid fa-scale-balanced"></i> Porsiyon <span class="cnt">2</span></button>
+        <button class="dt" type="button" role="tab" data-tab="alisveris"><i class="fa-solid fa-cart-shopping"></i> Alışveriş <span class="cnt">2</span></button>
+        <button class="dt" type="button" role="tab" data-tab="mutfak"><i class="fa-solid fa-kitchen-set"></i> Mutfak <span class="cnt">2</span></button>
+        <button class="dt" type="button" role="tab" data-tab="su"><i class="fa-solid fa-droplet"></i> Su ve İçecek <span class="cnt">2</span></button>
+      </div>
+      <div class="dl-fbar" id="ipSort" role="group" aria-label="Sıralama">
+        <span class="lbl">Sırala:</span>
+        <button class="dl-fchip active" type="button" data-sort="yeni">En Yeni</button>
+        <button class="dl-fchip" type="button" data-sort="okunan">En Çok Okunan</button>
+      </div>
+    </div>
+
+    <div class="pf-pane">
+      <div class="hub-grid" id="ipGrid">
+
+        <a class="hub-card" href="beslenme-ipucu-detay-v1.html" data-cat="porsiyon" data-yeni="1" data-okunan="4820">
+          <div class="hub-body">
+            <div class="prog-tags"><span class="prog-tag"><i class="fa-solid fa-scale-balanced"></i> Porsiyon</span></div>
+            <h4>Tabak küçülünce porsiyon gerçekten azalır mı?</h4>
+            <p>Tabak boyutu doygunluk hissini nasıl etkiliyor, hangi durumda işe yarıyor, ne zaman kendini kandırmaya dönüşüyor.</p>
+            <div class="hub-foot"><span><i class="fa-regular fa-clock"></i> ~2 dk · 4.8B okunma</span><span class="go">Oku <i class="fa-solid fa-arrow-right"></i></span></div>
+          </div>
+        </a>
+
+        <a class="hub-card" href="beslenme-ipucu-detay-v1.html" data-cat="ogun" data-yeni="2" data-okunan="6140">
+          <div class="hub-body">
+            <div class="prog-tags"><span class="prog-tag"><i class="fa-solid fa-utensils"></i> Öğün Düzeni</span></div>
+            <h4>Kahvaltıyı atlamak gün içinde ne değiştirir?</h4>
+            <p>Sabah yemek istememek bir sorun mu? Öğün atlamanın enerjiye, iştaha ve akşam porsiyonuna etkisi.</p>
+            <div class="hub-foot"><span><i class="fa-regular fa-clock"></i> ~2 dk · 6.1B okunma</span><span class="go">Oku <i class="fa-solid fa-arrow-right"></i></span></div>
+          </div>
+        </a>
+
+        <a class="hub-card" href="beslenme-ipucu-detay-v1.html" data-cat="alisveris" data-yeni="3" data-okunan="3260">
+          <div class="hub-body">
+            <div class="prog-tags"><span class="prog-tag"><i class="fa-solid fa-cart-shopping"></i> Alışveriş</span></div>
+            <h4>Etiketteki ilk üç malzeme neden önemli?</h4>
+            <p>İçindekiler listesi ağırlığa göre sıralanır. İlk üç satırı okumak, ürünün ne olduğunu anlamak için çoğu zaman yeter.</p>
+            <div class="hub-foot"><span><i class="fa-regular fa-clock"></i> ~2 dk · 3.3B okunma</span><span class="go">Oku <i class="fa-solid fa-arrow-right"></i></span></div>
+          </div>
+        </a>
+
+        <a class="hub-card" href="beslenme-ipucu-detay-v1.html" data-cat="su" data-yeni="4" data-okunan="5470">
+          <div class="hub-body">
+            <div class="prog-tags"><span class="prog-tag"><i class="fa-solid fa-droplet"></i> Su ve İçecek</span></div>
+            <h4>Susadığını mı yoksa acıktığını mı hissediyorsun?</h4>
+            <p>İki sinyal birbirine karışabilir. Ayırt etmenin pratik yolu ve gün içinde suyu unutmamanın basit düzeni.</p>
+            <div class="hub-foot"><span><i class="fa-regular fa-clock"></i> ~2 dk · 5.5B okunma</span><span class="go">Oku <i class="fa-solid fa-arrow-right"></i></span></div>
+          </div>
+        </a>
+
+        <a class="hub-card" href="beslenme-ipucu-detay-v1.html" data-cat="mutfak" data-yeni="5" data-okunan="2980">
+          <div class="hub-body">
+            <div class="prog-tags"><span class="prog-tag"><i class="fa-solid fa-kitchen-set"></i> Mutfak</span></div>
+            <h4>Sebzeyi haşlamak besin değerini ne kadar düşürür?</h4>
+            <p>Suda çözünen vitaminler pişirme yöntemine göre değişir. Kaybı azaltmanın üç pratik yolu.</p>
+            <div class="hub-foot"><span><i class="fa-regular fa-clock"></i> ~2 dk · 3.0B okunma</span><span class="go">Oku <i class="fa-solid fa-arrow-right"></i></span></div>
+          </div>
+        </a>
+
+        <a class="hub-card" href="beslenme-ipucu-detay-v1.html" data-cat="ogun" data-yeni="6" data-okunan="7310">
+          <div class="hub-body">
+            <div class="prog-tags"><span class="prog-tag"><i class="fa-solid fa-utensils"></i> Öğün Düzeni</span></div>
+            <h4>Akşam geç yemek kilo aldırır mı?</h4>
+            <p>Saatin kendisi mi sorun, yoksa o saatte ne kadar ve ne yediğin mi? Geç öğünü yönetmenin makul yolu.</p>
+            <div class="hub-foot"><span><i class="fa-regular fa-clock"></i> ~3 dk · 7.3B okunma</span><span class="go">Oku <i class="fa-solid fa-arrow-right"></i></span></div>
+          </div>
+        </a>
+
+        <a class="hub-card" href="beslenme-ipucu-detay-v1.html" data-cat="porsiyon" data-yeni="7" data-okunan="4110">
+          <div class="hub-body">
+            <div class="prog-tags"><span class="prog-tag"><i class="fa-solid fa-scale-balanced"></i> Porsiyon</span></div>
+            <h4>Avuç içi ölçüsü tartıya iyi bir alternatif mi?</h4>
+            <p>Terazi olmadan porsiyon tahmini: el ölçüsünün nerede işe yaradığı, nerede yanılttığı.</p>
+            <div class="hub-foot"><span><i class="fa-regular fa-clock"></i> ~2 dk · 4.1B okunma</span><span class="go">Oku <i class="fa-solid fa-arrow-right"></i></span></div>
+          </div>
+        </a>
+
+        <a class="hub-card" href="beslenme-ipucu-detay-v1.html" data-cat="alisveris" data-yeni="8" data-okunan="3890">
+          <div class="hub-body">
+            <div class="prog-tags"><span class="prog-tag"><i class="fa-solid fa-cart-shopping"></i> Alışveriş</span></div>
+            <h4>Aç karnına markete gitmek ne değiştirir?</h4>
+            <p>Alışveriş listesinin işe yaradığı an tam da burasıdır. Sepeti planına sadık tutmanın birkaç yolu.</p>
+            <div class="hub-foot"><span><i class="fa-regular fa-clock"></i> ~2 dk · 3.9B okunma</span><span class="go">Oku <i class="fa-solid fa-arrow-right"></i></span></div>
+          </div>
+        </a>
+
+        <a class="hub-card" href="beslenme-ipucu-detay-v1.html" data-cat="mutfak" data-yeni="9" data-okunan="2640">
+          <div class="hub-body">
+            <div class="prog-tags"><span class="prog-tag"><i class="fa-solid fa-kitchen-set"></i> Mutfak</span></div>
+            <h4>Tuzu azaltınca yemek tatsız kalmak zorunda mı?</h4>
+            <p>Damak tuz seviyesine alışır ve yeniden ayarlanabilir. Lezzeti tuzsuz taşıyan baharat ve teknikler.</p>
+            <div class="hub-foot"><span><i class="fa-regular fa-clock"></i> ~2 dk · 2.6B okunma</span><span class="go">Oku <i class="fa-solid fa-arrow-right"></i></span></div>
+          </div>
+        </a>
+
+        <a class="hub-card" href="beslenme-ipucu-detay-v1.html" data-cat="su" data-yeni="10" data-okunan="5020">
+          <div class="hub-body">
+            <div class="prog-tags"><span class="prog-tag"><i class="fa-solid fa-droplet"></i> Su ve İçecek</span></div>
+            <h4>Meyve suyu meyvenin yerini tutar mı?</h4>
+            <p>Sıkma sırasında ne kayboluyor, doygunluk neden farklı, ne zaman tercih edilebilir.</p>
+            <div class="hub-foot"><span><i class="fa-regular fa-clock"></i> ~2 dk · 5.0B okunma</span><span class="go">Oku <i class="fa-solid fa-arrow-right"></i></span></div>
+          </div>
+        </a>
+
+      </div>
+
+      <div class="macro-note"><i class="fa-solid fa-circle-info"></i>
+        <span>Toplam <b id="ipCount">10</b> ipucundan <b id="ipShown">10</b> tanesi gösteriliyor.</span>
+      </div>
+    </div>
+
+    <div class="reh-note">
+      <i class="fa-solid fa-circle-info"></i>
+      <p>Buradaki ipuçları <b>genel bilgi amaçlıdır</b>; <b>tıbbi teşhis veya tedavi yerine geçmez</b>, kişisel beslenme tavsiyesi değildir. Kişiye özel plan yalnızca <b>yetkili bir diyetisyen</b> tarafından hazırlanır; gebelik, kronik hastalık, düzenli ilaç kullanımı, çocuk beslenmesi veya klinik bir durum varsa plana başlamadan önce <b>hekim ve diyetisyen kontrolü zorunludur</b>. Sağlık durumuna özel bir plan için <a href="diyetisyen-dizin-v1.html">bir diyetisyene danış</a>.</p>
+    </div>
+
+  </div>
+</section>
+
+</main><!-- /.page-main -->
+
+<div id="ddChromeGate"></div>
+<div id="ddChromeFooter"></div>
+<div id="ddChromeFab"></div>
+
+<script>
+/* ===== SAYFA JS — kategori sekmesi + sıralama =====
+   Kategori: ?kategori=<anahtar> derin bağlantısı, tıklamada URL güncellenir
+   (saglik-testler-v1'in ?grup= davranışıyla aynı).
+   Süzme diyet-listeleri-v1'in data-* üzerinden kart gizleme deseniyle aynı. */
+(function(){
+  var tabs=document.querySelectorAll('#ipTabs .dt');
+  var sorts=document.querySelectorAll('#ipSort .dl-fchip');
+  var grid=document.getElementById('ipGrid');
+  if(!tabs.length||!grid)return;
+  var cards=[].slice.call(grid.children);
+  var shown=document.getElementById('ipShown');
+  var cat='tumu', sort='yeni';
+
+  function apply(push){
+    var n=0;
+    cards.forEach(function(c){
+      var on = cat==='tumu' || c.getAttribute('data-cat')===cat;
+      c.hidden=!on; if(on)n++;
+    });
+    shown.textContent=n;
+    /* sıralama: en yeni = data-yeni büyükten küçüğe · en çok okunan = data-okunan */
+    var key = sort==='yeni' ? 'data-yeni' : 'data-okunan';
+    cards.slice().sort(function(a,b){
+      return parseInt(b.getAttribute(key),10)-parseInt(a.getAttribute(key),10);
+    }).forEach(function(c){grid.appendChild(c);});
+    if(push)history.replaceState(null,'','?kategori='+cat);
+  }
+  function setCat(name,push){
+    var hit=false;
+    tabs.forEach(function(b){
+      var on=b.getAttribute('data-tab')===name;
+      b.classList.toggle('active',on); b.setAttribute('aria-selected',on?'true':'false');
+      if(on)hit=true;
+    });
+    if(!hit)return false;
+    cat=name; apply(push); return true;
+  }
+  tabs.forEach(function(b){
+    b.addEventListener('click',function(){setCat(b.getAttribute('data-tab'),true);});
+  });
+  sorts.forEach(function(b){
+    b.addEventListener('click',function(){
+      sorts.forEach(function(x){x.classList.remove('active')});
+      b.classList.add('active'); sort=b.getAttribute('data-sort'); apply(false);
+    });
+  });
+  var p=new URLSearchParams(location.search).get('kategori');
+  if(!p||!setCat(p,false))setCat('tumu',false);
+})();
+</script>
+</body>
+</html>

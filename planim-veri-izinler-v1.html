@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<meta name="robots" content="noindex, nofollow" />
+<title>Veri ve İzinlerim — Planım | DadaDiet</title>
+<link rel="shortcut icon" type="image/x-icon"
+      href="assets/img/favicon.ico" />
+<!-- FontAwesome 6.5.2 (kilitli ikon seti) -->
+<link rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css"
+      integrity="sha512-SnH5WK+bZxgPHs44uWIX+LLJAJ9/2PkPKZ5QiAj6Ta86w+fsb2TkcmfRyVX3pBnMFcV7oQPJkl9QevSCWr3W6A=="
+      crossorigin="anonymous" referrerpolicy="no-referrer" />
+<link rel="stylesheet" href="assets/css/dd-shell.css" />
+<!-- kişisel alan bileşenleri (diyetisyen panelinden birebir; kabuk DEĞİL) -->
+<link rel="stylesheet" href="assets/css/planim.css" />
+</head>
+<body data-brand="diet" data-planim="veri">
+
+<div id="ddChromeTop"></div>
+<script src="assets/js/dd-shell.js"></script>
+
+<main class="page-main" id="pageMain">
+  <section class="sec below-header" style="background:var(--bg)">
+    <div class="wrap">
+
+      <!-- başlık + alt gezinme: assets/js/planim.js üretir -->
+      <div id="planimTop"></div>
+
+      <!-- İÇERİK (üye, verisi var) -->
+      <div id="planimData" hidden>
+        <div class="pnl-card">
+          <div class="pc-head"><span class="pc-title"><i class="fa-solid fa-shield-halved"></i> İzinlerim</span></div>
+          <div class="pc-body">
+            <div class="set-list">
+              <div class="set-row"><span class="sr-ico"><i class="fa-solid fa-user-doctor"></i></span><span class="sr-txt"><b>Diyetisyenimle veri paylaşımı</b><span>Randevu aldığın diyetisyen günlük takip ve ölçüm kayıtlarını görebilir.</span></span><label class="tgl"><input type="checkbox" checked /><span class="tk"></span></label></div>
+              <div class="set-row"><span class="sr-ico"><i class="fa-solid fa-chart-line"></i></span><span class="sr-txt"><b>Kişiselleştirilmiş öneriler</b><span>Girdiğin hedef ve tercihlere göre program ve içerik önerisi alırsın.</span></span><label class="tgl"><input type="checkbox" checked /><span class="tk"></span></label></div>
+              <div class="set-row"><span class="sr-ico"><i class="fa-solid fa-flask"></i></span><span class="sr-txt"><b>Ürün geliştirme için anonim kullanım</b><span>Kimliğinden arındırılmış kullanım istatistikleri ürünü iyileştirmek için kullanılır.</span></span><label class="tgl"><input type="checkbox" /><span class="tk"></span></label></div>
+              <div class="set-row"><span class="sr-ico"><i class="fa-solid fa-bullhorn"></i></span><span class="sr-txt"><b>Pazarlama iletileri</b><span>Kampanya ve duyuru e-postaları alırsın.</span></span><label class="tgl"><input type="checkbox" /><span class="tk"></span></label></div>
+            </div>
+          </div>
+        </div>
+        <div class="dash-row"></div>
+        <div class="pnl-card">
+          <div class="pc-head"><span class="pc-title"><i class="fa-solid fa-bell"></i> Bildirim tercihlerim</span></div>
+          <div class="pc-body">
+            <div class="ntf-matrix">
+              <div class="ntf-row head"><span>Konu</span><span>E-posta</span><span>Uygulama</span></div>
+              <div class="ntf-row"><div class="nf-txt"><b>Randevu hatırlatması</b><span>Görüşmeden 24 saat ve 1 saat önce.</span></div><div class="nf-cell"><label class="tgl"><input type="checkbox" checked /><span class="tk"></span></label></div><div class="nf-cell"><label class="tgl"><input type="checkbox" checked /><span class="tk"></span></label></div></div>
+              <div class="ntf-row"><div class="nf-txt"><b>Diyetisyen mesajı</b><span>Yeni mesaj geldiğinde.</span></div><div class="nf-cell"><label class="tgl"><input type="checkbox" checked /><span class="tk"></span></label></div><div class="nf-cell"><label class="tgl"><input type="checkbox" checked /><span class="tk"></span></label></div></div>
+              <div class="ntf-row"><div class="nf-txt"><b>Plan revizyonu</b><span>Diyetisyenin programını güncellediğinde.</span></div><div class="nf-cell"><label class="tgl"><input type="checkbox" checked /><span class="tk"></span></label></div><div class="nf-cell"><label class="tgl"><input type="checkbox" /><span class="tk"></span></label></div></div>
+              <div class="ntf-row"><div class="nf-txt"><b>Günlük takip hatırlatması</b><span>Öğün girmediğin günlerde akşam hatırlatması.</span></div><div class="nf-cell"><label class="tgl"><input type="checkbox" /><span class="tk"></span></label></div><div class="nf-cell"><label class="tgl"><input type="checkbox" checked /><span class="tk"></span></label></div></div>
+            </div>
+          </div>
+        </div>
+        <div class="dash-row"></div>
+        <div class="dash-cols">
+          <div>
+        <div class="pnl-card">
+          <div class="pc-head"><span class="pc-title"><i class="fa-solid fa-download"></i> Verilerimi indir</span></div>
+          <div class="pc-body">
+            <p class="muted" style="font-size:13.5px;line-height:1.6">Günlük takip kayıtların, ölçümlerin, kaydettiklerin, randevu ve mesaj geçmişin makine tarafından okunabilir bir dosya olarak hazırlanır. Hazır olduğunda e-posta ile bildirilir.</p>
+            <div class="chips" style="margin-top:14px"><span class="pstat off">Son talep: yok</span></div>
+          </div>
+          <div class="pc-foot"><button class="btn btn-green btn-sm" type="button"><i class="fa-solid fa-download"></i> İndirme Talebi Oluştur</button></div>
+        </div>
+          </div>
+          <div>
+        <div class="pnl-card">
+          <div class="pc-head"><span class="pc-title"><i class="fa-solid fa-trash-can"></i> Hesabımı ve verilerimi sil</span></div>
+          <div class="pc-body">
+            <p class="muted" style="font-size:13.5px;line-height:1.6">Silme talebi oluşturduğunda hesabın ve kişisel kayıtların kalıcı olarak silinir. Bu işlem geri alınamaz; devam eden bir diyetisyen görüşmen varsa önce onu sonlandırman gerekir.</p>
+            <div class="fk-help"><i class="fa-solid fa-triangle-exclamation"></i><span>Yasal saklama yükümlülüğü olan kayıtlar (örneğin fatura bilgileri) mevzuatın öngördüğü süre boyunca saklanır.</span></div>
+          </div>
+          <div class="pc-foot"><button class="btn btn-ghost btn-sm" type="button"><i class="fa-solid fa-trash-can"></i> Silme Talebi Oluştur</button></div>
+        </div>
+          </div>
+        </div>
+        <div class="pnl-card" style="margin-top:16px"><div class="pc-body"><div class="fk-help" style="margin-top:0"><i class="fa-solid fa-circle-info"></i><span>Hangi verinin ne amaçla işlendiğini anlatan aydınlatma metni ve gizlilik politikası hazırlanıyor; footer'daki <b>Yasal</b> bölümünden yayına alınacak.</span></div></div></div>
+      </div>
+
+      <!-- BAŞLANGIÇ DURUMU (üye, henüz içeriği yok) — boş kart gösterilmez -->
+      <div id="planimStart" hidden>
+        <div class="pnl-card"><div class="pc-body"><div class="fk-help" style="margin-top:0"><i class="fa-solid fa-circle-info"></i><span>İzin ve gizlilik tercihlerin hesabın açıldığı andan itibaren geçerlidir; burada her zaman değiştirebilirsin. Aşağıdaki ayarlar veri girmemiş olsan da çalışır.</span></div></div></div>
+        <div class="pnl-card">
+          <div class="pc-head"><span class="pc-title"><i class="fa-solid fa-shield-halved"></i> İzinlerim</span></div>
+          <div class="pc-body">
+            <div class="set-list">
+              <div class="set-row"><span class="sr-ico"><i class="fa-solid fa-user-doctor"></i></span><span class="sr-txt"><b>Diyetisyenimle veri paylaşımı</b><span>Randevu aldığın diyetisyen günlük takip ve ölçüm kayıtlarını görebilir.</span></span><label class="tgl"><input type="checkbox" checked /><span class="tk"></span></label></div>
+              <div class="set-row"><span class="sr-ico"><i class="fa-solid fa-chart-line"></i></span><span class="sr-txt"><b>Kişiselleştirilmiş öneriler</b><span>Girdiğin hedef ve tercihlere göre program ve içerik önerisi alırsın.</span></span><label class="tgl"><input type="checkbox" checked /><span class="tk"></span></label></div>
+              <div class="set-row"><span class="sr-ico"><i class="fa-solid fa-flask"></i></span><span class="sr-txt"><b>Ürün geliştirme için anonim kullanım</b><span>Kimliğinden arındırılmış kullanım istatistikleri ürünü iyileştirmek için kullanılır.</span></span><label class="tgl"><input type="checkbox" /><span class="tk"></span></label></div>
+              <div class="set-row"><span class="sr-ico"><i class="fa-solid fa-bullhorn"></i></span><span class="sr-txt"><b>Pazarlama iletileri</b><span>Kampanya ve duyuru e-postaları alırsın.</span></span><label class="tgl"><input type="checkbox" /><span class="tk"></span></label></div>
+            </div>
+          </div>
+        </div>
+        <div class="dash-row"></div>
+        <div class="pnl-card">
+          <div class="pc-head"><span class="pc-title"><i class="fa-solid fa-bell"></i> Bildirim tercihlerim</span></div>
+          <div class="pc-body">
+            <div class="ntf-matrix">
+              <div class="ntf-row head"><span>Konu</span><span>E-posta</span><span>Uygulama</span></div>
+              <div class="ntf-row"><div class="nf-txt"><b>Randevu hatırlatması</b><span>Görüşmeden 24 saat ve 1 saat önce.</span></div><div class="nf-cell"><label class="tgl"><input type="checkbox" checked /><span class="tk"></span></label></div><div class="nf-cell"><label class="tgl"><input type="checkbox" checked /><span class="tk"></span></label></div></div>
+              <div class="ntf-row"><div class="nf-txt"><b>Diyetisyen mesajı</b><span>Yeni mesaj geldiğinde.</span></div><div class="nf-cell"><label class="tgl"><input type="checkbox" checked /><span class="tk"></span></label></div><div class="nf-cell"><label class="tgl"><input type="checkbox" checked /><span class="tk"></span></label></div></div>
+              <div class="ntf-row"><div class="nf-txt"><b>Plan revizyonu</b><span>Diyetisyenin programını güncellediğinde.</span></div><div class="nf-cell"><label class="tgl"><input type="checkbox" checked /><span class="tk"></span></label></div><div class="nf-cell"><label class="tgl"><input type="checkbox" /><span class="tk"></span></label></div></div>
+              <div class="ntf-row"><div class="nf-txt"><b>Günlük takip hatırlatması</b><span>Öğün girmediğin günlerde akşam hatırlatması.</span></div><div class="nf-cell"><label class="tgl"><input type="checkbox" /><span class="tk"></span></label></div><div class="nf-cell"><label class="tgl"><input type="checkbox" checked /><span class="tk"></span></label></div></div>
+            </div>
+          </div>
+        </div>
+        <div class="dash-row"></div>
+        <div class="dash-cols">
+          <div>
+        <div class="pnl-card">
+          <div class="pc-head"><span class="pc-title"><i class="fa-solid fa-download"></i> Verilerimi indir</span></div>
+          <div class="pc-body">
+            <p class="muted" style="font-size:13.5px;line-height:1.6">Günlük takip kayıtların, ölçümlerin, kaydettiklerin, randevu ve mesaj geçmişin makine tarafından okunabilir bir dosya olarak hazırlanır. Hazır olduğunda e-posta ile bildirilir.</p>
+            <div class="chips" style="margin-top:14px"><span class="pstat off">Son talep: yok</span></div>
+          </div>
+          <div class="pc-foot"><button class="btn btn-green btn-sm" type="button"><i class="fa-solid fa-download"></i> İndirme Talebi Oluştur</button></div>
+        </div>
+          </div>
+          <div>
+        <div class="pnl-card">
+          <div class="pc-head"><span class="pc-title"><i class="fa-solid fa-trash-can"></i> Hesabımı ve verilerimi sil</span></div>
+          <div class="pc-body">
+            <p class="muted" style="font-size:13.5px;line-height:1.6">Silme talebi oluşturduğunda hesabın ve kişisel kayıtların kalıcı olarak silinir. Bu işlem geri alınamaz; devam eden bir diyetisyen görüşmen varsa önce onu sonlandırman gerekir.</p>
+            <div class="fk-help"><i class="fa-solid fa-triangle-exclamation"></i><span>Yasal saklama yükümlülüğü olan kayıtlar (örneğin fatura bilgileri) mevzuatın öngördüğü süre boyunca saklanır.</span></div>
+          </div>
+          <div class="pc-foot"><button class="btn btn-ghost btn-sm" type="button"><i class="fa-solid fa-trash-can"></i> Silme Talebi Oluştur</button></div>
+        </div>
+          </div>
+        </div>
+        <div class="pnl-card" style="margin-top:16px"><div class="pc-body"><div class="fk-help" style="margin-top:0"><i class="fa-solid fa-circle-info"></i><span>Hangi verinin ne amaçla işlendiğini anlatan aydınlatma metni ve gizlilik politikası hazırlanıyor; footer'daki <b>Yasal</b> bölümünden yayına alınacak.</span></div></div></div>
+      </div>
+
+    </div>
+  </section>
+</main>
+
+<div id="ddChromeGate"></div>
+<div id="ddChromeFooter"></div>
+<div id="ddChromeFab"></div>
+
+<script src="assets/js/planim.js"></script>
+</body>
+</html>

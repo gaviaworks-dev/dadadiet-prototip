@@ -1,0 +1,1136 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<meta name="robots" content="noindex, nofollow" />
+<title>Uzm. Dyt. Elif Şahin — Diyetisyen · DadaMutfak</title>
+<link rel="shortcut icon" type="image/x-icon"
+      href="assets/img/favicon.ico" />
+<!-- FontAwesome 6.5.2 (kilitli ikon seti) -->
+<link rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css"
+      integrity="sha512-SnH5WK+bZxgPHs44uWIX+LLJAJ9/2PkPKZ5QiAj6Ta86w+fsb2TkcmfRyVX3pBnMFcV7oQPJkl9QevSCWr3W6A=="
+      crossorigin="anonymous" referrerpolicy="no-referrer" />
+<link rel="stylesheet" href="assets/css/dd-shell.css" />
+<style>
+/* ===== SAYFA CSS — kabuk CSS'i assets/css/dd-shell.css'te ===== */
+/* ============ KİMLİK TOKEN'LARI (brand-tokens.md) ============ */
+:root{
+  --tomato:#3BB77E;          /* DadaDiet kabuk aksanı — NANE (karar A5; site default domatesten bilinçli sapma, --green token'ı). DadaFit'in doygun #009d4f sporcu yeşilinden daha yumuşak/klinik → beslenme tonu */
+  --tomato-dark:#2C9963;     /* hover türevi (nane koyu, --green-deep ile aynı) */
+  --tomato-deep:#1c7a4e;     /* nane derin — CTA/footer/aksan metin (WCAG AA: beyaz üstü & beyaz zeminde ≥4.5) */
+  --tomato-tint:#E6F5EE;     /* nane fısıltısı zemin */
+  --slate:#211E16;           /* Pantone Process Black C — başlık/koyu metin/panel */
+  --slate-2:#56514a;           /* sıcak muted koyu */
+  --green:#3BB77E;           /* yalnız sağlık bloğu */
+  --green-deep:#2c9963;
+  --yellow:#FAC045;          /* yalnız puan */
+  --muted:#717171;           /* ikincil metin (AA: beyaz zeminde ≥4.5) */
+  --line:#ECECEC;            /* hairline ayraç */
+  --cream:#EFE5D3;           /* sıcak nötr */
+  --cream-2:#F7F1E6;
+  /* kurumsal alternatif renkler (kılavuz) */
+  --c-purple:#b14fc5; --c-mint:#6cca98; --c-green:#009d4f; --c-petrol:#006072;
+  --paper:#ffffff;
+  --bg:#f9f9f9;              /* eski site grisi — sayfa zemini (Revize T3 M12) */
+  --ink:#211E16;
+  /* section zemin ritmi — açık bölüm alternasyonu (gri ↔ beyaz, eski site ekseni) */
+  --bg-white:#ffffff;        /* saf beyaz */
+  --bg-cream:#f9f9f9;        /* eski site section grisi (own.css'teki en yaygın zemin) */
+
+  --radius-sm:8px; --radius-md:12px; --radius-lg:16px; --radius-xl:24px; --radius-pill:999px; --radius-circle:50%;
+  /* legacy alias → yeni ölçek */
+  --r:var(--radius-lg); --r-sm:var(--radius-sm); --r-lg:var(--radius-xl);
+  --sh-sm:0 1px 2px rgba(33,30,22,.04), 0 2px 6px rgba(33,30,22,.05);
+  --sh-md:0 6px 22px rgba(33,30,22,.09);
+  --sh-lg:0 18px 50px rgba(33,30,22,.16);
+  --ease:cubic-bezier(.22,.61,.36,1);
+  --wrap:1240px;
+}
+:root{--c-mint-deep:#3BB77E}
+:root{
+  --d-3:#322D26; --d-deep:#161310;
+  --dline:rgba(251,248,243,.16);
+  --r-md:12px; --r-lg:16px; --r-xl:24px; --r-circle:50%;
+  --ease-spring:cubic-bezier(.16,1,.3,1);
+  --tomato-rgb:59,183,126;
+  --sh-3:0 18px 50px rgba(33,30,22,.16);
+  --panel-fl:360px;
+  --b-gastro:#E14827;  --b-gastro-l:#F0613F;
+  --b-gourmet:#b14fc5; --b-gourmet-l:#C66BD8;
+  --b-diet:#3BB77E;    --b-diet-l:#52CD94;
+  --b-fit:#009d4f;     --b-fit-l:#22BE6E;
+  --b-akademi:#006072; --b-akademi-l:#2E97AB;
+}
+/* T5 STICKY FIX (faz6, page-local): kok overflow-x hidden body-yi scroll-container yapip position:sticky panelleri kiriyor; clip yatayi keser ama overflow-y visible kalir -> sticky calisir. */
+html,body{overflow-x:clip}
+.drawer-lang-list button.active{border-color:rgba(59,183,126,.4);background:var(--tomato-tint);color:var(--tomato)}
+/* aktif: yarı saydam domates (primary) — glass korunur, radius-lg pill ile uyumlu */
+.bn-item.active{color:var(--tomato);background:rgba(59,183,126,.15)}
+.bn-fab{
+  width:52px;height:52px;border-radius:var(--radius-lg);border:none;color:#fff;
+  background:var(--tomato);
+  display:grid;place-items:center;font-size:19px;
+  box-shadow:0 8px 20px rgba(59,183,126,.5);
+}
+.fb-topic.active{border-color:rgba(59,183,126,.4);background:var(--tomato-tint);color:var(--tomato);font-weight:700}
+.fb-emoji button.active{filter:none;opacity:1;border-color:rgba(59,183,126,.4);background:var(--tomato-tint);transform:scale(1.06)}
+
+/* ============ F12a — DİYETİSYEN PUBLIC PROFİL ============ */
+/* ---- profil hero (.pf-* — mutfak-defteri profil dili MİRAS, diyetisyen varyantı) ---- */
+.pf-top{padding-top:112px;background:var(--bg-white)}
+/* ---- breadcrumb (diyetisyen-ol rd-crumb dili MİRAS) ---- */
+.rd-crumb{display:flex;align-items:center;flex-wrap:wrap;gap:9px;padding:18px 0 14px;font-size:13px;font-weight:500;color:var(--muted)}
+.rd-crumb a{color:var(--muted);transition:.18s}
+.rd-crumb a:hover{color:var(--green)}
+.rd-crumb i{font-size:9px;color:#c7c7c7}
+.rd-crumb b{color:var(--slate);font-weight:700}
+.pf-banner{position:relative;height:240px;border-radius:var(--radius-xl);overflow:hidden;background-size:cover;background-position:center;box-shadow:var(--sh-md)}
+.pf-banner::after{content:"";position:absolute;inset:0;background:linear-gradient(180deg,rgba(33,30,22,.18),rgba(20,18,12,.42))}
+.pf-mark{position:absolute;right:22px;top:18px;z-index:2;display:inline-flex;align-items:center;gap:8px;font-size:12.5px;font-weight:700;color:#fff;background:rgba(20,18,12,.4);backdrop-filter:blur(6px);padding:8px 14px;border-radius:var(--radius-sm);max-width:calc(100% - 44px)}
+.pf-mark i{color:var(--tomato)}
+.pf-head{position:relative;z-index:3;display:flex;gap:26px;align-items:flex-start;background:var(--paper);border:1px solid var(--line);border-radius:var(--radius-lg);box-shadow:var(--sh-md);padding:26px 30px 28px;margin:-78px 28px 0}
+.pf-ava{position:relative;flex:none;width:128px;height:128px;border-radius:var(--radius-circle);background-size:cover;background-position:center;border:4px solid #fff;box-shadow:var(--sh-md);margin-top:-70px}
+.pf-ava .pf-on{position:absolute;right:6px;bottom:9px;width:22px;height:22px;border-radius:var(--radius-circle);background:var(--green);border:3px solid #fff}
+.pf-id{flex:1;min-width:0}
+.pf-id h1{font-size:29px;letter-spacing:-.02em;display:flex;align-items:center;gap:12px;flex-wrap:wrap}
+.pf-verify{display:inline-flex;align-items:center;gap:6px;font-size:12px;font-weight:700;color:var(--green-deep);background:rgba(59,183,126,.13);padding:5px 11px;border-radius:var(--radius-sm)}
+.pf-verify i{font-size:12px}
+.pf-handle{display:block;font-size:14px;color:var(--muted);font-weight:600;margin-top:5px}
+.pf-bio{font-size:14.5px;color:var(--slate-2);font-weight:500;line-height:1.6;max-width:560px;margin-top:13px}
+.pf-meta{display:flex;flex-wrap:wrap;gap:7px 20px;margin-top:14px;font-size:13px;color:var(--muted);font-weight:500}
+.pf-meta span{display:inline-flex;align-items:center;gap:7px}
+.pf-meta i{font-size:12px;color:var(--green)}
+.pf-actions{flex:none;display:flex;flex-direction:column;gap:9px;align-items:stretch;width:194px}
+.pf-book{display:inline-flex;align-items:center;justify-content:center;gap:9px;font-family:inherit;font-size:14px;font-weight:700;color:#fff;background:var(--tomato-deep);border:1px solid var(--tomato-deep);border-radius:var(--radius-md);padding:14px 22px;cursor:pointer;transition:.2s var(--ease);white-space:nowrap}
+.pf-book:hover{background:var(--green-deep);transform:translateY(-2px)}
+.pf-msgrow{display:flex;gap:9px}
+.pf-msg{flex:1;display:inline-flex;align-items:center;justify-content:center;gap:8px;font-family:inherit;font-size:13.5px;font-weight:700;color:var(--slate);background:var(--paper);border:1px solid var(--line);border-radius:var(--radius-md);padding:12px 16px;cursor:pointer;transition:.2s var(--ease)}
+.pf-msg:hover{border-color:var(--green);color:var(--green)}
+.pf-share{flex:none;width:46px;border-radius:var(--radius-md);border:1px solid var(--line);background:var(--paper);color:var(--slate);font-size:15px;cursor:pointer;display:grid;place-items:center;transition:.2s var(--ease)}
+.pf-share:hover{border-color:var(--green);color:var(--green)}
+.pf-resp{display:flex;align-items:center;justify-content:center;gap:7px;font-size:11.5px;color:var(--green-deep);font-weight:600;margin-top:1px}
+/* sahibi görünümü: panel girişi (mock giriş varsayımı — Dalga 4 nav) */
+.pf-panel{display:inline-flex;align-items:center;justify-content:center;gap:8px;font-size:12.5px;font-weight:700;color:var(--green-deep);background:#E7F6EF;border:1px dashed var(--green);border-radius:var(--radius-md);padding:10px 14px;transition:.2s var(--ease)}
+.pf-panel:hover{background:var(--green);color:#fff}
+.pf-stats{display:flex;background:var(--paper);border:1px solid var(--line);border-radius:var(--radius-lg);margin:20px 28px 0;overflow:hidden}
+.pfs{flex:1;display:flex;align-items:center;gap:12px;padding:15px 20px;min-width:0;background:none;border:none;font-family:inherit;text-align:left}
+.pfs+.pfs{border-left:1px solid var(--line)}
+.pfs i{flex:none;width:38px;height:38px;border-radius:var(--radius-md);background:rgba(59,183,126,.13);color:var(--green-deep);display:grid;place-items:center;font-size:15px}
+.pfs div{min-width:0}
+.pfs span{display:block;font-size:11px;color:var(--muted);font-weight:500;letter-spacing:.02em}
+.pfs b{display:block;font-size:16.5px;font-weight:700;color:var(--slate);white-space:nowrap}
+.pfs.score i{background:#FDF3DC;color:#D99A1B}
+.pfs.green i{background:rgba(59,183,126,.13);color:var(--green-deep)}
+
+/* ---- rozet teaser bandı (Foundation .badge-band — mutfak-defteri'den TÜKETİLDİ;
+   header altı, sekme çubuğundan önce, pf-head/pf-stats ile aynı yatay marj) ---- */
+.pf-badges{background:var(--paper);border:1px solid var(--line);border-radius:var(--radius-lg);margin:20px 28px 0;padding:18px 24px 20px}
+.badge-head{display:flex;align-items:center;gap:10px;margin-bottom:14px;flex-wrap:wrap}
+.badge-head h3{font-size:16px;display:inline-flex;align-items:center;gap:9px;letter-spacing:-.01em}
+.badge-head h3 i{color:var(--green);font-size:14px}
+.badge-head .tbadge{display:inline-flex;align-items:center;gap:7px;font-size:11.5px;font-weight:700;letter-spacing:.02em;padding:6px 12px;border-radius:var(--radius-sm);background:var(--green);color:#fff;box-shadow:0 4px 12px rgba(59,183,126,.32)}
+.badge-head .tbadge i{font-size:11.5px}
+.badge-head .bh-cnt{font-size:12.5px;color:var(--muted);font-weight:500}
+.badge-head .see-all{margin-left:auto;padding:0;border:none;background:transparent;font-size:13px;color:var(--green)}
+.badge-head .see-all:hover{border-color:transparent}
+.badge-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(176px,1fr));gap:10px}
+.badge-card{position:relative;display:flex;align-items:center;gap:11px;background:var(--paper);border:1px solid var(--line);border-radius:var(--radius-md);padding:10px 13px;text-align:left;cursor:pointer;transition:.2s var(--ease)}
+.badge-card:hover{border-color:#dcdcdc}
+.badge-ico{flex:none;width:34px;height:34px;border-radius:var(--radius-md);background:var(--bg);color:var(--slate-2);display:grid;place-items:center;font-size:14px;transition:color .2s var(--ease)}
+.badge-card:hover .badge-ico{color:var(--green)}
+.badge-card b{display:block;font-size:12.5px;font-weight:700;color:var(--slate);line-height:1.2}
+.badge-card span:not(.badge-ico){display:block;font-size:11px;color:var(--muted);font-weight:500;margin-top:2px}
+.badge-card.locked{border-style:dashed;border-color:#ddd;background:transparent}
+.badge-card.locked:hover{border-color:#c9c9c9}
+.badge-card.locked .badge-ico{background:transparent;color:#c2c2c2}
+.badge-card.locked:hover .badge-ico{color:#c2c2c2}
+.badge-card.locked b{color:var(--muted)}
+.badge-card .b-rare{position:absolute;top:9px;right:11px;font-size:9px;color:#e8a13c}
+.badge-lock{position:absolute;top:9px;right:11px;font-size:10px;color:#c2c2c2}
+@media(max-width:640px){.pf-badges{margin:18px 12px 0;padding:16px 16px 18px}}
+
+/* ---- sekme barı (.pf-tabbar — MİRAS) ---- */
+.pf-tabbar{position:sticky;top:112px;z-index:40;background:rgba(255,255,255,.93);-webkit-backdrop-filter:blur(10px) saturate(150%);backdrop-filter:blur(10px) saturate(150%);padding:12px 0;margin-bottom:30px}
+.pf-tabs{display:flex;gap:4px;background:var(--paper);border:1px solid var(--line);border-radius:var(--radius-md);padding:4px;overflow-x:auto;scrollbar-width:none}
+.pf-tabs::-webkit-scrollbar{display:none}
+.pf-tabs .dt{font-family:inherit;font-weight:700;font-size:13px;color:var(--muted);background:transparent;border:none;border-radius:var(--radius-sm);padding:10px 18px;cursor:pointer;display:inline-flex;align-items:center;gap:7px;transition:.2s var(--ease);white-space:nowrap;flex:none}
+.pf-tabs .dt:hover{color:var(--green)}
+.pf-tabs .dt.active{background:var(--tomato-deep);color:#fff}
+.pf-tabs .dt .cnt{font-size:11px;font-weight:700;opacity:.6}
+.pf-pane{animation:fadeUp .35s var(--ease)}
+.pf-pane[hidden]{display:none}
+
+/* ---- HAKKINDA: prose + yan bilgi kartı ---- */
+.ab-grid{display:grid;grid-template-columns:minmax(0,1fr) 320px;gap:30px;align-items:start}
+.ab-main h2{font-size:22px;margin:0 0 14px}
+.ab-main h2:not(:first-child){margin-top:34px}
+.ab-main p{font-size:15px;color:var(--slate-2);font-weight:500;line-height:1.75;margin-bottom:14px}
+.ab-spec{display:flex;flex-wrap:wrap;gap:9px;margin-top:4px}
+.ab-spec .chip{cursor:default}
+.ab-approach{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-top:8px}
+.ap-item{display:flex;gap:14px;background:var(--bg-cream);border:1px solid var(--line);border-radius:var(--radius-lg);padding:18px 18px}
+.ap-item i{flex:none;width:42px;height:42px;border-radius:var(--radius-md);background:rgba(59,183,126,.13);color:var(--green-deep);display:grid;place-items:center;font-size:16px}
+.ap-item b{display:block;font-size:14.5px;color:var(--slate);margin-bottom:4px}
+.ap-item span{font-size:13px;color:var(--muted);font-weight:500;line-height:1.55}
+.ab-side{position:sticky;top:180px;display:flex;flex-direction:column;gap:18px}
+.info-card{background:var(--paper);border:1px solid var(--line);border-radius:var(--radius-lg);box-shadow:var(--sh-sm);padding:20px 22px}
+.info-card h4{font-size:14px;display:flex;align-items:center;gap:9px;margin-bottom:15px;padding-bottom:13px;border-bottom:1px solid var(--line)}
+.info-card h4 i{color:var(--green);font-size:13px}
+.ic-row{display:flex;gap:13px;padding:10px 0}
+.ic-row+.ic-row{border-top:1px solid var(--line)}
+.ic-row .ic-ico{flex:none;width:34px;height:34px;border-radius:var(--radius-md);background:var(--bg);color:var(--slate-2);display:grid;place-items:center;font-size:13px;margin-top:2px}
+.ic-row b{display:block;font-size:13.5px;color:var(--slate);font-weight:700;line-height:1.3}
+.ic-row span{display:block;font-size:12px;color:var(--muted);font-weight:500;margin-top:2px}
+.ic-verify{display:inline-flex;align-items:center;gap:6px;font-size:11px;font-weight:700;color:var(--green-deep);background:rgba(59,183,126,.12);padding:3px 8px;border-radius:var(--radius-sm);margin-top:5px}
+
+/* ---- HİZMETLER: paket kartları ---- */
+.svc-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:22px}
+.svc-card{display:flex;flex-direction:column;background:var(--paper);border:1px solid var(--line);border-radius:var(--radius-lg);padding:24px 22px;transition:.25s var(--ease)}
+.svc-card:hover{border-color:#dcdcdc;box-shadow:var(--sh-sm);transform:translateY(-4px)}
+.svc-card.feat{border-color:rgba(59,183,126,.4);box-shadow:0 10px 30px rgba(59,183,126,.08)}
+.svc-tag{align-self:flex-start;font-size:10.5px;font-weight:700;letter-spacing:.05em;text-transform:uppercase;color:var(--green-deep);background:rgba(59,183,126,.13);padding:5px 11px;border-radius:var(--radius-sm);margin-bottom:14px}
+.svc-ico{width:48px;height:48px;border-radius:var(--radius-md);background:rgba(59,183,126,.13);color:var(--green-deep);display:grid;place-items:center;font-size:19px;margin-bottom:16px}
+.svc-card h3{font-size:18px;margin-bottom:7px}
+.svc-card>p{font-size:13.5px;color:var(--muted);font-weight:500;line-height:1.6;margin-bottom:16px}
+.svc-feats{list-style:none;margin:0 0 20px;display:flex;flex-direction:column;gap:9px}
+.svc-feats li{display:flex;gap:10px;font-size:13.5px;color:var(--slate-2);font-weight:500;line-height:1.4}
+.svc-feats li i{flex:none;color:var(--green);font-size:13px;margin-top:3px}
+.svc-foot{margin-top:auto;display:flex;align-items:center;justify-content:space-between;gap:12px;padding-top:18px;border-top:1px solid var(--line)}
+.svc-price b{font-size:23px;font-weight:700;color:var(--slate);letter-spacing:-.02em}
+.svc-price span{font-size:12px;color:var(--muted);font-weight:500}
+.svc-book{display:inline-flex;align-items:center;gap:8px;font-family:inherit;font-size:13.5px;font-weight:700;color:#fff;background:var(--green);border:none;border-radius:var(--radius-md);padding:12px 18px;cursor:pointer;transition:.2s var(--ease);white-space:nowrap}
+.svc-book:hover{background:var(--green-deep)}
+
+/* ---- ÖRNEK MENÜLER (menu-card MİRAS) + İLGİLİ TARİFLER (r-card MİRAS) ---- */
+.menu-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:26px}
+.menu-card{background:var(--paper);border:1px solid var(--line);border-radius:var(--radius-lg);padding:20px;cursor:pointer;transition:.3s var(--ease)}
+.menu-card:hover{transform:translateY(-6px);border-color:#dcdcdc;box-shadow:var(--sh-sm)}
+.menu-head{display:flex;align-items:flex-start;justify-content:space-between;gap:10px;margin-bottom:14px}
+.menu-head h4{font-size:17.5px;line-height:1.25}
+.menu-head h4 small{display:block;font-size:12px;color:var(--muted);font-weight:500;margin-top:4px}
+.menu-cnt{flex:none;font-size:11.5px;font-weight:700;color:var(--green-deep);background:rgba(59,183,126,.12);padding:6px 11px;border-radius:var(--radius-sm);white-space:nowrap}
+.menu-thumbs{display:grid;grid-template-columns:repeat(4,1fr);gap:8px}
+.menu-thumbs .mth{position:relative;aspect-ratio:1;border-radius:var(--radius-md);background-size:cover;background-position:center;overflow:hidden}
+.mth.more{display:grid;place-items:center}
+.mth.more::after{content:"";position:absolute;inset:0;background:rgba(20,18,12,.55)}
+.mth.more span{position:relative;z-index:2;color:#fff;font-size:13.5px;font-weight:700}
+.menu-meta{display:flex;flex-wrap:wrap;align-items:center;gap:8px 14px;font-size:12.5px;color:var(--muted);font-weight:500;margin-top:15px;padding-top:13px;border-top:1px solid var(--line)}
+.menu-meta span{display:inline-flex;align-items:center;gap:6px}
+.menu-meta i{font-size:12px;color:var(--green)}
+/* r-card (v3a/list MİRAS) — ilgili tarifler */
+.rr-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:22px}
+.r-card{background:var(--paper);border:1px solid var(--line);border-radius:var(--radius-lg);overflow:hidden;transition:.3s var(--ease);cursor:pointer;display:flex;flex-direction:column}
+.r-card:hover{transform:translateY(-6px);border-color:#dcdcdc}
+.r-media-wrap{overflow:hidden}
+.r-media{position:relative;height:170px;background-size:cover;background-position:center;transition:.5s var(--ease)}
+.r-card:hover .r-media{transform:scale(1.04)}
+.r-media .r-chip{position:absolute;top:13px;left:13px}
+.r-save{position:absolute;top:11px;right:11px;width:38px;height:38px;border-radius:var(--radius-circle);background:rgba(255,255,255,.94);border:none;color:var(--slate);cursor:pointer;display:grid;place-items:center;font-size:15px;transition:.2s var(--ease)}
+.r-save:hover{background:#fff;color:var(--tomato)}
+.r-save.saved{background:var(--tomato);color:#fff}
+.r-body{padding:16px 17px 18px;display:flex;flex-direction:column;flex:1}
+.r-body h4{font-size:16px;margin-bottom:11px;letter-spacing:-.01em}
+.r-card:hover .r-body h4{color:var(--tomato)}
+.r-author{display:flex;align-items:center;gap:9px;margin-top:auto;padding-top:13px;border-top:1px solid var(--line)}
+.r-author .av{width:26px;height:26px;border-radius:var(--radius-circle);background-size:cover;background-position:center;flex:none}
+.r-author span{font-size:12px;color:var(--muted);font-weight:500;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.r-author b{color:var(--slate);font-weight:700}
+.r-author .r-rate{margin-left:auto;flex:none;color:var(--slate);font-weight:700;font-size:13px}
+.r-author .r-rate i{color:var(--yellow);font-size:12px}
+.m-types{position:absolute;bottom:13px;right:13px;display:flex;gap:6px}
+.mt{display:inline-flex;align-items:center;gap:5px;background:rgba(20,18,12,.72);color:#fff;font-size:11px;font-weight:700;padding:6px 10px;border-radius:var(--radius-sm);backdrop-filter:blur(4px)}
+
+/* ---- YORUMLAR (danışan yorumları) ---- */
+.rev-layout{display:grid;grid-template-columns:280px minmax(0,1fr);gap:30px;align-items:start}
+.rev-summary{background:var(--paper);border:1px solid var(--line);border-radius:var(--radius-lg);padding:24px 22px;position:sticky;top:180px}
+.rev-big{text-align:center;padding-bottom:18px;border-bottom:1px solid var(--line);margin-bottom:16px}
+.rev-big b{display:block;font-size:46px;font-weight:700;color:var(--slate);letter-spacing:-.03em;line-height:1}
+.rev-stars{color:var(--yellow);font-size:15px;margin:9px 0 6px}
+.rev-big span{font-size:12.5px;color:var(--muted);font-weight:500}
+.rs-bars{display:flex;flex-direction:column;gap:9px}
+.rs-bar{display:flex;align-items:center;gap:10px;font-size:12px;color:var(--muted);font-weight:600}
+.rs-bar .rl{flex:none;width:30px;display:inline-flex;align-items:center;gap:3px}
+.rs-bar .rl i{color:var(--yellow);font-size:10px}
+.rs-track{flex:1;height:7px;border-radius:var(--radius-sm);background:var(--bg);overflow:hidden}
+.rs-fill{height:100%;border-radius:var(--radius-sm);background:var(--yellow)}
+.rs-bar .rn{flex:none;width:30px;text-align:right}
+.rev-main{min-width:0}
+.rev-filter{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:20px}
+.rev-filter .chip.active{border-color:var(--green);color:var(--green-deep);background:rgba(59,183,126,.13);font-weight:700}
+.rev-list{display:flex;flex-direction:column;gap:16px}
+.rev-item{background:var(--paper);border:1px solid var(--line);border-radius:var(--radius-lg);padding:20px 22px}
+.rev-top{display:flex;align-items:center;gap:13px;margin-bottom:12px}
+.rev-av{flex:none;width:44px;height:44px;border-radius:var(--radius-circle);background-size:cover;background-position:center}
+.rev-who{min-width:0;flex:1}
+.rev-who b{font-size:14.5px;color:var(--slate);display:flex;align-items:center;gap:8px;flex-wrap:wrap}
+.rev-badge{font-size:10px;font-weight:700;color:var(--green-deep);background:rgba(59,183,126,.12);padding:3px 8px;border-radius:var(--radius-sm);display:inline-flex;align-items:center;gap:5px}
+.rev-who span{font-size:12px;color:var(--muted);font-weight:500}
+.rev-rate{flex:none;color:var(--yellow);font-size:13px;letter-spacing:1px}
+.rev-text{font-size:14px;color:var(--slate-2);font-weight:500;line-height:1.65}
+.rev-tags{display:flex;flex-wrap:wrap;gap:7px;margin-top:13px}
+.rev-tag{font-size:11.5px;font-weight:600;color:var(--slate-2);background:var(--bg);border:1px solid var(--line);padding:5px 10px;border-radius:var(--radius-sm)}
+.rev-foot{display:flex;align-items:center;gap:18px;margin-top:14px;padding-top:13px;border-top:1px solid var(--line)}
+.rev-help{display:inline-flex;align-items:center;gap:8px;font-family:inherit;font-size:12.5px;font-weight:600;color:var(--muted);background:none;border:none;cursor:pointer;transition:.18s}
+.rev-help:hover{color:var(--green)}
+.rev-reply{font-size:13px;color:var(--slate-2);font-weight:500;line-height:1.6;margin-top:13px;padding:14px 16px;background:rgba(59,183,126,.06);border:1px solid rgba(59,183,126,.18);border-radius:var(--radius-md)}
+.rev-reply b{color:var(--green-deep);display:inline-flex;align-items:center;gap:7px;font-size:12.5px;margin-bottom:5px}
+.rev-more{display:flex;justify-content:center;margin-top:22px}
+
+/* ---- RANDEVU MODALI (slot seçici) ---- */
+.apt-overlay{position:fixed;inset:0;background:rgba(20,18,12,.5);z-index:97;opacity:0;visibility:hidden;transition:opacity .25s var(--ease),visibility .25s}
+.apt-overlay.show{opacity:1;visibility:visible}
+.apt-modal{position:fixed;inset:0;z-index:98;display:grid;place-items:center;padding:20px;opacity:0;visibility:hidden;pointer-events:none;transition:opacity .25s var(--ease),visibility .25s}
+.apt-modal.show{opacity:1;visibility:visible;pointer-events:auto}
+.apt-panel{width:min(580px,100%);max-height:calc(100vh - 40px);overflow-y:auto;background:#fff;border-radius:var(--radius-lg);box-shadow:var(--sh-lg);transform:translateY(14px);transition:transform .3s var(--ease)}
+.apt-modal.show .apt-panel{transform:translateY(0)}
+.apt-head{display:flex;align-items:center;gap:14px;padding:20px 24px;border-bottom:1px solid var(--line)}
+.apt-av{flex:none;width:46px;height:46px;border-radius:var(--radius-circle);background-size:cover;background-position:center}
+.apt-head h3{font-size:18px}
+.apt-head p{font-size:12.5px;color:var(--muted);font-weight:500;margin-top:2px;display:inline-flex;align-items:center;gap:6px}
+.apt-head p i{color:var(--green-deep)}
+.apt-close{margin-left:auto;flex:none;width:40px;height:40px;border-radius:var(--radius-md);border:1px solid var(--line);background:var(--paper);color:var(--slate);font-size:16px;cursor:pointer;display:grid;place-items:center;transition:.2s var(--ease)}
+.apt-close:hover{border-color:var(--green);color:var(--green)}
+.apt-body{padding:22px 24px 24px}
+.apt-block+.apt-block{margin-top:22px}
+.apt-lbl{font-size:13px;font-weight:700;color:var(--slate);margin-bottom:11px;display:flex;align-items:center;gap:8px}
+.apt-lbl i{color:var(--green);font-size:12px}
+.apt-svc{display:flex;flex-direction:column;gap:8px}
+.apt-svc label{position:relative;display:flex;align-items:center;gap:12px;padding:13px 15px;border:1px solid var(--line);border-radius:var(--radius-md);cursor:pointer;transition:.18s var(--ease)}
+.apt-svc input{position:absolute;opacity:0;pointer-events:none}
+.apt-svc label:hover{border-color:var(--green)}
+.apt-svc .rd{flex:none;width:20px;height:20px;border-radius:var(--radius-circle);border:1.5px solid #d8d8d8;display:grid;place-items:center;transition:.18s}
+.apt-svc .rd::after{content:"";width:10px;height:10px;border-radius:var(--radius-circle);background:var(--green);transform:scale(0);transition:.18s}
+.apt-svc input:checked~.rd{border-color:var(--green)}
+.apt-svc input:checked~.rd::after{transform:scale(1)}
+.apt-svc input:checked~.si b{color:var(--green-deep)}
+.apt-svc label:has(input:checked){border-color:var(--green);background:rgba(59,183,126,.10)}
+.apt-svc .si{flex:1;min-width:0}
+.apt-svc .si b{font-size:14px;font-weight:700;color:var(--slate);display:block}
+.apt-svc .si span{font-size:12px;color:var(--muted);font-weight:500}
+.apt-svc .sp{flex:none;font-size:14px;font-weight:700;color:var(--slate)}
+.apt-days{display:flex;gap:8px;overflow-x:auto;scrollbar-width:none;padding-bottom:4px}
+.apt-days::-webkit-scrollbar{display:none}
+.apt-day{flex:none;min-width:66px;text-align:center;padding:11px 8px;border:1px solid var(--line);border-radius:var(--radius-md);background:var(--paper);cursor:pointer;font-family:inherit;transition:.18s var(--ease)}
+.apt-day span{display:block;font-size:11px;color:var(--muted);font-weight:600;text-transform:uppercase;letter-spacing:.03em}
+.apt-day b{display:block;font-size:18px;color:var(--slate);font-weight:700;margin-top:3px}
+.apt-day small{display:block;font-size:10px;color:var(--green-deep);font-weight:600;margin-top:3px}
+.apt-day:hover{border-color:var(--green)}
+.apt-day.sel{border-color:var(--green);background:var(--green)}
+.apt-day.sel span,.apt-day.sel b,.apt-day.sel small{color:#fff}
+.apt-day.off{opacity:.4;pointer-events:none}
+.apt-slots{display:grid;grid-template-columns:repeat(4,1fr);gap:8px}
+.apt-slot{padding:11px 0;text-align:center;border:1px solid var(--line);border-radius:var(--radius-md);background:var(--paper);cursor:pointer;font-family:inherit;font-size:13.5px;font-weight:700;color:var(--slate);transition:.18s var(--ease)}
+.apt-slot:hover{border-color:var(--green);color:var(--green)}
+.apt-slot.sel{border-color:var(--green);background:var(--green);color:#fff}
+.apt-slot.off{opacity:.4;pointer-events:none;text-decoration:line-through}
+.apt-foot{display:flex;align-items:center;justify-content:space-between;gap:14px;margin-top:24px;padding-top:18px;border-top:1px solid var(--line)}
+.apt-sum{font-size:12px;color:var(--muted);font-weight:500}
+.apt-sum b{display:block;font-size:15px;color:var(--slate);font-weight:700;margin-top:2px}
+.apt-confirm{flex:none}
+.apt-success{text-align:center;padding:22px 0 10px}
+.apt-success .ok{width:64px;height:64px;border-radius:var(--radius-circle);background:#EAF7F0;color:var(--green);display:grid;place-items:center;font-size:27px;margin:0 auto 16px}
+.apt-success h4{font-size:19px;margin-bottom:8px}
+.apt-success p{font-size:13.5px;color:var(--muted);font-weight:500;max-width:380px;margin:0 auto;line-height:1.6}
+
+/* ---- Takip Et butonu — mutfak-defteri .pf-follow VERBATIM (diyetisyen = sosyal kullanıcı) ---- */
+.pf-follow{
+  display:inline-flex;align-items:center;justify-content:center;gap:9px;font-family:inherit;font-size:13.5px;font-weight:700;
+  color:#fff;background:var(--tomato-deep);border:1px solid var(--tomato-deep);border-radius:var(--radius-md);
+  padding:12px 22px;cursor:pointer;transition:.2s var(--ease);white-space:nowrap;
+}
+.pf-follow:hover{background:var(--green-deep);border-color:var(--green-deep)}
+.pf-follow.following{background:var(--paper);border-color:var(--line);color:var(--slate)}
+.pf-follow.following:hover{border-color:var(--green);color:var(--green);background:rgba(59,183,126,.10)}
+
+/* =========================================================
+   PÜF KARTI IZGARASI — kartın kendisi (.puf-card ailesi) artık
+   dd-shell.css'te, kac-kalori sayfalarıyla paylaşılıyor. Burada yalnız
+   ızgara kalır: kart dar profil kolonunun içinde durduğu için tek kolona
+   ineceği kırılma noktası liste sayfasınınkinden farklı (≤640, aşağıda).
+   ========================================================= */
+.pufl-grid{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+
+/* ---- İKİ YANA YASLAMA — yalnız akıcı paragraf metinleri ----
+   Kapsam: biyografi (.pf-bio), çalışma yaklaşımı (.ab-main>p) ve danışan
+   yorumları (.rev-text). Başlık, etiket, rozet, liste kalemi, tablo hücresi,
+   yardım metni ve tek satırlık açıklamalar sola yaslı kalır.
+   Hizmet kartı açıklaması (.svc-card p) kapsam DIŞI: kolonu 331px ve iki
+   satır, yaslama tek satırı gerdirip talimatın uyardığı boşluğu üretiyor.
+   Kelime bölme açık — Türkçenin uzun sözcükleri satır içi boşlukları açar.
+   YENİ SINIF YOK: üçü de sayfada zaten tanımlı seçiciler. */
+.pf-bio,.ab-main>p,.rev-text{text-align:justify;-webkit-hyphens:auto;hyphens:auto}
+/* .pf-bio kolonu ≤1024'te avatarın yanında 230px'e kadar daralıyor, ≤640'ta
+   .pf-head ortalanıyor — o bantlarda yaslama kapalı, hizalama devralınır. */
+@media (max-width:1024px){
+  .pf-bio{text-align:inherit;-webkit-hyphens:manual;hyphens:manual}
+}
+
+/* ===================== TABLET (≤1024px) ===================== */
+@media (max-width:1024px){
+  .ab-grid{grid-template-columns:1fr}
+  .ab-side{position:static}
+  .ab-approach{grid-template-columns:1fr}
+  .svc-grid{grid-template-columns:1fr 1fr}
+  .menu-grid{grid-template-columns:1fr 1fr}
+  .rr-grid{grid-template-columns:1fr 1fr}
+  .rev-layout{grid-template-columns:1fr}
+  .rev-summary{position:static}
+}
+
+/* ===================== MOBİL (≤640px) ===================== */
+@media (max-width:640px){
+  /* dar kolonda kelime araları aşırı açılıyor — yaslama kapalı */
+  .ab-main>p,.rev-text{text-align:left;-webkit-hyphens:manual;hyphens:manual}
+  .pf-top{padding-top:62px}
+  .pf-banner{height:160px;border-radius:var(--radius-lg)}
+  .pf-head{flex-direction:column;align-items:center;text-align:center;gap:16px;padding:20px 18px 22px;margin:-58px 12px 0}
+  .pf-ava{width:104px;height:104px;margin-top:-72px}
+  .pf-id h1{justify-content:center;font-size:24px}
+  .pf-bio{margin-left:auto;margin-right:auto}
+  .pf-meta{justify-content:center}
+  .pf-actions{width:100%}
+  .pf-stats{flex-wrap:wrap;margin:18px 12px 0}
+  .pfs{flex:1 1 45%;min-width:140px}
+  .pfs:nth-child(2){border-left:none}
+  .pf-tabbar{top:62px}
+  .svc-grid,.menu-grid,.rr-grid,.pufl-grid{grid-template-columns:1fr}
+  /* .puf-fig / .puf-body mobil daraltması kabuğun kendi ≤640 bloğunda */
+  .ab-main h2{font-size:19px}
+  .apt-slots{grid-template-columns:repeat(3,1fr)}
+}
+
+/* saglik-dropdown: scoped health chrome */
+/* diğer dropdown/mega aktif-item (turuncu kanon, underline gizli) */
+.dropdown:not(.dropdown-health) a.active{background:var(--tomato-tint)}
+.dropdown a.active::after,.mega-cats a.active::after{display:none}
+.mega-cats a.active{background:var(--tomato-tint)}
+.nav a[href="saglik-hub-v1.html"]:hover{color:var(--green);background:rgba(59,183,126,.10)}
+/* aktif "Sağlıklı Yaşam" üst-nav öğesi = yeşil (saglik-hub deseni) */
+.nav a.active[href="saglik-hub-v1.html"]{color:var(--green)}
+.nav a.active[href="saglik-hub-v1.html"]::after{background:var(--green)}
+/* sağlık-modülü birincil CTA'ları (randevu onay + uzmana mesaj) = yeşil; paylaşılan .btn-primary turuncu kalır */
+.apt-confirm.btn-primary,#msgSend.btn-primary{background:var(--tomato-deep)}
+.apt-confirm.btn-primary:hover,#msgSend.btn-primary:hover{background:var(--green-deep)}
+
+/* ===== PRO-GATE (Foundation F1) — ÜCRETLİ premium içerik kilidi (lg-gate kardeşi).
+   _shell.html canonical bloğunun BİREBİR kopyası — yeniden icat YOK.
+   [data-pro-gate] taşıyan öğeler kapıyı açar (data-pro-title / data-pro-desc ile metin özelleştir → "Pro'ya Yükselt" CTA = pro-v1.html). SS: ?pro=1 ===== */
+.pg-overlay{position:fixed;inset:0;background:rgba(20,18,12,.5);z-index:97;opacity:0;visibility:hidden;transition:opacity .25s var(--ease),visibility .25s}
+.pg-overlay.show{opacity:1;visibility:visible}
+.pro-gate{position:fixed;inset:0;z-index:98;display:grid;place-items:center;padding:20px;opacity:0;visibility:hidden;pointer-events:none;transition:opacity .25s var(--ease),visibility .25s}
+.pro-gate.show{opacity:1;visibility:visible;pointer-events:auto}
+.pg-panel{position:relative;width:min(420px,100%);background:#fff;border-radius:var(--radius-lg);box-shadow:var(--sh-lg);padding:32px 26px 26px;text-align:center;transform:translateY(14px);transition:transform .3s var(--ease)}
+.pro-gate.show .pg-panel{transform:translateY(0)}
+.pg-close{position:absolute;top:13px;right:13px;width:36px;height:36px;border-radius:var(--radius-md);border:1px solid var(--line);background:var(--paper);color:var(--slate);font-size:15px;cursor:pointer;display:grid;place-items:center;transition:.2s var(--ease)}
+.pg-close:hover{border-color:var(--tomato);color:var(--tomato)}
+.pg-ico{width:62px;height:62px;border-radius:var(--radius-circle);background:var(--tomato-tint);color:var(--tomato);display:grid;place-items:center;font-size:25px;margin:0 auto 14px}
+.pg-tag{display:inline-flex;align-items:center;gap:6px;font-size:11px;font-weight:800;letter-spacing:.08em;text-transform:uppercase;color:var(--tomato);background:var(--tomato-tint);padding:4px 11px;border-radius:999px;margin-bottom:10px}
+.pro-gate h4{font-size:19px;margin-bottom:8px}
+.pro-gate p{font-size:13.5px;color:var(--muted);font-weight:500;max-width:320px;margin:0 auto 16px;line-height:1.55}
+.pg-feats{list-style:none;max-width:300px;margin:0 auto 20px;text-align:left;display:flex;flex-direction:column;gap:9px}
+.pg-feats li{display:flex;gap:9px;font-size:13px;font-weight:600;color:var(--slate-2)}
+.pg-feats li i{color:var(--green-deep);font-size:12px;margin-top:3px;flex:none}
+.pg-acts{display:flex;gap:10px}
+.pg-acts .btn{flex:1}
+/* ===== /PRO-GATE ===== */
+
+/* ===== PRO TARİF BANDI (Madde 8) — diyetisyen profilinde pro içerik işareti (visitor-facing teaser).
+   Pro koleksiyon canonical .pro-gate ile kilitli ([data-pro-gate], CTA → pro-v1.html). ===== */
+.pf-pro-band{display:flex;align-items:center;gap:16px;background:linear-gradient(120deg,#FBE9E3 0%,#FFF6F2 60%,#fff 100%);border:1px solid #F3D6CC;border-radius:var(--radius-lg);padding:18px 22px;margin-bottom:22px;cursor:pointer;transition:.2s var(--ease)}
+.pf-pro-band:hover{border-color:var(--tomato);transform:translateY(-2px);box-shadow:0 10px 26px rgba(59,183,126,.10)}
+.pf-pro-ico{width:48px;height:48px;flex:none;border-radius:var(--radius-md);background:var(--tomato);color:#fff;display:grid;place-items:center;font-size:20px;box-shadow:0 6px 16px rgba(59,183,126,.28)}
+.pf-pro-tt{flex:1;min-width:0}
+.pf-pro-tt b{display:block;font-size:15.5px;color:var(--slate);font-weight:800;letter-spacing:-.01em}
+.pf-pro-tt b .pf-pro-tag{display:inline-flex;align-items:center;gap:5px;font-size:10.5px;font-weight:800;letter-spacing:.06em;text-transform:uppercase;color:var(--tomato);background:#fff;border:1px solid #F3D6CC;padding:3px 9px;border-radius:999px;margin-left:8px;vertical-align:middle}
+.pf-pro-tt span{display:block;font-size:13px;color:var(--muted);font-weight:500;margin-top:3px;line-height:1.5}
+.pf-pro-cta{flex:none;display:inline-flex;align-items:center;gap:8px;font-size:13px;font-weight:700;color:#fff;background:var(--tomato);border-radius:var(--radius-md);padding:11px 18px;white-space:nowrap;transition:.2s var(--ease)}
+.pf-pro-band:hover .pf-pro-cta{background:var(--tomato-dark)}
+@media(max-width:680px){.pf-pro-band{flex-wrap:wrap}.pf-pro-cta{width:100%;justify-content:center}}
+/* ===== /PRO TARİF BANDI ===== */
+
+/* (Rozet galerisi alt bölümü .pfr-* CSS'i kaldırıldı — bölüm artık yok. Üst .pf-badges + paylaşılan .badge-* korunur.) */
+
+/* ===== A4 GÜVEN KATMANI: Örnek rozeti + iskelet notu + bekleyen-doğrulama + tıbbi şerit ===== */
+.pf-ornek{display:inline-flex;align-items:center;gap:5px;margin-left:auto;font-size:10.5px;font-weight:700;letter-spacing:.03em;color:var(--slate-2);background:var(--cream-2);border:1px solid var(--line);padding:3px 9px;border-radius:var(--radius-sm)}
+.pf-ornek i{font-size:10px;color:var(--tomato-deep)}
+.pf-ornek-note{margin-top:12px;padding-top:12px;border-top:1px dashed var(--line);font-size:11.5px;color:var(--muted);font-weight:500;line-height:1.5}
+.pf-verify.pending{color:var(--slate-2);background:var(--cream-2)}
+.pf-disclaimer{background:var(--tomato-tint);border-top:1px solid rgba(59,183,126,.25)}
+.pf-disclaimer .wrap{display:flex;gap:14px;align-items:flex-start;padding-top:22px;padding-bottom:22px}
+.pf-disclaimer i{color:var(--tomato-deep);font-size:17px;margin-top:2px;flex:none}
+.pf-disclaimer p{font-size:13.5px;color:var(--slate-2);font-weight:500;line-height:1.65;max-width:960px}
+.pf-disclaimer b{color:var(--slate);font-weight:700}
+</style>
+</head>
+<body data-brand="diet" data-nav="diyetisyenler">
+
+<div id="ddChromeTop"></div>
+<script src="assets/js/dd-shell.js"></script>
+
+<main class="page-main" id="pageMain">
+
+<!-- SAYFA İÇERİĞİ -->
+<!-- İlk section'a .below-header class'ı ver (fixed header offseti: 112px / mobil 62px).
+     Örnek:
+     <section class="below-header" style="background:var(--bg-white)">
+       <div class="wrap"> ... </div>
+     </section>
+-->
+
+
+<!-- ===================== F12a — DİYETİSYEN PUBLIC PROFİL ===================== -->
+<section class="pf-top">
+  <div class="wrap">
+    <nav class="rd-crumb" aria-label="Sayfa yolu">
+      <a href="saglik-hub-v1.html"><i class="fa-solid fa-house"></i></a><i class="fa-solid fa-chevron-right"></i>
+      <a href="diyetisyen-dizin-v1.html">Diyetisyenler</a><i class="fa-solid fa-chevron-right"></i>
+      <b>Uzm. Dyt. Elif Şahin</b>
+    </nav>
+
+    <div class="pf-banner" style="background-image:url('https://images.unsplash.com/photo-1490818387583-1baba5e638af?w=1600&q=80&auto=format&fit=crop&exp=7&gam=6&sat=-9&high=8&vib=5')">
+      <span class="pf-mark"><i class="fa-solid fa-flask"></i> Örnek profil — doğrulama göstergeleri temsilîdir</span>
+    </div>
+
+    <div class="pf-head">
+      <div class="pf-ava" style="background-image:url('https://images.unsplash.com/photo-1559839734-2b71ea197ec2?w=300&q=80&auto=format&fit=crop&exp=7&gam=6&sat=-9&high=8&vib=5')"><span class="pf-on" title="Şu an müsait"></span></div>
+      <div class="pf-id">
+        <h1>Uzm. Dyt. Elif Şahin <span class="pf-verify pending"><i class="fa-solid fa-hourglass-half"></i> Doğrulama Bekliyor</span></h1>
+        <span class="pf-handle">Uzman Diyetisyen · Klinik Beslenme &amp; Kilo Yönetimi · @elifsahindyt</span>
+        <p class="pf-bio">Hacettepe Beslenme ve Diyetetik mezunu, klinik beslenme yüksek lisanslı. 9 yıldır sürdürülebilir, suçluluk üretmeyen bir beslenme anlayışıyla danışanlarımın kendi mutfaklarında uygulayabileceği planlar kuruyorum.</p>
+        <div class="pf-meta">
+          <span><i class="fa-solid fa-location-dot"></i> İstanbul · Online &amp; Yüz yüze</span>
+          <span><i class="fa-solid fa-briefcase"></i> 9 yıl deneyim</span>
+          <span><i class="fa-solid fa-language"></i> Türkçe, İngilizce</span>
+        </div>
+      </div>
+      <div class="pf-actions">
+        <button class="pf-book" id="openApt" type="button"><i class="fa-solid fa-calendar-check"></i> Randevu Al</button>
+        <button class="pf-follow" id="pfFollow" type="button"><i class="fa-solid fa-user-plus"></i> Takip Et</button>
+        <div class="pf-msgrow">
+          <button class="pf-msg" id="openMsg" type="button"><i class="fa-regular fa-comment"></i> Mesaj</button>
+          <button class="pf-share" type="button" aria-label="Profili paylaş"><i class="fa-solid fa-share-nodes"></i></button>
+        </div>
+        <span class="pf-resp"><i class="fa-solid fa-bolt"></i> Genelde 2 saat içinde yanıtlar</span>
+      </div>
+    </div>
+
+    <div class="pf-badges">
+      <div class="badge-head">
+        <h3><i class="fa-solid fa-award"></i> Rozetler &amp; Kademe</h3>
+        <span class="tbadge t-dada"><i class="fa-solid fa-medal"></i> Usta Aşçı</span>
+        <span class="bh-cnt">15 kazanıldı · Şef&rsquo;e 5 rozet kaldı</span>
+        <a class="see-all" href="rozetler-v1.html">Tüm Rozetler <i class="fa-solid fa-arrow-right"></i></a>
+      </div>
+      <div class="badge-grid">
+        <div class="badge-card"><i class="fa-solid fa-star b-rare" title="Nadir rozet"></i><span class="badge-ico"><i class="fa-solid fa-medal"></i></span><div><b>Dada Şefi</b><span>Oca 2026 · nadir</span></div></div>
+        <div class="badge-card"><span class="badge-ico"><i class="fa-solid fa-circle-check"></i></span><div><b>Editör Onaylı</b><span>Eyl 2024</span></div></div>
+        <div class="badge-card"><span class="badge-ico"><i class="fa-solid fa-lightbulb"></i></span><div><b>Püf Bilgini</b><span>Şub 2025</span></div></div>
+        <div class="badge-card"><span class="badge-ico"><i class="fa-solid fa-user-plus"></i></span><div><b>Takip Mıknatısı</b><span>Oca 2025</span></div></div>
+        <div class="badge-card"><span class="badge-ico"><i class="fa-solid fa-trophy"></i></span><div><b>Haftanın Aşçısı</b><span>3 kez kazandı</span></div></div>
+        <div class="badge-card locked"><i class="fa-solid fa-lock badge-lock"></i><span class="badge-ico"><i class="fa-solid fa-award"></i></span><div><b>Şef kademesi</b><span>5 rozet kaldı</span></div></div>
+      </div>
+    </div>
+
+    <div class="pf-stats">
+      <div class="pfs"><i class="fa-solid fa-user-group"></i><div><span>Danışan</span><b>1.240+</b></div></div>
+      <div class="pfs"><i class="fa-solid fa-briefcase"></i><div><span>Deneyim</span><b>9 yıl</b></div></div>
+      <div class="pfs score"><i class="fa-solid fa-star"></i><div><span>Danışan Puanı</span><b>4.9 / 5</b></div></div>
+      <div class="pfs green"><i class="fa-solid fa-clock"></i><div><span>Yanıt Süresi</span><b>&lt; 2 saat</b></div></div>
+    </div>
+  </div>
+</section>
+
+<section class="sec" style="background:var(--bg-white);padding-top:40px">
+  <div class="wrap">
+    <div class="pf-tabbar">
+      <div class="pf-tabs" role="tablist" aria-label="Profil bölümleri">
+        <button class="dt active" type="button" data-tab="hakkinda"><i class="fa-solid fa-user"></i> Hakkında</button>
+        <button class="dt" type="button" data-tab="hizmetler"><i class="fa-solid fa-stethoscope"></i> Hizmetler <span class="cnt">3</span></button>
+        <button class="dt" type="button" data-tab="menuler"><i class="fa-solid fa-utensils"></i> Örnek Menüler <span class="cnt">3</span></button>
+        <button class="dt" type="button" data-tab="tarifler"><i class="fa-solid fa-book-open"></i> Tarifleri <span class="cnt">12</span></button>
+        <button class="dt" type="button" data-tab="pufler"><i class="fa-solid fa-lightbulb"></i> Püf Noktaları <span class="cnt">8</span></button>
+        <button class="dt" type="button" data-tab="yorumlar"><i class="fa-solid fa-comment-dots"></i> Yorumlar <span class="cnt">212</span></button>
+      </div>
+    </div>
+
+    <!-- ===== HAKKINDA ===== -->
+    <div class="pf-pane" data-pane="hakkinda">
+      <div class="ab-grid">
+        <div class="ab-main">
+          <h2>Çalışma yaklaşımım</h2>
+          <p>Diyet, kısa süreli bir kısıtlama değil; hayatına oturan bir düzen olmalı. Danışanlarımla önce mevcut alışkanlıkları, mutfak rutinini ve hedefleri konuşuyoruz. Sonra haftalık olarak güncellenen, esnek ve kültürel damak tadına uygun planlar kuruyoruz. Tartı tek ölçüt değil — enerji, uyku ve laboratuvar değerleri de takip ediyoruz.</p>
+          <p>İlk görüşmede detaylı bir beslenme ve sağlık öyküsü alıyor, gerekirse tahlil yönlendirmesi yapıyorum. Takip görüşmelerinde plan, ilerlemene ve geri bildirimine göre revize ediliyor.</p>
+
+          <h2>Uzmanlık alanları</h2>
+          <div class="ab-spec chips">
+            <span class="chip">Kilo Yönetimi</span>
+            <span class="chip">Klinik Beslenme</span>
+            <span class="chip">İnsülin Direnci</span>
+            <span class="chip">Bağırsak Sağlığı</span>
+            <span class="chip">Sporcu Beslenmesi</span>
+            <span class="chip">PCOS &amp; Hormonal Denge</span>
+          </div>
+
+          <h2>Neden farklı</h2>
+          <div class="ab-approach">
+            <div class="ap-item"><i class="fa-solid fa-arrows-rotate"></i><div><b>Haftalık revizyon</b><span>Plan, ilerlemene göre her hafta güncellenir — sabit liste vermem.</span></div></div>
+            <div class="ap-item"><i class="fa-solid fa-bowl-rice"></i><div><b>Kendi mutfağın</b><span>Pahalı, ulaşılması zor besinler yerine evindeki malzemeler.</span></div></div>
+            <div class="ap-item"><i class="fa-solid fa-comments"></i><div><b>Görüşmeler arası destek</b><span>Sorularına mesajla 2 saat içinde dönüş yaparım.</span></div></div>
+            <div class="ap-item"><i class="fa-solid fa-heart-pulse"></i><div><b>Bütüncül takip</b><span>Sadece kilo değil; enerji, uyku ve tahlil değerleri.</span></div></div>
+          </div>
+        </div>
+
+        <aside class="ab-side">
+          <div class="info-card">
+            <h4><i class="fa-solid fa-graduation-cap"></i> Eğitim &amp; Belgeler <span class="pf-ornek"><i class="fa-solid fa-flask"></i> Örnek</span></h4>
+            <div class="ic-row"><span class="ic-ico"><i class="fa-solid fa-graduation-cap"></i></span><div><b>Diploma</b><span>Beslenme ve Diyetetik (Lisans) · Hacettepe Üniversitesi</span></div></div>
+            <div class="ic-row"><span class="ic-ico"><i class="fa-solid fa-stethoscope"></i></span><div><b>Uzmanlık</b><span>Klinik Beslenme (Yüksek Lisans) · Kilo Yönetimi</span></div></div>
+            <div class="ic-row"><span class="ic-ico"><i class="fa-solid fa-id-card"></i></span><div><b>Mesleki Kayıt</b><span>Kayıt no: —</span></div></div>
+            <div class="ic-row"><span class="ic-ico"><i class="fa-solid fa-calendar-check"></i></span><div><b>Doğrulama Tarihi</b><span>—</span></div></div>
+            <p class="pf-ornek-note">Kayıt ve doğrulama alanları örnek şablondur; gerçek bilgiler uzman doğrulaması tamamlandığında görünür.</p>
+          </div>
+          <div class="info-card">
+            <h4><i class="fa-solid fa-circle-info"></i> Hızlı Bilgi</h4>
+            <div class="ic-row"><span class="ic-ico"><i class="fa-solid fa-video"></i></span><div><b>Görüşme</b><span>Online (görüntülü) &amp; yüz yüze</span></div></div>
+            <div class="ic-row"><span class="ic-ico"><i class="fa-solid fa-clock"></i></span><div><b>Yanıt süresi</b><span>Ortalama 2 saat içinde</span></div></div>
+          </div>
+        </aside>
+      </div>
+    </div>
+
+    <!-- ===== HİZMETLER ===== -->
+    <div class="pf-pane" data-pane="hizmetler" hidden>
+      <div class="svc-grid">
+        <article class="svc-card">
+          <span class="svc-tag">İlk adım</span>
+          <div class="svc-ico"><i class="fa-solid fa-clipboard-list"></i></div>
+          <h3>Online İlk Görüşme</h3>
+          <p>Detaylı beslenme ve sağlık öyküsü, hedef belirleme ve ilk haftalık planın.</p>
+          <ul class="svc-feats">
+            <li><i class="fa-solid fa-check"></i> 60 dk görüntülü görüşme</li>
+            <li><i class="fa-solid fa-check"></i> Kişiye özel haftalık menü</li>
+            <li><i class="fa-solid fa-check"></i> Tahlil değerlendirmesi</li>
+          </ul>
+          <div class="svc-foot"><div class="svc-price"><b>₺750</b> <span>/ görüşme</span></div><button class="svc-book" type="button" data-svc="Online İlk Görüşme" data-price="750"><i class="fa-solid fa-calendar-check"></i> Randevu</button></div>
+        </article>
+        <article class="svc-card feat">
+          <span class="svc-tag">En çok tercih edilen</span>
+          <div class="svc-ico"><i class="fa-solid fa-arrows-rotate"></i></div>
+          <h3>Online Takip Paketi</h3>
+          <p>Düzenli takip görüşmeleri ve görüşmeler arası mesajla sürekli destek.</p>
+          <ul class="svc-feats">
+            <li><i class="fa-solid fa-check"></i> 4 × 45 dk görüşme (aylık)</li>
+            <li><i class="fa-solid fa-check"></i> Haftalık menü revizyonu</li>
+            <li><i class="fa-solid fa-check"></i> Mesajla sınırsız soru</li>
+          </ul>
+          <div class="svc-foot"><div class="svc-price"><b>₺2.200</b> <span>/ ay</span></div><button class="svc-book" type="button" data-svc="Online Takip Paketi" data-price="2200"><i class="fa-solid fa-calendar-check"></i> Randevu</button></div>
+        </article>
+        <article class="svc-card">
+          <span class="svc-tag">Yüz yüze</span>
+          <div class="svc-ico"><i class="fa-solid fa-house-chimney-medical"></i></div>
+          <h3>Klinik Görüşme</h3>
+          <p>İstanbul Şişli'deki klinikte yüz yüze görüşme ve vücut analizi.</p>
+          <ul class="svc-feats">
+            <li><i class="fa-solid fa-check"></i> 60 dk yüz yüze görüşme</li>
+            <li><i class="fa-solid fa-check"></i> Biyoimpedans vücut analizi</li>
+            <li><i class="fa-solid fa-check"></i> Kişiye özel plan</li>
+          </ul>
+          <div class="svc-foot"><div class="svc-price"><b>₺900</b> <span>/ görüşme</span></div><button class="svc-book" type="button" data-svc="Klinik Görüşme" data-price="900"><i class="fa-solid fa-calendar-check"></i> Randevu</button></div>
+        </article>
+      </div>
+    </div>
+
+    <!-- ===== ÖRNEK MENÜLER ===== -->
+    <div class="pf-pane" data-pane="menuler" hidden>
+      <div class="sec-head reveal"><div>
+        <span class="eyebrow"><i class="fa-solid fa-utensils"></i> Örnek Planlar</span>
+        <h2>Danışanlarıma kurduğum örnek menüler</h2>
+        <p class="lead">Her plan kişiye özel hazırlanır — bunlar yalnızca yaklaşımımı gösteren örneklerdir.</p>
+      </div></div>
+      <div class="menu-grid">
+        <article class="menu-card">
+          <div class="menu-head"><h4>Kilo Verme · Günlük <small>1.450 kcal dengeli gün</small></h4><span class="menu-cnt">5 öğün</span></div>
+          <div class="menu-thumbs"><div class="mth" style="background-image:url('https://images.unsplash.com/photo-1512621776951-a57141f2eefd?w=220&q=80&auto=format&fit=crop&exp=7&gam=6&sat=-9&high=8&vib=5')"></div><div class="mth" style="background-image:url('https://images.unsplash.com/photo-1490645935967-10de6ba17061?w=220&q=80&auto=format&fit=crop&exp=7&gam=6&sat=-9&high=8&vib=5')"></div><div class="mth" style="background-image:url('https://images.unsplash.com/photo-1467003909585-2f8a72700288?w=220&q=80&auto=format&fit=crop&exp=7&gam=6&sat=-9&high=8&vib=5')"></div><div class="mth more" style="background-image:url('https://images.unsplash.com/photo-1546069901-ba9599a7e63c?w=220&q=80&auto=format&fit=crop&exp=7&gam=6&sat=-9&high=8&vib=5')"><span>+4</span></div></div>
+          <div class="menu-meta"><span><i class="fa-solid fa-fire"></i> 1.450 kcal</span><span><i class="fa-solid fa-utensils"></i> 5 öğün</span><span><i class="fa-solid fa-leaf"></i> 3 ana + 2 ara</span></div>
+        </article>
+        <article class="menu-card">
+          <div class="menu-head"><h4>Sporcu Performans <small>Antrenman günü protein ağırlıklı</small></h4><span class="menu-cnt">6 öğün</span></div>
+          <div class="menu-thumbs"><div class="mth" style="background-image:url('https://images.unsplash.com/photo-1517673400267-0251440c45dc?w=220&q=80&auto=format&fit=crop&exp=7&gam=6&sat=-9&high=8&vib=5')"></div><div class="mth" style="background-image:url('https://images.unsplash.com/photo-1604908176997-125f25cc6f3d?w=220&q=80&auto=format&fit=crop&exp=7&gam=6&sat=-9&high=8&vib=5')"></div><div class="mth" style="background-image:url('https://images.unsplash.com/photo-1490818387583-1baba5e638af?w=220&q=80&auto=format&fit=crop&exp=7&gam=6&sat=-9&high=8&vib=5')"></div><div class="mth more" style="background-image:url('https://images.unsplash.com/photo-1455619452474-d2be8b1e70cd?w=220&q=80&auto=format&fit=crop&exp=7&gam=6&sat=-9&high=8&vib=5')"><span>+4</span></div></div>
+          <div class="menu-meta"><span><i class="fa-solid fa-fire"></i> 2.300 kcal</span><span><i class="fa-solid fa-utensils"></i> 6 öğün</span><span><i class="fa-solid fa-leaf"></i> Yüksek protein</span></div>
+        </article>
+        <article class="menu-card">
+          <div class="menu-head"><h4>Glutensiz Hafta <small>Çölyak dostu 7 günlük plan</small></h4><span class="menu-cnt">21 öğün</span></div>
+          <div class="menu-thumbs"><div class="mth" style="background-image:url('https://images.unsplash.com/photo-1546069901-ba9599a7e63c?w=220&q=80&auto=format&fit=crop&exp=7&gam=6&sat=-9&high=8&vib=5')"></div><div class="mth" style="background-image:url('https://images.unsplash.com/photo-1505253716362-afaea1d3d1af?w=220&q=80&auto=format&fit=crop&exp=7&gam=6&sat=-9&high=8&vib=5')"></div><div class="mth" style="background-image:url('https://images.unsplash.com/photo-1512621776951-a57141f2eefd?w=220&q=80&auto=format&fit=crop&exp=7&gam=6&sat=-9&high=8&vib=5')"></div><div class="mth more" style="background-image:url('https://images.unsplash.com/photo-1467003909585-2f8a72700288?w=220&q=80&auto=format&fit=crop&exp=7&gam=6&sat=-9&high=8&vib=5')"><span>+4</span></div></div>
+          <div class="menu-meta"><span><i class="fa-solid fa-fire"></i> 7 gün</span><span><i class="fa-solid fa-utensils"></i> 21 öğün</span><span><i class="fa-solid fa-leaf"></i> Glutensiz</span></div>
+        </article>
+      </div>
+
+    </div>
+
+    <!-- ===== TARİFLER (o diyetisyenin tarifleri — r-card VERBATIM MİRAS) ===== -->
+    <div class="pf-pane" data-pane="tarifler" hidden>
+      <div class="sec-head reveal"><div>
+        <span class="eyebrow"><i class="fa-solid fa-book-open"></i> Mutfaktan</span>
+        <h2>Elif'in tarifleri</h2>
+        <p class="lead">Danışanlarına düzenli önerdiği, pratik ve dengeli DadaMutfak tarifleri.</p>
+      </div>
+      <div class="sec-tools"><a class="see-all" href="tarif-liste-v1.html?yazar=elif-sahin">Tümünü Gör <i class="fa-solid fa-arrow-right"></i></a></div></div>
+
+      <!-- Pro içerik bandı (Madde 8) — pro koleksiyon canonical .pro-gate ile kilitli -->
+      <div class="pf-pro-band" data-pro-gate
+           data-pro-title="Elif'in Pro koleksiyonu Pro üyelere özel"
+           data-pro-desc="Uzm. Dyt. Elif Şahin'in makro hesaplı haftalık menüleri ve danışanlarına özel pro tarif koleksiyonuna erişmek için DadaMutfak Pro'ya yükselt.">
+        <span class="pf-pro-ico"><i class="fa-solid fa-crown"></i></span>
+        <div class="pf-pro-tt">
+          <b>Elif'in Pro koleksiyonu <span class="pf-pro-tag"><i class="fa-solid fa-crown"></i> Pro</span></b>
+          <span>Makro hesaplı haftalık menüler ve danışanlara özel pro tarifler — DadaMutfak Pro üyelere açık.</span>
+        </div>
+        <span class="pf-pro-cta"><i class="fa-solid fa-lock"></i> Pro ile Aç</span>
+      </div>
+
+      <div class="rr-grid">
+        <article class="r-card" onclick="location.href='tarif-detay-v1.html'">
+          <div class="r-media-wrap"><div class="r-media" style="background-image:url('https://images.unsplash.com/photo-1604908176997-125f25cc6f3d?w=500&q=80&auto=format&fit=crop&exp=7&gam=6&sat=-9&high=8&vib=5')">
+            <span class="r-chip">Düşük Kalori</span>
+            <button class="r-save" type="button" aria-label="Kaydet" onclick="event.stopPropagation()"><i class="fa-regular fa-heart"></i></button>
+            <div class="m-types"><span class="mt"><i class="fa-regular fa-clock"></i> 28 dk</span></div>
+          </div></div>
+          <div class="r-body">
+            <h4>Fırında Sebzeli Tavuk Göğsü</h4>
+            <div class="r-author"><div class="av" style="background-image:url('https://images.unsplash.com/photo-1559839734-2b71ea197ec2?w=300&q=80&auto=format&fit=crop&exp=7&gam=6&sat=-9&high=8&vib=5')"></div><span><b>Elif Şahin</b> önerdi</span><span class="r-rate"><i class="fa-solid fa-star"></i> 4.8</span></div>
+          </div>
+        </article>
+        <article class="r-card" onclick="location.href='tarif-detay-v1.html'">
+          <div class="r-media-wrap"><div class="r-media" style="background-image:url('https://images.unsplash.com/photo-1517673400267-0251440c45dc?w=500&q=80&auto=format&fit=crop&exp=7&gam=6&sat=-9&high=8&vib=5')">
+            <span class="r-chip">Yüksek Protein</span>
+            <button class="r-save" type="button" aria-label="Kaydet" onclick="event.stopPropagation()"><i class="fa-regular fa-heart"></i></button>
+            <div class="m-types"><span class="mt"><i class="fa-regular fa-clock"></i> 12 dk</span></div>
+          </div></div>
+          <div class="r-body">
+            <h4>Yulaflı Protein Kahvaltı Kasesi</h4>
+            <div class="r-author"><div class="av" style="background-image:url('https://images.unsplash.com/photo-1559839734-2b71ea197ec2?w=300&q=80&auto=format&fit=crop&exp=7&gam=6&sat=-9&high=8&vib=5')"></div><span><b>Elif Şahin</b> önerdi</span><span class="r-rate"><i class="fa-solid fa-star"></i> 4.9</span></div>
+          </div>
+        </article>
+        <article class="r-card" onclick="location.href='tarif-detay-v1.html'">
+          <div class="r-media-wrap"><div class="r-media" style="background-image:url('https://images.unsplash.com/photo-1512621776951-a57141f2eefd?w=500&q=80&auto=format&fit=crop&exp=7&gam=6&sat=-9&high=8&vib=5')">
+            <span class="r-chip">Lif Deposu</span>
+            <button class="r-save" type="button" aria-label="Kaydet" onclick="event.stopPropagation()"><i class="fa-regular fa-heart"></i></button>
+            <div class="m-types"><span class="mt"><i class="fa-regular fa-clock"></i> 18 dk</span></div>
+          </div></div>
+          <div class="r-body">
+            <h4>Nohutlu Akdeniz Salatası</h4>
+            <div class="r-author"><div class="av" style="background-image:url('https://images.unsplash.com/photo-1559839734-2b71ea197ec2?w=300&q=80&auto=format&fit=crop&exp=7&gam=6&sat=-9&high=8&vib=5')"></div><span><b>Elif Şahin</b> önerdi</span><span class="r-rate"><i class="fa-solid fa-star"></i> 4.7</span></div>
+          </div>
+        </article>
+        <article class="r-card" onclick="location.href='tarif-detay-v1.html'">
+          <div class="r-media-wrap"><div class="r-media" style="background-image:url('https://images.unsplash.com/photo-1467003909585-2f8a72700288?w=500&q=80&auto=format&fit=crop&exp=7&gam=6&sat=-9&high=8&vib=5')">
+            <span class="r-chip">Omega-3</span>
+            <button class="r-save" type="button" aria-label="Kaydet" onclick="event.stopPropagation()"><i class="fa-regular fa-heart"></i></button>
+            <div class="m-types"><span class="mt"><i class="fa-regular fa-clock"></i> 32 dk</span></div>
+          </div></div>
+          <div class="r-body">
+            <h4>Izgara Somon & Kinoa</h4>
+            <div class="r-author"><div class="av" style="background-image:url('https://images.unsplash.com/photo-1559839734-2b71ea197ec2?w=300&q=80&auto=format&fit=crop&exp=7&gam=6&sat=-9&high=8&vib=5')"></div><span><b>Elif Şahin</b> önerdi</span><span class="r-rate"><i class="fa-solid fa-star"></i> 4.9</span></div>
+          </div>
+        </article>
+        <article class="r-card" onclick="location.href='tarif-detay-v1.html'">
+          <div class="r-media-wrap"><div class="r-media" style="background-image:url('https://images.unsplash.com/photo-1484980972926-edee96e0960d?w=500&q=80&auto=format&fit=crop&exp=7&gam=6&sat=-9&high=8&vib=5')">
+            <span class="r-chip">Glutensiz</span>
+            <button class="r-save" type="button" aria-label="Kaydet" onclick="event.stopPropagation()"><i class="fa-regular fa-heart"></i></button>
+            <div class="m-types"><span class="mt"><i class="fa-regular fa-clock"></i> 22 dk</span></div>
+          </div></div>
+          <div class="r-body">
+            <h4>Karabuğdaylı Sebze Buddha Kasesi</h4>
+            <div class="r-author"><div class="av" style="background-image:url('https://images.unsplash.com/photo-1559839734-2b71ea197ec2?w=300&q=80&auto=format&fit=crop&exp=7&gam=6&sat=-9&high=8&vib=5')"></div><span><b>Elif Şahin</b> önerdi</span><span class="r-rate"><i class="fa-solid fa-star"></i> 4.8</span></div>
+          </div>
+        </article>
+        <article class="r-card" onclick="location.href='tarif-detay-v1.html'">
+          <div class="r-media-wrap"><div class="r-media" style="background-image:url('https://images.unsplash.com/photo-1490645935967-10de6ba17061?w=500&q=80&auto=format&fit=crop&exp=7&gam=6&sat=-9&high=8&vib=5')">
+            <span class="r-chip">Şekersiz</span>
+            <button class="r-save" type="button" aria-label="Kaydet" onclick="event.stopPropagation()"><i class="fa-regular fa-heart"></i></button>
+            <div class="m-types"><span class="mt"><i class="fa-regular fa-clock"></i> 8 dk</span></div>
+          </div></div>
+          <div class="r-body">
+            <h4>Chia'lı Tarçınlı Gece Yulafı</h4>
+            <div class="r-author"><div class="av" style="background-image:url('https://images.unsplash.com/photo-1559839734-2b71ea197ec2?w=300&q=80&auto=format&fit=crop&exp=7&gam=6&sat=-9&high=8&vib=5')"></div><span><b>Elif Şahin</b> önerdi</span><span class="r-rate"><i class="fa-solid fa-star"></i> 4.9</span></div>
+          </div>
+        </article>
+        <article class="r-card" onclick="location.href='tarif-detay-v1.html'">
+          <div class="r-media-wrap"><div class="r-media" style="background-image:url('https://images.unsplash.com/photo-1547592180-85f173990554?w=500&q=80&auto=format&fit=crop&exp=7&gam=6&sat=-9&high=8&vib=5')">
+            <span class="r-chip">Lif & Protein</span>
+            <button class="r-save" type="button" aria-label="Kaydet" onclick="event.stopPropagation()"><i class="fa-regular fa-heart"></i></button>
+            <div class="m-types"><span class="mt"><i class="fa-regular fa-clock"></i> 25 dk</span></div>
+          </div></div>
+          <div class="r-body">
+            <h4>Kırmızı Mercimek Köftesi</h4>
+            <div class="r-author"><div class="av" style="background-image:url('https://images.unsplash.com/photo-1559839734-2b71ea197ec2?w=300&q=80&auto=format&fit=crop&exp=7&gam=6&sat=-9&high=8&vib=5')"></div><span><b>Elif Şahin</b> önerdi</span><span class="r-rate"><i class="fa-solid fa-star"></i> 4.7</span></div>
+          </div>
+        </article>
+        <article class="r-card" onclick="location.href='tarif-detay-v1.html'">
+          <div class="r-media-wrap"><div class="r-media" style="background-image:url('https://images.unsplash.com/photo-1505253716362-afaea1d3d1af?w=500&q=80&auto=format&fit=crop&exp=7&gam=6&sat=-9&high=8&vib=5')">
+            <span class="r-chip">Düşük Karbonhidrat</span>
+            <button class="r-save" type="button" aria-label="Kaydet" onclick="event.stopPropagation()"><i class="fa-regular fa-heart"></i></button>
+            <div class="m-types"><span class="mt"><i class="fa-regular fa-clock"></i> 20 dk</span></div>
+          </div></div>
+          <div class="r-body">
+            <h4>Kabak Noodle & Tavuklu Sote</h4>
+            <div class="r-author"><div class="av" style="background-image:url('https://images.unsplash.com/photo-1559839734-2b71ea197ec2?w=300&q=80&auto=format&fit=crop&exp=7&gam=6&sat=-9&high=8&vib=5')"></div><span><b>Elif Şahin</b> önerdi</span><span class="r-rate"><i class="fa-solid fa-star"></i> 4.8</span></div>
+          </div>
+        </article>
+      </div>
+    </div>
+
+    <!-- ===== PÜF NOKTALARI (diyetisyen = sosyal kullanıcı; mutfak-defteri .pufl-grid mirası) ===== -->
+    <div class="pf-pane" data-pane="pufler" hidden>
+      <div class="sec-head reveal"><div>
+        <span class="eyebrow"><i class="fa-solid fa-lightbulb"></i> Uzmandan</span>
+        <h2>Elif'in püf noktaları</h2>
+        <p class="lead">Beslenme ve mutfak pratiğinden küçük, uygulaması kolay ipuçları.</p>
+      </div>
+      <div class="sec-tools"><a class="see-all" href="puf-noktalari-v1.html?yazar=elif-sahin">Tümünü Gör <i class="fa-solid fa-arrow-right"></i></a></div></div>
+      <div class="pufl-grid">
+        <a class="puf-card" href="puf-noktasi-detay-v1.html">
+          <div class="puf-fig" style="background-image:url('https://images.unsplash.com/photo-1490645935967-10de6ba17061?w=400&q=80&auto=format&fit=crop&exp=7&gam=6&sat=-9&high=8&vib=5')"><span class="puf-ico"><i class="fa-solid fa-bowl-food"></i></span></div>
+          <div class="puf-body">
+            <h4>Tabağını bölmeden porsiyon kontrolü</h4>
+            <p>Yarısı sebze, çeyreği protein, çeyreği tahıl — göz kararı dengeli tabak kurmanın en pratik yolu.</p>
+            <span class="puf-tag">Beslenme</span>
+          </div>
+        </a>
+        <a class="puf-card" href="puf-noktasi-detay-v1.html">
+          <div class="puf-fig" style="background-image:url('https://images.unsplash.com/photo-1512621776951-a57141f2eefd?w=400&q=80&auto=format&fit=crop&exp=7&gam=6&sat=-9&high=8&vib=5')"><span class="puf-ico"><i class="fa-solid fa-leaf"></i></span></div>
+          <div class="puf-body">
+            <h4>Sebzeyi soldurmadan saklama</h4>
+            <p>Yeşillikleri yıkamadan, hafif nemli bir beze sarıp kutuda sakla — bir hafta dipdiri kalır.</p>
+            <span class="puf-tag">Saklama</span>
+          </div>
+        </a>
+        <a class="puf-card" href="puf-noktasi-detay-v1.html">
+          <div class="puf-fig" style="background-image:url('https://images.unsplash.com/photo-1494390248081-4e521a5940db?w=400&q=80&auto=format&fit=crop&exp=7&gam=6&sat=-9&high=8&vib=5')"><span class="puf-ico"><i class="fa-solid fa-mug-hot"></i></span></div>
+          <div class="puf-body">
+            <h4>Tok tutan kahvaltı kurmak</h4>
+            <p>Tek başına karbonhidrat yerine protein + lif + sağlıklı yağ üçlüsü öğleye kadar tok tutar.</p>
+            <span class="puf-tag">Kahvaltı</span>
+          </div>
+        </a>
+        <a class="puf-card" href="puf-noktasi-detay-v1.html">
+          <div class="puf-fig" style="background-image:url('https://images.unsplash.com/photo-1547592180-85f173990554?w=400&q=80&auto=format&fit=crop&exp=7&gam=6&sat=-9&high=8&vib=5')"><span class="puf-ico"><i class="fa-solid fa-fire-burner"></i></span></div>
+          <div class="puf-body">
+            <h4>Yağsız ama lezzetli pişirme</h4>
+            <p>Soteyi yağda değil; bir parça su, limon ve baharatla "kavur" — kalori düşer, tat artar.</p>
+            <span class="puf-tag">Pişirme</span>
+          </div>
+        </a>
+      </div>
+    </div>
+
+    <!-- ===== YORUMLAR ===== -->
+    <div class="pf-pane" data-pane="yorumlar" hidden>
+      <div class="rev-layout">
+        <aside class="rev-summary">
+          <div class="rev-big">
+            <b>4.9</b>
+            <div class="rev-stars"><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i></div>
+            <span>212 danışan değerlendirmesi</span>
+          </div>
+          <div class="rs-bars">
+            <div class="rs-bar"><span class="rl">5 <i class="fa-solid fa-star"></i></span><span class="rs-track"><span class="rs-fill" style="width:88%"></span></span><span class="rn">186</span></div>
+            <div class="rs-bar"><span class="rl">4 <i class="fa-solid fa-star"></i></span><span class="rs-track"><span class="rs-fill" style="width:9%"></span></span><span class="rn">19</span></div>
+            <div class="rs-bar"><span class="rl">3 <i class="fa-solid fa-star"></i></span><span class="rs-track"><span class="rs-fill" style="width:3%"></span></span><span class="rn">5</span></div>
+            <div class="rs-bar"><span class="rl">2 <i class="fa-solid fa-star"></i></span><span class="rs-track"><span class="rs-fill" style="width:1%"></span></span><span class="rn">1</span></div>
+            <div class="rs-bar"><span class="rl">1 <i class="fa-solid fa-star"></i></span><span class="rs-track"><span class="rs-fill" style="width:1%"></span></span><span class="rn">1</span></div>
+          </div>
+        </aside>
+        <div class="rev-main">
+          <div class="rev-filter chips">
+            <span class="lbl">Filtrele:</span>
+            <button class="chip active" type="button">Tümü</button>
+            <button class="chip" type="button">Kilo Yönetimi</button>
+            <button class="chip" type="button">Sporcu Beslenmesi</button>
+            <button class="chip" type="button">PCOS</button>
+            <button class="chip" type="button">Online</button>
+          </div>
+          <div class="rev-list">
+        <article class="rev-item">
+          <div class="rev-top">
+            <div class="rev-av" style="background-image:url('https://images.unsplash.com/photo-1544005313-94ddf0286df2?w=120&q=80&auto=format&fit=crop&exp=7&gam=6&sat=-9&high=8&vib=5')"></div>
+            <div class="rev-who"><b>Merve K. <span class="rev-badge"><i class="fa-solid fa-circle-check"></i> Doğrulanmış danışan</span></b><span>Online danışan · 4 ay</span></div>
+            <div class="rev-rate"><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i></div>
+          </div>
+          <p class="rev-text">Elif Hanım'la 4 aydır çalışıyorum. Açlık çekmeden, kendi mutfağımdaki malzemelerle 9 kilo verdim. Her hafta menüyü hayatıma göre güncelliyor, sorularıma birkaç saat içinde dönüyor.</p>
+          <div class="rev-tags"><span class="rev-tag">Kilo Yönetimi</span><span class="rev-tag">Online</span></div>
+          <div class="rev-reply"><b><i class="fa-solid fa-reply"></i> Uzmanın yanıtı</b>Bu yorumu paylaştığınız için teşekkürler Merve! Sürdürülebilir ilerlemeniz harika 👏</div>
+          <div class="rev-foot">
+            <button class="rev-help" type="button"><i class="fa-regular fa-thumbs-up"></i> Faydalı</button>
+            <span class="rev-help" style="cursor:default">18 değerlendirme faydalı buldu</span>
+          </div>
+        </article>
+        <article class="rev-item">
+          <div class="rev-top">
+            <div class="rev-av" style="background-image:url('https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=120&q=80&auto=format&fit=crop&exp=7&gam=6&sat=-9&high=8&vib=5')"></div>
+            <div class="rev-who"><b>Ahmet T. <span class="rev-badge"><i class="fa-solid fa-circle-check"></i> Doğrulanmış danışan</span></b><span>Yüz yüze danışan · 7 ay</span></div>
+            <div class="rev-rate"><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i></div>
+          </div>
+          <p class="rev-text">Spor performansım için başvurdum. Antrenman günlerime özel beslenme planı çıkardı, kreatin/protein zamanlamasını netleştirdi. Maraton hazırlığımda fark yarattı.</p>
+          <div class="rev-tags"><span class="rev-tag">Sporcu Beslenmesi</span></div>
+          
+          <div class="rev-foot">
+            <button class="rev-help" type="button"><i class="fa-regular fa-thumbs-up"></i> Faydalı</button>
+            <span class="rev-help" style="cursor:default">11 değerlendirme faydalı buldu</span>
+          </div>
+        </article>
+        <article class="rev-item">
+          <div class="rev-top">
+            <div class="rev-av" style="background-image:url('https://images.unsplash.com/photo-1487412720507-e7ab37603c6f?w=120&q=80&auto=format&fit=crop&exp=7&gam=6&sat=-9&high=8&vib=5')"></div>
+            <div class="rev-who"><b>Zeynep A. <span class="rev-badge"><i class="fa-solid fa-circle-check"></i> Doğrulanmış danışan</span></b><span>Online danışan · 2 ay</span></div>
+            <div class="rev-rate"><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-regular fa-star"></i></div>
+          </div>
+          <p class="rev-text">PCOS sürecimde çok destekleyici. İnsülin direncine yönelik plan işe yaradı, düzenli görüşmeler motivasyonumu koruyor. Tek eksik bazen randevu bulmak zor oluyor, çok talep görüyor.</p>
+          <div class="rev-tags"><span class="rev-tag">Hormonal Denge</span><span class="rev-tag">PCOS</span></div>
+          
+          <div class="rev-foot">
+            <button class="rev-help" type="button"><i class="fa-regular fa-thumbs-up"></i> Faydalı</button>
+            <span class="rev-help" style="cursor:default">7 değerlendirme faydalı buldu</span>
+          </div>
+        </article>
+          </div>
+          <div class="rev-more"><button class="btn btn-ghost" type="button"><i class="fa-solid fa-arrow-down"></i> Daha fazla yorum (209)</button></div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<!-- (Rozet Koleksiyonu alt galerisi kaldırıldı — üstteki .pf-badges özeti yeterli; tam liste rozetler-v1.html'de) -->
+
+<!-- ===== RANDEVU MODALI (slot seçici) ===== -->
+<div class="apt-overlay" id="aptOverlay"></div>
+<div class="apt-modal" id="aptModal" role="dialog" aria-modal="true" aria-label="Randevu Al">
+  <div class="apt-panel">
+    <div class="apt-head">
+      <div class="apt-av" style="background-image:url('https://images.unsplash.com/photo-1559839734-2b71ea197ec2?w=300&q=80&auto=format&fit=crop&exp=7&gam=6&sat=-9&high=8&vib=5')"></div>
+      <div>
+        <h3>Randevu Al</h3>
+        <p><i class="fa-solid fa-circle-check"></i> Uzm. Dyt. Elif Şahin</p>
+      </div>
+      <button class="apt-close" id="aptClose" type="button" aria-label="Kapat"><i class="fa-solid fa-xmark"></i></button>
+    </div>
+    <div class="apt-body" id="aptBody">
+      <div class="apt-block">
+        <div class="apt-lbl"><i class="fa-solid fa-stethoscope"></i> Görüşme türü</div>
+        <div class="apt-svc" id="aptSvc">
+          <label><input type="radio" name="svc" data-price="750" checked /><span class="rd"></span><span class="si"><b>Online İlk Görüşme</b><span>60 dk · görüntülü</span></span><span class="sp">₺750</span></label>
+          <label><input type="radio" name="svc" data-price="2200" /><span class="rd"></span><span class="si"><b>Online Takip Paketi</b><span>Aylık · 4 görüşme</span></span><span class="sp">₺2.200</span></label>
+          <label><input type="radio" name="svc" data-price="900" /><span class="rd"></span><span class="si"><b>Klinik Görüşme</b><span>60 dk · yüz yüze</span></span><span class="sp">₺900</span></label>
+        </div>
+      </div>
+      <div class="apt-block">
+        <div class="apt-lbl"><i class="fa-solid fa-calendar-days"></i> Gün seç</div>
+        <div class="apt-days">
+            <button class="apt-day" type="button" data-day="Bug 11"><span>Bug</span><b>11</b><small>3 slot</small></button>
+            <button class="apt-day sel" type="button" data-day="Çar 12"><span>Çar</span><b>12</b><small>5 slot</small></button>
+            <button class="apt-day" type="button" data-day="Per 13"><span>Per</span><b>13</b><small>2 slot</small></button>
+            <button class="apt-day off" type="button" data-day="Cum 14"><span>Cum</span><b>14</b><small>—</small></button>
+            <button class="apt-day" type="button" data-day="Cmt 15"><span>Cmt</span><b>15</b><small>6 slot</small></button>
+            <button class="apt-day" type="button" data-day="Paz 16"><span>Paz</span><b>16</b><small>4 slot</small></button>
+            <button class="apt-day" type="button" data-day="Pzt 17"><span>Pzt</span><b>17</b><small>5 slot</small></button>
+        </div>
+      </div>
+      <div class="apt-block">
+        <div class="apt-lbl"><i class="fa-solid fa-clock"></i> Saat seç</div>
+        <div class="apt-slots">
+            <button class="apt-slot" type="button" data-slot="09:00">09:00</button>
+            <button class="apt-slot off" type="button" data-slot="09:45">09:45</button>
+            <button class="apt-slot" type="button" data-slot="10:30">10:30</button>
+            <button class="apt-slot" type="button" data-slot="11:15">11:15</button>
+            <button class="apt-slot" type="button" data-slot="13:00">13:00</button>
+            <button class="apt-slot" type="button" data-slot="13:45">13:45</button>
+            <button class="apt-slot off" type="button" data-slot="14:30">14:30</button>
+            <button class="apt-slot" type="button" data-slot="15:15">15:15</button>
+            <button class="apt-slot" type="button" data-slot="16:00">16:00</button>
+            <button class="apt-slot" type="button" data-slot="16:45">16:45</button>
+        </div>
+      </div>
+      <div class="apt-foot">
+        <div class="apt-sum">Seçilen<b id="aptSum">Online İlk Görüşme · ₺750</b></div>
+        <button class="btn btn-primary apt-confirm" id="aptConfirm" type="button"><i class="fa-solid fa-check"></i> Randevuyu Onayla</button>
+      </div>
+    </div>
+    <div class="apt-body" id="aptSuccess" hidden>
+      <div class="apt-success">
+        <span class="ok"><i class="fa-solid fa-check"></i></span>
+        <h4>Randevu talebin alındı</h4>
+        <p id="aptSuccessText">Uzm. Dyt. Elif Şahin onayladığında e-posta ve SMS ile bilgilendirileceksin. Ödemeyi onay sonrası güvenli şekilde tamamlayabilirsin.</p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ===== MESAJ MODALI ===== -->
+<div class="apt-overlay" id="msgOverlay"></div>
+<div class="apt-modal" id="msgModal" role="dialog" aria-modal="true" aria-label="Mesaj Gönder">
+  <div class="apt-panel">
+    <div class="apt-head">
+      <div class="apt-av" style="background-image:url('https://images.unsplash.com/photo-1559839734-2b71ea197ec2?w=300&q=80&auto=format&fit=crop&exp=7&gam=6&sat=-9&high=8&vib=5')"></div>
+      <div><h3>Mesaj Gönder</h3><p><i class="fa-solid fa-bolt"></i> Genelde 2 saat içinde yanıtlar</p></div>
+      <button class="apt-close" id="msgClose" type="button" aria-label="Kapat"><i class="fa-solid fa-xmark"></i></button>
+    </div>
+    <div class="apt-body" id="msgForm">
+      <div class="apt-block">
+        <div class="apt-lbl"><i class="fa-solid fa-pen"></i> Mesajın</div>
+        <div class="fb-field"><textarea placeholder="Hangi konuda destek istiyorsun? Hedefini kısaca anlat — Elif Hanım uygunsa randevu önerecektir." required></textarea></div>
+        <div class="fb-field"><input type="email" placeholder="E-posta adresin (yanıt için) *" required /></div>
+      </div>
+      <div class="apt-foot">
+        <span class="apt-sum"><i class="fa-solid fa-lock" style="color:var(--green-deep)"></i> Mesajın yalnızca uzmana iletilir</span>
+        <button class="btn btn-primary" id="msgSend" type="button"><i class="fa-solid fa-paper-plane"></i> Gönder</button>
+      </div>
+    </div>
+    <div class="apt-body" id="msgSuccess" hidden>
+      <div class="apt-success">
+        <span class="ok"><i class="fa-solid fa-check"></i></span>
+        <h4>Mesajın iletildi</h4>
+        <p>Uzm. Dyt. Elif Şahin yanıtladığında e-posta ile haberdar olacaksın.</p>
+      </div>
+    </div>
+  </div>
+</div>
+
+</main><!-- /.page-main -->
+
+<div id="ddChromeFab"></div>
+
+<div id="ddChromeGate"></div>
+
+<!-- ===== PRO-GATE (Foundation F1) — ÜCRETLİ premium içerik kilidi (lg-gate kardeşi) =====
+     _shell.html canonical bloğunun BİREBİR kopyası. [data-pro-gate] taşıyan öğeler kapıyı açar (data-pro-title/desc ile özelleştir).
+     ÜCRETSİZ "Abone Ol" ile KARIŞTIRILMAZ — o kilit açmaz. SS: ?pro=1 -->
+<div class="pg-overlay" id="pgOverlay"></div>
+<div class="pro-gate" id="proGate" role="dialog" aria-modal="true" aria-label="Pro içerik kilidi">
+  <div class="pg-panel">
+    <button class="pg-close" id="pgClose" type="button" aria-label="Kapat"><i class="fa-solid fa-xmark"></i></button>
+    <span class="pg-ico"><i class="fa-solid fa-crown"></i></span>
+    <span class="pg-tag"><i class="fa-solid fa-crown"></i> Pro</span>
+    <h4 id="pgTitle">Bu içerik Pro üyelere özel</h4>
+    <p id="pgDesc">Premium tarifleri, koleksiyonları ve creator serilerini açmak için DadaMutfak Pro'ya yükselt.</p>
+    <ul class="pg-feats">
+      <li><i class="fa-solid fa-check"></i> Reklamsız deneyim</li>
+      <li><i class="fa-solid fa-check"></i> Premium tarifler &amp; creator içeriği</li>
+      <li><i class="fa-solid fa-check"></i> Diyetisyen &amp; mekan avantajları</li>
+    </ul>
+    <div class="pg-acts">
+      <a class="btn btn-primary" href="pro-v1.html"><i class="fa-solid fa-crown"></i> Pro'ya Yükselt</a>
+      <button class="btn btn-ghost" id="pgLater" type="button">Belki sonra</button>
+    </div>
+  </div>
+</div>
+
+<!-- ===== A4: TIBBİ BİLGİLENDİRME ŞERİDİ ===== -->
+<section class="pf-disclaimer" aria-label="Tıbbi bilgilendirme">
+  <div class="wrap">
+    <i class="fa-solid fa-circle-info"></i>
+    <p>Bu sayfadaki içerik genel bilgilendirme amaçlıdır; <b>tıbbi teşhis veya tedavi yerine geçmez.</b> Kişiye özel beslenme planı yalnızca <b>yetkili bir diyetisyen</b> tarafından hazırlanır. Gebelik, kronik hastalık, düzenli ilaç kullanımı, çocuk beslenmesi veya klinik bir durum varsa plana başlamadan önce <b>hekim ve diyetisyen kontrolü zorunludur.</b></p>
+  </div>
+</section>
+
+<div id="ddChromeFooter"></div>
+
+<script>
+/* ===== SAYFA JS — sayfa-spesifik script BU İŞARETİN ALTINA eklenir ===== */
+
+/* ===== F12a DİYETİSYEN PROFİL — sekme + randevu/mesaj modalı ===== */
+(function(){
+  var params=new URLSearchParams(location.search);
+  var valid=['hakkinda','hizmetler','menuler','tarifler','pufler','yorumlar'];
+  var start=params.get('tab'); if(valid.indexOf(start)<0)start='hakkinda';
+  var tabs=document.querySelectorAll('.pf-tabs .dt');
+  function activate(name){
+    tabs.forEach(function(b){b.classList.toggle('active',b.getAttribute('data-tab')===name);});
+    document.querySelectorAll('.pf-pane').forEach(function(p){p.hidden=p.getAttribute('data-pane')!==name;});
+  }
+  tabs.forEach(function(b){b.addEventListener('click',function(){activate(b.getAttribute('data-tab'));});});
+  activate(start);
+
+  // Takip Et toggle (mock) — pf-follow; ?takip=1 ile takipte başlar
+  var pfFollow=document.getElementById('pfFollow');
+  if(pfFollow){
+    function setFollow(on){
+      pfFollow.classList.toggle('following',on);
+      pfFollow.innerHTML=on?'<i class="fa-solid fa-check"></i> Takip Ediliyor':'<i class="fa-solid fa-user-plus"></i> Takip Et';
+    }
+    if(params.get('takip')==='1')setFollow(true);
+    pfFollow.addEventListener('click',function(){setFollow(!pfFollow.classList.contains('following'));});
+  }
+
+  // yorum filtre chip'leri
+  document.querySelectorAll('.rev-filter .chip').forEach(function(c){
+    c.addEventListener('click',function(){
+      document.querySelectorAll('.rev-filter .chip').forEach(function(x){x.classList.remove('active');});
+      c.classList.add('active');
+    });
+  });
+
+  /* ---- RANDEVU MODALI ---- */
+  var aptModal=document.getElementById('aptModal'),aptOv=document.getElementById('aptOverlay');
+  var aptSum=document.getElementById('aptSum'),aptBody=document.getElementById('aptBody'),aptSuccess=document.getElementById('aptSuccess');
+  function svcInfo(){
+    var r=document.querySelector('#aptSvc input:checked');
+    var lbl=r.closest('label').querySelector('.si b').textContent;
+    var price=r.closest('label').querySelector('.sp').textContent;
+    return lbl+' · '+price;
+  }
+  function refreshSum(){ aptSum.textContent=svcInfo(); }
+  function openApt(presetPrice){
+    if(presetPrice){
+      var r=document.querySelector('#aptSvc input[data-price="'+presetPrice+'"]');
+      if(r)r.checked=true;
+    }
+    aptBody.hidden=false; aptSuccess.hidden=true; refreshSum();
+    aptModal.classList.add('show');aptOv.classList.add('show');document.body.style.overflow='hidden';
+  }
+  function closeApt(){aptModal.classList.remove('show');aptOv.classList.remove('show');document.body.style.overflow='';}
+  document.getElementById('openApt').addEventListener('click',function(){openApt();});
+  document.querySelectorAll('.svc-book').forEach(function(b){
+    b.addEventListener('click',function(){openApt(b.getAttribute('data-price'));});
+  });
+  document.getElementById('aptClose').addEventListener('click',closeApt);
+  aptOv.addEventListener('click',closeApt);
+  document.querySelectorAll('#aptSvc input').forEach(function(i){i.addEventListener('change',refreshSum);});
+  document.querySelectorAll('.apt-day').forEach(function(d){
+    d.addEventListener('click',function(){
+      document.querySelectorAll('.apt-day').forEach(function(x){x.classList.remove('sel');});
+      d.classList.add('sel');
+    });
+  });
+  document.querySelectorAll('.apt-slot').forEach(function(sl){
+    sl.addEventListener('click',function(){
+      document.querySelectorAll('.apt-slot').forEach(function(x){x.classList.remove('sel');});
+      sl.classList.add('sel');
+    });
+  });
+  document.getElementById('aptConfirm').addEventListener('click',function(){
+    var day=document.querySelector('.apt-day.sel'),slot=document.querySelector('.apt-slot.sel');
+    var dtxt=(day?day.getAttribute('data-day'):'12 Çar')+(slot?' · '+slot.getAttribute('data-slot'):' · 13:00');
+    document.getElementById('aptSuccessText').textContent='Randevu talebin için: '+svcInfo()+' — '+dtxt+'. Uzman onayladığında e-posta ve SMS ile bilgilendirileceksin.';
+    aptBody.hidden=true; aptSuccess.hidden=false;
+  });
+  if(params.get('randevu')==='1')openApt();
+
+  /* ---- MESAJ MODALI ---- */
+  var msgModal=document.getElementById('msgModal'),msgOv=document.getElementById('msgOverlay');
+  var msgForm=document.getElementById('msgForm'),msgSuccess=document.getElementById('msgSuccess');
+  function openMsg(){msgForm.hidden=false;msgSuccess.hidden=true;msgModal.classList.add('show');msgOv.classList.add('show');document.body.style.overflow='hidden';}
+  function closeMsg(){msgModal.classList.remove('show');msgOv.classList.remove('show');document.body.style.overflow='';}
+  document.getElementById('openMsg').addEventListener('click',openMsg);
+  document.getElementById('msgClose').addEventListener('click',closeMsg);
+  msgOv.addEventListener('click',closeMsg);
+  document.getElementById('msgSend').addEventListener('click',function(){msgForm.hidden=true;msgSuccess.hidden=false;});
+
+  document.addEventListener('keydown',function(e){if(e.key==='Escape'){closeApt();closeMsg();}});
+  if(params.get('msg')==='1')openMsg();
+})();
+</script>
+</body>

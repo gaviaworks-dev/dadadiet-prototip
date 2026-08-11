@@ -1,0 +1,803 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<meta name="robots" content="noindex, nofollow" />
+<title>Diyetisyenler — Uzmanla Randevu Al · DadaMutfak</title>
+<link rel="shortcut icon" type="image/x-icon"
+      href="assets/img/favicon.ico" />
+<!-- FontAwesome 6.5.2 (kilitli ikon seti) -->
+<link rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css"
+      integrity="sha512-SnH5WK+bZxgPHs44uWIX+LLJAJ9/2PkPKZ5QiAj6Ta86w+fsb2TkcmfRyVX3pBnMFcV7oQPJkl9QevSCWr3W6A=="
+      crossorigin="anonymous" referrerpolicy="no-referrer" />
+<link rel="stylesheet" href="assets/css/dd-shell.css" />
+<style>
+/* ===== SAYFA CSS — kabuk CSS'i assets/css/dd-shell.css'te ===== */
+/* T5 STICKY FIX (faz6, page-local): kok overflow-x hidden body-yi scroll-container yapip position:sticky panelleri kiriyor; clip yatayi keser ama overflow-y visible kalir -> sticky calisir. */
+html,body{overflow-x:clip}
+
+/* ============ F12a — DİYETİSYEN DİZİN ============ */
+/* ---- hero (lst-top koyu overlay — liste hero dili MİRAS, landing ata) ---- */
+.lst-top{
+  position:relative;padding-top:128px;
+  background-image:linear-gradient(90deg,rgba(18,28,22,.94),rgba(20,32,25,.74)),
+    url('https://images.unsplash.com/photo-1490645935967-10de6ba17061?w=1600&q=80&auto=format&fit=crop&exp=7&gam=6&sat=-9&high=8&vib=5');
+  background-size:cover;background-position:center;
+}
+.lst-top .wrap{position:relative}
+.lst-top .rd-crumb{color:#bcd0c4}
+.lst-top .rd-crumb a{color:#bcd0c4}
+.lst-top .rd-crumb a:hover{color:#7fe0b0}
+.lst-top .rd-crumb i{color:rgba(255,255,255,.4)}
+.lst-top .rd-crumb b{color:#fff}
+.lst-hero .eyebrow{color:#7fe0b0}
+.lst-hero .eyebrow::before{background:var(--green)}
+.rd-crumb{display:flex;align-items:center;flex-wrap:wrap;gap:9px;padding:18px 0 14px;font-size:13px;font-weight:500;color:var(--muted)}
+.rd-crumb a{color:var(--muted);transition:.18s}
+.rd-crumb a:hover{color:var(--green)}
+.rd-crumb i{font-size:9px;color:#c7c7c7}
+.rd-crumb b{color:var(--slate);font-weight:700;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:340px}
+.lst-hero{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:44px;align-items:end;padding:10px 0 42px}
+.lst-hero h1{color:#fff;font-size:44px;margin:14px 0 12px;letter-spacing:-.03em;text-shadow:0 2px 24px rgba(0,0,0,.25)}
+.lst-hero h1 .accent{color:#54d39a;white-space:nowrap}
+.lst-hero .lead{color:#e7edf1;font-weight:500;font-size:15.5px;max-width:560px;text-shadow:0 1px 14px rgba(0,0,0,.3)}
+/* hero → sihirbaz köprüsü CTA (açık mint kart, koyu hero üstünde) */
+.lst-stats{display:flex;flex-direction:column;gap:16px;padding-left:38px;border-left:1px solid rgba(255,255,255,.18)}
+.lst-stats .st b{display:block;font-size:29px;font-weight:700;color:#fff;letter-spacing:-.02em;line-height:1.1}
+.lst-stats .st span{font-size:12.5px;color:#aebcc6;font-weight:500}
+@media (max-width:1024px){
+  .lst-hero{grid-template-columns:1fr;align-items:start;gap:22px;padding-bottom:32px}
+  .lst-stats{flex-direction:row;gap:34px;padding-left:0;border-left:none;padding-top:18px;border-top:1px solid rgba(255,255,255,.18)}
+}
+
+/* ---- yerleşim: facet sidebar + sonuç kolonu ---- */
+.lst-sec{padding:38px 0 74px;background:var(--bg-cream)}
+.lst-layout{display:grid;grid-template-columns:272px minmax(0,1fr);gap:30px;align-items:start}
+.lst-main{min-width:0}
+
+/* ---- FACET PANELİ (tarif-liste dili MİRAS — facet dili) ---- */
+.lst-side{position:sticky;top:130px;background:var(--paper);border:1px solid var(--line);border-radius:var(--radius-lg);padding:6px 20px 14px;max-height:calc(100vh - 154px);overflow-y:auto;overscroll-behavior:contain;scrollbar-width:thin}
+.fil-top{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:16px 0 12px;border-bottom:1px solid var(--line)}
+.fil-top h3{font-size:17px;display:inline-flex;align-items:center;gap:9px}
+.fil-top h3 i{color:var(--green);font-size:15px}
+.fil-clear{background:none;border:none;font-family:inherit;font-size:12.5px;font-weight:700;color:var(--muted);cursor:pointer;transition:.18s}
+.fil-clear:hover{color:var(--green)}
+.fct{border-bottom:1px solid var(--line)}
+.fct:last-child{border-bottom:none}
+.fct-head{display:flex;align-items:center;gap:9px;width:100%;background:none;border:none;font-family:inherit;font-size:14.5px;font-weight:700;color:var(--slate);padding:15px 0;cursor:pointer;text-align:left}
+.fct-head .fct-dot{display:none;flex:none;min-width:19px;height:19px;padding:0 5px;border-radius:var(--radius-circle);background:var(--tomato-deep);color:#fff;font-size:10.5px;font-weight:700;align-items:center;justify-content:center}
+.fct.has-active .fct-dot{display:inline-flex}
+.fct-head .fct-car{margin-left:auto;font-size:11px;color:var(--muted);transition:transform .25s var(--ease)}
+.fct.open .fct-head .fct-car{transform:rotate(180deg)}
+.fct-body{display:none;padding:0 0 15px}
+.fct.open .fct-body{display:block;animation:fadeUp .25s var(--ease)}
+.fct-row{position:relative;display:flex;align-items:center;gap:10px;padding:6px 0;cursor:pointer;font-size:14px;font-weight:500;color:var(--slate-2);transition:color .15s}
+.fct-row input{position:absolute;opacity:0;pointer-events:none}
+.cbx{flex:none;width:20px;height:20px;border-radius:var(--radius-sm);border:1.5px solid #d8d8d8;background:var(--paper);display:grid;place-items:center;transition:.18s var(--ease)}
+.cbx::after{content:"\f00c";font-family:"Font Awesome 6 Free";font-weight:900;font-size:10px;color:#fff;transform:scale(0);transition:transform .15s var(--ease)}
+.fct-row input:checked ~ .cbx{background:var(--green);border-color:var(--green)}
+.fct-row input:checked ~ .cbx::after{transform:scale(1)}
+.fct-row:hover{color:var(--green)}
+.fct-row:hover .cbx{border-color:var(--green)}
+.fct-row input:checked ~ .ft{color:var(--slate);font-weight:700}
+.fct-row .ft{min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.fct-row .fcnt{margin-left:auto;flex:none;font-size:12px;color:var(--muted);font-weight:500}
+.fct-row input:checked ~ .fcnt{color:var(--green);font-weight:700}
+/* doğrulama satırı yeşil (sağlık/doğrulama dili) */
+.fct-row.verify input:checked ~ .cbx{background:var(--green);border-color:var(--green)}
+.fct-row.verify input:checked ~ .ft{color:var(--green-deep)}
+.fct-row.verify input:checked ~ .fcnt{color:var(--green-deep)}
+.fct-row.verify .vchk{color:var(--green);font-size:12px;margin-right:2px}
+.fct-more{background:none;border:none;font-family:inherit;font-size:12.5px;font-weight:700;color:var(--green);cursor:pointer;padding:7px 0 0 30px;display:inline-flex;align-items:center;gap:7px}
+.fct-more i{font-size:10px;transition:transform .25s var(--ease)}
+.fct.more-open .fct-more i{transform:rotate(180deg)}
+.fct-row.xtra{display:none}
+.fct.more-open .fct-row.xtra{display:flex}
+.sheet-head,.sheet-foot{display:none}
+
+/* ---- SONUÇ KOLONU BAR ---- */
+/* .lst-bar tabanı dd-shell.css'te — kac-kalori-v1 de aynı şeridi kullanıyor */
+.lst-sum{font-size:15px;color:var(--muted);font-weight:500;min-width:0}
+.lst-sum b{color:var(--slate);font-weight:700;font-size:17px}
+.lst-sum .q{color:var(--green);font-weight:700}
+.lst-tools{display:flex;align-items:center;gap:10px;flex:none}
+.sort-dd{position:relative}
+.sort-btn{display:inline-flex;align-items:center;gap:9px;font-family:inherit;font-weight:700;font-size:13.5px;color:var(--slate);padding:11px 16px;border:1px solid var(--line);border-radius:var(--radius-md);background:var(--paper);cursor:pointer;transition:.2s var(--ease);white-space:nowrap}
+.sort-btn i.fa-arrow-down-wide-short{color:var(--green);font-size:13px}
+.sort-btn .sb-car{font-size:10px;color:var(--muted);transition:transform .2s var(--ease)}
+.sort-btn:hover{border-color:var(--green);color:var(--green)}
+.sort-dd.open .sort-btn .sb-car{transform:rotate(180deg)}
+.sort-menu{position:absolute;top:calc(100% + 8px);right:0;min-width:212px;background:#fff;border:1px solid var(--line);border-radius:var(--radius-md);box-shadow:var(--sh-md);padding:6px;opacity:0;visibility:hidden;transform:translateY(-6px);transition:.2s var(--ease);z-index:40}
+.sort-dd.open .sort-menu{opacity:1;visibility:visible;transform:translateY(0)}
+.sort-menu button{display:flex;align-items:center;gap:10px;width:100%;text-align:left;background:none;border:none;font-family:inherit;color:var(--ink);font-size:13.5px;font-weight:500;padding:10px 11px;border-radius:var(--radius-sm);cursor:pointer;transition:.16s var(--ease)}
+.sort-menu button i{width:16px;text-align:center;color:var(--green);font-size:13px}
+.sort-menu button:hover{background:#EAF7F0;color:var(--green)}
+.sort-menu button.active{color:var(--green);font-weight:700}
+.sort-menu button.active::after{content:"\f00c";font-family:"Font Awesome 6 Free";font-weight:900;margin-left:auto;font-size:11px}
+.btn-filter{display:none;align-items:center;gap:9px;font-family:inherit;font-weight:700;font-size:13.5px;color:#fff;background:var(--tomato-deep);border:1px solid var(--tomato-deep);border-radius:var(--radius-md);padding:11px 16px;cursor:pointer;transition:.2s var(--ease);white-space:nowrap}
+.btn-filter:hover{background:var(--green-deep)}
+.btn-filter .fb-count{min-width:19px;height:19px;padding:0 5px;border-radius:var(--radius-circle);background:#fff;color:var(--green);font-size:11px;font-weight:700;display:grid;place-items:center}
+.btn-filter .fb-count[hidden]{display:none}
+
+/* ---- aktif filtre chip'leri ---- */
+.fchips{display:flex;flex-wrap:wrap;align-items:center;gap:9px;margin-top:16px}
+.fchips[hidden]{display:none}
+.fchip{display:inline-flex;align-items:center;gap:8px;font-size:13px;font-weight:700;color:var(--green);background:#EAF7F0;border:1px solid rgba(59,183,126,.25);padding:8px 12px;border-radius:var(--radius-sm);cursor:pointer;transition:.18s var(--ease)}
+.fchip i.fa-magnifying-glass{font-size:11px;opacity:.75}
+.fchip .x{display:grid;place-items:center;width:16px;height:16px;border-radius:var(--radius-circle);font-size:10px;transition:.15s}
+.fchip:hover{background:var(--green);color:#fff;border-color:var(--green)}
+.fchips-clear{background:none;border:none;font-family:inherit;font-size:12.5px;font-weight:700;color:var(--muted);cursor:pointer;padding:8px 4px;transition:.18s;text-decoration:underline;text-underline-offset:3px}
+.fchips-clear:hover{color:var(--green)}
+
+/* ---- UZMAN KARTI (.dz-card — R9 v2: SİMETRİK MERKEZLİ kompozisyon, sıfırdan)
+   Eski yan-yana düzen avatarı taşkın kimlik kolonuna göre ortalayıp "avatar altı
+   boşluk" + asimetri üretiyordu. Yeni dikey eksen: avatar üstte ortalı → ad → ünvan
+   → puan, hepsi merkez hizalı; hairline; merkezli etiket+meta; hairline; tam-genişlik
+   CTA foot. Tek dikey simetri ekseni; tüm boşluklar merkeze hizalı. */
+.dz-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:24px;margin-top:24px}
+.dz-card{position:relative;background:var(--paper);border:1px solid var(--line);border-radius:var(--radius-lg);overflow:hidden;transition:.3s var(--ease);cursor:pointer;display:flex;flex-direction:column;text-align:center}
+.dz-card:hover{transform:translateY(-6px);border-color:#dcdcdc;box-shadow:var(--sh-sm)}
+.dz-ribbon{position:absolute;top:0;left:0;display:inline-flex;align-items:center;gap:6px;font-size:10.5px;font-weight:700;letter-spacing:.03em;color:#fff;background:var(--tomato-deep);padding:6px 12px;border-radius:0 0 var(--radius-md) 0;z-index:2;box-shadow:0 4px 12px rgba(59,183,126,.3)}
+.dz-ribbon.green{background:var(--tomato-deep)}
+.dz-save{position:absolute;top:13px;right:13px;width:34px;height:34px;border-radius:var(--radius-circle);background:var(--bg);border:1px solid var(--line);color:var(--slate-2);cursor:pointer;display:grid;place-items:center;font-size:13.5px;transition:.2s var(--ease);z-index:2}
+.dz-save:hover{border-color:var(--green);color:var(--green)}
+.dz-save.saved{background:var(--tomato-deep);border-color:var(--tomato-deep);color:#fff}
+
+/* ZON 1 — HEADER (merkezli dikey eksen): avatar → ad✓ → ünvan → puan */
+.dz-top{display:flex;flex-direction:column;align-items:center;gap:12px;padding:34px 20px 20px}
+.dz-ava{position:relative;width:72px;height:72px;border-radius:var(--radius-circle);background-size:cover;background-position:center;border:3px solid #fff;box-shadow:0 4px 14px rgba(33,30,22,.12)}
+.dz-on{position:absolute;right:3px;bottom:3px;width:15px;height:15px;border-radius:var(--radius-circle);background:var(--green);border:2.5px solid #fff}
+.dz-id{min-width:0;width:100%;display:flex;flex-direction:column;align-items:center;gap:5px}
+.dz-id h3{font-size:17px;line-height:1.25;display:flex;align-items:center;justify-content:center;gap:7px;letter-spacing:-.01em;transition:color .2s var(--ease);max-width:100%}
+.dz-id h3 .dz-name{white-space:nowrap;overflow:hidden;text-overflow:ellipsis;min-width:0}
+.dz-card:hover .dz-id h3{color:var(--green)}
+.dz-verify{display:inline-flex;align-items:center;font-size:0;line-height:1;color:var(--green-deep);flex:none}
+.dz-verify i{font-size:14px}
+.dz-title{font-size:12.5px;color:var(--muted);font-weight:500;line-height:1.35;max-width:100%;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.dz-rate{display:inline-flex;align-items:center;gap:6px;font-size:13px;font-weight:700;color:var(--slate);white-space:nowrap;margin-top:1px}
+.dz-rate i{color:var(--yellow);font-size:12px}
+.dz-rate span{color:var(--muted);font-weight:500;font-size:12px}
+
+/* ZON 2 — GÖVDE (merkezli): etiketler ortada, meta ortada — hairline ile ayrılır */
+.dz-tags{display:flex;flex-wrap:wrap;justify-content:center;gap:7px;padding:18px 18px 0;border-top:1px solid var(--line)}
+.dz-tag{font-size:11.5px;font-weight:500;color:var(--slate-2);background:var(--bg);border:1px solid var(--line);padding:6px 12px;border-radius:var(--radius-sm);white-space:nowrap}
+.dz-tags .dz-tag:nth-child(n+3){display:none}
+.dz-meta{display:flex;flex-wrap:wrap;justify-content:center;align-items:center;padding:13px 18px 20px;font-size:12.5px;color:var(--muted);font-weight:500}
+.dz-meta span{display:inline-flex;align-items:center;gap:6px;white-space:nowrap}
+.dz-meta span+span{margin-left:11px;padding-left:11px;border-left:1px solid var(--line)}
+.dz-meta span:nth-child(n+3){display:none}
+.dz-meta i{font-size:12px;color:var(--green)}
+
+/* ZON 3 — FOOT (merkezli): fiyat satırı + tam-genişlik CTA — hairline ile ayrılır */
+/* dz-foot: kocaman "Profili Gör" butonu → minimal ortalı metin-link (Faz3 #23; kart zaten tıklanabilir) */
+.dz-foot{margin-top:auto;display:flex;flex-direction:column;align-items:center;gap:9px;padding:15px 18px 16px;border-top:1px solid var(--line);background:var(--bg-cream)}
+.dz-price{display:flex;justify-content:center;align-items:baseline;gap:6px;font-size:12.5px;color:var(--muted);font-weight:500}
+.dz-price b{font-size:16px;color:var(--slate);font-weight:700}
+.dz-go{display:inline-flex;align-items:center;justify-content:center;gap:7px;font-size:13px;font-weight:700;color:var(--green)}
+.dz-go i{font-size:11px;transition:transform .2s var(--ease)}
+.dz-card:hover .dz-go i{transform:translateX(3px)}
+
+/* ---- BOŞ DURUM + SAYFALAMA + mobil sheet (tarif-liste MİRAS) ---- */
+.lst-empty{display:none;text-align:center;background:var(--paper);border:1px solid var(--line);border-radius:var(--radius-lg);padding:78px 30px;margin-top:24px}
+.lst-empty.show{display:block;animation:fadeUp .35s var(--ease)}
+.le-ico{width:76px;height:76px;border-radius:var(--radius-lg);background:#EAF7F0;color:var(--green);display:grid;place-items:center;font-size:30px;margin:0 auto 20px}
+.lst-empty h3{font-size:23px;margin-bottom:9px}
+.lst-empty p{font-size:14.5px;color:var(--muted);font-weight:500;max-width:420px;margin:0 auto 24px;line-height:1.6}
+.pagi{display:flex;align-items:center;justify-content:center;gap:8px;margin-top:40px;flex-wrap:wrap}
+.pg{min-width:44px;height:44px;padding:0 13px;display:inline-flex;align-items:center;justify-content:center;font-family:inherit;font-size:14px;font-weight:700;color:var(--slate);background:var(--paper);border:1px solid var(--line);border-radius:var(--radius-md);cursor:pointer;transition:.2s var(--ease)}
+.pg:hover{border-color:var(--green);color:var(--green)}
+.pg.active{background:var(--tomato-deep);border-color:var(--tomato-deep);color:#fff;cursor:default}
+.pg.arrow i{font-size:12px}
+.pg[disabled]{opacity:.4;pointer-events:none}
+.pg-dots{color:var(--muted);font-weight:700;padding:0 2px;font-size:14px}
+.pagi-note{width:100%;text-align:center;font-size:12.5px;color:var(--muted);font-weight:500;margin-top:6px}
+.sheet-overlay{position:fixed;inset:0;background:rgba(20,18,12,.5);z-index:93;opacity:0;pointer-events:none;transition:opacity .3s var(--ease)}
+.sheet-overlay.open{opacity:1;pointer-events:auto}
+
+/* ===================== TABLET (≤1024px) ===================== */
+@media (max-width:1024px){
+  .lst-layout{display:block}
+  .btn-filter{display:inline-flex}
+  .lst-hero>div{min-width:0}
+  .lst-side{
+    position:fixed;left:0;right:0;bottom:0;top:auto;z-index:94;
+    max-height:82vh;border-radius:var(--radius-xl) var(--radius-xl) 0 0;border:none;
+    box-shadow:0 -18px 50px rgba(33,30,22,.2);padding:0 20px;
+    transform:translateY(105%);transition:transform .34s var(--ease);
+    display:flex;flex-direction:column;overflow:hidden;
+  }
+  .lst-side.open{transform:translateY(0)}
+  .fil-top{display:none}
+  .sheet-head{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:18px 0 14px;border-bottom:1px solid var(--line);flex:none}
+  .sheet-head h3{font-size:18px;display:inline-flex;align-items:center;gap:10px}
+  .sheet-head h3 i{color:var(--green);font-size:15px}
+  .sheet-head .sh-right{display:flex;align-items:center;gap:8px}
+  .sheet-head .fil-clear{font-size:12.5px;padding:8px 10px}
+  .sheet-close{width:40px;height:40px;border-radius:var(--radius-md);border:1px solid var(--line);background:var(--paper);color:var(--slate);font-size:16px;cursor:pointer;display:grid;place-items:center;transition:.2s var(--ease)}
+  .sheet-close:hover{border-color:var(--green);color:var(--green)}
+  .sheet-body{flex:1;min-height:0;overflow-y:auto;-webkit-overflow-scrolling:touch;padding-bottom:10px}
+  .sheet-foot{display:block;flex:none;padding:14px 0 calc(16px + env(safe-area-inset-bottom,0px));border-top:1px solid var(--line);background:var(--paper)}
+  .sheet-foot .btn{width:100%}
+  .dz-grid{grid-template-columns:1fr 1fr}
+}
+
+/* ===================== MOBİL (≤640px) ===================== */
+@media (max-width:640px){
+  .lst-top{padding-top:82px}
+  .rd-crumb{padding:14px 0 10px;font-size:13px}
+  .rd-crumb b{max-width:170px}
+  .lst-hero{padding:2px 0 26px}
+  .lst-hero h1{font-size:29px}
+  .lst-hero .lead{font-size:14.5px}
+  .lst-hero>div{min-width:0}
+  /* istatistik şeridi mobilde kapalı — banner ilk ekranı yemesin. "320 uzman"
+     verisi .lst-sum'da tekrar ediyor ve şerit yalnız koyu hero için
+     renklendiği için taşınamaz. (6. tur kararı.)
+     Yanındaki "Popüler:" çip satırı 9. turda tamamen kaldırıldı: dekoratifti,
+     JS bağlı değildi ve aynı dört değer Filtrele panelinde zaten var —
+     banner içinde çip/kategori satırı bırakılmıyor.) */
+  .lst-stats{display:none}
+  .lst-sec{padding:24px 0 50px}
+  .lst-bar{align-items:flex-start}
+  .lst-sum{font-size:13.5px}
+  .lst-sum b{font-size:15px}
+  .sort-btn{padding:10px 12px;font-size:12.5px}
+  .sort-btn .sb-lbl{display:none}
+  .btn-filter{padding:10px 13px;font-size:12.5px}
+  .fchips{margin-top:13px;gap:7px}
+  .fchip{font-size:12px;padding:7px 10px}
+  .dz-grid{grid-template-columns:1fr;gap:14px;margin-top:18px}
+  .dz-meta span+span{margin-left:9px;padding-left:9px}
+}
+
+/* sağlık-renk: dizin gövde CTA'ları yeşil (filtre uygula + boş-durum temizle) — marka btn-primary override */
+#sheetApply.btn-primary,.lst-empty .btn-primary{background:var(--green);border-color:var(--green)}
+#sheetApply.btn-primary:hover,.lst-empty .btn-primary:hover{background:var(--green-deep);border-color:var(--green-deep)}
+/* saglik-renk: aktif "Saglik" nav linki yesil (saglik ailesi) — chrome override, sadece bu link */
+.nav a.active[href="saglik-hub-v1.html"]{color:var(--green)}
+.nav a.active[href="saglik-hub-v1.html"]::after{background:var(--green)}
+
+/* saglik-dropdown: scoped health chrome */
+/* diğer dropdown/mega aktif-item (turuncu kanon, underline gizli) */
+.dropdown:not(.dropdown-health) a.active{background:var(--tomato-tint)}
+.dropdown a.active::after,.mega-cats a.active::after{display:none}
+.mega-cats a.active{background:var(--tomato-tint)}
+.nav a[href="saglik-hub-v1.html"]:hover{color:var(--green);background:rgba(59,183,126,.10)}
+
+/* ===== A4 GÜVEN KATMANI: doğrulama notu + tıbbi şerit ===== */
+.dz-vnote{display:flex;align-items:flex-start;gap:9px;margin:14px 0 4px;font-size:12.5px;color:var(--muted);font-weight:500;line-height:1.55}
+.dz-vnote i{color:var(--tomato-deep);font-size:13px;margin-top:2px;flex:none}
+.pf-disclaimer{background:var(--tomato-tint);border-top:1px solid rgba(59,183,126,.25)}
+.pf-disclaimer .wrap{display:flex;gap:14px;align-items:flex-start;padding-top:22px;padding-bottom:22px}
+.pf-disclaimer i{color:var(--tomato-deep);font-size:17px;margin-top:2px;flex:none}
+.pf-disclaimer p{font-size:13.5px;color:var(--slate-2);font-weight:500;line-height:1.65;max-width:960px}
+.pf-disclaimer b{color:var(--slate);font-weight:700}
+</style>
+</head>
+<body data-brand="diet" data-nav="diyetisyenler">
+
+<div id="ddChromeTop"></div>
+<script src="assets/js/dd-shell.js"></script>
+
+<main class="page-main" id="pageMain">
+
+<!-- SAYFA İÇERİĞİ -->
+<!-- İlk section'a .below-header class'ı ver (fixed header offseti: 112px / mobil 62px).
+     Örnek:
+     <section class="below-header" style="background:var(--bg-white)">
+       <div class="wrap"> ... </div>
+     </section>
+-->
+
+
+<!-- ===================== F12a — DİYETİSYEN DİZİN ===================== -->
+<!-- hero band (lst-top koyu overlay — landing ata, liste hero dili MİRAS) -->
+<section class="lst-top">
+  <div class="wrap">
+    <nav class="rd-crumb" aria-label="Sayfa yolu">
+      <a href="saglik-hub-v1.html"><i class="fa-solid fa-house"></i></a><i class="fa-solid fa-chevron-right"></i>
+      <b>Diyetisyenler</b>
+    </nav>
+    <div class="lst-hero">
+      <div>
+        <span class="eyebrow"><i class="fa-solid fa-stethoscope"></i> Uzman Diyetisyenler</span>
+        <h1>Sana uygun <span class="accent">diyetisyeni</span> bul, randevunu al</h1>
+        <p class="lead">Alanında uzman diyetisyenlerle online ya da yüz yüze görüş. Uzmanlık alanına, şehrine ve bütçene göre filtrele; danışan yorumlarını oku.</p>
+        <!-- Banner ikili düğmesi — saglik-araclari-v1 ve beslenme-hub-v1
+             banner'larıyla birebir aynı desen: .chips sarmalayıcı + birincil
+             .btn-primary + ikincil .btn-ghost. .chips flex-wrap taşıdığı için
+             dar ekranda alt alta düşer, taşmaz. -->
+        <div class="chips" style="margin-top:22px">
+          <a class="btn btn-primary" href="diyetisyen-bul-v1.html"><i class="fa-solid fa-wand-magic-sparkles"></i> Sana Uygun Diyetisyeni Bul</a>
+          <a class="btn btn-ghost" href="diyetisyen-ol-v1.html"><i class="fa-solid fa-id-badge"></i> Diyetisyen Ol</a>
+        </div>
+      </div>
+      <div class="lst-stats">
+        <div class="st"><b>320+</b><span>Uzman profili</span></div>
+        <div class="st"><b>48 il</b><span>+ online Türkiye geneli</span></div>
+        <div class="st"><b>4.9</b><span>Ortalama danışan puanı</span></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- facet + sonuç -->
+<section class="lst-sec">
+  <div class="wrap">
+    <div class="lst-layout">
+
+      <!-- ---- FACET PANELİ (desktop: sticky · ≤1024: alttan sheet) ---- -->
+      <aside class="lst-side" id="lstSide" aria-label="Filtreler">
+        <div class="sheet-head">
+          <h3><i class="fa-solid fa-sliders"></i> Filtrele</h3>
+          <div class="sh-right">
+            <button class="fil-clear" type="button" data-clear>Temizle</button>
+            <button class="sheet-close" id="sheetClose" type="button" aria-label="Filtre panelini kapat"><i class="fa-solid fa-xmark"></i></button>
+          </div>
+        </div>
+        <div class="sheet-body">
+          <div class="fil-top">
+            <h3><i class="fa-solid fa-sliders"></i> Filtreler</h3>
+            <button class="fil-clear" type="button" data-clear>Tümünü Temizle</button>
+          </div>
+        <div class="fct open">
+          <button class="fct-head" type="button">Uzmanlık Alanı <span class="fct-dot">0</span><i class="fa-solid fa-chevron-down fct-car"></i></button>
+          <div class="fct-body">
+          <label class="fct-row"><input type="checkbox" value="Kilo Yönetimi" /><span class="cbx"></span><span class="ft">Kilo Yönetimi</span><span class="fcnt">142</span></label>
+          <label class="fct-row"><input type="checkbox" value="Sporcu Beslenmesi" /><span class="cbx"></span><span class="ft">Sporcu Beslenmesi</span><span class="fcnt">78</span></label>
+          <label class="fct-row"><input type="checkbox" value="Çocuk & Ergen" /><span class="cbx"></span><span class="ft">Çocuk & Ergen</span><span class="fcnt">64</span></label>
+          <label class="fct-row"><input type="checkbox" value="Gebelik & Emzirme" /><span class="cbx"></span><span class="ft">Gebelik & Emzirme</span><span class="fcnt">53</span></label>
+          <label class="fct-row"><input type="checkbox" value="Klinik / Hastalık" /><span class="cbx"></span><span class="ft">Klinik / Hastalık</span><span class="fcnt">91</span></label>
+          <label class="fct-row"><input type="checkbox" value="Bağırsak Sağlığı" /><span class="cbx"></span><span class="ft">Bağırsak Sağlığı</span><span class="fcnt">47</span></label>
+          <label class="fct-row xtra"><input type="checkbox" value="Hormonal Denge & PCOS" /><span class="cbx"></span><span class="ft">Hormonal Denge & PCOS</span><span class="fcnt">39</span></label>
+          <label class="fct-row xtra"><input type="checkbox" value="Vejetaryen & Vegan" /><span class="cbx"></span><span class="ft">Vejetaryen & Vegan</span><span class="fcnt">34</span></label>
+          <button class="fct-more" type="button" data-more="Tüm alanları göster (8+)" data-less="Daha az göster"><i class="fa-solid fa-chevron-down"></i> Tüm alanları göster</button>
+          </div>
+        </div>
+        <div class="fct open">
+          <button class="fct-head" type="button">Görüşme Türü <span class="fct-dot">0</span><i class="fa-solid fa-chevron-down fct-car"></i></button>
+          <div class="fct-body">
+          <label class="fct-row"><input type="checkbox" value="Online" /><span class="cbx"></span><span class="ft">Online</span><span class="fcnt">286</span></label>
+          <label class="fct-row"><input type="checkbox" value="Yüz Yüze" /><span class="cbx"></span><span class="ft">Yüz Yüze</span><span class="fcnt">174</span></label>
+          </div>
+        </div>
+        <div class="fct open">
+          <button class="fct-head" type="button">Şehir <span class="fct-dot">0</span><i class="fa-solid fa-chevron-down fct-car"></i></button>
+          <div class="fct-body">
+          <label class="fct-row"><input type="checkbox" value="İstanbul" /><span class="cbx"></span><span class="ft">İstanbul</span><span class="fcnt">124</span></label>
+          <label class="fct-row"><input type="checkbox" value="Ankara" /><span class="cbx"></span><span class="ft">Ankara</span><span class="fcnt">76</span></label>
+          <label class="fct-row"><input type="checkbox" value="İzmir" /><span class="cbx"></span><span class="ft">İzmir</span><span class="fcnt">58</span></label>
+          <label class="fct-row"><input type="checkbox" value="Bursa" /><span class="cbx"></span><span class="ft">Bursa</span><span class="fcnt">31</span></label>
+          <label class="fct-row xtra"><input type="checkbox" value="Antalya" /><span class="cbx"></span><span class="ft">Antalya</span><span class="fcnt">27</span></label>
+          <label class="fct-row xtra"><input type="checkbox" value="Online · Türkiye geneli" /><span class="cbx"></span><span class="ft">Online · Türkiye geneli</span><span class="fcnt">286</span></label>
+          <button class="fct-more" type="button" data-more="Tüm şehirleri göster" data-less="Daha az göster"><i class="fa-solid fa-chevron-down"></i> Tüm şehirleri göster</button>
+          </div>
+        </div>
+        <div class="fct">
+          <button class="fct-head" type="button">Cinsiyet <span class="fct-dot">0</span><i class="fa-solid fa-chevron-down fct-car"></i></button>
+          <div class="fct-body">
+          <label class="fct-row"><input type="checkbox" value="Kadın" /><span class="cbx"></span><span class="ft">Kadın</span><span class="fcnt">198</span></label>
+          <label class="fct-row"><input type="checkbox" value="Erkek" /><span class="cbx"></span><span class="ft">Erkek</span><span class="fcnt">122</span></label>
+          </div>
+        </div>
+        <div class="fct">
+          <button class="fct-head" type="button">Görüşme Dili <span class="fct-dot">0</span><i class="fa-solid fa-chevron-down fct-car"></i></button>
+          <div class="fct-body">
+          <label class="fct-row"><input type="checkbox" value="Türkçe" /><span class="cbx"></span><span class="ft">Türkçe</span><span class="fcnt">320</span></label>
+          <label class="fct-row"><input type="checkbox" value="İngilizce" /><span class="cbx"></span><span class="ft">İngilizce</span><span class="fcnt">64</span></label>
+          <label class="fct-row xtra"><input type="checkbox" value="Almanca" /><span class="cbx"></span><span class="ft">Almanca</span><span class="fcnt">12</span></label>
+          <button class="fct-more" type="button" data-more="Daha fazla dil" data-less="Daha az göster"><i class="fa-solid fa-chevron-down"></i> Daha fazla dil</button>
+          </div>
+        </div>
+        <div class="fct open">
+          <button class="fct-head" type="button">Doğrulama <span class="fct-dot">0</span><i class="fa-solid fa-chevron-down fct-car"></i></button>
+          <div class="fct-body">
+          <label class="fct-row verify"><input type="checkbox" value="Doğrulanmış Uzman" /><span class="cbx"></span><i class="fa-solid fa-circle-check vchk"></i><span class="ft">Doğrulanmış Uzman</span><span class="fcnt">214</span></label>
+          </div>
+        </div>
+        </div>
+        <div class="sheet-foot">
+          <button class="btn btn-primary" id="sheetApply" type="button">320 uzmanı göster</button>
+        </div>
+      </aside>
+      <div class="sheet-overlay" id="sheetOverlay"></div>
+
+      <!-- ---- SONUÇ KOLONU ---- -->
+      <div class="lst-main">
+        <div class="lst-bar">
+          <p class="lst-sum" id="lstSum"><b>320 uzman</b> bulundu</p>
+          <div class="lst-tools">
+            <button class="btn-filter" id="btnFilter" type="button"><i class="fa-solid fa-sliders"></i> Filtrele <span class="fb-count" id="filCount" hidden>0</span></button>
+            <div class="sort-dd" id="sortDd">
+              <button class="sort-btn" id="sortBtn" type="button" aria-haspopup="true" aria-expanded="false">
+                <i class="fa-solid fa-arrow-down-wide-short"></i><span class="sb-lbl">Sıralama:</span> <span id="sortCur">Önerilen</span> <i class="fa-solid fa-chevron-down sb-car"></i>
+              </button>
+              <div class="sort-menu" role="menu">
+                <button type="button" class="active" role="menuitem"><i class="fa-solid fa-wand-magic-sparkles"></i> Önerilen</button>
+                <button type="button" role="menuitem"><i class="fa-solid fa-star"></i> En Yüksek Puan</button>
+                <button type="button" role="menuitem"><i class="fa-solid fa-comment-dots"></i> En Çok Değerlendirme</button>
+                <button type="button" role="menuitem"><i class="fa-solid fa-tag"></i> En Uygun Fiyat</button>
+                <button type="button" role="menuitem"><i class="fa-solid fa-briefcase"></i> En Deneyimli</button>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="fchips" id="fchips" hidden aria-label="Aktif filtreler"></div>
+
+        <p class="dz-vnote"><i class="fa-solid fa-shield-halved"></i> Doğrulama: &ldquo;Doğrulandı&rdquo; rozeti, diploması ve mesleki kaydı kontrol edilen uzmanları gösterir; kontrol tamamlanmadan rozet verilmez.</p>
+
+        <div class="dz-grid" id="dzGrid">
+      <article class="dz-card" onclick="location.href='profil-v1.html?role=diyetisyen&view=public'">
+        <span class="dz-ribbon green"><i class="fa-solid fa-circle-check"></i> DadaMutfak Onaylı</span><div class="dz-top">
+          <div class="dz-ava" style="background-image:url('https://images.unsplash.com/photo-1559839734-2b71ea197ec2?w=240&q=80&auto=format&fit=crop&exp=7&gam=6&sat=-9&high=8&vib=5')"><span class="dz-on" title="Şu an müsait"></span></div>
+          <div class="dz-id">
+            <h3>Dyt. Elif Şahin <span class="dz-verify"><i class="fa-solid fa-circle-check"></i> Doğrulandı</span></h3>
+            <p class="dz-title">Uzman Diyetisyen · Klinik Beslenme</p>
+            <div class="dz-rate"><i class="fa-solid fa-star"></i> 4.9 <span>(212 değerlendirme)</span></div>
+          </div>
+          <button class="dz-save" type="button" aria-label="Kaydet" onclick="event.stopPropagation()"><i class="fa-regular fa-heart"></i></button>
+        </div>
+        <div class="dz-tags"><span class="dz-tag">Kilo Yönetimi</span><span class="dz-tag">Bağırsak Sağlığı</span><span class="dz-tag">Sporcu Beslenmesi</span></div>
+        <div class="dz-meta">
+          <span><i class="fa-solid fa-location-dot"></i> İstanbul</span>
+          <span><i class="fa-solid fa-video"></i> Online & Yüz yüze</span>
+          <span><i class="fa-solid fa-briefcase"></i> 9 yıl</span>
+        </div>
+        <div class="dz-foot">
+          <div class="dz-price"><span>Seans başı</span><b>₺750</b></div>
+          <span class="dz-go">Profili Gör <i class="fa-solid fa-arrow-right"></i></span>
+        </div>
+      </article>
+      <article class="dz-card" onclick="location.href='profil-v1.html?role=diyetisyen&view=public'">
+        <span class="dz-ribbon "><i class="fa-solid fa-bolt"></i> Hızlı Yanıt</span><div class="dz-top">
+          <div class="dz-ava" style="background-image:url('https://images.unsplash.com/photo-1622253692010-333f2da6031d?w=240&q=80&auto=format&fit=crop&exp=7&gam=6&sat=-9&high=8&vib=5')"></div>
+          <div class="dz-id">
+            <h3>Dyt. Mert Aydın <span class="dz-verify"><i class="fa-solid fa-circle-check"></i> Doğrulandı</span></h3>
+            <p class="dz-title">Sporcu Beslenmesi Uzmanı</p>
+            <div class="dz-rate"><i class="fa-solid fa-star"></i> 4.8 <span>(164 değerlendirme)</span></div>
+          </div>
+          <button class="dz-save" type="button" aria-label="Kaydet" onclick="event.stopPropagation()"><i class="fa-regular fa-heart"></i></button>
+        </div>
+        <div class="dz-tags"><span class="dz-tag">Sporcu Beslenmesi</span><span class="dz-tag">Kilo Yönetimi</span><span class="dz-tag">Kas Gelişimi</span></div>
+        <div class="dz-meta">
+          <span><i class="fa-solid fa-location-dot"></i> Ankara</span>
+          <span><i class="fa-solid fa-video"></i> Online</span>
+          <span><i class="fa-solid fa-briefcase"></i> 7 yıl</span>
+        </div>
+        <div class="dz-foot">
+          <div class="dz-price"><span>Seans başı</span><b>₺650</b></div>
+          <span class="dz-go">Profili Gör <i class="fa-solid fa-arrow-right"></i></span>
+        </div>
+      </article>
+      <article class="dz-card" onclick="location.href='profil-v1.html?role=diyetisyen&view=public'">
+        <div class="dz-top">
+          <div class="dz-ava" style="background-image:url('https://images.unsplash.com/photo-1594824476967-48c8b964273f?w=240&q=80&auto=format&fit=crop&exp=7&gam=6&sat=-9&high=8&vib=5')"></div>
+          <div class="dz-id">
+            <h3>Uzm. Dyt. Selin Korkmaz <span class="dz-verify"><i class="fa-solid fa-circle-check"></i> Doğrulandı</span></h3>
+            <p class="dz-title">Çocuk & Ergen Beslenmesi</p>
+            <div class="dz-rate"><i class="fa-solid fa-star"></i> 5.0 <span>(98 değerlendirme)</span></div>
+          </div>
+          <button class="dz-save" type="button" aria-label="Kaydet" onclick="event.stopPropagation()"><i class="fa-regular fa-heart"></i></button>
+        </div>
+        <div class="dz-tags"><span class="dz-tag">Çocuk & Ergen</span><span class="dz-tag">Gebelik & Emzirme</span><span class="dz-tag">Besin Alerjisi</span></div>
+        <div class="dz-meta">
+          <span><i class="fa-solid fa-location-dot"></i> İzmir</span>
+          <span><i class="fa-solid fa-house-chimney"></i> Yüz yüze</span>
+          <span><i class="fa-solid fa-briefcase"></i> 12 yıl</span>
+        </div>
+        <div class="dz-foot">
+          <div class="dz-price"><span>Seans başı</span><b>₺800</b></div>
+          <span class="dz-go">Profili Gör <i class="fa-solid fa-arrow-right"></i></span>
+        </div>
+      </article>
+      <article class="dz-card" onclick="location.href='profil-v1.html?role=diyetisyen&view=public'">
+        <div class="dz-top">
+          <div class="dz-ava" style="background-image:url('https://images.unsplash.com/photo-1537368910025-700350fe46c7?w=240&q=80&auto=format&fit=crop&exp=7&gam=6&sat=-9&high=8&vib=5')"></div>
+          <div class="dz-id">
+            <h3>Dyt. Burak Demir </h3>
+            <p class="dz-title">Uzman Diyetisyen · Klinik Beslenme</p>
+            <div class="dz-rate"><i class="fa-solid fa-star"></i> 4.7 <span>(143 değerlendirme)</span></div>
+          </div>
+          <button class="dz-save" type="button" aria-label="Kaydet" onclick="event.stopPropagation()"><i class="fa-regular fa-heart"></i></button>
+        </div>
+        <div class="dz-tags"><span class="dz-tag">Diyabet</span><span class="dz-tag">Kalp Sağlığı</span><span class="dz-tag">Kilo Yönetimi</span></div>
+        <div class="dz-meta">
+          <span><i class="fa-solid fa-location-dot"></i> Bursa</span>
+          <span><i class="fa-solid fa-video"></i> Online & Yüz yüze</span>
+          <span><i class="fa-solid fa-briefcase"></i> 6 yıl</span>
+        </div>
+        <div class="dz-foot">
+          <div class="dz-price"><span>Seans başı</span><b>₺600</b></div>
+          <span class="dz-go">Profili Gör <i class="fa-solid fa-arrow-right"></i></span>
+        </div>
+      </article>
+      <article class="dz-card" onclick="location.href='profil-v1.html?role=diyetisyen&view=public'">
+        <div class="dz-top">
+          <div class="dz-ava" style="background-image:url('https://images.unsplash.com/photo-1582750433449-648ed127bb54?w=240&q=80&auto=format&fit=crop&exp=7&gam=6&sat=-9&high=8&vib=5')"><span class="dz-on" title="Şu an müsait"></span></div>
+          <div class="dz-id">
+            <h3>Uzm. Dyt. Ayça Yıldız <span class="dz-verify"><i class="fa-solid fa-circle-check"></i> Doğrulandı</span></h3>
+            <p class="dz-title">Gebelik & Emzirme Uzmanı</p>
+            <div class="dz-rate"><i class="fa-solid fa-star"></i> 4.9 <span>(187 değerlendirme)</span></div>
+          </div>
+          <button class="dz-save" type="button" aria-label="Kaydet" onclick="event.stopPropagation()"><i class="fa-regular fa-heart"></i></button>
+        </div>
+        <div class="dz-tags"><span class="dz-tag">Gebelik & Emzirme</span><span class="dz-tag">Bebek Beslenmesi</span><span class="dz-tag">Demir Eksikliği</span></div>
+        <div class="dz-meta">
+          <span><i class="fa-solid fa-location-dot"></i> Online · Türkiye geneli</span>
+          <span><i class="fa-solid fa-video"></i> Online</span>
+          <span><i class="fa-solid fa-briefcase"></i> 10 yıl</span>
+        </div>
+        <div class="dz-foot">
+          <div class="dz-price"><span>Seans başı</span><b>₺700</b></div>
+          <span class="dz-go">Profili Gör <i class="fa-solid fa-arrow-right"></i></span>
+        </div>
+      </article>
+      <article class="dz-card" onclick="location.href='profil-v1.html?role=diyetisyen&view=public'">
+        <div class="dz-top">
+          <div class="dz-ava" style="background-image:url('https://images.unsplash.com/photo-1612349317150-e413f6a5b16d?w=240&q=80&auto=format&fit=crop&exp=7&gam=6&sat=-9&high=8&vib=5')"></div>
+          <div class="dz-id">
+            <h3>Dyt. Kerem Polat <span class="dz-verify"><i class="fa-solid fa-circle-check"></i> Doğrulandı</span></h3>
+            <p class="dz-title">Vejetaryen & Vegan Beslenme</p>
+            <div class="dz-rate"><i class="fa-solid fa-star"></i> 4.6 <span>(76 değerlendirme)</span></div>
+          </div>
+          <button class="dz-save" type="button" aria-label="Kaydet" onclick="event.stopPropagation()"><i class="fa-regular fa-heart"></i></button>
+        </div>
+        <div class="dz-tags"><span class="dz-tag">Vegan</span><span class="dz-tag">Bitkisel Beslenme</span><span class="dz-tag">Kilo Yönetimi</span></div>
+        <div class="dz-meta">
+          <span><i class="fa-solid fa-location-dot"></i> İstanbul</span>
+          <span><i class="fa-solid fa-video"></i> Online</span>
+          <span><i class="fa-solid fa-briefcase"></i> 5 yıl</span>
+        </div>
+        <div class="dz-foot">
+          <div class="dz-price"><span>Seans başı</span><b>₺550</b></div>
+          <span class="dz-go">Profili Gör <i class="fa-solid fa-arrow-right"></i></span>
+        </div>
+      </article>
+      <article class="dz-card" onclick="location.href='profil-v1.html?role=diyetisyen&view=public'">
+        <div class="dz-top">
+          <div class="dz-ava" style="background-image:url('https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?w=240&q=80&auto=format&fit=crop&exp=7&gam=6&sat=-9&high=8&vib=5')"></div>
+          <div class="dz-id">
+            <h3>Uzm. Dyt. Deniz Aksoy <span class="dz-verify"><i class="fa-solid fa-circle-check"></i> Doğrulandı</span></h3>
+            <p class="dz-title">Hormonal Denge & PCOS</p>
+            <div class="dz-rate"><i class="fa-solid fa-star"></i> 4.9 <span>(155 değerlendirme)</span></div>
+          </div>
+          <button class="dz-save" type="button" aria-label="Kaydet" onclick="event.stopPropagation()"><i class="fa-regular fa-heart"></i></button>
+        </div>
+        <div class="dz-tags"><span class="dz-tag">Hormonal Denge</span><span class="dz-tag">PCOS</span><span class="dz-tag">Kilo Yönetimi</span></div>
+        <div class="dz-meta">
+          <span><i class="fa-solid fa-location-dot"></i> Antalya</span>
+          <span><i class="fa-solid fa-video"></i> Online & Yüz yüze</span>
+          <span><i class="fa-solid fa-briefcase"></i> 8 yıl</span>
+        </div>
+        <div class="dz-foot">
+          <div class="dz-price"><span>Seans başı</span><b>₺720</b></div>
+          <span class="dz-go">Profili Gör <i class="fa-solid fa-arrow-right"></i></span>
+        </div>
+      </article>
+      <article class="dz-card" onclick="location.href='profil-v1.html?role=diyetisyen&view=public'">
+        <div class="dz-top">
+          <div class="dz-ava" style="background-image:url('https://images.unsplash.com/photo-1591604021695-0c69b7c05981?w=240&q=80&auto=format&fit=crop&exp=7&gam=6&sat=-9&high=8&vib=5')"></div>
+          <div class="dz-id">
+            <h3>Dyt. Gizem Çelik <span class="dz-verify"><i class="fa-solid fa-circle-check"></i> Doğrulandı</span></h3>
+            <p class="dz-title">Bağırsak Sağlığı Uzmanı</p>
+            <div class="dz-rate"><i class="fa-solid fa-star"></i> 4.8 <span>(121 değerlendirme)</span></div>
+          </div>
+          <button class="dz-save" type="button" aria-label="Kaydet" onclick="event.stopPropagation()"><i class="fa-regular fa-heart"></i></button>
+        </div>
+        <div class="dz-tags"><span class="dz-tag">Bağırsak Sağlığı</span><span class="dz-tag">FODMAP</span><span class="dz-tag">Sindirim</span></div>
+        <div class="dz-meta">
+          <span><i class="fa-solid fa-location-dot"></i> Ankara</span>
+          <span><i class="fa-solid fa-video"></i> Online</span>
+          <span><i class="fa-solid fa-briefcase"></i> 6 yıl</span>
+        </div>
+        <div class="dz-foot">
+          <div class="dz-price"><span>Seans başı</span><b>₺640</b></div>
+          <span class="dz-go">Profili Gör <i class="fa-solid fa-arrow-right"></i></span>
+        </div>
+      </article>
+      <article class="dz-card" onclick="location.href='profil-v1.html?role=diyetisyen&view=public'">
+        <div class="dz-top">
+          <div class="dz-ava" style="background-image:url('https://images.unsplash.com/photo-1612531386530-97286d97c2d2?w=240&q=80&auto=format&fit=crop&exp=7&gam=6&sat=-9&high=8&vib=5')"></div>
+          <div class="dz-id">
+            <h3>Dyt. Onur Taş </h3>
+            <p class="dz-title">Uzman Diyetisyen · Kilo Yönetimi</p>
+            <div class="dz-rate"><i class="fa-solid fa-star"></i> 4.5 <span>(62 değerlendirme)</span></div>
+          </div>
+          <button class="dz-save" type="button" aria-label="Kaydet" onclick="event.stopPropagation()"><i class="fa-regular fa-heart"></i></button>
+        </div>
+        <div class="dz-tags"><span class="dz-tag">Kilo Yönetimi</span><span class="dz-tag">Metabolizma</span><span class="dz-tag">Davranış Değişimi</span></div>
+        <div class="dz-meta">
+          <span><i class="fa-solid fa-location-dot"></i> İzmir</span>
+          <span><i class="fa-solid fa-house-chimney"></i> Yüz yüze</span>
+          <span><i class="fa-solid fa-briefcase"></i> 4 yıl</span>
+        </div>
+        <div class="dz-foot">
+          <div class="dz-price"><span>Seans başı</span><b>₺520</b></div>
+          <span class="dz-go">Profili Gör <i class="fa-solid fa-arrow-right"></i></span>
+        </div>
+      </article>
+        </div>
+
+        <!-- boş durum -->
+        <div class="lst-empty" id="lstEmpty">
+          <div class="le-ico"><i class="fa-solid fa-user-doctor"></i></div>
+          <h3>Uzman bulunamadı</h3>
+          <p>Seçtiğin filtrelerle eşleşen diyetisyen yok. Filtreleri daralt ya da online görüşmeyi de aç.</p>
+          <button class="btn btn-primary" type="button" onclick="document.querySelector('[data-clear]').click()">
+            <i class="fa-solid fa-rotate-left"></i> Filtreleri Temizle
+          </button>
+        </div>
+
+        <!-- sayfalama -->
+        <div class="pagi">
+          <button class="pg arrow" type="button" aria-label="Önceki sayfa" disabled><i class="fa-solid fa-chevron-left"></i></button>
+          <button class="pg active">1</button>
+          <button class="pg">2</button>
+          <button class="pg">3</button>
+          <span class="pg-dots">…</span>
+          <button class="pg">18</button>
+          <button class="pg arrow" type="button" aria-label="Sonraki sayfa"><i class="fa-solid fa-chevron-right"></i></button>
+          <p class="pagi-note">Sayfa 1 / 18 — Toplam 320 uzman</p>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+</main><!-- /.page-main -->
+
+<div id="ddChromeFab"></div>
+
+<div id="ddChromeGate"></div>
+
+<!-- ===== A4: TIBBİ BİLGİLENDİRME ŞERİDİ ===== -->
+<section class="pf-disclaimer" aria-label="Tıbbi bilgilendirme">
+  <div class="wrap">
+    <i class="fa-solid fa-circle-info"></i>
+    <p>Bu sayfadaki içerik genel bilgilendirme amaçlıdır; <b>tıbbi teşhis veya tedavi yerine geçmez.</b> Kişiye özel beslenme planı yalnızca <b>yetkili bir diyetisyen</b> tarafından hazırlanır. Gebelik, kronik hastalık, düzenli ilaç kullanımı, çocuk beslenmesi veya klinik bir durum varsa plana başlamadan önce <b>hekim ve diyetisyen kontrolü zorunludur.</b></p>
+  </div>
+</section>
+
+<div id="ddChromeFooter"></div>
+
+<script>
+/* ===== SAYFA JS — sayfa-spesifik script BU İŞARETİN ALTINA eklenir ===== */
+
+/* ===== F12a DİYETİSYEN DİZİN — facet + sıralama + sheet ===== */
+(function(){
+  var fchips=document.getElementById('fchips');
+  function syncDots(){
+    document.querySelectorAll('.fct').forEach(function(g){
+      var n=g.querySelectorAll('input[type=checkbox]:checked').length;
+      var dot=g.querySelector('.fct-dot'); if(dot)dot.textContent=n;
+      g.classList.toggle('has-active',n>0);
+    });
+    var total=document.querySelectorAll('.fct-row input:checked').length;
+    var fc=document.getElementById('filCount');
+    if(fc){ if(total>0){fc.textContent=total;fc.removeAttribute('hidden');} else fc.setAttribute('hidden',''); }
+  }
+  function buildChips(){
+    var checked=Array.prototype.slice.call(document.querySelectorAll('.fct-row input:checked'));
+    fchips.innerHTML='';
+    if(!checked.length){fchips.setAttribute('hidden','');return;}
+    fchips.removeAttribute('hidden');
+    checked.forEach(function(cb){
+      var c=document.createElement('button'); c.type='button'; c.className='fchip';
+      c.innerHTML='<i class="fa-solid fa-magnifying-glass"></i> '+cb.value+' <span class="x"><i class="fa-solid fa-xmark"></i></span>';
+      c.addEventListener('click',function(){cb.checked=false;cb.dispatchEvent(new Event('change'));});
+      fchips.appendChild(c);
+    });
+    var clr=document.createElement('button'); clr.type='button'; clr.className='fchips-clear'; clr.textContent='Tümünü Temizle';
+    clr.addEventListener('click',clearAll); fchips.appendChild(clr);
+  }
+  function refresh(){syncDots();buildChips();}
+  // facet accordion
+  document.querySelectorAll('.fct-head').forEach(function(h){
+    h.addEventListener('click',function(){h.closest('.fct').classList.toggle('open');});
+  });
+  // "daha fazla"
+  document.querySelectorAll('.fct-more').forEach(function(b){
+    b.addEventListener('click',function(){
+      var g=b.closest('.fct'); var open=g.classList.toggle('more-open');
+      b.innerHTML='<i class="fa-solid fa-chevron-down"></i> '+(open?b.getAttribute('data-less'):b.getAttribute('data-more'));
+    });
+  });
+  // checkbox change
+  document.querySelectorAll('.fct-row input[type=checkbox]').forEach(function(cb){
+    cb.addEventListener('change',refresh);
+  });
+  // clear all
+  function clearAll(){
+    document.querySelectorAll('.fct-row input:checked').forEach(function(cb){cb.checked=false;});
+    refresh();
+  }
+  document.querySelectorAll('[data-clear]').forEach(function(b){b.addEventListener('click',clearAll);});
+  // sort dropdown
+  var sortDd=document.getElementById('sortDd'),sortBtn=document.getElementById('sortBtn'),sortCur=document.getElementById('sortCur');
+  if(sortBtn){
+    sortBtn.addEventListener('click',function(e){e.stopPropagation();var o=sortDd.classList.toggle('open');sortBtn.setAttribute('aria-expanded',o);});
+    document.querySelectorAll('.sort-menu button').forEach(function(o){
+      o.addEventListener('click',function(){
+        sortCur.textContent=o.textContent.trim();
+        document.querySelectorAll('.sort-menu button').forEach(function(x){x.classList.remove('active');});
+        o.classList.add('active');sortDd.classList.remove('open');
+      });
+    });
+    document.addEventListener('click',function(e){if(!sortDd.contains(e.target))sortDd.classList.remove('open');});
+  }
+  // dz-save toggle
+  document.querySelectorAll('.dz-save').forEach(function(b){
+    b.addEventListener('click',function(e){
+      e.stopPropagation();var on=b.classList.toggle('saved');var i=b.querySelector('i');
+      i.classList.toggle('fa-solid',on);i.classList.toggle('fa-regular',!on);
+    });
+  });
+  // mobil sheet
+  var side=document.getElementById('lstSide'),ov=document.getElementById('sheetOverlay');
+  function openSheet(){side.classList.add('open');ov.classList.add('open');document.body.style.overflow='hidden';}
+  function closeSheet(){side.classList.remove('open');ov.classList.remove('open');document.body.style.overflow='';}
+  var bf=document.getElementById('btnFilter'); if(bf)bf.addEventListener('click',openSheet);
+  var sc=document.getElementById('sheetClose'); if(sc)sc.addEventListener('click',closeSheet);
+  var sa=document.getElementById('sheetApply'); if(sa)sa.addEventListener('click',closeSheet);
+  ov.addEventListener('click',closeSheet);
+  // ---- DERİN BAĞLANTI — menüdeki "Uzmanlık Alanları" ve "Online Görüşme" ----
+  // ?uzmanlik=<deger|tumu>  → Uzmanlık Alanı faseti; deger eşleşirse kutusu işaretlenir
+  // ?gorusme=online|yuzyuze → Görüşme Türü kutusu işaretlenir
+  (function(){
+    var p=new URLSearchParams(location.search);
+    function facet(baslik){
+      var out=null;
+      document.querySelectorAll('.fct').forEach(function(g){
+        var h=g.querySelector('.fct-head');
+        if(h&&h.textContent.trim().indexOf(baslik)===0)out=g;
+      });
+      return out;
+    }
+    function norm(s){ return (s||'').toLocaleLowerCase('tr').replace(/[^a-zçğıöşü]/g,''); }
+    function tikla(g,deger){
+      if(!g)return false;
+      var vurdu=false;
+      g.querySelectorAll('.fct-row input[type=checkbox]').forEach(function(cb){
+        if(!vurdu&&norm(cb.value)===norm(deger)){ cb.checked=true; vurdu=true; }
+      });
+      return vurdu;
+    }
+    var hedefFacet=null;
+    var uz=p.get('uzmanlik');
+    if(uz){
+      hedefFacet=facet('Uzmanlık Alanı');
+      if(hedefFacet){ hedefFacet.classList.add('open'); if(uz!=='tumu')tikla(hedefFacet,uz); }
+    }
+    var gr=p.get('gorusme');
+    if(gr){
+      var gf=facet('Görüşme Türü');
+      if(gf){
+        gf.classList.add('open');
+        if(gr!=='tumu')tikla(gf,gr==='yuzyuze'?'Yüz Yüze':gr);
+        if(!hedefFacet)hedefFacet=gf;
+      }
+    }
+    if(!hedefFacet)return;
+    refresh();
+    // ≤1024'te facet paneli alttan sheet — açık gelsin ki seçim görünsün
+    if(window.matchMedia('(max-width:1024px)').matches)openSheet();
+    else window.requestAnimationFrame(function(){
+      window.scrollTo({top:hedefFacet.getBoundingClientRect().top+window.pageYOffset-140,behavior:'smooth'});
+    });
+  })();
+
+  // SS paramları
+  if(location.search.indexOf('sheet=1')>-1)openSheet();
+  if(location.search.indexOf('empty=1')>-1){
+    document.getElementById('dzGrid').style.display='none';
+    document.querySelector('.pagi').style.display='none';
+    document.getElementById('lstEmpty').classList.add('show');
+    document.getElementById('lstSum').innerHTML='<b>0 uzman</b> bulundu';
+  }
+})();
+</script>
+</body>

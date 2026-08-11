@@ -1,0 +1,346 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<meta name="robots" content="noindex, nofollow" />
+<title>Reçeteler — Sağlık &amp; Diyet · DadaMutfak</title>
+<link rel="shortcut icon" type="image/x-icon" href="assets/img/favicon.ico" />
+<link rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css"
+      integrity="sha512-SnH5WK+bZxgPHs44uWIX+LLJAJ9/2PkPKZ5QiAj6Ta86w+fsb2TkcmfRyVX3pBnMFcV7oQPJkl9QevSCWr3W6A=="
+      crossorigin="anonymous" referrerpolicy="no-referrer" />
+<link rel="stylesheet" href="assets/css/sa-shell.css" />
+<link rel="stylesheet" href="assets/css/sa-list.css" />
+<style>
+/* =====================================================================
+   SA-SAGLIK-RECETELER — SAYFA CSS (kabuk CSS'i sa-shell.css'te).
+   Gözetim listesi: tüm diyet reçeteleri (oku + arşivle; operatör builder AYRI).
+   Token: SADECE var(--acc)/var(--acc-deep)/rgba(var(--acc-rgb),..).
+   ===================================================================== */
+/* ---- Filtre çubuğu ---- */
+.filter-bar{display:flex;align-items:center;gap:10px;padding:14px 22px;border-bottom:1px solid var(--line);flex-wrap:wrap}
+.filter-bar .fb-search{flex:1;min-width:200px;max-width:320px;position:relative}
+.filter-bar .fb-search i{position:absolute;left:12px;top:50%;transform:translateY(-50%);font-size:13px;color:var(--muted);pointer-events:none}
+.filter-bar .fb-search input{width:100%;height:36px;padding:0 12px 0 34px;font-family:inherit;font-size:13px;font-weight:500;color:var(--ink);background:var(--bg);border:1px solid var(--line);border-radius:var(--radius-sm);outline:none;transition:.2s var(--ease)}
+.filter-bar .fb-search input::placeholder{color:var(--muted)}
+.filter-bar .fb-search input:focus{border-color:var(--acc);background:var(--paper);box-shadow:0 0 0 3px rgba(var(--acc-rgb),.10)}
+.chips{display:flex;gap:6px;flex-wrap:wrap}
+.chip{display:inline-flex;align-items:center;gap:6px;padding:7px 14px;border-radius:var(--radius-sm);font-size:12.5px;font-weight:500;cursor:pointer;border:1px solid var(--line);background:var(--paper);color:var(--slate-2);transition:.15s var(--ease)}
+.chip:hover{border-color:var(--acc);color:var(--acc-deep)}
+.chip.is-active{background:rgba(var(--acc-rgb),.12);border-color:rgba(var(--acc-rgb),.3);color:var(--acc-deep);font-weight:700}
+.chip .ch-cnt{white-space:nowrap;font-size:10.5px;font-weight:700;background:rgba(var(--acc-rgb),.15);color:var(--acc-deep);min-width:18px;height:17px;display:inline-flex;align-items:center;justify-content:center;padding:0 5px;border-radius:var(--radius-sm)}
+.chip.is-active .ch-cnt{background:rgba(var(--acc-rgb),.22)}
+
+/* ---- Tablo ---- */
+.ptable{width:100%;border-collapse:collapse}
+.ptable thead th{font-size:11px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);padding:10px 16px;text-align:left;background:var(--bg);border-bottom:1px solid var(--line);white-space:nowrap}
+.ptable thead th:first-child{padding-left:22px}
+.ptable thead th:last-child{padding-right:22px;text-align:right}
+.ptable tbody tr{border-bottom:1px solid var(--line);transition:background .12s}
+.ptable tbody tr:last-child{border-bottom:none}
+.ptable tbody tr:hover{background:rgba(var(--acc-rgb),.03)}
+.ptable tbody td{padding:12px 16px;font-size:13.5px;color:var(--slate-2);vertical-align:middle}
+.ptable tbody td:first-child{padding-left:22px}
+.ptable tbody td:last-child{padding-right:22px;text-align:right}
+
+/* ---- Reçete kimlik hücresi (ikon + başlık) ---- */
+.rx-cell{display:flex;align-items:center;gap:12px}
+.rx-ico{width:38px;height:38px;flex:none;border-radius:var(--radius-md);background:rgba(var(--acc-rgb),.10);color:var(--acc-deep);display:grid;place-items:center;font-size:15px}
+.rx-id{line-height:1.3;min-width:0}
+.rx-id strong{font-size:13.5px;font-weight:700;color:var(--slate);display:block}
+.rx-id span{font-size:12px;color:var(--muted)}
+
+/* ---- Öğün sayısı rozeti ---- */
+.meal-tag{display:inline-flex;align-items:center;gap:5px;font-size:12px;font-weight:700;padding:3px 9px;border-radius:6px;background:rgba(var(--acc-rgb),.10);color:var(--acc-deep);white-space:nowrap}
+
+/* ---- Aksiyon butonları ---- */
+.row-actions{display:flex;align-items:center;justify-content:flex-end;gap:6px}
+.act-btn{display:inline-flex;align-items:center;gap:5px;font-family:inherit;font-size:12.5px;font-weight:700;padding:6px 11px;border-radius:var(--radius-sm);border:1px solid var(--line);background:var(--paper);color:var(--slate-2);cursor:pointer;transition:.15s var(--ease);white-space:nowrap}
+.act-btn:hover{border-color:var(--slate);color:var(--slate)}
+.act-btn.warn{border-color:rgba(225,72,39,.3);background:var(--tomato-tint);color:var(--tomato)}
+.act-btn.warn:hover{background:#f7d6cd;border-color:var(--tomato)}
+
+/* ---- Responsif kolon gizleme (yatay taşma 0) — kanon: sa-store-urunler ---- */
+@media(max-width:980px){
+  /* Diyetisyen (2) + Öğün (5) gizle */
+  .ptable thead th:nth-child(2),.ptable tbody td:nth-child(2),
+  .ptable thead th:nth-child(5),.ptable tbody td:nth-child(5){display:none}
+}
+@media(max-width:640px){
+  /* Danışan (3) + Tarih (4) gizle — Reçete + Durum + Aksiyon kalır */
+  .ptable thead th:nth-child(3),.ptable tbody td:nth-child(3),
+  .ptable thead th:nth-child(4),.ptable tbody td:nth-child(4){display:none}
+}
+</style>
+</head>
+<body data-brand="mutfak" data-sec="saglik" data-screen="receteler">
+
+<div class="sa-app">
+
+  <!-- §1 İKON-RAIL -->
+  <aside class="sa-rail" id="saRail">
+    <a class="sa-rail-logo" href="sa-giris-v1.html" title="Yönetim Girişi"><img src="assets/img/logo-mark.png" alt="DadaMutfak" /></a>
+    <a class="sa-rail-ico" data-sec="genel" href="sa-shell.html?sec=genel" title="Genel Bakış"><i class="fa-solid fa-gauge-high"></i></a>
+    <span class="sa-rail-div"></span>
+    <a class="sa-rail-ico" data-sec="admin"   href="sa-admin.html"   title="Admin"><i class="fa-solid fa-shield-halved"></i></a>
+    <a class="sa-rail-ico" data-sec="saglik"  href="sa-saglik.html"  title="Sağlık &amp; Diyet"><i class="fa-solid fa-heart-pulse"></i></a>
+    <a class="sa-rail-ico" data-sec="store"   href="sa-store.html"   title="DadaStore"><i class="fa-solid fa-bag-shopping"></i></a>
+    <a class="sa-rail-ico" data-sec="dadafit" href="sa-dadafit.html" title="DadaFit"><i class="fa-solid fa-dumbbell"></i></a>
+    <a class="sa-rail-ico" data-sec="isletme" href="sa-isletme.html" title="İşletmeler"><i class="fa-solid fa-store"></i></a>
+    <a class="sa-rail-ico is-locked" data-sec="akademi" href="#" title="DadaAkademi — Yakında"><i class="fa-solid fa-graduation-cap"></i><i class="fa-solid fa-lock sr-lock"></i></a>
+    <div class="sa-rail-foot"><a class="sa-rail-ico" href="anasayfa-portal-v3a.html" title="Siteye Dön"><i class="fa-solid fa-arrow-left"></i></a></div>
+  </aside>
+
+  <!-- §2 BÖLÜM MENÜSÜ (JS) -->
+  <nav class="sa-menu" id="saMenu"></nav>
+
+  <div class="sa-divider" id="saDivider" role="separator" aria-label="Menüyü daralt/genişlet" title="Sürükle veya tıkla — menüyü daralt/genişlet">
+    <span class="sa-grip"><i class="fa-solid fa-grip-lines-vertical"></i></span>
+  </div>
+
+  <div class="pnl-overlay" id="pnlOverlay"></div>
+
+  <!-- §3 ÜST BAR -->
+  <header class="pnl-top">
+    <button class="pnl-burger" id="pnlBurger" aria-label="Menü"><i class="fa-solid fa-bars"></i></button>
+    <div class="pnl-search">
+      <i class="fa-solid fa-magnifying-glass"></i>
+      <input type="text" placeholder="Reçete, danışan, diyetisyen ara…" />
+    </div>
+    <div class="pnl-top-tools">
+      <button class="pnl-bell" aria-label="Bildirimler"><i class="fa-regular fa-bell"></i><span class="pb-dot"></span></button>
+      <div class="pnl-me">
+        <div class="pm-ava"><i class="fa-solid fa-user"></i></div>
+        <div class="pm-id">
+          <div class="pm-name" id="pmName">Süper Admin</div>
+          <div class="pm-role" id="pmRole">Tüm yetki</div>
+        </div>
+        <i class="fa-solid fa-chevron-down"></i>
+      </div>
+    </div>
+  </header>
+
+  <!-- §4 İÇERİK — Reçeteler listesi (gözetim) -->
+  <main class="pnl-main" id="saMain">
+
+    <!-- Sayfa başlığı -->
+    <div class="pnl-page-head">
+      <div>
+        <h1>Reçeteler</h1>
+        <div class="ph-sub">Diyetisyenlerin oluşturduğu tüm beslenme reçeteleri — gözetim ve arşivleme. İçerik diyetisyen panelinde düzenlenir.</div>
+      </div>
+      <!-- DENETİM deseni: "Yeni" butonu yok -->
+    </div>
+
+    <!-- Liste kartı -->
+    <div class="pnl-card" style="overflow:hidden">
+
+      <!-- Filtre çubuğu -->
+      <div class="filter-bar">
+        <div class="fb-search">
+          <i class="fa-solid fa-magnifying-glass"></i>
+          <input type="text" placeholder="Reçete adı, danışan veya diyetisyen ara…" id="rxSearch" />
+        </div>
+        <div class="chips">
+          <button class="chip is-active" data-filter="tumu" onclick="filterRx(this,'tumu')">
+            Tümü <span class="ch-cnt">5</span>
+          </button>
+          <button class="chip" data-filter="aktif" onclick="filterRx(this,'aktif')">
+            Aktif <span class="ch-cnt">3</span>
+          </button>
+          <button class="chip" data-filter="taslak" onclick="filterRx(this,'taslak')">
+            Taslak <span class="ch-cnt">1</span>
+          </button>
+          <button class="chip" data-filter="arşiv" onclick="filterRx(this,'arşiv')">
+            Arşiv <span class="ch-cnt">1</span>
+          </button>
+        </div>
+      </div>
+
+      <!-- Tablo -->
+      <div class="pc-body flush">
+        <table class="ptable" id="rxTable">
+          <thead>
+            <tr>
+              <th>Reçete</th>
+              <th>Diyetisyen</th>
+              <th>Danışan</th>
+              <th>Tarih</th>
+              <th>Öğün</th>
+              <th>Durum</th>
+              <th>Aksiyonlar</th>
+            </tr>
+          </thead>
+          <tbody>
+
+            <!-- Satır 1: Aktif -->
+            <tr data-status="aktif">
+              <td>
+                <div class="rx-cell">
+                  <div class="rx-ico"><i class="fa-solid fa-file-prescription"></i></div>
+                  <div class="rx-id">
+                    <strong>İnsülin Direnci Programı</strong>
+                    <span>4 haftalık · 1.600 kcal</span>
+                  </div>
+                </div>
+              </td>
+              <td>Dyt. Ayça Yıldız</td>
+              <td>Zeynep Aksoy</td>
+              <td class="muted">20 Haz 2026</td>
+              <td><span class="meal-tag"><i class="fa-solid fa-utensils"></i> 5 öğün</span></td>
+              <td><span class="pstat ok">Aktif</span></td>
+              <td>
+                <div class="row-actions">
+                  <button class="act-btn warn"><i class="fa-solid fa-box-archive"></i> Arşivle</button>
+                  <a class="act-btn" href="sa-saglik-receteler-detay.html"><i class="fa-solid fa-eye"></i> Detay</a>
+                </div>
+              </td>
+            </tr>
+
+            <!-- Satır 2: Aktif -->
+            <tr data-status="aktif">
+              <td>
+                <div class="rx-cell">
+                  <div class="rx-ico"><i class="fa-solid fa-file-prescription"></i></div>
+                  <div class="rx-id">
+                    <strong>Sporcu Kütle Artışı</strong>
+                    <span>6 haftalık · 2.800 kcal</span>
+                  </div>
+                </div>
+              </td>
+              <td>Dyt. Elif Şahin</td>
+              <td>Mehmet Demir</td>
+              <td class="muted">14 Haz 2026</td>
+              <td><span class="meal-tag"><i class="fa-solid fa-utensils"></i> 6 öğün</span></td>
+              <td><span class="pstat ok">Aktif</span></td>
+              <td>
+                <div class="row-actions">
+                  <button class="act-btn warn"><i class="fa-solid fa-box-archive"></i> Arşivle</button>
+                  <a class="act-btn" href="sa-saglik-receteler-detay.html"><i class="fa-solid fa-eye"></i> Detay</a>
+                </div>
+              </td>
+            </tr>
+
+            <!-- Satır 3: Aktif -->
+            <tr data-status="aktif">
+              <td>
+                <div class="rx-cell">
+                  <div class="rx-ico"><i class="fa-solid fa-file-prescription"></i></div>
+                  <div class="rx-id">
+                    <strong>Akdeniz Tipi Beslenme</strong>
+                    <span>8 haftalık · 1.900 kcal</span>
+                  </div>
+                </div>
+              </td>
+              <td>Dyt. Murat Kaya</td>
+              <td>Selin Korkmaz</td>
+              <td class="muted">9 Haz 2026</td>
+              <td><span class="meal-tag"><i class="fa-solid fa-utensils"></i> 4 öğün</span></td>
+              <td><span class="pstat ok">Aktif</span></td>
+              <td>
+                <div class="row-actions">
+                  <button class="act-btn warn"><i class="fa-solid fa-box-archive"></i> Arşivle</button>
+                  <a class="act-btn" href="sa-saglik-receteler-detay.html"><i class="fa-solid fa-eye"></i> Detay</a>
+                </div>
+              </td>
+            </tr>
+
+            <!-- Satır 4: Taslak -->
+            <tr data-status="taslak">
+              <td>
+                <div class="rx-cell">
+                  <div class="rx-ico"><i class="fa-solid fa-file-prescription"></i></div>
+                  <div class="rx-id">
+                    <strong>Detoks Başlangıç Planı</strong>
+                    <span>2 haftalık · 1.400 kcal</span>
+                  </div>
+                </div>
+              </td>
+              <td>Dyt. Ayça Yıldız</td>
+              <td class="muted">— atanmadı</td>
+              <td class="muted">6 Haz 2026</td>
+              <td><span class="meal-tag"><i class="fa-solid fa-utensils"></i> 3 öğün</span></td>
+              <td><span class="pstat wait">Taslak</span></td>
+              <td>
+                <div class="row-actions">
+                  <a class="act-btn" href="sa-saglik-receteler-detay.html"><i class="fa-solid fa-eye"></i> Detay</a>
+                </div>
+              </td>
+            </tr>
+
+            <!-- Satır 5: Arşiv -->
+            <tr data-status="arşiv">
+              <td>
+                <div class="rx-cell">
+                  <div class="rx-ico"><i class="fa-solid fa-file-prescription"></i></div>
+                  <div class="rx-id">
+                    <strong>Glütensiz Geçiş Programı</strong>
+                    <span>4 haftalık · 1.700 kcal</span>
+                  </div>
+                </div>
+              </td>
+              <td>Dyt. Elif Şahin</td>
+              <td>Ahmet Çelik</td>
+              <td class="muted">2 May 2026</td>
+              <td><span class="meal-tag"><i class="fa-solid fa-utensils"></i> 5 öğün</span></td>
+              <td><span class="pstat off">Arşiv</span></td>
+              <td>
+                <div class="row-actions">
+                  <a class="act-btn" href="sa-saglik-receteler-detay.html"><i class="fa-solid fa-eye"></i> Detay</a>
+                </div>
+              </td>
+            </tr>
+
+          </tbody>
+        </table>
+      </div>
+
+      <!-- Boş durum (filtre sonucu) -->
+      <div class="pnl-empty" id="rxEmpty" style="display:none">
+        <div class="pe-ico"><i class="fa-solid fa-file-prescription"></i></div>
+        <h4>Reçete bulunamadı</h4>
+        <p>Seçili filtreyle eşleşen reçete yok. Filtreyi değiştirmeyi deneyin.</p>
+        <span class="pe-tag"><i class="fa-solid fa-filter"></i> Filtre temizle</span>
+      </div>
+
+    </div><!-- /pnl-card -->
+
+  </main>
+
+</div>
+
+<script src="assets/js/sa-shell.js"></script>
+<script src="assets/js/sa-chcnt.js"></script>
+
+<!-- Filtre / arama etkileşim JS (sayfa-özel) -->
+<script>
+function filterRx(btn, filter) {
+  document.querySelectorAll('.chip').forEach(function(c){ c.classList.remove('is-active'); });
+  btn.classList.add('is-active');
+  var rows = document.querySelectorAll('#rxTable tbody tr');
+  var visible = 0;
+  rows.forEach(function(row){
+    var show = (filter === 'tumu') || (row.dataset.status === filter);
+    row.style.display = show ? '' : 'none';
+    if(show) visible++;
+  });
+  var empty = document.getElementById('rxEmpty');
+  if(empty) empty.style.display = (visible === 0) ? '' : 'none';
+}
+document.getElementById('rxSearch').addEventListener('input', function(){
+  var q = this.value.toLowerCase().trim();
+  var rows = document.querySelectorAll('#rxTable tbody tr');
+  var visible = 0;
+  rows.forEach(function(row){
+    var txt = row.textContent.toLowerCase();
+    var show = !q || txt.indexOf(q) !== -1;
+    row.style.display = show ? '' : 'none';
+    if(show) visible++;
+  });
+  var empty = document.getElementById('rxEmpty');
+  if(empty) empty.style.display = (visible === 0) ? '' : 'none';
+});
+</script>
+</body>
+</html>

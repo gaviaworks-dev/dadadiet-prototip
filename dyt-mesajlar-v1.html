@@ -1,0 +1,410 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<meta name="robots" content="noindex, nofollow" />
+<title>Mesajlar — DadaMutfak Diyetisyen Paneli</title>
+<link rel="shortcut icon" type="image/x-icon" href="assets/img/favicon.ico" />
+<!-- FontAwesome 6.5.2 (kilitli ikon seti) -->
+<link rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css"
+      integrity="sha512-SnH5WK+bZxgPHs44uWIX+LLJAJ9/2PkPKZ5QiAj6Ta86w+fsb2TkcmfRyVX3pBnMFcV7oQPJkl9QevSCWr3W6A=="
+      crossorigin="anonymous" referrerpolicy="no-referrer" />
+<link rel="stylesheet" href="assets/css/sa-ui.css" />
+<link rel="stylesheet" href="assets/css/sa-gozetim.css" />
+<!-- panel kabuğu: assets/css/panel.css + assets/js/panel.js -->
+<link rel="stylesheet" href="assets/css/panel.css" />
+<style>
+/* =====================================================================
+   SAYFA CSS — sayfa-spesifik stiller BU İŞARETİN ALTINA
+   ===================================================================== */
+
+/* ---- İKİ KOLON DÜZEN ---- */
+.msg-wrap{
+  display:grid;grid-template-columns:330px minmax(0,1fr);gap:16px;
+  height:calc(100vh - 244px);min-height:540px;
+}
+.msg-left{display:flex;flex-direction:column;overflow:hidden;min-width:0}
+.msg-right{display:flex;flex-direction:column;overflow:hidden;min-width:0}
+
+/* ---- SOL: konuşma listesi (.mm-list mirası + arama + okunmamış rozeti) ---- */
+.ms-search{padding:14px 14px 12px;border-bottom:1px solid var(--line);position:relative;flex:none}
+.ms-search i{position:absolute;left:28px;top:50%;transform:translateY(-50%);font-size:12.5px;color:var(--muted);pointer-events:none}
+.ms-search input{
+  width:100%;height:40px;padding:0 14px 0 38px;
+  font-family:inherit;font-size:13px;font-weight:500;color:var(--ink);
+  background:var(--bg);border:1px solid var(--line);border-radius:var(--radius-md);
+  outline:none;transition:.2s var(--ease);
+}
+.ms-search input::placeholder{color:var(--muted)}
+.ms-search input:focus{border-color:var(--green);background:var(--paper);box-shadow:0 0 0 3px rgba(59,183,126,.12)}
+.msg-left .mm-list{flex:1;overflow-y:auto}
+.mm-row.is-active{background:var(--green-tint);box-shadow:inset 3px 0 0 var(--green)}
+.mm-row.is-active:hover{background:var(--green-tint)}
+/* sağ kenar: saat + okunmamış sayacı üst üste */
+.mm-side{flex:none;display:flex;flex-direction:column;align-items:flex-end;gap:5px}
+.mm-cnt{
+  font-size:11px;font-weight:700;background:var(--green);color:#fff;
+  min-width:18px;height:18px;display:inline-flex;align-items:center;justify-content:center;
+  padding:0 5px;border-radius:var(--radius-sm);
+}
+
+/* ---- SAĞ: aktif sohbet ---- */
+.ch-head{display:flex;align-items:center;gap:12px;padding:13px 18px;border-bottom:1px solid var(--line);flex:none}
+.ch-back{
+  display:none;width:38px;height:38px;flex:none;border:1px solid var(--line);border-radius:var(--radius-md);
+  background:var(--paper);cursor:pointer;font-size:13px;color:var(--slate);
+  align-items:center;justify-content:center;transition:.2s var(--ease);
+}
+.ch-back:hover{border-color:var(--green);color:var(--green-deep)}
+.ch-ava{width:40px;height:40px;flex:none;border-radius:var(--radius-circle);background-size:cover;background-position:center;position:relative}
+.ch-ava::after{
+  content:"";position:absolute;bottom:-1px;right:-1px;width:11px;height:11px;
+  background:var(--green);border:2px solid var(--paper);border-radius:var(--radius-circle);
+}
+.ch-id{flex:1;min-width:0;line-height:1.3}
+.ch-name{font-size:14.5px;font-weight:700;color:var(--slate);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.ch-sub{font-size:12px;color:var(--muted);margin-top:2px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.ch-tools{display:flex;gap:8px;flex:none}
+.ch-tool{
+  width:38px;height:38px;border:1px solid var(--line);border-radius:var(--radius-md);
+  background:var(--paper);color:var(--slate);font-size:13.5px;cursor:pointer;
+  display:inline-flex;align-items:center;justify-content:center;transition:.2s var(--ease);
+}
+.ch-tool:hover{border-color:var(--green);color:var(--green-deep);background:var(--green-tint)}
+
+/* sohbet gövdesi + balonlar */
+.ch-body{flex:1;overflow-y:auto;padding:20px 18px;display:flex;flex-direction:column;gap:10px}
+.ch-div{
+  align-self:center;font-size:11px;font-weight:700;color:var(--muted);
+  background:var(--bg);border:1px solid var(--line);
+  padding:4px 12px;border-radius:var(--radius-sm);margin:6px 0;
+}
+.bub{max-width:68%;padding:10px 14px;font-size:13.5px;line-height:1.5;border-radius:var(--radius-md)}
+.bub .bt{display:flex;align-items:center;justify-content:flex-end;gap:5px;font-size:10.5px;color:var(--muted);margin-top:5px}
+.bub .bt i{font-size:10px}
+.bub.in{align-self:flex-start;background:var(--bg);border:1px solid var(--line);color:var(--slate-2);border-bottom-left-radius:var(--radius-sm)}
+.bub.out{align-self:flex-end;background:var(--green-tint);color:var(--slate);border-bottom-right-radius:var(--radius-sm)}
+.bub.out .bt{color:var(--green-deep)}
+/* görsel ekli balon (ölçüm / tabak fotoğrafı) */
+.bub-img{width:230px;max-width:100%;height:150px;border-radius:var(--radius-sm);background-size:cover;background-position:center;margin-bottom:8px}
+
+/* mesaj yazma çubuğu — mock, gerçek gönderim yok */
+.ch-comp{display:flex;align-items:center;gap:10px;padding:12px 14px;border-top:1px solid var(--line);flex:none}
+.ch-add{
+  width:42px;height:42px;flex:none;border:1px solid var(--line);border-radius:var(--radius-md);
+  background:var(--paper);color:var(--slate);font-size:15px;cursor:pointer;
+  display:inline-flex;align-items:center;justify-content:center;transition:.2s var(--ease);
+}
+.ch-add:hover{border-color:var(--green);color:var(--green-deep);background:var(--green-tint)}
+.ch-comp input{
+  flex:1;min-width:0;height:42px;padding:0 14px;
+  font-family:inherit;font-size:13.5px;font-weight:500;color:var(--ink);
+  background:var(--bg);border:1px solid var(--line);border-radius:var(--radius-md);
+  outline:none;transition:.2s var(--ease);
+}
+.ch-comp input::placeholder{color:var(--muted)}
+.ch-comp input:focus{border-color:var(--green);background:var(--paper);box-shadow:0 0 0 3px rgba(59,183,126,.12)}
+.ch-send{
+  width:42px;height:42px;flex:none;border:none;border-radius:var(--radius-md);
+  background:var(--green);color:#fff;font-size:14px;cursor:pointer;
+  display:inline-flex;align-items:center;justify-content:center;transition:.2s var(--ease);
+}
+.ch-send:hover{background:var(--green-deep)}
+
+/* sohbet seçili değil (?bos=1) */
+.ch-none{flex:1;display:grid;place-items:center}
+/* display'li bloklarda hidden attribute'u her zaman kazansın */
+.msg-right [hidden]{display:none!important}
+
+/* ---- MOBİL: ≤980 tek kolon, liste → sohbet akışı ---- */
+@media(max-width:980px){
+  .msg-wrap{grid-template-columns:minmax(0,1fr);height:calc(100vh - 200px);min-height:480px}
+  .msg-right{display:none}
+  body.chat-open .msg-right{display:flex}
+  body.chat-open .msg-left{display:none}
+  .ch-back{display:inline-flex}
+}
+@media(max-width:640px){
+  .bub{max-width:84%}
+  .ch-head{padding:11px 12px}
+  .ch-body{padding:16px 12px}
+  .ch-comp{padding:10px 12px}
+  .ch-tools .ch-tool:first-child{display:none}
+}
+</style>
+</head>
+<body data-brand="mutfak" data-nav="mesajlar">
+
+<div class="pnl-app">
+
+  <!-- sidebar + üst bar: assets/js/panel.js üretir -->
+  <div id="pnlChrome"></div>
+  <script src="assets/js/panel.js"></script>
+
+  <main class="pnl-main">
+
+    <div class="pnl-page-head">
+      <div>
+        <h1>Mesajlar</h1>
+        <div class="ph-sub">3 okunmamış mesaj — en eskisi 2 saat önce geldi.</div>
+      </div>
+      <div class="ph-actions">
+        <button class="btn btn-green btn-sm"><i class="fa-regular fa-paper-plane"></i> Yeni Mesaj</button>
+      </div>
+    </div>
+
+    <div class="msg-wrap">
+
+      <!-- SOL: konuşma listesi -->
+      <div class="pnl-card msg-left" id="msgLeft">
+        <div class="ms-search">
+          <i class="fa-solid fa-magnifying-glass"></i>
+          <input type="text" placeholder="Konuşmalarda ara…" />
+        </div>
+        <div class="mm-list">
+          <div class="mm-row is-active mm-open">
+            <div class="mm-av" style="background-image:url('https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=160&q=80&auto=format&fit=crop&exp=7&gam=6&sat=-9&high=8&vib=5')"></div>
+            <div class="mm-info">
+              <div class="mm-name">Zeynep Arslan</div>
+              <div class="mm-prev">Merhaba hocam, ara öğünü atlasam olur mu?</div>
+            </div>
+            <div class="mm-side">
+              <div class="mm-time">12 dk</div>
+            </div>
+          </div>
+          <div class="mm-row is-unread mm-open">
+            <div class="mm-av" style="background-image:url('https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=160&q=80&auto=format&fit=crop&exp=7&gam=6&sat=-9&high=8&vib=5')"></div>
+            <div class="mm-info">
+              <div class="mm-name">Burak Şahin</div>
+              <div class="mm-prev">Bu haftaki ölçümleri ekledim, bakabilir misiniz?</div>
+            </div>
+            <div class="mm-side">
+              <div class="mm-time">1 sa</div>
+              <span class="mm-cnt">2</span>
+            </div>
+          </div>
+          <div class="mm-row is-unread mm-open">
+            <div class="mm-av" style="background-image:url('https://images.unsplash.com/photo-1438761681033-6461ffad8d80?w=160&q=80&auto=format&fit=crop&exp=7&gam=6&sat=-9&high=8&vib=5')"></div>
+            <div class="mm-info">
+              <div class="mm-name">Selin Demir</div>
+              <div class="mm-prev">Akşam öğününe alternatif var mı hocam?</div>
+            </div>
+            <div class="mm-side">
+              <div class="mm-time">2 sa</div>
+              <span class="mm-cnt">1</span>
+            </div>
+          </div>
+          <div class="mm-row mm-open">
+            <div class="mm-av" style="background-image:url('https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=160&q=80&auto=format&fit=crop&exp=7&gam=6&sat=-9&high=8&vib=5')"></div>
+            <div class="mm-info">
+              <div class="mm-name">Mert Kaya</div>
+              <div class="mm-prev">Antrenman sonrası shake tarifini denedim, çok iyi.</div>
+            </div>
+            <div class="mm-side">
+              <div class="mm-time">Dün</div>
+            </div>
+          </div>
+          <div class="mm-row mm-open">
+            <div class="mm-av" style="background-image:url('https://images.unsplash.com/photo-1438761681033-6461ffad8d80?w=160&q=80&auto=format&fit=crop&exp=7&gam=6&sat=-9&high=8&vib=5')"></div>
+            <div class="mm-info">
+              <div class="mm-name">Derya Koç</div>
+              <div class="mm-prev">Teşekkürler hocam, randevuda görüşürüz.</div>
+            </div>
+            <div class="mm-side">
+              <div class="mm-time">Dün</div>
+            </div>
+          </div>
+          <div class="mm-row mm-open">
+            <div class="mm-av" style="background-image:url('https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=160&q=80&auto=format&fit=crop&exp=7&gam=6&sat=-9&high=8&vib=5')"></div>
+            <div class="mm-info">
+              <div class="mm-name">Hakan Yılmaz</div>
+              <div class="mm-prev">Liste güncellemesi için ne zaman uygunsunuz?</div>
+            </div>
+            <div class="mm-side">
+              <div class="mm-time">8 Haz</div>
+            </div>
+          </div>
+          <div class="mm-row mm-open">
+            <div class="mm-av" style="background-image:url('https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=160&q=80&auto=format&fit=crop&exp=7&gam=6&sat=-9&high=8&vib=5')"></div>
+            <div class="mm-info">
+              <div class="mm-name">Gizem Acar</div>
+              <div class="mm-prev">Koruma listesindeki çorbayı çok sevdim.</div>
+            </div>
+            <div class="mm-side">
+              <div class="mm-time">5 Haz</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- SAĞ: aktif sohbet -->
+      <div class="pnl-card msg-right" id="msgRight">
+
+        <!-- sohbet açık hâli -->
+        <div class="ch-head" id="chHead">
+          <button class="ch-back" id="chBack" aria-label="Konuşma listesine dön"><i class="fa-solid fa-arrow-left"></i></button>
+          <div class="ch-ava" style="background-image:url('https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=160&q=80&auto=format&fit=crop&exp=7&gam=6&sat=-9&high=8&vib=5')"></div>
+          <div class="ch-id">
+            <div class="ch-name">Zeynep Arslan</div>
+            <div class="ch-sub">Danışan · 8. hafta · çevrim içi</div>
+          </div>
+          <div class="ch-tools">
+            <a class="ch-tool" href="dyt-randevular-v1.html" aria-label="Randevu planla"><i class="fa-regular fa-calendar-plus"></i></a>
+            <a class="ch-tool" href="dyt-danisanlar-v1.html?danisan=1" aria-label="Danışan kartı"><i class="fa-regular fa-id-badge"></i></a>
+          </div>
+        </div>
+
+        <div class="ch-body" id="chBody">
+          <div class="ch-div">Dün</div>
+          <div class="bub in">
+            Hocam merhaba, akşam yemeğinde porsiyonu biraz aştım galiba. Fotoğrafını gönderiyorum.
+            <span class="bt">18.42</span>
+          </div>
+          <div class="bub in">
+            <div class="bub-img" style="background-image:url('https://images.unsplash.com/photo-1512621776951-a57141f2eefd?w=460&q=80&auto=format&fit=crop&exp=7&gam=6&sat=-9&high=8&vib=5')"></div>
+            Bu kadar salata fazla mı oldu?
+            <span class="bt">18.44</span>
+          </div>
+          <div class="bub out">
+            Merhaba Zeynep, gayet dengeli görünüyor — salata serbest, sos kısmına dikkat etmen yeterli.
+            <span class="bt">19.10 <i class="fa-solid fa-check-double"></i></span>
+          </div>
+          <div class="bub out">
+            Yarınki görüşmede ölçümleri de alacağız, aç karnına gelmeyi unutma.
+            <span class="bt">19.11 <i class="fa-solid fa-check-double"></i></span>
+          </div>
+          <div class="ch-div">Bugün</div>
+          <div class="bub in">
+            Günaydın hocam, bugün işler yoğun — ara öğünü atlasam olur mu?
+            <span class="bt">08.52</span>
+          </div>
+          <div class="bub out">
+            Günaydın, atlamak yerine yanında taşıyabileceğin bir avuç çiğ badem + 1 meyve yap, kan şekerin düşmesin.
+            <span class="bt">09.05 <i class="fa-solid fa-check-double"></i></span>
+          </div>
+          <div class="bub in">
+            Tamamdır, teşekkürler! Görüşmede görüşürüz.
+            <span class="bt">09.08</span>
+          </div>
+        </div>
+
+        <div class="ch-comp" id="chComp">
+          <button class="ch-add" type="button" aria-label="Dosya ekle"><i class="fa-solid fa-plus"></i></button>
+          <input type="text" placeholder="Mesaj yaz…" />
+          <button class="ch-send" type="button" aria-label="Gönder" onclick="saToast('Mesaj gönderildi.')"><i class="fa-regular fa-paper-plane"></i></button>
+        </div>
+
+        <!-- sohbet seçili değil hâli (?bos=1) -->
+        <div class="ch-none" id="chNone" hidden>
+          <div class="pnl-empty">
+            <div class="pe-ico"><i class="fa-regular fa-comment-dots"></i></div>
+            <h4>Bir konuşma seç</h4>
+            <p>Soldaki listeden bir danışan seç veya yeni bir mesaj başlat.</p>
+            <button class="btn btn-green btn-sm" type="button"><i class="fa-regular fa-paper-plane"></i> Yeni Mesaj</button>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+  </main>
+</div>
+
+<script>
+/* panel ortak JS (burger + overlay + ?nav=1) assets/js/panel.js içinde */
+
+/* ============ SAYFA JS — konuşma seçimi + mobil liste→sohbet akışı ============ */
+(function(){
+  var q=new URLSearchParams(location.search);
+
+  /* konuşma satırı: aktif işaretle + mobilde sohbeti aç */
+  document.querySelectorAll('.mm-open').forEach(function(row){
+    row.addEventListener('click',function(){
+      document.querySelectorAll('.mm-open').forEach(function(r){r.classList.remove('is-active')});
+      row.classList.add('is-active');
+      row.classList.remove('is-unread');
+      var cnt=row.querySelector('.mm-cnt'); if(cnt) cnt.remove();
+      /* boş durumdan çık */
+      setEmpty(false);
+      document.body.classList.add('chat-open');
+    });
+  });
+
+  /* mobil geri oku */
+  document.getElementById('chBack').addEventListener('click',function(){
+    document.body.classList.remove('chat-open');
+  });
+
+  /* sohbet seçili değil hâli (?bos=1) */
+  function setEmpty(on){
+    document.getElementById('chHead').hidden=on;
+    document.getElementById('chBody').hidden=on;
+    document.getElementById('chComp').hidden=on;
+    document.getElementById('chNone').hidden=!on;
+  }
+  if(q.get('bos')==='1'){
+    setEmpty(true);
+    document.querySelectorAll('.mm-open').forEach(function(r){r.classList.remove('is-active')});
+  }
+
+  /* SS paramı: ?sohbet=1 mobilde sohbet açık */
+  if(q.get('sohbet')==='1') document.body.classList.add('chat-open');
+
+  /* sohbeti en alta kaydır */
+  var body=document.getElementById('chBody');
+  if(body) body.scrollTop=body.scrollHeight;
+})();
+</script>
+
+<script src="assets/js/sa-ui.js"></script>
+<script src="assets/js/sa-gozetim.js" defer></script>
+<script>
+/* ===== Faz3 — işletme-sahibi rolü (has-business): is-auth kardeşi =====
+   ?business=1 → localStorage dm_business='1' + body.has-business ; ?business=0 → temizle.
+   param yoksa localStorage'a bakılır. Adım 1 işletme linkleri (İşletmem→Panele Git,
+   panel topbar account chip) body.has-business ile rol-koşullu gösterilir. */
+(function(){
+  /* C1 — tek auth/rol token dm_user{auth,roles[],verified,level}. Eski dm_auth/dm_business
+     migrate+silinir. Kök kuralı: auth ⟹ roles "kullanici" ile başlar; isletme operatörü
+     ["kullanici","isletme"]. Class additive (is-auth/has-business AYNEN) + body[data-roles]. */
+  var KEY='dm_user', OK={kullanici:1,antrenor:1,diyetisyen:1,isletme:1};
+  function rd(){ try{var r=localStorage.getItem(KEY);return r?JSON.parse(r):null;}catch(e){return null;} }
+  function wr(u){ try{localStorage.setItem(KEY,JSON.stringify(u));}catch(e){} }
+  var u=rd();
+  if(!u){                                   // migrasyon: eski binary flag → dm_user (bir kez)
+    var oa=false,ob=false;
+    try{oa=localStorage.getItem('dm_auth')==='1';}catch(e){}
+    try{ob=localStorage.getItem('dm_business')==='1';}catch(e){}
+    if(oa||ob){ u={auth:true,roles:['kullanici'],verified:false,level:0}; if(ob)u.roles.push('isletme'); wr(u); }
+  }
+  try{localStorage.removeItem('dm_auth');localStorage.removeItem('dm_business');}catch(e){}  // eski anahtar temizliği
+  var qs=location.search;                    // URL-param (demo/SS akışı korunur + yeni roller)
+  function ens(){ if(!u)u={auth:false,roles:[],verified:false,level:0}; }
+  function addR(r){ ens(); if(OK[r]&&u.roles.indexOf(r)<0)u.roles.push(r); }
+  if(qs.indexOf('auth=1')>-1){ ens(); u.auth=true; }
+  else if(qs.indexOf('auth=0')>-1){ u=null; try{localStorage.removeItem(KEY);}catch(e){} }
+  if(qs.indexOf('business=1')>-1){ ens(); u.auth=true; addR('isletme'); }
+  else if(qs.indexOf('business=0')>-1){ if(u){var bi=u.roles.indexOf('isletme'); if(bi>-1)u.roles.splice(bi,1);} }
+  var rm=/[?&]role=(antrenor|diyetisyen|isletme)/.exec(qs); if(rm){ ens(); u.auth=true; addR(rm[1]); }
+  if(u){
+    if(qs.indexOf('verified=1')>-1)u.verified=true; else if(qs.indexOf('verified=0')>-1)u.verified=false;
+    var lm=/[?&]level=(\d+)/.exec(qs); if(lm)u.level=parseInt(lm[1],10)||0;
+    if(u.auth&&u.roles.indexOf('kullanici')<0)u.roles.unshift('kullanici');   // kök her zaman önde
+    wr(u);
+  }
+  var b=document.body, authed=!!(u&&u.auth);   // DOM: eski class kanalı (additive) + data-roles
+  if(authed){
+    b.classList.add('is-auth');
+    if(u.roles.indexOf('isletme')>-1)b.classList.add('has-business');   // C3 köprü sinyali — AYNEN
+    b.setAttribute('data-roles',u.roles.join(' '));
+    if(u.verified)b.setAttribute('data-verified','1');
+    if(u.level)b.setAttribute('data-level',String(u.level));
+  }
+  var bnA=document.getElementById('bnAccount');   // M6 — bottom-nav Hesap hedefi
+  if(bnA)bnA.setAttribute('href', authed?'mutfak-defteri-v1.html':'giris-v1.html');
+})();
+</script>
+</body>
+</html>

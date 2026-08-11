@@ -1,0 +1,842 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<meta name="robots" content="noindex, nofollow" />
+<title>DadaDiet — Arama | DadaMutfak</title>
+<link rel="shortcut icon" type="image/x-icon"
+      href="assets/img/favicon.ico" />
+<!-- FontAwesome 6.5.2 (kilitli ikon seti) -->
+<link rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css"
+      integrity="sha512-SnH5WK+bZxgPHs44uWIX+LLJAJ9/2PkPKZ5QiAj6Ta86w+fsb2TkcmfRyVX3pBnMFcV7oQPJkl9QevSCWr3W6A=="
+      crossorigin="anonymous" referrerpolicy="no-referrer" />
+<link rel="stylesheet" href="assets/css/dd-shell.css" />
+<style>
+/* ===== SAYFA CSS — kabuk CSS'i assets/css/dd-shell.css'te ===== */
+/* ============ KİMLİK TOKEN'LARI (brand-tokens.md) ============ */
+:root{
+  --tomato:#3BB77E;          /* DadaDiet kabuk aksanı — NANE (karar A5; site default domatesten bilinçli sapma, --green token'ı). DadaFit'in doygun #009d4f sporcu yeşilinden daha yumuşak/klinik → beslenme tonu */
+  --tomato-dark:#2C9963;     /* hover türevi (nane koyu, --green-deep ile aynı) */
+  --tomato-deep:#1c7a4e;     /* nane derin — CTA/footer/aksan metin (WCAG AA: beyaz üstü & beyaz zeminde ≥4.5) */
+  --tomato-tint:#E6F5EE;     /* nane fısıltısı zemin */
+  --slate:#211E16;           /* Pantone Process Black C — başlık/koyu metin/panel */
+  --slate-2:#56514a;           /* sıcak muted koyu */
+  --green:#3BB77E;           /* yalnız sağlık bloğu */
+  --green-deep:#2c9963;
+  --yellow:#FAC045;          /* yalnız puan */
+  --muted:#717171;           /* ikincil metin (AA: beyaz zeminde ≥4.5) */
+  --line:#ECECEC;            /* hairline ayraç */
+  --cream:#EFE5D3;           /* sıcak nötr */
+  --cream-2:#F7F1E6;
+  /* kurumsal alternatif renkler (kılavuz) */
+  --c-purple:#b14fc5; --c-mint:#6cca98; --c-green:#009d4f; --c-petrol:#006072;
+  --paper:#ffffff;
+  --bg:#f9f9f9;              /* eski site grisi — sayfa zemini (Revize T3 M12) */
+  --ink:#211E16;
+  /* section zemin ritmi — açık bölüm alternasyonu (gri ↔ beyaz, eski site ekseni) */
+  --bg-white:#ffffff;        /* saf beyaz */
+  --bg-cream:#f9f9f9;        /* eski site section grisi (own.css'teki en yaygın zemin) */
+
+  --radius-sm:8px; --radius-md:12px; --radius-lg:16px; --radius-xl:24px; --radius-pill:999px; --radius-circle:50%;
+  /* legacy alias → yeni ölçek */
+  --r:var(--radius-lg); --r-sm:var(--radius-sm); --r-lg:var(--radius-xl);
+  --sh-sm:0 1px 2px rgba(33,30,22,.04), 0 2px 6px rgba(33,30,22,.05);
+  --sh-md:0 6px 22px rgba(33,30,22,.09);
+  --sh-lg:0 18px 50px rgba(33,30,22,.16);
+  --ease:cubic-bezier(.22,.61,.36,1);
+  --wrap:1240px;
+}
+:root{--c-mint-deep:#3BB77E}
+:root{
+  --d-3:#322D26; --d-deep:#161310;
+  --dline:rgba(251,248,243,.16);
+  --r-md:12px; --r-lg:16px; --r-xl:24px; --r-circle:50%;
+  --ease-spring:cubic-bezier(.16,1,.3,1);
+  --tomato-rgb:59,183,126;
+  --sh-3:0 18px 50px rgba(33,30,22,.16);
+  --panel-fl:360px;
+  --b-gastro:#E14827;  --b-gastro-l:#F0613F;
+  --b-gourmet:#b14fc5; --b-gourmet-l:#C66BD8;
+  --b-diet:#3BB77E;    --b-diet-l:#52CD94;
+  --b-fit:#009d4f;     --b-fit-l:#22BE6E;
+  --b-akademi:#006072; --b-akademi-l:#2E97AB;
+}
+/* "Tüm Tarifler" — kategori grid'inin 13. hücresi, buton dilinde (Revize T3 M1) */
+.mega-cats .mega-cat-all{
+  font-weight:700;color:var(--tomato);
+  background:var(--tomato-tint);border:1px solid rgba(59,183,126,.22);
+}
+/* Tarif Bulucu CTA — mega-feat kolonunda (Faz3 #22; finder giriş noktası) */
+
+/* =====================================================================
+   F10 — SAĞLIK HUB · sağlık dili (yeşil aksan; token seti AYNI)
+   Kaynaklar: lst-hero (koyu band) · calc-card/diet-panel (v3a 418–447)
+   ===================================================================== */
+
+/* ---- HERO: koyu band (liste hero dili) — yeşil sağlık aksanı ---- */
+/* FULL-VIEWPORT hero (Gastro .hero-v kompozisyonu → Diet): tam ekran yükseklik, içerik dikey ortalı */
+.sh-top{position:relative;min-height:100vh;min-height:100svh;display:flex;align-items:center;padding-top:96px;background:#15241c;overflow:hidden}
+/* hero media: optimize lazy video (JS kontrollü) + LOCAL poster (ilk-paint + mobil/reduced/save-data fallback) = bg; ::after nane overlay video ÜSTÜNDE; içerik .wrap z:2. prefers-reduced-motion → video gizli, poster kalır. */
+.sh-hero-media{position:absolute;inset:0;z-index:0;background:#15241c url('assets/img/diet-hero-poster.jpg') center/cover no-repeat}
+.sh-hero-media video{width:100%;height:100%;object-fit:cover;object-position:center 30%;display:block}
+.sh-hero-media::after{content:"";position:absolute;inset:0;background:
+  radial-gradient(820px 360px at 84% 12%,rgba(59,183,126,.22),transparent 62%),
+  linear-gradient(90deg,rgba(18,28,22,.93) 0%,rgba(20,32,25,.80) 46%,rgba(20,32,25,.55) 100%),
+  linear-gradient(180deg,rgba(18,28,22,0) 58%,rgba(16,26,20,.9) 100%)}
+@media (prefers-reduced-motion:reduce){.sh-hero-media video{display:none}}
+/* full-viewport hero alt scroll ipucu */
+.sh-scroll{position:absolute;left:50%;bottom:24px;transform:translateX(-50%);z-index:3;color:rgba(255,255,255,.72);font-size:11.5px;font-weight:500;letter-spacing:.14em;text-transform:uppercase;display:flex;flex-direction:column;align-items:center;gap:8px;pointer-events:none}
+.sh-scroll i{font-size:15px;animation:shbob 1.8s var(--ease) infinite}
+@keyframes shbob{0%,100%{transform:translateY(0)}50%{transform:translateY(6px)}}
+@media (prefers-reduced-motion:reduce){.sh-scroll i{animation:none}}
+.sh-top .wrap{position:relative;z-index:2;width:100%}
+.sh-hero{display:grid;grid-template-columns:minmax(0,1.05fr) minmax(0,.95fr);gap:50px;align-items:center;padding:14px 0 50px}
+.sh-hero .eyebrow{color:#7fe0b0}
+.sh-hero .eyebrow::before{background:var(--green)}
+.sh-hero h1{color:#fff;font-size:44px;margin:14px 0 12px;letter-spacing:-.03em;text-shadow:0 2px 24px rgba(0,0,0,.25)}
+.sh-hero h1 .accent{color:#54d39a;white-space:nowrap}
+.sh-hero .lead{color:#e3ede7;font-weight:500;font-size:15.5px;max-width:560px;text-shadow:0 1px 14px rgba(0,0,0,.3)}
+.sh-hchips{margin-top:20px}
+.sh-hchips .lbl{color:#c4d4ca}
+.sh-hchips .chip{background:rgba(255,255,255,.12);border-color:rgba(255,255,255,.22);color:#fff;backdrop-filter:blur(4px)}
+.sh-hchips .chip:hover{background:var(--green);border-color:var(--green);color:#fff}
+/* hero trust şeridi (eski sh-stats sayıları — DadaFit df-htrust kalıbı) */
+.sh-htrust{display:flex;flex-wrap:wrap;gap:14px 22px;margin-top:24px}
+.sh-htrust span{display:inline-flex;align-items:center;gap:8px;font-size:13px;font-weight:600;color:#cfe6da}
+.sh-htrust i{color:var(--green);font-size:13px}
+.sh-htrust b{color:#fff;font-weight:700}
+/* SIGNATURE: Günün Beslenme Özeti — sağ kolon canlı kart (cam, nane) */
+.sh-ledger{background:rgba(255,255,255,.07);border:1px solid rgba(255,255,255,.16);border-radius:var(--radius-lg);padding:22px 22px 20px;backdrop-filter:blur(8px);box-shadow:0 18px 50px rgba(0,0,0,.28)}
+.shl-head{display:flex;align-items:center;justify-content:space-between;margin-bottom:18px}
+.shl-head h3{color:#fff;font-size:17px;font-weight:700;letter-spacing:-.01em}
+.shl-date{font-size:11.5px;font-weight:600;color:#bfe0cf;background:rgba(59,183,126,.22);border:1px solid rgba(59,183,126,.45);padding:4px 10px;border-radius:var(--radius-pill)}
+.shl-row{margin-bottom:14px}
+.shl-rowtop{display:flex;align-items:center;justify-content:space-between;margin-bottom:7px}
+.shl-tag{display:inline-flex;align-items:center;gap:8px;font-size:13px;font-weight:600;color:#e3efe9}
+.shl-tag i{color:var(--green);width:15px;text-align:center}
+.shl-val{font-size:13.5px;font-weight:700;color:#fff}
+.shl-val small{font-size:11px;font-weight:500;color:#a9c6b7;margin-left:2px}
+.shl-bar{height:7px;border-radius:var(--radius-pill);background:rgba(255,255,255,.12);overflow:hidden}
+.shl-fill{height:100%;border-radius:var(--radius-pill);background:linear-gradient(90deg,var(--green),var(--c-mint))}
+.shl-net{display:flex;gap:11px;align-items:flex-start;margin-top:16px;padding-top:15px;border-top:1px solid rgba(255,255,255,.14)}
+.shl-net>i{color:var(--green);font-size:15px;margin-top:2px}
+.shl-net b{display:block;color:#fff;font-size:13px;font-weight:700;margin-bottom:2px}
+.shl-net span{font-size:12px;color:#b9d3c6;line-height:1.5}
+.shl-net a{color:var(--green);font-weight:700;white-space:nowrap}
+
+/* ---- sağlık eyebrow yeşil (genel) ---- */
+.sec-green .eyebrow{color:var(--green-deep)}
+.sec-green .eyebrow::before{background:var(--green)}
+/* (sayfa-içi araç arama KALDIRILDI — header büyüteci + hero "Popüler" çipleri kapsıyor) */
+
+/* ---- HESAPLAYICILAR: calc-card grid (v3a) — 3 sütun ---- */
+/* HESAPLAYICILAR: yatay scroll-snap slider (3 tam kart + 4.'nün peek'i; sıfır bağımlılık) */
+.calc-slider{position:relative}
+.calc-track{display:flex;gap:16px;overflow-x:auto;scroll-snap-type:x mandatory;scroll-behavior:smooth;scrollbar-width:none;-webkit-overflow-scrolling:touch;padding:4px 2px 8px}
+.calc-track::-webkit-scrollbar{display:none}
+.calc-track>.calc-card{flex:0 0 calc((100% - 122px)/3);scroll-snap-align:start}
+.calc-arrow{position:absolute;top:50%;transform:translateY(-50%);z-index:3;width:42px;height:42px;border-radius:var(--radius-circle);border:1px solid #d9ebe1;background:#fff;color:var(--green-deep);font-size:15px;display:grid;place-items:center;cursor:pointer;box-shadow:0 6px 18px rgba(20,40,30,.12);transition:.2s var(--ease)}
+.calc-arrow:hover{background:var(--green);border-color:var(--green);color:#fff}
+.calc-arrow.prev{left:-12px}
+.calc-arrow.next{right:-12px}
+.calc-arrow[disabled]{opacity:0;pointer-events:none}
+/* DİYET LİSTELERİ: aynı slider reçetesi (hub-card, .calc-arrow yeniden kullanılır) */
+.hub-slider{position:relative}
+.hub-track{display:flex;gap:24px;overflow-x:auto;scroll-snap-type:x mandatory;scroll-behavior:smooth;scrollbar-width:none;-webkit-overflow-scrolling:touch;padding:4px 2px 8px}
+.hub-track::-webkit-scrollbar{display:none}
+.hub-track>.hub-card{flex:0 0 calc((100% - 130px)/3);scroll-snap-align:start}
+.calc-card{display:flex;align-items:center;gap:14px;padding:16px;background:var(--paper);border:1px solid #e2efe8;border-radius:var(--radius-lg);cursor:pointer;transition:.25s var(--ease)}
+.calc-card:hover{transform:translateY(-4px);border-color:var(--green);box-shadow:var(--sh-md)}
+.calc-ico{flex:none;width:50px;height:50px;border-radius:var(--radius-lg);background:#EAF7F0;display:grid;place-items:center}
+.calc-ico i{font-size:21px;color:var(--tomato-deep)}
+.calc-card h4{font-size:16px;margin-bottom:3px}
+.calc-card p{font-size:12.5px;color:var(--muted);font-weight:500}
+.calc-card .go{margin-left:auto;color:var(--green);font-size:13px;transition:.2s var(--ease)}
+.calc-card:hover .go{transform:translateX(3px)}
+
+/* ---- HUB KARTLARI (testler + diyet programları) ---- */
+.hub-grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:24px}
+.hub-card{background:var(--paper);border:1px solid var(--line);border-radius:var(--radius-lg);overflow:hidden;display:flex;flex-direction:column;cursor:pointer;transition:.3s var(--ease)}
+.hub-card:hover{transform:translateY(-6px);border-color:#dcdcdc;box-shadow:var(--sh-md)}
+.hub-media{position:relative;height:172px;background-size:cover;background-position:center}
+.hub-media::after{content:"";position:absolute;inset:0;background:linear-gradient(180deg,rgba(33,30,22,0) 52%,rgba(20,18,12,.5))}
+.hub-cat{position:absolute;top:12px;left:12px;z-index:2;background:rgba(255,255,255,.94);color:var(--slate);font-size:11.5px;font-weight:700;padding:6px 12px;border-radius:var(--radius-sm);letter-spacing:.02em}
+.hub-cat.green{background:var(--tomato-deep);color:#fff}
+.hub-tags{position:absolute;bottom:12px;left:12px;z-index:2;display:flex;gap:6px}
+.hub-tag{display:inline-flex;align-items:center;gap:5px;background:rgba(20,18,12,.72);color:#fff;font-size:11px;font-weight:700;padding:6px 10px;border-radius:var(--radius-sm);backdrop-filter:blur(4px)}
+.hub-body{padding:18px;display:flex;flex-direction:column;flex:1}
+.hub-body h4{font-size:17px;margin-bottom:8px;letter-spacing:-.01em}
+.hub-card:hover .hub-body h4{color:var(--green-deep)}
+.hub-body p{font-size:13.5px;color:var(--muted);font-weight:500;line-height:1.55}
+.hub-foot{display:flex;align-items:center;justify-content:space-between;gap:10px;margin-top:auto;padding-top:14px;margin-top:16px;border-top:1px solid var(--line);font-size:12.5px;color:var(--muted);font-weight:500}
+.hub-foot .go{display:inline-flex;align-items:center;gap:7px;color:var(--tomato-deep);font-weight:700}
+.hub-card:hover .hub-foot .go i{transform:translateX(3px)}
+.hub-foot .go i{transition:.2s var(--ease)}
+
+/* ---- BESİN KÜTÜPHANESİ girişi (yeşil yıkamalı band) ---- */
+.nut-entry{display:grid;grid-template-columns:1.1fr .9fr;gap:40px;align-items:center;background:linear-gradient(180deg,#F2FBF6,#EAF7F0);border:1px solid #d9efe3;border-radius:var(--radius-xl);padding:40px}
+.nut-entry h3{font-size:27px;margin:12px 0 10px}
+.nut-entry p{color:var(--slate-2);font-weight:500;font-size:15px;margin-bottom:22px;max-width:440px}
+.nut-search{display:flex;align-items:center;gap:12px;background:#fff;border:1px solid #d9efe3;border-radius:var(--radius-md);padding:14px 18px;max-width:440px;box-shadow:var(--sh-sm)}
+.nut-search i{color:var(--green);font-size:16px}
+.nut-search span{color:var(--muted);font-size:14px;font-weight:500;flex:1}
+.nut-search .btn{padding:9px 16px;font-size:13px;color:#fff}
+.nut-pop{display:flex;flex-direction:column;gap:11px}
+.nut-row{display:flex;align-items:center;gap:14px;background:#fff;border:1px solid #d9efe3;border-radius:var(--radius-md);padding:13px 16px;transition:.2s var(--ease);cursor:pointer}
+.nut-row:hover{border-color:var(--green);transform:translateX(3px)}
+.nut-row .nr-ico{flex:none;width:42px;height:42px;border-radius:var(--radius-md);background:#EAF7F0;display:grid;place-items:center;color:var(--tomato-deep);font-size:17px}
+.nut-row b{font-size:14.5px;color:var(--slate);display:block}
+.nut-row span{font-size:12.5px;color:var(--muted);font-weight:500}
+.nut-row .kcal{margin-left:auto;font-size:13px;font-weight:700;color:var(--tomato-deep);white-space:nowrap}
+
+/* ---- DİYETİSYEN paneli (v3a diet-panel VERBATIM dili) ---- */
+.diet-panel{background:var(--slate);border-radius:var(--radius-xl);padding:42px;color:#fff;position:relative;overflow:hidden}
+.diet-panel::before{content:"";position:absolute;top:-60px;right:-60px;width:240px;height:240px;border-radius:var(--radius-circle);background:radial-gradient(circle,rgba(59,183,126,.35),transparent 70%)}
+.diet-grid{display:grid;grid-template-columns:1fr 1fr;gap:48px;align-items:center}
+.diet-panel .eyebrow{color:#7fe0b0;position:relative}
+.diet-panel .eyebrow::before{background:var(--green)}
+.diet-panel h3{color:#fff;font-size:28px;margin:13px 0 12px;position:relative;letter-spacing:-.02em}
+.diet-panel .lead{color:#b9c6d1;font-weight:500;font-size:15px;margin-bottom:24px;position:relative}
+.diet-list{position:relative;display:flex;flex-direction:column;gap:13px}
+.diet-doc{display:flex;align-items:center;gap:14px;background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.1);border-radius:var(--radius-lg);padding:13px 15px;transition:.2s var(--ease);cursor:pointer}
+.diet-doc:hover{background:rgba(255,255,255,.1)}
+.diet-doc .av{width:50px;height:50px;border-radius:var(--radius-circle);background-size:cover;background-position:center;flex:none;border:2px solid rgba(59,183,126,.6)}
+.diet-doc .di b{font-size:15px;font-weight:700;color:#fff;display:block}
+.diet-doc .di span{font-size:12.5px;color:#9fb0bc;font-weight:500}
+.diet-doc .tag{margin-left:auto;font-size:11px;font-weight:700;color:var(--c-mint);background:rgba(59,183,126,.18);padding:6px 12px;border-radius:var(--radius-sm);display:flex;align-items:center;gap:6px;white-space:nowrap}
+.diet-panel .btn-green{position:relative;background:var(--tomato-deep);color:#fff;width:100%;margin-top:22px;box-shadow:0 8px 22px rgba(59,183,126,.3)}
+.diet-panel .btn-green:hover{filter:brightness(1.06);transform:translateY(-2px)}
+.diet-panel .diet-all{position:relative;display:inline-flex;align-items:center;gap:8px;margin-top:14px;font-size:13.5px;font-weight:700;color:#7fe0b0}
+.diet-panel .diet-all i{font-size:12px;transition:transform .2s var(--ease)}
+.diet-panel .diet-all:hover{color:#fff}
+.diet-panel .diet-all:hover i{transform:translateX(3px)}
+
+/* ---- responsive ---- */
+@media (max-width:1024px){
+  .sh-top{align-items:flex-start}/* stacked içerik 100vh'yi aşarsa üstten başla, kırpma yok */
+  .sh-hero{grid-template-columns:minmax(0,1fr);align-items:start;gap:22px;padding-bottom:34px}
+  .sh-main{min-width:0}
+  .sh-htrust{margin-top:18px}
+  .sh-ledger{margin-top:4px}
+  .hub-grid{grid-template-columns:1fr 1fr}
+  .calc-track>.calc-card{flex-basis:calc((100% - 60px)/2.3)}
+  .hub-track>.hub-card{flex-basis:calc((100% - 70px)/2.2)}
+  .nut-entry,.diet-grid{grid-template-columns:1fr;gap:28px}
+}
+@media (max-width:640px){
+  .sh-top{padding-top:74px}/* 62 header + 12 nefes (H1 koyu hero kanon) */
+  .sh-hero h1{font-size:29px}
+  .sh-hero .lead{font-size:14.5px}
+  .sh-htrust{gap:10px 16px}
+  .sh-ledger{padding:18px 16px 16px}
+  .sh-hchips{flex-wrap:nowrap;overflow-x:auto;scrollbar-width:none;padding-bottom:4px}
+  .sh-hchips::-webkit-scrollbar{display:none}
+  .sh-hchips .chip{flex:none;white-space:nowrap}
+  .hub-grid{grid-template-columns:1fr}
+  .calc-track>.calc-card{flex-basis:86%}
+  .hub-track>.hub-card{flex-basis:88%}
+  .calc-arrow{display:none}
+  .nut-entry{padding:26px}
+  .diet-panel{padding:28px}
+}
+.nav a.active[href="saglik-hub-v1.html"]{color:var(--green)}
+.nav a.active[href="saglik-hub-v1.html"]::after{background:var(--green)}
+/* saglik-dropdown: scoped health chrome */
+/* diğer dropdown/mega aktif-item (turuncu kanon, underline gizli) */
+.dropdown:not(.dropdown-health) a.active{background:var(--tomato-tint)}
+.dropdown a.active::after,.mega-cats a.active::after{display:none}
+.mega-cats a.active{background:var(--tomato-tint)}
+.nav a[href="saglik-hub-v1.html"]:hover{color:var(--green);background:rgba(59,183,126,.10)}
+
+/* ===== A4 GÜVEN KATMANI: tıbbi şerit ===== */
+.pf-disclaimer{background:var(--tomato-tint);border-top:1px solid rgba(59,183,126,.25)}
+.pf-disclaimer .wrap{display:flex;gap:14px;align-items:flex-start;padding-top:22px;padding-bottom:22px}
+.pf-disclaimer i{color:var(--tomato-deep);font-size:17px;margin-top:2px;flex:none}
+.pf-disclaimer p{font-size:13.5px;color:var(--slate-2);font-weight:500;line-height:1.65;max-width:960px}
+.pf-disclaimer b{color:var(--slate);font-weight:700}
+/* ============ DADADİET ARAMA (arama-diet) — anatomi Fit pilotundan, mint token remap ============
+   Diet shell'inde --tomato = #3BB77E; arama motoru --diet-* (mint) ailesine bağlı → Fit yeşili/Gastro hue'su YOK.
+   Mint token ailesi (Fit aksan ailesi muadili): */
+:root{
+  --diet:#3BB77E; --diet-deep:#1c7a4e; --diet-tint:#E6F5EE;
+  --diet-line:#d4ebe0; --diet-bright:#54D39A; --diet-dark:#211E16;
+}
+
+/* ---- arama hero (koyu mint bandı + beslenme görseli) — solid header altında ---- */
+.fs-top{position:relative;padding:112px 0 56px;background-image:linear-gradient(180deg,rgba(16,32,24,.92) 0%,rgba(22,40,30,.80) 52%,rgba(18,28,22,.88) 100%),url('https://images.unsplash.com/photo-1490645935967-10de6ba17061?w=1680&q=80&auto=format&fit=crop&exp=7&gam=6&sat=-14&high=8&vib=3');background-size:cover;background-position:center;overflow:hidden}
+.fs-top::before{content:"";position:absolute;inset:0;background:radial-gradient(1100px 460px at 16% -10%,rgba(59,183,126,.32),transparent 60%);pointer-events:none;z-index:1}
+/* breadcrumb — diyet-listeleri-v1'deki .rd-crumb dili BİREBİR (koyu hero varyantı).
+   Kural: üst banner yalnız breadcrumb taşıyan sayfalarda durur. */
+.rd-crumb{display:flex;align-items:center;flex-wrap:wrap;gap:9px;padding:18px 0 14px;font-size:13px;font-weight:500}
+.rd-crumb i{font-size:9px}
+.fs-top .rd-crumb{color:#bcd0c4}
+.fs-top .rd-crumb a{color:#bcd0c4;transition:.18s}
+.fs-top .rd-crumb a:hover{color:#7fe0b0}
+.fs-top .rd-crumb i{color:rgba(255,255,255,.4)}
+.fs-top .rd-crumb b{color:#fff}
+.fs-top::after{content:"";position:absolute;right:-120px;bottom:-140px;width:420px;height:420px;border-radius:50%;background:radial-gradient(circle,rgba(84,211,154,.24),transparent 70%);pointer-events:none;z-index:1}
+.fs-top .wrap{position:relative;z-index:2}
+.fs-top .eyebrow{color:var(--diet-bright)}
+.fs-top h1{font-size:33px;letter-spacing:-.02em;color:#fff;margin:10px 0 12px;text-shadow:0 2px 22px rgba(0,0,0,.28)}
+.fs-top h1 .accent{color:var(--diet-bright)}
+.fs-lead{font-size:15.5px;font-weight:500;color:#d7e6dd;max-width:600px;line-height:1.6;margin-bottom:26px}
+/* arama kutusu */
+.fs-box{position:relative;background:var(--paper);border:1px solid var(--diet-line);border-radius:var(--radius-lg);box-shadow:var(--sh-lg);padding:10px;max-width:680px}
+.fs-row{display:flex;gap:8px;padding:6px}
+.fs-input{flex:1;display:flex;align-items:center;gap:12px;background:var(--bg);border:1px solid var(--line);border-radius:var(--radius-md);padding:0 18px}
+.fs-input i{color:var(--diet-deep)}
+.fs-input input{flex:1;min-width:0;border:none;background:transparent;font-family:inherit;font-weight:500;font-size:15.5px;color:var(--slate);padding:16px 0;outline:none}
+.fs-input input::placeholder{color:#a7a7a7;font-weight:500}
+.fs-row .btn{flex:none;padding:0 26px}
+.fs-sum{margin-top:18px;font-size:14.5px;color:#cfe0d6;font-weight:500}
+.fs-sum b{color:#fff;font-weight:700}
+.fs-sum .q{color:var(--diet-bright);font-weight:700}
+
+/* ---- autocomplete dropdown ---- */
+.fs-ac{position:absolute;left:6px;right:6px;top:calc(100% - 4px);z-index:60;background:var(--paper);border:1px solid var(--line);border-radius:var(--radius-md);box-shadow:var(--sh-lg);padding:8px;max-height:min(440px,72vh);overflow-y:auto;opacity:0;visibility:hidden;transform:translateY(-6px);transition:opacity .18s var(--ease),transform .18s var(--ease),visibility .18s;scrollbar-width:thin;scrollbar-color:#d9d9d9 transparent}
+.fs-ac::-webkit-scrollbar{width:8px}
+.fs-ac::-webkit-scrollbar-thumb{background:#dcdcdc;border-radius:var(--radius-pill);border:2px solid var(--paper)}
+.fs-box.ac-open .fs-ac{opacity:1;visibility:visible;transform:translateY(0)}
+.fs-ac .ac-grp{display:flex;align-items:center;gap:8px;padding:11px 12px 6px;font-size:11.5px;font-weight:700;letter-spacing:.04em;text-transform:uppercase;color:var(--muted)}
+.fs-ac .ac-grp i{font-size:11px;color:var(--diet)}
+.fs-ac .ac-grp .ac-clear{margin-left:auto;font-size:11px;font-weight:600;letter-spacing:0;text-transform:none;color:var(--muted);cursor:pointer;border:none;background:none;font-family:inherit;padding:2px 4px;border-radius:var(--radius-sm)}
+.fs-ac .ac-grp .ac-clear:hover{color:var(--diet)}
+.fs-ac .ac-opt{display:flex;align-items:center;gap:13px;padding:10px 12px;border-radius:var(--radius-md);cursor:pointer;transition:background .14s var(--ease)}
+.fs-ac .ac-opt .ac-ico{flex:none;width:38px;height:38px;border-radius:var(--radius-sm);background:var(--bg);border:1px solid var(--line);display:grid;place-items:center;color:var(--slate-2);font-size:15px;background-size:cover;background-position:center;overflow:hidden}
+.fs-ac .ac-opt .ac-main{min-width:0;flex:1}
+.fs-ac .ac-opt .ac-ttl{display:block;font-size:14.5px;font-weight:600;color:var(--slate);line-height:1.25;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.fs-ac .ac-opt .ac-ttl mark{background:none;color:var(--diet);font-weight:700;padding:0}
+.fs-ac .ac-opt .ac-sub{display:block;margin-top:1px;font-size:12px;font-weight:500;color:var(--muted);overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.fs-ac .ac-opt .ac-badge{flex:none;display:inline-flex;align-items:center;gap:5px;font-size:11px;font-weight:700;padding:4px 9px;border-radius:var(--radius-pill);background:var(--diet-tint);color:var(--diet-deep);border:1px solid var(--diet-line)}
+.fs-ac .ac-opt .ac-badge i{font-size:9.5px}
+.fs-ac .ac-opt:hover,.fs-ac .ac-opt.is-active{background:var(--diet-tint)}
+.fs-ac .ac-opt:hover .ac-ttl,.fs-ac .ac-opt.is-active .ac-ttl{color:var(--diet-deep)}
+.fs-ac .ac-query .ac-ico{background:var(--diet);border-color:var(--diet);color:#fff}
+.fs-ac .ac-none{padding:18px 14px;text-align:center;font-size:13.5px;color:var(--muted);font-weight:500}
+
+/* ---- sekme barı ---- */
+.fs-tabbar{position:sticky;top:112px;z-index:40;background:rgba(255,255,255,.93);-webkit-backdrop-filter:blur(10px) saturate(150%);backdrop-filter:blur(10px) saturate(150%);border-bottom:1px solid var(--line);padding:12px 0}
+.fs-tabs{display:flex;gap:4px;background:var(--paper);border:1px solid var(--line);border-radius:var(--radius-md);padding:4px;overflow-x:auto;scrollbar-width:none}
+.fs-tabs::-webkit-scrollbar{display:none}
+.fs-tabs .dt{font-family:inherit;font-weight:700;font-size:13px;color:var(--muted);background:transparent;border:none;border-radius:var(--radius-sm);padding:9px 16px;cursor:pointer;display:inline-flex;align-items:center;gap:7px;transition:.2s var(--ease);white-space:nowrap;flex:none}
+.fs-tabs .dt:hover{color:var(--diet-deep)}
+.fs-tabs .dt.active{background:var(--diet);color:#fff}
+.fs-tabs .dt .cnt{font-size:11px;font-weight:700;opacity:.6}
+
+/* ---- sonuç bölgesi ---- */
+.fs-results{padding:34px 0 60px;background:var(--bg-cream)}
+.fs-pane{animation:fadeUp .35s var(--ease)}
+.fs-pane[hidden]{display:none}
+.fs-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:24px}
+.fs-grid.is-coach{grid-template-columns:repeat(5,1fr);gap:18px}
+.fs-cnt-note{font-size:13.5px;color:var(--muted);font-weight:500;margin:0 0 20px}
+.fs-cnt-note b{color:var(--diet-deep);font-weight:700}
+
+/* ---- sonuç kartı (POOL-driven, tek şablon) ---- */
+.fs-card{display:flex;flex-direction:column;background:var(--paper);border:1px solid var(--line);border-radius:var(--radius-lg);overflow:hidden;cursor:pointer;transition:.28s var(--ease)}
+.fs-card:hover{transform:translateY(-6px);border-color:var(--diet-line);box-shadow:var(--sh-md)}
+.fs-media{position:relative;height:158px;background-size:cover;background-position:center}
+.fs-media::after{content:"";position:absolute;inset:0;background:linear-gradient(180deg,rgba(33,30,22,0) 55%,rgba(20,18,12,.34))}
+.fs-badge{position:absolute;top:11px;left:11px;z-index:2;display:inline-flex;align-items:center;gap:6px;font-size:11px;font-weight:700;padding:5px 11px;border-radius:var(--radius-pill);background:rgba(255,255,255,.95);color:var(--diet-deep)}
+.fs-badge i{font-size:10px}
+.fs-tile{height:120px;display:grid;place-items:center;background:var(--diet-tint);color:var(--diet);font-size:34px;position:relative}
+.fs-tile .fs-badge{background:#fff;box-shadow:var(--sh-sm)}
+.fs-cbody{padding:15px 16px 17px;display:flex;flex-direction:column;flex:1}
+.fs-cbody h4{font-size:16px;letter-spacing:-.01em;line-height:1.3;margin-bottom:6px;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden;transition:color .2s var(--ease)}
+.fs-card:hover .fs-cbody h4{color:var(--diet-deep)}
+.fs-cbody p{font-size:12.5px;color:var(--muted);font-weight:500;line-height:1.45;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
+.fs-cgo{margin-top:auto;padding-top:13px;font-size:12.5px;font-weight:700;color:var(--diet-deep);display:inline-flex;align-items:center;gap:7px}
+.fs-cgo i{font-size:10px;transition:transform .2s var(--ease)}
+.fs-card:hover .fs-cgo i{transform:translateX(3px)}
+/* antrenör varyantı — yuvarlak avatar, ortalı */
+.fs-card.is-coach{align-items:center;text-align:center;padding:20px 14px 18px}
+.fs-card.is-coach .fs-av{width:92px;height:92px;border-radius:50%;background-size:cover;background-position:center;border:3px solid #fff;box-shadow:var(--sh-sm);transition:.25s var(--ease)}
+.fs-card.is-coach:hover .fs-av{border-color:var(--diet);transform:translateY(-3px)}
+.fs-card.is-coach h4{margin-top:13px;font-size:15.5px}
+.fs-card.is-coach p{-webkit-line-clamp:1}
+.fs-card.is-coach .fs-cbody{padding:0;align-items:center;flex:none}
+.fs-card.is-coach .fs-badge{position:static;margin-top:9px;background:var(--diet-tint);color:var(--diet-deep)}
+
+/* ---- boş durum ---- */
+.fs-empty{display:none;text-align:center;background:var(--paper);border:1px solid var(--line);border-radius:var(--radius-lg);padding:70px 30px;margin-top:8px}
+.fs-empty.show{display:block;animation:fadeUp .35s var(--ease)}
+.fs-empty-ico{width:74px;height:74px;border-radius:var(--radius-lg);background:var(--diet-tint);color:var(--diet);display:grid;place-items:center;font-size:29px;margin:0 auto 20px}
+.fs-empty h3{font-size:22px;margin-bottom:9px}
+.fs-empty p{font-size:14.5px;color:var(--muted);font-weight:500;max-width:420px;margin:0 auto 22px;line-height:1.6}
+
+/* ---- popüler & son aramalar ---- */
+.fs-pop{padding:52px 0 68px;background:var(--bg-white)}
+.fs-pop-grid{display:grid;grid-template-columns:1.25fr 1fr;gap:48px;align-items:start}
+.fs-pop h3{font-size:18px;display:inline-flex;align-items:center;gap:10px;margin-bottom:18px}
+.fs-pop h3 i{color:var(--diet);font-size:15px}
+.fs-chips{display:flex;flex-wrap:wrap;gap:10px}
+.fs-chips .chip{font-family:inherit;font-size:13px;font-weight:600;color:var(--slate-2);background:var(--paper);border:1px solid var(--line);border-radius:var(--radius-pill);padding:9px 16px;cursor:pointer;transition:.18s var(--ease)}
+.fs-chips .chip:hover{border-color:var(--diet);color:var(--diet-deep);background:var(--diet-tint)}
+.fs-recent{display:flex;flex-direction:column}
+.fs-rrow{display:flex;align-items:center;gap:12px;padding:12px 4px;border-bottom:1px solid var(--line);font-size:14px;font-weight:500;color:var(--slate-2);cursor:pointer;transition:.18s var(--ease)}
+.fs-rrow:last-child{border-bottom:none}
+.fs-rrow>i:first-child{color:var(--muted);font-size:13px;flex:none;width:18px;text-align:center}
+.fs-rrow .term{min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.fs-rrow .go{margin-left:auto;flex:none;font-size:11px;color:#c7c7c7;transition:.18s var(--ease)}
+.fs-rrow:hover{color:var(--diet-deep)}
+.fs-rrow:hover .go{color:var(--diet);transform:translateX(3px)}
+.is-off{display:none!important}
+.sr-vh{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0}
+@media (max-width:1024px){
+  .fs-grid{grid-template-columns:1fr 1fr}
+  .fs-grid.is-coach{grid-template-columns:repeat(3,1fr)}
+  .fs-pop-grid{grid-template-columns:1fr;gap:34px}
+}
+@media (max-width:640px){
+  .fs-top{padding:74px 0 40px}
+  .fs-top h1{font-size:25px}
+  .fs-tabbar{top:62px}
+  .fs-grid,.fs-grid.is-coach{display:flex;gap:14px;overflow-x:auto;scroll-snap-type:x mandatory;scrollbar-width:none;padding-bottom:6px}
+  .fs-grid::-webkit-scrollbar{display:none}
+  .fs-grid>*{flex:none;width:74vw;max-width:280px;scroll-snap-align:start}
+  .fs-grid.is-coach>*{width:52vw;max-width:200px}
+}
+</style>
+</head>
+<body data-brand="diet">
+
+<div id="ddChromeTop"></div>
+<script src="assets/js/dd-shell.js"></script>
+
+<main class="page-main" id="pageMain">
+<!-- SAYFA İÇERİĞİ — DADADİET ARAMA (arama-diet) -->
+
+<!-- ===== ARAMA HERO ===== -->
+<section class="fs-top">
+  <div class="wrap">
+    <nav class="rd-crumb" aria-label="Sayfa yolu">
+      <a href="saglik-hub-v1.html"><i class="fa-solid fa-house"></i></a>
+      <i class="fa-solid fa-chevron-right"></i>
+      <b>Arama</b>
+    </nav>
+    <span class="eyebrow"><i class="fa-solid fa-seedling"></i> DadaDiet · Arama</span>
+    <h1 id="fsTitle">DadaDiet'te <span class="accent">ara</span></h1>
+    <p class="fs-lead" id="fsLead">Hesaplayıcı, besin, diyet programı, beslenme rehberi ya da diyetisyen — tek kutudan tüm DadaDiet içeriğinde ara.</p>
+    <form class="fs-box" id="fsForm" role="search" autocomplete="off">
+      <div class="fs-row">
+        <div class="fs-input">
+          <i class="fa-solid fa-magnifying-glass" aria-hidden="true"></i>
+          <input id="fsInput" type="text" role="combobox" aria-expanded="false" aria-autocomplete="list" aria-controls="fsAcList" aria-haspopup="listbox" placeholder="Hesaplayıcı, besin, program veya diyetisyen ara…" aria-label="DadaDiet içeriğinde ara" />
+        </div>
+        <button class="btn btn-primary" type="submit"><i class="fa-solid fa-magnifying-glass"></i> Ara</button>
+      </div>
+      <div class="fs-ac" id="fsAc"><div class="fs-ac-list" id="fsAcList" role="listbox" aria-label="Arama önerileri"></div></div>
+      <span class="sr-vh" id="fsAcStatus" role="status" aria-live="polite"></span>
+    </form>
+    <p class="fs-sum" id="fsSum"></p>
+  </div>
+</section>
+
+<!-- ===== SEKME BARI (6 sekme) ===== -->
+<div class="fs-tabbar" id="fsTabbar">
+  <div class="wrap">
+    <div class="fs-tabs" role="tablist" aria-label="İçerik türü">
+      <button class="dt active" type="button" role="tab" data-tab="tumu">Tümü <span class="cnt" data-cnt="tumu"></span></button>
+      <button class="dt" type="button" role="tab" data-tab="hesap">Hesaplayıcılar <span class="cnt" data-cnt="hesap"></span></button>
+      <button class="dt" type="button" role="tab" data-tab="besin">Besinler <span class="cnt" data-cnt="besin"></span></button>
+      <button class="dt" type="button" role="tab" data-tab="program">Programlar <span class="cnt" data-cnt="program"></span></button>
+      <button class="dt" type="button" role="tab" data-tab="rehber">Rehber <span class="cnt" data-cnt="rehber"></span></button>
+      <button class="dt" type="button" role="tab" data-tab="diyetisyen">Diyetisyenler <span class="cnt" data-cnt="diyetisyen"></span></button>
+    </div>
+  </div>
+</div>
+
+<!-- ===== SONUÇLAR (POOL-driven, JS render) ===== -->
+<section class="fs-results" id="fsResults">
+  <div class="wrap">
+    <p class="fs-cnt-note" id="fsCntNote"></p>
+    <div class="fs-pane" data-pane="tumu"></div>
+    <div class="fs-pane" data-pane="hesap" hidden></div>
+    <div class="fs-pane" data-pane="besin" hidden></div>
+    <div class="fs-pane" data-pane="program" hidden></div>
+    <div class="fs-pane" data-pane="rehber" hidden></div>
+    <div class="fs-pane" data-pane="diyetisyen" hidden></div>
+    <div class="fs-empty" id="fsEmpty">
+      <div class="fs-empty-ico"><i class="fa-solid fa-magnifying-glass"></i></div>
+      <h3>&ldquo;<span id="fsEmptyQ"></span>&rdquo; için sonuç yok</h3>
+      <p>Farklı bir kelime dene — hesaplayıcı, besin, program, rehber ya da diyetisyen.</p>
+      <div class="fs-chips" id="fsEmptyChips"></div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== POPÜLER + SON ARAMALAR (autocomplete varsayılan kaynağı) ===== -->
+<section class="fs-pop" id="fsPop">
+  <div class="wrap">
+    <div class="fs-pop-grid">
+      <div>
+        <h3><i class="fa-solid fa-fire"></i> Popüler aramalar</h3>
+        <div class="fs-chips" id="fsPopChips">
+          <button class="chip" type="button" data-q="dengeli tabak">dengeli tabak</button>
+          <button class="chip" type="button" data-q="protein">protein</button>
+          <button class="chip" type="button" data-q="su ihtiyacı">su ihtiyacı</button>
+          <button class="chip" type="button" data-q="akdeniz">akdeniz</button>
+          <button class="chip" type="button" data-q="makro">makro</button>
+          <button class="chip" type="button" data-q="porsiyon">porsiyon</button>
+          <button class="chip" type="button" data-q="diyetisyen">diyetisyen</button>
+          <button class="chip" type="button" data-q="vegan">vegan</button>
+        </div>
+      </div>
+      <div id="fsRecentCol" style="display:none">
+        <h3><i class="fa-solid fa-clock-rotate-left"></i> Son aramaların</h3>
+        <div class="fs-recent" id="fsRecent"><!-- localStorage dm_diet_recent'ten JS ile dolar; boşsa kolon gizli --></div>
+      </div>
+    </div>
+  </div>
+</section>
+</main><!-- /.page-main -->
+
+<script>
+/* ===== DadaDiet ARAMA (arama-diet) — POOL-driven motor · anatomi Fit pilotundan, mint (--diet-*) ===== */
+(function(){
+  var S='&q=80&auto=format&fit=crop&exp=7&gam=6&sat=-9&high=8&vib=5';
+  function u(id){return 'https://images.unsplash.com/photo-'+id+'?w=700'+S;}   // besin/program kartı
+  function av(id){return 'https://images.unsplash.com/photo-'+id+'?w=240'+S;}  // diyetisyen avatar
+
+  /* ---- POOL: yalnız GERÇEK DadaDiet içeriği (uydurma yok; damgalayıcı dil yok) ---- */
+  var POOL=[
+    /* Hesaplayıcılar (9) → kendi hesap sayfası (görselsiz, ikon-tile) */
+    {type:'hesap',t:'Bazal Metabolizma Hızı (BMH)',sub:'Dinlenme enerji ihtiyacı',href:'bazal-metabolizma-v1.html',ico:'fa-fire-flame-simple'},
+    {type:'hesap',t:'Beden Kütle Endeksi (BKİ)',sub:'Boy ve kilo oranı',href:'beden-kutle-endeksi-v1.html',ico:'fa-scale-balanced'},
+    {type:'hesap',t:'İdeal Kilo',sub:'Boya göre kilo aralığı',href:'ideal-kilo-v1.html',ico:'fa-weight-scale'},
+    {type:'hesap',t:'Günlük Kalori İhtiyacı',sub:'Aktiviteye göre enerji',href:'gunluk-kalori-v1.html',ico:'fa-gauge-high'},
+    {type:'hesap',t:'Günlük Su İhtiyacı',sub:'Kiloya göre su miktarı',href:'gunluk-su-v1.html',ico:'fa-droplet'},
+    {type:'hesap',t:'Porsiyon Hesaplama',sub:'Tarifi kişi sayısına ölçekle',href:'porsiyon-hesaplama-v1.html',ico:'fa-utensils'},
+    {type:'hesap',t:'Vücut Tipi — Bel/Kalça Oranı',sub:'Yağ dağılımı (WHR)',href:'vucut-tipi-v1.html',ico:'fa-person'},
+    {type:'hesap',t:'Makro Dağılım',sub:'Protein · karbonhidrat · yağ',href:'makro-dagilim-v1.html',ico:'fa-chart-pie'},
+    {type:'hesap',t:'Beslenme Testleri',sub:'Kısa öz-değerlendirme testleri',href:'saglik-testler-v1.html',ico:'fa-clipboard-question'},
+    /* Besinler (3) → besin sayfaları (görselli) */
+    {type:'besin',t:'Besin Kütüphanesi & Kalori Değerleri',sub:'10 kategori · sebze, meyve, et, süt, tahıl…',href:'besin-kutuphanesi-v1.html',img:u('1482049016688-2d3e1b311543')},
+    {type:'besin',t:'Besin Değerleri',sub:'Kalori · protein · karbonhidrat · yağ',href:'besin-degerleri-v1.html',img:u('1512621776951-a57141f2eefd')},
+    {type:'besin',t:'Besin Kalori Cetveli',sub:'Hızlı referans cetveli',href:'besin-kalori-cetveli-v1.html',img:u('1525351484163-7529414344d8')},
+    /* Diyet Programları (8) → kendi program sayfası (görselli) */
+    {type:'program',t:'Akdeniz Tipi Beslenme',sub:'Akdeniz diyeti · 7 günlük program',href:'diyet-program-detay-v1.html',img:u('1540420773420-3366772f4999')},
+    {type:'program',t:'Aile Haftalık Menü',sub:'Aile · haftalık menü',href:'diyet-program-aile-v1.html',img:u('1467453678174-768ec283a940')},
+    {type:'program',t:'Hafif Detoks Programı',sub:'Hafif · sebze ağırlıklı hafta',href:'diyet-program-detoks-v1.html',img:u('1490818387583-1baba5e638af')},
+    {type:'program',t:'Öğrenci Dostu Menü',sub:'Pratik · bütçe dostu',href:'diyet-program-ogrenci-v1.html',img:u('1512852939750-1305098529bf')},
+    {type:'program',t:'16:8 Aralıklı Oruç',sub:'Aralıklı beslenme düzeni',href:'diyet-program-oruc-v1.html',img:u('1505576399279-565b52d4ac71')},
+    {type:'program',t:'Yüksek Proteinli Plan',sub:'Protein ağırlıklı 7 gün',href:'diyet-program-protein-v1.html',img:u('1467003909585-2f8a72700288')},
+    {type:'program',t:'Düşük Şeker Programı',sub:'Şeker azaltma · 7 gün',href:'diyet-program-seker-v1.html',img:u('1547592180-85f173990554')},
+    {type:'program',t:'Bitkisel Temelli Hafta (Vegan)',sub:'Bitkisel · vegan menü',href:'diyet-program-vegan-v1.html',img:u('1512621776951-a57141f2eefd')},
+    /* Beslenme Rehberleri (9) → rehber sayfaları (görselsiz, ikon-tile) */
+    {type:'rehber',t:'Beslenme Rehberi',sub:'Tüm beslenme konuları · dizin',href:'beslenme-hub-v1.html',ico:'fa-book-open'},
+    {type:'rehber',t:'Dengeli Tabak Nasıl Kurulur?',sub:'Tabak yöntemi',href:'beslenme-dengeli-tabak-v1.html',ico:'fa-plate-wheat'},
+    {type:'rehber',t:'Öğün Planlama',sub:'Haftalık öğün düzeni',href:'beslenme-ogun-planlama-v1.html',ico:'fa-calendar-days'},
+    {type:'rehber',t:'Porsiyon Kontrolü',sub:'El ölçüsü ile porsiyon',href:'beslenme-porsiyon-kontrolu-v1.html',ico:'fa-hand'},
+    {type:'rehber',t:'Alışveriş ve Etiket Okuma',sub:'Market · besin etiketi',href:'beslenme-alisveris-etiket-v1.html',ico:'fa-cart-shopping'},
+    {type:'rehber',t:'Sağlıklı Mutfak Alışkanlıkları',sub:'Pişirme · saklama',href:'beslenme-saglikli-mutfak-v1.html',ico:'fa-kitchen-set'},
+    {type:'rehber',t:'Protein Kaynakları Rehberi',sub:'Protein kaynakları',href:'protein-rehberi-v1.html',ico:'fa-drumstick-bite'},
+    {type:'rehber',t:'Karbonhidrat Kaynakları Rehberi',sub:'Karbonhidrat kaynakları',href:'karbonhidrat-rehberi-v1.html',ico:'fa-wheat-awn'},
+    {type:'rehber',t:'Yağ Kaynakları Rehberi',sub:'Sağlıklı yağ kaynakları',href:'yag-rehberi-v1.html',ico:'fa-bottle-droplet'},
+    /* Diyetisyenler (9) → diyetisyen-dizin (per-kişi sayfa YOK; avatar is-coach) */
+    {type:'diyetisyen',t:'Dyt. Selin Korkmaz',sub:'DadaDiet diyetisyeni',href:'diyetisyen-dizin-v1.html',img:av('1559839734-2b71ea197ec2')},
+    {type:'diyetisyen',t:'Dyt. Burak Demir',sub:'DadaDiet diyetisyeni',href:'diyetisyen-dizin-v1.html',img:av('1622253692010-333f2da6031d')},
+    {type:'diyetisyen',t:'Dyt. Ayça Yıldız',sub:'DadaDiet diyetisyeni',href:'diyetisyen-dizin-v1.html',img:av('1594824476967-48c8b964273f')},
+    {type:'diyetisyen',t:'Dyt. Elif Şahin',sub:'DadaDiet diyetisyeni',href:'diyetisyen-dizin-v1.html',img:av('1537368910025-700350fe46c7')},
+    {type:'diyetisyen',t:'Dyt. Deniz Aksoy',sub:'DadaDiet diyetisyeni',href:'diyetisyen-dizin-v1.html',img:av('1582750433449-648ed127bb54')},
+    {type:'diyetisyen',t:'Dyt. Gizem Çelik',sub:'DadaDiet diyetisyeni',href:'diyetisyen-dizin-v1.html',img:av('1612349317150-e413f6a5b16d')},
+    {type:'diyetisyen',t:'Dyt. Kerem Polat',sub:'DadaDiet diyetisyeni',href:'diyetisyen-dizin-v1.html',img:av('1573496359142-b8d87734a5a2')},
+    {type:'diyetisyen',t:'Dyt. Mert Aydın',sub:'DadaDiet diyetisyeni',href:'diyetisyen-dizin-v1.html',img:av('1591604021695-0c69b7c05981')},
+    {type:'diyetisyen',t:'Dyt. Onur Taş',sub:'DadaDiet diyetisyeni',href:'diyetisyen-dizin-v1.html',img:av('1612531386530-97286d97c2d2')}
+  ];
+
+  var TYPE={
+    hesap:{lbl:'Hesaplayıcı',ico:'fa-calculator'},
+    besin:{lbl:'Besin',ico:'fa-carrot'},
+    program:{lbl:'Program',ico:'fa-calendar-week'},
+    rehber:{lbl:'Rehber',ico:'fa-book-open'},
+    diyetisyen:{lbl:'Diyetisyen',ico:'fa-user-doctor'}
+  };
+  var TABS=['tumu','hesap','besin','program','rehber','diyetisyen'];
+
+  var trMap={'ı':'i','İ':'i','I':'i','Ş':'s','ş':'s','Ğ':'g','ğ':'g','Ü':'u','ü':'u','Ö':'o','ö':'o','Ç':'c','ç':'c','â':'a','î':'i','û':'u'};
+  function norm(s){return (s||'').replace(/[ıİIŞşĞğÜüÖöÇçâîû]/g,function(m){return trMap[m]||m;}).toLowerCase().replace(/\s+/g,' ').trim();}
+  function esc(s){return (s||'').replace(/[&<>"]/g,function(m){return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[m];});}
+  function hi(text,qn){
+    if(!qn)return esc(text);
+    var tn=norm(text),i=tn.indexOf(qn);
+    if(i<0)return esc(text);
+    return esc(text.slice(0,i))+'<mark>'+esc(text.slice(i,i+qn.length))+'</mark>'+esc(text.slice(i+qn.length));
+  }
+  function tmeta(t){return TYPE[t]||{lbl:'',ico:'fa-magnifying-glass'};}
+
+  /* ---- sonuç kartı (POOL-driven) ---- */
+  function card(r){
+    var m=tmeta(r.type);
+    var badge='<span class="fs-badge"><i class="fa-solid '+m.ico+'"></i> '+m.lbl+'</span>';
+    if(r.type==='diyetisyen'){
+      return '<a class="fs-card is-coach" href="'+r.href+'">'
+        +'<div class="fs-av" style="background-image:url(\''+r.img+'\')"></div>'
+        +'<div class="fs-cbody"><h4>'+esc(r.t)+'</h4><p>'+esc(r.sub)+'</p></div>'+badge+'</a>';
+    }
+    var head=r.img
+      ? '<div class="fs-media" style="background-image:url(\''+r.img+'\')">'+badge+'</div>'
+      : '<div class="fs-tile"><i class="fa-solid '+(r.ico||m.ico)+'"></i>'+badge+'</div>';
+    return '<a class="fs-card" href="'+r.href+'">'+head
+      +'<div class="fs-cbody"><h4>'+esc(r.t)+'</h4><p>'+esc(r.sub)+'</p>'
+      +'<span class="fs-cgo">İncele <i class="fa-solid fa-arrow-right"></i></span></div></a>';
+  }
+
+  var panes={}, cnts={};
+  TABS.forEach(function(n){
+    panes[n]=document.querySelector('.fs-pane[data-pane="'+n+'"]');
+    cnts[n]=document.querySelector('.cnt[data-cnt="'+n+'"]');
+  });
+  var tabbar=document.getElementById('fsTabbar');
+  var note=document.getElementById('fsCntNote');
+  var emptyEl=document.getElementById('fsEmpty');
+  var popEl=document.getElementById('fsPop');
+
+  function renderResults(q){
+    var qn=q?norm(q):'';
+    var matched=qn?POOL.filter(function(r){return norm(r.t).indexOf(qn)>=0||norm(r.sub).indexOf(qn)>=0;}):POOL.slice();
+    var by={tumu:matched,hesap:[],besin:[],program:[],rehber:[],diyetisyen:[]};
+    matched.forEach(function(r){if(by[r.type])by[r.type].push(r);});
+    TABS.forEach(function(n){
+      var arr=by[n];
+      if(cnts[n])cnts[n].textContent=arr.length;
+      if(!panes[n])return;
+      if(arr.length){
+        panes[n].innerHTML='<div class="fs-grid'+(n==='diyetisyen'?' is-coach':'')+'">'+arr.map(card).join('')+'</div>';
+      }else{
+        panes[n].innerHTML='<p class="fs-cnt-note" style="margin:6px 0 0">Bu türde eşleşme yok.</p>';
+      }
+    });
+    return matched.length;
+  }
+
+  var tabEls=document.querySelectorAll('#fsTabbar .dt');
+  function activate(name){
+    tabEls.forEach(function(t){t.classList.toggle('active',t.getAttribute('data-tab')===name);});
+    TABS.forEach(function(n){if(panes[n])panes[n].hidden=n!==name;});
+  }
+  tabEls.forEach(function(t){
+    t.addEventListener('click',function(){
+      var name=t.getAttribute('data-tab');
+      activate(name);
+      var uu=new URLSearchParams(location.search);
+      if(name==='tumu')uu.delete('tab');else uu.set('tab',name);
+      history.replaceState(null,'',location.pathname+(uu.toString()?'?'+uu.toString():''));
+    });
+  });
+
+  var input=document.getElementById('fsInput');
+  var titleEl=document.getElementById('fsTitle');
+  var leadEl=document.getElementById('fsLead');
+  var sum=document.getElementById('fsSum');
+
+  /* ---- SON ARAMALAR: gerçek localStorage geçmişi (uydurma YOK; boşsa sadece Popüler) ---- */
+  var RKEY='dm_diet_recent';
+  function readRecentLS(){try{var r=JSON.parse(localStorage.getItem(RKEY)||'[]');return Array.isArray(r)?r.filter(function(x){return x&&x.q;}):[];}catch(e){return [];}}
+  function writeRecent(qq){
+    qq=(qq||'').trim();if(!qq)return;
+    try{
+      var arr=readRecentLS().filter(function(x){return norm(x.q)!==norm(qq);});
+      arr.unshift({q:qq,t:Date.now()});
+      localStorage.setItem(RKEY,JSON.stringify(arr.slice(0,6)));
+    }catch(e){}
+  }
+  function relTime(t){var d=Date.now()-(t||0),day=86400000;if(d<3600000)return 'az önce';if(d<day)return 'bugün';if(d<2*day)return 'dün';return Math.floor(d/day)+' gün önce';}
+  function renderRecent(){
+    var col=document.getElementById('fsRecentCol'),boxr=document.getElementById('fsRecent');
+    if(!boxr)return;
+    var arr=readRecentLS();
+    if(!arr.length){if(col)col.style.display='none';boxr.innerHTML='';return;}
+    if(col)col.style.display='';
+    boxr.innerHTML=arr.map(function(r){
+      return '<div class="fs-rrow" data-q="'+esc(r.q)+'"><i class="fa-solid fa-clock-rotate-left" aria-hidden="true"></i><span class="term">'+esc(r.q)+'</span><span class="cnt">'+relTime(r.t)+'</span><i class="fa-solid fa-arrow-right go" aria-hidden="true"></i></div>';
+    }).join('');
+  }
+  renderRecent();
+
+  /* ---- durum makinesi ---- */
+  var p=new URLSearchParams(location.search);
+  var q=p.get('q');
+  var tab=p.get('tab')||'tumu';
+  if(q){
+    input.value=q;
+    var total=renderResults(q);
+    if(total>0){
+      titleEl.innerHTML='&ldquo;<span class="q"></span>&rdquo; için sonuçlar';
+      titleEl.querySelector('.q').textContent=q;
+      leadEl.classList.add('is-off');
+      sum.innerHTML='<b>'+total+' sonuç</b> bulundu · <span class="q">'+esc(q)+'</span> için.';
+      note.innerHTML='Aradığın: <b>'+esc(q)+'</b> — türlere göz atmak için sekmeleri kullan.';
+      popEl.classList.add('is-off');
+      activate(tab);
+    }else{
+      titleEl.innerHTML='&ldquo;<span class="q"></span>&rdquo; için sonuç yok';
+      titleEl.querySelector('.q').textContent=q;
+      leadEl.classList.add('is-off');
+      sum.innerHTML='<b>0 sonuç</b> — yazımı kontrol et ya da önerilere göz at.';
+      tabbar.classList.add('is-off');
+      note.classList.add('is-off');
+      TABS.forEach(function(n){if(panes[n])panes[n].hidden=true;});
+      document.getElementById('fsEmptyQ').textContent=q;
+      var ec=document.getElementById('fsEmptyChips');
+      document.querySelectorAll('#fsPopChips .chip').forEach(function(c){
+        var b=document.createElement('button');b.type='button';b.className='chip';
+        b.setAttribute('data-q',c.getAttribute('data-q'));b.textContent=c.textContent;
+        ec.appendChild(b);
+      });
+      emptyEl.classList.add('show');
+    }
+    document.title='DadaDiet — Arama: '+q;
+  }else{
+    /* arama-first (Gastro paritesi): sorgu yokken kart yok — popüler + son aramalar */
+    sum.innerHTML='<span style="color:#cfe0d6">Hesaplayıcı, besin, program, rehber ya da diyetisyen — aramak için yukarıya yaz.</span>';
+    tabbar.classList.add('is-off');
+    document.getElementById('fsResults').classList.add('is-off');
+    note.classList.add('is-off');
+    document.title='DadaDiet — Arama';
+  }
+
+  /* ===================================================================== AUTOCOMPLETE ===================================================================== */
+  (function(){
+    var box=document.getElementById('fsForm');
+    var ac=document.getElementById('fsAc');
+    var list=document.getElementById('fsAcList');
+    var status=document.getElementById('fsAcStatus');
+    if(!box||!ac||!list||!input)return;
+
+    function readPopular(){var out=[];document.querySelectorAll('#fsPop #fsPopChips .chip[data-q]').forEach(function(c){out.push(c.getAttribute('data-q'));});return out.slice(0,8);}
+    function readRecent(){return readRecentLS().map(function(r){return r.q;});}
+
+    var items=[],active=-1;
+    function render(groups){
+      items=[];active=-1;
+      var html='';
+      groups.forEach(function(g){
+        if(!g.rows.length)return;
+        html+='<div class="ac-grp" aria-hidden="true"><i class="fa-solid '+g.icon+'"></i>'+esc(g.label);
+        if(g.clear)html+='<button type="button" class="ac-clear" data-clear="1">Temizle</button>';
+        html+='</div>';
+        g.rows.forEach(function(r){
+          var idx=items.length;items.push(r);
+          var m=tmeta(r.type);
+          var icoStyle=r.img?' style="background-image:url(\''+r.img+'\');border-color:transparent"':'';
+          var icoInner=r.img?'':'<i class="fa-solid '+(r.icon||r.ico||m.ico)+'"></i>';
+          var badge=(r.type&&TYPE[r.type])?'<span class="ac-badge"><i class="fa-solid '+m.ico+'"></i>'+m.lbl+'</span>':'';
+          var sub=r.sub?'<span class="ac-sub">'+esc(r.sub)+'</span>':'';
+          html+='<div class="ac-opt'+(r.cls||'')+'" role="option" id="fs-opt-'+idx+'" data-type="'+(r.type||'q')+'" data-idx="'+idx+'" aria-selected="false">'
+              +'<span class="ac-ico"'+icoStyle+'>'+icoInner+'</span>'
+              +'<span class="ac-main"><span class="ac-ttl">'+(r.html||esc(r.t))+'</span>'+sub+'</span>'+badge+'</div>';
+        });
+      });
+      if(!groups.some(function(g){return g.rows.length;})){
+        html='<div class="ac-none">Eşleşen öneri yok — yazmaya devam et ya da <b>Enter</b> ile ara.</div>';
+      }
+      list.innerHTML=html;
+    }
+    function buildQuery(qq){
+      var qn=norm(qq);
+      var matched=POOL.filter(function(r){return norm(r.t).indexOf(qn)>=0||(r.sub&&norm(r.sub).indexOf(qn)>=0);});
+      matched.sort(function(a,b){var as=norm(a.t).indexOf(qn)===0?0:1,bs=norm(b.t).indexOf(qn)===0?0:1;return as-bs;});
+      matched=matched.slice(0,7).map(function(r){return {type:r.type,t:r.t,html:hi(r.t,qn),sub:r.sub,img:r.img,ico:r.ico,href:r.href,q:r.t};});
+      var rows=[{type:'q',cls:' ac-query',icon:'fa-magnifying-glass',t:qq,html:'<b>'+esc(qq)+'</b> için ara',sub:'Tüm sonuçları gör',q:qq}];
+      render([{label:'Arama',icon:'fa-magnifying-glass',rows:rows},{label:'Öneriler',icon:'fa-wand-magic-sparkles',rows:matched}]);
+    }
+    function buildDefault(){
+      var recent=readRecent().map(function(qq){return {type:'q',icon:'fa-clock-rotate-left',t:qq,q:qq};});
+      var pop=readPopular().map(function(qq){return {type:'q',icon:'fa-fire',t:qq,q:qq};});
+      render([{label:'Son aramalar',icon:'fa-clock-rotate-left',clear:recent.length>0,rows:recent},{label:'Popüler öneriler',icon:'fa-fire',rows:pop}]);
+    }
+    function announce(){status.textContent=items.length?(items.length+' öneri listelendi.'):'Öneri yok.';}
+    function open(){box.classList.add('ac-open');input.setAttribute('aria-expanded','true');announce();}
+    function close(){box.classList.remove('ac-open');input.setAttribute('aria-expanded','false');input.setAttribute('aria-activedescendant','');setActive(-1);}
+    function isOpen(){return box.classList.contains('ac-open');}
+    function setActive(i){
+      var opts=list.querySelectorAll('.ac-opt');
+      if(active>=0&&opts[active]){opts[active].classList.remove('is-active');opts[active].setAttribute('aria-selected','false');}
+      active=i;
+      if(i>=0&&opts[i]){opts[i].classList.add('is-active');opts[i].setAttribute('aria-selected','true');input.setAttribute('aria-activedescendant',opts[i].id);opts[i].scrollIntoView({block:'nearest'});}
+      else{input.setAttribute('aria-activedescendant','');}
+    }
+    function go(qq){location.href='arama-diet-v1.html'+(qq?'?q='+encodeURIComponent(qq):'');}
+    function choose(i){var r=items[i];if(!r)return;var qq=r.q||r.t;writeRecent(qq);if(r.href){location.href=r.href;return;}go(qq);}
+    var deb;
+    function onInput(){clearTimeout(deb);deb=setTimeout(function(){var v=input.value.trim();if(v.length>=1)buildQuery(v);else buildDefault();open();},150);}
+    input.addEventListener('input',onInput);
+    input.addEventListener('focus',function(){var v=input.value.trim();if(v.length>=1)buildQuery(v);else buildDefault();open();});
+    input.addEventListener('keydown',function(e){
+      var n=items.length;
+      if(e.key==='ArrowDown'){e.preventDefault();if(!isOpen()){onInput();return;}if(n)setActive((active+1)%n);}
+      else if(e.key==='ArrowUp'){e.preventDefault();if(n)setActive(active<=0?n-1:active-1);}
+      else if(e.key==='Enter'){if(isOpen()&&active>=0){e.preventDefault();choose(active);}}
+      else if(e.key==='Escape'){if(isOpen()){e.preventDefault();close();}}
+      else if(e.key==='Home'){if(isOpen()&&n){e.preventDefault();setActive(0);}}
+      else if(e.key==='End'){if(isOpen()&&n){e.preventDefault();setActive(n-1);}}
+    });
+    list.addEventListener('mousemove',function(e){var opt=e.target.closest('.ac-opt');if(!opt)return;var i=+opt.getAttribute('data-idx');if(i!==active)setActive(i);});
+    list.addEventListener('mousedown',function(e){
+      if(e.target.closest('[data-clear]')){e.preventDefault();try{localStorage.removeItem(RKEY);}catch(e2){}renderRecent();buildDefault();return;}
+      var opt=e.target.closest('.ac-opt');if(!opt)return;e.preventDefault();choose(+opt.getAttribute('data-idx'));
+    });
+    document.addEventListener('mousedown',function(e){if(!box.contains(e.target))close();});
+
+    var dp=new URLSearchParams(location.search);
+    if(dp.get('demo')==='1'||location.hash==='#demo'){var dq=dp.get('q');if(dq){input.value=dq;buildQuery(dq);}else buildDefault();open();var di=parseInt(dp.get('ai'),10);if(!isNaN(di))setActive(di);}
+  })();
+
+  /* form gönderimi + çip / son arama köprüleri */
+  document.getElementById('fsForm').addEventListener('submit',function(e){
+    e.preventDefault();
+    var v=input.value.trim();
+    if(v)writeRecent(v);
+    location.href='arama-diet-v1.html'+(v?'?q='+encodeURIComponent(v):'');
+  });
+  document.addEventListener('click',function(e){
+    var c=e.target.closest('[data-q]');
+    if(c&&!c.closest('.ac-opt')){var dq=c.getAttribute('data-q');writeRecent(dq);location.href='arama-diet-v1.html?q='+encodeURIComponent(dq);}
+  });
+})();
+</script>
+
+<div id="ddChromeGate"></div>
+
+<!-- ===== A4: TIBBİ BİLGİLENDİRME ŞERİDİ ===== -->
+<section class="pf-disclaimer" aria-label="Tıbbi bilgilendirme">
+  <div class="wrap">
+    <i class="fa-solid fa-circle-info"></i>
+    <p>Bu sayfadaki içerik genel bilgilendirme amaçlıdır; <b>tıbbi teşhis veya tedavi yerine geçmez.</b> Kişiye özel beslenme planı yalnızca <b>yetkili bir diyetisyen</b> tarafından hazırlanır. Gebelik, kronik hastalık, düzenli ilaç kullanımı, çocuk beslenmesi veya klinik bir durum varsa plana başlamadan önce <b>hekim ve diyetisyen kontrolü zorunludur.</b></p>
+  </div>
+</section>
+
+<div id="ddChromeFooter"></div>
+
+<div id="ddChromeFab"></div>
+
+<script>
+/* ===== SAYFA JS — sayfa-spesifik script BU İŞARETİN ALTINA eklenir ===== */
+</script>
+
+<script>
+/* ===== Yatay slider (hesaplayıcılar + diyet listeleri) — ok + uç disable, native scroll-snap, sıfır bağımlılık ===== */
+(function(){
+  [['calcTrack','calcPrev','calcNext'],['dietTrack','dietPrev','dietNext']].forEach(function(ids){
+    var track=document.getElementById(ids[0]);
+    var prev=document.getElementById(ids[1]);
+    var next=document.getElementById(ids[2]);
+    if(!track||!prev||!next)return;
+    function step(){return Math.round(track.clientWidth*0.85);}
+    function sync(){
+      var max=track.scrollWidth-track.clientWidth-2;
+      prev.disabled=track.scrollLeft<=2;
+      next.disabled=track.scrollLeft>=max;
+    }
+    prev.addEventListener('click',function(){track.scrollBy({left:-step(),behavior:'smooth'});});
+    next.addEventListener('click',function(){track.scrollBy({left:step(),behavior:'smooth'});});
+    track.addEventListener('scroll',sync,{passive:true});
+    window.addEventListener('resize',sync);
+    sync();
+  });
+})();
+</script>
+</body>

@@ -1,0 +1,494 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<meta name="robots" content="noindex, nofollow" />
+<title>Randevular — DadaMutfak Diyetisyen Paneli</title>
+<link rel="shortcut icon" type="image/x-icon" href="assets/img/favicon.ico" />
+<!-- FontAwesome 6.5.2 (kilitli ikon seti) -->
+<link rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css"
+      integrity="sha512-SnH5WK+bZxgPHs44uWIX+LLJAJ9/2PkPKZ5QiAj6Ta86w+fsb2TkcmfRyVX3pBnMFcV7oQPJkl9QevSCWr3W6A=="
+      crossorigin="anonymous" referrerpolicy="no-referrer" />
+<link rel="stylesheet" href="assets/css/sa-ui.css" />
+<link rel="stylesheet" href="assets/css/sa-gozetim.css" />
+<!-- panel kabuğu: assets/css/panel.css + assets/js/panel.js -->
+<link rel="stylesheet" href="assets/css/panel.css" />
+<style>
+/* =====================================================================
+   SAYFA CSS — sayfa-spesifik stiller BU İŞARETİN ALTINA
+   ===================================================================== */
+
+/* ---- TAKVİM ARAÇ ÇUBUĞU ---- */
+.cal-toolbar{display:flex;align-items:center;gap:12px;flex-wrap:wrap;margin-bottom:16px}
+/* hafta gezgini — haftalik-menu .wk-nav türevi (panel aksanı yeşil) */
+.wk-nav{display:inline-flex;align-items:center;border:1px solid var(--line);border-radius:var(--radius-md);background:var(--paper);overflow:hidden}
+.wk-nav button{width:40px;height:42px;border:none;background:var(--paper);color:var(--slate);font-size:12.5px;cursor:pointer;transition:.18s var(--ease)}
+.wk-nav button:hover{background:var(--green-tint);color:var(--green-deep)}
+.wk-nav .wk-cur{min-width:168px;height:42px;display:grid;place-items:center;font-size:13.5px;font-weight:700;color:var(--slate);border-left:1px solid var(--line);border-right:1px solid var(--line);padding:0 14px;text-align:center}
+/* takvim lejantı */
+.cal-legend{margin-left:auto;display:flex;align-items:center;gap:14px;flex-wrap:wrap}
+.lg{display:inline-flex;align-items:center;gap:7px;font-size:12px;font-weight:500;color:var(--muted)}
+.lg i{width:9px;height:9px;border-radius:var(--radius-circle)}
+.lg.ok i{background:var(--green)}
+.lg.wait i{background:var(--yellow)}
+.lg.free i{background:#d9d9d9}
+/* Hafta/Gün segment — mutfak-defteri .pf-tabs dilinin panel türevi (yeşil aktif) */
+.vw-seg{display:flex;gap:4px;background:var(--paper);border:1px solid var(--line);border-radius:var(--radius-md);padding:4px}
+
+/* ---- HAFTALIK TAKVİM GRID'İ — haftalik-menu .wk-grid board dilinin panel türevi ---- */
+.cal-card{overflow:hidden}
+.cal-scroll{overflow-x:auto;-webkit-overflow-scrolling:touch;scrollbar-width:thin}
+.cal-grid{display:grid;grid-template-columns:64px repeat(7,minmax(0,1fr));min-width:880px}
+.cal-corner{border-bottom:1px solid var(--line);background:var(--bg)}
+.cal-day{padding:12px 8px;text-align:center;border-bottom:1px solid var(--line);border-left:1px solid var(--line)}
+.cal-day b{display:block;font-size:13px;font-weight:700;color:var(--slate);line-height:1.1}
+.cal-day span{display:block;font-size:11.5px;color:var(--muted);font-weight:500;margin-top:3px}
+.cal-day.today{background:var(--green-tint)}
+.cal-day.today b,.cal-day.today span{color:var(--green-deep)}
+.cal-hour{display:flex;align-items:flex-start;justify-content:center;padding:10px 6px;border-bottom:1px solid var(--line);background:var(--bg);font-size:11.5px;font-weight:700;color:var(--muted)}
+.cal-cell{padding:6px;border-bottom:1px solid var(--line);border-left:1px solid var(--line);min-height:64px}
+.cal-cell.today-col{background:rgba(59,183,126,.045)}
+.cal-grid .lastrow{border-bottom:none}
+/* slot — .pstat durum dilinin takvim hücresine taşınmış hâli */
+.slot{
+  width:100%;height:100%;min-height:52px;border:none;font-family:inherit;text-align:left;
+  border-radius:var(--radius-sm);padding:7px 9px;cursor:pointer;
+  display:flex;flex-direction:column;gap:2px;transition:.18s var(--ease);line-height:1.3;
+}
+.slot b{font-size:11.5px;font-weight:700;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:100%}
+.slot span{font-size:10.5px;font-weight:500;display:flex;align-items:center;gap:5px;white-space:nowrap;overflow:hidden}
+.slot span i{font-size:9.5px;flex:none}
+.slot.ok{background:var(--green-tint);color:var(--green-deep);box-shadow:inset 3px 0 0 var(--green)}
+.slot.ok b{color:var(--green-deep)}
+.slot.ok:hover,.slot.wait:hover{transform:translateY(-1px);box-shadow:inset 3px 0 0 var(--green), var(--sh-sm)}
+.slot.wait{background:#FCF3DD;color:#B8860B;box-shadow:inset 3px 0 0 var(--yellow)}
+.slot.wait b{color:#B8860B}
+.slot.wait:hover{box-shadow:inset 3px 0 0 var(--yellow), var(--sh-sm)}
+.slot.free{
+  background:repeating-linear-gradient(135deg,transparent 0 6px,rgba(33,30,22,.03) 6px 12px);
+  border:1.5px dashed #dcdcdc;color:var(--muted);
+  flex-direction:row;align-items:center;justify-content:center;gap:7px;
+  font-size:11px;font-weight:700;
+}
+.slot.free i{font-size:10px}
+.slot.free:hover{border-color:var(--green);color:var(--green-deep);background:var(--green-tint)}
+
+/* ---- GÜN GÖRÜNÜMÜ — shell .appt-list dili + boş saat varyantı ---- */
+.appt-row.is-free .appt-time{background:transparent;border:1.5px dashed #dcdcdc;color:var(--muted)}
+.appt-row.is-free .appt-time small{color:var(--muted)}
+.appt-row.is-free .appt-name{color:var(--muted);font-weight:500}
+.day-sum{font-size:12.5px;color:var(--muted);font-weight:500}
+
+/* ---- RANDEVU DETAY DRAWER'I — ?detay=1 ---- */
+.apt-overlay{
+  position:fixed;inset:0;background:rgba(33,30,22,.38);z-index:84;
+  opacity:0;pointer-events:none;transition:.25s;
+}
+body.detay-open .apt-overlay{opacity:1;pointer-events:auto}
+.apt-drawer{
+  position:fixed;top:0;right:0;bottom:0;width:min(380px,100%);z-index:85;
+  background:var(--paper);box-shadow:var(--sh-lg);
+  transform:translateX(105%);transition:transform .3s var(--ease);
+  display:flex;flex-direction:column;
+}
+body.detay-open .apt-drawer{transform:translateX(0)}
+.ad-head{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:16px 22px;border-bottom:1px solid var(--line)}
+.ad-head h3{font-size:15.5px}
+.ad-close{
+  width:36px;height:36px;border:1px solid var(--line);border-radius:var(--radius-md);
+  background:var(--paper);cursor:pointer;font-size:13px;color:var(--slate);
+  display:inline-flex;align-items:center;justify-content:center;transition:.2s var(--ease);
+}
+.ad-close:hover{border-color:var(--slate)}
+.ad-body{flex:1;overflow-y:auto;padding:22px}
+.ad-who{display:flex;align-items:center;gap:13px;margin-bottom:18px}
+.ad-ava{width:52px;height:52px;flex:none;border-radius:var(--radius-circle);background-size:cover;background-position:center}
+.ad-id{min-width:0;line-height:1.3}
+.ad-name{font-size:16px;font-weight:700;color:var(--slate)}
+.ad-sub{font-size:12.5px;color:var(--muted);margin-top:2px}
+.ad-who .pstat{margin-left:auto;flex:none}
+.ad-rows{border:1px solid var(--line);border-radius:var(--radius-md);overflow:hidden;margin-bottom:18px}
+.ad-row{display:flex;align-items:center;gap:11px;padding:12px 14px;border-bottom:1px solid var(--line);font-size:13px;color:var(--muted)}
+.ad-row:last-child{border-bottom:none}
+.ad-row i{width:30px;height:30px;flex:none;border-radius:var(--radius-sm);background:var(--green-tint);color:var(--green-deep);display:inline-flex;align-items:center;justify-content:center;font-size:12px}
+.ad-row b{margin-left:auto;font-size:13px;font-weight:700;color:var(--slate);text-align:right}
+.ad-note{background:var(--bg);border:1px solid var(--line);border-radius:var(--radius-md);padding:13px 15px;font-size:13px;color:var(--slate-2);line-height:1.55;margin-bottom:18px}
+.ad-note b{display:block;font-size:10.5px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--muted);margin-bottom:6px}
+.ad-foot{padding:16px 22px;border-top:1px solid var(--line);display:flex;gap:10px}
+.ad-foot .btn{flex:1}
+.btn-ghost.warm{color:var(--tomato)}
+.btn-ghost.warm:hover{border-color:var(--tomato)}
+
+/* ---- mobil ---- */
+@media(max-width:980px){
+  .cal-legend{margin-left:0;width:100%;order:5}
+}
+@media(max-width:640px){
+  .cal-toolbar{gap:10px}
+  .wk-nav{flex:1;min-width:0}
+  .wk-nav .wk-cur{flex:1;min-width:0;font-size:12.5px}
+  .vw-seg{flex:none}
+  .cal-grid{min-width:760px;grid-template-columns:56px repeat(7,minmax(0,1fr))}
+  /* saat sütunu sticky — haftalik-menu mobil pattern'ı */
+  .cal-hour,.cal-corner{position:sticky;left:0;z-index:2;box-shadow:2px 0 0 var(--line)}
+  .cal-scroll::-webkit-scrollbar{height:6px}
+  .cal-scroll::-webkit-scrollbar-thumb{background:#d8d8d8;border-radius:var(--radius-sm)}
+}
+</style>
+</head>
+<body data-brand="mutfak" data-nav="randevular">
+
+<div class="pnl-app">
+
+  <!-- sidebar + üst bar: assets/js/panel.js üretir -->
+  <div id="pnlChrome"></div>
+  <script src="assets/js/panel.js"></script>
+
+  <main class="pnl-main">
+
+    <div class="pnl-page-head">
+      <div>
+        <h1>Randevular</h1>
+        <div class="ph-sub">Bu hafta 15 randevu — 3'ü onay bekliyor, 5 boş saat var.</div>
+      </div>
+      <div class="ph-actions">
+        <button class="btn btn-ghost btn-sm"><i class="fa-solid fa-sliders"></i> Çalışma Saatleri</button>
+        <a class="btn btn-green btn-sm" href="dyt-profil-ayar-v1.html?tab=takvim"><i class="fa-regular fa-calendar-plus"></i> Müsaitlik Ekle</a>
+      </div>
+    </div>
+
+    <!-- araç çubuğu: hafta gezgini + lejant + Hafta/Gün segmenti -->
+    <div class="cal-toolbar">
+      <div class="wk-nav">
+        <button type="button" aria-label="Önceki hafta"><i class="fa-solid fa-chevron-left"></i></button>
+        <span class="wk-cur">8 – 14 Haziran 2026</span>
+        <button type="button" aria-label="Sonraki hafta"><i class="fa-solid fa-chevron-right"></i></button>
+      </div>
+      <button class="btn btn-ghost btn-sm" type="button">Bugün</button>
+      <div class="cal-legend">
+        <span class="lg ok"><i></i> Dolu</span>
+        <span class="lg wait"><i></i> Onay bekliyor</span>
+        <span class="lg free"><i></i> Boş slot</span>
+      </div>
+      <div class="vw-seg" id="vwSeg">
+        <button class="vs-btn is-on" type="button" data-view="hafta"><i class="fa-regular fa-calendar"></i> Hafta</button>
+        <button class="vs-btn" type="button" data-view="gun"><i class="fa-solid fa-calendar-day"></i> Gün</button>
+      </div>
+    </div>
+
+    <!-- ============ HAFTA GÖRÜNÜMÜ ============ -->
+    <section id="viewHafta">
+      <div class="pnl-card cal-card">
+        <div class="cal-scroll">
+          <div class="cal-grid">
+            <!-- gün başlıkları -->
+            <div class="cal-corner"></div>
+            <div class="cal-day"><b>Pzt</b><span>8 Haz</span></div>
+            <div class="cal-day"><b>Sal</b><span>9 Haz</span></div>
+            <div class="cal-day"><b>Çar</b><span>10 Haz</span></div>
+            <div class="cal-day today"><b>Per</b><span>11 Haz</span></div>
+            <div class="cal-day"><b>Cum</b><span>12 Haz</span></div>
+            <div class="cal-day"><b>Cmt</b><span>13 Haz</span></div>
+            <div class="cal-day"><b>Paz</b><span>14 Haz</span></div>
+
+            <!-- 09.00 -->
+            <div class="cal-hour">09.00</div>
+            <div class="cal-cell"><button class="slot ok" type="button" data-name="Ayşe Korkmaz" data-sub="Hedef: −5 kg · 4. hafta" data-type="Yüz yüze" data-dur="45 dk" data-when="Pzt, 8 Haziran · 09.00" data-stat="ok" data-note="Tansiyon takibi var — tuz kısıtlı liste uygulanıyor, kan değerlerini getirecek." data-ava="https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=160&q=80&auto=format&fit=crop&exp=7&gam=6&sat=-9&high=8&vib=5"><b>Ayşe Korkmaz</b><span><i class="fa-solid fa-location-dot"></i> Yüz yüze · 45 dk</span></button></div>
+            <div class="cal-cell"><button class="slot ok" type="button" data-name="Derya Koç" data-sub="Hedef: −8 kg · 6. hafta" data-type="Online" data-dur="30 dk" data-when="Sal, 9 Haziran · 09.00" data-stat="ok" data-note="Geçen kontrolde su tüketimi düşüktü, hatırlatma yapılacak." data-ava="https://images.unsplash.com/photo-1438761681033-6461ffad8d80?w=160&q=80&auto=format&fit=crop&exp=7&gam=6&sat=-9&high=8&vib=5"><b>Derya Koç</b><span><i class="fa-solid fa-video"></i> Online · 30 dk</span></button></div>
+            <div class="cal-cell"><button class="slot free" type="button"><i class="fa-solid fa-plus"></i> Boş</button></div>
+            <div class="cal-cell today-col"><button class="slot ok" type="button" data-name="Zeynep Arslan" data-sub="Hedef: −6 kg · 8. hafta" data-type="Yüz yüze" data-dur="45 dk" data-when="Per, 11 Haziran · 09.00" data-stat="ok" data-note="İlk görüşme — anket formu dolduruldu, başlangıç ölçümleri alınacak." data-ava="https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=160&q=80&auto=format&fit=crop&exp=7&gam=6&sat=-9&high=8&vib=5"><b>Zeynep Arslan</b><span><i class="fa-solid fa-location-dot"></i> Yüz yüze · 45 dk</span></button></div>
+            <div class="cal-cell"><button class="slot free" type="button"><i class="fa-solid fa-plus"></i> Boş</button></div>
+            <div class="cal-cell"><button class="slot ok" type="button" data-name="Gizem Acar" data-sub="Hedef: koruma · 14. hafta" data-type="Yüz yüze" data-dur="30 dk" data-when="Cmt, 13 Haziran · 09.00" data-stat="ok" data-note="Koruma dönemi 2. ay kontrolü." data-ava="https://images.unsplash.com/photo-1438761681033-6461ffad8d80?w=160&q=80&auto=format&fit=crop&exp=7&gam=6&sat=-9&high=8&vib=5"><b>Gizem Acar</b><span><i class="fa-solid fa-location-dot"></i> Yüz yüze · 30 dk</span></button></div>
+            <div class="cal-cell"></div>
+
+            <!-- 10.00 -->
+            <div class="cal-hour">10.00</div>
+            <div class="cal-cell"><button class="slot free" type="button"><i class="fa-solid fa-plus"></i> Boş</button></div>
+            <div class="cal-cell"><button class="slot wait" type="button" data-name="Caner Tunç" data-sub="Yeni danışan adayı" data-type="Online" data-dur="30 dk" data-when="Sal, 9 Haziran · 10.00" data-stat="wait" data-note="Site üzerinden talep geldi — ön görüşme. Hedefi kas kazanımı." data-ava="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=160&q=80&auto=format&fit=crop&exp=7&gam=6&sat=-9&high=8&vib=5"><b>Caner Tunç</b><span><i class="fa-solid fa-video"></i> Online · 30 dk</span></button></div>
+            <div class="cal-cell"><button class="slot ok" type="button" data-name="Hakan Yılmaz" data-sub="Hedef: −12 kg · 10. hafta" data-type="Yüz yüze" data-dur="45 dk" data-when="Çar, 10 Haziran · 10.00" data-stat="ok" data-note="Plato dönemine girdi, makro dağılımı revize edilecek." data-ava="https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=160&q=80&auto=format&fit=crop&exp=7&gam=6&sat=-9&high=8&vib=5"><b>Hakan Yılmaz</b><span><i class="fa-solid fa-location-dot"></i> Yüz yüze · 45 dk</span></button></div>
+            <div class="cal-cell today-col"><button class="slot free" type="button"><i class="fa-solid fa-plus"></i> Boş</button></div>
+            <div class="cal-cell"><button class="slot ok" type="button" data-name="Elif Kaplan" data-sub="Hedef: −4 kg · 2. hafta" data-type="Online" data-dur="30 dk" data-when="Cum, 12 Haziran · 10.00" data-stat="ok" data-note="Liste uyumu yüksek — ara öğün alternatifleri istedi." data-ava="https://images.unsplash.com/photo-1438761681033-6461ffad8d80?w=160&q=80&auto=format&fit=crop&exp=7&gam=6&sat=-9&high=8&vib=5"><b>Elif Kaplan</b><span><i class="fa-solid fa-video"></i> Online · 30 dk</span></button></div>
+            <div class="cal-cell"><button class="slot wait" type="button" data-name="Murat Öz" data-sub="Yeni danışan adayı" data-type="Yüz yüze" data-dur="45 dk" data-when="Cmt, 13 Haziran · 10.00" data-stat="wait" data-note="Profil sayfasından randevu talebi — sporcu beslenmesi danışmanlığı istiyor." data-ava="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=160&q=80&auto=format&fit=crop&exp=7&gam=6&sat=-9&high=8&vib=5"><b>Murat Öz</b><span><i class="fa-solid fa-location-dot"></i> Yüz yüze · 45 dk</span></button></div>
+            <div class="cal-cell"></div>
+
+            <!-- 11.00 -->
+            <div class="cal-hour">11.00</div>
+            <div class="cal-cell"><button class="slot ok" type="button" data-name="Mert Kaya" data-sub="Hedef: kas kazanımı · 3. hafta" data-type="Online" data-dur="30 dk" data-when="Pzt, 8 Haziran · 11.00" data-stat="ok" data-note="Antrenman günleri için karbonhidrat zamanlaması konuşulacak." data-ava="https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=160&q=80&auto=format&fit=crop&exp=7&gam=6&sat=-9&high=8&vib=5"><b>Mert Kaya</b><span><i class="fa-solid fa-video"></i> Online · 30 dk</span></button></div>
+            <div class="cal-cell"><button class="slot free" type="button"><i class="fa-solid fa-plus"></i> Boş</button></div>
+            <div class="cal-cell"><button class="slot free" type="button"><i class="fa-solid fa-plus"></i> Boş</button></div>
+            <div class="cal-cell today-col"><button class="slot wait" type="button" data-name="Mert Kaya" data-sub="Hedef: kas kazanımı · 3. hafta" data-type="Online" data-dur="30 dk" data-when="Per, 11 Haziran · 11.00" data-stat="wait" data-note="Danışan saat değişikliği istedi: 11.00 → onay bekliyor." data-ava="https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=160&q=80&auto=format&fit=crop&exp=7&gam=6&sat=-9&high=8&vib=5"><b>Mert Kaya</b><span><i class="fa-solid fa-video"></i> Online · 30 dk</span></button></div>
+            <div class="cal-cell"><button class="slot ok" type="button" data-name="Burak Şahin" data-sub="Hedef: −7 kg · 5. hafta" data-type="Yüz yüze" data-dur="45 dk" data-when="Cum, 12 Haziran · 11.00" data-stat="ok" data-note="Diyet revizyonu — yeni kan tahlili sonuçlarıyla gelecek." data-ava="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=160&q=80&auto=format&fit=crop&exp=7&gam=6&sat=-9&high=8&vib=5"><b>Burak Şahin</b><span><i class="fa-solid fa-location-dot"></i> Yüz yüze · 45 dk</span></button></div>
+            <div class="cal-cell"><button class="slot free" type="button"><i class="fa-solid fa-plus"></i> Boş</button></div>
+            <div class="cal-cell"></div>
+
+            <!-- 13.00 -->
+            <div class="cal-hour">13.00</div>
+            <div class="cal-cell"><button class="slot ok" type="button" data-name="Selin Demir" data-sub="Hedef: −10 kg · 12. hafta" data-type="Yüz yüze" data-dur="45 dk" data-when="Pzt, 8 Haziran · 13.00" data-stat="ok" data-note="Ölçüm + kontrol. Son 2 haftada 1,1 kg verdi." data-ava="https://images.unsplash.com/photo-1438761681033-6461ffad8d80?w=160&q=80&auto=format&fit=crop&exp=7&gam=6&sat=-9&high=8&vib=5"><b>Selin Demir</b><span><i class="fa-solid fa-location-dot"></i> Yüz yüze · 45 dk</span></button></div>
+            <div class="cal-cell"><button class="slot ok" type="button" data-name="Emre Aydın" data-sub="Hedef: −3 kg · 1. hafta" data-type="Online" data-dur="30 dk" data-when="Sal, 9 Haziran · 13.00" data-stat="ok" data-note="İlk hafta uyum kontrolü." data-ava="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=160&q=80&auto=format&fit=crop&exp=7&gam=6&sat=-9&high=8&vib=5"><b>Emre Aydın</b><span><i class="fa-solid fa-video"></i> Online · 30 dk</span></button></div>
+            <div class="cal-cell"><button class="slot free" type="button"><i class="fa-solid fa-plus"></i> Boş</button></div>
+            <div class="cal-cell today-col"><button class="slot free" type="button"><i class="fa-solid fa-plus"></i> Boş</button></div>
+            <div class="cal-cell"><button class="slot free" type="button"><i class="fa-solid fa-plus"></i> Boş</button></div>
+            <div class="cal-cell"></div>
+            <div class="cal-cell"></div>
+
+            <!-- 14.00 -->
+            <div class="cal-hour">14.00</div>
+            <div class="cal-cell"><button class="slot free" type="button"><i class="fa-solid fa-plus"></i> Boş</button></div>
+            <div class="cal-cell"><button class="slot ok" type="button" data-name="Zeynep Arslan" data-sub="Hedef: −6 kg · 8. hafta" data-type="Online" data-dur="30 dk" data-when="Sal, 9 Haziran · 14.00" data-stat="ok" data-note="Hafta ortası motivasyon görüşmesi." data-ava="https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=160&q=80&auto=format&fit=crop&exp=7&gam=6&sat=-9&high=8&vib=5"><b>Zeynep Arslan</b><span><i class="fa-solid fa-video"></i> Online · 30 dk</span></button></div>
+            <div class="cal-cell"><button class="slot ok" type="button" data-name="Derya Koç" data-sub="Hedef: −8 kg · 6. hafta" data-type="Yüz yüze" data-dur="45 dk" data-when="Çar, 10 Haziran · 14.00" data-stat="ok" data-note="Ölçüm günü — bel/kalça takibi." data-ava="https://images.unsplash.com/photo-1438761681033-6461ffad8d80?w=160&q=80&auto=format&fit=crop&exp=7&gam=6&sat=-9&high=8&vib=5"><b>Derya Koç</b><span><i class="fa-solid fa-location-dot"></i> Yüz yüze · 45 dk</span></button></div>
+            <div class="cal-cell today-col"><button class="slot ok" type="button" data-name="Selin Demir" data-sub="Hedef: −10 kg · 12. hafta" data-type="Yüz yüze" data-dur="45 dk" data-when="Per, 11 Haziran · 14.00" data-stat="ok" data-note="Ölçüm + kontrol — hedefe 2,5 kg kaldı, koruma planı konuşulacak." data-ava="https://images.unsplash.com/photo-1438761681033-6461ffad8d80?w=160&q=80&auto=format&fit=crop&exp=7&gam=6&sat=-9&high=8&vib=5"><b>Selin Demir</b><span><i class="fa-solid fa-location-dot"></i> Yüz yüze · 45 dk</span></button></div>
+            <div class="cal-cell"><button class="slot free" type="button"><i class="fa-solid fa-plus"></i> Boş</button></div>
+            <div class="cal-cell"></div>
+            <div class="cal-cell"></div>
+
+            <!-- 15.00 -->
+            <div class="cal-hour">15.00</div>
+            <div class="cal-cell"><button class="slot wait" type="button" data-name="Gizem Acar" data-sub="Hedef: koruma · 14. hafta" data-type="Online" data-dur="30 dk" data-when="Pzt, 8 Haziran · 15.00" data-stat="wait" data-note="Danışan ek görüşme talep etti — tatil dönüşü plan güncellemesi." data-ava="https://images.unsplash.com/photo-1438761681033-6461ffad8d80?w=160&q=80&auto=format&fit=crop&exp=7&gam=6&sat=-9&high=8&vib=5"><b>Gizem Acar</b><span><i class="fa-solid fa-video"></i> Online · 30 dk</span></button></div>
+            <div class="cal-cell"><button class="slot free" type="button"><i class="fa-solid fa-plus"></i> Boş</button></div>
+            <div class="cal-cell"><button class="slot ok" type="button" data-name="Emre Aydın" data-sub="Hedef: −3 kg · 1. hafta" data-type="Yüz yüze" data-dur="45 dk" data-when="Çar, 10 Haziran · 15.00" data-stat="ok" data-note="Mutfak düzeni ve porsiyon eğitimi." data-ava="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=160&q=80&auto=format&fit=crop&exp=7&gam=6&sat=-9&high=8&vib=5"><b>Emre Aydın</b><span><i class="fa-solid fa-location-dot"></i> Yüz yüze · 45 dk</span></button></div>
+            <div class="cal-cell today-col"><button class="slot free" type="button"><i class="fa-solid fa-plus"></i> Boş</button></div>
+            <div class="cal-cell"><button class="slot ok" type="button" data-name="Hakan Yılmaz" data-sub="Hedef: −12 kg · 10. hafta" data-type="Online" data-dur="30 dk" data-when="Cum, 12 Haziran · 15.00" data-stat="ok" data-note="Hafta kapanışı — hafta sonu stratejisi." data-ava="https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=160&q=80&auto=format&fit=crop&exp=7&gam=6&sat=-9&high=8&vib=5"><b>Hakan Yılmaz</b><span><i class="fa-solid fa-video"></i> Online · 30 dk</span></button></div>
+            <div class="cal-cell"></div>
+            <div class="cal-cell"></div>
+
+            <!-- 16.00 -->
+            <div class="cal-hour lastrow">16.00</div>
+            <div class="cal-cell lastrow"><button class="slot free" type="button"><i class="fa-solid fa-plus"></i> Boş</button></div>
+            <div class="cal-cell lastrow"></div>
+            <div class="cal-cell lastrow"><button class="slot free" type="button"><i class="fa-solid fa-plus"></i> Boş</button></div>
+            <div class="cal-cell lastrow today-col"><button class="slot ok" type="button" data-name="Burak Şahin" data-sub="Hedef: −7 kg · 5. hafta" data-type="Online" data-dur="30 dk" data-when="Per, 11 Haziran · 16.00" data-stat="ok" data-note="Diyet revizyonu — iptal talebi geri çekildi, görüşme teyitli." data-ava="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=160&q=80&auto=format&fit=crop&exp=7&gam=6&sat=-9&high=8&vib=5"><b>Burak Şahin</b><span><i class="fa-solid fa-video"></i> Online · 30 dk</span></button></div>
+            <div class="cal-cell lastrow"><button class="slot free" type="button"><i class="fa-solid fa-plus"></i> Boş</button></div>
+            <div class="cal-cell lastrow"></div>
+            <div class="cal-cell lastrow"></div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============ GÜN GÖRÜNÜMÜ (?gorunum=gun) ============ -->
+    <section id="viewGun" hidden>
+      <div class="pnl-card">
+        <div class="pc-head">
+          <div class="pc-title"><i class="fa-solid fa-calendar-day"></i> Perşembe, 11 Haziran</div>
+          <span class="day-sum">3 randevu · 1 onay bekliyor · 3 boş saat</span>
+        </div>
+        <div class="appt-list">
+          <div class="appt-row">
+            <div class="appt-time">09.00<small>45 dk</small></div>
+            <div class="appt-ava" style="background-image:url('https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=160&q=80&auto=format&fit=crop&exp=7&gam=6&sat=-9&high=8&vib=5')"></div>
+            <div class="appt-info">
+              <div class="appt-name">Zeynep Arslan</div>
+              <div class="appt-meta"><i class="fa-solid fa-location-dot"></i> Yüz yüze · İlk görüşme</div>
+            </div>
+            <div class="appt-act">
+              <span class="pstat ok">Onaylı</span>
+              <button class="btn btn-ghost btn-sm slot-detail" type="button" data-name="Zeynep Arslan" data-sub="Hedef: −6 kg · 8. hafta" data-type="Yüz yüze" data-dur="45 dk" data-when="Per, 11 Haziran · 09.00" data-stat="ok" data-note="İlk görüşme — anket formu dolduruldu, başlangıç ölçümleri alınacak." data-ava="https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=160&q=80&auto=format&fit=crop&exp=7&gam=6&sat=-9&high=8&vib=5">Detay</button>
+            </div>
+          </div>
+          <div class="appt-row is-free">
+            <div class="appt-time">10.00<small>boş</small></div>
+            <div class="appt-info">
+              <div class="appt-name">Boş saat — randevuya açık</div>
+            </div>
+            <div class="appt-act">
+              <button class="btn btn-ghost btn-sm" type="button"><i class="fa-solid fa-plus"></i> Randevu Ekle</button>
+            </div>
+          </div>
+          <div class="appt-row is-online">
+            <div class="appt-time">11.00<small>30 dk</small></div>
+            <div class="appt-ava" style="background-image:url('https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=160&q=80&auto=format&fit=crop&exp=7&gam=6&sat=-9&high=8&vib=5')"></div>
+            <div class="appt-info">
+              <div class="appt-name">Mert Kaya</div>
+              <div class="appt-meta"><i class="fa-solid fa-video"></i> Online · Saat değişikliği talebi</div>
+            </div>
+            <div class="appt-act">
+              <span class="pstat wait">Onay Bekliyor</span>
+              <button class="btn btn-green btn-sm slot-detail" type="button" data-name="Mert Kaya" data-sub="Hedef: kas kazanımı · 3. hafta" data-type="Online" data-dur="30 dk" data-when="Per, 11 Haziran · 11.00" data-stat="wait" data-note="Danışan saat değişikliği istedi: 11.00 → onay bekliyor." data-ava="https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=160&q=80&auto=format&fit=crop&exp=7&gam=6&sat=-9&high=8&vib=5">İncele</button>
+            </div>
+          </div>
+          <div class="appt-row is-free">
+            <div class="appt-time">13.00<small>boş</small></div>
+            <div class="appt-info">
+              <div class="appt-name">Boş saat — randevuya açık</div>
+            </div>
+            <div class="appt-act">
+              <button class="btn btn-ghost btn-sm" type="button"><i class="fa-solid fa-plus"></i> Randevu Ekle</button>
+            </div>
+          </div>
+          <div class="appt-row">
+            <div class="appt-time">14.00<small>45 dk</small></div>
+            <div class="appt-ava" style="background-image:url('https://images.unsplash.com/photo-1438761681033-6461ffad8d80?w=160&q=80&auto=format&fit=crop&exp=7&gam=6&sat=-9&high=8&vib=5')"></div>
+            <div class="appt-info">
+              <div class="appt-name">Selin Demir</div>
+              <div class="appt-meta"><i class="fa-solid fa-location-dot"></i> Yüz yüze · Ölçüm + kontrol</div>
+            </div>
+            <div class="appt-act">
+              <span class="pstat ok">Onaylı</span>
+              <button class="btn btn-ghost btn-sm slot-detail" type="button" data-name="Selin Demir" data-sub="Hedef: −10 kg · 12. hafta" data-type="Yüz yüze" data-dur="45 dk" data-when="Per, 11 Haziran · 14.00" data-stat="ok" data-note="Ölçüm + kontrol — hedefe 2,5 kg kaldı, koruma planı konuşulacak." data-ava="https://images.unsplash.com/photo-1438761681033-6461ffad8d80?w=160&q=80&auto=format&fit=crop&exp=7&gam=6&sat=-9&high=8&vib=5">Detay</button>
+            </div>
+          </div>
+          <div class="appt-row is-free">
+            <div class="appt-time">15.00<small>boş</small></div>
+            <div class="appt-info">
+              <div class="appt-name">Boş saat — randevuya açık</div>
+            </div>
+            <div class="appt-act">
+              <button class="btn btn-ghost btn-sm" type="button"><i class="fa-solid fa-plus"></i> Randevu Ekle</button>
+            </div>
+          </div>
+          <div class="appt-row is-online">
+            <div class="appt-time">16.00<small>30 dk</small></div>
+            <div class="appt-ava" style="background-image:url('https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=160&q=80&auto=format&fit=crop&exp=7&gam=6&sat=-9&high=8&vib=5')"></div>
+            <div class="appt-info">
+              <div class="appt-name">Burak Şahin</div>
+              <div class="appt-meta"><i class="fa-solid fa-video"></i> Online · Diyet revizyonu</div>
+            </div>
+            <div class="appt-act">
+              <span class="pstat ok">Onaylı</span>
+              <button class="btn btn-ghost btn-sm slot-detail" type="button" data-name="Burak Şahin" data-sub="Hedef: −7 kg · 5. hafta" data-type="Online" data-dur="30 dk" data-when="Per, 11 Haziran · 16.00" data-stat="ok" data-note="Diyet revizyonu — iptal talebi geri çekildi, görüşme teyitli." data-ava="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=160&q=80&auto=format&fit=crop&exp=7&gam=6&sat=-9&high=8&vib=5">Detay</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+  </main>
+</div>
+
+<!-- ============ RANDEVU DETAY DRAWER'I (?detay=1) ============ -->
+<div class="apt-overlay" id="aptOverlay"></div>
+<aside class="apt-drawer" id="aptDrawer" aria-label="Randevu detayı">
+  <div class="ad-head">
+    <h3>Randevu Detayı</h3>
+    <button class="ad-close" id="adClose" aria-label="Kapat"><i class="fa-solid fa-xmark"></i></button>
+  </div>
+  <div class="ad-body">
+    <div class="ad-who">
+      <div class="ad-ava" id="adAva" style="background-image:url('https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=160&q=80&auto=format&fit=crop&exp=7&gam=6&sat=-9&high=8&vib=5')"></div>
+      <div class="ad-id">
+        <div class="ad-name" id="adName">Zeynep Arslan</div>
+        <div class="ad-sub" id="adSub">Hedef: −6 kg · 8. hafta</div>
+      </div>
+      <span class="pstat ok" id="adStat">Onaylı</span>
+    </div>
+    <div class="ad-rows">
+      <div class="ad-row"><i class="fa-regular fa-calendar"></i> Tarih &amp; saat <b id="adWhen">Per, 11 Haziran · 09.00</b></div>
+      <div class="ad-row"><i class="fa-solid fa-location-dot"></i> Görüşme türü <b id="adType">Yüz yüze</b></div>
+      <div class="ad-row"><i class="fa-regular fa-clock"></i> Süre <b id="adDur">45 dk</b></div>
+    </div>
+    <div class="ad-note">
+      <b>Görüşme Notu</b>
+      <span id="adNote">İlk görüşme — anket formu dolduruldu, başlangıç ölçümleri alınacak.</span>
+    </div>
+    <a class="pc-link" href="dyt-danisanlar-v1.html?danisan=1">Danışan kartını aç <i class="fa-solid fa-arrow-right"></i></a>
+  </div>
+  <div class="ad-foot">
+    <button class="btn btn-ghost btn-sm warm" type="button" onclick="saToast('Randevu iptal edildi.',{type:'danger'})"><i class="fa-solid fa-xmark"></i> İptal Et</button>
+    <button class="btn btn-green btn-sm" type="button" onclick="saToast('Randevu onaylandı.')"><i class="fa-solid fa-check"></i> Onayla</button>
+  </div>
+</aside>
+
+<script>
+/* panel ortak JS (burger + overlay + ?nav=1) assets/js/panel.js içinde */
+
+/* ============ SAYFA JS — görünüm geçişi + detay drawer ============ */
+(function(){
+  var q=new URLSearchParams(location.search);
+
+  /* Hafta/Gün segmenti */
+  var segBtns=document.querySelectorAll('.vs-btn'),
+      vHafta=document.getElementById('viewHafta'),
+      vGun=document.getElementById('viewGun');
+  function setView(v){
+    segBtns.forEach(function(b){b.classList.toggle('is-on',b.dataset.view===v)});
+    vHafta.hidden=(v!=='hafta');
+    vGun.hidden=(v!=='gun');
+  }
+  segBtns.forEach(function(b){
+    b.addEventListener('click',function(){setView(b.dataset.view)});
+  });
+  if(q.get('gorunum')==='gun') setView('gun');
+
+  /* detay drawer */
+  var statTxt={ok:'Onaylı',wait:'Onay Bekliyor',warm:'İptal İstendi'};
+  function openDrawer(el){
+    if(el && el.dataset.name){
+      document.getElementById('adName').textContent=el.dataset.name;
+      document.getElementById('adSub').textContent=el.dataset.sub||'';
+      document.getElementById('adWhen').textContent=el.dataset.when||'';
+      document.getElementById('adType').textContent=el.dataset.type||'';
+      document.getElementById('adDur').textContent=el.dataset.dur||'';
+      document.getElementById('adNote').textContent=el.dataset.note||'';
+      document.getElementById('adAva').style.backgroundImage="url('"+(el.dataset.ava||'')+"')";
+      var st=document.getElementById('adStat'),k=el.dataset.stat||'ok';
+      st.className='pstat '+k;
+      st.textContent=statTxt[k]||'Onaylı';
+    }
+    document.body.classList.add('detay-open');
+  }
+  function closeDrawer(){document.body.classList.remove('detay-open')}
+  document.querySelectorAll('.slot.ok, .slot.wait, .slot-detail').forEach(function(s){
+    s.addEventListener('click',function(){openDrawer(s)});
+  });
+  document.getElementById('adClose').addEventListener('click',closeDrawer);
+  document.getElementById('aptOverlay').addEventListener('click',closeDrawer);
+  document.addEventListener('keydown',function(e){if(e.key==='Escape')closeDrawer()});
+
+  /* SS paramı: ?detay=1 drawer açık */
+  if(q.get('detay')==='1') openDrawer(null);
+})();
+</script>
+
+<script>
+/* ===== Faz3 — işletme-sahibi rolü (has-business): is-auth kardeşi =====
+   ?business=1 → localStorage dm_business='1' + body.has-business ; ?business=0 → temizle.
+   param yoksa localStorage'a bakılır. Adım 1 işletme linkleri (İşletmem→Panele Git,
+   panel topbar account chip) body.has-business ile rol-koşullu gösterilir. */
+(function(){
+  /* C1 — tek auth/rol token dm_user{auth,roles[],verified,level}. Eski dm_auth/dm_business
+     migrate+silinir. Kök kuralı: auth ⟹ roles "kullanici" ile başlar; isletme operatörü
+     ["kullanici","isletme"]. Class additive (is-auth/has-business AYNEN) + body[data-roles]. */
+  var KEY='dm_user', OK={kullanici:1,antrenor:1,diyetisyen:1,isletme:1};
+  function rd(){ try{var r=localStorage.getItem(KEY);return r?JSON.parse(r):null;}catch(e){return null;} }
+  function wr(u){ try{localStorage.setItem(KEY,JSON.stringify(u));}catch(e){} }
+  var u=rd();
+  if(!u){                                   // migrasyon: eski binary flag → dm_user (bir kez)
+    var oa=false,ob=false;
+    try{oa=localStorage.getItem('dm_auth')==='1';}catch(e){}
+    try{ob=localStorage.getItem('dm_business')==='1';}catch(e){}
+    if(oa||ob){ u={auth:true,roles:['kullanici'],verified:false,level:0}; if(ob)u.roles.push('isletme'); wr(u); }
+  }
+  try{localStorage.removeItem('dm_auth');localStorage.removeItem('dm_business');}catch(e){}  // eski anahtar temizliği
+  var qs=location.search;                    // URL-param (demo/SS akışı korunur + yeni roller)
+  function ens(){ if(!u)u={auth:false,roles:[],verified:false,level:0}; }
+  function addR(r){ ens(); if(OK[r]&&u.roles.indexOf(r)<0)u.roles.push(r); }
+  if(qs.indexOf('auth=1')>-1){ ens(); u.auth=true; }
+  else if(qs.indexOf('auth=0')>-1){ u=null; try{localStorage.removeItem(KEY);}catch(e){} }
+  if(qs.indexOf('business=1')>-1){ ens(); u.auth=true; addR('isletme'); }
+  else if(qs.indexOf('business=0')>-1){ if(u){var bi=u.roles.indexOf('isletme'); if(bi>-1)u.roles.splice(bi,1);} }
+  var rm=/[?&]role=(antrenor|diyetisyen|isletme)/.exec(qs); if(rm){ ens(); u.auth=true; addR(rm[1]); }
+  if(u){
+    if(qs.indexOf('verified=1')>-1)u.verified=true; else if(qs.indexOf('verified=0')>-1)u.verified=false;
+    var lm=/[?&]level=(\d+)/.exec(qs); if(lm)u.level=parseInt(lm[1],10)||0;
+    if(u.auth&&u.roles.indexOf('kullanici')<0)u.roles.unshift('kullanici');   // kök her zaman önde
+    wr(u);
+  }
+  var b=document.body, authed=!!(u&&u.auth);   // DOM: eski class kanalı (additive) + data-roles
+  if(authed){
+    b.classList.add('is-auth');
+    if(u.roles.indexOf('isletme')>-1)b.classList.add('has-business');   // C3 köprü sinyali — AYNEN
+    b.setAttribute('data-roles',u.roles.join(' '));
+    if(u.verified)b.setAttribute('data-verified','1');
+    if(u.level)b.setAttribute('data-level',String(u.level));
+  }
+  var bnA=document.getElementById('bnAccount');   // M6 — bottom-nav Hesap hedefi
+  if(bnA)bnA.setAttribute('href', authed?'mutfak-defteri-v1.html':'giris-v1.html');
+})();
+</script>
+
+<script src="assets/js/sa-ui.js"></script>
+<script src="assets/js/sa-gozetim.js" defer></script>
+</body>
+</html>

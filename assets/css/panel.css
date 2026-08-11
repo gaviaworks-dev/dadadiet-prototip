@@ -1,0 +1,456 @@
+/* =====================================================================
+   PANEL.CSS — DİYETİSYEN PANELİ KABUĞU (paylaşılan)
+   Panel ailesinin ortak dili: token'lar, taban, sol sidebar, üst ince bar,
+   içerik alanı ve panel bileşenleri (.pnl-card, .kpi-*, .ptable, .pstat,
+   .appt-*, .mm-*, .cl-*, .pnl-empty, .dash-*).
+
+   İÇERİĞİ panel-shell.html'in ortak bloğunun BİREBİR KENDİSİDİR — tek bir
+   kural yeniden yazılmadı, tek bir değer değiştirilmedi. O blok
+   dyt-receteler-v1, dyt-recete-builder-v1 ve dyt-profil-ayar-v1 içinde
+   bayt bayt aynıydı; dyt-danisanlar-v1, dyt-randevular-v1 ve
+   dyt-mesajlar-v1 ise onun budanmış altkümesini taşıyordu. Yani bu dosya
+   yedi kopyanın üst kümesi, tek kaynağı.
+
+   sa-shell.css'in ve dd-shell.css'in kardeşi. Markup ve davranış:
+   assets/js/panel.js — sol menü ve üst bar çalışma anında üretilir.
+
+   Sayfa CSS'i bu dosyaya GİRMEZ; sayfanın kendi <style> bloğunda kalır ve
+   bu dosyadan SONRA yüklenir.
+   ===================================================================== */
+
+/* ============ GERÇEK SİTE FONTU: Gilroy-Medium — TEK YÜZ ============ */
+@font-face{
+  font-family:"Gilroy";
+  src:url("../fonts/Gilroy-Medium.ttf") format("truetype");
+  font-weight:500; font-style:normal; font-display:swap;
+}
+
+/* ============ KİMLİK TOKEN'LARI (brand-tokens.md — _shell ile BİREBİR) ============ */
+:root{
+  --tomato:#E14827;
+  --tomato-dark:#C43D20;
+  --tomato-deep:#A8331A;
+  --tomato-tint:#FBE9E3;
+  --slate:#211E16;
+  --slate-2:#56514a;
+  --green:#3BB77E;
+  --green-deep:#2c9963;
+  --green-tint:#E7F6EF;      /* panel dili: yeşil fısıltı zemin (tomato-tint muadili) */
+  --yellow:#FAC045;
+  --muted:#7E7E7E;
+  --line:#ECECEC;
+  --cream:#EFE5D3;
+  --cream-2:#F7F1E6;
+  --paper:#ffffff;
+  --bg:#f9f9f9;
+  --ink:#211E16;
+  --bg-white:#ffffff;
+  --bg-cream:#f9f9f9;
+
+  --radius-sm:8px; --radius-md:12px; --radius-lg:16px; --radius-xl:24px; --radius-pill:999px; --radius-circle:50%;
+  --r:var(--radius-lg); --r-sm:var(--radius-sm); --r-lg:var(--radius-xl);
+  --sh-sm:0 1px 2px rgba(33,30,22,.04), 0 2px 6px rgba(33,30,22,.05);
+  --sh-md:0 6px 22px rgba(33,30,22,.09);
+  --sh-lg:0 18px 50px rgba(33,30,22,.16);
+  --ease:cubic-bezier(.22,.61,.36,1);
+
+  /* panel düzen ölçüleri */
+  --pnl-side-w:248px;
+  --pnl-top-h:64px;
+}
+
+*{margin:0;padding:0;box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{
+  font-family:"Gilroy",system-ui,sans-serif;
+  font-weight:500;
+  color:var(--ink);
+  background:var(--bg);
+  line-height:1.55;
+  -webkit-font-smoothing:antialiased;
+}
+h1,h2,h3,h4{font-weight:700;color:var(--slate);line-height:1.12;letter-spacing:-.02em}
+a{color:inherit;text-decoration:none}
+img{display:block;max-width:100%}
+.muted{color:var(--muted);font-weight:500}
+
+/* btn ailesi — _shell mirası (panel boyut türevi .btn-sm eklendi) */
+.btn{
+  display:inline-flex;align-items:center;justify-content:center;gap:10px;
+  font-family:inherit;font-weight:700;font-size:14.5px;cursor:pointer;border:none;
+  padding:14px 26px;border-radius:var(--radius-md);transition:.25s var(--ease);
+}
+.btn-primary{background:var(--tomato);color:#fff}
+.btn-primary:hover{background:var(--tomato-dark);transform:translateY(-2px)}
+.btn-ghost{background:var(--paper);color:var(--slate);border:1px solid var(--line)}
+.btn-ghost:hover{border-color:var(--slate);transform:translateY(-2px)}
+/* panel birincil aksiyonu YEŞİL (diyetisyen ekseni) */
+.btn-green{background:var(--green);color:#fff}
+.btn-green:hover{background:var(--green-deep);transform:translateY(-2px)}
+.btn-sm{padding:10px 16px;font-size:13px;border-radius:var(--radius-sm)}
+
+.chips{display:flex;flex-wrap:wrap;gap:9px;align-items:center}
+.chip{
+  font-size:13px;font-weight:500;color:var(--slate);background:var(--paper);border:1px solid var(--line);
+  padding:8px 15px;border-radius:var(--radius-sm);cursor:pointer;transition:.2s var(--ease);
+}
+.chip:hover{border-color:var(--green);color:var(--green-deep);background:var(--green-tint)}
+.chip.is-on{border-color:var(--green);color:var(--green-deep);background:var(--green-tint);font-weight:700}
+
+@keyframes fadeUp{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:translateY(0)}}
+
+/* =====================================================================
+   PANEL DÜZENİ — .pnl-app : sidebar + (topbar + main)
+   ===================================================================== */
+.pnl-app{min-height:100vh}
+
+/* ============ SOL DİKEY SIDEBAR — koyu slate, yeşil aksan ============ */
+.pnl-side{
+  position:fixed;top:0;left:0;bottom:0;width:var(--pnl-side-w);z-index:80;
+  background:var(--slate);color:#e9e2d6;
+  display:flex;flex-direction:column;
+  background-image:radial-gradient(420px 260px at -20% -10%, rgba(59,183,126,.16), transparent 60%);
+}
+.pnl-logo{
+  display:flex;align-items:center;gap:10px;
+  padding:22px 22px 18px;border-bottom:1px solid rgba(233,226,214,.1);
+}
+.pnl-logo img{height:30px;width:auto}
+.pnl-logo .pl-tag{
+  font-size:10.5px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;
+  color:var(--green);background:rgba(59,183,126,.14);
+  padding:3px 8px;border-radius:var(--radius-sm);
+}
+.pnl-nav{flex:1;overflow-y:auto;padding:18px 14px;display:flex;flex-direction:column;gap:3px}
+.pnl-sec-lbl{
+  font-size:10.5px;font-weight:700;letter-spacing:.16em;text-transform:uppercase;
+  color:rgba(233,226,214,.42);padding:14px 12px 7px;
+}
+.pnl-link{
+  position:relative;display:flex;align-items:center;gap:12px;
+  padding:11px 12px;border-radius:var(--radius-md);
+  font-size:14px;font-weight:500;color:rgba(233,226,214,.78);
+  transition:.2s var(--ease);
+}
+.pnl-link i{width:20px;text-align:center;font-size:15px;color:rgba(233,226,214,.55);transition:.2s var(--ease)}
+.pnl-link:hover{background:rgba(255,255,255,.06);color:#fff}
+.pnl-link:hover i{color:var(--green)}
+.pnl-link.is-active{background:rgba(59,183,126,.14);color:#fff;font-weight:700}
+.pnl-link.is-active i{color:var(--green)}
+.pnl-link.is-active::before{
+  content:"";position:absolute;left:-14px;top:9px;bottom:9px;width:3px;
+  background:var(--green);border-radius:0 var(--radius-sm) var(--radius-sm) 0;
+}
+.pnl-link .pl-cnt{
+  margin-left:auto;font-size:11.5px;font-weight:700;
+  background:var(--green);color:#fff;min-width:20px;height:20px;
+  display:inline-flex;align-items:center;justify-content:center;
+  padding:0 6px;border-radius:var(--radius-sm);
+}
+.pnl-side-foot{
+  padding:14px;border-top:1px solid rgba(233,226,214,.1);
+  display:flex;flex-direction:column;gap:3px;
+}
+.pnl-side-foot .pnl-link{font-size:13px}
+
+/* ============ ÜST İNCE BAR — arama + bildirim + avatar ============ */
+.pnl-top{
+  position:fixed;top:0;left:var(--pnl-side-w);right:0;z-index:70;height:var(--pnl-top-h);
+  background:var(--paper);border-bottom:1px solid var(--line);
+  display:flex;align-items:center;gap:16px;padding:0 28px;
+}
+.pnl-burger{
+  display:none;width:40px;height:40px;border:1px solid var(--line);border-radius:var(--radius-md);
+  background:var(--paper);cursor:pointer;font-size:16px;color:var(--slate);
+  align-items:center;justify-content:center;flex:none;
+}
+.pnl-search{
+  flex:1;max-width:420px;position:relative;
+}
+.pnl-search i{
+  position:absolute;left:14px;top:50%;transform:translateY(-50%);
+  font-size:13.5px;color:var(--muted);pointer-events:none;
+}
+.pnl-search input{
+  width:100%;height:40px;padding:0 14px 0 38px;
+  font-family:inherit;font-size:13.5px;font-weight:500;color:var(--ink);
+  background:var(--bg);border:1px solid var(--line);border-radius:var(--radius-md);
+  outline:none;transition:.2s var(--ease);
+}
+.pnl-search input::placeholder{color:var(--muted)}
+.pnl-search input:focus{border-color:var(--green);background:var(--paper);box-shadow:0 0 0 3px rgba(59,183,126,.12)}
+.pnl-top-tools{margin-left:auto;display:flex;align-items:center;gap:10px}
+.pnl-bell{
+  position:relative;width:40px;height:40px;border:1px solid var(--line);border-radius:var(--radius-md);
+  background:var(--paper);cursor:pointer;font-size:15px;color:var(--slate);
+  display:inline-flex;align-items:center;justify-content:center;transition:.2s var(--ease);
+}
+.pnl-bell:hover{border-color:var(--green);color:var(--green-deep)}
+.pnl-bell .pb-dot{
+  position:absolute;top:9px;right:10px;width:8px;height:8px;
+  background:var(--tomato);border:2px solid var(--paper);border-radius:var(--radius-circle);
+}
+.pnl-me{
+  display:flex;align-items:center;gap:11px;cursor:pointer;
+  padding:6px 8px 6px 6px;border-radius:var(--radius-md);transition:.2s var(--ease);
+}
+.pnl-me:hover{background:var(--bg)}
+.pnl-me .pm-ava{
+  width:36px;height:36px;border-radius:var(--radius-circle);flex:none;
+  background-size:cover;background-position:center;
+  box-shadow:0 0 0 2px var(--paper), 0 0 0 4px var(--green);
+}
+.pnl-me .pm-id{line-height:1.25}
+.pnl-me .pm-name{font-size:13.5px;font-weight:700;color:var(--slate)}
+.pnl-me .pm-role{font-size:11.5px;color:var(--muted)}
+.pnl-me>i{font-size:11px;color:var(--muted)}
+
+/* ============ İÇERİK ALANI ============ */
+.pnl-main{
+  margin-left:var(--pnl-side-w);padding:calc(var(--pnl-top-h) + 28px) 28px 48px;
+  min-height:100vh;
+}
+.pnl-page-head{
+  display:flex;align-items:flex-end;justify-content:space-between;gap:18px;
+  margin-bottom:24px;flex-wrap:wrap;
+}
+.pnl-page-head h1{font-size:24px}
+.pnl-page-head .ph-sub{margin-top:5px;font-size:13.5px;color:var(--muted)}
+.pnl-page-head .ph-actions{display:flex;gap:10px;flex:none}
+
+/* ============ PANEL KARTI — .pnl-card (section ritmi YOK, kart ritmi VAR) ============ */
+.pnl-card{
+  background:var(--paper);border:1px solid var(--line);border-radius:var(--radius-lg);
+  box-shadow:var(--sh-sm);
+}
+.pc-head{
+  display:flex;align-items:center;justify-content:space-between;gap:14px;
+  padding:18px 22px;border-bottom:1px solid var(--line);
+}
+.pc-title{font-size:16px;font-weight:700;color:var(--slate);display:flex;align-items:center;gap:10px}
+.pc-title i{color:var(--green);font-size:15px}
+.pc-link{font-size:13px;font-weight:700;color:var(--green-deep);display:inline-flex;align-items:center;gap:7px;transition:.2s}
+.pc-link i{font-size:11.5px;transition:.25s var(--ease)}
+.pc-link:hover i{transform:translateX(3px)}
+.pc-body{padding:22px}
+.pc-body.flush{padding:0}
+.pc-foot{padding:14px 22px;border-top:1px solid var(--line)}
+
+/* ============ KPI KARTLARI — .kpi-grid ============ */
+.kpi-grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:16px;margin-bottom:24px}
+.kpi-card{
+  background:var(--paper);border:1px solid var(--line);border-radius:var(--radius-lg);
+  box-shadow:var(--sh-sm);padding:20px;display:flex;align-items:flex-start;gap:14px;
+  transition:.25s var(--ease);
+}
+.kpi-card:hover{transform:translateY(-3px);box-shadow:var(--sh-md)}
+.kpi-ico{
+  width:44px;height:44px;flex:none;border-radius:var(--radius-md);
+  background:var(--green-tint);color:var(--green-deep);
+  display:inline-flex;align-items:center;justify-content:center;font-size:17px;
+}
+.kpi-card.warm .kpi-ico{background:var(--tomato-tint);color:var(--tomato)}
+.kpi-card.sun .kpi-ico{background:#FCF3DD;color:#B8860B}
+.kpi-num{font-size:26px;font-weight:700;color:var(--slate);line-height:1.05;letter-spacing:-.02em}
+.kpi-lbl{font-size:12.5px;color:var(--muted);margin-top:4px}
+.kpi-delta{font-size:11.5px;font-weight:700;margin-top:6px;display:inline-flex;align-items:center;gap:5px}
+.kpi-delta.up{color:var(--green-deep)}
+.kpi-delta.down{color:var(--tomato)}
+
+/* ============ DURUM ROZETİ — .pstat (radius-sm, pill YASAK) ============ */
+.pstat{
+  display:inline-flex;align-items:center;gap:6px;
+  font-size:11.5px;font-weight:700;padding:4px 10px;border-radius:var(--radius-sm);
+  white-space:nowrap;
+}
+.pstat::before{content:"";width:6px;height:6px;border-radius:var(--radius-circle);background:currentColor}
+.pstat.ok{background:var(--green-tint);color:var(--green-deep)}        /* onaylı / dolu / aktif */
+.pstat.wait{background:#FCF3DD;color:#B8860B}                          /* onay bekliyor */
+.pstat.off{background:var(--bg);color:var(--muted);border:1px solid var(--line)} /* boş / pasif */
+.pstat.warm{background:var(--tomato-tint);color:var(--tomato)}         /* iptal / gecikmiş */
+
+/* ============ PANEL TABLOSU — .ptable ============ */
+.ptable{width:100%;border-collapse:collapse;font-size:13.5px}
+.ptable th{
+  text-align:left;font-size:11px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;
+  color:var(--muted);padding:13px 22px;border-bottom:1px solid var(--line);background:var(--bg);
+}
+.ptable td{padding:14px 22px;border-bottom:1px solid var(--line);vertical-align:middle}
+.ptable tr:last-child td{border-bottom:none}
+.ptable tbody tr{transition:background .15s}
+.ptable tbody tr:hover{background:var(--bg)}
+
+
+/* ---- geniş tablo kartın içinde yatay kaysın; sayfa gövdesi taşmasın.
+       dyt-danisanlar-v1'in "#viewTablo .pc-body.flush{overflow-x:auto}"
+       reçetesinin aynısı, kapsamı tüm panel kartlarına genişletildi.
+       Yeni sınıf yok — mevcut .pc-body.flush + .ptable ikilisine ölçü. ---- */
+.pc-body.flush{overflow-x:auto;-webkit-overflow-scrolling:touch}
+.pc-body.flush .ptable{min-width:560px}
+
+/* ============ RANDEVU SATIRI — .appt-list (dashboard "bugünkü randevular") ============ */
+.appt-list{display:flex;flex-direction:column}
+.appt-row{
+  display:flex;align-items:center;gap:16px;padding:14px 22px;
+  border-bottom:1px solid var(--line);transition:background .15s;
+}
+.appt-row:last-child{border-bottom:none}
+.appt-row:hover{background:var(--bg)}
+.appt-time{
+  flex:none;width:64px;text-align:center;padding:8px 0;
+  background:var(--green-tint);border-radius:var(--radius-md);
+  font-size:14px;font-weight:700;color:var(--green-deep);line-height:1.2;
+}
+.appt-time small{display:block;font-size:10.5px;font-weight:500;color:var(--green-deep);opacity:.75}
+.appt-row.is-online .appt-time{background:var(--cream-2);color:var(--slate-2)}
+.appt-row.is-online .appt-time small{color:var(--slate-2)}
+.appt-ava{
+  width:38px;height:38px;flex:none;border-radius:var(--radius-circle);
+  background-size:cover;background-position:center;
+}
+.appt-info{flex:1;min-width:0;line-height:1.3}
+.appt-name{font-size:14px;font-weight:700;color:var(--slate)}
+.appt-meta{font-size:12px;color:var(--muted);margin-top:3px;display:flex;align-items:center;gap:7px;flex-wrap:wrap}
+.appt-meta i{font-size:11px}
+.appt-act{display:flex;gap:8px;flex:none;align-items:center}
+
+/* ============ MİNİ MESAJ LİSTESİ — .mm-list (dashboard "bekleyen mesajlar") ============ */
+.mm-list{display:flex;flex-direction:column}
+.mm-row{
+  display:flex;align-items:center;gap:13px;padding:13px 22px;
+  border-bottom:1px solid var(--line);transition:background .15s;cursor:pointer;
+}
+.mm-row:last-child{border-bottom:none}
+.mm-row:hover{background:var(--bg)}
+.mm-av{
+  width:38px;height:38px;flex:none;border-radius:var(--radius-circle);
+  background-size:cover;background-position:center;position:relative;
+}
+.mm-row.is-unread .mm-av::after{
+  content:"";position:absolute;top:-1px;right:-1px;width:10px;height:10px;
+  background:var(--green);border:2px solid var(--paper);border-radius:var(--radius-circle);
+}
+.mm-info{flex:1;min-width:0;line-height:1.3}
+.mm-name{font-size:13.5px;font-weight:700;color:var(--slate)}
+.mm-prev{font-size:12.5px;color:var(--muted);margin-top:2px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.mm-row.is-unread .mm-prev{color:var(--slate-2);font-weight:700}
+.mm-time{flex:none;font-size:11.5px;color:var(--muted)}
+
+/* ============ DANIŞAN ÖZET KARTI — .cl-card ============ */
+.cl-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:14px}
+.cl-card{
+  border:1px solid var(--line);border-radius:var(--radius-md);padding:16px;
+  display:flex;flex-direction:column;gap:11px;transition:.25s var(--ease);background:var(--paper);
+}
+.cl-card:hover{border-color:var(--green);box-shadow:var(--sh-sm)}
+.cl-top{display:flex;align-items:center;gap:11px}
+.cl-ava{
+  width:40px;height:40px;flex:none;border-radius:var(--radius-circle);
+  background-size:cover;background-position:center;
+}
+.cl-id{min-width:0;line-height:1.3}
+.cl-name{font-size:13.5px;font-weight:700;color:var(--slate);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.cl-goal{font-size:11.5px;color:var(--muted);margin-top:2px}
+.cl-prog{line-height:1.3}
+.cl-prog-row{display:flex;justify-content:space-between;font-size:11.5px;margin-bottom:6px}
+.cl-prog-row b{color:var(--green-deep)}
+.cl-bar{height:6px;background:var(--bg);border-radius:var(--radius-sm);overflow:hidden}
+.cl-bar i{display:block;height:100%;background:linear-gradient(90deg,var(--green),var(--green-deep));border-radius:var(--radius-sm)}
+
+/* ============ PANEL BOŞ DURUM — .pnl-empty (site boş durum deseninin panel türevi) ============ */
+.pnl-empty{padding:44px 24px;text-align:center}
+.pnl-empty .pe-ico{
+  width:58px;height:58px;margin:0 auto 14px;border-radius:var(--radius-md);
+  background:var(--green-tint);color:var(--green-deep);
+  display:flex;align-items:center;justify-content:center;font-size:22px;
+}
+.pnl-empty h4{font-size:15.5px;margin-bottom:5px}
+.pnl-empty p{font-size:13px;color:var(--muted);max-width:300px;margin:0 auto 16px}
+
+/* ============ DASHBOARD DÜZENİ (örnek içerik) ============ */
+.dash-cols{display:grid;grid-template-columns:minmax(0,1.6fr) minmax(0,1fr);gap:16px;margin-bottom:16px}
+.dash-row{margin-bottom:16px}
+
+/* ============ MOBİL (≤980 sidebar off-canvas, ≤640 yoğunluk) ============ */
+.pnl-overlay{
+  position:fixed;inset:0;background:rgba(33,30,22,.5);z-index:79;
+  opacity:0;pointer-events:none;transition:.25s;
+}
+@media(max-width:980px){
+  .pnl-side{transform:translateX(-100%);transition:transform .28s var(--ease)}
+  body.nav-open .pnl-side{transform:translateX(0)}
+  body.nav-open .pnl-overlay{opacity:1;pointer-events:auto}
+  .pnl-top{left:0}
+  .pnl-burger{display:inline-flex}
+  .pnl-main{margin-left:0;padding:calc(var(--pnl-top-h) + 20px) 16px 40px}
+  .kpi-grid{grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}
+  .dash-cols{grid-template-columns:minmax(0,1fr)}
+  .cl-grid{grid-template-columns:repeat(2,minmax(0,1fr))}
+  .pnl-me .pm-id,.pnl-me>i{display:none}
+}
+@media(max-width:640px){
+  .pnl-search{max-width:none}
+  .kpi-grid{grid-template-columns:repeat(2,minmax(0,1fr))}
+  .kpi-num{font-size:21px}
+  .cl-grid{grid-template-columns:minmax(0,1fr)}
+  .appt-act .btn-ghost{display:none}
+  .pc-head,.pc-body,.appt-row,.mm-row{padding-left:16px;padding-right:16px}
+  .ptable th,.ptable td{padding-left:16px;padding-right:16px}
+  .pnl-page-head h1{font-size:20px}
+}
+
+
+
+/* =====================================================================
+   PAYLAŞILAN PANEL BİLEŞENLERİ
+   Bu aileler tek bir panel sayfasının <style> bloğunda duruyordu; yeni
+   modüllerin de ihtiyacı olduğu için KOPYALANMADI, buraya TAŞINDI ve
+   kaynak sayfadan silindi. Kural metinleri birebir aynıdır.
+   .vw-seg/.vs-btn ikisi hem dyt-danisanlar hem dyt-randevular içinde
+   tanımlıydı; o ikilik de bu taşımayla kapandı.
+   ===================================================================== */
+
+/* ---- sekme barı · form kiti · anahtar · ayar satırı · bildirim matrisi (kaynak: dyt-profil-ayar-v1.html) ---- */
+.pf-tabs{display:flex;gap:4px;background:var(--paper);border:1px solid var(--line);border-radius:var(--radius-md);padding:4px;overflow-x:auto;scrollbar-width:none}
+.pf-tabs::-webkit-scrollbar{display:none}
+.pf-tabs .dt{font-family:inherit;font-weight:700;font-size:13px;color:var(--muted);background:transparent;border:none;border-radius:var(--radius-sm);padding:9px 16px;cursor:pointer;display:inline-flex;align-items:center;gap:7px;transition:.2s var(--ease);white-space:nowrap;flex:none}
+.pf-tabs .dt:hover{color:var(--green-deep)}
+.pf-tabs .dt.active{background:var(--green);color:#fff}
+.pf-pane[hidden]{display:none}
+.set-row{display:flex;align-items:center;gap:16px;padding:17px 2px}
+.set-row+.set-row{border-top:1px solid var(--line)}
+.set-row .sr-ico{flex:none;width:40px;height:40px;border-radius:var(--radius-md);background:var(--bg);color:var(--slate-2);display:grid;place-items:center;font-size:15px}
+.set-row .sr-txt{flex:1;min-width:0}
+.set-row .sr-txt b{display:block;font-size:14px;color:var(--slate)}
+.set-row .sr-txt span{display:block;font-size:12.5px;color:var(--muted);font-weight:500;margin-top:2px;line-height:1.45}
+.tgl{position:relative;display:inline-flex;flex:none;cursor:pointer}
+.tgl input{position:absolute;opacity:0;pointer-events:none}
+.tgl .tk{width:46px;height:26px;border-radius:var(--radius-md);background:#dcd8d0;transition:background .2s var(--ease);position:relative}
+.tgl .tk::after{content:"";position:absolute;top:3px;left:3px;width:20px;height:20px;border-radius:var(--radius-circle);background:#fff;box-shadow:0 1px 4px rgba(33,30,22,.25);transition:transform .2s var(--ease)}
+.tgl input:checked+.tk{background:var(--green)}
+.tgl input:checked+.tk::after{transform:translateX(20px)}
+.tgl input:focus-visible+.tk{box-shadow:0 0 0 3px rgba(59,183,126,.18)}
+
+/* ---- ölçüm grafiği · not listesi · özet şeridi · görünüm segmenti (kaynak: dyt-danisanlar-v1.html) ---- */
+.vs-btn{font-family:inherit;font-weight:700;font-size:13px;color:var(--muted);background:transparent;border:none;border-radius:var(--radius-sm);padding:8px 14px;cursor:pointer;display:inline-flex;align-items:center;gap:7px;transition:.2s var(--ease);white-space:nowrap}
+.vs-btn i{font-size:12px}
+.vs-btn:hover{color:var(--green-deep)}
+.vs-btn.is-on{background:var(--green);color:#fff}
+.dd-stat{padding:13px 12px;text-align:center}
+.dd-stat+.dd-stat{border-left:1px solid var(--line)}
+.dd-stat b{display:block;font-size:19px;font-weight:700;color:var(--slate);letter-spacing:-.02em}
+.dd-stat b em{font-style:normal;font-size:12px;color:var(--muted);font-weight:500}
+.dd-stat span{font-size:11.5px;color:var(--muted);font-weight:500}
+.dd-stat.hl b{color:var(--green-deep)}
+.wchart .grid-l{stroke:var(--line);stroke-width:1}
+.wchart .lbl{font-family:"Gilroy",system-ui,sans-serif;font-size:10px;fill:var(--muted)}
+.wchart .target{stroke:var(--yellow);stroke-width:1.5;stroke-dasharray:5 5}
+.wchart .curve{fill:none;stroke:var(--green);stroke-width:2.5;stroke-linecap:round;stroke-linejoin:round}
+.wchart .dot{fill:#fff;stroke:var(--green);stroke-width:2.5}
+.wchart .dot.last{fill:var(--green)}
+
+/* ---- görünüm segmenti — bu sayfada İKİNCİ KOPYAYDI, kaldırıldı (kaynak: dyt-randevular-v1.html) ---- */
+.vs-btn{font-family:inherit;font-weight:700;font-size:13px;color:var(--muted);background:transparent;border:none;border-radius:var(--radius-sm);padding:8px 16px;cursor:pointer;display:inline-flex;align-items:center;gap:7px;transition:.2s var(--ease);white-space:nowrap}
+.vs-btn i{font-size:12px}
+.vs-btn:hover{color:var(--green-deep)}
+.vs-btn.is-on{background:var(--green);color:#fff}

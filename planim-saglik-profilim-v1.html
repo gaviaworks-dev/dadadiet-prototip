@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<meta name="robots" content="noindex, nofollow" />
+<title>Sağlık Profilim — Planım | DadaDiet</title>
+<link rel="shortcut icon" type="image/x-icon"
+      href="assets/img/favicon.ico" />
+<!-- FontAwesome 6.5.2 (kilitli ikon seti) -->
+<link rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css"
+      integrity="sha512-SnH5WK+bZxgPHs44uWIX+LLJAJ9/2PkPKZ5QiAj6Ta86w+fsb2TkcmfRyVX3pBnMFcV7oQPJkl9QevSCWr3W6A=="
+      crossorigin="anonymous" referrerpolicy="no-referrer" />
+<link rel="stylesheet" href="assets/css/dd-shell.css" />
+<!-- kişisel alan bileşenleri (diyetisyen panelinden birebir; kabuk DEĞİL) -->
+<link rel="stylesheet" href="assets/css/planim.css" />
+</head>
+<body data-brand="diet" data-planim="profil">
+
+<div id="ddChromeTop"></div>
+<script src="assets/js/dd-shell.js"></script>
+
+<main class="page-main" id="pageMain">
+  <section class="sec below-header" style="background:var(--bg)">
+    <div class="wrap">
+
+      <!-- başlık + alt gezinme: assets/js/planim.js üretir -->
+      <div id="planimTop"></div>
+
+      <!-- İÇERİK (üye, verisi var) -->
+      <div id="planimData" hidden>
+        <div class="pnl-card">
+          <div class="pc-head"><span class="pc-title"><i class="fa-solid fa-bullseye"></i> Hedefin</span></div>
+          <div class="pc-body">
+            <div class="fk-grid c2">
+            <div class="fk-field"><label class="fk-label">Ana hedefim</label>
+            <select class="fk-select"><option selected>Kilo kontrolü</option><option>Dengeli beslenme</option><option>Sporcu beslenmesi</option><option>Bitkisel beslenme</option></select></div>
+            <div class="fk-field"><label class="fk-label">Hedef kilo</label>
+            <div class="fk-suffix"><input class="fk-input" type="text" value="63" /><span>kg</span></div></div>
+            </div>
+          </div>
+          <div class="pc-foot"><button class="btn btn-green btn-sm" type="button"><i class="fa-solid fa-check"></i> Kaydet</button></div>
+        </div>
+        <div class="dash-row"></div>
+        <div class="pnl-card">
+          <div class="pc-head"><span class="pc-title"><i class="fa-solid fa-ruler"></i> Ölçülerin</span></div>
+          <div class="pc-body">
+            <div class="fk-grid c2">
+            <div class="fk-field"><label class="fk-label">Boy</label>
+            <div class="fk-suffix"><input class="fk-input" type="text" value="165" /><span>cm</span></div></div>
+            <div class="fk-field"><label class="fk-label">Güncel kilo</label>
+            <div class="fk-suffix"><input class="fk-input" type="text" value="64,8" /><span>kg</span></div></div>
+            <div class="fk-field"><label class="fk-label">Bel çevresi <span class="opt">opsiyonel</span></label>
+            <div class="fk-suffix"><input class="fk-input" type="text" value="78" /><span>cm</span></div></div>
+            <div class="fk-field"><label class="fk-label">Günlük hareket düzeyi</label>
+            <select class="fk-select"><option>Hareketsiz</option><option>Hafif hareketli</option><option selected>Orta hareketli</option><option>Çok hareketli</option></select></div>
+            </div>
+            <div class="fk-help" style="margin-top:16px"><i class="fa-solid fa-circle-info"></i><span>Bu değerler hesaplayıcıların varsayılanlarını doldurur. <a href="hesaplayicilar-v1.html" style="color:var(--green-deep);font-weight:700">Hesaplayıcılar</a>'ın verdiği sonuçlar tahminidir, tıbbi değerlendirme değildir.</span></div>
+          </div>
+          <div class="pc-foot"><button class="btn btn-green btn-sm" type="button"><i class="fa-solid fa-check"></i> Kaydet</button></div>
+        </div>
+        <div class="dash-row"></div>
+        <div class="pnl-card">
+          <div class="pc-head"><span class="pc-title"><i class="fa-solid fa-utensils"></i> Beslenme tercihlerin</span></div>
+          <div class="pc-body">
+            <div class="fk-grid c2">
+            <div class="fk-field"><label class="fk-label">Beslenme tercihi</label>
+            <select class="fk-select"><option selected>Standart</option><option>Vejetaryen</option><option>Vegan</option><option>Diğer</option></select></div>
+            <div class="fk-field"><label class="fk-label">Günlük öğün sayısı</label>
+            <select class="fk-select"><option>3 öğün</option><option selected>3 + 2 ara öğün</option><option>5 öğün</option></select></div>
+            </div>
+            <div class="fk-field"><label class="fk-label">Sevmediğin ya da kaçındığın besinler <span class="opt">opsiyonel</span></label>
+            <textarea class="fk-textarea" style="min-height:90px" placeholder="Örn. kuzu eti, brokoli">Kuzu eti</textarea></div>
+          </div>
+          <div class="pc-foot"><button class="btn btn-green btn-sm" type="button"><i class="fa-solid fa-check"></i> Kaydet</button></div>
+        </div>
+        <div class="dash-row"></div>
+        <div class="pnl-card">
+          <div class="pc-head"><span class="pc-title"><i class="fa-solid fa-triangle-exclamation"></i> Alerji ve sağlık durumu</span></div>
+          <div class="pc-body">
+            <div class="fk-field"><label class="fk-label">Besin alerjin veya intoleransın <span class="opt">opsiyonel</span></label>
+            <textarea class="fk-textarea" style="min-height:90px" placeholder="Örn. fındık, laktoz"></textarea></div>
+            <div class="fk-field"><label class="fk-label">Bilmemiz gereken bir sağlık durumu <span class="opt">opsiyonel</span></label>
+            <textarea class="fk-textarea" style="min-height:90px" placeholder="Örn. gebelik, tiroit, düzenli ilaç kullanımı"></textarea></div>
+            <div class="fk-help"><i class="fa-solid fa-triangle-exclamation"></i><span>Buraya yazdıkların <b>tıbbi bir değerlendirme üretmez.</b> DadaDiet kişiye özel tıbbi ya da diyet önerisi vermez; alerji veya sağlık durumu varsa planını <a href="diyetisyen-bul-v1.html" style="color:var(--green-deep);font-weight:700">yetkili bir diyetisyen</a> ve hekimin birlikte kurmalıdır.</span></div>
+          </div>
+          <div class="pc-foot"><button class="btn btn-green btn-sm" type="button"><i class="fa-solid fa-check"></i> Kaydet</button></div>
+        </div>
+      </div>
+
+      <!-- BAŞLANGIÇ DURUMU (üye, henüz içeriği yok) — boş kart gösterilmez -->
+      <div id="planimStart" hidden>
+        <div class="pnl-card">
+          <div class="pnl-empty">
+            <div class="pe-ico"><i class="fa-solid fa-heart-pulse"></i></div>
+            <h4>Sağlık profilin henüz boş</h4>
+            <p>Hedefini, ölçülerini ve beslenme tercihlerini gir; öneriler ve hesaplayıcı varsayılanları bunlardan beslenir.</p>
+            <a class="btn btn-primary btn-sm" href="bana-uygun-olani-bul-v1.html"><i class="fa-solid fa-compass"></i> Bana Uygun Olanı Bul</a>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </section>
+</main>
+
+<div id="ddChromeGate"></div>
+<div id="ddChromeFooter"></div>
+<div id="ddChromeFab"></div>
+
+<script src="assets/js/planim.js"></script>
+</body>
+</html>

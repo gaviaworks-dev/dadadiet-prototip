@@ -1,0 +1,573 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<meta name="robots" content="noindex, nofollow" />
+<title>Diyetisyen Paneli · Reçete Builder — DadaMutfak</title>
+<link rel="shortcut icon" type="image/x-icon" href="assets/img/favicon.ico" />
+<!-- FontAwesome 6.5.2 (kilitli ikon seti) -->
+<link rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css"
+      integrity="sha512-SnH5WK+bZxgPHs44uWIX+LLJAJ9/2PkPKZ5QiAj6Ta86w+fsb2TkcmfRyVX3pBnMFcV7oQPJkl9QevSCWr3W6A=="
+      crossorigin="anonymous" referrerpolicy="no-referrer" />
+<link rel="stylesheet" href="assets/css/sa-ui.css" />
+<link rel="stylesheet" href="assets/css/sa-gozetim.css" />
+<!-- panel kabuğu: assets/css/panel.css + assets/js/panel.js -->
+<link rel="stylesheet" href="assets/css/panel.css" />
+<style>
+/* =====================================================================
+   SAYFA CSS — sayfa-spesifik stiller BU İŞARETİN ALTINA
+   ===================================================================== */
+
+/* ============ REÇETE BUILDER (Dalga 4 / panel2 — YILDIZ) ============
+   Board dili: haftalik-menu .wk-board ailesinden TÜRETİLDİ (104px etiket
+   kolonu → 96px, tomato aksanlar → green, hücre çoklu-tarif satırına döndü).
+   Arama popover'ı: tarif-ekle/tarif-bulucu .ie-sugg fixed popover dilinden
+   türetildi (sonuç satırı mc-card mini anatomisiyle). Form: fk-* kiti
+   (tarif-ekle VERBATIM) + panel yeşil focus override'ı (pnl-search ekseni). */
+
+/* ---- düzen: board + sağ rail ---- */
+.bld-layout{display:grid;grid-template-columns:minmax(0,1fr) 324px;gap:16px;align-items:start}
+.bld-side{position:sticky;top:calc(var(--pnl-top-h) + 20px);display:flex;flex-direction:column;gap:16px}
+
+/* ---- board (wk-board panel türevi) ---- */
+.bld-scroll{overflow-x:auto;-webkit-overflow-scrolling:touch;scrollbar-width:thin}
+.bld-grid{display:grid;grid-template-columns:96px repeat(7,minmax(0,1fr));min-width:920px}
+.bd-corner{border-bottom:1px solid var(--line);background:var(--bg)}
+.bd-day{padding:11px 8px;text-align:center;border-bottom:1px solid var(--line);border-left:1px solid var(--line)}
+.bd-day b{display:block;font-size:13px;font-weight:700;color:var(--slate);line-height:1.1}
+.bd-day span{display:block;font-size:11px;color:var(--muted);font-weight:500;margin-top:2px}
+.bd-mealcol{display:flex;flex-direction:column;justify-content:center;gap:4px;padding:12px 10px;border-bottom:1px solid var(--line);background:var(--bg)}
+.bd-mealcol i{width:28px;height:28px;border-radius:var(--radius-md);background:var(--paper);border:1px solid var(--line);color:var(--green-deep);display:grid;place-items:center;font-size:12px}
+.bd-mealcol b{font-size:12.5px;font-weight:700;color:var(--slate);line-height:1.15}
+.bd-mealcol small{font-size:10.5px;color:var(--muted);font-weight:500}
+/* hücre — çoklu tarif satırı + öğün toplamı + ekle */
+.bcell{display:flex;flex-direction:column;gap:6px;padding:8px;border-bottom:1px solid var(--line);border-left:1px solid var(--line);min-height:96px}
+.bc-item{position:relative;display:flex;align-items:center;gap:8px;padding:5px 6px;background:var(--bg);border:1px solid var(--line);border-radius:var(--radius-sm);cursor:default;transition:.18s var(--ease)}
+.bc-item:hover{border-color:var(--green)}
+.bc-th{flex:none;width:30px;height:30px;border-radius:var(--radius-sm);background-size:cover;background-position:center}
+.bc-info{min-width:0;line-height:1.25;flex:1}
+.bc-info b{display:block;font-size:11px;font-weight:700;color:var(--slate);display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
+.bc-info span{display:block;font-size:10px;color:var(--muted);font-weight:500;margin-top:1px;white-space:nowrap}
+.bc-x{position:absolute;top:-7px;right:-7px;width:20px;height:20px;border:none;border-radius:var(--radius-circle);background:var(--slate);color:#fff;font-size:9px;cursor:pointer;display:grid;place-items:center;opacity:0;transition:.18s var(--ease);z-index:2}
+.bc-item:hover .bc-x{opacity:1}
+.bc-x:hover{background:var(--tomato)}
+.bc-sum{display:flex;align-items:center;gap:6px;font-size:10.5px;font-weight:700;color:var(--green-deep);padding:0 2px}
+.bc-sum i{font-size:9.5px}
+.bc-add{
+  margin-top:auto;display:flex;align-items:center;justify-content:center;gap:6px;
+  padding:7px 6px;border:1.5px dashed #dcdcdc;border-radius:var(--radius-sm);
+  background:transparent;color:var(--muted);font-family:inherit;font-size:10.5px;font-weight:700;
+  cursor:pointer;transition:.18s var(--ease);
+}
+.bc-add i{font-size:11px}
+.bc-add:hover{border-color:var(--green);color:var(--green-deep);background:var(--green-tint)}
+/* gün toplam satırı */
+.bd-totcol{display:flex;flex-direction:column;justify-content:center;gap:2px;padding:12px 10px;background:var(--bg)}
+.bd-totcol b{font-size:11px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--muted)}
+.bd-tot{padding:10px 10px 12px;border-left:1px solid var(--line);background:var(--bg)}
+.bd-tot .bt-kcal{font-size:15px;font-weight:700;color:var(--slate);letter-spacing:-.02em;line-height:1.1;font-variant-numeric:tabular-nums}
+.bd-tot .bt-kcal small{font-size:10px;font-weight:500;color:var(--muted);margin-left:3px}
+.bd-bar{height:5px;border-radius:var(--radius-sm);background:var(--line);overflow:hidden;margin:7px 0 6px}
+.bd-bar i{display:block;height:100%;border-radius:var(--radius-sm);transition:width .3s var(--ease)}
+.bd-tot.ok .bd-bar i{background:linear-gradient(90deg,var(--green),var(--green-deep))}
+.bd-tot.mid .bd-bar i{background:var(--yellow)}
+.bd-tot.bad .bd-bar i{background:var(--tomato)}
+.bd-tot.idle .bd-bar i{background:#d8d8d8}
+.bd-mac{font-size:9.5px;color:var(--muted);font-weight:500;white-space:nowrap}
+.bd-dev{font-size:10px;font-weight:700;margin-top:3px}
+.bd-tot.ok .bd-dev{color:var(--green-deep)}
+.bd-tot.mid .bd-dev{color:#B8860B}
+.bd-tot.bad .bd-dev{color:var(--tomato)}
+.bd-tot.idle .bd-dev{color:var(--muted)}
+/* board lejantı */
+.bld-legend{display:flex;align-items:center;gap:13px;font-size:11.5px;color:var(--muted);font-weight:500;flex-wrap:wrap}
+.bld-legend span{display:inline-flex;align-items:center;gap:6px}
+.bld-legend span::before{content:"";width:8px;height:8px;border-radius:var(--radius-circle)}
+.bld-legend .lg-ok::before{background:var(--green)}
+.bld-legend .lg-mid::before{background:var(--yellow)}
+.bld-legend .lg-bad::before{background:var(--tomato)}
+
+/* ---- TARİF ARAMA POPOVER (.ie-sugg fixed dilinin builder türevi) ---- */
+.tsr{
+  position:fixed;z-index:120;width:294px;background:var(--paper);
+  border:1px solid var(--line);border-radius:var(--radius-md);box-shadow:var(--sh-lg);
+  display:none;flex-direction:column;overflow:hidden;animation:fadeUp .18s var(--ease);
+}
+.tsr.show{display:flex}
+.tsr-head{position:relative;border-bottom:1px solid var(--line);flex:none}
+.tsr-head i{position:absolute;left:13px;top:50%;transform:translateY(-50%);font-size:12.5px;color:var(--muted);pointer-events:none}
+.tsr-head input{
+  width:100%;height:42px;padding:0 13px 0 36px;border:none;outline:none;
+  font-family:inherit;font-size:13px;font-weight:500;color:var(--ink);background:var(--paper);
+}
+.tsr-head input::placeholder{color:var(--muted)}
+.tsr-list{max-height:264px;overflow-y:auto;padding:6px}
+.tsr-row{
+  display:flex;align-items:center;gap:10px;width:100%;text-align:left;
+  font-family:inherit;background:none;border:none;border-radius:var(--radius-sm);
+  padding:7px 8px;cursor:pointer;transition:.16s var(--ease);
+}
+.tsr-row:hover{background:var(--green-tint)}
+.tsr-th{flex:none;width:38px;height:38px;border-radius:var(--radius-sm);background-size:cover;background-position:center}
+.tsr-info{flex:1;min-width:0;line-height:1.3}
+.tsr-info b{display:block;font-size:12.5px;font-weight:700;color:var(--slate);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.tsr-info span{display:block;font-size:10.5px;color:var(--muted);font-weight:500;margin-top:1px}
+.tsr-row>i{flex:none;font-size:11px;color:var(--green-deep);opacity:0;transition:.16s}
+.tsr-row:hover>i{opacity:1}
+.tsr-none{padding:18px 12px;text-align:center;font-size:12.5px;color:var(--muted)}
+
+/* ---- FK FORM KİTİ — tarif-ekle-v1 VERBATIM (panel yeşil focus override altta) ---- */
+.fk-field{margin-bottom:22px}
+.fk-field:last-child{margin-bottom:0}
+.fk-label{display:flex;align-items:baseline;gap:7px;font-size:14px;font-weight:700;color:var(--slate);margin-bottom:9px}
+.fk-label .req{color:var(--tomato);font-weight:700}
+.fk-label .opt{font-size:11.5px;color:var(--muted);font-weight:500}
+.fk-label .fk-count{margin-left:auto;font-size:11.5px;color:var(--muted);font-weight:500;letter-spacing:.02em}
+.fk-input,.fk-select,.fk-textarea{
+  width:100%;font-family:inherit;font-size:14px;font-weight:500;color:var(--slate);
+  background:var(--bg);border:1px solid var(--line);border-radius:var(--radius-md);
+  padding:13px 15px;outline:none;transition:border-color .2s var(--ease),box-shadow .2s var(--ease);
+}
+.fk-input::placeholder,.fk-textarea::placeholder{color:#a7a7a7}
+.fk-input:focus,.fk-select:focus,.fk-textarea:focus{border-color:var(--tomato);box-shadow:0 0 0 3px rgba(225,72,39,.10)}
+.fk-textarea{min-height:150px;resize:vertical;line-height:1.6}
+.fk-select{
+  appearance:none;-webkit-appearance:none;cursor:pointer;
+  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='6'%3E%3Cpath d='M1 1l4 4 4-4' stroke='%237E7E7E' stroke-width='1.6' fill='none' stroke-linecap='round'/%3E%3C/svg%3E");
+  background-repeat:no-repeat;background-position:right 15px center;padding-right:40px;
+}
+.fk-grid{display:grid;gap:16px 18px}
+.fk-grid .fk-field{margin-bottom:0}
+.fk-grid.c2{grid-template-columns:1fr 1fr}
+.fk-grid+.fk-grid{margin-top:18px}
+.fk-grid+.fk-field,.fk-field+.fk-grid{margin-top:22px}
+.fk-suffix{position:relative}
+.fk-suffix .fk-input{padding-right:64px}
+.fk-suffix>span{position:absolute;right:15px;top:50%;transform:translateY(-50%);font-size:12px;font-weight:700;color:var(--muted);pointer-events:none}
+/* panel ekseni: form focus yeşil (pnl-search focus ringiyle aynı dil) */
+.pnl-main .fk-input:focus,.pnl-main .fk-select:focus,.pnl-main .fk-textarea:focus{border-color:var(--green);box-shadow:0 0 0 3px rgba(59,183,126,.12)}
+.bld-side .fk-textarea{min-height:96px}
+.bld-side .fk-field{margin-bottom:16px}
+.bld-side .fk-label{font-size:13px;margin-bottom:7px}
+.bld-side .fk-input,.bld-side .fk-select,.bld-side .fk-textarea{padding:11px 13px;font-size:13.5px}
+
+/* ---- haftalık özet kartı ---- */
+.bsum-row{display:flex;align-items:baseline;justify-content:space-between;gap:10px;padding:9px 0;border-bottom:1px solid var(--line);font-size:13px}
+.bsum-row:last-of-type{border-bottom:none}
+.bsum-row span{color:var(--muted);font-weight:500}
+.bsum-row b{font-size:15px;color:var(--slate);font-variant-numeric:tabular-nums}
+.bsum-row b small{font-size:11px;font-weight:500;color:var(--muted);margin-left:2px}
+.bsum-row .pstat{font-size:11px}
+.bmac{margin-top:13px;display:flex;flex-direction:column;gap:9px}
+.bmac-row{line-height:1.3}
+.bmac-row .bm-top{display:flex;justify-content:space-between;font-size:11.5px;margin-bottom:5px}
+.bmac-row .bm-top span{color:var(--muted);font-weight:500}
+.bmac-row .bm-top b{color:var(--slate);font-variant-numeric:tabular-nums}
+.bmac-row .cl-bar i{transition:width .3s var(--ease)}
+.bld-foot{display:flex;gap:9px}
+.bld-foot .btn{flex:1}
+
+/* kaydet/pdf mock geri bildirimi (receteler .copy-note ile aynı desen) */
+.copy-note{
+  position:fixed;left:50%;bottom:26px;transform:translate(-50%,16px);z-index:130;
+  display:flex;align-items:center;gap:10px;background:var(--slate);color:#fff;
+  font-size:13.5px;font-weight:700;padding:13px 20px;border-radius:var(--radius-md);
+  box-shadow:var(--sh-lg);opacity:0;pointer-events:none;transition:.3s var(--ease);
+}
+.copy-note i{color:var(--green)}
+.copy-note.show{opacity:1;transform:translate(-50%,0)}
+
+/* ===================== TABLET / MOBİL ===================== */
+@media(max-width:1240px){
+  .bld-layout{grid-template-columns:minmax(0,1fr)}
+  .bld-side{position:static;order:-1}
+}
+@media(max-width:640px){
+  /* board içeride kayar, öğün kolonu sticky (wk-board ≤640 deseni) */
+  .bld-grid{min-width:880px}
+  .bd-mealcol,.bd-totcol{position:sticky;left:0;z-index:2;box-shadow:2px 0 0 var(--line)}
+  .bd-corner{position:sticky;left:0;z-index:2}
+  .bld-scroll::-webkit-scrollbar{height:6px}
+  .bld-scroll::-webkit-scrollbar-thumb{background:#d8d8d8;border-radius:var(--radius-sm)}
+  .bld-foot{flex-direction:column}
+  .fk-grid.c2{grid-template-columns:1fr}
+}
+</style>
+</head>
+<body data-brand="mutfak" data-nav="receteler">
+
+<div class="pnl-app">
+
+  <!-- sidebar + üst bar: assets/js/panel.js üretir -->
+  <div id="pnlChrome"></div>
+  <script src="assets/js/panel.js"></script>
+
+  <main class="pnl-main">
+
+    <div class="pnl-page-head">
+      <div>
+        <h1>Reçete Builder</h1>
+        <div class="ph-sub">7 gün × 5 öğün planını kur — hücreye tarif ekle, kalori ve makro toplamları canlı hesaplanır.</div>
+      </div>
+      <div class="ph-actions" style="align-items:center">
+        <span class="pstat ok" id="bldStat">Aktif</span>
+        <a class="btn btn-ghost btn-sm" href="dyt-receteler-v1.html"><i class="fa-solid fa-arrow-left"></i> Reçeteler</a>
+      </div>
+    </div>
+
+    <div class="bld-layout">
+
+      <!-- BOARD -->
+      <div class="pnl-card">
+        <div class="pc-head">
+          <div class="pc-title"><i class="fa-solid fa-calendar-week"></i> Haftalık Plan</div>
+          <div class="bld-legend">
+            <span class="lg-ok">Hedefte (±%5)</span>
+            <span class="lg-mid">Sınırda (±%15)</span>
+            <span class="lg-bad">Sapma var</span>
+          </div>
+        </div>
+        <div class="pc-body flush">
+          <div class="bld-scroll">
+            <div class="bld-grid" id="bldGrid" aria-label="Haftalık reçete planı"></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- SAĞ RAIL -->
+      <aside class="bld-side">
+        <div class="pnl-card">
+          <div class="pc-head"><div class="pc-title"><i class="fa-solid fa-file-prescription"></i> Reçete Bilgileri</div></div>
+          <div class="pc-body">
+            <div class="fk-field">
+              <label class="fk-label" for="fldName">Reçete adı <span class="req">*</span></label>
+              <input class="fk-input" id="fldName" type="text" value="Kilo Verme — Bahar Programı" />
+            </div>
+            <div class="fk-grid c2">
+              <div class="fk-field">
+                <label class="fk-label" for="fldClient">Danışan</label>
+                <select class="fk-select" id="fldClient">
+                  <option value="">Atanmadı</option>
+                  <option selected>Zeynep Arslan</option>
+                  <option>Mert Kaya</option>
+                  <option>Selin Demir</option>
+                  <option>Ayşe Korkmaz</option>
+                  <option>Burak Şahin</option>
+                </select>
+              </div>
+              <div class="fk-field">
+                <label class="fk-label" for="fldTarget">Hedef kalori</label>
+                <div class="fk-suffix">
+                  <input class="fk-input" id="fldTarget" type="number" value="1600" min="800" max="4000" step="50" />
+                  <span>kcal/gün</span>
+                </div>
+                <div class="fk-help"><i class="fa-solid fa-calculator"></i> Emin değilsen <a href="gunluk-kalori-v1.html" target="_blank" rel="noopener" style="color:var(--green-deep);font-weight:700">günlük kalori hesaplayıcı</a> ile danışan verisinden hesapla.</div>
+              </div>
+            </div>
+            <div class="fk-field">
+              <label class="fk-label" for="fldNote">Diyetisyen notu <span class="opt">(danışan görür)</span></label>
+              <textarea class="fk-textarea" id="fldNote" placeholder="örn. Laktozsuz süt tercih edin, ara öğünü atlamayın…">Günde en az 2,5 litre su iç. Ara öğünleri atlama — kan şekerini dengede tutar.</textarea>
+            </div>
+          </div>
+          <div class="pc-foot bld-foot">
+            <button class="btn btn-ghost btn-sm" type="button" id="btnPdf"><i class="fa-regular fa-file-pdf"></i> PDF / Yazdır</button>
+            <button class="btn btn-green btn-sm" type="button" id="btnSave" onclick="saToast('Reçete kaydedildi.')"><i class="fa-solid fa-check"></i> Kaydet</button>
+          </div>
+        </div>
+
+        <div class="pnl-card">
+          <div class="pc-head"><div class="pc-title"><i class="fa-solid fa-chart-simple"></i> Haftalık Özet</div></div>
+          <div class="pc-body">
+            <div class="bsum-row"><span>Günlük ortalama</span><b id="sumAvg">0<small>kcal</small></b></div>
+            <div class="bsum-row"><span>Hedef</span><b id="sumTarget">1.600<small>kcal</small></b></div>
+            <div class="bsum-row"><span>Hedefteki gün</span><b id="sumOk">0<small>/ 7</small></b></div>
+            <div class="bsum-row"><span>Plan durumu</span><span class="pstat wait" id="sumStat">Dolduruluyor</span></div>
+            <div class="bmac">
+              <div class="bmac-row"><div class="bm-top"><span>Protein (günlük ort.)</span><b id="macP">0 g</b></div><div class="cl-bar"><i id="barP" style="width:0%"></i></div></div>
+              <div class="bmac-row"><div class="bm-top"><span>Karbonhidrat (günlük ort.)</span><b id="macK">0 g</b></div><div class="cl-bar"><i id="barK" style="width:0%"></i></div></div>
+              <div class="bmac-row"><div class="bm-top"><span>Yağ (günlük ort.)</span><b id="macY">0 g</b></div><div class="cl-bar"><i id="barY" style="width:0%"></i></div></div>
+            </div>
+          </div>
+        </div>
+      </aside>
+
+    </div>
+
+  </main>
+</div>
+
+<script>
+/* panel ortak JS (burger + overlay + ?nav=1) assets/js/panel.js içinde */
+</script>
+
+
+<!-- ===== TARİF ARAMA POPOVER (ie-sugg fixed dilinin builder türevi) ===== -->
+<div class="tsr" id="tsr" role="dialog" aria-label="Tarif ara ve ekle">
+  <div class="tsr-head">
+    <i class="fa-solid fa-magnifying-glass"></i>
+    <input type="text" id="tsrInput" placeholder="Tarif havuzunda ara… örn. çorba" autocomplete="off" />
+  </div>
+  <div class="tsr-list" id="tsrList"></div>
+</div>
+
+<script>
+/* ===== SAYFA JS — REÇETE BUILDER: board render + arama-ekleme + canlı toplam ===== */
+(function(){
+  var U='?w=300&q=80&auto=format&fit=crop&exp=7&gam=6&sat=-9&high=8&vib=5',
+      B='https://images.unsplash.com/photo-';
+  /* site tarif havuzu (mock) — kcal + makro (P/K/Y g) */
+  var POOL=[
+    {n:'Domatesli Menemen',k:320,p:14,c:18,y:20,img:B+'1525755662778-989d0524087e'+U},
+    {n:'Peynirli Omlet',k:290,p:19,c:4,y:21,img:B+'1612240498936-65f5101365d2'+U},
+    {n:'Meyveli Yulaf Kâsesi',k:260,p:9,c:42,y:6,img:B+'1517673400267-0251440c45dc'+U},
+    {n:'Avokadolu Tam Buğday Dilim',k:310,p:8,c:30,y:17,img:B+'1509440159596-0249088772ff'+U},
+    {n:'Şakşuka Tava',k:300,p:7,c:20,y:21,img:B+'1466637574441-749b8f19452f'+U},
+    {n:'Serpme Kahvaltı Tabağı',k:410,p:18,c:34,y:22,img:B+'1533089860892-a7c6f0a88666'+U},
+    {n:'Yoğurt &amp; Ceviz Kâsesi',k:180,p:9,c:12,y:10,img:B+'1488477181946-6428a0291777'+U},
+    {n:'Mevsim Meyve Tabağı',k:120,p:1,c:28,y:1,img:B+'1490474418585-ba9bad8fd0ea'+U},
+    {n:'Badem &amp; Kuru Kayısı',k:160,p:5,c:14,y:10,img:B+'1508061253366-f7da158b6d46'+U},
+    {n:'Ayran &amp; Grisini',k:140,p:6,c:16,y:5,img:B+'1541658016709-82535e94bc69'+U},
+    {n:'Ezogelin Çorbası',k:220,p:11,c:32,y:5,img:B+'1547592180-85f173990554'+U},
+    {n:'Tavuklu Sezar Salata',k:380,p:32,c:12,y:22,img:B+'1546069901-ba9599a7e63c'+U},
+    {n:'Sebzeli Bulgur Pilavı',k:340,p:10,c:58,y:8,img:B+'1596797038530-2c107229654b'+U},
+    {n:'Izgara Köfte',k:450,p:34,c:10,y:30,img:B+'1529692236671-f1f6cf9683ba'+U},
+    {n:'Mercimek Köftesi',k:310,p:14,c:46,y:8,img:B+'1512621776951-a57141f2eefd'+U},
+    {n:'Fırında Sebzeli Tavuk',k:520,p:42,c:24,y:26,img:B+'1604908176997-125f25cc6f3d'+U},
+    {n:'Buğulama Levrek',k:360,p:36,c:8,y:20,img:B+'1485921325833-c519f76c4927'+U},
+    {n:'Karnıyarık',k:480,p:22,c:30,y:30,img:B+'1565299624946-b28f40a0ae38'+U},
+    {n:'Sebzeli Güveç',k:380,p:14,c:40,y:17,img:B+'1547592166-23ac45744acd'+U},
+    {n:'Izgara Tavuk &amp; Mevsim Salata',k:400,p:38,c:14,y:20,img:B+'1598103442097-8b74394b95c6'+U},
+    {n:'Etli Nohut Yemeği',k:540,p:30,c:48,y:24,img:B+'1455619452474-d2be8b1e70cd'+U}
+  ];
+  var MEALS=[
+    {lbl:'Kahvaltı',ico:'fa-solid fa-mug-saucer',hint:'07.30'},
+    {lbl:'Ara Öğün',ico:'fa-solid fa-apple-whole',hint:'10.30'},
+    {lbl:'Öğle',ico:'fa-solid fa-bowl-food',hint:'13.00'},
+    {lbl:'Ara Öğün',ico:'fa-solid fa-seedling',hint:'16.00'},
+    {lbl:'Akşam',ico:'fa-solid fa-utensils',hint:'20.00'}
+  ];
+  var DAYS=['Pzt','Sal','Çar','Per','Cum','Cmt','Paz'];
+  /* dolu örnek durum: S[öğün][gün] = havuz index dizisi */
+  var S=[
+    [[0],[1],[5],[3],[5],[4],[2]],
+    [[6],[7],[6],[9],[8],[6],[]],
+    [[10,14],[10,11],[12],[10,13],[13,14],[11],[10]],
+    [[8],[6],[],[7],[6],[8],[]],
+    [[16],[18],[17],[19],[20],[15],[]]
+  ];
+
+  var grid=document.getElementById('bldGrid'),
+      tsr=document.getElementById('tsr'),
+      tsrInput=document.getElementById('tsrInput'),
+      tsrList=document.getElementById('tsrList'),
+      fldTarget=document.getElementById('fldTarget'),
+      act=null; /* aktif hücre [m,d] */
+
+  function fmt(n){return n.toLocaleString('tr-TR')}
+  function dayTotal(d){
+    var o={k:0,p:0,c:0,y:0};
+    S.forEach(function(row){(row[d]||[]).forEach(function(id){var r=POOL[id];o.k+=r.k;o.p+=r.p;o.c+=r.c;o.y+=r.y})});
+    return o;
+  }
+  function statusOf(tot,target){
+    if(tot===0)return{cls:'idle',dev:'—'};
+    var d=(tot-target)/target,pct=Math.round(Math.abs(d)*100),
+        sign=d>0?'+%':'−%';
+    var cls=Math.abs(d)<=.05?'ok':(Math.abs(d)<=.15?'mid':'bad');
+    return{cls:cls,dev:(pct===0?'tam hedefte':sign+pct)};
+  }
+
+  function render(){
+    var target=parseInt(fldTarget.value,10)||1600,h='';
+    /* başlık satırı */
+    h+='<div class="bd-corner"></div>';
+    DAYS.forEach(function(dn,i){h+='<div class="bd-day"><b>'+dn+'</b><span>'+(i+1)+'. Gün</span></div>'});
+    /* öğün satırları */
+    MEALS.forEach(function(m,mi){
+      h+='<div class="bd-mealcol"><i class="'+m.ico+'"></i><b>'+m.lbl+'</b><small>'+m.hint+'</small></div>';
+      for(var d=0;d<7;d++){
+        var items=S[mi][d],sum=0,inner='';
+        items.forEach(function(id,pos){
+          var r=POOL[id];sum+=r.k;
+          inner+='<div class="bc-item" data-id="'+id+'">'
+               +'<div class="bc-th" style="background-image:url(\''+r.img+'\')"></div>'
+               +'<div class="bc-info"><b>'+r.n+'</b><span>'+r.k+' kcal</span></div>'
+               +'<button class="bc-x" type="button" data-m="'+mi+'" data-d="'+d+'" data-pos="'+pos+'" aria-label="Kaldır"><i class="fa-solid fa-xmark"></i></button>'
+               +'</div>';
+        });
+        if(items.length>1)inner+='<div class="bc-sum"><i class="fa-solid fa-fire-flame-curved"></i> Öğün: '+fmt(sum)+' kcal</div>';
+        inner+='<button class="bc-add" type="button" data-m="'+mi+'" data-d="'+d+'"><i class="fa-solid fa-plus"></i> Tarif Ekle</button>';
+        h+='<div class="bcell" data-cell="m'+mi+'d'+d+'">'+inner+'</div>';
+      }
+    });
+    /* gün toplam satırı */
+    h+='<div class="bd-totcol"><b>Gün Toplamı</b></div>';
+    var totals=[];
+    for(var d=0;d<7;d++){
+      var o=dayTotal(d);totals.push(o);
+      var st=statusOf(o.k,target),
+          w=o.k===0?0:Math.min(100,Math.round(o.k/target*100));
+      h+='<div class="bd-tot '+st.cls+'">'
+        +'<div class="bt-kcal">'+fmt(o.k)+'<small>kcal</small></div>'
+        +'<div class="bd-bar"><i style="width:'+w+'%"></i></div>'
+        +'<div class="bd-mac">P '+o.p+' · K '+o.c+' · Y '+o.y+' g</div>'
+        +'<div class="bd-dev">'+st.dev+'</div>'
+        +'</div>';
+    }
+    grid.innerHTML=h;
+
+    /* haftalık özet */
+    var sumK=0,sumP=0,sumC=0,sumY=0,okDays=0;
+    totals.forEach(function(o){
+      sumK+=o.k;sumP+=o.p;sumC+=o.c;sumY+=o.y;
+      if(statusOf(o.k,target).cls==='ok')okDays++;
+    });
+    var avg=Math.round(sumK/7),avgP=Math.round(sumP/7),avgC=Math.round(sumC/7),avgY=Math.round(sumY/7);
+    document.getElementById('sumAvg').innerHTML=fmt(avg)+'<small>kcal</small>';
+    document.getElementById('sumTarget').innerHTML=fmt(target)+'<small>kcal</small>';
+    document.getElementById('sumOk').innerHTML=okDays+'<small>/ 7</small>';
+    var ss=document.getElementById('sumStat');
+    if(okDays>=6){ss.className='pstat ok';ss.textContent='Hedefe uygun'}
+    else if(okDays>=3){ss.className='pstat wait';ss.textContent='Dengelenmeli'}
+    else{ss.className='pstat warm';ss.textContent='Eksik plan'}
+    /* makro hedefleri: P %30, K %40, Y %30 enerji payı */
+    var tp=target*.30/4,tc=target*.40/4,ty=target*.30/9;
+    document.getElementById('macP').textContent=avgP+' g';
+    document.getElementById('macK').textContent=avgC+' g';
+    document.getElementById('macY').textContent=avgY+' g';
+    document.getElementById('barP').style.width=Math.min(100,Math.round(avgP/tp*100))+'%';
+    document.getElementById('barK').style.width=Math.min(100,Math.round(avgC/tc*100))+'%';
+    document.getElementById('barY').style.width=Math.min(100,Math.round(avgY/ty*100))+'%';
+  }
+
+  /* ---- arama popover ---- */
+  function renderResults(q){
+    q=(q||'').toLocaleLowerCase('tr');
+    var hits=POOL.map(function(r,i){return{r:r,i:i}})
+      .filter(function(o){
+        var plain=o.r.n.replace(/&amp;/g,'&');
+        return !q||plain.toLocaleLowerCase('tr').indexOf(q)>-1;
+      }).slice(0,8);
+    if(!hits.length){tsrList.innerHTML='<div class="tsr-none">“'+q+'” için sonuç yok</div>';return}
+    tsrList.innerHTML=hits.map(function(o){
+      return '<button class="tsr-row" type="button" data-id="'+o.i+'">'
+        +'<div class="tsr-th" style="background-image:url(\''+o.r.img+'\')"></div>'
+        +'<div class="tsr-info"><b>'+o.r.n+'</b><span>'+o.r.k+' kcal · P '+o.r.p+' · K '+o.r.c+' · Y '+o.r.y+' g</span></div>'
+        +'<i class="fa-solid fa-plus"></i></button>';
+    }).join('');
+  }
+  function openTsr(btn,m,d){
+    act=[m,d];
+    var rc=btn.getBoundingClientRect(),vw=window.innerWidth,vh=window.innerHeight,
+        w=294,hh=310,
+        left=Math.max(8,Math.min(rc.left,vw-w-8)),
+        top=rc.bottom+8;
+    if(top+hh>vh-8)top=Math.max(8,rc.top-hh-8);
+    tsr.style.left=left+'px';tsr.style.top=top+'px';
+    tsr.classList.add('show');
+    tsrInput.value='';renderResults('');
+    tsrInput.focus();
+  }
+  function closeTsr(){tsr.classList.remove('show');act=null}
+
+  grid.addEventListener('click',function(e){
+    var x=e.target.closest('.bc-x');
+    if(x){
+      S[+x.getAttribute('data-m')][+x.getAttribute('data-d')].splice(+x.getAttribute('data-pos'),1);
+      closeTsr();render();return;
+    }
+    var add=e.target.closest('.bc-add');
+    if(add){e.stopPropagation();openTsr(add,+add.getAttribute('data-m'),+add.getAttribute('data-d'))}
+  });
+  tsrInput.addEventListener('input',function(){renderResults(tsrInput.value)});
+  tsrList.addEventListener('click',function(e){
+    var row=e.target.closest('.tsr-row');if(!row||!act)return;
+    S[act[0]][act[1]].push(+row.getAttribute('data-id'));
+    closeTsr();render();
+  });
+  document.addEventListener('click',function(e){
+    if(tsr.classList.contains('show')&&!e.target.closest('.tsr')&&!e.target.closest('.bc-add'))closeTsr();
+  });
+  document.addEventListener('keydown',function(e){if(e.key==='Escape')closeTsr()});
+  fldTarget.addEventListener('input',render);
+
+  /* ---- kaydet / pdf mock ---- */
+  var note=document.createElement('div');note.className='copy-note';document.body.appendChild(note);
+  var noteT;
+  function say(html){note.innerHTML=html;note.classList.add('show');clearTimeout(noteT);noteT=setTimeout(function(){note.classList.remove('show')},2200)}
+  document.getElementById('btnSave').addEventListener('click',function(){
+    say('<i class="fa-solid fa-circle-check"></i> Reçete kaydedildi — “'+document.getElementById('fldName').value+'”');
+  });
+  document.getElementById('btnPdf').addEventListener('click',function(){
+    say('<i class="fa-solid fa-circle-check"></i> PDF hazırlanıyor — danışanına gönderebilirsin');
+  });
+
+  /* ---- ?sablon= parametresi: şablondan başlat ---- */
+  var q=new URLSearchParams(location.search),sb=q.get('sablon');
+  if(sb){
+    var tpl={'1':['Akdeniz 1800 kcal (kopya)',1800],'2':['Ramazan Dengeli (kopya)',1900],'3':['Sporcu Kas Kazanım (kopya)',2600]}[sb]||['Yeni Reçete (şablondan)',1800];
+    document.getElementById('fldName').value=tpl[0];
+    fldTarget.value=tpl[1];
+    document.getElementById('fldClient').value='';
+    var bs=document.getElementById('bldStat');bs.className='pstat wait';bs.textContent='Taslak';
+  }
+
+  render();
+
+  /* probe API (SS doğrulaması için) */
+  window.dmBuilder={pool:POOL,state:S,dayTotal:dayTotal,render:render};
+})();
+</script>
+\n<script>
+/* ===== Faz3 — işletme-sahibi rolü (has-business): is-auth kardeşi =====
+   ?business=1 → localStorage dm_business='1' + body.has-business ; ?business=0 → temizle.
+   param yoksa localStorage'a bakılır. Adım 1 işletme linkleri (İşletmem→Panele Git,
+   panel topbar account chip) body.has-business ile rol-koşullu gösterilir. */
+(function(){
+  /* C1 — tek auth/rol token dm_user{auth,roles[],verified,level}. Eski dm_auth/dm_business
+     migrate+silinir. Kök kuralı: auth ⟹ roles "kullanici" ile başlar; isletme operatörü
+     ["kullanici","isletme"]. Class additive (is-auth/has-business AYNEN) + body[data-roles]. */
+  var KEY='dm_user', OK={kullanici:1,antrenor:1,diyetisyen:1,isletme:1};
+  function rd(){ try{var r=localStorage.getItem(KEY);return r?JSON.parse(r):null;}catch(e){return null;} }
+  function wr(u){ try{localStorage.setItem(KEY,JSON.stringify(u));}catch(e){} }
+  var u=rd();
+  if(!u){                                   // migrasyon: eski binary flag → dm_user (bir kez)
+    var oa=false,ob=false;
+    try{oa=localStorage.getItem('dm_auth')==='1';}catch(e){}
+    try{ob=localStorage.getItem('dm_business')==='1';}catch(e){}
+    if(oa||ob){ u={auth:true,roles:['kullanici'],verified:false,level:0}; if(ob)u.roles.push('isletme'); wr(u); }
+  }
+  try{localStorage.removeItem('dm_auth');localStorage.removeItem('dm_business');}catch(e){}  // eski anahtar temizliği
+  var qs=location.search;                    // URL-param (demo/SS akışı korunur + yeni roller)
+  function ens(){ if(!u)u={auth:false,roles:[],verified:false,level:0}; }
+  function addR(r){ ens(); if(OK[r]&&u.roles.indexOf(r)<0)u.roles.push(r); }
+  if(qs.indexOf('auth=1')>-1){ ens(); u.auth=true; }
+  else if(qs.indexOf('auth=0')>-1){ u=null; try{localStorage.removeItem(KEY);}catch(e){} }
+  if(qs.indexOf('business=1')>-1){ ens(); u.auth=true; addR('isletme'); }
+  else if(qs.indexOf('business=0')>-1){ if(u){var bi=u.roles.indexOf('isletme'); if(bi>-1)u.roles.splice(bi,1);} }
+  var rm=/[?&]role=(antrenor|diyetisyen|isletme)/.exec(qs); if(rm){ ens(); u.auth=true; addR(rm[1]); }
+  if(u){
+    if(qs.indexOf('verified=1')>-1)u.verified=true; else if(qs.indexOf('verified=0')>-1)u.verified=false;
+    var lm=/[?&]level=(\d+)/.exec(qs); if(lm)u.level=parseInt(lm[1],10)||0;
+    if(u.auth&&u.roles.indexOf('kullanici')<0)u.roles.unshift('kullanici');   // kök her zaman önde
+    wr(u);
+  }
+  var b=document.body, authed=!!(u&&u.auth);   // DOM: eski class kanalı (additive) + data-roles
+  if(authed){
+    b.classList.add('is-auth');
+    if(u.roles.indexOf('isletme')>-1)b.classList.add('has-business');   // C3 köprü sinyali — AYNEN
+    b.setAttribute('data-roles',u.roles.join(' '));
+    if(u.verified)b.setAttribute('data-verified','1');
+    if(u.level)b.setAttribute('data-level',String(u.level));
+  }
+  var bnA=document.getElementById('bnAccount');   // M6 — bottom-nav Hesap hedefi
+  if(bnA)bnA.setAttribute('href', authed?'mutfak-defteri-v1.html':'giris-v1.html');
+})();
+</script>
+
+<script src="assets/js/sa-ui.js"></script>
+<script src="assets/js/sa-gozetim.js" defer></script>
+</body>
+</html>

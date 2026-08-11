@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<meta name="robots" content="noindex, nofollow" />
+<title>Diyetisyen Paneli · Ödeme ve Kazanç — DadaMutfak</title>
+<link rel="shortcut icon" type="image/x-icon" href="assets/img/favicon.ico" />
+<!-- FontAwesome 6.5.2 (kilitli ikon seti) -->
+<link rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css"
+      integrity="sha512-SnH5WK+bZxgPHs44uWIX+LLJAJ9/2PkPKZ5QiAj6Ta86w+fsb2TkcmfRyVX3pBnMFcV7oQPJkl9QevSCWr3W6A=="
+      crossorigin="anonymous" referrerpolicy="no-referrer" />
+<link rel="stylesheet" href="assets/css/sa-ui.css" />
+<!-- panel kabuğu: assets/css/panel.css + assets/js/panel.js -->
+<link rel="stylesheet" href="assets/css/panel.css" />
+<style>
+/* =====================================================================
+   SAYFA CSS — sayfa-spesifik stiller BU İŞARETİN ALTINA
+   Tümü panel.css bileşenleri: .kpi-grid · .pf-tabs · .ptable · .pstat · .dd-stats · .fk-help
+   ===================================================================== */
+</style>
+</head>
+<body data-brand="mutfak" data-nav="odeme">
+
+<div class="pnl-app">
+
+  <!-- sidebar + üst bar: assets/js/panel.js üretir -->
+  <div id="pnlChrome"></div>
+  <script src="assets/js/panel.js"></script>
+
+  <main class="pnl-main">
+
+    <div class="pnl-page-head">
+      <div>
+        <h1>Ödeme ve Kazanç</h1>
+        <div class="ph-sub">Seans hareketlerin, paketlerin, platform komisyonu, iadeler ve ödeme durumun.</div>
+      </div>
+      <div class="ph-actions"><a class="btn btn-ghost btn-sm" href="panel-raporlar-v1.html"><i class="fa-solid fa-chart-pie"></i> Gelir Raporu</a></div>
+    </div>
+
+    <div class="kpi-grid">
+      <div class="kpi-card"><span class="kpi-ico"><i class="fa-solid fa-wallet"></i></span>
+        <div><div class="kpi-num">₺18.400</div><div class="kpi-lbl">Bu ay kazanç</div><div class="kpi-delta up"><i class="fa-solid fa-arrow-trend-up"></i> geçen aya göre +%12</div></div></div>
+      <div class="kpi-card warm"><span class="kpi-ico"><i class="fa-solid fa-hourglass-half"></i></span>
+        <div><div class="kpi-num">₺1.900</div><div class="kpi-lbl">Ödeme bekleyen</div><div class="kpi-delta down"><i class="fa-solid fa-clock"></i> 4 seans</div></div></div>
+      <div class="kpi-card"><span class="kpi-ico"><i class="fa-solid fa-percent"></i></span>
+        <div><div class="kpi-num">₺2.760</div><div class="kpi-lbl">Platform komisyonu</div><div class="kpi-delta"><i class="fa-solid fa-circle-info"></i> %15 · ciroya dahil değil</div></div></div>
+      <div class="kpi-card sun"><span class="kpi-ico"><i class="fa-solid fa-rotate-left"></i></span>
+        <div><div class="kpi-num">₺700</div><div class="kpi-lbl">İade</div><div class="kpi-delta"><i class="fa-solid fa-circle-info"></i> 2 işlem</div></div></div>
+    </div>
+    <div class="pf-tabbar"><div class="pf-tabs" id="odmTabs" role="tablist"><button class="dt active" type="button" role="tab" data-tab="seans"><i class="fa-solid fa-list"></i> Seanslar</button><button class="dt" type="button" role="tab" data-tab="paket"><i class="fa-solid fa-box"></i> Paketler</button><button class="dt" type="button" role="tab" data-tab="iade"><i class="fa-solid fa-rotate-left"></i> İadeler</button></div></div>
+    <div class="pf-pane" data-pane="seans">
+    <div class="pnl-card">
+      <div class="pc-head"><span class="pc-title"><i class="fa-solid fa-list"></i> Seans hareketleri</span></div>
+      <div class="pc-body flush">
+        <table class="ptable"><thead><tr><th>Tarih</th><th>Danışan</th><th>Hizmet</th><th>Tutar</th><th style="text-align:right">Durum</th></tr></thead><tbody>
+          <tr><td>9 Ağu 2026</td><td><b>Ayşe Kılıç</b></td><td>Kontrol görüşmesi · 30 dk</td><td>₺450</td><td style="text-align:right"><span class="pstat ok">Ödendi</span></td></tr>
+          <tr><td>8 Ağu 2026</td><td><b>Burak Yalçın</b></td><td>Plan revizyonu · 45 dk</td><td>₺500</td><td style="text-align:right"><span class="pstat ok">Ödendi</span></td></tr>
+          <tr><td>7 Ağu 2026</td><td><b>Zeynep Arslan</b></td><td>İlk görüşme · 45 dk</td><td>₺750</td><td style="text-align:right"><span class="pstat ok">Ödendi</span></td></tr>
+          <tr><td>5 Ağu 2026</td><td><b>Mert Doğan</b></td><td>Kontrol görüşmesi · 30 dk</td><td>₺450</td><td style="text-align:right"><span class="pstat wait">Ödeme bekliyor</span></td></tr>
+          <tr><td>3 Ağu 2026</td><td><b>Emre Şen</b></td><td>İlk görüşme · 45 dk</td><td>₺750</td><td style="text-align:right"><span class="pstat ok">Ödendi</span></td></tr>
+          <tr><td>1 Ağu 2026</td><td><b>Selin Uysal</b></td><td>Kısa danışma · 15 dk</td><td>₺250</td><td style="text-align:right"><span class="pstat warm">İade edildi</span></td></tr>
+        </tbody></table>
+      </div>
+      <div class="pc-foot"><button class="btn btn-ghost btn-sm" type="button"><i class="fa-solid fa-download"></i> Hesap Özeti İndir</button></div>
+    </div>
+    <div class="dash-row"></div>
+    <div class="pnl-card">
+      <div class="pc-head"><span class="pc-title"><i class="fa-solid fa-money-check-dollar"></i> Ödeme durumu</span></div>
+      <div class="pc-body">
+        <div class="dd-stats"><div class="dd-stat hl"><b>₺18.400<em> brüt</em></b><span>Bu ay ciro</span></div><div class="dd-stat"><b>₺2.760<em> komisyon</em></b><span>Platform payı %15</span></div><div class="dd-stat"><b>₺700<em> iade</em></b><span>Bu ay</span></div><div class="dd-stat hl"><b>₺14.940<em> net</em></b><span>Hesabına geçecek</span></div></div>
+        <div class="fk-help"><i class="fa-solid fa-circle-info"></i><span>Ödemeler her ayın 5'inde önceki ayın tamamlanmış seansları için yapılır. İade edilen seanslar komisyondan da düşülür.</span></div>
+      </div>
+    </div>
+    </div>
+    <div class="pf-pane" data-pane="paket" hidden>
+    <div class="pnl-card">
+      <div class="pc-head"><span class="pc-title"><i class="fa-solid fa-box"></i> Paketlerin</span></div>
+      <div class="pc-body flush">
+        <table class="ptable"><thead><tr><th>Paket</th><th>Kapsam</th><th>Fiyat</th><th>Satış</th><th style="text-align:right">Durum</th></tr></thead><tbody>
+          <tr><td><b>Başlangıç Paketi</b></td><td>1 ilk görüşme + 2 kontrol</td><td>₺1.500</td><td>12</td><td style="text-align:right"><span class="pstat ok">Yayında</span></td></tr>
+          <tr><td><b>Üç Aylık Takip</b></td><td>1 ilk görüşme + 6 kontrol</td><td>₺3.600</td><td>7</td><td style="text-align:right"><span class="pstat ok">Yayında</span></td></tr>
+          <tr><td><b>Sporcu Paketi</b></td><td>1 ilk görüşme + 4 kontrol + makro planı</td><td>₺3.200</td><td>4</td><td style="text-align:right"><span class="pstat ok">Yayında</span></td></tr>
+          <tr><td><b>Tek Seans</b></td><td>1 kontrol görüşmesi</td><td>₺450</td><td>19</td><td style="text-align:right"><span class="pstat off">Pasif</span></td></tr>
+        </tbody></table>
+      </div>
+      <div class="pc-foot"><button class="btn btn-green btn-sm" type="button"><i class="fa-solid fa-plus"></i> Paket Oluştur</button></div>
+    </div>
+    </div>
+    <div class="pf-pane" data-pane="iade" hidden>
+    <div class="pnl-card">
+      <div class="pc-head"><span class="pc-title"><i class="fa-solid fa-rotate-left"></i> İade işlemleri</span></div>
+      <div class="pc-body flush">
+        <table class="ptable"><thead><tr><th>Tarih</th><th>Danışan</th><th>Tutar</th><th>Sebep</th><th style="text-align:right">Durum</th></tr></thead><tbody>
+          <tr><td>1 Ağu 2026</td><td><b>Selin Uysal</b></td><td>₺250</td><td>Randevu 24 saatten önce iptal</td><td style="text-align:right"><span class="pstat ok">Tamamlandı</span></td></tr>
+          <tr><td>19 Tem 2026</td><td><b>Kaan Aydın</b></td><td>₺450</td><td>Danışan talebi</td><td style="text-align:right"><span class="pstat ok">Tamamlandı</span></td></tr>
+          <tr><td>6 Tem 2026</td><td><b>Deniz Ak</b></td><td>₺750</td><td>Uzman kaynaklı iptal</td><td style="text-align:right"><span class="pstat wait">İnceleniyor</span></td></tr>
+        </tbody></table>
+      </div>
+    </div>
+    </div>
+
+  </main>
+</div>
+
+<script src="assets/js/sa-ui.js"></script>
+<script>
+/* ===== SAYFA JS — sekme barı (dyt-profil-ayar-v1 deseni) ===== */
+(function(){
+  var tabs=document.querySelectorAll('#odmTabs .dt');
+  if(!tabs.length)return;
+  function go(n){
+    var hit=false;
+    tabs.forEach(function(b){var on=b.getAttribute('data-tab')===n;b.classList.toggle('active',on);
+      b.setAttribute('aria-selected',on?'true':'false');if(on)hit=true;});
+    if(!hit)return false;
+    document.querySelectorAll('.pf-pane').forEach(function(p){p.hidden=p.getAttribute('data-pane')!==n;});
+    return true;
+  }
+  tabs.forEach(function(b){b.addEventListener('click',function(){go(b.getAttribute('data-tab'));});});
+  var q=new URLSearchParams(location.search).get('sekme'); if(q)go(q);
+})();
+</script>
+</body>
+</html>

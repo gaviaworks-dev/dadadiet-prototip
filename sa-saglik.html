@@ -1,0 +1,260 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<meta name="robots" content="noindex, nofollow" />
+<title>Sağlık &amp; Diyet — Süper Admin · DadaMutfak</title>
+<link rel="shortcut icon" type="image/x-icon" href="assets/img/favicon.ico" />
+<!-- FontAwesome 6.5.2 (kilitli ikon seti) -->
+<link rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css"
+      integrity="sha512-SnH5WK+bZxgPHs44uWIX+LLJAJ9/2PkPKZ5QiAj6Ta86w+fsb2TkcmfRyVX3pBnMFcV7oQPJkl9QevSCWr3W6A=="
+      crossorigin="anonymous" referrerpolicy="no-referrer" />
+<!-- PAYLAŞILAN KABUK (tek kaynak) -->
+<link rel="stylesheet" href="assets/css/sa-shell.css" />
+<link rel="stylesheet" href="assets/css/sa-list.css" />
+<style>
+/* =====================================================================
+   SA-SAGLIK — SAYFA CSS (ekrana özel; kabuk CSS'i sa-shell.css'te).
+   İçerik wave-1'den BİREBİR taşındı; yalnız kabuk yeni paylaşılan kabuk.
+   ===================================================================== */
+/* Dashboard 2-sütun alt kart satırı */
+.dash-2col{display:grid;grid-template-columns:1.6fr 1fr;gap:16px;margin-bottom:16px}
+@media(max-width:980px){.dash-2col{grid-template-columns:1fr}}
+
+/* Son başvurular tablosu */
+.ptable{width:100%;border-collapse:collapse}
+.ptable thead th{font-size:11px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);padding:10px 16px;text-align:left;background:var(--bg);border-bottom:1px solid var(--line);white-space:nowrap}
+.ptable thead th:first-child{padding-left:22px}
+.ptable thead th:last-child{padding-right:22px;text-align:right}
+.ptable tbody tr{border-bottom:1px solid var(--line);transition:background .12s}
+.ptable tbody tr:last-child{border-bottom:none}
+.ptable tbody tr:hover{background:rgba(var(--acc-rgb),.03)}
+.ptable tbody td{padding:11px 16px;font-size:13px;color:var(--slate-2);vertical-align:middle}
+.ptable tbody td:first-child{padding-left:22px}
+.ptable tbody td:last-child{padding-right:22px;text-align:right}
+
+.dyt-cell{display:flex;align-items:center;gap:10px}
+.dyt-ava{width:34px;height:34px;flex:none;border-radius:var(--radius-circle);background-size:cover;background-position:center;border:2px solid var(--line)}
+.dyt-id strong{font-size:13px;font-weight:700;color:var(--slate);display:block;line-height:1.25}
+.dyt-id span{font-size:11.5px;color:var(--muted)}
+.spec-tag{display:inline-flex;align-items:center;gap:5px;font-size:11.5px;font-weight:700;padding:3px 8px;border-radius:6px;background:rgba(var(--acc-rgb),.10);color:var(--acc-deep);white-space:nowrap}
+
+/* Quick-stat istatistik satırı */
+.qstat-row{display:flex;flex-direction:column;gap:0}
+.qstat{display:flex;align-items:center;justify-content:space-between;padding:12px 22px;border-bottom:1px solid var(--line)}
+.qstat:last-child{border-bottom:none}
+.qstat-lbl{font-size:13px;color:var(--slate-2);display:flex;align-items:center;gap:9px}
+.qstat-lbl i{width:18px;text-align:center;font-size:13px;color:var(--acc)}
+.qstat-val{font-size:14px;font-weight:700;color:var(--slate)}
+</style>
+</head>
+<body data-brand="mutfak" data-sec="saglik" data-screen="genel">
+
+<div class="sa-app">
+
+  <!-- §1 İKON-RAIL (statik; aktif/görünürlük JS) — paylaşılan kabuk dili -->
+  <aside class="sa-rail" id="saRail">
+    <a class="sa-rail-logo" href="sa-giris-v1.html" title="Yönetim Girişi"><img src="assets/img/logo-mark.png" alt="DadaMutfak" /></a>
+    <a class="sa-rail-ico" data-sec="genel" href="sa-shell.html?sec=genel" title="Genel Bakış"><i class="fa-solid fa-gauge-high"></i></a>
+    <span class="sa-rail-div"></span>
+    <a class="sa-rail-ico" data-sec="admin"   href="sa-admin.html"   title="Admin"><i class="fa-solid fa-shield-halved"></i></a>
+    <a class="sa-rail-ico" data-sec="saglik"  href="sa-saglik.html"  title="Sağlık &amp; Diyet"><i class="fa-solid fa-heart-pulse"></i></a>
+    <a class="sa-rail-ico" data-sec="store"   href="sa-store.html"   title="DadaStore"><i class="fa-solid fa-bag-shopping"></i></a>
+    <a class="sa-rail-ico" data-sec="dadafit" href="sa-dadafit.html" title="DadaFit"><i class="fa-solid fa-dumbbell"></i></a>
+    <a class="sa-rail-ico" data-sec="isletme" href="sa-isletme.html" title="İşletmeler"><i class="fa-solid fa-store"></i></a>
+    <a class="sa-rail-ico is-locked" data-sec="akademi" href="#" title="DadaAkademi — Yakında"><i class="fa-solid fa-graduation-cap"></i><i class="fa-solid fa-lock sr-lock"></i></a>
+    <div class="sa-rail-foot"><a class="sa-rail-ico" href="anasayfa-portal-v3a.html" title="Siteye Dön"><i class="fa-solid fa-arrow-left"></i></a></div>
+  </aside>
+
+  <!-- §2 BÖLÜM MENÜSÜ (JS render — Sağlık menüsü) -->
+  <nav class="sa-menu" id="saMenu"></nav>
+
+  <!-- divider grip -->
+  <div class="sa-divider" id="saDivider" role="separator" aria-label="Menüyü daralt/genişlet" title="Sürükle veya tıkla — menüyü daralt/genişlet">
+    <span class="sa-grip"><i class="fa-solid fa-grip-lines-vertical"></i></span>
+  </div>
+
+  <div class="pnl-overlay" id="pnlOverlay"></div>
+
+  <!-- §3 ÜST BAR -->
+  <header class="pnl-top">
+    <button class="pnl-burger" id="pnlBurger" aria-label="Menü"><i class="fa-solid fa-bars"></i></button>
+    <div class="pnl-search">
+      <i class="fa-solid fa-magnifying-glass"></i>
+      <input type="text" placeholder="Diyetisyen, başvuru ara…" />
+    </div>
+    <div class="pnl-top-tools">
+      <button class="pnl-bell" aria-label="Bildirimler"><i class="fa-regular fa-bell"></i><span class="pb-dot"></span></button>
+      <div class="pnl-me">
+        <div class="pm-ava"><i class="fa-solid fa-user"></i></div>
+        <div class="pm-id">
+          <div class="pm-name" id="pmName">Süper Admin</div>
+          <div class="pm-role" id="pmRole">Tüm yetki</div>
+        </div>
+        <i class="fa-solid fa-chevron-down"></i>
+      </div>
+    </div>
+  </header>
+
+  <!-- §4 İÇERİK — Sağlık Dashboard (wave-1'den BİREBİR) -->
+  <main class="pnl-main" id="saMain">
+
+    <div class="pnl-page-head">
+      <div>
+        <h1>Sağlık &amp; Diyet</h1>
+        <div class="ph-sub">20 Haziran 2026, Cuma — 1 yeni diyetisyen başvurusu onay bekliyor.</div>
+      </div>
+      <div class="ph-actions">
+        <a class="btn btn-ghost btn-sm" href="sa-saglik-diyetisyenler.html"><i class="fa-solid fa-user-doctor"></i> Diyetisyenler</a>
+      </div>
+    </div>
+
+    <!-- KPI Grid -->
+    <div class="kpi-grid">
+      <div class="kpi-card">
+        <div class="kpi-ico"><i class="fa-solid fa-user-doctor"></i></div>
+        <div>
+          <div class="kpi-num">4</div>
+          <div class="kpi-lbl">Kayıtlı Diyetisyen</div>
+          <div class="kpi-delta up"><i class="fa-solid fa-arrow-trend-up"></i> 2 onaylı aktif</div>
+        </div>
+      </div>
+      <div class="kpi-card warm">
+        <div class="kpi-ico"><i class="fa-solid fa-clock"></i></div>
+        <div>
+          <div class="kpi-num">1</div>
+          <div class="kpi-lbl">Onay Bekleyen</div>
+          <div class="kpi-delta down"><i class="fa-solid fa-triangle-exclamation"></i> İnceleme gerekli</div>
+        </div>
+      </div>
+      <div class="kpi-card">
+        <div class="kpi-ico"><i class="fa-solid fa-calendar-check"></i></div>
+        <div>
+          <div class="kpi-num">128</div>
+          <div class="kpi-lbl">Bu Ay Randevu</div>
+          <div class="kpi-delta up"><i class="fa-solid fa-arrow-trend-up"></i> +14% geçen ay</div>
+        </div>
+      </div>
+      <div class="kpi-card sun">
+        <div class="kpi-ico"><i class="fa-solid fa-users"></i></div>
+        <div>
+          <div class="kpi-num">342</div>
+          <div class="kpi-lbl">Aktif Danışan</div>
+          <div class="kpi-delta up"><i class="fa-solid fa-arrow-trend-up"></i> +8% bu ay</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Alt bölüm: 2 kart yan yana -->
+    <div class="dash-2col">
+
+      <!-- Sol: Son başvurular -->
+      <div class="pnl-card">
+        <div class="pc-head">
+          <div class="pc-title"><i class="fa-solid fa-user-doctor"></i> Son Diyetisyen Başvuruları</div>
+          <a class="pc-link" href="sa-saglik-diyetisyenler.html">Tümü <i class="fa-solid fa-arrow-right"></i></a>
+        </div>
+        <div class="pc-body flush">
+          <table class="ptable">
+            <thead>
+              <tr>
+                <th>Diyetisyen</th>
+                <th>Uzmanlık</th>
+                <th>Durum</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>
+                  <div class="dyt-cell">
+                    <div class="dyt-ava" style="background-image:url('https://images.unsplash.com/photo-1607746882042-944635dfe10e?w=80&q=80&auto=format&fit=crop')"></div>
+                    <div class="dyt-id"><strong>Dyt. Ayça Yıldız</strong><span>18 Haz 2026</span></div>
+                  </div>
+                </td>
+                <td><span class="spec-tag">Klinik Beslenme</span></td>
+                <td><span class="pstat wait">Bekliyor</span></td>
+              </tr>
+              <tr>
+                <td>
+                  <div class="dyt-cell">
+                    <div class="dyt-ava" style="background-image:url('https://images.unsplash.com/photo-1559839734-2b71ea197ec2?w=80&q=80&auto=format&fit=crop')"></div>
+                    <div class="dyt-id"><strong>Dyt. Elif Şahin</strong><span>5 Mar 2026</span></div>
+                  </div>
+                </td>
+                <td><span class="spec-tag">Sporcu Beslenmesi</span></td>
+                <td><span class="pstat ok">Onaylı</span></td>
+              </tr>
+              <tr>
+                <td>
+                  <div class="dyt-cell">
+                    <div class="dyt-ava" style="background-image:url('https://images.unsplash.com/photo-1612349317150-e413f6a5b16d?w=80&q=80&auto=format&fit=crop')"></div>
+                    <div class="dyt-id"><strong>Dyt. Murat Kaya</strong><span>12 Oca 2026</span></div>
+                  </div>
+                </td>
+                <td><span class="spec-tag">Çocuk Beslenmesi</span></td>
+                <td><span class="pstat ok">Onaylı</span></td>
+              </tr>
+              <tr>
+                <td>
+                  <div class="dyt-cell">
+                    <div class="dyt-ava" style="background-image:url('https://images.unsplash.com/photo-1527613426441-4da17471b66d?w=80&q=80&auto=format&fit=crop')"></div>
+                    <div class="dyt-id"><strong>Dyt. Selin Demir</strong><span>29 Kas 2025</span></div>
+                  </div>
+                </td>
+                <td><span class="spec-tag">Diyabet Yönetimi</span></td>
+                <td><span class="pstat warm">Askıda</span></td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <!-- Sağ: Özet istatistikler -->
+      <div class="pnl-card">
+        <div class="pc-head">
+          <div class="pc-title"><i class="fa-solid fa-chart-pie"></i> Bölüm Özeti</div>
+        </div>
+        <div class="qstat-row">
+          <div class="qstat">
+            <span class="qstat-lbl"><i class="fa-solid fa-circle-check"></i> Onaylı Diyetisyen</span>
+            <span class="qstat-val">2</span>
+          </div>
+          <div class="qstat">
+            <span class="qstat-lbl"><i class="fa-solid fa-hourglass-half"></i> Bekleyen Başvuru</span>
+            <span class="qstat-val">1</span>
+          </div>
+          <div class="qstat">
+            <span class="qstat-lbl"><i class="fa-solid fa-ban"></i> Askıdaki Hesap</span>
+            <span class="qstat-val">1</span>
+          </div>
+          <div class="qstat">
+            <span class="qstat-lbl"><i class="fa-solid fa-calendar-day"></i> Bugünkü Randevu</span>
+            <span class="qstat-val">11</span>
+          </div>
+          <div class="qstat">
+            <span class="qstat-lbl"><i class="fa-solid fa-clipboard-list"></i> Aktif Reçete</span>
+            <span class="qstat-val">87</span>
+          </div>
+          <div class="qstat">
+            <span class="qstat-lbl"><i class="fa-solid fa-vial"></i> Tamamlanan Test</span>
+            <span class="qstat-val">214</span>
+          </div>
+        </div>
+        <div style="padding:14px 22px;border-top:1px solid var(--line)">
+          <a class="btn btn-acc btn-sm" href="sa-saglik-diyetisyenler.html" style="width:100%;justify-content:center">
+            <i class="fa-solid fa-user-doctor"></i> Diyetisyenleri Yönet
+          </a>
+        </div>
+      </div>
+
+    </div><!-- /dash-2col -->
+
+  </main>
+
+</div>
+
+<script src="assets/js/sa-shell.js"></script>
+</body>
+</html>

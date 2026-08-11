@@ -1,0 +1,6 @@
+/* sa-list.css — Liste-tablosu responsive katmanı.
+   Kanonik kabuk (sa-shell.css / sa-ui.css) DOKUNULMADAN, ayrı yüklenen ince katman.
+   Amaç: dar ekranda (ör. 390px) geniş veri tablosu kart İÇİNDE yatay kayar —
+   tüm sayfayı taşırmaz, kolonlar/veri korunur (gözetim panelinde aksiyonlar görünür kalır).
+   .pc-body tek tablo sarıcısıdır; .flush varyantı da kapsanır. İçerik sığınca scrollbar çıkmaz. */
+.pc-body{ overflow-x:auto; -webkit-overflow-scrolling:touch; }

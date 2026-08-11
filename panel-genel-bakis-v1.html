@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<meta name="robots" content="noindex, nofollow" />
+<title>Diyetisyen Paneli · Genel Bakış — DadaMutfak</title>
+<link rel="shortcut icon" type="image/x-icon" href="assets/img/favicon.ico" />
+<!-- FontAwesome 6.5.2 (kilitli ikon seti) -->
+<link rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css"
+      integrity="sha512-SnH5WK+bZxgPHs44uWIX+LLJAJ9/2PkPKZ5QiAj6Ta86w+fsb2TkcmfRyVX3pBnMFcV7oQPJkl9QevSCWr3W6A=="
+      crossorigin="anonymous" referrerpolicy="no-referrer" />
+<link rel="stylesheet" href="assets/css/sa-ui.css" />
+<!-- panel kabuğu: assets/css/panel.css + assets/js/panel.js -->
+<link rel="stylesheet" href="assets/css/panel.css" />
+<style>
+/* =====================================================================
+   SAYFA CSS — sayfa-spesifik stiller BU İŞARETİN ALTINA
+   Tümü panel.css bileşenleri: .kpi-grid · .dash-cols · .pnl-card · .appt-list · .cl-grid · .ptable · .mm-list · .dd-stats
+   ===================================================================== */
+
+/* dar sağ kolonda danışan kartı tek sütun — .cl-grid tabanı üç sütun ve
+   271px'lik kolona sığmıyor. Yeni sınıf yok, mevcut ikiliye ölçü. */
+.dash-cols>div:last-child .cl-grid{grid-template-columns:minmax(0,1fr)}
+/* uzun karşılaştırma metni KPI kartını taşırmasın */
+.kpi-delta{flex-wrap:wrap}
+</style>
+</head>
+<body data-brand="mutfak" data-nav="genel">
+
+<div class="pnl-app">
+
+  <!-- sidebar + üst bar: assets/js/panel.js üretir -->
+  <div id="pnlChrome"></div>
+  <script src="assets/js/panel.js"></script>
+
+  <main class="pnl-main">
+
+    <div class="pnl-page-head">
+      <div>
+        <h1>Günaydın, Dyt. Elif</h1>
+        <div class="ph-sub">10 Ağustos 2026, Pazartesi — bugün 5 randevun, 6 bekleyen işin ve 3 okunmamış mesajın var.</div>
+      </div>
+      <div class="ph-actions"><a class="btn btn-ghost btn-sm" href="panel-takvim-v1.html"><i class="fa-regular fa-calendar-plus"></i> Müsaitlik Ekle</a><a class="btn btn-green btn-sm" href="dyt-recete-builder-v1.html"><i class="fa-solid fa-plus"></i> Yeni Beslenme Planı</a></div>
+    </div>
+
+    <div class="kpi-grid">
+      <div class="kpi-card"><span class="kpi-ico"><i class="fa-solid fa-calendar-check"></i></span>
+        <div><div class="kpi-num">5</div><div class="kpi-lbl">Bugünkü randevu</div><div class="kpi-delta up"><i class="fa-solid fa-clock"></i> ilki 09:00</div></div></div>
+      <div class="kpi-card"><span class="kpi-ico"><i class="fa-solid fa-user-group"></i></span>
+        <div><div class="kpi-num">28</div><div class="kpi-lbl">Aktif danışan</div><div class="kpi-delta up"><i class="fa-solid fa-arrow-trend-up"></i> bu ay +3</div></div></div>
+      <div class="kpi-card warm"><span class="kpi-ico"><i class="fa-solid fa-list-check"></i></span>
+        <div><div class="kpi-num">6</div><div class="kpi-lbl">Bekleyen işlem</div><div class="kpi-delta down"><i class="fa-solid fa-triangle-exclamation"></i> 1 tanesi bugün</div></div></div>
+      <div class="kpi-card sun"><span class="kpi-ico"><i class="fa-solid fa-wallet"></i></span>
+        <div><div class="kpi-num">₺18.400</div><div class="kpi-lbl">Bu ay kazanç</div><div class="kpi-delta up"><i class="fa-solid fa-arrow-trend-up"></i> geçen aya göre +%12</div></div></div>
+    </div>
+    <div class="dash-cols">
+      <div>
+    <div class="pnl-card">
+      <div class="pc-head"><span class="pc-title"><i class="fa-solid fa-calendar-check"></i> Bugünkü randevular</span><a class="pc-link" href="dyt-randevular-v1.html">Takvime git <i class="fa-solid fa-arrow-right"></i></a></div>
+      <div class="pc-body flush">
+        <div class="appt-list">
+          <div class="appt-row">
+            <div class="appt-time">09:00<small>bugün</small></div>
+            <span class="appt-ava" style="background-image:url('https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=240&q=80&auto=format&fit=crop&exp=7&gam=6&sat=-9&high=8&vib=5')"></span>
+            <div class="appt-info"><div class="appt-name">Zeynep Arslan</div>
+              <div class="appt-meta">İlk görüşme · Online · 45 dk <span class="pstat ok">Onaylı</span></div></div>
+            <div class="appt-act"><a class="btn btn-ghost btn-sm" href="dyt-randevular-v1.html">Aç</a></div>
+          </div>
+          <div class="appt-row">
+            <div class="appt-time">11:00<small>bugün</small></div>
+            <span class="appt-ava" style="background-image:url('https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?w=240&q=80&auto=format&fit=crop&exp=7&gam=6&sat=-9&high=8&vib=5')"></span>
+            <div class="appt-info"><div class="appt-name">Mert Doğan</div>
+              <div class="appt-meta">Kontrol · Yüz yüze · 30 dk <span class="pstat ok">Onaylı</span></div></div>
+            <div class="appt-act"><a class="btn btn-ghost btn-sm" href="dyt-randevular-v1.html">Aç</a></div>
+          </div>
+          <div class="appt-row">
+            <div class="appt-time">13:30<small>bugün</small></div>
+            <span class="appt-ava" style="background-image:url('https://images.unsplash.com/photo-1544005313-94ddf0286df2?w=240&q=80&auto=format&fit=crop&exp=7&gam=6&sat=-9&high=8&vib=5')"></span>
+            <div class="appt-info"><div class="appt-name">Ayşe Kılıç</div>
+              <div class="appt-meta">Kontrol · Online · 30 dk <span class="pstat wait">Onay bekliyor</span></div></div>
+            <div class="appt-act"><a class="btn btn-ghost btn-sm" href="dyt-randevular-v1.html">Aç</a></div>
+          </div>
+          <div class="appt-row">
+            <div class="appt-time">15:00<small>bugün</small></div>
+            <span class="appt-ava" style="background-image:url('https://images.unsplash.com/photo-1547425260-76bcadfb4f2c?w=240&q=80&auto=format&fit=crop&exp=7&gam=6&sat=-9&high=8&vib=5')"></span>
+            <div class="appt-info"><div class="appt-name">Burak Yalçın</div>
+              <div class="appt-meta">Plan revizyonu · Online · 45 dk <span class="pstat ok">Onaylı</span></div></div>
+            <div class="appt-act"><a class="btn btn-ghost btn-sm" href="dyt-randevular-v1.html">Aç</a></div>
+          </div>
+          <div class="appt-row">
+            <div class="appt-time">16:30<small>bugün</small></div>
+            <span class="appt-ava" style="background-image:url('https://images.unsplash.com/photo-1580489944761-15a19d654956?w=240&q=80&auto=format&fit=crop&exp=7&gam=6&sat=-9&high=8&vib=5')"></span>
+            <div class="appt-info"><div class="appt-name">Selin Uysal</div>
+              <div class="appt-meta">İlk görüşme · Online · 45 dk <span class="pstat ok">Onaylı</span></div></div>
+            <div class="appt-act"><a class="btn btn-ghost btn-sm" href="dyt-randevular-v1.html">Aç</a></div>
+          </div>
+        </div>
+      </div>
+    </div>
+        <div class="dash-row"></div>
+    <div class="pnl-card">
+      <div class="pc-head"><span class="pc-title"><i class="fa-solid fa-list-check"></i> Bekleyen işlemler</span></div>
+      <div class="pc-body flush">
+        <table class="ptable"><thead><tr><th>İş</th><th>Danışan</th><th>Son tarih</th><th style="text-align:right">Durum</th></tr></thead><tbody>
+          <tr><td><b>Beslenme planı hazırla</b></td><td>Zeynep Arslan</td><td>Bugün</td><td style="text-align:right"><span class="pstat warm">Gecikmek üzere</span></td></tr>
+          <tr><td><b>İlk görüşme formunu incele</b></td><td>Selin Uysal</td><td>Yarın</td><td style="text-align:right"><span class="pstat wait">Bekliyor</span></td></tr>
+          <tr><td><b>Ölçüm kaydını onayla</b></td><td>Burak Yalçın</td><td>2 gün</td><td style="text-align:right"><span class="pstat wait">Bekliyor</span></td></tr>
+          <tr><td><b>Plan revizyonu gönder</b></td><td>Ayşe Kılıç</td><td>3 gün</td><td style="text-align:right"><span class="pstat wait">Bekliyor</span></td></tr>
+          <tr><td><b>Randevu talebini yanıtla</b></td><td>Mert Doğan</td><td>3 gün</td><td style="text-align:right"><span class="pstat wait">Bekliyor</span></td></tr>
+          <tr><td><b>Aylık raporu indir</b></td><td>—</td><td>Ay sonu</td><td style="text-align:right"><span class="pstat off">Sırada</span></td></tr>
+        </tbody></table>
+      </div>
+    </div>
+      </div>
+      <div>
+    <div class="pnl-card">
+      <div class="pc-head"><span class="pc-title"><i class="fa-solid fa-user-plus"></i> Yeni danışanlar</span><a class="pc-link" href="dyt-danisanlar-v1.html">Tüm danışanlar <i class="fa-solid fa-arrow-right"></i></a></div>
+      <div class="pc-body">
+        <div class="cl-grid">
+          <div class="cl-card">
+            <div class="cl-top"><span class="cl-ava" style="background-image:url('https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=240&q=80&auto=format&fit=crop&exp=7&gam=6&sat=-9&high=8&vib=5')"></span>
+              <div class="cl-id"><div class="cl-name">Zeynep Arslan</div><div class="cl-goal">Kilo kontrolü · 1. hafta</div></div></div>
+            <div class="cl-prog"><div class="cl-prog-row"><span>Program ilerlemesi</span><b>%14</b></div>
+              <div class="cl-bar"><i style="width:14%"></i></div></div>
+          </div>
+          <div class="cl-card">
+            <div class="cl-top"><span class="cl-ava" style="background-image:url('https://images.unsplash.com/photo-1580489944761-15a19d654956?w=240&q=80&auto=format&fit=crop&exp=7&gam=6&sat=-9&high=8&vib=5')"></span>
+              <div class="cl-id"><div class="cl-name">Selin Uysal</div><div class="cl-goal">Sporcu beslenmesi · 1. hafta</div></div></div>
+            <div class="cl-prog"><div class="cl-prog-row"><span>Program ilerlemesi</span><b>%9</b></div>
+              <div class="cl-bar"><i style="width:9%"></i></div></div>
+          </div>
+          <div class="cl-card">
+            <div class="cl-top"><span class="cl-ava" style="background-image:url('https://images.unsplash.com/photo-1607746882042-944635dfe10e?w=240&q=80&auto=format&fit=crop&exp=7&gam=6&sat=-9&high=8&vib=5')"></span>
+              <div class="cl-id"><div class="cl-name">Emre Şen</div><div class="cl-goal">Dengeli beslenme · 2. hafta</div></div></div>
+            <div class="cl-prog"><div class="cl-prog-row"><span>Program ilerlemesi</span><b>%28</b></div>
+              <div class="cl-bar"><i style="width:28%"></i></div></div>
+          </div>
+        </div>
+      </div>
+    </div>
+        <div class="dash-row"></div>
+    <div class="pnl-card">
+      <div class="pc-head"><span class="pc-title"><i class="fa-solid fa-chart-simple"></i> Performans özeti</span><a class="pc-link" href="panel-raporlar-v1.html">Raporlar <i class="fa-solid fa-arrow-right"></i></a></div>
+      <div class="pc-body">
+        <div class="dd-stats"><div class="dd-stat hl"><b>%94<em> uyum</em></b><span>Plana uyum</span></div><div class="dd-stat"><b>4,9<em> / 5</em></b><span>Memnuniyet</span></div><div class="dd-stat"><b>38<em> seans</em></b><span>Bu ay</span></div><div class="dd-stat"><b>%7<em> iptal</em></b><span>İptal oranı</span></div></div>
+      </div>
+    </div>
+        <div class="dash-row"></div>
+    <div class="pnl-card">
+      <div class="pc-head"><span class="pc-title"><i class="fa-solid fa-comment-dots"></i> Bekleyen mesajlar</span><a class="pc-link" href="dyt-mesajlar-v1.html">Mesajlar <i class="fa-solid fa-arrow-right"></i></a></div>
+      <div class="pc-body flush">
+        <div class="mm-list">
+          <div class="mm-row"><span class="mm-av" style="background-image:url('https://images.unsplash.com/photo-1544005313-94ddf0286df2?w=240&q=80&auto=format&fit=crop&exp=7&gam=6&sat=-9&high=8&vib=5')"></span>
+            <div class="mm-info"><div class="mm-name">Ayşe Kılıç</div><div class="mm-prev">Öğle öğününü değiştirebilir miyiz?</div></div>
+            <span class="mm-time">12 dk</span></div>
+          <div class="mm-row"><span class="mm-av" style="background-image:url('https://images.unsplash.com/photo-1547425260-76bcadfb4f2c?w=240&q=80&auto=format&fit=crop&exp=7&gam=6&sat=-9&high=8&vib=5')"></span>
+            <div class="mm-info"><div class="mm-name">Burak Yalçın</div><div class="mm-prev">Bu hafta ölçümlerimi yükledim.</div></div>
+            <span class="mm-time">1 sa</span></div>
+          <div class="mm-row"><span class="mm-av" style="background-image:url('https://images.unsplash.com/photo-1607746882042-944635dfe10e?w=240&q=80&auto=format&fit=crop&exp=7&gam=6&sat=-9&high=8&vib=5')"></span>
+            <div class="mm-info"><div class="mm-name">Emre Şen</div><div class="mm-prev">Teşekkürler, plan çok iyi gidiyor.</div></div>
+            <span class="mm-time">3 sa</span></div>
+        </div>
+      </div>
+    </div>
+      </div>
+    </div>
+
+  </main>
+</div>
+
+<script src="assets/js/sa-ui.js"></script>
+</body>
+</html>

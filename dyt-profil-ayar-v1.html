@@ -1,0 +1,709 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<meta name="robots" content="noindex, nofollow" />
+<title>Diyetisyen Paneli · Profil & Ayarlar — DadaMutfak</title>
+<link rel="shortcut icon" type="image/x-icon" href="assets/img/favicon.ico" />
+<!-- FontAwesome 6.5.2 (kilitli ikon seti) -->
+<link rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css"
+      integrity="sha512-SnH5WK+bZxgPHs44uWIX+LLJAJ9/2PkPKZ5QiAj6Ta86w+fsb2TkcmfRyVX3pBnMFcV7oQPJkl9QevSCWr3W6A=="
+      crossorigin="anonymous" referrerpolicy="no-referrer" />
+<link rel="stylesheet" href="assets/css/sa-ui.css" />
+<link rel="stylesheet" href="assets/css/sa-gozetim.css" />
+<!-- panel kabuğu: assets/css/panel.css + assets/js/panel.js -->
+<link rel="stylesheet" href="assets/css/panel.css" />
+<style>
+/* =====================================================================
+   SAYFA CSS — sayfa-spesifik stiller BU İŞARETİN ALTINA
+   ===================================================================== */
+
+/* ============ PROFİL & AYARLAR (Dalga 4 / panel2 · ?tab=profil|hizmet|takvim|ayarlar) ============
+   Miras: .pf-tabs/.dt sekme barı (hesabim VERBATIM, aktif rengi panel yeşili) ·
+   fk-* kiti (tarif-ekle VERBATIM + panel yeşil focus) · .tgl anahtar + .set-row
+   + .ntf-matrix (hesabim VERBATIM, checked rengi panel yeşili).
+   Yeni: .avl-* müsaitlik grid'i · .svcr-* hizmet satırı · .edu-row eğitim satırı. */
+
+/* ---- sekme barı — hesabim .pf-tabs VERBATIM (aktif: panel yeşili) ---- */
+.pf-tabbar{margin-bottom:22px}
+
+/* ---- FK FORM KİTİ — tarif-ekle-v1 VERBATIM (panel yeşil focus override altta) ---- */
+.fk-field{margin-bottom:22px}
+.fk-field:last-child{margin-bottom:0}
+.fk-label{display:flex;align-items:baseline;gap:7px;font-size:14px;font-weight:700;color:var(--slate);margin-bottom:9px}
+.fk-label .req{color:var(--tomato);font-weight:700}
+.fk-label .opt{font-size:11.5px;color:var(--muted);font-weight:500}
+.fk-label .fk-count{margin-left:auto;font-size:11.5px;color:var(--muted);font-weight:500;letter-spacing:.02em}
+.fk-input,.fk-select,.fk-textarea{
+  width:100%;font-family:inherit;font-size:14px;font-weight:500;color:var(--slate);
+  background:var(--bg);border:1px solid var(--line);border-radius:var(--radius-md);
+  padding:13px 15px;outline:none;transition:border-color .2s var(--ease),box-shadow .2s var(--ease);
+}
+.fk-input::placeholder,.fk-textarea::placeholder{color:#a7a7a7}
+.fk-input:focus,.fk-select:focus,.fk-textarea:focus{border-color:var(--tomato);box-shadow:0 0 0 3px rgba(225,72,39,.10)}
+.fk-textarea{min-height:150px;resize:vertical;line-height:1.6}
+.fk-select{
+  appearance:none;-webkit-appearance:none;cursor:pointer;
+  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='6'%3E%3Cpath d='M1 1l4 4 4-4' stroke='%237E7E7E' stroke-width='1.6' fill='none' stroke-linecap='round'/%3E%3C/svg%3E");
+  background-repeat:no-repeat;background-position:right 15px center;padding-right:40px;
+}
+.fk-help{display:flex;align-items:flex-start;gap:7px;font-size:12.5px;color:var(--muted);font-weight:500;margin-top:8px;line-height:1.5}
+.fk-help i{color:var(--green-deep);font-size:12px;margin-top:2px;flex:none}
+.fk-grid{display:grid;gap:16px 18px}
+.fk-grid .fk-field{margin-bottom:0}
+.fk-grid.c2{grid-template-columns:1fr 1fr}
+.fk-grid+.fk-grid{margin-top:18px}
+.fk-grid+.fk-field,.fk-field+.fk-grid{margin-top:22px}
+.fk-suffix{position:relative}
+.fk-suffix .fk-input{padding-right:64px}
+.fk-suffix>span{position:absolute;right:15px;top:50%;transform:translateY(-50%);font-size:12px;font-weight:700;color:var(--muted);pointer-events:none}
+/* panel ekseni: form focus yeşil (pnl-search focus ringiyle aynı dil) */
+.pnl-main .fk-input:focus,.pnl-main .fk-select:focus,.pnl-main .fk-textarea:focus{border-color:var(--green);box-shadow:0 0 0 3px rgba(59,183,126,.12)}
+
+/* ---- tercih satırı + anahtar — hesabim VERBATIM (checked: panel yeşili) ---- */
+.set-list{display:flex;flex-direction:column}
+
+/* ---- bildirim kanal matrisi — hesabim VERBATIM ---- */
+.ntf-matrix{width:100%}
+.ntf-row{display:grid;grid-template-columns:minmax(0,1fr) 92px 92px;gap:12px;align-items:center;padding:14px 2px}
+.ntf-row+.ntf-row{border-top:1px solid var(--line)}
+.ntf-row.head{padding:4px 2px 12px;border-top:none}
+.ntf-row.head span{font-size:11px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);text-align:center}
+.ntf-row.head span:first-child{text-align:left}
+.ntf-row .nf-txt b{display:block;font-size:14px;color:var(--slate)}
+.ntf-row .nf-txt span{display:block;font-size:12.5px;color:var(--muted);font-weight:500;margin-top:2px}
+.ntf-row .nf-cell{display:flex;justify-content:center}
+
+/* ---- profil sekmesi düzeni ---- */
+.pa-grid{display:grid;grid-template-columns:minmax(0,1.55fr) minmax(0,1fr);gap:16px;align-items:start}
+.pa-col{display:flex;flex-direction:column;gap:16px;min-width:0}
+/* foto satırı */
+.ava-row{display:flex;align-items:center;gap:18px;margin-bottom:22px}
+.pa-ava{
+  width:76px;height:76px;flex:none;border-radius:var(--radius-circle);
+  background-size:cover;background-position:center;
+  box-shadow:0 0 0 3px var(--paper),0 0 0 5px var(--green);
+}
+.ava-row .ar-txt{flex:1;min-width:0}
+.ava-row .ar-txt b{display:block;font-size:14px;color:var(--slate)}
+.ava-row .ar-txt span{display:block;font-size:12.5px;color:var(--muted);font-weight:500;margin-top:3px;line-height:1.45}
+.ava-row .ar-btns{display:flex;gap:8px;flex:none}
+/* kapak görseli önizleme — div+bg (Kerem Bey pattern'ı) */
+.cover-prev{height:96px;border-radius:var(--radius-md);background-size:cover;background-position:center;position:relative;overflow:hidden;margin-bottom:10px}
+.cover-prev::after{content:"";position:absolute;inset:0;background:rgba(33,30,22,.18)}
+/* uzmanlık etiket chip'leri */
+.spec-chips .chip{user-select:none}
+/* eğitim / sertifika satırı */
+.edu-list{display:flex;flex-direction:column;gap:10px}
+.edu-row{display:grid;grid-template-columns:minmax(0,1.15fr) minmax(0,1fr) 38px;gap:9px;align-items:center}
+.edu-row .fk-input{padding:11px 13px;font-size:13.5px}
+.irow-del{
+  width:38px;height:42px;border:1px solid var(--line);border-radius:var(--radius-sm);
+  background:var(--paper);cursor:pointer;font-size:13px;color:var(--slate-2);
+  display:inline-flex;align-items:center;justify-content:center;transition:.2s var(--ease);
+}
+.irow-del:hover{border-color:var(--tomato);color:var(--tomato);background:var(--tomato-tint)}
+.row-add{
+  display:inline-flex;align-items:center;gap:8px;margin-top:12px;
+  padding:10px 14px;border:1.5px dashed #dcdcdc;border-radius:var(--radius-sm);
+  background:transparent;color:var(--muted);font-family:inherit;font-size:12.5px;font-weight:700;
+  cursor:pointer;transition:.18s var(--ease);
+}
+.row-add:hover{border-color:var(--green);color:var(--green-deep);background:var(--green-tint)}
+/* doğrulanmış diploma satırı (kilitli) */
+.dip-row{
+  display:flex;align-items:center;gap:13px;padding:14px 16px;
+  background:var(--green-tint);border:1px solid rgba(59,183,126,.3);border-radius:var(--radius-md);
+}
+.dip-row i{flex:none;font-size:17px;color:var(--green-deep)}
+.dip-row .dr-txt{flex:1;min-width:0;line-height:1.35}
+.dip-row .dr-txt b{display:block;font-size:13.5px;color:var(--slate)}
+.dip-row .dr-txt span{display:block;font-size:12px;color:var(--slate-2);font-weight:500;margin-top:2px}
+
+/* ---- hizmet & ücret satırları ---- */
+.svcr-head{display:grid;grid-template-columns:minmax(0,1.5fr) 132px 104px 122px 56px 38px;gap:10px;padding:0 0 10px;border-bottom:1px solid var(--line)}
+.svcr-head span{font-size:11px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--muted)}
+.svcr-row{display:grid;grid-template-columns:minmax(0,1.5fr) 132px 104px 122px 56px 38px;gap:10px;align-items:center;padding:13px 0;border-bottom:1px solid var(--line)}
+.svcr-row .fk-input,.svcr-row .fk-select{padding:11px 13px;font-size:13.5px}
+.svcr-row .fk-select{padding-right:34px;background-position:right 12px center}
+.svcr-row .fk-suffix .fk-input{padding-right:46px}
+.svcr-row .fk-suffix>span{right:12px;font-size:11px}
+.svcr-row .tgl{justify-self:center}
+.svcr-note{display:flex;align-items:center;gap:8px;font-size:12.5px;color:var(--muted);font-weight:500;margin-top:14px}
+.svcr-note i{color:var(--green-deep);font-size:12px}
+
+/* ---- müsaitlik takvimi ---- */
+.avl-scroll{overflow-x:auto;-webkit-overflow-scrolling:touch}
+.avl-grid{display:grid;grid-template-columns:62px repeat(7,minmax(0,1fr));gap:6px;min-width:620px}
+.avl-dayh{text-align:center;font-size:12px;font-weight:700;color:var(--slate);padding:4px 0 6px}
+.avl-dayh small{display:block;font-size:10px;color:var(--muted);font-weight:500;margin-top:1px}
+.avl-hour{display:flex;align-items:center;justify-content:flex-end;padding-right:8px;font-size:11px;font-weight:700;color:var(--muted);font-variant-numeric:tabular-nums}
+.avl-cell{
+  height:34px;border:1px solid var(--line);border-radius:var(--radius-sm);
+  background:var(--bg);cursor:pointer;transition:.15s var(--ease);position:relative;
+}
+.avl-cell:hover{border-color:var(--green)}
+.avl-cell.on{background:var(--green-tint);border-color:rgba(59,183,126,.55)}
+.avl-cell.on::after{
+  content:"\f00c";font-family:"Font Awesome 6 Free";font-weight:900;
+  position:absolute;inset:0;display:grid;place-items:center;font-size:10px;color:var(--green-deep);
+}
+.avl-sum{display:flex;align-items:center;gap:9px;font-size:13px;color:var(--slate-2);font-weight:500;margin-top:16px}
+.avl-sum b{color:var(--green-deep)}
+.avl-sum i{color:var(--green-deep);font-size:13px}
+
+/* kaydet mock geri bildirimi (panel ailesi ortak deseni) */
+.copy-note{
+  position:fixed;left:50%;bottom:26px;transform:translate(-50%,16px);z-index:130;
+  display:flex;align-items:center;gap:10px;background:var(--slate);color:#fff;
+  font-size:13.5px;font-weight:700;padding:13px 20px;border-radius:var(--radius-md);
+  box-shadow:var(--sh-lg);opacity:0;pointer-events:none;transition:.3s var(--ease);
+}
+.copy-note i{color:var(--green)}
+.copy-note.show{opacity:1;transform:translate(-50%,0)}
+
+/* ===================== TABLET / MOBİL ===================== */
+@media(max-width:1100px){
+  .pa-grid{grid-template-columns:minmax(0,1fr)}
+}
+@media(max-width:900px){
+  .svcr-head{display:none}
+  .svcr-row{grid-template-columns:minmax(0,1fr) minmax(0,1fr);grid-auto-rows:auto;padding:16px 0}
+  .svcr-row .fk-input:first-child{grid-column:1/-1}
+  .svcr-row .tgl{justify-self:start}
+}
+@media(max-width:640px){
+  .fk-grid.c2{grid-template-columns:1fr}
+  .ava-row{flex-wrap:wrap}
+  .edu-row{grid-template-columns:minmax(0,1fr) 38px}
+  .edu-row .fk-input:first-child{grid-column:1/-1}
+  .ntf-row{grid-template-columns:minmax(0,1fr) 56px 56px;gap:8px}
+  .pf-tabs .dt{padding:9px 13px}
+}
+</style>
+</head>
+<body data-brand="mutfak" data-nav="profil">
+
+<div class="pnl-app">
+
+  <!-- sidebar + üst bar: assets/js/panel.js üretir -->
+  <div id="pnlChrome"></div>
+  <script src="assets/js/panel.js"></script>
+
+  <main class="pnl-main">
+
+    <div class="pnl-page-head">
+      <div>
+        <h1>Profil &amp; Ayarlar</h1>
+        <div class="ph-sub">Public profilini, hizmetlerini, müsaitliğini ve hesap tercihlerini buradan yönet.</div>
+      </div>
+      <div class="ph-actions">
+        <a class="btn btn-ghost btn-sm" href="diyetisyen-profil-v1.html" target="_blank" rel="noopener"><i class="fa-regular fa-eye"></i> Public Profili Gör</a>
+        <button class="btn btn-green btn-sm" type="button" id="btnSave" onclick="saToast('Profil kaydedildi.')"><i class="fa-solid fa-check"></i> Kaydet</button>
+      </div>
+    </div>
+
+    <!-- sekme barı -->
+    <div class="pf-tabbar">
+      <div class="pf-tabs" role="tablist" aria-label="Profil ve ayar bölümleri">
+        <button class="dt active" type="button" data-tab="profil" role="tab" aria-selected="true"><i class="fa-regular fa-id-badge"></i> Public Profil</button>
+        <button class="dt" type="button" data-tab="hizmet" role="tab" aria-selected="false"><i class="fa-solid fa-stethoscope"></i> Hizmet &amp; Ücret</button>
+        <button class="dt" type="button" data-tab="takvim" role="tab" aria-selected="false"><i class="fa-regular fa-calendar"></i> Müsaitlik Takvimi</button>
+        <button class="dt" type="button" data-tab="ayarlar" role="tab" aria-selected="false"><i class="fa-solid fa-sliders"></i> Hesap Ayarları</button>
+      </div>
+    </div>
+
+    <!-- ===== TAB: PUBLIC PROFİL (alanlar diyetisyen-profil-v1 ile eşleşir) ===== -->
+    <div class="pf-pane" data-pane="profil">
+      <div class="pa-grid">
+        <div class="pa-col">
+          <div class="pnl-card">
+            <div class="pc-head">
+              <div class="pc-title"><i class="fa-regular fa-id-badge"></i> Kimlik &amp; Tanıtım</div>
+              <span class="muted" style="font-size:12.5px">Public profilde görünür</span>
+            </div>
+            <div class="pc-body">
+              <div class="ava-row">
+                <div class="pa-ava" style="background-image:url('https://images.unsplash.com/photo-1559839734-2b71ea197ec2?w=240&q=80&auto=format&fit=crop&exp=7&gam=6&sat=-9&high=8&vib=5')"></div>
+                <div class="ar-txt">
+                  <b>Profil fotoğrafı</b>
+                  <span>Kare, en az 400×400 px. Yüzünün net göründüğü güncel bir fotoğraf güven verir.</span>
+                </div>
+                <div class="ar-btns">
+                  <button class="btn btn-ghost btn-sm" type="button"><i class="fa-solid fa-camera"></i> Değiştir</button>
+                </div>
+              </div>
+              <div class="fk-field">
+                <label class="fk-label">Kapak görseli <span class="opt">(profil üst bandı)</span></label>
+                <div class="cover-prev" style="background-image:url('https://images.unsplash.com/photo-1490818387583-1baba5e638af?w=1200&q=80&auto=format&fit=crop&exp=7&gam=6&sat=-9&high=8&vib=5')"></div>
+                <button class="btn btn-ghost btn-sm" type="button"><i class="fa-regular fa-image"></i> Kapak Görselini Değiştir</button>
+              </div>
+              <div class="fk-grid c2">
+                <div class="fk-field">
+                  <label class="fk-label" for="pUnvan">Unvan <span class="req">*</span></label>
+                  <select class="fk-select" id="pUnvan">
+                    <option>Dyt.</option>
+                    <option selected>Uzm. Dyt.</option>
+                    <option>Doç. Dr. Dyt.</option>
+                  </select>
+                </div>
+                <div class="fk-field">
+                  <label class="fk-label" for="pAd">Ad Soyad <span class="req">*</span></label>
+                  <input class="fk-input" id="pAd" type="text" value="Elif Şahin" />
+                </div>
+              </div>
+              <div class="fk-grid c2">
+                <div class="fk-field">
+                  <label class="fk-label" for="pHandle">Kullanıcı adı</label>
+                  <input class="fk-input" id="pHandle" type="text" value="@elifyildirimdyt" />
+                </div>
+                <div class="fk-field">
+                  <label class="fk-label" for="pTitle">Profil başlığı</label>
+                  <input class="fk-input" id="pTitle" type="text" value="Uzman Diyetisyen · Klinik Beslenme &amp; Kilo Yönetimi" />
+                </div>
+              </div>
+              <div class="fk-field">
+                <label class="fk-label" for="pBio">Kısa tanıtım (bio) <span class="fk-count" id="bioCount">0 / 280</span></label>
+                <textarea class="fk-textarea" id="pBio" maxlength="280" style="min-height:110px">Hacettepe Beslenme ve Diyetetik mezunu, klinik beslenme yüksek lisanslı. 9 yıldır sürdürülebilir, suçluluk üretmeyen bir beslenme anlayışıyla danışanlarımın kendi mutfaklarında uygulayabileceği planlar kuruyorum.</textarea>
+                <div class="fk-help"><i class="fa-solid fa-circle-info"></i> Profil kartında ilk 2 cümle görünür — en güçlü cümlenle başla.</div>
+              </div>
+              <div class="fk-field">
+                <label class="fk-label">Uzmanlık etiketleri <span class="opt">(en fazla 6)</span></label>
+                <div class="chips spec-chips" id="specChips">
+                  <button class="chip is-on" type="button">Kilo Yönetimi</button>
+                  <button class="chip is-on" type="button">Klinik Beslenme</button>
+                  <button class="chip is-on" type="button">İnsülin Direnci</button>
+                  <button class="chip is-on" type="button">Bağırsak Sağlığı</button>
+                  <button class="chip is-on" type="button">Sporcu Beslenmesi</button>
+                  <button class="chip is-on" type="button">PCOS &amp; Hormonal Denge</button>
+                  <button class="chip" type="button">Çocuk Beslenmesi</button>
+                  <button class="chip" type="button">Vegan / Vejetaryen</button>
+                  <button class="chip" type="button">Onkoloji Beslenmesi</button>
+                </div>
+              </div>
+              <div class="fk-grid c2">
+                <div class="fk-field">
+                  <label class="fk-label" for="pKonum">Konum</label>
+                  <input class="fk-input" id="pKonum" type="text" value="İstanbul · Online &amp; Yüz yüze" />
+                </div>
+                <div class="fk-field">
+                  <label class="fk-label" for="pDeneyim">Deneyim</label>
+                  <div class="fk-suffix">
+                    <input class="fk-input" id="pDeneyim" type="number" value="9" min="0" max="50" />
+                    <span>yıl</span>
+                  </div>
+                </div>
+              </div>
+              <div class="fk-field">
+                <label class="fk-label" for="pDil">Diller</label>
+                <input class="fk-input" id="pDil" type="text" value="Türkçe, İngilizce" />
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="pa-col">
+          <div class="pnl-card">
+            <div class="pc-head"><div class="pc-title"><i class="fa-solid fa-graduation-cap"></i> Eğitim &amp; Belgeler</div></div>
+            <div class="pc-body">
+              <div class="fk-field">
+                <label class="fk-label">Eğitim</label>
+                <div class="edu-list" id="eduList">
+                  <div class="edu-row">
+                    <input class="fk-input" type="text" value="Hacettepe Üniversitesi" aria-label="Kurum" />
+                    <input class="fk-input" type="text" value="Beslenme ve Diyetetik (Lisans)" aria-label="Program" />
+                    <button class="irow-del" type="button" aria-label="Satırı sil"><i class="fa-regular fa-trash-can"></i></button>
+                  </div>
+                  <div class="edu-row">
+                    <input class="fk-input" type="text" value="İstanbul Üniversitesi" aria-label="Kurum" />
+                    <input class="fk-input" type="text" value="Klinik Beslenme (Yüksek Lisans)" aria-label="Program" />
+                    <button class="irow-del" type="button" aria-label="Satırı sil"><i class="fa-regular fa-trash-can"></i></button>
+                  </div>
+                </div>
+                <button class="row-add" type="button" id="eduAdd"><i class="fa-solid fa-plus"></i> Eğitim Ekle</button>
+              </div>
+              <div class="fk-field">
+                <label class="fk-label" for="pSert">Sertifikalar <span class="opt">(virgülle ayır)</span></label>
+                <input class="fk-input" id="pSert" type="text" value="Spor Diyetisyenliği, Çocuk Beslenmesi, NLP" />
+              </div>
+              <div class="fk-field">
+                <label class="fk-label" for="pUyelik">Dernek üyeliği</label>
+                <input class="fk-input" id="pUyelik" type="text" value="Türkiye Diyetisyenler Derneği" />
+              </div>
+              <div class="fk-field">
+                <label class="fk-label">Diploma doğrulaması</label>
+                <div class="dip-row">
+                  <i class="fa-solid fa-circle-check"></i>
+                  <div class="dr-txt">
+                    <b>Diploma No · Doğrulandı (2015)</b>
+                    <span>DadaMutfak onaylı. Bu alan değiştirilemez — güncelleme için destek ekibine yaz.</span>
+                  </div>
+                  <span class="pstat ok">Onaylı</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ===== TAB: HİZMET & ÜCRET ===== -->
+    <div class="pf-pane" data-pane="hizmet" hidden>
+      <div class="pnl-card">
+        <div class="pc-head">
+          <div class="pc-title"><i class="fa-solid fa-stethoscope"></i> Hizmetler &amp; Ücretler</div>
+          <span class="muted" style="font-size:12.5px">Public profilin “Hizmetler” sekmesinde görünür</span>
+        </div>
+        <div class="pc-body">
+          <div class="svcr-head">
+            <span>Hizmet</span><span>Tür</span><span>Süre</span><span>Ücret</span><span>Aktif</span><span></span>
+          </div>
+          <div id="svcList">
+            <div class="svcr-row">
+              <input class="fk-input" type="text" value="Online İlk Görüşme" aria-label="Hizmet adı" />
+              <select class="fk-select" aria-label="Tür"><option selected>Online</option><option>Yüz yüze</option></select>
+              <div class="fk-suffix"><input class="fk-input" type="number" value="60" aria-label="Süre" /><span>dk</span></div>
+              <div class="fk-suffix"><input class="fk-input" type="number" value="750" aria-label="Ücret" /><span>₺</span></div>
+              <label class="tgl" aria-label="Hizmet aktif"><input type="checkbox" checked /><span class="tk"></span></label>
+              <button class="irow-del" type="button" aria-label="Hizmeti sil"><i class="fa-regular fa-trash-can"></i></button>
+            </div>
+            <div class="svcr-row">
+              <input class="fk-input" type="text" value="Online Takip Paketi (aylık)" aria-label="Hizmet adı" />
+              <select class="fk-select" aria-label="Tür"><option selected>Online</option><option>Yüz yüze</option></select>
+              <div class="fk-suffix"><input class="fk-input" type="number" value="45" aria-label="Süre" /><span>dk × 4</span></div>
+              <div class="fk-suffix"><input class="fk-input" type="number" value="2200" aria-label="Ücret" /><span>₺/ay</span></div>
+              <label class="tgl" aria-label="Hizmet aktif"><input type="checkbox" checked /><span class="tk"></span></label>
+              <button class="irow-del" type="button" aria-label="Hizmeti sil"><i class="fa-regular fa-trash-can"></i></button>
+            </div>
+            <div class="svcr-row">
+              <input class="fk-input" type="text" value="Klinik Görüşme (Şişli)" aria-label="Hizmet adı" />
+              <select class="fk-select" aria-label="Tür"><option>Online</option><option selected>Yüz yüze</option></select>
+              <div class="fk-suffix"><input class="fk-input" type="number" value="60" aria-label="Süre" /><span>dk</span></div>
+              <div class="fk-suffix"><input class="fk-input" type="number" value="900" aria-label="Ücret" /><span>₺</span></div>
+              <label class="tgl" aria-label="Hizmet aktif"><input type="checkbox" checked /><span class="tk"></span></label>
+              <button class="irow-del" type="button" aria-label="Hizmeti sil"><i class="fa-regular fa-trash-can"></i></button>
+            </div>
+          </div>
+          <button class="row-add" type="button" id="svcAdd"><i class="fa-solid fa-plus"></i> Hizmet Ekle</button>
+          <div class="svcr-note"><i class="fa-solid fa-circle-info"></i> Pasif hizmetler public profilde gizlenir; mevcut randevular etkilenmez.</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ===== TAB: MÜSAİTLİK TAKVİMİ ===== -->
+    <div class="pf-pane" data-pane="takvim" hidden>
+      <div class="dash-cols">
+        <div class="pnl-card">
+          <div class="pc-head">
+            <div class="pc-title"><i class="fa-regular fa-calendar"></i> Haftalık Müsaitlik</div>
+            <span class="muted" style="font-size:12.5px">Hücreye tıkla — aç / kapat</span>
+          </div>
+          <div class="pc-body">
+            <div class="avl-scroll">
+              <div class="avl-grid" id="avlGrid" aria-label="Haftalık müsaitlik tablosu"></div>
+            </div>
+            <div class="avl-sum"><i class="fa-regular fa-clock"></i> Haftada <b id="avlCount">0 saat</b> randevuya açıksın — danışanlar yalnız açık saatleri görür.</div>
+          </div>
+        </div>
+        <div class="pnl-card">
+          <div class="pc-head"><div class="pc-title"><i class="fa-solid fa-sliders"></i> Seans Kuralları</div></div>
+          <div class="pc-body">
+            <div class="fk-field">
+              <label class="fk-label" for="sSure">Varsayılan seans süresi</label>
+              <select class="fk-select" id="sSure">
+                <option>30 dk</option>
+                <option selected>45 dk</option>
+                <option>60 dk</option>
+              </select>
+            </div>
+            <div class="fk-field">
+              <label class="fk-label" for="sTampon">Seanslar arası tampon</label>
+              <select class="fk-select" id="sTampon">
+                <option>Yok</option>
+                <option selected>15 dk</option>
+                <option>30 dk</option>
+              </select>
+              <div class="fk-help"><i class="fa-solid fa-circle-info"></i> Tampon süre, ardışık randevular arasında otomatik boşluk bırakır — not yazma ve hazırlık için nefes.</div>
+            </div>
+            <div class="fk-field">
+              <label class="fk-label" for="sOnay">Randevu onayı</label>
+              <select class="fk-select" id="sOnay">
+                <option selected>Onayımla kesinleşsin</option>
+                <option>Otomatik onaylansın</option>
+              </select>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ===== TAB: HESAP AYARLARI ===== -->
+    <div class="pf-pane" data-pane="ayarlar" hidden>
+      <div class="pa-grid">
+        <div class="pa-col">
+          <div class="pnl-card">
+            <div class="pc-head"><div class="pc-title"><i class="fa-regular fa-bell"></i> Bildirim Tercihleri</div></div>
+            <div class="pc-body">
+              <div class="ntf-matrix" role="table" aria-label="Bildirim kanal matrisi">
+                <div class="ntf-row head" role="row"><span>Bildirim</span><span>E-posta</span><span>Push</span></div>
+                <div class="ntf-row" role="row">
+                  <div class="nf-txt"><b>Yeni randevu talebi</b><span>Danışan randevu istediğinde anında haber ver</span></div>
+                  <span class="nf-cell"><label class="tgl" aria-label="Randevu talebi e-posta"><input type="checkbox" checked /><span class="tk"></span></label></span>
+                  <span class="nf-cell"><label class="tgl" aria-label="Randevu talebi push"><input type="checkbox" checked /><span class="tk"></span></label></span>
+                </div>
+                <div class="ntf-row" role="row">
+                  <div class="nf-txt"><b>Yeni mesaj</b><span>Danışanlarından gelen mesajlar</span></div>
+                  <span class="nf-cell"><label class="tgl" aria-label="Mesaj e-posta"><input type="checkbox" /><span class="tk"></span></label></span>
+                  <span class="nf-cell"><label class="tgl" aria-label="Mesaj push"><input type="checkbox" checked /><span class="tk"></span></label></span>
+                </div>
+                <div class="ntf-row" role="row">
+                  <div class="nf-txt"><b>Yeni değerlendirme</b><span>Profilin yorum/puan aldığında</span></div>
+                  <span class="nf-cell"><label class="tgl" aria-label="Değerlendirme e-posta"><input type="checkbox" checked /><span class="tk"></span></label></span>
+                  <span class="nf-cell"><label class="tgl" aria-label="Değerlendirme push"><input type="checkbox" /><span class="tk"></span></label></span>
+                </div>
+                <div class="ntf-row" role="row">
+                  <div class="nf-txt"><b>Haftalık panel özeti</b><span>Randevu, danışan ve mesaj istatistikleri</span></div>
+                  <span class="nf-cell"><label class="tgl" aria-label="Özet e-posta"><input type="checkbox" checked /><span class="tk"></span></label></span>
+                  <span class="nf-cell"><label class="tgl" aria-label="Özet push"><input type="checkbox" /><span class="tk"></span></label></span>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="pnl-card">
+            <div class="pc-head"><div class="pc-title"><i class="fa-regular fa-calendar-check"></i> Randevu Hatırlatmaları</div></div>
+            <div class="pc-body">
+              <div class="set-list">
+                <div class="set-row">
+                  <span class="sr-ico"><i class="fa-regular fa-clock"></i></span>
+                  <div class="sr-txt"><b>Danışana otomatik hatırlatma</b><span>Randevudan 24 saat önce danışana e-posta gönderilir</span></div>
+                  <label class="tgl" aria-label="Danışan hatırlatması"><input type="checkbox" checked /><span class="tk"></span></label>
+                </div>
+                <div class="set-row">
+                  <span class="sr-ico"><i class="fa-solid fa-mobile-screen"></i></span>
+                  <div class="sr-txt"><b>Bana sabah ajandası</b><span>Her sabah 08.00&apos;de günün randevu listesi</span></div>
+                  <label class="tgl" aria-label="Sabah ajandası"><input type="checkbox" checked /><span class="tk"></span></label>
+                </div>
+                <div class="set-row">
+                  <span class="sr-ico"><i class="fa-regular fa-moon"></i></span>
+                  <div class="sr-txt"><b>Sessiz saatler</b><span>21.00 – 08.00 arası push bildirimi gelmez</span></div>
+                  <label class="tgl" aria-label="Sessiz saatler"><input type="checkbox" /><span class="tk"></span></label>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="pa-col">
+          <div class="pnl-card">
+            <div class="pc-head"><div class="pc-title"><i class="fa-solid fa-lock"></i> Şifre Değiştir</div></div>
+            <div class="pc-body">
+              <div class="fk-field">
+                <label class="fk-label" for="pwCur">Mevcut şifren <span class="req">*</span></label>
+                <input class="fk-input" id="pwCur" type="password" placeholder="••••••••" autocomplete="current-password" />
+              </div>
+              <div class="fk-field">
+                <label class="fk-label" for="pwNew">Yeni şifre <span class="req">*</span></label>
+                <input class="fk-input" id="pwNew" type="password" placeholder="En az 8 karakter" autocomplete="new-password" />
+                <div class="fk-help"><i class="fa-solid fa-circle-info"></i> Büyük/küçük harf, rakam ve işaret karışımı öner — başka sitede kullandığın şifreyi tekrar etme.</div>
+              </div>
+              <div class="fk-field">
+                <label class="fk-label" for="pwNew2">Yeni şifre (tekrar) <span class="req">*</span></label>
+                <input class="fk-input" id="pwNew2" type="password" placeholder="Yeni şifreni doğrula" autocomplete="new-password" />
+              </div>
+              <div class="fk-field">
+                <button class="btn btn-green btn-sm" type="button" id="btnPw" onclick="saToast('Şifre güncellendi.')"><i class="fa-solid fa-key"></i> Şifreyi Güncelle</button>
+              </div>
+            </div>
+          </div>
+          <div class="pnl-card">
+            <div class="pc-head"><div class="pc-title"><i class="fa-solid fa-shield-halved"></i> Oturum &amp; Güvenlik</div></div>
+            <div class="pc-body">
+              <div class="set-list">
+                <div class="set-row">
+                  <span class="sr-ico"><i class="fa-solid fa-mobile-screen-button"></i></span>
+                  <div class="sr-txt"><b>İki adımlı doğrulama</b><span>Girişte SMS koduyla ek güvenlik</span></div>
+                  <label class="tgl" aria-label="İki adımlı doğrulama"><input type="checkbox" checked /><span class="tk"></span></label>
+                </div>
+                <div class="set-row">
+                  <span class="sr-ico"><i class="fa-solid fa-right-from-bracket"></i></span>
+                  <div class="sr-txt"><b>Diğer cihazlardan çık</b><span>2 aktif oturum görünüyor</span></div>
+                  <button class="btn btn-ghost btn-sm" type="button" id="btnLogoutAll">Oturumları Kapat</button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </main>
+</div>
+
+<script>
+/* panel ortak JS (burger + overlay + ?nav=1) assets/js/panel.js içinde */
+</script>
+
+
+<script>
+/* ===== SAYFA JS — Profil & Ayarlar: ?tab= sekmeleri + müsaitlik grid'i + mock etkileşimler ===== */
+(function(){
+  /* ---- sekmeler (?tab=profil|hizmet|takvim|ayarlar) ---- */
+  var tabs=document.querySelectorAll('.pf-tabs .dt'),
+      panes=document.querySelectorAll('.pf-pane'),
+      navProfil=document.querySelector('.pnl-nav [data-nav="profil"]');
+  function setTab(key,push){
+    var valid=['profil','hizmet','takvim','ayarlar'];
+    if(valid.indexOf(key)<0)key='profil';
+    tabs.forEach(function(b){
+      var on=b.getAttribute('data-tab')===key;
+      b.classList.toggle('active',on);
+      b.setAttribute('aria-selected',on?'true':'false');
+    });
+    panes.forEach(function(pn){pn.hidden=pn.getAttribute('data-pane')!==key});
+    /* sidebar aktifliği: Profil ve Ayarlar tek modül (belge sırası) — link hep aktif */
+    if(navProfil)navProfil.classList.add('is-active');
+    if(push){
+      var url=key==='profil'?location.pathname:location.pathname+'?tab='+key;
+      history.replaceState(null,'',url);
+    }
+  }
+  tabs.forEach(function(b){b.addEventListener('click',function(){setTab(b.getAttribute('data-tab'),true)})});
+  var q=new URLSearchParams(location.search);
+  setTab(q.get('tab')||'profil',false);
+
+  /* ---- bio sayaç ---- */
+  var bio=document.getElementById('pBio'),bioCount=document.getElementById('bioCount');
+  function cnt(){bioCount.textContent=bio.value.length+' / 280'}
+  bio.addEventListener('input',cnt);cnt();
+
+  /* ---- uzmanlık etiket chip'leri (en fazla 6) ---- */
+  document.getElementById('specChips').addEventListener('click',function(e){
+    var c=e.target.closest('.chip');if(!c)return;
+    var onCount=this.querySelectorAll('.chip.is-on').length;
+    if(!c.classList.contains('is-on')&&onCount>=6){say('<i class="fa-solid fa-circle-info"></i> En fazla 6 uzmanlık etiketi seçebilirsin');return}
+    c.classList.toggle('is-on');
+  });
+
+  /* ---- eğitim satırı ekle/sil ---- */
+  function bindDel(scope){
+    scope.addEventListener('click',function(e){
+      var d=e.target.closest('.irow-del');if(!d)return;
+      var row=d.closest('.edu-row')||d.closest('.svcr-row');
+      if(row)row.remove();
+    });
+  }
+  var eduList=document.getElementById('eduList');
+  bindDel(eduList);
+  document.getElementById('eduAdd').addEventListener('click',function(){
+    var div=document.createElement('div');div.className='edu-row';
+    div.innerHTML='<input class="fk-input" type="text" placeholder="Kurum" aria-label="Kurum" />'
+      +'<input class="fk-input" type="text" placeholder="Program / bölüm" aria-label="Program" />'
+      +'<button class="irow-del" type="button" aria-label="Satırı sil"><i class="fa-regular fa-trash-can"></i></button>';
+    eduList.appendChild(div);
+    div.querySelector('input').focus();
+  });
+
+  /* ---- hizmet satırı ekle/sil ---- */
+  var svcList=document.getElementById('svcList');
+  bindDel(svcList);
+  document.getElementById('svcAdd').addEventListener('click',function(){
+    var div=document.createElement('div');div.className='svcr-row';
+    div.innerHTML='<input class="fk-input" type="text" placeholder="Hizmet adı" aria-label="Hizmet adı" />'
+      +'<select class="fk-select" aria-label="Tür"><option selected>Online</option><option>Yüz yüze</option></select>'
+      +'<div class="fk-suffix"><input class="fk-input" type="number" value="45" aria-label="Süre" /><span>dk</span></div>'
+      +'<div class="fk-suffix"><input class="fk-input" type="number" placeholder="0" aria-label="Ücret" /><span>₺</span></div>'
+      +'<label class="tgl" aria-label="Hizmet aktif"><input type="checkbox" checked /><span class="tk"></span></label>'
+      +'<button class="irow-del" type="button" aria-label="Hizmeti sil"><i class="fa-regular fa-trash-can"></i></button>';
+    svcList.appendChild(div);
+    div.querySelector('input').focus();
+  });
+
+  /* ---- müsaitlik grid'i: 7 gün × 09.00–18.00 ---- */
+  var DAYS=['Pzt','Sal','Çar','Per','Cum','Cmt','Paz'],
+      HOURS=['09.00','10.00','11.00','12.00','13.00','14.00','15.00','16.00','17.00'],
+      /* açık desen: hafta içi 09–12 + 14–17, Cmt 10–13, Paz kapalı */
+      OPEN={0:[0,1,2,5,6,7],1:[0,1,2,5,6,7],2:[0,1,2,5,6,7],3:[0,1,2,5,6,7],4:[0,1,2,5,6],5:[1,2,3],6:[]},
+      grid=document.getElementById('avlGrid'),
+      cEl=document.getElementById('avlCount');
+  var h='<div></div>';
+  DAYS.forEach(function(d){h+='<div class="avl-dayh">'+d+'</div>'});
+  HOURS.forEach(function(hr,hi){
+    h+='<div class="avl-hour">'+hr+'</div>';
+    DAYS.forEach(function(_,di){
+      var on=OPEN[di].indexOf(hi)>-1;
+      h+='<button type="button" class="avl-cell'+(on?' on':'')+'" aria-label="'+DAYS[di]+' '+hr+(on?' açık':' kapalı')+'"></button>';
+    });
+  });
+  grid.innerHTML=h;
+  function recount(){
+    var n=grid.querySelectorAll('.avl-cell.on').length;
+    cEl.textContent=n+' saat';
+  }
+  grid.addEventListener('click',function(e){
+    var c=e.target.closest('.avl-cell');if(!c)return;
+    c.classList.toggle('on');recount();
+  });
+  recount();
+
+  /* ---- mock kaydet / şifre / oturum geri bildirimi ---- */
+  var note=document.createElement('div');note.className='copy-note';document.body.appendChild(note);
+  var noteT;
+  function say(html){note.innerHTML=html;note.classList.add('show');clearTimeout(noteT);noteT=setTimeout(function(){note.classList.remove('show')},2200)}
+  window.__say=say;
+  document.getElementById('btnSave').addEventListener('click',function(){say('<i class="fa-solid fa-circle-check"></i> Değişiklikler kaydedildi — public profilin güncellendi')});
+  document.getElementById('btnPw').addEventListener('click',function(){say('<i class="fa-solid fa-circle-check"></i> Şifren güncellendi — diğer oturumlar kapatıldı')});
+  document.getElementById('btnLogoutAll').addEventListener('click',function(){say('<i class="fa-solid fa-circle-check"></i> Diğer cihazlardaki oturumlar kapatıldı')});
+})();
+</script>
+\n<script>
+/* ===== Faz3 — işletme-sahibi rolü (has-business): is-auth kardeşi =====
+   ?business=1 → localStorage dm_business='1' + body.has-business ; ?business=0 → temizle.
+   param yoksa localStorage'a bakılır. Adım 1 işletme linkleri (İşletmem→Panele Git,
+   panel topbar account chip) body.has-business ile rol-koşullu gösterilir. */
+(function(){
+  /* C1 — tek auth/rol token dm_user{auth,roles[],verified,level}. Eski dm_auth/dm_business
+     migrate+silinir. Kök kuralı: auth ⟹ roles "kullanici" ile başlar; isletme operatörü
+     ["kullanici","isletme"]. Class additive (is-auth/has-business AYNEN) + body[data-roles]. */
+  var KEY='dm_user', OK={kullanici:1,antrenor:1,diyetisyen:1,isletme:1};
+  function rd(){ try{var r=localStorage.getItem(KEY);return r?JSON.parse(r):null;}catch(e){return null;} }
+  function wr(u){ try{localStorage.setItem(KEY,JSON.stringify(u));}catch(e){} }
+  var u=rd();
+  if(!u){                                   // migrasyon: eski binary flag → dm_user (bir kez)
+    var oa=false,ob=false;
+    try{oa=localStorage.getItem('dm_auth')==='1';}catch(e){}
+    try{ob=localStorage.getItem('dm_business')==='1';}catch(e){}
+    if(oa||ob){ u={auth:true,roles:['kullanici'],verified:false,level:0}; if(ob)u.roles.push('isletme'); wr(u); }
+  }
+  try{localStorage.removeItem('dm_auth');localStorage.removeItem('dm_business');}catch(e){}  // eski anahtar temizliği
+  var qs=location.search;                    // URL-param (demo/SS akışı korunur + yeni roller)
+  function ens(){ if(!u)u={auth:false,roles:[],verified:false,level:0}; }
+  function addR(r){ ens(); if(OK[r]&&u.roles.indexOf(r)<0)u.roles.push(r); }
+  if(qs.indexOf('auth=1')>-1){ ens(); u.auth=true; }
+  else if(qs.indexOf('auth=0')>-1){ u=null; try{localStorage.removeItem(KEY);}catch(e){} }
+  if(qs.indexOf('business=1')>-1){ ens(); u.auth=true; addR('isletme'); }
+  else if(qs.indexOf('business=0')>-1){ if(u){var bi=u.roles.indexOf('isletme'); if(bi>-1)u.roles.splice(bi,1);} }
+  var rm=/[?&]role=(antrenor|diyetisyen|isletme)/.exec(qs); if(rm){ ens(); u.auth=true; addR(rm[1]); }
+  if(u){
+    if(qs.indexOf('verified=1')>-1)u.verified=true; else if(qs.indexOf('verified=0')>-1)u.verified=false;
+    var lm=/[?&]level=(\d+)/.exec(qs); if(lm)u.level=parseInt(lm[1],10)||0;
+    if(u.auth&&u.roles.indexOf('kullanici')<0)u.roles.unshift('kullanici');   // kök her zaman önde
+    wr(u);
+  }
+  var b=document.body, authed=!!(u&&u.auth);   // DOM: eski class kanalı (additive) + data-roles
+  if(authed){
+    b.classList.add('is-auth');
+    if(u.roles.indexOf('isletme')>-1)b.classList.add('has-business');   // C3 köprü sinyali — AYNEN
+    b.setAttribute('data-roles',u.roles.join(' '));
+    if(u.verified)b.setAttribute('data-verified','1');
+    if(u.level)b.setAttribute('data-level',String(u.level));
+  }
+  var bnA=document.getElementById('bnAccount');   // M6 — bottom-nav Hesap hedefi
+  if(bnA)bnA.setAttribute('href', authed?'mutfak-defteri-v1.html':'giris-v1.html');
+})();
+</script>
+
+<script src="assets/js/sa-ui.js"></script>
+<script src="assets/js/sa-gozetim.js" defer></script>
+</body>
+</html>

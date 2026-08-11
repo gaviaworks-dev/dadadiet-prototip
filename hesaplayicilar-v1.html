@@ -1,0 +1,217 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<meta name="robots" content="noindex, nofollow" />
+<title>Hesaplayıcılar — Sağlık Araçları | DadaDiet</title>
+<link rel="shortcut icon" type="image/x-icon"
+      href="assets/img/favicon.ico" />
+<!-- FontAwesome 6.5.2 (kilitli ikon seti) -->
+<link rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css"
+      integrity="sha512-SnH5WK+bZxgPHs44uWIX+LLJAJ9/2PkPKZ5QiAj6Ta86w+fsb2TkcmfRyVX3pBnMFcV7oQPJkl9QevSCWr3W6A=="
+      crossorigin="anonymous" referrerpolicy="no-referrer" />
+<link rel="stylesheet" href="assets/css/dd-shell.css" />
+<style>
+/* ===== SAYFA CSS — kabuk CSS'i assets/css/dd-shell.css'te ===== */
+/* =====================================================================
+   HESAPLAYICILAR — Sağlık Araçları modülünün hesaplayıcı listesi.
+   Bu sayfanın gövdesi saglik-araclari-v1'in hesaplayıcı bölümünden geldi;
+   o adres modülün merkez sayfası oldu, liste buraya taşındı.
+   YENİ SINIF YOK. Kullanılan yapılar ve geldikleri sayfa:
+     .tst-top / .rd-crumb / .tst-head / .tst-meta   ← saglik-araclari-v1
+     .hub-grid                                      ← saglik-araclari-v1
+     .calc-card / .calc-ico ailesi                  ← saglik-hub-v1
+     .sec-green .eyebrow                            ← saglik-hub-v1
+     .pf-disclaimer                                 ← saglik-hub-v1
+     .sec / .sec-head / .see-all / .lead / .chips   ← dd-shell.css (kabuk)
+   ===================================================================== */
+
+/* ---- ÜST BÖLGE (saglik-araclari-v1 .tst-top dili — birebir) ---- */
+.tst-top{
+  position:relative;padding-top:128px;
+  background-image:linear-gradient(90deg,rgba(18,28,22,.94),rgba(20,32,25,.74)),
+    url('https://images.unsplash.com/photo-1512621776951-a57141f2eefd?w=1600&q=80&auto=format&fit=crop&exp=7&gam=6&sat=-9&high=8&vib=5');
+  background-size:cover;background-position:center;
+}
+.tst-top .wrap{position:relative}
+.rd-crumb{display:flex;align-items:center;flex-wrap:wrap;gap:9px;padding:18px 0 14px;font-size:13px;font-weight:500;color:var(--muted)}
+.rd-crumb a{color:var(--muted);transition:.18s}
+.rd-crumb a:hover{color:var(--green-deep)}
+.rd-crumb i{font-size:9px;color:#c7c7c7}
+.rd-crumb b{color:var(--slate);font-weight:700}
+.tst-top .rd-crumb{color:#bcd0c4}
+.tst-top .rd-crumb a{color:#bcd0c4}
+.tst-top .rd-crumb a:hover{color:#7fe0b0}
+.tst-top .rd-crumb i{color:rgba(255,255,255,.4)}
+.tst-top .rd-crumb b{color:#fff}
+.tst-head{padding:10px 0 44px;max-width:680px}
+.tst-head .eyebrow{color:#7fe0b0}
+.tst-head .eyebrow::before{background:var(--green)}
+.tst-head h1{color:#fff;font-size:44px;margin:14px 0 12px;letter-spacing:-.03em;text-shadow:0 2px 24px rgba(0,0,0,.25)}
+.tst-head .lead{color:#e3ede7;font-weight:500;font-size:15.5px;text-shadow:0 1px 14px rgba(0,0,0,.3)}
+.tst-meta{display:flex;align-items:center;gap:22px;margin-top:18px;font-size:13px;color:#cfe0d6;font-weight:600}
+.tst-meta span{display:inline-flex;align-items:center;gap:8px}
+.tst-meta i{color:#54d39a}
+
+/* ---- sağlık bölümü eyebrow'u (saglik-hub) ---- */
+.sec-green .eyebrow{color:var(--green-deep)}
+.sec-green .eyebrow::before{background:var(--green)}
+
+/* ---- calc-card (hesaplayıcı kartı — saglik-hub'dan) ---- */
+.hub-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:24px}
+.calc-card{display:flex;align-items:center;gap:14px;padding:16px;background:var(--paper);border:1px solid #e2efe8;border-radius:var(--radius-lg);cursor:pointer;transition:.25s var(--ease)}
+.calc-card:hover{transform:translateY(-4px);border-color:var(--green);box-shadow:var(--sh-md)}
+.calc-ico{flex:none;width:50px;height:50px;border-radius:var(--radius-lg);background:#EAF7F0;display:grid;place-items:center}
+.calc-ico i{font-size:21px;color:var(--tomato-deep)}
+.calc-card h4{font-size:16px;margin-bottom:3px}
+.calc-card p{font-size:12.5px;color:var(--muted);font-weight:500}
+.calc-card .go{margin-left:auto;color:var(--green);font-size:13px;transition:.2s var(--ease)}
+.calc-card:hover .go{transform:translateX(3px)}
+
+/* ---- tıbbi bilgilendirme şeridi (saglik-hub) ---- */
+.pf-disclaimer{background:var(--tomato-tint);border-top:1px solid rgba(59,183,126,.25)}
+.pf-disclaimer .wrap{display:flex;gap:14px;align-items:flex-start;padding-top:22px;padding-bottom:22px}
+.pf-disclaimer i{color:var(--tomato-deep);font-size:17px;margin-top:2px;flex:none}
+.pf-disclaimer p{font-size:13.5px;color:var(--slate-2);font-weight:500;line-height:1.65;max-width:960px}
+.pf-disclaimer b{color:var(--slate);font-weight:700}
+
+/* ---- responsive (saglik-araclari reçetesi) ---- */
+@media (max-width:1024px){
+  .hub-grid{grid-template-columns:1fr 1fr}
+  .tst-head h1{font-size:30px}
+}
+@media (max-width:640px){
+  .tst-top{padding-top:74px}
+  .hub-grid{grid-template-columns:1fr;gap:18px}
+  .tst-head h1{font-size:25px}
+  .tst-meta{flex-wrap:wrap;gap:12px 18px}
+}
+</style>
+</head>
+<body data-brand="diet" data-nav="hesaplayicilar">
+
+<div id="ddChromeTop"></div>
+<script src="assets/js/dd-shell.js"></script>
+
+<main class="page-main" id="pageMain">
+
+<!-- ===== HERO ===== -->
+<section class="below-header tst-top">
+  <div class="wrap">
+    <nav class="rd-crumb" aria-label="Sayfa yolu">
+      <a href="saglik-hub-v1.html"><i class="fa-solid fa-house"></i></a>
+      <i class="fa-solid fa-chevron-right"></i>
+      <a href="saglik-araclari-v1.html">Sağlık Araçları</a>
+      <i class="fa-solid fa-chevron-right"></i>
+      <b>Hesaplayıcılar</b>
+    </nav>
+    <div class="tst-head">
+      <span class="eyebrow"><i class="fa-solid fa-calculator"></i> Hesaplayıcılar</span>
+      <h1>Rakamla başlayan her plan daha sağlam ilerler</h1>
+      <p class="lead">Enerji ihtiyacından su miktarına, ideal aralıktan makro dağılımına kadar hepsi burada. Birkaç bilgi gir, sonucunu saniyeler içinde gör.</p>
+      <div class="tst-meta">
+        <span><i class="fa-solid fa-calculator"></i> 12 hesaplayıcı</span>
+        <span><i class="fa-regular fa-clock"></i> Ortalama ~1 dakika</span>
+        <span><i class="fa-solid fa-mobile-screen"></i> Kayıt gerekmez</span>
+      </div>
+      <div class="chips" style="margin-top:22px">
+        <a class="btn btn-primary" href="gunluk-kalori-v1.html"><i class="fa-solid fa-utensils"></i> Kalori İhtiyacımı Hesapla</a>
+        <a class="btn btn-ghost" href="saglik-araclari-v1.html"><i class="fa-solid fa-toolbox"></i> Tüm Sağlık Araçları</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== HESAPLAYICI LİSTESİ ===== -->
+<section class="sec sec-green" id="hesaplayicilar" style="background:var(--bg-white)">
+  <div class="wrap">
+    <div class="sec-head reveal">
+      <div>
+        <span class="eyebrow"><i class="fa-solid fa-calculator"></i> Tüm Hesaplayıcılar</span>
+        <h2>Vücudunu rakamlarla tanı</h2>
+        <p class="lead">Birkaç saniyede sonucunu öğren, sana uygun porsiyon ve program önerilerine geç.</p>
+      </div>
+      <div class="sec-tools"><a class="see-all" href="saglik-testler-v1.html">Testlere Geç <i class="fa-solid fa-arrow-right"></i></a></div>
+    </div>
+    <div class="hub-grid">
+      <a class="calc-card" href="bazal-metabolizma-v1.html">
+        <span class="calc-ico"><i class="fa-solid fa-fire-flame-curved"></i></span>
+        <div><h4>Bazal Metabolizma</h4><p>Dinlenirken yaktığın kalori</p></div>
+        <span class="go"><i class="fa-solid fa-arrow-right"></i></span>
+      </a>
+      <a class="calc-card" href="beden-kutle-endeksi-v1.html">
+        <span class="calc-ico"><i class="fa-solid fa-weight-scale"></i></span>
+        <div><h4>Beden Kütle Endeksi</h4><p>Boy ve kilona göre BKİ</p></div>
+        <span class="go"><i class="fa-solid fa-arrow-right"></i></span>
+      </a>
+      <a class="calc-card" href="gunluk-kalori-v1.html">
+        <span class="calc-ico"><i class="fa-solid fa-utensils"></i></span>
+        <div><h4>Günlük Kalori</h4><p>Hedefine göre ihtiyaç</p></div>
+        <span class="go"><i class="fa-solid fa-arrow-right"></i></span>
+      </a>
+      <a class="calc-card" href="vucut-tipi-v1.html">
+        <span class="calc-ico"><i class="fa-solid fa-person"></i></span>
+        <div><h4>Vücut Tipi</h4><p>Bel/kalça oranı ve yağ dağılımı</p></div>
+        <span class="go"><i class="fa-solid fa-arrow-right"></i></span>
+      </a>
+      <a class="calc-card" href="vucut-yag-orani-v1.html">
+        <span class="calc-ico"><i class="fa-solid fa-percent"></i></span>
+        <div><h4>Vücut Yağ Oranı</h4><p>Çevre ölçüleriyle yağ yüzdesi</p></div>
+        <span class="go"><i class="fa-solid fa-arrow-right"></i></span>
+      </a>
+      <a class="calc-card" href="gunluk-su-v1.html">
+        <span class="calc-ico"><i class="fa-solid fa-droplet"></i></span>
+        <div><h4>Günlük Su İhtiyacı</h4><p>Kilona göre su miktarı</p></div>
+        <span class="go"><i class="fa-solid fa-arrow-right"></i></span>
+      </a>
+      <a class="calc-card" href="ideal-kilo-v1.html">
+        <span class="calc-ico"><i class="fa-solid fa-scale-balanced"></i></span>
+        <div><h4>İdeal Kilo</h4><p>Boya göre sağlıklı aralık</p></div>
+        <span class="go"><i class="fa-solid fa-arrow-right"></i></span>
+      </a>
+      <a class="calc-card" href="hedef-kilo-suresi-v1.html">
+        <span class="calc-ico"><i class="fa-solid fa-calendar-check"></i></span>
+        <div><h4>Hedef Kilo Süresi</h4><p>Hedefine kaç haftada varırsın</p></div>
+        <span class="go"><i class="fa-solid fa-arrow-right"></i></span>
+      </a>
+      <a class="calc-card" href="makro-dagilim-v1.html">
+        <span class="calc-ico"><i class="fa-solid fa-chart-pie"></i></span>
+        <div><h4>Makro Dağılım</h4><p>Protein · karbonhidrat · yağ</p></div>
+        <span class="go"><i class="fa-solid fa-arrow-right"></i></span>
+      </a>
+      <a class="calc-card" href="porsiyon-hesaplama-v1.html">
+        <span class="calc-ico"><i class="fa-solid fa-bowl-food"></i></span>
+        <div><h4>Porsiyon Hesaplama</h4><p>Tarifi kişi sayısına göre ölçekle</p></div>
+        <span class="go"><i class="fa-solid fa-arrow-right"></i></span>
+      </a>
+      <a class="calc-card" href="besin-kalori-cetveli-v1.html">
+        <span class="calc-ico"><i class="fa-solid fa-table-list"></i></span>
+        <div><h4>Besin Kalori Cetveli</h4><p>Yüzlerce besinin kalori tablosu</p></div>
+        <span class="go"><i class="fa-solid fa-arrow-right"></i></span>
+      </a>
+      <a class="calc-card" href="besin-degerleri-v1.html">
+        <span class="calc-ico"><i class="fa-solid fa-leaf"></i></span>
+        <div><h4>Besin Değerleri</h4><p>Kalori, protein, karbonhidrat, yağ</p></div>
+        <span class="go"><i class="fa-solid fa-arrow-right"></i></span>
+      </a>
+    </div>
+  </div>
+</section>
+
+</main><!-- /.page-main -->
+
+<section class="pf-disclaimer" aria-label="Tıbbi bilgilendirme">
+  <div class="wrap">
+    <i class="fa-solid fa-circle-info"></i>
+    <p>Hesaplayıcılar genel formüllere dayanır ve <b>tıbbi teşhis veya tedavi yerine geçmez.</b> Sonuçlar bir başlangıç noktasıdır; kişiye özel beslenme planı yalnızca <b>yetkili bir diyetisyen</b> tarafından hazırlanır. Gebelik, kronik hastalık, düzenli ilaç kullanımı, çocuk beslenmesi veya klinik bir durum varsa plana başlamadan önce <b>hekim ve diyetisyen kontrolü zorunludur.</b></p>
+  </div>
+</section>
+
+<div id="ddChromeGate"></div>
+<div id="ddChromeFooter"></div>
+<div id="ddChromeFab"></div>
+
+</body>
+</html>

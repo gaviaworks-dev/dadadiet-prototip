@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<meta name="robots" content="noindex, nofollow" />
+<title>Diyetisyen Paneli · Raporlar — DadaMutfak</title>
+<link rel="shortcut icon" type="image/x-icon" href="assets/img/favicon.ico" />
+<!-- FontAwesome 6.5.2 (kilitli ikon seti) -->
+<link rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css"
+      integrity="sha512-SnH5WK+bZxgPHs44uWIX+LLJAJ9/2PkPKZ5QiAj6Ta86w+fsb2TkcmfRyVX3pBnMFcV7oQPJkl9QevSCWr3W6A=="
+      crossorigin="anonymous" referrerpolicy="no-referrer" />
+<link rel="stylesheet" href="assets/css/sa-ui.css" />
+<!-- panel kabuğu: assets/css/panel.css + assets/js/panel.js -->
+<link rel="stylesheet" href="assets/css/panel.css" />
+<style>
+/* =====================================================================
+   SAYFA CSS — sayfa-spesifik stiller BU İŞARETİN ALTINA
+   Tümü panel.css bileşenleri: .kpi-grid · .pf-tabs · .wchart/.wc-legend · .ptable · .dd-stats
+   ===================================================================== */
+</style>
+</head>
+<body data-brand="mutfak" data-nav="raporlar">
+
+<div class="pnl-app">
+
+  <!-- sidebar + üst bar: assets/js/panel.js üretir -->
+  <div id="pnlChrome"></div>
+  <script src="assets/js/panel.js"></script>
+
+  <main class="pnl-main">
+
+    <div class="pnl-page-head">
+      <div>
+        <h1>Raporlar</h1>
+        <div class="ph-sub">Randevu, danışan, plan, gelir ve memnuniyet raporların — aylık kırılımla.</div>
+      </div>
+      <div class="ph-actions"><button class="btn btn-ghost btn-sm" type="button"><i class="fa-solid fa-download"></i> Tümünü İndir</button></div>
+    </div>
+
+    <div class="kpi-grid">
+      <div class="kpi-card"><span class="kpi-ico"><i class="fa-solid fa-calendar-check"></i></span>
+        <div><div class="kpi-num">38</div><div class="kpi-lbl">Bu ay randevu</div><div class="kpi-delta up"><i class="fa-solid fa-check"></i> 35 tamamlandı</div></div></div>
+      <div class="kpi-card"><span class="kpi-ico"><i class="fa-solid fa-user-group"></i></span>
+        <div><div class="kpi-num">28</div><div class="kpi-lbl">Aktif danışan</div><div class="kpi-delta up"><i class="fa-solid fa-arrow-trend-up"></i> devam oranı %96</div></div></div>
+      <div class="kpi-card sun"><span class="kpi-ico"><i class="fa-solid fa-wallet"></i></span>
+        <div><div class="kpi-num">₺18.400</div><div class="kpi-lbl">Bu ay gelir</div><div class="kpi-delta up"><i class="fa-solid fa-arrow-trend-up"></i> +%12</div></div></div>
+      <div class="kpi-card warm"><span class="kpi-ico"><i class="fa-solid fa-star"></i></span>
+        <div><div class="kpi-num">4,9</div><div class="kpi-lbl">Memnuniyet</div><div class="kpi-delta up"><i class="fa-solid fa-comment"></i> 21 değerlendirme</div></div></div>
+    </div>
+    <div class="pf-tabbar"><div class="pf-tabs" id="rpTabs" role="tablist"><button class="dt active" type="button" role="tab" data-tab="randevu"><i class="fa-solid fa-calendar-check"></i> Randevu</button><button class="dt" type="button" role="tab" data-tab="danisan"><i class="fa-solid fa-user-group"></i> Danışan</button><button class="dt" type="button" role="tab" data-tab="plan"><i class="fa-solid fa-utensils"></i> Plan</button><button class="dt" type="button" role="tab" data-tab="gelir"><i class="fa-solid fa-wallet"></i> Gelir</button><button class="dt" type="button" role="tab" data-tab="memnuniyet"><i class="fa-solid fa-star"></i> Memnuniyet</button></div></div>
+    <div class="pf-pane" data-pane="randevu">
+    <div class="pnl-card">
+      <div class="pc-head"><span class="pc-title"><i class="fa-solid fa-calendar-check"></i> Randevu raporu</span></div>
+      <div class="pc-body">
+        <svg class="wchart" viewBox="0 0 600 224" role="img" aria-label="Aylık randevu sayısı">
+          <line class="grid-l" x1="36" y1="20"  x2="584" y2="20"/>
+          <line class="grid-l" x1="36" y1="72"  x2="584" y2="72"/>
+          <line class="grid-l" x1="36" y1="124" x2="584" y2="124"/>
+          <line class="grid-l" x1="36" y1="176" x2="584" y2="176"/>
+          <text class="lbl" x="8" y="24">45</text>
+          <text class="lbl" x="8" y="76">38</text>
+          <text class="lbl" x="8" y="128">31</text>
+          <text class="lbl" x="8" y="180">24</text>
+          <defs><linearGradient id="pfill" x1="0" y1="0" x2="0" y2="1">
+            <stop offset="0" stop-color="#3BB77E" stop-opacity=".18"/>
+            <stop offset="1" stop-color="#3BB77E" stop-opacity="0"/>
+          </linearGradient></defs>
+          <path fill="url(#pfill)" d="M40,60 L131,44 L222,72 L313,90 L404,58 L495,40 L580,52 L580,210 L40,210 Z"/>
+          <polyline class="curve" points="40,60 131,44 222,72 313,90 404,58 495,40 580,52"/>
+          <circle class="dot" cx="40" cy="60" r="4"/><circle class="dot" cx="222" cy="72" r="4"/>
+          <circle class="dot" cx="404" cy="58" r="4"/><circle class="dot last" cx="580" cy="52" r="4.5"/>
+        </svg>
+        <div class="wc-legend"><span class="lg cur"><i></i> Aylık randevu</span></div>
+      </div>
+    </div>
+    <div class="dash-row"></div>
+    <div class="pnl-card">
+      <div class="pc-head"><span class="pc-title"><i class="fa-solid fa-table-list"></i> Aylık kırılım</span></div>
+      <div class="pc-body flush">
+        <table class="ptable"><thead><tr><th>Ay</th><th>Randevu</th><th>Tamamlanan</th><th>İptal</th><th style="text-align:right">İptal oranı</th></tr></thead><tbody>
+          <tr><td>Ağustos 2026</td><td>38</td><td>35</td><td>3</td><td style="text-align:right">%7</td></tr>
+          <tr><td>Temmuz 2026</td><td>42</td><td>38</td><td>4</td><td style="text-align:right">%9</td></tr>
+          <tr><td>Haziran 2026</td><td>36</td><td>34</td><td>2</td><td style="text-align:right">%5</td></tr>
+          <tr><td>Mayıs 2026</td><td>31</td><td>28</td><td>3</td><td style="text-align:right">%9</td></tr>
+        </tbody></table>
+      </div>
+      <div class="pc-foot"><button class="btn btn-ghost btn-sm" type="button"><i class="fa-solid fa-download"></i> Raporu İndir</button></div>
+    </div>
+    </div>
+    <div class="pf-pane" data-pane="danisan" hidden>
+    <div class="pnl-card">
+      <div class="pc-head"><span class="pc-title"><i class="fa-solid fa-user-group"></i> Danışan raporu</span></div>
+      <div class="pc-body flush">
+        <table class="ptable"><thead><tr><th>Ay</th><th>Yeni danışan</th><th>Aktif</th><th>Ayrılan</th><th style="text-align:right">Devam oranı</th></tr></thead><tbody>
+          <tr><td>Ağustos 2026</td><td>3</td><td>28</td><td>1</td><td style="text-align:right">%96</td></tr>
+          <tr><td>Temmuz 2026</td><td>5</td><td>26</td><td>2</td><td style="text-align:right">%92</td></tr>
+          <tr><td>Haziran 2026</td><td>4</td><td>23</td><td>1</td><td style="text-align:right">%95</td></tr>
+          <tr><td>Mayıs 2026</td><td>6</td><td>20</td><td>3</td><td style="text-align:right">%86</td></tr>
+        </tbody></table>
+      </div>
+      <div class="pc-foot"><button class="btn btn-ghost btn-sm" type="button"><i class="fa-solid fa-download"></i> Raporu İndir</button></div>
+    </div>
+    </div>
+    <div class="pf-pane" data-pane="plan" hidden>
+    <div class="pnl-card">
+      <div class="pc-head"><span class="pc-title"><i class="fa-solid fa-utensils"></i> Plan raporu</span><a class="pc-link" href="dyt-receteler-v1.html">Beslenme planları <i class="fa-solid fa-arrow-right"></i></a></div>
+      <div class="pc-body flush">
+        <table class="ptable"><thead><tr><th>Plan</th><th>Verilen</th><th>Ortalama uyum</th><th style="text-align:right">Tamamlanan</th></tr></thead><tbody>
+          <tr><td><b>Akdeniz tipi 7 gün</b></td><td>14</td><td>%81</td><td style="text-align:right">11</td></tr>
+          <tr><td><b>Yüksek proteinli plan</b></td><td>9</td><td>%78</td><td style="text-align:right">7</td></tr>
+          <tr><td><b>Bağırsak dostu 7 gün</b></td><td>7</td><td>%92</td><td style="text-align:right">7</td></tr>
+          <tr><td><b>Bitkisel temelli hafta</b></td><td>5</td><td>%74</td><td style="text-align:right">3</td></tr>
+        </tbody></table>
+      </div>
+      <div class="pc-foot"><button class="btn btn-ghost btn-sm" type="button"><i class="fa-solid fa-download"></i> Raporu İndir</button></div>
+    </div>
+    </div>
+    <div class="pf-pane" data-pane="gelir" hidden>
+    <div class="pnl-card">
+      <div class="pc-head"><span class="pc-title"><i class="fa-solid fa-wallet"></i> Gelir raporu</span></div>
+      <div class="pc-body">
+        <svg class="wchart" viewBox="0 0 600 224" role="img" aria-label="Aylık net gelir">
+          <line class="grid-l" x1="36" y1="20"  x2="584" y2="20"/>
+          <line class="grid-l" x1="36" y1="72"  x2="584" y2="72"/>
+          <line class="grid-l" x1="36" y1="124" x2="584" y2="124"/>
+          <line class="grid-l" x1="36" y1="176" x2="584" y2="176"/>
+          <text class="lbl" x="8" y="24">20B</text>
+          <text class="lbl" x="8" y="76">16B</text>
+          <text class="lbl" x="8" y="128">12B</text>
+          <text class="lbl" x="8" y="180">8B</text>
+          <defs><linearGradient id="pfill" x1="0" y1="0" x2="0" y2="1">
+            <stop offset="0" stop-color="#3BB77E" stop-opacity=".18"/>
+            <stop offset="1" stop-color="#3BB77E" stop-opacity="0"/>
+          </linearGradient></defs>
+          <path fill="url(#pfill)" d="M40,150 L131,132 L222,118 L313,96 L404,80 L495,62 L580,48 L580,210 L40,210 Z"/>
+          <polyline class="curve" points="40,150 131,132 222,118 313,96 404,80 495,62 580,48"/>
+          <circle class="dot" cx="40" cy="150" r="4"/><circle class="dot" cx="222" cy="118" r="4"/>
+          <circle class="dot" cx="404" cy="80" r="4"/><circle class="dot last" cx="580" cy="48" r="4.5"/>
+        </svg>
+        <div class="wc-legend"><span class="lg cur"><i></i> Net gelir (₺)</span></div>
+      </div>
+    </div>
+    <div class="dash-row"></div>
+    <div class="pnl-card">
+      <div class="pc-head"><span class="pc-title"><i class="fa-solid fa-money-check-dollar"></i> Ödeme ve kazanç ayrıntısı</span><a class="pc-link" href="panel-odeme-v1.html">Ödeme ve Kazanç <i class="fa-solid fa-arrow-right"></i></a></div>
+      <div class="pc-body">
+        <div class="dd-stats"><div class="dd-stat hl"><b>₺18.400</b><span>Bu ay ciro</span></div><div class="dd-stat"><b>₺2.760</b><span>Komisyon</span></div><div class="dd-stat"><b>₺700</b><span>İade</span></div><div class="dd-stat hl"><b>₺14.940</b><span>Net</span></div></div>
+      </div>
+    </div>
+    </div>
+    <div class="pf-pane" data-pane="memnuniyet" hidden>
+    <div class="pnl-card">
+      <div class="pc-head"><span class="pc-title"><i class="fa-solid fa-star"></i> Memnuniyet raporu</span></div>
+      <div class="pc-body flush">
+        <table class="ptable"><thead><tr><th>Ay</th><th>Değerlendirme</th><th>Ortalama puan</th><th>5 yıldız</th><th style="text-align:right">Yorum</th></tr></thead><tbody>
+          <tr><td>Ağustos 2026</td><td>21</td><td>4,9</td><td>18</td><td style="text-align:right">14</td></tr>
+          <tr><td>Temmuz 2026</td><td>26</td><td>4,8</td><td>21</td><td style="text-align:right">19</td></tr>
+          <tr><td>Haziran 2026</td><td>22</td><td>4,9</td><td>20</td><td style="text-align:right">16</td></tr>
+          <tr><td>Mayıs 2026</td><td>18</td><td>4,7</td><td>13</td><td style="text-align:right">11</td></tr>
+        </tbody></table>
+      </div>
+      <div class="pc-foot"><button class="btn btn-ghost btn-sm" type="button"><i class="fa-solid fa-download"></i> Raporu İndir</button></div>
+    </div>
+    </div>
+
+  </main>
+</div>
+
+<script src="assets/js/sa-ui.js"></script>
+<script>
+/* ===== SAYFA JS — sekme barı (dyt-profil-ayar-v1 deseni) ===== */
+(function(){
+  var tabs=document.querySelectorAll('#rpTabs .dt');
+  if(!tabs.length)return;
+  function go(n){
+    var hit=false;
+    tabs.forEach(function(b){var on=b.getAttribute('data-tab')===n;b.classList.toggle('active',on);
+      b.setAttribute('aria-selected',on?'true':'false');if(on)hit=true;});
+    if(!hit)return false;
+    document.querySelectorAll('.pf-pane').forEach(function(p){p.hidden=p.getAttribute('data-pane')!==n;});
+    return true;
+  }
+  tabs.forEach(function(b){b.addEventListener('click',function(){go(b.getAttribute('data-tab'));});});
+  var q=new URLSearchParams(location.search).get('sekme'); if(q)go(q);
+})();
+</script>
+</body>
+</html>
