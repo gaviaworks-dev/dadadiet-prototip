@@ -1,0 +1,48 @@
+// Hesaplayıcılar listesi + günlük kalori detayı (sonuç istemcide hesaplanır, formül _src/veri/hesaplayicilar.json).
+import { K, JS, sayfaJs, bant, bolum, bolumBas, dugme, ikon, ikonKart, hesapKart, genelNot, kirinti, kac } from '../../parcalar/public-araclar/ortak.mjs';
+
+const AKTIVITE = [
+  ['1.2', 'Hareketsiz', 'Masa başı, egzersiz yok'], ['1.375', 'Az aktif', 'Haftada 1-3 gün düşük yoğunluklu egzersiz'], ['1.55', 'Orta aktif', 'Haftada 3-5 gün egzersiz'],
+  ['1.725', 'Çok aktif', 'Haftada 6-7 gün yoğun egzersiz'], ['1.9', 'Atlet', 'Günde çift antrenman ya da ağır fiziksel iş'],
+];
+const girdi = (id, ad, birim, g) => `<div class="alan"><label class="alan-etiket" for="${id}">${ad} <span class="zorunlu" aria-hidden="true">*</span></label><div class="alan-birimli"><input class="alan-girdi" id="${id}" type="number" inputmode="decimal" min="${g.min}" max="${g.max}" required aria-describedby="${id}Hata"><span>${birim}</span></div><span class="alan-hata" id="${id}Hata">${ikon('fa-circle-exclamation')} ${ad} ${g.min} ile ${g.max} arasında olmalı.</span></div>`;
+
+export default ({ veri }) => {
+  const s = veri.sayaclar, H = veri.hesaplayicilar.hesaplayicilar;
+  const h = H.find((x) => x.slug === 'gunluk-kalori'), g = h.girdiler;
+  const liste = `${bant({ yol: [['Hesaplayıcılar']], etiket: 'Sağlık araçları', etiketIkon: 'fa-calculator', h1: 'Vücudunu <span class="vurgu">rakamlarla</span> tanı', gorsel: 'hero/hesaplayicilar-tst-top.webp', alt: 'Kalori, makro, su ve kilo hesaplarını birkaç saniyede yap; sonucuna göre program ve porsiyon önerilerine geç.', sayilar: [[s.hesaplayici, 'Hesaplayıcı'], [s.test, 'Sağlık testi'], [s.besin, 'Besin değeri']] })}
+<div class="bolum-dizi">
+${bolum(`${bolumBas({ etiket: 'Hesaplayıcılar', ikon: 'fa-calculator', baslik: 'Hangi değerini öğrenmek istiyorsun?', metin: 'Her araç referans denklemlere dayanır; sonuçlar tahminidir.' })}<div class="kart-izgara c3">${H.map(hesapKart).join('')}</div>`, { ilk: true })}
+${bolum(`${bolumBas({ etiket: 'Sonucu kullan', ikon: 'fa-arrow-right-long', baslik: 'Rakamdan tabağa geç', metin: 'Hesapladığın değeri günlük seçimlerine taşı.' })}<div class="kart-izgara c3">${ikonKart({ href: 'akilli-tabak-ve-degisim/', ikon: 'fa-chart-pie', baslik: 'Akıllı Tabak ve Değişim', metin: 'Tabağını kur, muadilini bul' })}${ikonKart({ href: 'saglik-testleri/', ikon: 'fa-clipboard-question', baslik: 'Sağlık Testleri', metin: `${s.test} test ile alışkanlığını ölç` })}${ikonKart({ href: 'programlar/program-bul/', ikon: 'fa-wand-magic-sparkles', baslik: 'Program Bul', metin: 'Beş adımda eşleştirme' })}</div>`)}
+${bolum(genelNot)}
+</div>`;
+
+  const detay = `${bant({ yol: [['Hesaplayıcılar', 'hesaplayicilar/'], [h.ad]], etiket: 'Hesaplayıcı', etiketIkon: 'fa-utensils', h1: kac(h.ad), gorsel: 'hero/hesaplayicilar-tst-top.webp', alt: kac(h.aciklama) })}
+<div class="bolum-dizi">
+${bolum(`<div class="iki-kolon esit">
+<form class="kart" id="kaloriForm" novalidate data-ek-erkek="${h.formul_ayarlari.cinsiyet_ekleri.erkek}" data-ek-kadin="${h.formul_ayarlari.cinsiyet_ekleri.kadin}" data-bant="${h.formul_ayarlari.band_farki_kcal}">
+<div class="kart-bas"><div><h2 class="kart-baslik">${ikon('fa-pen-to-square')} Bilgilerini gir</h2><p>Sonucun bu sayfada hesaplanır, hiçbir yere gönderilmez.</p></div></div>
+<div class="kart-govde">
+<div class="alan-izgara c2">${girdi('boy', 'Boy', 'cm', g.boy_cm)}${girdi('kilo', 'Kilo', 'kg', g.kilo_kg)}${girdi('yas', 'Yaş', 'yaş', g.yas)}
+<div class="alan"><span class="alan-etiket" id="cinsiyetEtiket">Cinsiyet <span class="zorunlu" aria-hidden="true">*</span></span><div class="segment" id="cinsiyet" role="group" aria-labelledby="cinsiyetEtiket"><button type="button" data-deger="kadin" aria-pressed="false">Kadın</button><button type="button" data-deger="erkek" aria-pressed="false">Erkek</button></div><span class="alan-hata" id="cinsiyetHata">${ikon('fa-circle-exclamation')} Cinsiyet seç.</span></div></div>
+<div class="alan"><span class="alan-etiket" id="aktiviteEtiket">Aktivite düzeyi <span class="zorunlu" aria-hidden="true">*</span></span><div class="alan-secenek-izgara" id="aktivite" data-tek-secim role="group" aria-labelledby="aktiviteEtiket">${AKTIVITE.map(([v, a, y]) => `<button class="secenek" type="button" data-deger="${v}" aria-pressed="false"><span>${a}<small>${y}</small></span><span class="secenek-ek">×${v}</span></button>`).join('')}</div><span class="alan-hata" id="aktiviteHata">${ikon('fa-circle-exclamation')} Aktivite düzeyini seç.</span><p class="alan-yardim"><span>Günlük ihtiyaç = BMH (Mifflin-St Jeor) × aktivite katsayısı. Bu araç yetişkinler içindir.</span></p></div>
+</div>
+<div class="kart-alt"><button class="dugme hayalet" id="sifirla" type="button">Sıfırla</button><button class="dugme birincil" type="submit">${ikon('fa-calculator')} Hesapla</button></div>
+</form>
+<div class="yapiskan" aria-live="polite">
+<div class="kart" id="sonucBos"><div class="bos-durum kart-ici"><span class="bos-ikon">${ikon('fa-calculator')}</span><h3>Sonucun burada görünecek</h3><p>Bilgilerini girip Hesapla'ya bas ya da örnek bir profille dene.</p><button class="dugme hayalet" id="ornek" type="button">Örnekle dene</button></div></div>
+<div class="kart sonuc-yuzeyi" id="sonuc" hidden><div class="kart-bas"><h2 class="kart-baslik">${ikon('fa-chart-simple')} Sonucun</h2><span class="rozet olumlu" id="sonucAktivite"></span></div><div class="kart-govde"><p class="sonuc-sayi"><span id="tdee"></span> <small>kcal / gün</small></p><p class="kart-metin">Kilonu korumak için yaklaşık enerji ihtiyacın. Bazal metabolizman <b id="bmh"></b> kcal.</p>
+<div class="sayac-serit"><div class="sayac">${ikon('fa-arrow-trend-down')}<div><span>Kilo vermek için</span><b id="kiloVer"></b></div></div><div class="sayac">${ikon('fa-arrow-trend-up')}<div><span>Kilo almak için</span><b id="kiloAl"></b></div></div></div>
+<p class="alan-yardim" id="altSinir" hidden><span>Yetişkin için en düşük enerji düzeyi 1.400 kcal olarak gösterildi (TÜBER 2022, Ek 3.1.1).</span></p></div>
+<div class="kart-alt"><button class="dugme hayalet" id="kaydet" type="button">${ikon('fa-bookmark')} Sonucu kaydet</button>${dugme('Uygun programları gör', 'programlar/program-bul/', 'birincil', 'fa-arrow-right', true)}</div></div>
+<p class="alt-not">${ikon('fa-book')} <span>Kaynak: TÜBER 2022, Türkiye Beslenme Rehberi. Sonuç tahminidir, tıbbi tavsiye değildir.</span></p>
+</div></div>`, { ilk: true })}
+${bolum(`${bolumBas({ etiket: 'Diğer araçlar', ikon: 'fa-calculator', baslik: 'Hesaplamaya devam et', arac: dugme('Tüm hesaplayıcılar', 'hesaplayicilar/', 'hayalet orta', 'fa-arrow-right', true) })}<div class="kart-izgara c3">${ikonKart({ href: 'akilli-tabak-ve-degisim/', ikon: 'fa-chart-pie', baslik: 'Akıllı Tabak ve Değişim', metin: 'Bu kaloriyi tabağa dök' })}${ikonKart({ href: 'kac-kalori/', ikon: 'fa-fire', baslik: 'Kaç Kalori?', metin: 'Porsiyon karşılıklarını gör' })}${ikonKart({ href: 'diyetisyen-bul-sihirbazi/', ikon: 'fa-user-doctor', baslik: 'Diyetisyene Danış', metin: 'Sonucunu uzmanla yorumla' })}</div>`)}
+${bolum(genelNot)}
+</div>`;
+
+  return [
+    { yol: 'hesaplayicilar', meta: { baslik: 'Hesaplayıcılar', duzen: 'public', aktif: 'Sağlık Araçları', hero: true, js: [JS] }, govde: liste },
+    { yol: 'hesaplayici/gunluk-kalori', meta: { baslik: h.ad, duzen: 'public', aktif: 'Sağlık Araçları', hero: true, js: sayfaJs('kalori') }, govde: detay },
+  ];
+};

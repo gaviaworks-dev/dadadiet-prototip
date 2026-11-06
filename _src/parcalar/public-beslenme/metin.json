@@ -1,0 +1,2087 @@
+{
+ "makale": {
+  "kac-kalori-detay": {
+   "bloklar": [
+    {
+     "t": "lead",
+     "h": "30 gramlık bir avuç kavrulmuş badem <b>yaklaşık 180 kalori</b> taşır. Bu rakamın dörtte üçü yağdan gelir: aynı avuçta 15,1 gram yağ, 6,2 gram protein ve 3,6 gram lif vardır."
+    },
+    {
+     "t": "h2",
+     "h": "Bir avuç kaç gram sayılıyor?"
+    },
+    {
+     "t": "p",
+     "h": "Türkiye Beslenme Rehberi bademde bir standart porsiyonu 30 gram olarak tanımlar (TÜBER 2022, Ek 2.1.3, PDF s. 288). Besin Kütüphanesi'ndeki \"avuç\" porsiyon satırları da bunu doğrular: ceviz, badem, fındık, yer fıstığı, kaju, kuru incir ve kuru kayısı için tutulan satırların hepsi bir avucu 30 grama eşitler."
+    },
+    {
+     "t": "p",
+     "h": "\"Bir avuç\" bu 30 gramın kaba karşılığıdır ve el büyüklüğü kişiden kişiye değişir. Ölçüyü bir kez tartıp kabına bakmak, her seferinde avuçla tahmin etmekten güvenilirdir."
+    },
+    {
+     "t": "p",
+     "h": "Tane hesabını rehber doğrudan veriyor: Ek 2.1.3 bademde bir standart porsiyonu <b>24-26 adet veya 1 avuç veya 30 gram</b> olarak tanımlar. Aynı ekte ceviz 4-5 büyük tam iç, yer fıstığı 27-30 adet, kaju 18-20 adet olarak verilir; yani tane sayısı kuruyemişten kuruyemişe değişir ama ağırlık hepsinde 30 gramdır."
+    },
+    {
+     "t": "p",
+     "h": "Paketten doğrudan yemek ölçüyü en çok kaydıran alışkanlıktır. <b>Porsiyonu küçük bir kâseye ayırmak</b>, sayıyı değiştirmeden miktarı görünür kılar."
+    },
+    {
+     "t": "h2",
+     "h": "Çiğ mi, kavrulmuş mu?"
+    },
+    {
+     "t": "p",
+     "h": "Besin Kütüphanesi'nde bademin iki ayrı kaydı var ve ikisi farklı kaynaktan geliyor. Kavrulmuş iç badem TürKomp kaydıdır, 100 gramda 600 kalori verir; çiğ badem USDA FoodData Central kaydıdır, 100 gramda 579 kalori verir. 30 gramlık porsiyonda bu 180'e karşı 173,7 kalori eder."
+    },
+    {
+     "t": "p",
+     "h": "İki kayıt iki ayrı kaynaktan gelir ve enerjiyi aynı usulle hesaplamaz: TürKomp karbonhidratı lif dışında verir ve lifi gram başına 2 kalori sayar, USDA lifi karbonhidratın içinde tutar ve besine özgü katsayılar kullanır. USDA'nın çiğ badem satırları TürKomp'un usulüyle hesaplanınca (4 × 21,15 protein + 4 × 9,05 lif dışı karbonhidrat + 9 × 49,93 yağ + 2 × 12,5 lif) 100 gramda 595,2 kalori eder — kavrulmuş kaydın 600'üne 4,8 kalori yakın. Yani iki kaydın farkının büyüğü satırlarda değil hesap usulündedir; kavurmanın payı bu iki kayıtla ayrılamaz. Kavurmanın ne yaptığı USDA'nın kendi veri tabanında ölçülüdür: orada çiğ bademin su satırı 4,41, kuru kavrulmuş bademinki 2,41 gramdır ve aynı veri tabanında enerji 579'dan 598'e çıkar. Ama Besin Kütüphanesi'ndeki kayıtlarda su sütunu yok; o yüzden aynı hesap bu sayfada kurulamıyor ve buradaki iki kaydın farkının ne kadarının kavurmadan geldiği gösterilemiyor."
+    },
+    {
+     "t": "p",
+     "h": "Fındıkta aynı hesap farkı kapatmaz ama küçültür: çiğ fındık USDA kaydında 100 gramda 628, kavrulmuş fındık TürKomp kaydında 670 kalori verir; USDA satırları TürKomp usulüyle 654,6 kalori eder ve fark 42'den 15,4 kaloriye iner. Kalan fark için kaynaklarda bir sebep ölçen satır yok."
+    },
+    {
+     "t": "p",
+     "h": "Bu sayfa TürKomp'un kavrulmuş kaydını esas alır: kaynak sıralamasında TürKomp Türkiye'den alınan numuneleri ölçtüğü için öncelikli kaynaktır. <b>Çiğ badem yiyen için geçerli sayı 30 gramda 173,7 kaloridir</b>."
+    },
+    {
+     "t": "h2",
+     "h": "İki kaydın karbonhidrat satırı neden ayrışıyor?"
+    },
+    {
+     "t": "p",
+     "h": "Enerjide 100 gram üzerinden 21 kalorilik fark varken karbonhidrat satırında fark iki katın üzerindedir: TürKomp 10,36, USDA 21,55 gram verir. Bu bir ölçüm hatası değil, iki farklı tanımdır."
+    },
+    {
+     "t": "p",
+     "h": "USDA'nın karbonhidrat satırı lifi de içine alır; TürKomp lifi ayrı bir satırda tutar. USDA'nın 21,55 gramından kendi lif değeri olan 12,5 gram düşüldüğünde geriye 9,05 gram kalır ve iki kayıt birbirine yaklaşır. İki sayı da doğrudur; aynı şeyi ölçmezler."
+    },
+    {
+     "t": "p",
+     "h": "Pratik sonuç şudur: <b>bademin karbonhidrat satırını iki kaynaktan okuyup ortalamasını almak yanıltır</b>. Hangi kaydın kullanıldığı söylenmeden verilen bir badem karbonhidratı eksik bilgidir."
+    },
+    {
+     "t": "h2",
+     "h": "Otuz gramın tam dökümü"
+    },
+    {
+     "t": "p",
+     "h": "Kavrulmuş badem kaydına göre 30 gramlık porsiyon 15,1 gram yağ, 6,2 gram protein, 3,6 gram lif ve 3,1 gram karbonhidrat taşır. Ağırlığın yarısı yağdır ve <b>kalorinin dörtte üçünü yağ satırı tutar</b>: 15,07 gram yağ, gram başına 9 kaloriden, 135,6 kalori."
+    },
+    {
+     "t": "p",
+     "h": "Lif tarafında 3,6 gram, Türkiye Beslenme Rehberi'nin yetişkinler için önerdiği günlük en az 25 gramın (PDF s. 100, basılı s. 76) yaklaşık yedide biridir. Bu katkı için ödenen bedel 180 kaloridir; badem bir lif kaynağı olarak değil, yağ ve protein profili için tabağa girer."
+    },
+    {
+     "t": "h2",
+     "h": "Diğer kuruyemişlerle yan yana"
+    },
+    {
+     "t": "p",
+     "h": "Aynı 30 gramlık porsiyonda yer fıstığı 171, kaju 172,2, kabak çekirdeği 172,2, kavrulmuş badem 180, antep fıstığı 182,4, ayçiçeği çekirdeği 191,1, kavrulmuş fındık 201 ve ceviz 203,7 kalori taşır. Badem 180 kaloriyle bu sıranın alt yarısındadır — listenin iki ucu 171 ve 203,7 kaloridir."
+    },
+    {
+     "t": "p",
+     "h": "Protein sütununda sıra değişir: aynı porsiyonda kabak çekirdeği 8,9, ayçiçeği çekirdeği 7,4, yer fıstığı 7,1 ve badem 6,2 gram verirken ceviz 4,4, fındık 4,1 gramda kalır. Badem bu sütunda üst sıradadır."
+    },
+    {
+     "t": "p",
+     "h": "Yani <b>kuruyemiş seçimi bir kalori kararı değildir</b>; otuz gramın hepsi 171 ile 204 kalori arasında sıkışır. Değişen şey o kalorinin yanında ne geldiğidir."
+    },
+    {
+     "t": "h2",
+     "h": "Tuzlu badem ayrı bir kalem mi?"
+    },
+    {
+     "t": "p",
+     "h": "Tuz kaloriye eklenmez ama tabağa tuz ekler. Besin Kütüphanesi'ndeki kayıtlar sodyum satırı taşımıyor; bu yüzden burada tuzlu bademin tuz payı için bir sayı verilmiyor."
+    },
+    {
+     "t": "p",
+     "h": "Kayıtlardan okunabilen tek şey, kullanılan kavrulmuş badem kaydının tuzlama bilgisi taşımadığıdır. Paketin arkasındaki sodyum satırı, bu sayfadaki kaloriden bağımsız olarak ayrıca okunmalıdır."
+    },
+    {
+     "t": "p",
+     "h": "Bu sayfadaki değerler TürKomp Ulusal Gıda Kompozisyon Veri Tabanı'ndan ve USDA FoodData Central'dan, porsiyon tanımları Türkiye Beslenme Rehberi'nden alınmıştır. Hangi sayının hangi kayıttan geldiği metinde tek tek söylenmiştir. Değerler temsilîdir; aynı ürünün farklı bir partisi küçük sapmalar gösterebilir."
+    }
+   ],
+   "kaynaklar": [
+    {
+     "a": "https://turkomp.tarimorman.gov.tr/food-badem-ic-kavulmus-387",
+     "h": "TürKomp — Ulusal Gıda Kompozisyon Veri Tabanı <b>09.02.0009</b> 100 g yenilebilir kısım (iç, kavrulmuş) erişim: 2026-08-14"
+    },
+    {
+     "a": "https://hsgm.saglik.gov.tr/depo/birimler/saglikli-beslenme-ve-hareketli-hayat-db/Dokumanlar/Rehberler/Turkiye_Beslenme_Rehber_TUBER_2022_min.pdf",
+     "h": "TÜBER 2022 — Türkiye Beslenme Rehberi <b>Ek 2.1.3, s. 264</b> 1 avuç badem = 24-26 tane / 30 g (porsiyon tanımı) erişim: 2026-08-14"
+    }
+   ]
+  },
+  "ipuclari-detay": {
+   "bloklar": [
+    {
+     "t": "lead",
+     "h": "Türkiye Beslenme Rehberi'nin referans tablosunda 18-50 yaş için yeterli su alımı <b>erkeklerde 2,5, kadınlarda 2,0 litre</b>. Bu toplam su; rehber bunun yüzde sekseninin su ve içeceklerden (8-10 bardak), kalan yüzde yirminin besinlerden sağlanmasını öngörüyor."
+    },
+    {
+     "t": "h2",
+     "h": "Litre neyi kapsıyor?"
+    },
+    {
+     "t": "p",
+     "h": "İçilen suyu değil, toplamı. Rehberin sıvı bölümü vücut suyunun üç kaynaktan karşılandığını yazıyor: içilen su ve içecekler, besinlerde bulunan su, bir de besinlerden enerji elde edilirken açığa çıkan metabolik su (250-350 mililitre)."
+    },
+    {
+     "t": "p",
+     "h": "Yüzde seksenlik pay <b>erkekte 2000, kadında 1600 mililitre</b> ediyor. Günlük kaybı da rehber ayrıca veriyor: böbreklerden 1500, deriden 500, bağırsaklardan 300 ve solunumla 300 mililitre olmak üzere toplam 2600 mililitre."
+    },
+    {
+     "t": "h2",
+     "h": "Bu sayı nereden geliyor?"
+    },
+    {
+     "t": "p",
+     "h": "Rehberin referans tablosu bu iki değeri kendi ölçümünden değil, Avrupa Gıda Güvenliği Otoritesi'nin su için referans değerler görüşünden benimser ve bunu kendi metninde yazar. Yani rehber ile otorite aynı sayının iki halkasıdır; otoritenin görüşü rehberin sayısını bağımsız olarak doğrulayan ikinci bir ölçüm değildir. Aynı görüş değerlerin <strong>toplam su</strong> olduğunu ve yalnız ılıman çevre sıcaklığı ile orta düzey fiziksel aktivite koşulları için geçerli sayıldığını belirtir."
+    },
+    {
+     "t": "p",
+     "h": "Bağımsız bir karşılaştırma başka ülkenin önerisinden geliyor. NHS, Eatwell rehberinde günde <strong>6-8 bardak</strong> sıvı içmeyi hedeflemeyi öneriyor; rehberin yüzde seksenlik payı ise 8-10 bardak ediyor. İki ulusal öneri aynı büyüklükte ama aynı sayıda değil, ve ikisi de kendi ülkesinin önerisidir."
+    },
+    {
+     "t": "h2",
+     "h": "Kişiye göre nasıl hesaplanır?"
+    },
+    {
+     "t": "p",
+     "h": "Rehber iki pratik formül veriyor: günlük su gereksinmesi <b>35 mililitre × vücut ağırlığı (kilogram)</b> ya da <b>alınan her kilokalori için 1 mililitre</b>. 70 kilogramlık biri için ilki 2450 mililitre, 2000 kilokalorilik bir günde ikincisi 2000 mililitre ediyor."
+    },
+    {
+     "t": "p",
+     "h": "Gereksinim sabit de değil. Rehbere göre sıcak havada, fiziksel aktivite arttığında ve yenen besinlerde protein ve tuz fazla olduğunda terleme ve böbrekler yoluyla su atımı yükseliyor ve sıvı gereksinimi artıyor; ateşli hastalıkta solunum, ishalde bağırsak yoluyla kayıp artıyor."
+    },
+    {
+     "t": "h2",
+     "h": "Yaşa göre değişiyor mu?"
+    },
+    {
+     "t": "p",
+     "h": "Tablo çocuklukta düşük başlıyor ve ergenlikte yetişkin değerine çıkıyor: 2-3 yaşta 1,3, 4-6 yaşta 1,6 litre; 11-13 yaşta erkeklerde 2,1, kızlarda 1,9 litre; 15-17 yaşta 2,5 ve 2,0 litre. 18 yaşından sonra değer 70 yaş üstüne kadar değişmiyor."
+    },
+    {
+     "t": "p",
+     "h": "Gebelik ve emzirme için tabloda ayrı satırlar var. Bu dönemlerde ve böbrek, kalp ya da sıvı kısıtlaması gerektiren bir durumda günlük miktar kişiye özel belirlenir; bunu bir hekimle konuşmak gerekir."
+    },
+    {
+     "t": "h2",
+     "h": "Ne kadar içiliyor?"
+    },
+    {
+     "t": "p",
+     "h": "Rehber toplumun bugünkü tüketimini de veriyor: Türkiye Beslenme ve Sağlık Araştırması 2017'ye göre günlük su tüketimi ortalaması 1594,3 mililitre; erkeklerde 1766,4, kadınlarda 1423,8 mililitre."
+    },
+    {
+     "t": "p",
+     "h": "Bu, yalnız su satırının tüketimi; yüzde seksenlik pay öteki içecekleri de kapsıyor. Rehberin günlük içecek planında toplam 2500-3000 mililitre içecek var ve bunun 1,5 litresi su. Plan çay ve kahveyi de saydığı için yüzde seksenlik paydan geniştir; bu sayfa rehberin daha temkinli hesabını, yani kafein içeren içecekler dışında erkekte 2000, kadında 1600 mililitreyi esas alır."
+    },
+    {
+     "t": "h2",
+     "h": "Susamayı beklemek yeter mi?"
+    },
+    {
+     "t": "p",
+     "h": "Rehber susama duygusunun nasıl işlediğini yazıyor: su kaybı sonucu plazma yoğunluğu yüzde 1 artınca susama merkezi uyarılıyor. Ama suyla birlikte sodyum ve potasyum gibi mineraller de kaybedildiğinde <b>susama merkezi uyarılmıyor ve susama duygusu gelişmiyor</b>."
+    },
+    {
+     "t": "p",
+     "h": "Rehber ayrıca idrar renginin koyulaşmasını su gereksinmesinin karşılanmadığının göstergesi olarak anıyor. Su için tolere edilebilir bir üst alım düzeyi tanımlanmamış; fazla alınan su böbrekler ve ter yoluyla atılabiliyor. Rehber yine de böbreklerin atım kapasitesinin üzerinde ve hızlı sıvı alınmasının kanda sodyum düşüklüğüne yol açabildiği ender bir durumu ayrıca not ediyor."
+    },
+    {
+     "t": "p",
+     "h": "Bu sayfadaki referans değerler, formüller ve tüketim verisi Türkiye Beslenme Rehberi'nden (TÜBER 2022, Bölüm 2.1 ve 2.2.7, Ek 1.4.1) alınmıştır. Rehber yetişkin değerlerini Avrupa Gıda Güvenliği Otoritesi'nin (EFSA) su için referans değerler görüşünden benimsediğini kendi metninde yazar; bu yüzden o görüş burada bağımsız ikinci kaynak sayılmadı, sayının kaynağı olarak anıldı. Bağımsız karşılaştırma NHS'in su ve içecekler sayfasından (Eatwell rehberi, günde 6-8 bardak) alınmıştır."
+    }
+   ],
+   "kaynaklar": [
+    {
+     "a": "https://hsgm.saglik.gov.tr/depo/birimler/saglikli-beslenme-ve-hareketli-hayat-db/Dokumanlar/Rehberler/Turkiye_Beslenme_Rehber_TUBER_2022_min.pdf",
+     "h": "TÜBER 2022 — Türkiye Beslenme Rehberi <b>Ek 1.4.1, s. 253</b> Su için önerilen yeterli alım (AI) — 18-50 yaş erkek 2,5 L, kadın 2,0 L; 15-17 yaş erkek 2,5 L, kadın 2,0 L; gebe 2,3 L; emzikli 2,7 L erişim: 2026-08-15"
+    },
+    {
+     "a": "https://hsgm.saglik.gov.tr/depo/birimler/saglikli-beslenme-ve-hareketli-hayat-db/Dokumanlar/Rehberler/Turkiye_Beslenme_Rehber_TUBER_2022_min.pdf",
+     "h": "TÜBER 2022 — Türkiye Beslenme Rehberi <b>Bölüm 9, s. 155</b> Vücut ağırlığı başına 35 mL/kg sıvı alımı; sıvı kayıplarının arttığı durumlarda günlük sıvı alımı artırılmalıdır erişim: 2026-08-15"
+    },
+    {
+     "a": "https://hsgm.saglik.gov.tr/depo/birimler/saglikli-beslenme-ve-hareketli-hayat-db/Dokumanlar/Rehberler/Turkiye_Beslenme_Rehber_TUBER_2022_min.pdf",
+     "h": "TÜBER 2022 — Türkiye Beslenme Rehberi <b>Tablo 8.2, s. 170</b> Su/sıvı — her 1000 kkal başına bir litre sıvı tüketilmelidir erişim: 2026-08-15"
+    },
+    {
+     "a": "https://hsgm.saglik.gov.tr/depo/birimler/saglikli-beslenme-ve-hareketli-hayat-db/Dokumanlar/Rehberler/Turkiye_Beslenme_Rehber_TUBER_2022_min.pdf",
+     "h": "TÜBER 2022 — Türkiye Beslenme Rehberi <b>Bölüm 10.2.1, s. 228</b> Evlerde kullanılan su bardaklarının hacmi 200-560 mL arasında değişmektedir erişim: 2026-08-15"
+    }
+   ]
+  },
+  "puflar-detay": {
+   "bloklar": [
+    {
+     "t": "lead",
+     "h": "Buzdolabının her rafı aynı sıcaklıkta değildir; bu fark rastgele değil, soğuk havanın dolap içinde nasıl dolaştığından kaynaklanır. Hangi besinin hangi rafa konduğu, hem besinin ne kadar süre taze kalacağını hem de dolap içinde sızıntı ya da çapraz bulaşma riskini belirler."
+    },
+    {
+     "t": "h2",
+     "h": "Soğuk hava neden her rafta aynı değildir?"
+    },
+    {
+     "t": "p",
+     "h": "Soğuk hava dolabın arkasından ve genellikle üst kısmından üflenir, dolap içinde aşağı doğru süzülerek dolaşır. Bu yüzden alt raflar, kapı sık açılıp kapansa bile üst raflara göre daha uzun süre serin kalır."
+    },
+    {
+     "t": "p",
+     "h": "Dolabın kapısına yakın bölgeler ise her açılışta oda sıcaklığıyla temas ettiği için en değişken sıcaklığa sahip bölgedir. Rafların işlevini belirleyen şey de budur: dolabın içinde tek bir soğukluk değil, birbirinden ayrışan bölgeler vardır."
+    },
+    {
+     "t": "h2",
+     "h": "Üst ve orta raflar kime ayrılır?"
+    },
+    {
+     "t": "p",
+     "h": "Üst ve orta raflar; kalan yemekler, süt ürünleri, yoğurt ve hazır sos gibi pişmiş ya da doğrudan tüketilecek besinler için uygundur. Bu raflarda duran besinler çiğ et ve tavuktan gelecek olası bir sızıntıdan uzak kalır, çünkü konumları çiğ ürünlerin genellikle bulunduğu alt rafın üzerindedir."
+    },
+    {
+     "t": "p",
+     "h": "Kalan yemeği kapalı bir kapta bu raflara koymak, hem kokunun yayılmasını hem de başka bir besinle temasını önler. Bu raflar aynı zamanda en sık açılıp bakılan bölgedir; bu yüzden gün içinde tüketilmesi beklenen kalan yemeği burada, gözle görülür bir yerde tutmak, onun unutulup bozulmaya bırakılma olasılığını azaltır."
+    },
+    {
+     "t": "h2",
+     "h": "Alt raf neden çiğ ete ayrılır?"
+    },
+    {
+     "t": "p",
+     "h": "Çiğ et, tavuk ve balık dolabın en alt rafına, kapalı bir kap ya da tepsi içinde konur; bu düzenleme sıcaklıktan çok sızıntıyı önlemek içindir. Çiğ ürünlerden sızabilecek bir sıvının alttan yukarı damlaması mümkün değildir, ama üstten alta damlaması kolayca gerçekleşir. <strong>Çiğ et hiçbir zaman sebzelerin ya da doğrudan yenecek besinlerin üzerindeki bir rafta durmamalıdır</strong>; bu, dolap içinde en sık yapılan yerleşim hatasıdır."
+    },
+    {
+     "t": "p",
+     "h": "Çiğ eti ayrıca kendi kabına koymak, dolabın diğer bölgelerine hiç değmemesini sağlar; tepsi ya da kap olmadan doğrudan rafa konan bir paket, en dikkatli yerleşimde bile sızıntı riskini geri getirir."
+    },
+    {
+     "t": "h2",
+     "h": "Kapı gözleri neye uygundur, neye uygun değildir?"
+    },
+    {
+     "t": "p",
+     "h": "Kapı gözleri dolabın en sık sıcaklık değişimi yaşayan bölgesidir, çünkü her açılışta dışarıdaki havayla temas eder. Bu yüzden kapı gözleri; sos, turşu, reçel gibi kendi içinde dayanıklı ürünler için uygundur, ama süt ya da yumurta gibi sıcaklık değişimine daha duyarlı besinler için ideal bir konum değildir."
+    },
+    {
+     "t": "p",
+     "h": "Bazı dolaplarda yumurta için kapıda bir bölme bulunsa da, yumurtayı orijinal kartonuyla iç raflarda tutmak daha tutarlı bir soğukluk sağlar."
+    },
+    {
+     "t": "h2",
+     "h": "Sebzelik çekmecesi neyi farklı yapar?"
+    },
+    {
+     "t": "p",
+     "h": "Sebzelik çekmecesi, dolabın geri kalanına göre daha yüksek nem tutacak şekilde tasarlanır; bu nem, yapraklı sebzelerin ve taze otların hızla solmasını geciktirir. Meyve ve sebzeyi bu çekmeceye ayrı ayrı, mümkünse birbirine karışmadan yerleştirmek, bazı meyvelerin yaydığı olgunlaştırıcı gazın diğer sebzelerin daha hızlı bozulmasına yol açmasını önler."
+    },
+    {
+     "t": "p",
+     "h": "Bu çekmece, dolabın en soğuk değil, nemi en yüksek bölgesidir; sebzeler için doğru seçim soğukluktan çok bu nem oranıdır. Çoğu dolapta çekmecenin üzerinde nem oranını ayarlayan küçük bir sürgü bulunur; bu sürgü genellikle fark edilmeden hep aynı konumda bırakılır, oysa yapraklı sebze ile meyveyi ayrı çekmecelerde ya da farklı nem ayarında tutmak solmayı belirgin biçimde geciktirir."
+    },
+    {
+     "t": "h2",
+     "h": "Yerleşimi doğru kurmak neden zaman kazandırır?"
+    },
+    {
+     "t": "p",
+     "h": "Rafların işlevine göre düzenli tutulması, dolabı her açtığında neyin nerede olduğunu bilmeyi kolaylaştırır ve alışveriş sonrası yerleştirme süresini kısaltır. Aynı düzen korunduğunda, hangi besinin ne kadar süredir dolapta olduğunu takip etmek de kolaylaşır; bu, gözden kaçan ve bozulmaya bırakılan besinlerin sayısını azaltır."
+    },
+    {
+     "t": "p",
+     "h": "Düzen bir kere kurulduğunda sürdürmesi neredeyse hiç ek çaba gerektirmez; yeni alınan ürünler her seferinde aynı rafa gittiği için, dolabın içi zamanla kendiliğinden düzenli kalan bir sisteme dönüşür. Bu küçük alışkanlık, hem besin israfını azaltır hem de mutfakta harcanan aramayla geçen süreyi kısaltır."
+    }
+   ],
+   "kaynaklar": []
+  },
+  "makro-rehberi-detay": {
+   "bloklar": [
+    {
+     "t": "lead",
+     "h": "Bitkisel protein kaynakları günlük ihtiyacı karşılayabilir, ancak bunun için çeşitlilik gerekir. Türkiye Beslenme Rehberi'ne göre hayvansal besinlerde elzem amino asitler gereksinime uygun miktarlarda bulunurken, bazı bitkisel kaynaklarda sınırlı miktarda bulunur. <b>Fark protein miktarında değil, amino asit örüntüsündedir</b>."
+    },
+    {
+     "t": "h2",
+     "h": "Fark tam olarak nerede?"
+    },
+    {
+     "t": "p",
+     "h": "Kuru baklagiller olgunlaşmış tohumlardır ve temel bileşimleri karbonhidrat ile proteindir. Protein değerleri yüksektir, ama kaliteleri düşüktür. Rehber bunun üç nedenini sayar: elzem kükürtlü amino asitlerden sınırlı oluşları, posa içeriklerinin yüksekliği ve sindirilmelerinin güçlüğü."
+    },
+    {
+     "t": "p",
+     "h": "Hayvansal tarafta tablo tersinedir. Yumurta, proteinlerinin yüzde 100 oranında vücut proteinlerine dönüştüğü bilindiği için örnek protein sayılır. Et, tavuk ve balık eşdeğer miktarda protein taşır ve birlikte demir, çinko, fosfor ile B12 vitamininin de kaynağıdır. B12 vitamini yalnızca hayvansal besinlerde bulunur."
+    },
+    {
+     "t": "h2",
+     "h": "Eşleştirme farkı nasıl kapatır?"
+    },
+    {
+     "t": "p",
+     "h": "Rehberin verdiği çözüm besin eklemek değil, <b>besinleri eşleştirmektir</b>. Kuru baklagiller iyi pişirildiğinde ve belirli bir oranda tahılla karıştırıldığında protein kalitesi yükselir. Verilen somut örnek Türk mutfağının zaten bildiği bir eşleşmedir: etsiz pişirilmiş kuru fasulye yemeğinin yanında bulgur ya da pirinç pilavı."
+    },
+    {
+     "t": "p",
+     "h": "Aynı mantık tahıl tarafından da okunabilir. Tahılların protein kalitesi ve miktarı et ile süt grubuna göre düşüktür; kuru baklagiller, süt, yumurta gibi yiyeceklerle bir arada tüketildiklerinde bu kalite artırılabilir. Yani eşleştirme iki yönlü çalışır, hangi besinden başlandığı fark etmez."
+    },
+    {
+     "t": "h2",
+     "h": "Bitkisel kaynağın kendi avantajları"
+    },
+    {
+     "t": "p",
+     "h": "Kuru baklagiller ve yağlı tohumlar kolesterol içermez. Kuru baklagillerin yağ içeriği de düşüktür ve bu yağ çoğunlukla çoklu doymamış yağ asitlerinden oluşur. Yağlı tohumlarda durum farklıdır: rehber onları sert kabuklu yemişlerle birlikte diğer yiyeceklere göre fazla yağ içeren besinler arasında sayar, bu yüzden aşağıda porsiyonları küçük tutulur. Kuru baklagiller ayrıca lif, oligosakkarit ve fitokimyasal kaynağıdır, minerallerden kalsiyum, çinko, magnezyum ve demir bakımından zengindir."
+    },
+    {
+     "t": "p",
+     "h": "Bu kaynakların demir ve kalsiyumu vücutta daha az kullanılabilir hâldedir. Rehber bunun için de pratik bir çözüm verir: iyi pişirme ve <b>C vitamini kaynağı sebze ve meyvelerle birlikte tüketim</b>, bu minerallerin biyoyararlılığını artırır."
+    },
+    {
+     "t": "h2",
+     "h": "Hangi bitkisel besinler protein taşır?"
+    },
+    {
+     "t": "p",
+     "h": "Kuru baklagillerin başlıcaları nohut, mercimek, bakla, fasulye, bezelye, börülce ve soya fasulyesidir. Bunların yanında yağlı tohumlar, çekirdekler, tahıllar, sebzeler ve meyveler de günlük toplama katkı yapar. Rehber, bu kaynaklardan gün boyunca yeterince tüketildiğinde vücut proteinlerinin sentezlenebileceğini belirtir."
+    },
+    {
+     "t": "p",
+     "h": "Hiçbir hayvansal ürün tüketmeyenler için özel olarak işaret edilen kaynak soya fasulyesidir; rehber kaliteli protein alımını artırmak için et yerine soya fasulyesi tüketilebileceğini söyler. Kuru baklagiller ile yağlı tohumlar da et alternatifi olarak birlikte tüketildiğinde bu grubun besin ögesi ihtiyacını karşılayabilir."
+    },
+    {
+     "t": "h2",
+     "h": "Porsiyon karşılıkları ne kadar?"
+    },
+    {
+     "t": "p",
+     "h": "Rehberin porsiyon tablosu karşılaştırmayı gözle yapılabilir hâle getirir. Bir porsiyon pişmiş kuru baklagil <strong>130 gramdır</strong>, yani dörtte üç kupa ya da 8-10 yemek kaşığı. Bir yumurta 50 gram, bir küçük boy yumurtaya karşılık gelir."
+    },
+    {
+     "t": "p",
+     "h": "Sert kabuklu yemişlerde ölçü daha küçüktür: bir avuç, yani <strong>30 gram</strong>. Bu 30 gramın kaç tane ettiğini rehber adedi iki tablosunda farklı yazıyor: menü tablosu (Tablo 8.5) fındıkta 30 adet, cevizde 4 adet; porsiyon tablosu (Ek 2.1.3) fındıkta 28-30 adet, cevizde boyuna göre 4-5 büyük boy, 6-7 orta boy ya da 10-12 küçük boy tam ceviz içi. Fındık veya fıstık ezmesinde bir tatlı kaşığı dolusu 25 gramdır. Süt tarafında bir orta boy kupa süt 240 mililitre, bir kupa yoğurt 200 mililitre, beyaz peynirde bir porsiyon 60 gram, kaşar peynirinde 40 gramdır."
+    },
+    {
+     "t": "p",
+     "h": "Bu ölçüler günlük porsiyon sayılarıyla birlikte okunur. Rehberin vejetaryen örüntüsü için verdiği dağılım günde 3-6 porsiyon tahıl, 3-5 porsiyon sebze, 2-4 porsiyon meyve, 0-3 porsiyon süt ve süt ürünü ile 2-3 porsiyon yumurta ve kuru baklagildir."
+    },
+    {
+     "t": "h2",
+     "h": "Nerede yanlışa dönüşür?"
+    },
+    {
+     "t": "p",
+     "h": "İlk hata, tek bir bitkisel kaynağa yaslanmaktır. Rehber özellikle hiçbir hayvansal ürün tüketmeyenler için çeşitliliği şart koşar; tek çeşit baklagille kurulan bir örüntü amino asit tarafında açık verir. İkinci hata, et ve yumurtayı tamamen çıkarıp yerine bir şey koymamaktır."
+    },
+    {
+     "t": "p",
+     "h": "Üçüncü hata ise ölçüyle ilgilidir. Sert kabuklu yemişler ve yağlı tohumlar iyi protein kaynağıdır ama diğer yiyeceklere göre fazla yağ içerirler, bu yüzden miktarlarına dikkat edilir. Aynı uyarı yağlı tohumlar için de geçerlidir; bunlar B grubu vitaminleri ve mineraller bakımından zengin olsalar da porsiyonları küçük tutulur. Bir avuçluk ölçünün 30 gramda kalması, bu grubun protein katkısını korurken enerji tarafını da sınırda tutar. Besinlerin protein değerlerini <a href=\"{{kok}}besin-kutuphanesi/\">besin değerleri tablosunun protein sekmesinden</a>, günlük ihtiyacın hesabını ise <a href=\"{{kok}}makro-rehberi/\">protein rehberinden</a> takip edebilirsiniz."
+    },
+    {
+     "t": "p",
+     "h": "Bu sayfadaki sayılar ve öneriler Türkiye Beslenme Rehberi'nden (TÜBER 2022, T.C. Sağlık Bakanlığı; basılı s. 22 = PDF s. 46 · basılı s. 21 = PDF s. 45 · basılı s. 182 = PDF s. 206 · Tablo 8.5 basılı s. 181 = PDF s. 205 · Ek 2.1.3 basılı s. 264 = PDF s. 288 · basılı s. 26 = PDF s. 50 · Bölüm 2.2.2 basılı s. 20 = PDF s. 44) alınmıştır."
+    }
+   ],
+   "kaynaklar": [
+    {
+     "a": "https://hsgm.saglik.gov.tr/depo/birimler/saglikli-beslenme-ve-hareketli-hayat-db/Dokumanlar/Rehberler/Turkiye_Beslenme_Rehber_TUBER_2022_min.pdf",
+     "h": "TÜBER 2022 — Türkiye Beslenme Rehberi <b>Bölüm 2.2.2.4, s. 22</b> Kuru baklagiller: protein değeri yüksek, kalitesi düşük (kükürtlü amino asitte sınırlı); tahılla karıştırıldığında kalite yükselir erişim: 2026-08-15"
+    },
+    {
+     "a": "https://hsgm.saglik.gov.tr/depo/birimler/saglikli-beslenme-ve-hareketli-hayat-db/Dokumanlar/Rehberler/Turkiye_Beslenme_Rehber_TUBER_2022_min.pdf",
+     "h": "TÜBER 2022 — Türkiye Beslenme Rehberi <b>Bölüm 2.2.2.3, s. 21</b> Yumurta örnek protein (proteinlerinin %100'ü vücut proteinlerine dönüşür) erişim: 2026-08-15"
+    },
+    {
+     "a": "https://hsgm.saglik.gov.tr/depo/birimler/saglikli-beslenme-ve-hareketli-hayat-db/Dokumanlar/Rehberler/Turkiye_Beslenme_Rehber_TUBER_2022_min.pdf",
+     "h": "TÜBER 2022 — Türkiye Beslenme Rehberi <b>Bölüm 8.3, s. 182</b> Hayvansal besinlerde elzem amino asitler gereksinmeye uygun, bazı bitkisel kaynaklarda sınırlı; kuru fasulye + bulgur/pirinç eşleşmesi erişim: 2026-08-15"
+    },
+    {
+     "a": "https://hsgm.saglik.gov.tr/depo/birimler/saglikli-beslenme-ve-hareketli-hayat-db/Dokumanlar/Rehberler/Turkiye_Beslenme_Rehber_TUBER_2022_min.pdf",
+     "h": "TÜBER 2022 — Türkiye Beslenme Rehberi <b>Tablo 8.5, s. 181</b> Vejetaryen porsiyon dağılımı ve karşılıkları: tahıl 3-6 · sebze 3-5 · meyve 2-4 · süt 0-3 · yumurta-kuru baklagil 2-3 porsiyon; pişmiş kuru baklagil 130 g · yumurta 50 g · fındık 30 adet / ceviz 4 adet = 30 g · fındık ezmesi 25 g · süt 240 mL · yoğurt 200 mL · beyaz peynir 60 g · kaşar 40 g erişim: 2026-08-15"
+    },
+    {
+     "a": "https://hsgm.saglik.gov.tr/depo/birimler/saglikli-beslenme-ve-hareketli-hayat-db/Dokumanlar/Rehberler/Turkiye_Beslenme_Rehber_TUBER_2022_min.pdf",
+     "h": "TÜBER 2022 — Türkiye Beslenme Rehberi <b>Bölüm 2.2.4.1, s. 26</b> Tahılların protein kalitesi ve miktarı et-süt grubuna göre düşük; kuru baklagil, süt, yumurta ile birlikte tüketimde artar erişim: 2026-08-15"
+    }
+   ]
+  }
+ },
+ "dengeli": {
+  "qa": [
+   {
+    "soru": "Dengeli tabak nasıl hazırlanır?",
+    "bloklar": [
+     {
+      "t": "p",
+      "h": "Dengeli tabak kavramı, besin gruplarını ayrı ayrı saymak yerine tabağa bakarak bütünsel bir denge kurmayı önerir. Fikrin özü basittir: <b>tabağının yaklaşık yarısını sebze ve yeşilliklerle</b>, kalan yarısını ise eşit ağırlıkta protein ve tahıl/nişastalarla doldurmak. Bu model ne bir beslenme kuralıdır ne de katı bir şema; yalnızca tabağını kurgularken zihinsel bir kılavuz işlevi görür."
+     },
+     {
+      "t": "p",
+      "h": "Evde uygulamak da düşündüğünden kolaydır. Özel bir ölçü aleti ya da uygulama gerekmez; tabağın görsel dağılımı tek başına yeterli bir pusula olabilir. Hem doyurucu hem de çeşitli bir öğün oluşturmak için renk çeşitliliğine odaklanmak — kırmızı, yeşil, sarı, turuncu sebzeler bir arada — hem besin zenginliği hem de göze hoş gelen bir tabak anlamına gelir."
+     },
+     {
+      "t": "p",
+      "h": "Pratik başlangıç noktaları"
+     },
+     {
+      "t": "ul",
+      "l": [
+       "Tabağın yarısını sebze/salata ile doldurmayı dene; bu sayede hem lif hem de hacim kazanırsın.",
+       "Protein ve tahıl kısımlarını tabağın kalan alanına böl; hangisi biraz daha fazla olursa olsun, bu esneklik dengeyi bozmaz.",
+       "Bir öğünde her şeyi \"mükemmel\" yapma baskısı hissetme; genel örüntü tek bir öğünden çok daha önemlidir."
+      ]
+     }
+    ]
+   },
+   {
+    "soru": "Protein, karbonhidrat ve sebze dengesi nasıl kurulur?",
+    "bloklar": [
+     {
+      "t": "p",
+      "h": "Bu üç besin grubu birbirinin rakibi değil, tamamlayıcısıdır. Protein, doygunluk ve kas dokusu için önemlidir; karbonhidratlar vücudun temel yakıtıdır; sebzeler ise lif, vitamin ve mineral açısından öğünü zenginleştirir. Denge, bir grubu kesmek ya da sınırlamak değil, <b>her öğünde üçüne de yer açmak demektir</b>."
+     },
+     {
+      "t": "p",
+      "h": "Ev yemekleri bu açıdan büyük bir avantaj sunar: ne kadar sebze ekleneceği, proteinin ne şekilde hazırlandığı ve tahılın ne ölçüde yer tuttuğu büyük ölçüde senin elinde. Bir et yemeği yanına bol salata ya da haşlanmış sebze eklemek, bir tavuk yemeğini bulguruyla buluşturmak — bu tür küçük tercihler zamanla güçlü bir denge alışkanlığı oluşturur."
+     },
+     {
+      "t": "p",
+      "h": "Gündelik yönlendirici ipuçları"
+     },
+     {
+      "t": "ul",
+      "l": [
+       "Protein kaynağı olarak et, tavuk, balık, yumurta, baklagiller ve süt ürünleri arasında çeşitlilik yarat.",
+       "Tahıl tercihlerinde zaman zaman bulgur, kepekli ekmek veya yulaf gibi lif içeriği daha yüksek seçenekleri deneyebilirsin.",
+       "Sebzeyi sadece \"garnitür\" olarak değil, öğünün ana aktörlerinden biri olarak konumlandır; pişirme yöntemi lezzetlerini öne çıkarır."
+      ]
+     }
+    ]
+   },
+   {
+    "soru": "Ev yemeklerinde porsiyon dengesi",
+    "bloklar": [
+     {
+      "t": "p",
+      "h": "Ev yemeğinin en büyük güzelliği kontrol ve özen; en büyük tuzağı ise tencereden tabağa göz kararı ile akan fazla porsiyonlar. Porsiyon dengesi, bir şeyleri kesinlikle yememek anlamına gelmez — <b>ne kadar yenildiğini fark etmekle ilgilidir</b>."
+     },
+     {
+      "t": "p",
+      "h": "Türkiye Beslenme Rehberi'nin de kullandığı \"el ölçüsü\" yaklaşımı, bu farkındalığı pratiğe dökmek için sezgisel bir yöntemdir: rehberde <b>pişmiş et ya da tavuğun bir porsiyonu bir el ayası, pişmiş sebzenin bir porsiyonu bir yumruk kadardır</b> — ve bunlar kişinin kendi eliyle ölçülür, yani boyuta göre doğal olarak değişir. Tartı veya hassas ölçüm gerektirmeyen bu yaklaşım, yemeğin tadını kaçırmadan bir farkındalık zemini oluşturur."
+     },
+     {
+      "t": "p",
+      "h": "Ev mutfağında yardımcı olabilecek alışkanlıklar"
+     },
+     {
+      "t": "ul",
+      "l": [
+       "Yemeği tencereden değil, tabağa koyup masaya oturarak ye; ikinci kez almanın farkında olmak çoğu zaman yeterlidir.",
+       "Yavaş yemek, doyma sinyalini almanı kolaylaştırır — bu, hiçbir ölçüm aracının yapamayacağı kadar doğal bir düzenleyicidir.",
+       "Büyük porsiyonlu yemekleri paylaşmak veya arta kalanı saklamak, hem israfı önler hem de öğünleri doğal olarak denkler."
+      ]
+     }
+    ]
+   },
+   {
+    "soru": "Akşam yemeği nasıl sade tutulur?",
+    "bloklar": [
+     {
+      "t": "p",
+      "h": "Akşam öğünü günün en uzun molasını verdiğimiz ve vücudun dinlenmeye geçtiği zaman dilimidir. Bu nedenle bazı kişiler akşamları daha az ağır ve sindirimi kolay yiyecekleri tercih eder — ama bu kesin bir kural değil, gün içindeki aktivite düzeyi ve kişisel rahatlık duygusuna göre şekillenen bir tercihtir."
+     },
+     {
+      "t": "p",
+      "h": "\"Sade tutmak\" derken kasıt, az yemek ya da bir şeyleri kesmek değildir; yemeğin bileşimi ve pişirme yönteminde küçük değişiklikler yapmaktır. <b>Kızartma yerine fırın, ağır soslar yerine zeytinyağı ve limon</b>, kırmızı et yerine zaman zaman balık veya baklagil — bu tercihler öğünü hem lezzetli hem de akşama uygun tutar. Sonrasında rahatsız edici bir ağırlık hissi yaşamak istemiyorsan, bu tür küçük dokunuşlar fark yaratabilir."
+     },
+     {
+      "t": "p",
+      "h": "Akşam öğününde denge kurmak için"
+     },
+     {
+      "t": "ul",
+      "l": [
+       "Tabakta sebze oranını biraz artırmak sindirime destek olabilir; çorba veya salata iyi bir başlangıç noktasıdır.",
+       "Tatlı isteği varsa, akşam sonunda küçük bir meyve ya da az şekerli bir alternatif tatmin edici olabilir.",
+       "Yatmadan hemen önce büyük öğün yemek yerine, akşam öğününü birkaç saat öne almak birçok kişiye daha rahat gelen bir düzendir."
+      ]
+     }
+    ]
+   }
+  ],
+  "dip": [
+   "Bu sayfadaki porsiyon ölçüleri Türkiye Beslenme Rehberi'nden (TÜBER 2022, T.C. Sağlık Bakanlığı; Ek 2.1.3 basılı s. 264 = PDF s. 288 · Ek 2.1.7 basılı s. 268 = PDF s. 292 · Bölüm 10.2.2 basılı s. 230 = PDF s. 254) alınmıştır."
+  ]
+ },
+ "yasal": {
+  "yasal-kvkk": {
+   "bloklar": [
+    {
+     "t": "p",
+     "h": "Sürüm 1.0 · Yürürlük tarihi: 28 Ekim 2026 · Son güncelleme: 28 Ekim 2026"
+    },
+    {
+     "t": "h2",
+     "h": "1. Veri Sorumlusunun Kimliği",
+     "id": "b1"
+    },
+    {
+     "t": "p",
+     "h": "Bu aydınlatma metni, 6698 sayılı Kişisel Verilerin Korunması Kanunu (\"<strong>KVKK</strong>\") m.10 uyarınca, DadaDiet platformunu işleten veri sorumlusu tarafından hazırlanmıştır."
+    },
+    {
+     "t": "ul",
+     "l": [
+      "<strong>Unvan:</strong> [unvan]",
+      "<strong>Adres:</strong> [adres]",
+      "<strong>MERSİS no:</strong> [MERSİS no]",
+      "<strong>Vergi dairesi / vergi no:</strong> [vergi dairesi / vergi no]",
+      "<strong>KEP adresi:</strong> [KEP adresi]",
+      "<strong>E-posta:</strong> [e-posta]"
+     ]
+    },
+    {
+     "t": "h2",
+     "h": "2. İşlenen Kişisel Veri Kategorileri",
+     "id": "b2"
+    },
+    {
+     "t": "h3",
+     "h": "2.1 Genel nitelikli kişisel veriler",
+     "id": "b3"
+    },
+    {
+     "t": "ul",
+     "l": [
+      "<strong>Kimlik verisi</strong> — ad, soyad, kullanıcı adı, doğum tarihi beyanı.",
+      "<strong>İletişim verisi</strong> — e-posta adresi ve varsa telefon numarası.",
+      "<strong>Müşteri işlem verisi</strong> — ücretli hizmet alındığında abonelik, randevu ve fatura kayıtları.",
+      "<strong>İşlem güvenliği verisi</strong> — IP adresi, oturum ve giriş kayıtları, cihaz ve tarayıcı bilgisi.",
+      "<strong>Görsel veri</strong> — profil fotoğrafı.",
+      "<strong>Pazarlama verisi</strong> — açık rıza hâlinde iletişim tercihleri ve etkileşim kayıtları."
+     ]
+    },
+    {
+     "t": "h3",
+     "h": "2.2 Özel nitelikli kişisel veriler (sağlık verisi)",
+     "id": "b4"
+    },
+    {
+     "t": "ul",
+     "l": [
+      "Boy, kilo ve vücut ölçüleri",
+      "Hedefler ve hesaplama geçmişi",
+      "Öğün kayıtları",
+      "Diyetisyene aktarılan sağlık geçmişi"
+     ]
+    },
+    {
+     "t": "p",
+     "h": "Bu kategori KVKK kapsamında özel nitelikli kişisel veri, GDPR kapsamında sağlık verisi sayılır ve ayrı bir rejime tabidir — bkz. Sağlık Verisi Politikası."
+    },
+    {
+     "t": "h2",
+     "h": "3. İşleme Amaçları",
+     "id": "b5"
+    },
+    {
+     "t": "ul",
+     "l": [
+      "Üyelik kaydının oluşturulması, hesabın yönetimi ve kimlik doğrulama",
+      "Hesaplama, program eşleştirme ve takip süreçlerinin yürütülmesi",
+      "Diyetisyenle veri paylaşımı, randevu ve görüşme süreçlerinin yürütülmesi",
+      "Uzman doğrulama, içerik denetimi ve şikâyet süreçlerinin yürütülmesi",
+      "Platform güvenliğinin sağlanması",
+      "Ücretli hizmetlerin sunulması, faturalandırma ve muhasebe süreçlerinin yürütülmesi",
+      "Talep, şikâyet ve veri sahibi başvurularının karşılanması",
+      "Pazarlama iletişiminin yürütülmesi",
+      "Hukuki yükümlülüklerin yerine getirilmesi ve uyuşmazlıkların takibi"
+     ]
+    },
+    {
+     "t": "h2",
+     "h": "4. Hukuki Sebepler",
+     "id": "b6"
+    },
+    {
+     "t": "h3",
+     "h": "4.1 Genel nitelikli veriler (KVKK m.5)",
+     "id": "b7"
+    },
+    {
+     "t": "ul",
+     "l": [
+      "<strong>Sözleşmenin kurulması ve ifası</strong> (m.5/2-c) — üyelik, hesap yönetimi, ücretli hizmetler.",
+      "<strong>Hukuki yükümlülüğün yerine getirilmesi</strong> (m.5/2-ç) — mevzuattan doğan kayıt ve saklama yükümlülükleri.",
+      "<strong>Bir hakkın tesisi, kullanılması veya korunması</strong> (m.5/2-e) — şikâyet, inceleme ve uyuşmazlık kayıtları.",
+      "<strong>Meşru menfaat</strong> (m.5/2-f) — Platform güvenliği ve hizmetin iyileştirilmesi.",
+      "<strong>Açık rıza</strong> (m.5/1) — pazarlama iletişimi."
+     ]
+    },
+    {
+     "t": "h3",
+     "h": "4.2 Özel nitelikli veriler (KVKK m.6)",
+     "id": "b8"
+    },
+    {
+     "t": "p",
+     "h": "Özel nitelikli kişisel veri, Kanun'un aradığı şartlar dışında işlenemez; sağlık verisi bakımından esas alınan şart <strong>açık rızadır</strong>. Bu rıza genel üyelik onayından ayrı ve bağımsız alınır; hizmetin kullanımının koşulu hâline getirilmez. Tek kutuda birleştirilen rıza geçersiz sayılır. Rıza metni: Açık Rıza Metni (Özel Nitelikli Veri)."
+    },
+    {
+     "t": "p",
+     "h": "<strong>Bugünkü durum — açıkça bildiriyoruz:</strong> bu rızayı girişten ayrı olarak isteyen bir ekran Platform'da <strong>bulunmamaktadır</strong>. Sağlık verisi yalnızca sizin bir forma kendi elinizle girmenizle doğar, girdiğiniz aracın amacıyla sınırlı işlenir ve hesabınızın dışına çıkarılmaz — ayrıntı Sağlık Verisi Politikası §3'tedir."
+    },
+    {
+     "t": "p",
+     "h": "Sağlık verisinin diyetisyenle paylaşılması, hesaplama amacından farklı bir amaçtır ve <strong>ayrı bir izne</strong> tabidir; bu izin \"Veri ve İzinlerim\" bölümünde ayrı bir anahtar olarak durur ve varsayılan olarak kapalıdır."
+    },
+    {
+     "t": "h2",
+     "h": "5. Toplama Yöntemi",
+     "id": "b9"
+    },
+    {
+     "t": "p",
+     "h": "Kişisel verileriniz; üyelik ve giriş formları, hesaplayıcı ve ölçü giriş ekranları, öğün kayıt ekranları, randevu ve görüşme akışları, iletişim ve başvuru formları ile çerezler üzerinden <strong>elektronik ortamda</strong>; yazılı başvurularda ise fiziksel ortamda toplanır."
+    },
+    {
+     "t": "h2",
+     "h": "6. Aktarım",
+     "id": "b10"
+    },
+    {
+     "t": "p",
+     "h": "Kişisel verileriniz KVKK m.8 ve m.9'a uygun olarak; hizmetin ifası için zorunlu olduğu ölçüde barındırma ve altyapı sağlayıcılarına, açık rızanız hâlinde çalışmayı kabul ettiğiniz diyetisyene, ödeme kuruluşuna ve yasal talep hâlinde yetkili kamu kurum ve kuruluşlarına aktarılabilir."
+    },
+    {
+     "t": "p",
+     "h": "Özel nitelikli kişisel verinin aktarımı, Kanun'un öngördüğü ek şartlara ve Kurul'un belirlediği yeterli önlemlere tabidir. Yurt dışına aktarım yalnızca Kanun'un aradığı şartların sağlanması hâlinde yapılır."
+    },
+    {
+     "t": "h2",
+     "h": "7. Saklama ve İmha",
+     "id": "b11"
+    },
+    {
+     "t": "p",
+     "h": "Veriler, işleme amacının gerektirdiği süre ve mevzuatta öngörülen azami süreler boyunca saklanır; sürenin sonunda periyodik imha dönemlerinde silinir, yok edilir veya anonim hâle getirilir. Sağlık verisi kategorileri için ayrı süreler Sağlık Verisi Politikası §6'da listelenmiştir."
+    },
+    {
+     "t": "h2",
+     "h": "8. İlgili Kişinin Hakları (KVKK m.11)",
+     "id": "b12"
+    },
+    {
+     "t": "p",
+     "h": "Veri sorumlusuna başvurarak şu haklarınızı kullanabilirsiniz:"
+    },
+    {
+     "t": "ul",
+     "l": [
+      "Kişisel verinizin işlenip işlenmediğini öğrenme",
+      "İşlenmişse buna ilişkin bilgi talep etme",
+      "İşlenme amacını ve amacına uygun kullanılıp kullanılmadığını öğrenme",
+      "Yurt içinde veya yurt dışında verilerin aktarıldığı üçüncü kişileri bilme",
+      "Eksik veya yanlış işlenmiş verinin düzeltilmesini isteme",
+      "Kanun'un 7. maddesindeki şartlar çerçevesinde silinmesini veya yok edilmesini isteme",
+      "Düzeltme, silme ve yok etme işlemlerinin verilerin aktarıldığı üçüncü kişilere bildirilmesini isteme",
+      "Münhasıran otomatik sistemlerle analiz edilmesi suretiyle aleyhinize bir sonuç doğmasına itiraz etme",
+      "Kanuna aykırı işleme sebebiyle zarara uğramanız hâlinde zararın giderilmesini talep etme"
+     ]
+    },
+    {
+     "t": "p",
+     "h": "Açık rızaya dayalı işlemelerde (sağlık verisi, uzmanla paylaşım, pazarlama) rızanızı dilediğiniz zaman ve her biri için ayrı ayrı geri çekebilirsiniz; geri çekme, o ana kadar yapılmış işlemenin hukuka uygunluğunu etkilemez."
+    },
+    {
+     "t": "h2",
+     "h": "9. Başvuru Yolu",
+     "id": "b13"
+    },
+    {
+     "t": "p",
+     "h": "Başvurularınızı, Veri Sorumlusuna Başvuru Usul ve Esasları Hakkında Tebliğ'e uygun olarak şu yollardan biriyle iletebilirsiniz:"
+    },
+    {
+     "t": "ul",
+     "l": [
+      "Yazılı olarak <strong>[adres]</strong> adresine",
+      "KEP adresinizden <strong>[KEP adresi]</strong> adresine",
+      "Sistemimizde kayıtlı e-posta adresinizden <strong>[e-posta]</strong> adresine"
+     ]
+    },
+    {
+     "t": "p",
+     "h": "Başvurunuz talebin niteliğine göre en geç <strong>30 gün</strong> içinde ücretsiz olarak sonuçlandırılır. İşlemin ayrıca bir maliyet gerektirmesi hâlinde Kurul'ca belirlenen tarifedeki ücret alınabilir."
+    },
+    {
+     "t": "h2",
+     "h": "10. İlgili Metinler",
+     "id": "b14"
+    },
+    {
+     "t": "ul",
+     "l": [
+      "Sağlık Verisi Politikası",
+      "Açık Rıza Metni (Özel Nitelikli Veri)",
+      "Gizlilik Politikası"
+     ]
+    }
+   ]
+  },
+  "sayfa-kunye": {
+   "bloklar": [
+    {
+     "t": "p",
+     "h": "<strong>Durum: Taslak — hukuki inceleme bekliyor.</strong> Bu metin DadaDiet ekibi tarafından taslak olarak hazırlanmıştır. Hukuki incelemesi sürmektedir; nihai hâlini almadan önce değişebilir ve bu hâliyle hukuki görüş niteliği taşımaz."
+    },
+    {
+     "t": "p",
+     "h": "Sürüm 1.0 · Yürürlük tarihi: [yürürlük tarihi] · Son güncelleme: [son güncelleme tarihi]"
+    },
+    {
+     "t": "h2",
+     "h": "1. Bu Sayfa Nedir?",
+     "id": "b1"
+    },
+    {
+     "t": "p",
+     "h": "Bu sayfa, 5651 sayılı İnternet Ortamında Yapılan Yayınların Düzenlenmesi ve Bu Yayınlar Yoluyla İşlenen Suçlarla Mücadele Edilmesi Hakkında Kanun ve ilgili mevzuat uyarınca, DadaDiet'i işleten kuruluşun kimlik ve iletişim bilgilerini kamuya açık biçimde bildirir."
+    },
+    {
+     "t": "h2",
+     "h": "2. Kimlik ve İletişim Bilgileri",
+     "id": "b2"
+    },
+    {
+     "t": "ul",
+     "l": [
+      "<strong>Unvan:</strong> [unvan]",
+      "<strong>Adres:</strong> [adres]",
+      "<strong>MERSİS no:</strong> [MERSİS no]",
+      "<strong>Vergi dairesi / vergi no:</strong> [vergi dairesi / vergi no]",
+      "<strong>KEP adresi:</strong> [KEP adresi]",
+      "<strong>E-posta:</strong> [e-posta]",
+      "<strong>Telefon:</strong> [telefon]"
+     ]
+    },
+    {
+     "t": "h2",
+     "h": "3. Sorumlular",
+     "id": "b3"
+    },
+    {
+     "t": "ul",
+     "l": [
+      "<strong>Yasal temsilci:</strong> [yasal temsilci]",
+      "<strong>İçerik sorumlusu:</strong> [içerik sorumlusu]",
+      "<strong>Barındırma (hosting) sağlayıcısı:</strong> [barındırma sağlayıcısı]"
+     ]
+    },
+    {
+     "t": "h2",
+     "h": "4. Yer Sağlayıcı Sıfatı",
+     "id": "b4"
+    },
+    {
+     "t": "p",
+     "h": "DadaDiet, kullanıcıların girdiği ölçü, öğün, hedef ve profil bilgilerini barındıran bir platformdur. Kullanıcı içeriği bakımından <strong>yer sağlayıcı</strong> konumundadır; yayımlanan kullanıcı içeriğini yayımdan önce kontrol etmek ve hukuka aykırı olup olmadığını araştırmakla yükümlü değildir."
+    },
+    {
+     "t": "p",
+     "h": "Bununla birlikte, hukuka aykırı içerikten haberdar edildiğinde, teknik olarak imkân bulunduğu ölçüde içeriği yayından kaldırır. Platform'un kendi ürettiği editoryal içerikler bakımından ise içerik sağlayıcı sıfatı geçerlidir."
+    },
+    {
+     "t": "h2",
+     "h": "5. İçeriğe İlişkin Başvuru ve Kaldırma Talepleri",
+     "id": "b5"
+    },
+    {
+     "t": "p",
+     "h": "Bir içeriğin haklarınızı ihlal ettiğini düşünüyorsanız başvurunuzu <strong>[e-posta]</strong> veya <strong>[KEP adresi]</strong> üzerinden iletebilirsiniz. Başvuruda; talep sahibinin kimlik ve iletişim bilgileri, içeriğin Platform'daki adresi ve talebin gerekçesi bulunmalıdır."
+    },
+    {
+     "t": "p",
+     "h": "Başvurular <strong>[inceleme süresi]</strong> içinde sonuçlandırılır ve sonuç gerekçesiyle bildirilir. Hesap kurallarına dayalı talepler için Kullanım Koşulları, kişisel veriye ilişkin talepler için <a href=\"{{kok}}yasal/kvkk/\">KVKK Aydınlatma Metni</a> metinlerine bakınız."
+    },
+    {
+     "t": "p",
+     "h": "Mevzuatın öngördüğü hâllerde başvurular, kanunda belirtilen mercilere de yapılabilir."
+    },
+    {
+     "t": "h2",
+     "h": "6. Veri Sorumlusu",
+     "id": "b6"
+    },
+    {
+     "t": "p",
+     "h": "Kişisel verilerin işlenmesi bakımından veri sorumlusu yukarıda unvanı belirtilen kuruluştur. Ayrıntı için <a href=\"{{kok}}yasal/kvkk/\">KVKK Aydınlatma Metni</a> ve Gizlilik Politikası."
+    },
+    {
+     "t": "h2",
+     "h": "7. Ticari Bilgiler",
+     "id": "b7"
+    },
+    {
+     "t": "p",
+     "h": "Platform üzerinden sunulan ücretli hizmetlere ilişkin satıcı bilgileri, ödeme ve cayma koşulları Tıbbi Sorumluluk Reddi, Sağlık Verisi Politikası ve Kullanım Koşulları metinlerinde yer alır."
+    },
+    {
+     "t": "h2",
+     "h": "8. İlgili Metinler",
+     "id": "b8"
+    },
+    {
+     "t": "ul",
+     "l": [
+      "Kullanım Koşulları",
+      "Tıbbi Sorumluluk Reddi",
+      "Gizlilik Politikası"
+     ]
+    }
+   ]
+  },
+  "sayfa-bilimsel-kaynaklar": {
+   "bloklar": [
+    {
+     "t": "p",
+     "h": "<strong>Durum: Taslak — hukuki ve tıbbi inceleme bekliyor.</strong> Bu metin Dada Diet tarafından taslak olarak hazırlanmıştır. Hukuki incelemesi sürmekte, sağlık içeriğine ilişkin bölümleri ayrıca yetkili bir diyetisyen ve hekim tarafından gözden geçirilmektedir. Nihai hâlini almadan önce değişebilir; bu hâliyle hukuki veya tıbbi görüş niteliği taşımaz."
+    },
+    {
+     "t": "p",
+     "h": "Sürüm 1.0 · Yürürlük tarihi: [yürürlük tarihi] · Son güncelleme: [son güncelleme tarihi]"
+    },
+    {
+     "t": "h2",
+     "h": "1. Bu Sayfanın Amacı",
+     "id": "b1"
+    },
+    {
+     "t": "p",
+     "h": "Dada Diet, hesaplayıcı ve rehber içeriklerinin bilimsel dayanağı olduğunu söyler. Bu dayanağın hangi kaynaklara ve hangi yönteme oturduğunun yayımlanması, bu beyanın karşılığıdır. Bu sayfa, kullanılan kaynakları ve içeriğin nasıl üretildiğini tek yerde toplar."
+    },
+    {
+     "t": "h2",
+     "h": "2. Hesaplayıcılarda Kullanılan Referans Denklemler",
+     "id": "b2"
+    },
+    {
+     "t": "p",
+     "h": "Hesaplayıcılar, girdiğiniz verilerden <strong>referans denklemlerle tahmini bir sonuç</strong> üretir. Her hesaplayıcının sonuç ekranında hangi referans denklemin kullanıldığı yazılır ve kaynağına bağlantı verilir."
+    },
+    {
+     "t": "p",
+     "h": "Hesaplayıcı bazında kullanılan denklemlerin ve kaynaklarının tam listesi: <strong>[referans denklem ve kaynak listesi]</strong>."
+    },
+    {
+     "t": "p",
+     "h": "Bir denklemin hangi durumlarda yanıltıcı olabileceği, o hesaplayıcının sınırlılık notunda belirtilir — bkz. Hesaplayıcı Sınırlılıkları Bildirimi."
+    },
+    {
+     "t": "h2",
+     "h": "3. Besin Değeri Verisinin Kaynağı",
+     "id": "b3"
+    },
+    {
+     "t": "ul",
+     "l": [
+      "<strong>Kullanılan besin değeri veri kaynakları:</strong> [besin değeri veri kaynakları]",
+      "<strong>Verinin sürümü ve alındığı tarih:</strong> [veri sürümü ve tarihi]",
+      "<strong>Güncelleme aralığı:</strong> [besin verisi güncelleme aralığı]"
+     ]
+    },
+    {
+     "t": "p",
+     "h": "Besin değeri bilgileri kaynaklara göre değişebilir; ürünün cinsi, üretim ve pişirme yöntemi, marka ve porsiyon ölçüsü değerleri etkiler. Bu nedenle sayfalarda gösterilen değerler kesin ölçüm değil, kaynağa dayalı referans değerlerdir."
+    },
+    {
+     "t": "h2",
+     "h": "4. Rehber İçeriklerin Kaynakları",
+     "id": "b4"
+    },
+    {
+     "t": "p",
+     "h": "Rehber yazılar ve beslenme içerikleri, o sayfada ayrıca listelenen kaynaklara dayanır. Her rehber sayfasında şunlar görünür:"
+    },
+    {
+     "t": "ul",
+     "l": [
+      "Kaynak listesi ve varsa kaynağa doğrudan bağlantı.",
+      "İçeriği hazırlayan ve denetleyen bilgisi.",
+      "Son güncelleme tarihi."
+     ]
+    },
+    {
+     "t": "p",
+     "h": "Kaynakların seçimi, güncellenmesi ve uzman denetimi Editoryal ve Tıbbi Denetim Politikası'nda tanımlanmıştır."
+    },
+    {
+     "t": "h2",
+     "h": "5. Kaynak Gösteriminin Sınırı",
+     "id": "b5"
+    },
+    {
+     "t": "p",
+     "h": "Bir içeriğin kaynak göstermesi, o içeriğin size uygun olduğu anlamına gelmez. Kaynaklar genel bilgi düzeyinde geçerlidir; kişiye uygunluk değerlendirmesi hekim ve diyetisyen tarafından yapılır. Bu sınırın tamamı Tıbbi Sorumluluk Reddi'ndedir."
+    },
+    {
+     "t": "h2",
+     "h": "6. Kaynak Hatası Bildirimi",
+     "id": "b6"
+    },
+    {
+     "t": "p",
+     "h": "Bir kaynağın hatalı, eksik veya güncelliğini yitirmiş olduğunu düşünüyorsanız <strong>[e-posta]</strong> adresine bildirin. Bildirimler <strong>[inceleme süresi]</strong> içinde incelenir; düzeltme yapılırsa sayfanın son güncelleme tarihi yenilenir."
+    },
+    {
+     "t": "h2",
+     "h": "7. İlgili Metinler",
+     "id": "b7"
+    },
+    {
+     "t": "ul",
+     "l": [
+      "Hesaplayıcı Sınırlılıkları Bildirimi",
+      "Editoryal ve Tıbbi Denetim Politikası",
+      "Tıbbi Sorumluluk Reddi"
+     ]
+    }
+   ]
+  }
+ },
+ "kartlar": {
+  "besin-rehberi": [
+   {
+    "ad": "Dengeli Tabak",
+    "ozet": "Beslenmeyi karmaşık kurallara dönüştürmeden, tabağına bakarak sağlıklı bir denge kurmanın yolları.",
+    "yol": "/beslenme/dengeli-tabak",
+    "kategori": null,
+    "okunma": null,
+    "ikon": null,
+    "gorsel": "assets/img/icerik/9919117e23e4f6b5b0cbff20e4670993152b0aceb97d41f1d3b29b4be8c16d55.webp"
+   },
+   {
+    "ad": "Sebzeleri önceden hazırlamak ne değiştirir?",
+    "ozet": "Yıkanmış, doğranmış ve gözünün önünde duran sebze, hafta içi öğünlerinin en sessiz belirleyicisidir. Yarım saatlik bir hazırlık, beş günün kararını baştan verir.",
+    "yol": "/beslenme/sebzeleri-onceden-hazirlamak-ne-degistirir",
+    "kategori": null,
+    "okunma": null,
+    "ikon": null,
+    "gorsel": "assets/img/icerik/d99629dff2ae631a68d2122cdc745e54c15e92adc48df4ed58a588b07bb71234.webp"
+   },
+   {
+    "ad": "Öğün Planlama",
+    "ozet": "Öğünleri ne zaman ve nasıl planlayacağın; herkesin bedenine ve gününe uyan esnek bir düzen.",
+    "yol": "/beslenme/ogun-planlama",
+    "kategori": null,
+    "okunma": null,
+    "ikon": null,
+    "gorsel": "assets/img/icerik/c583cf2fb76b257290bf12c81702845e71face8c2cbe48fdc4d0e7a9fa663ca7.webp"
+   },
+   {
+    "ad": "Kahvaltıyı atlamak gün içinde ne değiştirir?",
+    "ozet": "Atlamanın kendisi değil, yerine hiçbir şey konmaması sorun yaratır. Öğüne kadar uzayan aralık, sonraki kararları en aç anda verdirir.",
+    "yol": "/beslenme/kahvaltiyi-atlamak-gun-icinde-ne-degistirir",
+    "kategori": null,
+    "okunma": null,
+    "ikon": null,
+    "gorsel": "assets/img/icerik/d2ee502941dc7d05dc3f0e87bc1115e8209a1aeec4e1fb18636d82ff339d4e52.webp"
+   },
+   {
+    "ad": "Bir avuç badem kaç kalori?",
+    "ozet": "Bir avuç badem 30 gramdır ve TürKomp'un kavrulmuş badem kaydına göre 180 kalori taşır; aynı avuçta 15,1 gram yağ ve 6,2 gram protein bulunur.",
+    "yol": "/beslenme/bir-avuc-badem-kac-kalori",
+    "kategori": null,
+    "okunma": null,
+    "ikon": null,
+    "gorsel": "assets/img/icerik/0b63c48aafa99b91526ac05a73e60cef6a170afd29e00f7c737ca137a24a082a.webp"
+   },
+   {
+    "ad": "Buzdolabında hangi raf neye ait?",
+    "ozet": "Dolabın her rafı aynı sıcaklıkta değildir. Neyi nereye koyduğun, o besinin ne kadar dayanacağını doğrudan etkiler.",
+    "yol": "/beslenme/buzdolabinda-hangi-raf-neye-ait",
+    "kategori": null,
+    "okunma": null,
+    "ikon": null,
+    "gorsel": "assets/img/icerik/ba6c84c452885885d06901a6ee70025b5caea0e8f1178106de58b2442196c2da.webp"
+   },
+   {
+    "ad": "Porsiyon Kontrolü",
+    "ozet": "Ne yediğini kısıtlamak değil tanımak: porsiyonu farkındalıkla, suçlamadan yönetmenin yolları.",
+    "yol": "/beslenme/porsiyon-kontrolu",
+    "kategori": null,
+    "okunma": null,
+    "ikon": null,
+    "gorsel": "assets/img/icerik/0c3ed124a8b7fb38ec232c440c87c00df763704998f7a22b496e037cb0b7de7a.webp"
+   },
+   {
+    "ad": "Etiketteki ilk üç malzeme neden önemli?",
+    "ozet": "İçindekiler listesi ağırlığa göre sıralanır, bu yüzden ilk üç satır ürünün ne olduğunu ön yüzdeki metinden daha doğru anlatır.",
+    "yol": "/beslenme/etiketteki-ilk-uc-malzeme-neden-onemli",
+    "kategori": null,
+    "okunma": null,
+    "ikon": null,
+    "gorsel": "assets/img/icerik/22a7f947659a93e06d93e3b7673b01d3af8c4ba0364fef88e3833f97d6bfe2b7.webp"
+   },
+   {
+    "ad": "Bir dilim ekmek kaç kalori?",
+    "ozet": "Rehberin ince dilimi 25 gramdır ve beyaz ekmekte yaklaşık 69 kalori taşır; iki dilimlik standart porsiyon 138 kaloridir.",
+    "yol": "/beslenme/bir-dilim-ekmek-kac-kalori",
+    "kategori": null,
+    "okunma": null,
+    "ikon": null,
+    "gorsel": "assets/img/icerik/04269ce2bea556e5024488e936efc255bac355c6984ebd4ef3d53c347bf0eec8.webp"
+   },
+   {
+    "ad": "Yeni bir alışkanlık kaç günde oturur?",
+    "ozet": "Dolaşan \"21 gün\" rakamının sandığın kadar sağlam bir dayanağı yok. Süreyi belirleyen gün sayısı değil, tekrarın ne kadar kolay olduğudur.",
+    "yol": "/beslenme/yeni-bir-aliskanlik-kac-gunde-oturur",
+    "kategori": null,
+    "okunma": null,
+    "ikon": null,
+    "gorsel": "assets/img/icerik/b82e371f68999c9427c901a0a6e9130fa26fa18eab2911afe653ecb2a97adfb6.webp"
+   },
+   {
+    "ad": "Çin ve Tayland restoranında seçim nasıl yapılır?",
+    "ozet": "Uzak Doğu menüsünde belirleyici olan, yemeğin hamura bulanıp kızartılmış mı yoksa buharda, haşlanarak ya da ızgarada mı piştiği. Pilav, başlangıçlar ve tuzlu soslar için kurumların önerileri.",
+    "yol": "/beslenme/cin-ve-tayland-restoraninda-secim-nasil-yapilir",
+    "kategori": null,
+    "okunma": null,
+    "ikon": null,
+    "gorsel": "assets/img/rehber/cin-ve-tayland-restoraninda-secim-nasil-yapilir.webp"
+   },
+   {
+    "ad": "Hint restoranında seçim nasıl yapılır?",
+    "ozet": "Hint mutfağında tabağı en çok iki karar değiştirir: yemeğin tandırda mı fritözde mi piştiği ve körinin kremalı mı domatesli mi olduğu. Pilav, ekmek ve yan tabak seçimini kaynaklarıyla anlattık.",
+    "yol": "/beslenme/hint-restoraninda-secim-nasil-yapilir",
+    "kategori": null,
+    "okunma": null,
+    "ikon": null,
+    "gorsel": "assets/img/rehber/hint-restoraninda-secim-nasil-yapilir.webp"
+   }
+  ],
+  "makro-rehberi": [
+   {
+    "ad": "Vejetaryen beslenmede makrolar nasıl planlanır?",
+    "ozet": "Protein hedefi değişmez, kaynak dağılımı değişir. Çeşitliliğin neden şart olduğunu ve porsiyon örüntüsünü anlatır.",
+    "yol": "/makro-rehberi/vejetaryen-beslenmede-makro-planlama",
+    "kategori": null,
+    "okunma": null,
+    "ikon": null,
+    "gorsel": "assets/img/rehber/vejetaryen-beslenmede-makro-planlama.webp"
+   },
+   {
+    "ad": "Bitkisel protein hayvansal proteinin yerini tutar mı?",
+    "ozet": "Bitkisel proteinlerin miktarı yeterli, amino asit örüntüsü sınırlıdır. Kuru baklagili tahılla eşleştirmek bu farkı nasıl kapatır?",
+    "yol": "/makro-rehberi/protein-kaynaklari-hayvansal-bitkisel",
+    "kategori": null,
+    "okunma": null,
+    "ikon": null,
+    "gorsel": "assets/img/rehber/protein-kaynaklari-hayvansal-bitkisel.webp"
+   },
+   {
+    "ad": "Proteini öğünlere dağıtmak neyi değiştirir?",
+    "ozet": "Günlük protein tek öğüne yığıldığında hesap tutar ama örüntü tutmaz. Öğün başına dağıtımın neden önerildiğini anlatır.",
+    "yol": "/makro-rehberi/protein-ogunlere-nasil-dagitilir",
+    "kategori": null,
+    "okunma": null,
+    "ikon": null,
+    "gorsel": "assets/img/rehber/protein-ogunlere-nasil-dagitilir.webp"
+   },
+   {
+    "ad": "Günde ne kadar lif almak gerekir?",
+    "ozet": "Yetişkinde günlük posa hedefi en az 25 gramdır. İki posa türünün farkını ve hedefe hangi besinlerle ulaşıldığını anlatır.",
+    "yol": "/makro-rehberi/lif-posa-gunluk-hedef",
+    "kategori": null,
+    "okunma": null,
+    "ikon": null,
+    "gorsel": "assets/img/rehber/lif-posa-gunluk-hedef.webp"
+   },
+   {
+    "ad": "Doymuş ve doymamış yağ arasındaki fark nedir?",
+    "ozet": "Fark yağ asidinin kimyasal yapısında başlar, oda sıcaklığındaki hâlinde görünür. İki grubun kaynaklarını ve önerilen oranlarını anlatır.",
+    "yol": "/makro-rehberi/doymus-doymamis-yag-farki",
+    "kategori": null,
+    "okunma": null,
+    "ikon": null,
+    "gorsel": "assets/img/rehber/doymus-doymamis-yag-farki.webp"
+   },
+   {
+    "ad": "Çözünür ve çözünmez posa arasındaki fark nedir?",
+    "ozet": "İki posa türü vücutta farklı iş görür ve farklı besinlerde bulunur. Hangi besinin ne kadar posa taşıdığını anlatır.",
+    "yol": "/makro-rehberi/cozunur-ve-cozunmez-posa",
+    "kategori": null,
+    "okunma": null,
+    "ikon": null,
+    "gorsel": "assets/img/rehber/cozunur-ve-cozunmez-posa.webp"
+   },
+   {
+    "ad": "Etikette \"düşük yağlı\" tam olarak ne demek?",
+    "ozet": "Etiketteki beslenme beyanları serbest ifadeler değil, eşiği tanımlı sözcüklerdir. Yağ, şeker ve lif beyanlarının koşullarını anlatır.",
+    "yol": "/makro-rehberi/etiket-beyanlari-yag-seker-lif",
+    "kategori": null,
+    "okunma": null,
+    "ikon": null,
+    "gorsel": "assets/img/rehber/etiket-beyanlari-yag-seker-lif.webp"
+   },
+   {
+    "ad": "Porsiyon ölçüsü pişmiş ağırlık mı, çiğ ağırlık mı?",
+    "ozet": "Aynı porsiyon iki farklı sayıyla anlatılır: çiğ ve pişmiş. Aradaki katsayıyı ve hangi ölçünün nerede kullanıldığını anlatır.",
+    "yol": "/makro-rehberi/pismis-ve-cig-agirlik-farki",
+    "kategori": null,
+    "okunma": null,
+    "ikon": null,
+    "gorsel": "assets/img/rehber/pismis-ve-cig-agirlik-farki.webp"
+   },
+   {
+    "ad": "Protein kalitesi ne demek, nasıl ölçülür?",
+    "ozet": "Protein kalitesi, bir proteinin elzem amino asit ihtiyacını ne oranda karşıladığını anlatır. DIAAS puanı ve amino asit örüntüsü nasıl okunur?",
+    "yol": "/makro-rehberi/protein-kalitesi-diaas",
+    "kategori": null,
+    "okunma": null,
+    "ikon": null,
+    "gorsel": "assets/img/rehber/protein-kalitesi-diaas.webp"
+   },
+   {
+    "ad": "Basit ve bileşik karbonhidrat arasındaki fark nedir?",
+    "ozet": "Fark şeker molekülü sayısında başlar, kan şekerine yansıma hızında sürer. İki türün nerede bulunduğunu ve nasıl ayrıştığını anlatır.",
+    "yol": "/makro-rehberi/karbonhidrat-turleri-basit-bilesik",
+    "kategori": null,
+    "okunma": null,
+    "ikon": null,
+    "gorsel": "assets/img/rehber/karbonhidrat-turleri-basit-bilesik.webp"
+   },
+   {
+    "ad": "Glisemik indeks ne anlatır?",
+    "ozet": "Glisemik indeks, bir besinin kan şekerini yükseltme hızını anlatır. Neyi ölçtüğünü, neyi ölçmediğini ve posayla ilişkisini açıklar.",
+    "yol": "/makro-rehberi/glisemik-indeks-nedir",
+    "kategori": null,
+    "okunma": null,
+    "ikon": null,
+    "gorsel": "assets/img/rehber/glisemik-indeks-nedir.webp"
+   },
+   {
+    "ad": "Tam tahılla rafine tahıl arasındaki fark nedir?",
+    "ozet": "Fark tahıl tanesinin üç bileşeninde: kabuk, rüşeym ve endosperm. Rafine işleminin neyi aldığını ve neyi bıraktığını anlatır.",
+    "yol": "/makro-rehberi/tam-tahil-rafine-fark",
+    "kategori": null,
+    "okunma": null,
+    "ikon": null,
+    "gorsel": "assets/img/rehber/tam-tahil-rafine-fark.webp"
+   }
+  ],
+  "kac-kalori-sebze": [
+   {
+    "ad": "Bir adet mango kaç kalori?",
+    "ozet": "Mangonun iki ölçüsü var: rehberin meyve dipnotu 150 gram, Besin Kütüphanesi'ndeki kupa satırı 165 gram sayar; bu iki okuma 90 ile 99 kalori arasını verir.",
+    "yol": "/kac-kalori/bir-adet-mango-kac-kalori",
+    "kategori": "Sebze & Meyve",
+    "okunma": 184,
+    "ikon": "fa-solid fa-apple-whole",
+    "gorsel": "assets/img/icerik/9e2271f3cc50553f05547c65c64e04cd70b85dd68140f82ff4a8d0645b04fabf.webp"
+   },
+   {
+    "ad": "Bir porsiyon semizotu kaç kalori?",
+    "ozet": "Rehber salata yeşilliğinde porsiyonu 75 gram sayar; semizotu kaydında bu miktar 16,5 kalori ve 2 gram protein verir.",
+    "yol": "/kac-kalori/bir-porsiyon-semizotu-kac-kalori",
+    "kategori": "Sebze & Meyve",
+    "okunma": 172,
+    "ikon": "fa-solid fa-seedling",
+    "gorsel": "assets/img/kac-kalori/bir-porsiyon-semizotu-kac-kalori.webp"
+   },
+   {
+    "ad": "Bir adet ayva kaç kalori?",
+    "ozet": "Rehber ayvaya iki ayrı ölçü verir: dipnotu 150 gram sayar, tablosu bir kilograma beş adet giren büyüklüğü tarif eder; bu iki okuma 90 ile 120 kalori arasını verir.",
+    "yol": "/kac-kalori/bir-adet-ayva-kac-kalori",
+    "kategori": "Sebze & Meyve",
+    "okunma": 173,
+    "ikon": "fa-solid fa-apple-whole",
+    "gorsel": "assets/img/kac-kalori/bir-adet-ayva-kac-kalori.webp"
+   },
+   {
+    "ad": "Bir adet Trabzon hurması kaç kalori?",
+    "ozet": "Rehber Trabzon hurmasında porsiyonu 80 gram sayar; bu miktar Besin Kütüphanesi'ndeki kayda göre 58,4 kalori ve 4 gram lif verir.",
+    "yol": "/kac-kalori/bir-adet-trabzon-hurmasi-kac-kalori",
+    "kategori": "Sebze & Meyve",
+    "okunma": 176,
+    "ikon": "fa-solid fa-apple-whole",
+    "gorsel": "assets/img/kac-kalori/bir-adet-trabzon-hurmasi-kac-kalori.webp"
+   },
+   {
+    "ad": "Bir kâse ahududu kaç kalori?",
+    "ozet": "Rehber küçük taneli meyvede bir küçük kâseyi bir porsiyon sayar, yani 150 gram; ahududu kaydında bu miktar 84 kalori ve 5,5 gram lif verir.",
+    "yol": "/kac-kalori/bir-kase-ahududu-kac-kalori",
+    "kategori": "Sebze & Meyve",
+    "okunma": 184,
+    "ikon": "fa-solid fa-apple-whole",
+    "gorsel": "assets/img/kac-kalori/bir-kase-ahududu-kac-kalori.webp"
+   },
+   {
+    "ad": "Bir porsiyon marul kaç kalori?",
+    "ozet": "Rehber salata yeşilliğinde porsiyonu 75 gram sayar; kıvırcık ve Iceberg marul kayıtlarında bu miktar 12,8 kalori eder.",
+    "yol": "/kac-kalori/bir-porsiyon-marul-kac-kalori",
+    "kategori": "Sebze & Meyve",
+    "okunma": 166,
+    "ikon": "fa-solid fa-seedling",
+    "gorsel": "assets/img/kac-kalori/bir-porsiyon-marul-kac-kalori.webp"
+   },
+   {
+    "ad": "Bir porsiyon pazı kaç kalori?",
+    "ozet": "Rehber salata yeşilliğinde porsiyonu 75 gram sayar; TürKomp pazı kaydında bu miktar 16,5 kalori ve 1,3 gram lif verir.",
+    "yol": "/kac-kalori/bir-porsiyon-pazi-kac-kalori",
+    "kategori": "Sebze & Meyve",
+    "okunma": 172,
+    "ikon": "fa-solid fa-seedling",
+    "gorsel": "assets/img/kac-kalori/bir-porsiyon-pazi-kac-kalori.webp"
+   },
+   {
+    "ad": "Bir porsiyon roka kaç kalori?",
+    "ozet": "Rehber salata yeşilliğinde porsiyonu 75 gram sayar; roka kaydında bu miktar 19,5 kalori ve 1,9 gram protein verir.",
+    "yol": "/kac-kalori/bir-porsiyon-roka-kac-kalori",
+    "kategori": "Sebze & Meyve",
+    "okunma": 171,
+    "ikon": "fa-solid fa-seedling",
+    "gorsel": "assets/img/kac-kalori/bir-porsiyon-roka-kac-kalori.webp"
+   },
+   {
+    "ad": "Bir dilim kavun kaç kalori?",
+    "ozet": "Bir üçgen dilim kavun yaklaşık 15,5, üç dilimlik standart porsiyon ise 46,5 kaloridir; kabuk ve çekirdek hesaba girmez.",
+    "yol": "/kac-kalori/bir-dilim-kavun-kac-kalori",
+    "kategori": "Sebze & Meyve",
+    "okunma": 293,
+    "ikon": "fa-solid fa-apple-whole",
+    "gorsel": "assets/img/kac-kalori/bir-dilim-kavun-kac-kalori.webp"
+   },
+   {
+    "ad": "Bir kâse yaban mersini kaç kalori?",
+    "ozet": "Bir küçük kâse yaban mersini 150 gramdır ve yaklaşık 66 kalori taşır; bu ölçü meyveler için bir standart porsiyona karşılık gelir.",
+    "yol": "/kac-kalori/bir-kase-yaban-mersini-kac-kalori",
+    "kategori": "Sebze & Meyve",
+    "okunma": 282,
+    "ikon": "fa-solid fa-apple-whole",
+    "gorsel": "assets/img/kac-kalori/bir-kase-yaban-mersini-kac-kalori.webp"
+   },
+   {
+    "ad": "Bir porsiyon yeşil biber kaç kalori?",
+    "ozet": "Bir porsiyon çiğ biber 150 gramdır: TürKomp kayıtlarında çarliston 33, dolmalık 34,5, sivri biber 42 kalori. Rehberin kendi tablosu sivri biberde 57 veriyor.",
+    "yol": "/kac-kalori/bir-porsiyon-yesil-biber-kac-kalori",
+    "kategori": "Sebze & Meyve",
+    "okunma": 289,
+    "ikon": "fa-solid fa-pepper-hot",
+    "gorsel": "assets/img/kac-kalori/bir-porsiyon-yesil-biber-kac-kalori.webp"
+   },
+   {
+    "ad": "Yarım greyfurt kaç kalori?",
+    "ozet": "Besin Kütüphanesi'nde yarım greyfurdun gram karşılığı yok; bir porsiyon 150 gramdır ve Rio Red kaydına göre 57 kalori taşır.",
+    "yol": "/kac-kalori/yarim-greyfurt-kac-kalori",
+    "kategori": "Sebze & Meyve",
+    "okunma": 289,
+    "ikon": "fa-solid fa-lemon",
+    "gorsel": "assets/img/kac-kalori/yarim-greyfurt-kac-kalori.webp"
+   }
+  ],
+  "ilgili-kac-kalori": [
+   {
+    "ad": "Bir avuç ceviz kaç kalori?",
+    "ozet": "30 gram iç ceviz yaklaşık 204 kalori taşır; altı kuruyemiş arasında en yükseği. Kabuklu tartarsan ölçü tamamen kayar.",
+    "yol": "/kac-kalori/bir-avuc-ceviz-kac-kalori",
+    "kategori": "Atıştırmalık",
+    "okunma": null,
+    "ikon": "fa-solid fa-cookie-bite",
+    "gorsel": "assets/img/kac-kalori/bir-avuc-ceviz-kac-kalori.webp"
+   },
+   {
+    "ad": "Bir avuç fındık kaç kalori?",
+    "ozet": "Bir avuç fındık 30 gramdır ve TürKomp'un kavrulmuş iç fındık kaydına göre 201 kalori taşır; aynı avuçta 18,4 gram yağ bulunur.",
+    "yol": "/kac-kalori/bir-avuc-findik-kac-kalori",
+    "kategori": "Atıştırmalık",
+    "okunma": null,
+    "ikon": "fa-solid fa-cookie-bite",
+    "gorsel": "assets/img/kac-kalori/bir-avuc-findik-kac-kalori.webp"
+   },
+   {
+    "ad": "Bir avuç Antep fıstığı kaç kalori?",
+    "ozet": "30 gram iç Antep fıstığı yaklaşık 182 kalori taşır; kabuklu ölçüyle avuç hesabı Besin Kütüphanesi'nde kesinleşmiyor.",
+    "yol": "/kac-kalori/bir-avuc-antep-fistigi-kac-kalori",
+    "kategori": "Atıştırmalık",
+    "okunma": null,
+    "ikon": "fa-solid fa-cookie-bite",
+    "gorsel": "assets/img/kac-kalori/bir-avuc-antep-fistigi-kac-kalori.webp"
+   },
+   {
+    "ad": "Bir kâse patlamış mısır kaç kalori?",
+    "ozet": "Rehberin porsiyon tablosunda bir büyük kâse patlamış mısır 25 gramdır ve yaklaşık 92 kalori taşır; aynı rehberin enerji tablosu aynı besini 30 gram üzerinden 110 kalori sayar.",
+    "yol": "/kac-kalori/bir-kase-patlamis-misir-kac-kalori",
+    "kategori": "Atıştırmalık",
+    "okunma": null,
+    "ikon": "fa-solid fa-bowl-food",
+    "gorsel": "assets/img/kac-kalori/bir-kase-patlamis-misir-kac-kalori.webp"
+   }
+  ],
+  "ilgili-ipucu": [
+   {
+    "ad": "Sabah uyanınca su içmek ne getirir?",
+    "ozet": "Gece boyunca sıvı alınmaz, kayıp ise sürer. Sabahın ilk bardağı bir tedavi değil, günlük toplamı erken başlatan bir çapa alışkanlıktır.",
+    "yol": "/ipuclari/sabah-uyaninca-su-icmek-ne-getirir",
+    "kategori": "Su",
+    "okunma": 2,
+    "ikon": "fa-solid fa-sun",
+    "gorsel": "assets/img/ipucu/sabah-uyaninca-su-icmek-ne-getirir.webp"
+   },
+   {
+    "ad": "Maden suyu suyun yerine geçer mi?",
+    "ozet": "Maden suyu günlük sıvıya katkı yapar ama sade sudan farklı olarak mineral taşır. Etiketteki sodyum satırı bu yüzden okunur.",
+    "yol": "/ipuclari/maden-suyu-suyun-yerine-gecer-mi",
+    "kategori": "Su",
+    "okunma": 1,
+    "ikon": "fa-solid fa-bottle-water",
+    "gorsel": "assets/img/ipucu/maden-suyu-suyun-yerine-gecer-mi.webp"
+   },
+   {
+    "ad": "Sıcak havada sıvı ihtiyacı nasıl değişir?",
+    "ozet": "Terleme arttıkça kayıp artar ve günlük sıvı alımı yükselir. Rehber sıvı kayıplarının arttığı durumlarda alımın artırılmasını önerir.",
+    "yol": "/ipuclari/sicak-havada-sivi-ihtiyaci-nasil-degisir",
+    "kategori": "Su",
+    "okunma": 1,
+    "ikon": "fa-solid fa-temperature-high",
+    "gorsel": "assets/img/icerik/8a42de969beae91879538c68cdc737a981bb060356f890c71940d0844bc95077.webp"
+   },
+   {
+    "ad": "Spor yaparken sıvı nasıl takip edilir?",
+    "ozet": "Rehber terleme oranını tartıyla hesaplatan bir yöntem verir. Vücut ağırlığının yüzde ikisi kadar kayıp bile performansı etkiler.",
+    "yol": "/ipuclari/spor-yaparken-sivi-nasil-takip-edilir",
+    "kategori": "Su",
+    "okunma": 1,
+    "ikon": "fa-solid fa-person-running",
+    "gorsel": "assets/img/ipucu/spor-yaparken-sivi-nasil-takip-edilir.webp"
+   }
+  ],
+  "ilgili-puf": [
+   {
+    "ad": "Sıcak yemeği doğrudan buzdolabına koymak doğru mu?",
+    "ozet": "Sıcak tencereyi olduğu gibi dolaba koymak hem yemeğin kendisini hem dolaptaki komşularını etkiler. İkisinin arasında pratik bir orta yol vardır.",
+    "yol": "/puflar/sicak-yemegi-dogrudan-dolaba-koymak",
+    "kategori": "Saklama",
+    "okunma": null,
+    "ikon": "fa-solid fa-temperature-arrow-down",
+    "gorsel": "assets/img/puf/sicak-yemegi-dogrudan-dolaba-koymak.webp"
+   },
+   {
+    "ad": "Ekmeği nerede saklamak gerekir?",
+    "ozet": "Ekmeğin dolapta, tezgâhta ve dondurucuda başına gelenler birbirinden farklıdır. Doğru yer, ekmeğin ne kadar sürede biteceğine göre değişir.",
+    "yol": "/puflar/ekmegi-nerede-saklamak-gerekir",
+    "kategori": "Saklama",
+    "okunma": null,
+    "ikon": "fa-solid fa-bread-slice",
+    "gorsel": "assets/img/puf/ekmegi-nerede-saklamak-gerekir.webp"
+   },
+   {
+    "ad": "Saklama kabı cam mı plastik mi olmalı?",
+    "ozet": "Cam ve plastik kapların üstünlükleri farklı yerlerde toplanır. Doğru seçim kabın malzemesinden çok, o kabın hangi işte kullanılacağına bağlıdır.",
+    "yol": "/puflar/cam-kap-mi-plastik-kap-mi",
+    "kategori": "Saklama",
+    "okunma": null,
+    "ikon": "fa-solid fa-jar",
+    "gorsel": "assets/img/puf/cam-kap-mi-plastik-kap-mi.webp"
+   },
+   {
+    "ad": "Dondurucuya koyarken etiketlemek neden gerekir?",
+    "ozet": "Dondurucuda kimliği belirsiz bir paket, çoğu zaman en son tüketilen pakettir. Etiket bir düzen ayrıntısı değil, o yemeğin yenip yenmeyeceğini belirleyen şeydir.",
+    "yol": "/puflar/dondurucuya-koyarken-etiketlemek",
+    "kategori": "Saklama",
+    "okunma": null,
+    "ikon": "fa-solid fa-tag",
+    "gorsel": "assets/img/puf/dondurucuya-koyarken-etiketlemek.webp"
+   }
+  ],
+  "ilgili-rehber": [
+   {
+    "ad": "Öğün Planlama",
+    "ozet": "Öğünleri ne zaman ve nasıl planlayacağın; herkesin bedenine ve gününe uyan esnek bir düzen.",
+    "yol": "/beslenme/ogun-planlama",
+    "kategori": null,
+    "okunma": null,
+    "ikon": null,
+    "gorsel": "assets/img/icerik/c583cf2fb76b257290bf12c81702845e71face8c2cbe48fdc4d0e7a9fa663ca7.webp"
+   },
+   {
+    "ad": "Porsiyon Kontrolü",
+    "ozet": "Ne yediğini kısıtlamak değil tanımak: porsiyonu farkındalıkla, suçlamadan yönetmenin yolları.",
+    "yol": "/beslenme/porsiyon-kontrolu",
+    "kategori": null,
+    "okunma": null,
+    "ikon": null,
+    "gorsel": "assets/img/icerik/0c3ed124a8b7fb38ec232c440c87c00df763704998f7a22b496e037cb0b7de7a.webp"
+   },
+   {
+    "ad": "Sağlıklı Mutfak Alışkanlıkları",
+    "ozet": "Kısıtlama değil keşif: pişirme yöntemi, baharat ve kademeli değişimle lezzeti korumak.",
+    "yol": "/beslenme/saglikli-mutfak-aliskanliklari",
+    "kategori": null,
+    "okunma": null,
+    "ikon": null,
+    "gorsel": "assets/img/icerik/6fd25729068e4280048742621a93a83a86fae9aedf7e8ac46c9fbfcc731acdd0.webp"
+   },
+   {
+    "ad": "Su ve İçecekler",
+    "ozet": "Beslenme yalnız tabakta değil bardakta da olur: su, çay, kahve ve şekerli içeceklerin günündeki yeri.",
+    "yol": "/beslenme/su-ve-icecekler",
+    "kategori": null,
+    "okunma": null,
+    "ikon": null,
+    "gorsel": "assets/img/icerik/9fedc607dbc7cccee8b4e304c51469e43fceab3542d7b89476eae366abc21116.webp"
+   }
+  ],
+  "ilgili-tarif": [
+   {
+    "ad": "Poşe Yumurtalı Ekmek",
+    "ozet": null,
+    "yol": "/tarif/pose-yumurtali-ekmek",
+    "kategori": "Kahvaltılık",
+    "okunma": null,
+    "ikon": null,
+    "gorsel": "assets/img/icerik/9956ebb7-73a7-49ab-bdf0-1e7287bdd1f6.webp",
+    "meta": [
+     "15 dk",
+     "Orta",
+     "2 kişilik2 kişi",
+     "2 kişilik",
+     "2 kişi",
+     "155 kcal"
+    ]
+   },
+   {
+    "ad": "Kuş Yuvası Yumurta",
+    "ozet": null,
+    "yol": "/tarif/kus-yuvasi-yumurta",
+    "kategori": "Kahvaltılık",
+    "okunma": null,
+    "ikon": null,
+    "gorsel": "assets/img/tarif/kus-yuvasi-yumurta.webp",
+    "meta": [
+     "15 dk",
+     "Kolay",
+     "2 kişilik2 kişi",
+     "2 kişilik",
+     "2 kişi",
+     "155 kcal"
+    ]
+   },
+   {
+    "ad": "Sebzeli Peynirli Omlet",
+    "ozet": null,
+    "yol": "/tarif/sebzeli-peynirli-omlet",
+    "kategori": "Yumurta Tarifleri",
+    "okunma": null,
+    "ikon": null,
+    "gorsel": "assets/img/icerik/d7a13b7e-25d4-4569-99da-d6361470b870.webp",
+    "meta": [
+     "13 dk",
+     "Kolay",
+     "2 kişilik2 kişi",
+     "2 kişilik",
+     "2 kişi",
+     "203 kcal"
+    ]
+   },
+   {
+    "ad": "Sebzeli Yumurta Muffin",
+    "ozet": null,
+    "yol": "/tarif/sebzeli-yumurta-muffin",
+    "kategori": "Yumurta Tarifleri",
+    "okunma": null,
+    "ikon": null,
+    "gorsel": "assets/img/icerik/154b184c-5cca-447c-9f96-c7665807dc30.webp",
+    "meta": [
+     "37 dk",
+     "Kolay",
+     "4 kişilik4 kişi",
+     "4 kişilik",
+     "4 kişi",
+     "170 kcal"
+    ]
+   }
+  ],
+  "tarif-program": [
+   {
+    "ad": "Vejetaryen Dört Hafta",
+    "yol": "https://dadadiet.com/program/vejetaryen-dort-hafta",
+    "okunma": null
+   },
+   {
+    "ad": "Glütensiz Hafta",
+    "yol": "https://dadadiet.com/program/glutensiz-hafta",
+    "okunma": null
+   }
+  ]
+ },
+ "paket": {
+  "setler": [
+   {
+    "kod": "urun",
+    "ad": "Ürün markası",
+    "aciklama": "Gıda ve malzeme markaları için: ürünün tarifte, listede ve besin kütüphanesinde kendisi olarak görünür; üst pakette markanın seçkisi ve profil sayfası eklenir.",
+    "paketler": [
+     {
+      "ad": "Basic",
+      "alt": "Görünürlük",
+      "onerilen": false,
+      "sayi": "3 alan · 6 ay",
+      "kalemler": [
+       {
+        "ad": "Sağlıklı Tarif sayfası · Kenar kutusu 1",
+        "pay": "%25"
+       },
+       {
+        "ad": "Sağlıklı Tarifler listesi · Liste kartı 1",
+        "pay": "%25"
+       },
+       {
+        "ad": "Tarif kategorisi sayfası · Liste kartı 1",
+        "pay": "%25"
+       }
+      ],
+      "fiyat": "Teklifle"
+     },
+     {
+      "ad": "Plus",
+      "alt": "Malzeme",
+      "onerilen": true,
+      "sayi": "6 alan · 6 ay",
+      "kalemler": [
+       {
+        "ad": "Sağlıklı Tarif sayfası · Kenar kutusu 1",
+        "pay": "%50"
+       },
+       {
+        "ad": "Sağlıklı Tarifler listesi · Liste kartı 1",
+        "pay": "%50"
+       },
+       {
+        "ad": "Tarif kategorisi sayfası · Liste kartı 1",
+        "pay": "%50"
+       },
+       {
+        "ad": "Sağlıklı Tarif sayfası · Malzeme satırı",
+        "pay": "%100"
+       },
+       {
+        "ad": "Sağlıklı Tarif sayfası · Kapak noktası",
+        "pay": "%100"
+       },
+       {
+        "ad": "Klinik koridoru · Kapı noktası",
+        "pay": "%100"
+       }
+      ],
+      "fiyat": "Teklifle"
+     },
+     {
+      "ad": "Premium",
+      "alt": "Kategori",
+      "onerilen": false,
+      "sayi": "12 alan · içerik üretimi · 6 ay",
+      "kalemler": [
+       {
+        "ad": "Sağlıklı Tarif sayfası · Kenar kutusu 1",
+        "pay": "%100"
+       },
+       {
+        "ad": "Sağlıklı Tarifler listesi · Liste kartı 1",
+        "pay": "%100"
+       },
+       {
+        "ad": "Tarif kategorisi sayfası · Liste kartı 1",
+        "pay": "%100"
+       },
+       {
+        "ad": "Sağlıklı Tarif sayfası · Malzeme satırı",
+        "pay": "%100"
+       },
+       {
+        "ad": "Sağlıklı Tarif sayfası · Kapak noktası",
+        "pay": "%100"
+       },
+       {
+        "ad": "Klinik koridoru · Kapı noktası",
+        "pay": "%100"
+       },
+       {
+        "ad": "Tarif kategorisi sayfası · \"… sunar\" hapı",
+        "pay": "%100"
+       },
+       {
+        "ad": "Seçki · Sayfa sponsorluğu",
+        "pay": "%100"
+       },
+       {
+        "ad": "Marka profili · Sayfa sponsorluğu",
+        "pay": "%100"
+       },
+       {
+        "ad": "Menü · Seçki hücresi",
+        "pay": "%100"
+       },
+       {
+        "ad": "Ana sayfa · Marka diyetisyen kartı",
+        "pay": "%100"
+       },
+       {
+        "ad": "Ana sayfa · Vitrin",
+        "pay": "%100"
+       },
+       {
+        "ad": "İçerik üretimi · ayda 2",
+        "pay": null
+       }
+      ],
+      "fiyat": "Teklifle"
+     }
+    ],
+    "ekler": [
+     "Ek · Ürün markasıLansman ekiLansman döneminde açılır pencere, iki yan yapışkan alan ve ana sayfa vitrini; paketin yanına eklenir. Tüm sayfalar · Açılır pencere %100 Tüm sayfalar · Sol yapışkan %100 Tüm sayfalar · Sağ yapışkan %100 Ana sayfa · Vitrin %100",
+     "Ek · Ürün markasıVideo ekiVideolu banner ve Testler listesinde kart; paketin yanına eklenir. Tüm sayfalar · Videolu banner %100 Testler · Liste kartı %100"
+    ]
+   },
+   {
+    "kod": "kanal",
+    "ad": "Kanal markası",
+    "aciklama": "Market ve teslimat markaları için: malzemeyi sipariş edilebilir yapan kanal; tarifteki \"Sipariş et\" bölümünde ve alışveriş listesinde senin adın.",
+    "paketler": [
+     {
+      "ad": "Basic",
+      "alt": "Sipariş",
+      "onerilen": false,
+      "sayi": "2 alan · 6 ay",
+      "kalemler": [
+       {
+        "ad": "Sağlıklı Tarif sayfası · Sipariş et 2",
+        "pay": "%100"
+       },
+       {
+        "ad": "Alışveriş listesi · Partner 3",
+        "pay": "%100"
+       }
+      ],
+      "fiyat": "Teklifle"
+     },
+     {
+      "ad": "Plus",
+      "alt": "Öne çıkan",
+      "onerilen": true,
+      "sayi": "4 alan · 6 ay",
+      "kalemler": [
+       {
+        "ad": "Sağlıklı Tarif sayfası · Sipariş et 1",
+        "pay": "%100"
+       },
+       {
+        "ad": "Alışveriş listesi · Partner 1",
+        "pay": "%100"
+       },
+       {
+        "ad": "Sağlıklı Tarif sayfası · Listeye ekleme partneri",
+        "pay": "%100"
+       },
+       {
+        "ad": "Sağlıklı Tarif sayfası · Market panosu",
+        "pay": "%50"
+       }
+      ],
+      "fiyat": "Teklifle"
+     },
+     {
+      "ad": "Premium",
+      "alt": "Kanal sahibi",
+      "onerilen": false,
+      "sayi": "7 alan · 6 ay",
+      "kalemler": [
+       {
+        "ad": "Sağlıklı Tarif sayfası · Sipariş et 1",
+        "pay": "%100"
+       },
+       {
+        "ad": "Alışveriş listesi · Partner 1",
+        "pay": "%100"
+       },
+       {
+        "ad": "Sağlıklı Tarif sayfası · Listeye ekleme partneri",
+        "pay": "%100"
+       },
+       {
+        "ad": "Sağlıklı Tarif sayfası · Market panosu",
+        "pay": "%100"
+       },
+       {
+        "ad": "Tüm sayfalar · Sağ yapışkan",
+        "pay": "%100"
+       },
+       {
+        "ad": "Besin Kütüphanesi · Besin kartı",
+        "pay": "%100"
+       },
+       {
+        "ad": "Seçki · Sayfa sponsorluğu",
+        "pay": "%100"
+       }
+      ],
+      "fiyat": "Teklifle"
+     }
+    ],
+    "ekler": []
+   },
+   {
+    "kod": "ev",
+    "ad": "Ev ekipmanı",
+    "aciklama": "Mutfak ve spor ekipmanı markaları için: ürün hesaplayıcı sonucunda, Kaç Kalori porsiyon tablosunda, tarif fotoğrafında ve klinik koridorunda.",
+    "paketler": [
+     {
+      "ad": "Basic",
+      "alt": null,
+      "onerilen": false,
+      "sayi": "2 alan · 6 ay",
+      "kalemler": [
+       {
+        "ad": "Hesaplayıcı sayfası · Sonuç altı modülü",
+        "pay": "%100"
+       },
+       {
+        "ad": "Sağlıklı Tarif sayfası · Kenar kutusu 2",
+        "pay": "%25"
+       }
+      ],
+      "fiyat": "Teklifle"
+     },
+     {
+      "ad": "Plus",
+      "alt": null,
+      "onerilen": true,
+      "sayi": "5 alan · 6 ay",
+      "kalemler": [
+       {
+        "ad": "Hesaplayıcı sayfası · Sonuç altı modülü",
+        "pay": "%100"
+       },
+       {
+        "ad": "Sağlıklı Tarif sayfası · Kenar kutusu 2",
+        "pay": "%50"
+       },
+       {
+        "ad": "Kaç Kalori sayfası · Porsiyon tablosu modülü",
+        "pay": "%100"
+       },
+       {
+        "ad": "Klinik koridoru · Kapı noktası",
+        "pay": "%100"
+       },
+       {
+        "ad": "Sağlıklı Tarif sayfası · Kapak noktası",
+        "pay": "%100"
+       }
+      ],
+      "fiyat": "Teklifle"
+     },
+     {
+      "ad": "Premium",
+      "alt": null,
+      "onerilen": false,
+      "sayi": "9 alan · 6 ay",
+      "kalemler": [
+       {
+        "ad": "Hesaplayıcı sayfası · Sonuç altı modülü",
+        "pay": "%100"
+       },
+       {
+        "ad": "Sağlıklı Tarif sayfası · Kenar kutusu 2",
+        "pay": "%100"
+       },
+       {
+        "ad": "Kaç Kalori sayfası · Porsiyon tablosu modülü",
+        "pay": "%100"
+       },
+       {
+        "ad": "Klinik koridoru · Kapı noktası",
+        "pay": "%100"
+       },
+       {
+        "ad": "Sağlıklı Tarif sayfası · Kapak noktası",
+        "pay": "%100"
+       },
+       {
+        "ad": "Klinik koridoru · Koridor görseli",
+        "pay": "%100"
+       },
+       {
+        "ad": "Menü · Klinik koridoru kartı",
+        "pay": "%100"
+       },
+       {
+        "ad": "Seçki · Sayfa sponsorluğu",
+        "pay": "%100"
+       },
+       {
+        "ad": "Tüm sayfalar · Videolu banner",
+        "pay": "%100"
+       }
+      ],
+      "fiyat": "Teklifle"
+     }
+    ],
+    "ekler": []
+   },
+   {
+    "kod": "icerik",
+    "ad": "Genel içerik",
+    "aciklama": "Marka içeriği için: her ay markan için sağlıklı tarif üretilir ve listede öne çıkar; üst paketlerde seçki, profil sayfası ve dönem sonu raporu eklenir.",
+    "paketler": [
+     {
+      "ad": "Basic",
+      "alt": null,
+      "onerilen": false,
+      "sayi": "1 alan · içerik üretimi · 6 ay",
+      "kalemler": [
+       {
+        "ad": "İçerik üretimi · ayda 2",
+        "pay": null
+       },
+       {
+        "ad": "Sağlıklı Tarifler listesi · Liste kartı 2",
+        "pay": "%25"
+       }
+      ],
+      "fiyat": "Teklifle"
+     },
+     {
+      "ad": "Plus",
+      "alt": null,
+      "onerilen": true,
+      "sayi": "3 alan · içerik üretimi · 6 ay",
+      "kalemler": [
+       {
+        "ad": "İçerik üretimi · ayda 4",
+        "pay": null
+       },
+       {
+        "ad": "Sağlıklı Tarifler listesi · Liste kartı 2",
+        "pay": "%50"
+       },
+       {
+        "ad": "Seçki · Sayfa sponsorluğu",
+        "pay": "%100"
+       },
+       {
+        "ad": "Menü · Seçki hücresi",
+        "pay": "%100"
+       }
+      ],
+      "fiyat": "Teklifle"
+     },
+     {
+      "ad": "Premium",
+      "alt": null,
+      "onerilen": false,
+      "sayi": "5 alan · içerik üretimi · rapor · 6 ay",
+      "kalemler": [
+       {
+        "ad": "İçerik üretimi · ayda 8",
+        "pay": null
+       },
+       {
+        "ad": "Sağlıklı Tarifler listesi · Liste kartı 2",
+        "pay": "%100"
+       },
+       {
+        "ad": "Seçki · Sayfa sponsorluğu",
+        "pay": "%100"
+       },
+       {
+        "ad": "Menü · Seçki hücresi",
+        "pay": "%100"
+       },
+       {
+        "ad": "Marka profili · Sayfa sponsorluğu",
+        "pay": "%100"
+       },
+       {
+        "ad": "Ana sayfa · Marka diyetisyen kartı",
+        "pay": "%100"
+       },
+       {
+        "ad": "Dönem sonu raporu",
+        "pay": null
+       }
+      ],
+      "fiyat": "Teklifle"
+     }
+    ],
+    "ekler": []
+   }
+  ],
+  "pay": [
+   "%25 payHer 4 gösterimden 1'i senin.",
+   "%50 payHer 4 gösterimden 2'si senin.",
+   "%75 payHer 4 gösterimden 3'ü senin.",
+   "%100 · münhasırBütün gösterimler senin."
+  ],
+  "faktor": [
+   "1Alan sınıfı₺₺₺ vitrin alanları · ₺₺₺ tarif ve liste sayfaları · ₺₺₺ rehber sayfaları",
+   "2Pay%25, %50, %75 ya da %100. Münhasır ve tek marka alanlarda pay sorulmaz.",
+   "3Süre6 ay ya da 12 ay. 12 ayda aylık birim maliyet düşer.",
+   "4KonumGlobal, ülke ya da şehir. Müsaitlik konuma göre görünür."
+  ]
+ },
+ "pro": [
+  [
+   "Gelişmiş programlar",
+   "-",
+   "+",
+   "+"
+  ],
+  [
+   "Kişisel beslenme planı ve PDF çıktısı",
+   "-",
+   "+",
+   "+"
+  ],
+  [
+   "Gelişmiş menü planlama",
+   "-",
+   "+",
+   "+"
+  ],
+  [
+   "Sınırsız kayıt geçmişi",
+   "-",
+   "+",
+   "+"
+  ],
+  [
+   "Sağlık dosyası: belge, tahlil ve veri dışa aktarımı",
+   "+",
+   "+",
+   "+"
+  ],
+  [
+   "Reklamsız kullanım",
+   "-",
+   "+",
+   "+"
+  ],
+  [
+   "Öncelikli destek",
+   "-",
+   "+",
+   "+"
+  ],
+  [
+   "Diyetisyen görüşme hakkı",
+   "-",
+   "-",
+   "+"
+  ],
+  [
+   "Sağlık dosyanı diyetisyeninle paylaşma (açık rızayla)",
+   "-",
+   "-",
+   "+"
+  ],
+  [
+   "Aylık fiyat",
+   "₺0",
+   "",
+   ""
+  ]
+ ],
+ "tarifFaset": [
+  {
+   "ad": "Kategori 0",
+   "kalem": [
+    "Atıştırmalık 3",
+    "Bakliyat 14",
+    "Balık ve Deniz Ürünleri 7",
+    "Çocuk Tarifleri 1",
+    "Çorba 12",
+    "Dolma ve Sarma 5",
+    "Dondurma ve Soğuk Tatlılar 2",
+    "Ekmek 5",
+    "Hamur İşi 9",
+    "İçecek 6",
+    "Kahvaltılık 23",
+    "Kek ve Pasta 5",
+    "Kırmızı Et 12",
+    "Köfte ve Kebap 4",
+    "Kurabiye 8",
+    "Makarna 6",
+    "Mantı ve Dolgulu Hamurlar 2",
+    "Meyve Tarifleri 6",
+    "Meze 11",
+    "Pilav 8",
+    "Pizza ve Pide 3",
+    "Salata 8",
+    "Sandviç, Burger ve Dürüm 1",
+    "Sebze 8",
+    "Sos 5",
+    "Tatlı 26",
+    "Tavuk ve Hindi 8",
+    "Yumurta Tarifleri 10",
+    "Zeytinyağlılar 9",
+    "Ana Yemek 29"
+   ]
+  },
+  {
+   "ad": "Öğün 0",
+   "kalem": [
+    "Kahvaltı 34",
+    "Brunch 14",
+    "Öğle Yemeği 71",
+    "Akşam Yemeği 75",
+    "Ara Öğün 46",
+    "İkindi ve Çay Saati 29",
+    "Gece Atıştırması 0",
+    "Beslenme Çantası 14"
+   ]
+  },
+  {
+   "ad": "Süre 0",
+   "kalem": [
+    "15 dakikadan az 9",
+    "15–30 dakika 28",
+    "30–45 dakika 42",
+    "45–60 dakika 27",
+    "1–2 saat 32",
+    "2 saatten uzun 5"
+   ]
+  },
+  {
+   "ad": "Zorluk 0",
+   "kalem": [
+    "Kolay 103",
+    "Orta 33",
+    "Zor 7"
+   ]
+  },
+  {
+   "ad": "Beslenme Etiketi 0",
+   "kalem": [
+    "Vegan 51",
+    "Vejetaryen 62",
+    "Glütensiz 75"
+   ]
+  },
+  {
+   "ad": "Kalori (porsiyon) 0",
+   "kalem": [
+    "200 kcal'den az 61",
+    "200–400 kcal 62",
+    "400–600 kcal 19",
+    "600 kcal ve üzeri 1"
+   ]
+  }
+ ]
+}

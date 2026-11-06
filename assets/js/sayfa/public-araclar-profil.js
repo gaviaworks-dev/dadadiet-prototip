@@ -1,0 +1,75 @@
+/* Diyetisyen profili. Ece Tunalı alanları demo durumundan okunur; panelde yapılan değişiklik burada görünür. */
+(function () {
+  'use strict';
+  const $ = (id) => document.getElementById(id);
+  const kac = (s) => String(s == null ? '' : s).replace(/[&<>"]/g, (m) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[m]));
+  const ikon = (x) => '<i class="fa-solid ' + x + '" aria-hidden="true"></i>';
+  const tl = (n) => '₺' + Number(n).toLocaleString('tr-TR');
+
+  document.addEventListener('click', (e) => {
+    const p = e.target.closest('[data-paylas]');
+    if (p) {
+      const yaz = navigator.clipboard ? navigator.clipboard.writeText(location.href) : Promise.reject();
+      yaz.then(() => DD.toast('Profil bağlantısı kopyalandı.'), () => DD.toast('Bağlantı kopyalanamadı.', 'uyari'));
+    }
+    const g = e.target.closest('[data-sekme-git]');
+    if (g) { e.preventDefault(); const t = $(g.dataset.sekmeGit); t.click(); t.scrollIntoView({ block: 'center', behavior: 'smooth' }); }
+    if (DD.oturum.acik() && e.target.closest('[data-randevu],[data-mesaj]')) {
+      e.preventDefault();
+      DD.toast(e.target.closest('[data-randevu]') ? 'Bu hafta açık saat yok. Uzmanın takvimi açıldığında bildirim alırsın.' : 'Mesajlaşma, uzmanla bir görüşme başlattığında açılır.', 'uyari');
+    }
+  });
+
+  if (!$('paketler')) return;
+  const d = DD.demo.al(), dyt = d.diyetisyen, P = dyt.profil || {};
+  $('eceKisa').textContent = P.kisa || 'Kilo yönetimi ve sporcu beslenmesinde, yaşam tarzına uyan sürdürülebilir planlar hazırlıyorum.';
+  $('eceBaslik').querySelector('span').textContent = P.baslik || 'Sürdürülebilir kilo yönetimi ve sporcu beslenmesi';
+  const metin = P.metin || 'Klinik ve online danışmanlık deneyimimle kilo yönetimi, insülin direnci ve sporcu beslenmesi alanlarında çalışıyorum.\n\nİlk görüşmede alışkanlıklarını, hedefini ve günlük ritmini konuşuyoruz; planı birlikte kuruyor, iki haftada bir gözden geçiriyoruz.';
+  $('eceMetin').innerHTML = metin.split(/\n{2,}/).map((p) => '<p>' + kac(p) + '</p>').join('');
+
+  const paket = d.paketler.filter((p) => p.aktif);
+  $('paketSayi').textContent = paket.length;
+  $('paketler').innerHTML = paket.map((p) => '<div class="kart"><div class="kart-bas"><h3 class="kart-baslik">' + ikon('fa-box-open') + ' ' + kac(p.ad) + '</h3><span class="rozet pasif">' + kac(p.tur) + '</span></div><div class="kart-govde"><p class="sonuc-sayi kucuk">' + tl(p.fiyat) + '</p><p class="kart-metin">' + kac(p.aciklama) + '</p><ul class="uzman-meta">' + '<li>' + ikon('fa-comments') + ' ' + p.seans + ' seans</li><li>' + ikon('fa-clock') + ' ' + p.sure + ' dk görüşme</li></ul></div><div class="kart-alt"><a class="dugme birincil tam-en" href="' + DD.kok + 'hesabim/paketler/">Paketi seç</a></div></div>').join('');
+
+  /* Yaklaşan günler: haftalık müsaitlik + kapalı tarih + dolu randevular. Dolu saat üstü çizili kalır. */
+  const GUN = ['Paz', 'Pzt', 'Sal', 'Çar', 'Per', 'Cum', 'Cmt'];
+  const GUN_UZUN = ['Pazar', 'Pazartesi', 'Salı', 'Çarşamba', 'Perşembe', 'Cuma', 'Cumartesi'];
+  const AY = ['Oca', 'Şub', 'Mar', 'Nis', 'May', 'Haz', 'Tem', 'Ağu', 'Eyl', 'Eki', 'Kas', 'Ara'];
+  const m = d.musaitlik, dolu = new Set(d.randevular.map((r) => r.tarih + ' ' + r.saat));
+  const dk = (s) => { const [a, b] = s.split(':'); return +a * 60 + +b; };
+  const saat = (n) => String(Math.floor(n / 60)).padStart(2, '0') + ':' + String(n % 60).padStart(2, '0');
+  const bugun = new Date(DD.bugun + 'T12:00:00');
+  const iso = (t) => t.getFullYear() + '-' + String(t.getMonth() + 1).padStart(2, '0') + '-' + String(t.getDate()).padStart(2, '0');
+
+  function slotCiz(tur) {
+    const adim = m.slot[tur] || 30;
+    let html = '';
+    for (let i = 1, gosterilen = 0; i <= 10 && gosterilen < 4; i++) {
+      const t = new Date(bugun); t.setDate(t.getDate() + i);
+      const g = m.haftalik.find((x) => x.gun === GUN_UZUN[t.getDay()]);
+      if (!g || !g.acik || m.kapali_tarihler.some((k) => k.tarih === iso(t))) continue;
+      const l = [];
+      for (let n = dk(g.baslangic); n + adim <= dk(g.bitis); n += adim) {
+        if (g.ara && n + adim > dk(g.ara[0]) && n < dk(g.ara[1])) continue;
+        l.push(saat(n));
+      }
+      if (!l.length) continue;
+      gosterilen++;
+      const ad = (i === 1 ? 'Yarın, ' : '') + GUN[t.getDay()] + ' ' + t.getDate() + ' ' + AY[t.getMonth()];
+      html += '<p class="gun-baslik">' + ad + '</p><div class="saat-izgara">' + l.slice(0, 10).map((s) => { const k = dolu.has(iso(t) + ' ' + s); return '<button class="cip" type="button" aria-pressed="false"' + (k ? ' disabled aria-label="' + s + ' dolu"' : '') + ' data-deger="' + iso(t) + ' ' + s + '" data-etiket="' + ad + ', ' + s + '">' + s + '</button>'; }).join('') + '</div>';
+    }
+    $('slotlar').innerHTML = html;
+    $('slotNot').textContent = 'Bir saat seçilmedi.';
+    $('slotDevam').href = DD.kok + 'hesabim/diyetisyenim/#randevu';
+  }
+  $('slotTur').addEventListener('dd:secim', (e) => slotCiz(e.detail.deger));
+  slotCiz('online');
+  $('slotlar').addEventListener('click', (e) => {
+    const b = e.target.closest('.cip');
+    if (!b || b.disabled) return;
+    $('slotlar').querySelectorAll('.cip').forEach((c) => { const a = c === b; c.classList.toggle('aktif', a); c.setAttribute('aria-pressed', String(a)); });
+    $('slotNot').textContent = b.dataset.etiket + ' seçildi.';
+    const [tarih, sa] = b.dataset.deger.split(' ');
+    $('slotDevam').href = DD.kok + 'hesabim/diyetisyenim/?tarih=' + tarih + '&saat=' + encodeURIComponent(sa) + '#randevu';
+  });
+})();

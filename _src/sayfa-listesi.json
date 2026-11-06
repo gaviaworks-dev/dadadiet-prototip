@@ -1,0 +1,517 @@
+[
+ {
+  "yol": "",
+  "baslik": "Sağlığını mutfakta yönet",
+  "duzen": "public"
+ },
+ {
+  "yol": "404",
+  "baslik": "Sayfa bulunamadı",
+  "duzen": "public"
+ },
+ {
+  "yol": "akilli-tabak-ve-degisim",
+  "baslik": "Akıllı Tabak ve Değişim",
+  "duzen": "public"
+ },
+ {
+  "yol": "aralikli-oruc-rehberi",
+  "baslik": "Aralıklı Oruç Rehberi",
+  "duzen": "public"
+ },
+ {
+  "yol": "arama",
+  "baslik": "Arama",
+  "duzen": "public"
+ },
+ {
+  "yol": "bana-uygun-olani-bul",
+  "baslik": "Bana Uygun Olanı Bul",
+  "duzen": "tam"
+ },
+ {
+  "yol": "besin-karsilastir",
+  "baslik": "Besin Karşılaştır",
+  "duzen": "public"
+ },
+ {
+  "yol": "besin-karsilastir/badem-vs-ceviz",
+  "baslik": "Badem vs Ceviz",
+  "duzen": "public"
+ },
+ {
+  "yol": "besin-karsilastir/kinoa-vs-pirinc",
+  "baslik": "Kinoa vs Pirinç",
+  "duzen": "public"
+ },
+ {
+  "yol": "besin-karsilastir/somon-vs-tavuk-gogsu",
+  "baslik": "Somon vs Tavuk Göğsü",
+  "duzen": "public"
+ },
+ {
+  "yol": "besin-karsilastir/zeytinyagi-vs-tereyagi",
+  "baslik": "Zeytinyağı vs Tereyağı",
+  "duzen": "public"
+ },
+ {
+  "yol": "besin-kutuphanesi",
+  "baslik": "Besin Kütüphanesi",
+  "duzen": "public"
+ },
+ {
+  "yol": "besin-rehberi",
+  "baslik": "Besin Rehberi",
+  "duzen": "public"
+ },
+ {
+  "yol": "besin-rehberi/dengeli-tabak",
+  "baslik": "Dengeli Tabak",
+  "duzen": "public"
+ },
+ {
+  "yol": "besin/avokado",
+  "baslik": "Avokado",
+  "duzen": "public"
+ },
+ {
+  "yol": "disarida-ne-yesem",
+  "baslik": "Dışarıda Ne Yesem?",
+  "duzen": "public"
+ },
+ {
+  "yol": "diyetisyen-bul-sihirbazi",
+  "baslik": "Diyetisyen Bul",
+  "duzen": "tam"
+ },
+ {
+  "yol": "diyetisyen-ol",
+  "baslik": "Diyetisyen Ol",
+  "duzen": "public"
+ },
+ {
+  "yol": "diyetisyen-paneli",
+  "baslik": "Genel Bakış",
+  "duzen": "panel"
+ },
+ {
+  "yol": "diyetisyen-paneli/bildirimler",
+  "baslik": "Bildirimler",
+  "duzen": "panel"
+ },
+ {
+  "yol": "diyetisyen-paneli/danisanlar",
+  "baslik": "Danışanlarım",
+  "duzen": "panel"
+ },
+ {
+  "yol": "diyetisyen-paneli/danisanlar/d1",
+  "baslik": "Ayşe Demir",
+  "duzen": "panel"
+ },
+ {
+  "yol": "diyetisyen-paneli/danisanlar/d10",
+  "baslik": "Sevgi Kılıç",
+  "duzen": "panel"
+ },
+ {
+  "yol": "diyetisyen-paneli/danisanlar/d11",
+  "baslik": "Melis Uçar",
+  "duzen": "panel"
+ },
+ {
+  "yol": "diyetisyen-paneli/danisanlar/d12",
+  "baslik": "Hakan Bulut",
+  "duzen": "panel"
+ },
+ {
+  "yol": "diyetisyen-paneli/danisanlar/d2",
+  "baslik": "Cem Tan",
+  "duzen": "panel"
+ },
+ {
+  "yol": "diyetisyen-paneli/danisanlar/d3",
+  "baslik": "Selma Erdem",
+  "duzen": "panel"
+ },
+ {
+  "yol": "diyetisyen-paneli/danisanlar/d4",
+  "baslik": "Ece Güler",
+  "duzen": "panel"
+ },
+ {
+  "yol": "diyetisyen-paneli/danisanlar/d5",
+  "baslik": "Alp Yalın",
+  "duzen": "panel"
+ },
+ {
+  "yol": "diyetisyen-paneli/danisanlar/d6",
+  "baslik": "Derya Kara",
+  "duzen": "panel"
+ },
+ {
+  "yol": "diyetisyen-paneli/danisanlar/d7",
+  "baslik": "Can Özkan",
+  "duzen": "panel"
+ },
+ {
+  "yol": "diyetisyen-paneli/danisanlar/d8",
+  "baslik": "Nil Arslan",
+  "duzen": "panel"
+ },
+ {
+  "yol": "diyetisyen-paneli/danisanlar/d9",
+  "baslik": "Tolga Ersoy",
+  "duzen": "panel"
+ },
+ {
+  "yol": "diyetisyen-paneli/hesap-ayarlari",
+  "baslik": "Hesap ayarları",
+  "duzen": "panel"
+ },
+ {
+  "yol": "diyetisyen-paneli/hizmet-paketleri",
+  "baslik": "Hizmet Paketlerim",
+  "duzen": "panel"
+ },
+ {
+  "yol": "diyetisyen-paneli/hizmet-paketleri/yeni",
+  "baslik": "Hizmet paketi",
+  "duzen": "panel"
+ },
+ {
+  "yol": "diyetisyen-paneli/kazanclar",
+  "baslik": "Kazançlarım",
+  "duzen": "panel"
+ },
+ {
+  "yol": "diyetisyen-paneli/mesajlar",
+  "baslik": "Mesajlar",
+  "duzen": "panel"
+ },
+ {
+  "yol": "diyetisyen-paneli/musaitlik",
+  "baslik": "Müsaitlik",
+  "duzen": "panel"
+ },
+ {
+  "yol": "diyetisyen-paneli/planlar",
+  "baslik": "Beslenme Planları",
+  "duzen": "panel"
+ },
+ {
+  "yol": "diyetisyen-paneli/planlar/olustur",
+  "baslik": "Plan oluşturucu",
+  "duzen": "panel"
+ },
+ {
+  "yol": "diyetisyen-paneli/profil",
+  "baslik": "Profilim",
+  "duzen": "panel"
+ },
+ {
+  "yol": "diyetisyen-paneli/takvim",
+  "baslik": "Takvim & Randevular",
+  "duzen": "panel"
+ },
+ {
+  "yol": "diyetisyen/dyt-ece-tunali",
+  "baslik": "Dyt. Ece Tunalı",
+  "duzen": "public"
+ },
+ {
+  "yol": "diyetisyen/dyt-elif-sahin",
+  "baslik": "Dyt. Elif Şahin",
+  "duzen": "public"
+ },
+ {
+  "yol": "diyetisyenler",
+  "baslik": "Diyetisyenler",
+  "duzen": "public"
+ },
+ {
+  "yol": "giris",
+  "baslik": "Giriş Yap",
+  "duzen": "public"
+ },
+ {
+  "yol": "hesabim",
+  "baslik": "Hesap Ayarları",
+  "duzen": "uye"
+ },
+ {
+  "yol": "hesabim/beslenme-planim",
+  "baslik": "Beslenme Planım",
+  "duzen": "uye"
+ },
+ {
+  "yol": "hesabim/bildirimler",
+  "baslik": "Bildirimler",
+  "duzen": "uye"
+ },
+ {
+  "yol": "hesabim/destek-gruplari",
+  "baslik": "Destek Grupları",
+  "duzen": "uye"
+ },
+ {
+  "yol": "hesabim/diyetisyenim",
+  "baslik": "Diyetisyenim",
+  "duzen": "uye"
+ },
+ {
+  "yol": "hesabim/gunluk-takibim",
+  "baslik": "Günlük Takibim",
+  "duzen": "uye"
+ },
+ {
+  "yol": "hesabim/haftalik-menum",
+  "baslik": "Haftalık Menüm",
+  "duzen": "uye"
+ },
+ {
+  "yol": "hesabim/hos-geldin",
+  "baslik": "Hoş geldin",
+  "duzen": "tam"
+ },
+ {
+  "yol": "hesabim/kaydedilenler",
+  "baslik": "Kaydedilenler",
+  "duzen": "uye"
+ },
+ {
+  "yol": "hesabim/odemelerim",
+  "baslik": "Ödemelerim",
+  "duzen": "uye"
+ },
+ {
+  "yol": "hesabim/paketler",
+  "baslik": "Paketlerim",
+  "duzen": "uye"
+ },
+ {
+  "yol": "hesabim/program-baslat",
+  "baslik": "Program Başlat",
+  "duzen": "uye"
+ },
+ {
+  "yol": "hesabim/programlarim",
+  "baslik": "Programlarım",
+  "duzen": "uye"
+ },
+ {
+  "yol": "hesabim/rozetlerim",
+  "baslik": "Rozetlerim",
+  "duzen": "uye"
+ },
+ {
+  "yol": "hesabim/saglik-dosyam",
+  "baslik": "Sağlık Dosyam",
+  "duzen": "uye"
+ },
+ {
+  "yol": "hesabim/tercihlerim",
+  "baslik": "Tercihlerim",
+  "duzen": "uye"
+ },
+ {
+  "yol": "hesabim/veri-izinlerim",
+  "baslik": "Veri İzinlerim",
+  "duzen": "uye"
+ },
+ {
+  "yol": "hesaplayici/gunluk-kalori",
+  "baslik": "Günlük Kalori İhtiyacı",
+  "duzen": "public"
+ },
+ {
+  "yol": "hesaplayicilar",
+  "baslik": "Hesaplayıcılar",
+  "duzen": "public"
+ },
+ {
+  "yol": "ipuclari-ve-puf-noktalari",
+  "baslik": "Beslenme İpuçları & Püf Noktaları",
+  "duzen": "public"
+ },
+ {
+  "yol": "ipuclari/gunde-ne-kadar-su-icmek-gerekir",
+  "baslik": "Günde ne kadar su içmek gerekir?",
+  "duzen": "public"
+ },
+ {
+  "yol": "kac-kalori",
+  "baslik": "Kaç Kalori?",
+  "duzen": "public"
+ },
+ {
+  "yol": "kac-kalori/bir-avuc-badem-kac-kalori",
+  "baslik": "Bir avuç badem kaç kalori?",
+  "duzen": "public"
+ },
+ {
+  "yol": "kac-kalori/kategori/sebze",
+  "baslik": "Sebze & Meyve",
+  "duzen": "public"
+ },
+ {
+  "yol": "kayit",
+  "baslik": "Kayıt Ol",
+  "duzen": "public"
+ },
+ {
+  "yol": "makro-rehberi",
+  "baslik": "Makro Rehberi",
+  "duzen": "public"
+ },
+ {
+  "yol": "makro-rehberi/protein-kaynaklari-hayvansal-bitkisel",
+  "baslik": "Bitkisel protein hayvansal proteinin yerini tutar mı?",
+  "duzen": "public"
+ },
+ {
+  "yol": "marka-is-birlikleri",
+  "baslik": "Marka ve Sponsorluk İş Birlikleri",
+  "duzen": "public"
+ },
+ {
+  "yol": "pro",
+  "baslik": "Dada Diet Pro",
+  "duzen": "public"
+ },
+ {
+  "yol": "program/akdeniz-tipi-beslenme",
+  "baslik": "Akdeniz Tipi Beslenme",
+  "duzen": "public"
+ },
+ {
+  "yol": "programlar",
+  "baslik": "Programlar",
+  "duzen": "public"
+ },
+ {
+  "yol": "programlar/beslenme-tercihine-gore",
+  "baslik": "Programlar: Beslenme Tercihine Göre",
+  "duzen": "public"
+ },
+ {
+  "yol": "programlar/hedefe-gore",
+  "baslik": "Programlar: Hedefe Göre",
+  "duzen": "public"
+ },
+ {
+  "yol": "programlar/ihtiyacina-gore",
+  "baslik": "Programlar: İhtiyacına Göre",
+  "duzen": "public"
+ },
+ {
+  "yol": "programlar/program-bul",
+  "baslik": "Program Bul",
+  "duzen": "tam"
+ },
+ {
+  "yol": "programlar/sureye-gore",
+  "baslik": "Programlar: Süreye Göre",
+  "duzen": "public"
+ },
+ {
+  "yol": "programlar/yasam-bicimine-gore",
+  "baslik": "Programlar: Yaşam Biçimine Göre",
+  "duzen": "public"
+ },
+ {
+  "yol": "puflar/buzdolabinda-hangi-raf-neye-ait",
+  "baslik": "Buzdolabında hangi raf neye ait?",
+  "duzen": "public"
+ },
+ {
+  "yol": "reklam-ver",
+  "baslik": "Marka ve Sponsorluk İş Birlikleri",
+  "duzen": "public"
+ },
+ {
+  "yol": "saglik-testleri",
+  "baslik": "Sağlık Testleri",
+  "duzen": "public"
+ },
+ {
+  "yol": "sayfa/bilimsel-kaynaklar",
+  "baslik": "Bilimsel Kaynaklar",
+  "duzen": "public"
+ },
+ {
+  "yol": "sayfa/cozum-merkezi",
+  "baslik": "Çözüm Merkezi",
+  "duzen": "public"
+ },
+ {
+  "yol": "sayfa/editoryal-kurul",
+  "baslik": "Editoryal ve Bilimsel Kurul",
+  "duzen": "public"
+ },
+ {
+  "yol": "sayfa/hakkimizda",
+  "baslik": "Hakkımızda",
+  "duzen": "public"
+ },
+ {
+  "yol": "sayfa/iletisim",
+  "baslik": "İletişim",
+  "duzen": "public"
+ },
+ {
+  "yol": "sayfa/kunye",
+  "baslik": "Künye",
+  "duzen": "public"
+ },
+ {
+  "yol": "sayfa/nasil-calisir",
+  "baslik": "Nasıl Çalışır?",
+  "duzen": "public"
+ },
+ {
+  "yol": "sayfa/saglik-bilgilendirmesi",
+  "baslik": "Sağlık Bilgilendirmesi",
+  "duzen": "public"
+ },
+ {
+  "yol": "sayfa/sss",
+  "baslik": "Sıkça Sorulan Sorular",
+  "duzen": "public"
+ },
+ {
+  "yol": "sayfa/uzmanla-calisma-rehberi",
+  "baslik": "Uzmanla Çalışma Rehberi",
+  "duzen": "public"
+ },
+ {
+  "yol": "sifremi-unuttum",
+  "baslik": "Şifremi Unuttum",
+  "duzen": "public"
+ },
+ {
+  "yol": "tarif/cilbir",
+  "baslik": "Çılbır",
+  "duzen": "public"
+ },
+ {
+  "yol": "tarifler",
+  "baslik": "Sağlıklı Tarifler",
+  "duzen": "public"
+ },
+ {
+  "yol": "test/beslenme",
+  "baslik": "Beslenme alışkanlığın ne durumda?",
+  "duzen": "public"
+ },
+ {
+  "yol": "yasal",
+  "baslik": "Yasal Metinler",
+  "duzen": "public"
+ },
+ {
+  "yol": "yasal/kvkk",
+  "baslik": "KVKK Aydınlatma Metni",
+  "duzen": "public"
+ }
+]
