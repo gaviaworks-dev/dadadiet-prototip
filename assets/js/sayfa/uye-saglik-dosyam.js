@@ -68,9 +68,9 @@
 
   function hesaplar() {
     const s = olcumler()[olcumler().length - 1], t = (U.uye().tercihler || {});
-    const l = (U.uye().hesaplayici_sonuclari || []).slice().reverse().map((h) => satir('fa-fire', 'Günlük kalori', U.sayi(h.hedef || h.kcal || h.tdee || 0) + ' kcal' + (h.tarih ? ' · ' + U.tarih(h.tarih) : ''), '<a class="dugme hayalet kucuk" href="' + DD.kok + 'hesaplayicilar/">Yeniden hesapla</a>'));
+    const l = (U.uye().hesaplayici_sonuclari || []).slice().reverse().map((h) => satir('fa-fire', 'Günlük kalori', DD.bicim.kcal(h.hedef || h.kcal || h.tdee || 0) + (h.tarih ? ' · ' + U.tarih(h.tarih) : ''), '<a class="dugme hayalet kucuk" href="' + DD.kok + 'hesaplayicilar/">Yeniden hesapla</a>'));
     if (s) l.push(satir('fa-calculator', 'Beden Kitle İndeksi', U.sayi(bki(s.kilo), 1) + ' · ' + U.tarih(s.tarih), '<a class="dugme hayalet kucuk" href="' + DD.kok + 'hesaplayicilar/">Yeniden hesapla</a>'));
-    if (t.kcal) l.push(satir('fa-fire', 'Günlük enerji hedefi', U.sayi(t.kcal) + ' kcal · ' + t.protein + ' g protein, ' + t.karb + ' g karbonhidrat, ' + t.yag + ' g yağ', '<a class="dugme hayalet kucuk" href="' + DD.kok + 'hesaplayicilar/">Yeniden hesapla</a>'));
+    if (t.kcal) l.push(satir('fa-fire', 'Günlük enerji hedefi', DD.bicim.kcal(t.kcal) + ' · ' + t.protein + ' g protein, ' + t.karb + ' g karbonhidrat, ' + t.yag + ' g yağ', '<a class="dugme hayalet kucuk" href="' + DD.kok + 'hesaplayicilar/">Yeniden hesapla</a>'));
     U.bas('#sdHesaplar', l.join('') || U.bos({ ikon: 'fa-calculator', baslik: 'Henüz hesap yok', metin: 'Hesaplayıcıları kullandığında sonuçların burada listelenir.', eylem: U.bag('Hesaplayıcılara git', 'hesaplayicilar/') }));
     const tl = (U.uye().test_sonuclari || []).slice().reverse();
     U.bas('#sdTestler', tl.map((t) => satir('fa-clipboard-check', t.sonuc || t.test, U.tarih(t.tarih) + ' · ' + t.puan + ' puan', '<a class="dugme hayalet kucuk" href="' + DD.kok + 'saglik-testleri/' + t.test + '/">Yeniden çöz</a>')).join('') || U.bos({ ikon: 'fa-clipboard-question', baslik: 'Henüz test çözmedin', metin: 'Bir sağlık testi çözdüğünde sonucun burada saklanır.', eylem: U.bag('Teste başla', 'saglik-testleri/') }));

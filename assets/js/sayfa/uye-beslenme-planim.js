@@ -24,7 +24,7 @@
     }
     const dy = U.diyetisyen();
     const alt = k.tip === 'plan'
-      ? '<i class="fa-solid fa-user-doctor" aria-hidden="true"></i> Diyetisyenin: ' + U.kac(dy ? dy.ad : '') + ' · Başlangıç ' + U.tarih(U.planBas(k.plan)) + ' · ' + U.sayi(k.plan.hedef_kcal) + ' kcal hedef'
+      ? '<i class="fa-solid fa-user-doctor" aria-hidden="true"></i> Diyetisyenin: ' + U.kac(dy ? dy.ad : '') + ' · Başlangıç ' + U.tarih(U.planBas(k.plan)) + ' · ' + DD.bicim.kcal(k.plan.hedef_kcal) + ' hedef'
       : U.kac(k.program.aciklama || '') ;
     U.bas('#bpBas', bolumBas('fa-seedling', 'Aktif programın', k.ad, alt, U.bag('Program kütüphanesi', 'programlar/', 'hayalet')));
     U.bas('#bpNotKap', k.tip === 'plan' && k.plan.danisana_not
@@ -109,8 +109,8 @@
     const sec = (U.yerel('alternatifler', {})[k.anahtar] || {})[b] || {};
     if (!U.gunOgunleri(k, b).length) { U.bas('#bpAlternatif', U.bugunBos(k)); return; }
     U.bas('#bpAlternatif', U.gunOgunleri(k, b).map((o) => {
-      const cip = U.alternatif(o).map((t) => '<button class="cip' + (sec[o.anahtar] === t.slug ? ' aktif' : '') + '" type="button" data-alt-ogun="' + o.anahtar + '" data-alt="' + t.slug + '" aria-pressed="' + (sec[o.anahtar] === t.slug) + '">' + U.kac(t.ad) + ' · ' + U.sayi(t.kcal) + ' kcal</button>').join('');
-      return '<div class="kalem-satiri"><span class="ks-ikon"><i class="fa-solid ' + o.ikon + '" aria-hidden="true"></i></span><div class="ks-metin"><b>' + o.ad + ' · ' + U.sayi(o.kcal) + ' kcal</b><small>' + U.kac(o.metin) + '</small>' + U.veyaSatir(o) + '</div><div class="as-eylem"><div class="cipler">' + cip + '</div></div></div>';
+      const cip = U.alternatif(o).map((t) => '<button class="cip' + (sec[o.anahtar] === t.slug ? ' aktif' : '') + '" type="button" data-alt-ogun="' + o.anahtar + '" data-alt="' + t.slug + '" aria-pressed="' + (sec[o.anahtar] === t.slug) + '">' + U.kac(t.ad) + ' · ' + DD.bicim.kcal(t.kcal) + '</button>').join('');
+      return '<div class="kalem-satiri"><span class="ks-ikon"><i class="fa-solid ' + o.ikon + '" aria-hidden="true"></i></span><div class="ks-metin"><b>' + o.ad + ' · ' + DD.bicim.kcal(o.kcal) + '</b><small>' + U.kac(o.metin) + '</small>' + U.veyaSatir(o) + '</div><div class="as-eylem"><div class="cipler">' + cip + '</div></div></div>';
     }).join(''));
   }
 

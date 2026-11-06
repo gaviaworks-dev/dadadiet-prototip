@@ -1,5 +1,6 @@
 // Tarifler, tarif detayı ve Dışarıda Ne Yesem.
 import { K, kac, ikon, icerik, bant, bolumBas, dugme, bolum, gorselKart, metin, DETAY, sayfa, dizi, sayi, araMetni, bilgiNot, cipler, aramaKutusu, liste, ilgili, kunyeKart, paylas, akordeon } from '../../parcalar/public-beslenme/ortak.mjs';
+import { bicim } from '../../parcalar/bicim.mjs';
 
 const A = { aktif: 'Beslenme' };
 const slug = (s) => s.toLocaleLowerCase('tr').replace(/ç/g, 'c').replace(/ğ/g, 'g').replace(/ı/g, 'i').replace(/ö/g, 'o').replace(/ş/g, 's').replace(/ü/g, 'u').replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '');
@@ -8,7 +9,7 @@ const OGUN = { Kahvaltı: 'kahvalti', Brunch: 'brunch', 'Öğle Yemeği': 'ogle-
 const ETIKET = ['Vegan', 'Vejetaryen', 'Glütensiz'];
 
 const tarifKart = (t, i) => gorselKart({
-  href: DETAY.tarif, gorsel: icerik(t.gorsel_dosya), rozet: kac(t.kategori), altRozet: `${sayi(t.kcal, 0)} kcal`, baslik: kac(t.ad), metin: kac(t.ozet),
+  href: DETAY.tarif, gorsel: icerik(t.gorsel_dosya), rozet: kac(t.kategori), altRozet: `${bicim.kcal(t.kcal)}`, baslik: kac(t.ad), metin: kac(t.ozet),
   etiketler: t.etiketler.filter((e) => ETIKET.includes(e)).map((e) => `<span class="rozet olumlu">${e}</span>`).join(''),
   not: `${t.sure} dk · ${t.zorluk} · ${t.porsiyon} kişilik`, git: 'Tarife Git', sinif: 'buyuk',
   veri: ` data-kart data-kategori="${slug(t.kategori)}" data-ogun="${t.ogunler.join('|')}" data-etiket="${t.etiketler.filter((e) => ETIKET.includes(e)).map(slug).join('|')}" data-zorluk="${slug(t.zorluk)}" data-ara="${araMetni(t.ad, t.kategori, t.ozet, t.malzemeler.join(' '))}"${i >= 12 ? ' hidden' : ''}`,
@@ -41,14 +42,14 @@ const HESAP = [['Süzme Yoğurt', '245 g'], ['Sarımsak', '3 g'], ['Yumurta (tam
 
 function tarifDetay(veri) {
   const t = veri.tarifler.tarifler.find((x) => x.slug === 'cilbir');
-  const malzeme = MALZEME.map(([g, l]) => `<h3 class="malzeme-grup">${g}</h3>${l.map(([m, ad, not]) => `<label class="malzeme-satir"><input type="checkbox"><b${m ? ` data-miktar="${m}"` : ''}>${m ? `${m} g` : ''}</b><span>${ad}<small>${not}</small></span></label>`).join('')}`).join('');
+  const malzeme = MALZEME.map(([g, l]) => `<h3 class="malzeme-grup">${g}</h3>${l.map(([m, ad, not]) => `<label class="malzeme-satir"><input type="checkbox"><b${m ? ` data-miktar="${m}"` : ''}>${m ? `${bicim.gram(m)}` : ''}</b><span>${ad}<small>${not}</small></span></label>`).join('')}`).join('');
   const notlar = [['fa-circle-info', 'Alerjen notu', kac(t.alerjen_notu)], ['fa-lightbulb', 'İpucu', 'Yumurtayı önce küçük bir kâseye kırın, sonra suya kaydırın; beyazı dağılmadan toplanır. Sarısı tam pişmiş isteyenler süreyi 4–5 dakikaya uzatabilir.'], ['fa-pen', 'Neler değişti', 'Sostaki 2 yemek kaşığı tereyağı yerine 2 çay kaşığı zeytinyağı kullanılır. Sos ocakta kızdırılmaz; pul biber zeytinyağında birkaç dakika bekletilerek rengini verir. Servise kıyılmış dereotu eklenir.']];
   const dagilim = [['Protein', 30], ['Karbonhidrat', 3], ['Yağ', 67]];
   const sol = `<div class="yigin">
 <div class="okuma"><p class="okuma-giris">Çılbırın kimliği sarımsaklı süzme yoğurt ile poşe yumurtadır; bu tarifte ikisine de dokunulmaz. Değişen yalnız üstteki sos ve servisteki dereotu.</p></div>
 <div class="kart"><div class="kart-bas"><h2 class="kart-baslik">${ikon('fa-list-ol')} Nasıl yapılır?</h2></div><div class="kart-govde"><ol class="sira-liste metinli">${t.adimlar.map((a, i) => `<li><span class="adim-no">${i + 1}</span><p>${kac(a)}</p></li>`).join('')}</ol></div></div>
 <div class="kart"><div class="kart-bas"><div><h2 class="kart-baslik">${ikon('fa-heart-pulse')} Besin Değerleri</h2><p>1 porsiyon · değerler tahminidir</p></div></div><div class="kart-govde yigin sik">
-<dl class="kunye"><div><dt>Kalori</dt><dd>${sayi(t.kcal, 0)} kcal</dd></div><div><dt>Protein</dt><dd>${sayi(t.protein)} g</dd></div><div><dt>Karbonhidrat</dt><dd>${sayi(t.karb)} g</dd></div><div><dt>Yağ</dt><dd>${sayi(t.yag)} g</dd></div></dl>
+<dl class="kunye"><div><dt>Kalori</dt><dd>${bicim.kcal(t.kcal)}</dd></div><div><dt>Protein</dt><dd>${bicim.gram(t.protein)}</dd></div><div><dt>Karbonhidrat</dt><dd>${bicim.gram(t.karb)}</dd></div><div><dt>Yağ</dt><dd>${bicim.gram(t.yag)}</dd></div></dl>
 ${dagilim.map(([a, y]) => `<div class="olcu-satir"><span>${a}</span><div class="olcer hap"><span data-oran="${y}"></span></div><span>%${y}</span></div>`).join('')}
 <p class="kart-metin">Klasik tarif ≈ 396 kcal · bu tarif ≈ 332 kcal (porsiyon başına). Porsiyon başına, malzemelerin Besin Kütüphanesi değerlerinden hesaplanmıştır (TürKomp).</p>
 ${akordeon([{ soru: 'Nasıl hesapladık', ikon: 'fa-calculator', govde: `<div class="okuma"><p>Her malzeme besin kütüphanemizdeki bir kayda bağlı; gramı ve değerlerin geldiği kaynak aşağıda.</p><ul>${HESAP.map(([a, g]) => `<li><b>${a}</b> ${g} · TürKomp — Ulusal Gıda Kompozisyon Veri Tabanı</li>`).join('')}</ul></div>` }])}
@@ -64,7 +65,7 @@ ${kunyeKart('Tarif künyesi', [['Hazırlık + Pişirme', `${t.hazirlik_dk} dk + 
   const benzer = metin.kartlar['ilgili-tarif'].map((c) => gorselKart({ href: DETAY.tarif, gorsel: `${K}${c.gorsel}`, rozet: kac(c.kategori), altRozet: c.meta.at(-1), baslik: kac(c.ad), not: `${c.meta[0]} · ${c.meta[1]} · ${c.meta[3]}`, git: 'Tarife Git' })).join('');
   const prog = [['Vejetaryen Dört Hafta', 'vejetaryen-dort-hafta'], ['Glütensiz Hafta', 'glutensiz-hafta']].map(([a, g]) => gorselKart({ href: DETAY.program, gorsel: `${K}assets/img/program/${g}.webp`, rozet: 'Program', rozetIkon: 'fa-list-check', baslik: a, git: 'Programı İncele' })).join('');
   return sayfa('tarif/cilbir', 'Çılbır',
-    bant({ yol: [['Tarifler', 'tarifler/'], ['Yumurta Tarifleri', 'tarifler/?kategori=yumurta-tarifleri'], ['Çılbır']], etiket: 'YUMURTA TARİFLERİ', etiketIkon: 'fa-egg', h1: 'Çılbır', alt: kac(t.ozet), gorsel: `assets/img/icerik/${t.gorsel_dosya}`, sayilar: [[`${t.kcal} kcal`, 'porsiyon başı'], [`${t.sure} dk`, 'toplam süre'], [`${t.porsiyon} kişilik`, 'porsiyon']] })
+    bant({ yol: [['Tarifler', 'tarifler/'], ['Yumurta Tarifleri', 'tarifler/?kategori=yumurta-tarifleri'], ['Çılbır']], etiket: 'YUMURTA TARİFLERİ', etiketIkon: 'fa-egg', h1: 'Çılbır', alt: kac(t.ozet), gorsel: `assets/img/icerik/${t.gorsel_dosya}`, sayilar: [[`${bicim.kcal(t.kcal)}`, 'porsiyon başı'], [`${t.sure} dk`, 'toplam süre'], [`${t.porsiyon} kişilik`, 'porsiyon']] })
     + dizi(
       bolum(`<div class="iki-kolon genis-yan-orta">${sol}${sag}</div>`, { ilk: true }),
       ilgili({ etiket: 'BENZER TARİFLER', baslik: 'Bunları da seveceksin', metin: 'Aynı kategoriden, sofrana yakışacak başka tarifler.', tumu: 'tarifler/', tumuAd: 'Tamamını Gör', kartlar: benzer }),
@@ -93,7 +94,7 @@ ${grup('Mutfak', cipler('mutfak', 'Mutfak', [{ ad: 'Tümü', deger: '' }, ...mut
 </div>`;
   const kart = (m) => `<article class="kart" data-mekan data-mutfak="${kac(m.mutfak)}">
 <div class="kart-bas"><div class="kart-bas-sol"><span class="ikon-kutu">${ikon('fa-utensils')}</span><div><h3 class="kart-baslik">${kac(m.ad)}</h3><p>${kac(m.etiket)}</p></div></div><span class="rozet olumlu">${kac(m.mutfak)}</span></div>
-<div class="kart-govde yigin sik"><h4 class="alan-etiket">Programına uygun örnekler</h4><ul class="ozellik-liste">${m.ornek_yemekler.map(yemek).map((y) => `<li data-yemek data-kcal="${y.kcal}" data-tip="${y.diyet_etiketleri.join(' ')}" data-alerjen="${y.alerjenler.join(' ')}">${ikon('fa-check')}<span>${kac(y.ad)} · ${kac(y.porsiyon.ad)}</span><span>≈ ${y.kcal} kcal</span></li>`).join('')}</ul></div>
+<div class="kart-govde yigin sik"><h4 class="alan-etiket">Programına uygun örnekler</h4><ul class="ozellik-liste">${m.ornek_yemekler.map(yemek).map((y) => `<li data-yemek data-kcal="${y.kcal}" data-tip="${y.diyet_etiketleri.join(' ')}" data-alerjen="${y.alerjenler.join(' ')}">${ikon('fa-check')}<span>${kac(y.ad)} · ${kac(y.porsiyon.ad)}</span><span>≈ ${bicim.kcal(y.kcal)}</span></li>`).join('')}</ul></div>
 <div class="kart-alt"><span class="not">Fiyat ${m.fiyat}</span><a class="dugme hayalet kucuk" href="https://dadagourmet.com" target="_blank" rel="noopener">Dada Gourmet'te gör ${ikon('fa-arrow-up-right-from-square')}</a></div></article>`;
   return sayfa('disarida-ne-yesem', 'Dışarıda Ne Yesem?',
     bant({ yol: [['Beslenme', 'besin-rehberi/'], ['Dışarıda Ne Yesem?']], etiket: 'RESTORAN VE MENÜ NAVİGATÖRÜ', etiketIkon: 'fa-location-dot', h1: 'Dışarıda ne yesem?', alt: 'Dada Gourmet mekanlarını gör; her mekanın mutfağında programına uyan örnek seçimleri ve tahmini kalorilerini incele.', gorsel: 'assets/img/program/olculu-porsiyon-programi.jpg', sayilar: [[d.sayaclar.mekan, 'Dada Gourmet mekanı'], [d.sayaclar.sehir, 'şehirde mekan'], [d.sayaclar.mutfak, 'mutfak türü']] })

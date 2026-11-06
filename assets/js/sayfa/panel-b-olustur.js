@@ -195,7 +195,7 @@
     const izin = PB.tahlilIzni(d), tah = izin ? PB.sonTahlil(d).filter((x) => PB.tahlilDurum(x)) : [];
     const iz = d.izinler || {}, izinMetin = [['olcum', 'Ölçüm'], ['tahlil', 'Tahlil'], ['gunluk', 'Günlük']].map(([k, a]) => '<span class="rozet ' + (iz[k] === false ? 'pasif' : 'olumlu') + '">' + a + (iz[k] === false ? ' kapalı' : ' açık') + '</span>').join(' ');
     kap.innerHTML = '<div class="yigin sik">' +
-      '<a class="kisi-hucre" href="' + DD.kok + 'diyetisyen-paneli/danisanlar/' + d.id + '/"><span class="kisi-avatar" aria-hidden="true">' + esc(PB.basHarf(d.ad)) + '</span><span class="kisi-bilgi"><span class="kisi-ad">' + esc(d.ad) + '</span><span class="kisi-alt">' + d.yas + ' yaş · ' + d.boy + ' cm · ' + sayi(d.kilo, 1) + ' kg → ' + sayi(d.hedef_kilo, 1) + ' kg</span></span></a>' +
+      '<a class="kisi-hucre" href="' + DD.kok + 'diyetisyen-paneli/danisanlar/' + d.id + '/"><span class="kisi-avatar" aria-hidden="true">' + esc(PB.basHarf(d.ad)) + '</span><span class="kisi-bilgi"><span class="kisi-ad">' + esc(d.ad) + '</span><span class="kisi-alt">' + d.yas + ' yaş · ' + d.boy + ' cm · ' + sayi(d.kilo, 1) + ' kg <i class="fa-solid fa-arrow-right" aria-hidden="true"></i> ' + sayi(d.hedef_kilo, 1) + ' kg</span></span></a>' +
       '<p class="alan-yardim"><i class="fa-solid fa-bullseye" aria-hidden="true"></i><span>' + esc(d.hedef) + '</span></p>' +
       '<div class="deger-liste"><div class="deger-satir"><span>Hassasiyet</span><span>' + (has || 'Kayıt yok') + '</span></div>' +
       (kr ? '<div class="deger-satir"><span>Kronik</span><span>' + kr + '</span></div>' : '') +

@@ -290,7 +290,7 @@
       if (v != null) e.textContent = v;
     });
     yaz('hedef', hk ? U.sayi(hk, hk % 1 ? 1 : 0) + ' kg · ' + U.sayi(Math.abs(kilo - hk), 1) + ' kg kaldı' : 'Hedefini belirle', hk ? 'hesabim/saglik-dosyam/#olcum' : 'hesabim/tercihlerim/');
-    yaz('kalori', hedefKcal ? (kalan >= 0 ? U.sayi(kalan) + ' kcal' : U.sayi(-kalan) + ' kcal fazla') : 'Hedef yok', 'hesabim/gunluk-takibim/#makro');
+    yaz('kalori', hedefKcal ? (kalan >= 0 ? DD.bicim.kcal(kalan) : DD.bicim.kcal(-kalan) + ' fazla') : 'Hedef yok', 'hesabim/gunluk-takibim/#makro');
     yaz('program', k ? k.ad : 'Program seç', k ? 'hesabim/beslenme-planim/' : 'programlar/');
     yaz('diyetisyen', dy ? dy.ad : 'Diyetisyen bul', dy ? 'hesabim/diyetisyenim/' : 'diyetisyen-bul-sihirbazi/');
   };

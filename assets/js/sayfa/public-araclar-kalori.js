@@ -23,7 +23,7 @@
     const ver = tdee - bant, sinir = ver < EN_DUSUK;
     son = { boy, kilo, yas, bmh, tdee, tarih: DD.bugun };
     $('tdee').textContent = tr(tdee); $('bmh').textContent = tr(bmh);
-    $('kiloVer').textContent = tr(Math.max(ver, EN_DUSUK)) + ' kcal'; $('kiloAl').textContent = tr(tdee + bant) + ' kcal';
+    $('kiloVer').textContent = DD.bicim.kcal(Math.max(ver, EN_DUSUK)); $('kiloAl').textContent = DD.bicim.kcal(tdee + bant);
     $('altSinir').hidden = !sinir;
     $('sonucAktivite').textContent = a.querySelector('span').firstChild.textContent;
     $('sonucBos').hidden = true; $('sonuc').hidden = false;

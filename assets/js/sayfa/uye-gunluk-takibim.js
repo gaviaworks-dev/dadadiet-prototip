@@ -13,7 +13,7 @@
 
   function ogunCiz() {
     U.bas('#gtBas', '<div class="bolum-bas"><div><span class="ust-etiket"><i class="fa-solid fa-calendar-day" aria-hidden="true"></i> ' + U.kisaTarih(b) + ' ' + U.gunAdi(b) + '</span><h2>Bugün ne yedin</h2><p class="giris-metni">Plandan farklı yediysen artıya basıp besin ekle.</p><div class="bolum-araclar"><a class="dugme hayalet" href="' + DD.kok + 'besin-kutuphanesi/">Besin kütüphanesinde ara</a></div></div></div>');
-    if (!k) { U.bas('#gtOgunler', U.bos({ ikon: 'fa-utensils', baslik: 'Bugün için planın yok', metin: 'Program seçtiğinde öğünlerin burada açılır; besinlerini yine de ekleyebilirsin.', eylem: '<a class="dugme birincil" href="' + DD.kok + 'programlar/program-bul/">Program bul</a><button class="dugme hayalet" type="button" data-besin-ekle="kahvalti">Besin ekle</button>' })); $('#gtOzet').textContent = ekler().length + ' kalem kayıtlı.'; $('#gtKcal').textContent = U.sayi(toplam().kcal) + ' kcal'; $('#gtPaylas').hidden = true; return; }
+    if (!k) { U.bas('#gtOgunler', U.bos({ ikon: 'fa-utensils', baslik: 'Bugün için planın yok', metin: 'Program seçtiğinde öğünlerin burada açılır; besinlerini yine de ekleyebilirsin.', eylem: '<a class="dugme birincil" href="' + DD.kok + 'programlar/program-bul/">Program bul</a><button class="dugme hayalet" type="button" data-besin-ekle="kahvalti">Besin ekle</button>' })); $('#gtOzet').textContent = ekler().length + ' kalem kayıtlı.'; $('#gtKcal').textContent = DD.bicim.kcal(toplam().kcal); $('#gtPaylas').hidden = true; return; }
     const i = U.isaret(k, b), e = ekler();
     if (!ogunler().length) U.bas('#gtOgunler', U.bugunBos(k));
     else U.bas('#gtOgunler', ogunler().map((o) => {
@@ -24,7 +24,7 @@
     }).join(''));
     const tm = toplam();
     $('#gtOzet').textContent = ogunler().filter((o) => i[o.anahtar]).length + ' / ' + ogunler().length + ' öğün tamamlandı, ' + e.length + ' ek kalem kayıtlı.';
-    $('#gtKcal').textContent = U.sayi(tm.kcal) + ' kcal';
+    $('#gtKcal').textContent = DD.bicim.kcal(tm.kcal);
     /* Paylaşım izne bağlı: nedeni ekranda yazar */
     const izin = !!(dn.izinler && dn.izinler.gunluk) && !!U.diyetisyen();
     $('#gtPaylas').disabled = !izin;
@@ -50,7 +50,7 @@
     const tm = toplam();
     const m = [['Enerji', 'kcal', t.kcal, 'kcal', 0], ['Protein', 'protein', t.protein, 'g', 0], ['Karbonhidrat', 'karb', t.karb, 'g', 0], ['Yağ', 'yag', t.yag, 'g', 0]];
     U.bas('#gtMakro', m.map((x) => { const v = tm[x[1]], o = x[2] ? Math.round((v / x[2]) * 100) : 0; return '<div><p class="alan-yardim"><span><b>' + x[0] + '</b> · ' + U.sayi(v) + ' / ' + U.sayi(x[2]) + ' ' + x[3] + ' (%' + o + ')</span></p>' + olcer(o, x[0]) + '</div>'; }).join(''));
-    U.bas('#gtKalemler', tm.l.map((x) => '<tr><td><span class="no">' + U.kac(U.kalemMetin(x)) + '</span></td><td>' + ogunAd(x.ogun) + '</td><td class="tutar sag">' + U.sayi(x.kcal) + ' kcal</td></tr>').join('') || '<tr><td colspan="3" class="bos-hucre">Bugün henüz kalem kaydedilmedi.</td></tr>');
+    U.bas('#gtKalemler', tm.l.map((x) => '<tr><td><span class="no">' + U.kac(U.kalemMetin(x)) + '</span></td><td>' + ogunAd(x.ogun) + '</td><td class="tutar sag">' + DD.bicim.kcal(x.kcal) + '</td></tr>').join('') || '<tr><td colspan="3" class="bos-hucre">Bugün henüz kalem kaydedilmedi.</td></tr>');
   }
   function notCiz() {
     const l = U.yerel('gunlukNot', []).slice().reverse();
@@ -124,7 +124,7 @@
   });
   $('#gtPaylas').addEventListener('click', () => {
     const tm = toplam(), s = U.sohbet();
-    s.mesajlar.push({ kimden: 'danisan', zaman: b + 'T' + new Date().toTimeString().slice(0, 5), metin: 'Günlük özetim: ' + U.sayi(tm.kcal) + ' kcal, ' + U.sayi(u.su.bugun_ml) + ' ml su, ' + U.sayi(u.adim.bugun) + ' adım.' });
+    s.mesajlar.push({ kimden: 'danisan', zaman: b + 'T' + new Date().toTimeString().slice(0, 5), metin: 'Günlük özetim: ' + DD.bicim.kcal(tm.kcal) + ', ' + U.sayi(u.su.bugun_ml) + ' ml su, ' + U.sayi(u.adim.bugun) + ' adım.' });
     s.okunmamis = (s.okunmamis || 0) + 1;
     U.kaydet();
     DD.toast('Günün özeti diyetisyenine gönderildi.');

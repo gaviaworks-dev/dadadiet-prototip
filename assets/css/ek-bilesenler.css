@@ -1974,3 +1974,11 @@ body:not(.yetkili) .kart.panel>.kart-alt{padding:var(--rol-kart-alt-dikey) var(-
 
 /* Kullanıcı adı veri alanıdır: etiket rolünün versali uygulanmaz */
 .uye-ozet-kisi small,.uye-ozet-kisi span{text-transform:none;letter-spacing:normal}
+
+/* ── Katkı: son rol kuralları ── */
+/* Rol katmanı eki: etkileşimle doğan yüzeyler. Ana katman ek-bilesenler.css "zz-tutarlilik" bölümünde. Değerler --rol-* token'larından. */
+.toast,.toast span,.yetkili .toast,.yetkili .toast span{font-size:var(--rol-govde-boyut);font-weight:var(--rol-govde-agirlik);line-height:var(--rol-govde-satir)}
+.yetkili .onay-kapi h2{font-size:var(--rol-modal-baslik-boyut);font-weight:var(--rol-baslik-agirlik);line-height:var(--rol-modal-baslik-satir);letter-spacing:normal}
+.yetkili .onay-kapi p{font-size:var(--rol-aciklama-boyut);font-weight:var(--rol-aciklama-agirlik);line-height:var(--rol-aciklama-satir)}
+.soru-metin{font-size:var(--rol-alt-baslik-boyut);line-height:var(--rol-baslik-satir)}
+.halka>*{font-size:var(--rol-metrik-boyut);font-weight:var(--rol-metrik-agirlik);line-height:var(--rol-metrik-satir)}

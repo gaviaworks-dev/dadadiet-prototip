@@ -1,5 +1,6 @@
 // Hesaplayıcılar listesi + günlük kalori detayı (sonuç istemcide hesaplanır, formül _src/veri/hesaplayicilar.json).
 import { K, JS, sayfaJs, bant, bolum, bolumBas, dugme, ikon, ikonKart, hesapKart, genelNot, kirinti, kac } from '../../parcalar/public-araclar/ortak.mjs';
+import { bicim } from '../../parcalar/bicim.mjs';
 
 const AKTIVITE = [
   ['1.2', 'Hareketsiz', 'Masa başı, egzersiz yok'], ['1.375', 'Az aktif', 'Haftada 1-3 gün düşük yoğunluklu egzersiz'], ['1.55', 'Orta aktif', 'Haftada 3-5 gün egzersiz'],
@@ -26,7 +27,7 @@ ${bolum(`<div class="sekme-ray liste-ust"><nav class="sekmeler" aria-label="Hesa
 <div class="kart-govde">
 <div class="alan-izgara c2">${girdi('boy', 'Boy', 'cm', g.boy_cm)}${girdi('kilo', 'Kilo', 'kg', g.kilo_kg)}${girdi('yas', 'Yaş', 'yaş', g.yas)}
 <div class="alan"><span class="alan-etiket" id="cinsiyetEtiket">Cinsiyet <span class="zorunlu" aria-hidden="true">*</span></span><div class="segment" id="cinsiyet" role="group" aria-labelledby="cinsiyetEtiket"><button type="button" data-deger="kadin" aria-pressed="false">Kadın</button><button type="button" data-deger="erkek" aria-pressed="false">Erkek</button></div><span class="alan-hata" id="cinsiyetHata">${ikon('fa-circle-exclamation')} Cinsiyet seç.</span></div></div>
-<div class="alan"><span class="alan-etiket" id="aktiviteEtiket">Aktivite düzeyi <span class="zorunlu" aria-hidden="true">*</span></span><div class="alan-secenek-izgara" id="aktivite" data-tek-secim role="group" aria-labelledby="aktiviteEtiket">${AKTIVITE.map(([v, a, y]) => `<button class="secenek" type="button" data-deger="${v}" aria-pressed="false"><span>${a}<small>${y}</small></span><span class="secenek-ek">×${String(v).replace('.', ',')}</span></button>`).join('')}</div><span class="alan-hata" id="aktiviteHata">${ikon('fa-circle-exclamation')} Aktivite düzeyini seç.</span><p class="alan-yardim"><span>Günlük ihtiyaç = BMH (Mifflin-St Jeor) × aktivite katsayısı. Bu araç yetişkinler içindir.</span></p></div>
+<div class="alan"><span class="alan-etiket" id="aktiviteEtiket">Aktivite düzeyi <span class="zorunlu" aria-hidden="true">*</span></span><div class="alan-secenek-izgara" id="aktivite" data-tek-secim role="group" aria-labelledby="aktiviteEtiket">${AKTIVITE.map(([v, a, y]) => `<button class="secenek" type="button" data-deger="${v}" aria-pressed="false"><span>${a}<small>${y}</small></span><span class="secenek-ek">×${bicim.sayi(v, 3)}</span></button>`).join('')}</div><span class="alan-hata" id="aktiviteHata">${ikon('fa-circle-exclamation')} Aktivite düzeyini seç.</span><p class="alan-yardim"><span>Günlük ihtiyaç = BMH (Mifflin-St Jeor) × aktivite katsayısı. Bu araç yetişkinler içindir.</span></p></div>
 </div>
 <div class="kart-alt"><button class="dugme hayalet" id="sifirla" type="button">Sıfırla</button><button class="dugme birincil" type="submit">${ikon('fa-calculator')} Hesapla</button></div>
 </form>

@@ -9,7 +9,7 @@ const kirinti = (baslik, ust) => `<nav class="kirinti" aria-label="Sayfa yolu"><
 
 const ozetHucre = (ad, ikon, etiket) => `<a class="sayac" data-ozet="${ad}" href="${K}hesabim/">${i(ikon)}<div><span>${etiket}</span><b></b></div></a>`;
 
-export const uyeOzet = () => `<section class="sayac-serit uye-ozet" aria-label="Hesap özeti"><a class="sayac uye-ozet-kisi" href="${K}hesabim/ayarlar/"><span class="kisi-avatar" data-uye="harf"></span><div><span data-uye="kullanici"></span><b data-uye="adSoyad"></b></div></a>${ozetHucre('hedef', 'fa-bullseye', 'Hedef')}${ozetHucre('kalori', 'fa-fire', 'Kalan kalori')}${ozetHucre('program', 'fa-clipboard-list', 'Aktif program')}${ozetHucre('diyetisyen', 'fa-user-doctor', 'Diyetisyen')}</section>`;
+export const uyeOzet = () => `<section class="sayac-serit uye-ozet" aria-label="Hesap özeti"><a class="sayac uye-ozet-kisi" href="${K}hesabim/ayarlar/"><span class="kisi-avatar" data-uye="harf"></span><div><span data-uye="kullanici"></span><b data-uye="adSoyad"></b></div></a>${ozetHucre('hedef', 'fa-bullseye', 'Hedef')}${ozetHucre('kalori', 'fa-fire', 'Kalan kalori')}${ozetHucre('program', 'fa-list-check', 'Aktif program')}${ozetHucre('diyetisyen', 'fa-user-doctor', 'Diyetisyen')}</section>`;
 
 export const uyeSolMenu = (aktif) => `<nav class="uye-menu" aria-label="Hesabım menüsü">${uyeMenu.map((g) => `<div class="uye-menu-grup">${g.map(([ikon, ad, h]) => `<a href="${K}${h}"${h === aktif ? ' aria-current="page"' : ''}>${i(ikon)}<span>${ad}</span></a>`).join('')}</div>`).join('')}</nav>`;
 

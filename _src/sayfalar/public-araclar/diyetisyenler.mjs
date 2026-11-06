@@ -1,5 +1,6 @@
 // Diyetisyenler landing + iki profil: canlı Elif Şahin (yalnız public bilgi) ve panel demosu Ece Tunalı.
 import { K, sayfaJs, bant, bolum, bolumBas, dugme, ikon, uzmanKart, gorusme, genelNot, kirinti, kac, ikonKart } from '../../parcalar/public-araclar/ortak.mjs';
+import { bicim } from '../../parcalar/bicim.mjs';
 
 const ADIMLAR = [['Hedefini söyle', 'Sihirbaz hedef, uzmanlık, şehir ve bütçeni alır.', 'fa-bullseye'], ['Uzmanını seç', 'Profilleri incele, uzmanlık ve görüşme kipine bak.', 'fa-user-check'], ['Görüşmeye başla', 'Randevunu al, planın hesabına gelsin.', 'fa-calendar-check']];
 
@@ -43,7 +44,7 @@ ${pano('hakkinda', false, `${bolumBas({ etiket: 'Uzmanlık ve görüşme', ikon:
   const ece = `<div class="uyari-serit" id="onizlemeSerit" hidden><div class="kap">${ikon('fa-eye')}<p>Önizleme, ziyaretçiler bu sayfayı görmüyor. <a class="baglanti-metin" href="${K}diyetisyen-paneli/profil/">Panele dön</a></p></div></div>${profilUst(d, {
     giris: '<span id="eceKisa"></span>',
     eylem: `<a class="dugme birincil" href="#p-randevu" data-sekme-git="t-randevu">${ikon('fa-calendar-check')} Randevu al</a><div><a class="dugme hayalet" href="${K}hesabim/diyetisyenim/#mesaj">${ikon('fa-paper-plane')} Mesaj</a><button class="dugme hayalet" type="button" data-paylas aria-label="Profili paylaş">${ikon('fa-share-nodes')}</button></div>`,
-    sayaclar: [['fa-briefcase', 'Deneyim', `<span data-alan="deneyim">${d.deneyim_yil} yıl</span>`], ['fa-star', 'Danışan puanı', `${String(d.puan).replace('.', ',')} / 5 (${d.degerlendirme_sayisi} değerlendirme)`], ['fa-tag', 'Seans ücreti', `₺${d.fiyat_araligi.min}–${d.fiyat_araligi.max}`], ['fa-video', 'Görüşme kipi', `<span data-alan="gorusme">${gorusme(d)}</span>`]],
+    sayaclar: [['fa-briefcase', 'Deneyim', `<span data-alan="deneyim">${d.deneyim_yil} yıl</span>`], ['fa-star', 'Danışan puanı', `${bicim.sayi(d.puan, 1)} / 5 (${d.degerlendirme_sayisi} değerlendirme)`], ['fa-tag', 'Seans ücreti', `${bicim.para(d.fiyat_araligi.min)}–${bicim.sayi(d.fiyat_araligi.max)}`], ['fa-video', 'Görüşme kipi', `<span data-alan="gorusme">${gorusme(d)}</span>`]],
   })}
 <section class="bolum" id="profilKapali" hidden><div class="kap"><div class="kart"><div class="bos-durum kart-ici"><span class="bos-ikon">${ikon('fa-user-clock')}</span><h3>Bu profil henüz yayında değil</h3><p>Uzmanın başvurusu inceleniyor. Yayına girdiğinde hizmetleri ve randevu saatleri burada görünür.</p><a class="dugme birincil" href="${K}diyetisyenler/">Tüm diyetisyenleri gör</a></div></div></div></section>
 <div class="modul-govde" id="profilGovde">${sekmeRay([['hakkinda', 'Hakkında', 'fa-user'], ['paket', 'Hizmet Paketleri', 'fa-box-open', 'paketSayi'], ['randevu', 'Randevu', 'fa-calendar-check']])}

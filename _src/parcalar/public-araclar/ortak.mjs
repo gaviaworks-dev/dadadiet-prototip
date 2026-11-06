@@ -2,6 +2,7 @@
 import fs from 'node:fs';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
+import { bicim } from '../bicim.mjs';
 
 const KOK = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '../../..');
 export const logo = fs.readFileSync(path.join(KOK, '_src/kabuk/logo.svg'), 'utf8');
@@ -12,7 +13,7 @@ export const kac = (s = '') => String(s).replace(/&/g, '&amp;').replace(/</g, '&
 export const jsonGom = (id, v) => `<script type="application/json" id="${id}">${JSON.stringify(v).replace(/</g, '\\u003c')}</script>`;
 export const ikon = (i) => `<i class="${i.includes('fa-solid') ? i : 'fa-solid ' + i}" aria-hidden="true"></i>`;
 export const icerik = (dosya) => `${K}assets/img/icerik/${dosya}`;
-export const sayi = (n) => Number(n).toLocaleString('tr-TR');
+export const sayi = (n) => bicim.sayi(n, 3);
 
 /* Örneklenen detaylar: bütün kartlar buraya bağlanır. */
 export const DETAY = {
@@ -67,7 +68,7 @@ export const hesapKart = (h) => ikonKart({ href: DETAY.hesaplayici, ikon: h.ikon
 export const gorusme = (d) => d.online && d.yuz_yuze ? 'Online ve yüz yüze' : d.online ? 'Online' : 'Yüz yüze';
 
 /* Diyetisyen kartı: harfli avatar (canlıda fotoğraf yok), puan yoksa "Henüz değerlendirme yok". */
-export const uzmanKart = (d, href = DETAY.diyetisyen) => `<a class="kart uzman-kart dik" href="${K}${href}" data-kart data-uzmanlik="${kac(d.uzmanlik.join('|'))}" data-gorusme="${[d.online && 'online', d.yuz_yuze && 'yuz'].filter(Boolean).join(' ')}" data-sehir="${d.sehir}" data-deneyim="${d.deneyim_yil}"><span class="kisi-avatar buyuk" aria-hidden="true">${d.harf}</span><div><h3 class="kart-baslik">${kac(d.ad)}</h3><span class="kart-metin">${d.unvan}<br>${d.puan ? `${String(d.puan).replace('.', ',')} puan` : 'Henüz değerlendirme yok'}</span></div><div class="sonuc-etiketler">${d.uzmanlik.map((u) => `<span class="rozet pasif">${kac(u)}</span>`).join('')}</div><ul class="uzman-meta"><li>${ikon('fa-location-dot')} ${d.sehir}</li><li>${ikon('fa-video')} ${gorusme(d)}</li><li>${ikon('fa-briefcase')} ${d.deneyim_yil} yıl deneyim</li></ul><span class="sonuc-git">Profili gör ${ikon('fa-arrow-right')}</span></a>`;
+export const uzmanKart = (d, href = DETAY.diyetisyen) => `<a class="kart uzman-kart dik" href="${K}${href}" data-kart data-uzmanlik="${kac(d.uzmanlik.join('|'))}" data-gorusme="${[d.online && 'online', d.yuz_yuze && 'yuz'].filter(Boolean).join(' ')}" data-sehir="${d.sehir}" data-deneyim="${d.deneyim_yil}"><span class="kisi-avatar buyuk" aria-hidden="true">${d.harf}</span><div><h3 class="kart-baslik">${kac(d.ad)}</h3><span class="kart-metin">${d.unvan}<br>${d.puan ? `${bicim.sayi(d.puan, 1)} puan` : 'Henüz değerlendirme yok'}</span></div><div class="sonuc-etiketler">${d.uzmanlik.map((u) => `<span class="rozet pasif">${kac(u)}</span>`).join('')}</div><ul class="uzman-meta"><li>${ikon('fa-location-dot')} ${d.sehir}</li><li>${ikon('fa-video')} ${gorusme(d)}</li><li>${ikon('fa-briefcase')} ${d.deneyim_yil} yıl deneyim</li></ul><span class="sonuc-git">Profili gör ${ikon('fa-arrow-right')}</span></a>`;
 
 /* Yatay kart rayı: canlıdaki slider, oklar public-araclar-ray.js ile çalışır */
 export const ray = (kartlar, kolon = 'c3', etiket = 'Kartlar') => `<div class="ray-kap" data-ray><button class="ray-ok geri" type="button" aria-label="Geri kaydır" hidden>${ikon('fa-chevron-left')}</button><div class="kart-izgara ${kolon} ray-dar kart-ray" tabindex="0" role="group" aria-label="${etiket}">${kartlar}</div><button class="ray-ok ileri" type="button" aria-label="İleri kaydır">${ikon('fa-chevron-right')}</button></div>`;

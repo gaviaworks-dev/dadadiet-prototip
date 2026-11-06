@@ -1,7 +1,7 @@
 import { uyeSayfa, bolumBas, kart, dugme, modal, tablo, alan, secim } from '../../parcalar/uye/ust.mjs';
 
 const sekmeler = [
-  { id: 'profil', ad: 'Profilim', ikon: 'fa-id-card', govde: `<div class="yigin">
+  { id: 'profil', ad: 'Profilim', ikon: 'fa-id-badge', govde: `<div class="yigin">
 ${bolumBas({ etiket: 'Temel bilgiler', ikon: 'fa-id-card', baslik: 'Sağlık profilin', metin: 'Program önerileri ve hesaplayıcılar bu bilgileri kullanır. Diyetisyenin bunları ancak sen izin verirsen görür.', arac: dugme('Veri izinlerini yönet', { ikon: 'fa-user-shield', href: 'hesabim/veri-izinlerim/' }) })}
 ${kart({
     ikon: 'fa-ruler', baslik: 'Temel ölçüler', metin: '<span id="sdSon"></span>', form: ' id="sdProfilForm"',

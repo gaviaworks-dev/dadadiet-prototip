@@ -2,6 +2,7 @@
 import fs from 'node:fs';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
+import { bicim } from '../bicim.mjs';
 
 /* public-araclar/ortak.mjs ile aynı markup ve aynı sınıflar. O dosya yazılırken imzası değiştiği için içe aktarılmıyor; lead birleştirir. */
 export const K = '{{kok}}';
@@ -39,7 +40,7 @@ export const sayfa = (yol, baslik, govde, { aktif, js = [] } = {}) => ({
 });
 
 export const dizi = (...b) => `<div class="bolum-dizi">${b.join('')}</div>`;
-export const sayi = (n, b = 1) => (n === null || n === undefined ? null : Number(n).toLocaleString('tr-TR', { maximumFractionDigits: b }));
+export const sayi = (n, b = 1) => (n === null || n === undefined ? null : bicim.sayi(n, b));
 export const deger = (n, birim = 'g', b = 2) => (n === null || n === undefined ? '<span class="veri-yok">veri yok</span>' : `${sayi(n, b)} ${birim}`);
 export const araMetni = (...p) => kac(p.filter(Boolean).join(' ').toLocaleLowerCase('tr'));
 

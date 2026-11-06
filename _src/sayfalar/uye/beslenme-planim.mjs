@@ -60,7 +60,7 @@ const sonEk = modal({
 export default () => [uyeSayfa({
   yol: 'hesabim/beslenme-planim', ad: 'Beslenme Planım',
   giris: 'Bugünün öğünleri, haftalık menün ve diyetisyeninin planı.',
-  eylem: dugme('Haftalık Menüm', { sinif: 'hayalet', ikon: 'fa-wand-magic-sparkles', href: 'hesabim/haftalik-menum/' }),
+  eylem: dugme('Haftalık Menüm', { sinif: 'hayalet', ikon: 'fa-calendar-week', href: 'hesabim/haftalik-menum/' }),
   grup: 'bp',
   sekmeler: [
     { id: 'ogun', ad: 'Bugün', ikon: 'fa-utensils', govde: ogun },
