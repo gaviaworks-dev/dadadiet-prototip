@@ -1,0 +1,25 @@
+<!--{"baslik":"Mesajlar","yol":"diyetisyen-paneli/mesajlar","duzen":"panel","aktif":"mesajlar","js":["assets/js/sayfa/panel-a-ortak.js","assets/js/sayfa/panel-a-randevu.js","assets/js/sayfa/panel-a-sohbet.js","assets/js/sayfa/panel-a-mesajlar.js"]}-->
+<div class="panel-bas">
+  <div><h1>Mesajlar</h1><p id="mesajOzet"></p></div>
+  <div class="eylem-satiri"><button class="dugme birincil" type="button" data-ac="#yeniMesaj"><i class="fa-solid fa-paper-plane" aria-hidden="true"></i> Yeni mesaj</button></div>
+</div>
+<div class="sohbet-duzen" id="sohbetDuzen" data-gorunum="liste">
+  <section class="sohbet-sutun konusmalar" aria-label="Konuşmalar">
+    <div class="sohbet-sutun-ust">
+      <div class="panel-arama"><i class="fa-solid fa-magnifying-glass" aria-hidden="true"></i><label class="yalniz-okuyucu" for="konusmaAra">Konuşmalarda ara</label><input class="panel-arama-girdi" type="search" id="konusmaAra" placeholder="Konuşmalarda ara" autocomplete="off"></div>
+      <div class="segment" id="konusmaSuzgec" role="group" aria-label="Konuşma süzgeci"><button type="button" data-deger="tumu" aria-pressed="true">Tümü</button><button type="button" data-deger="okunmamis" aria-pressed="false">Okunmamış</button></div>
+    </div>
+    <div class="sohbet-liste" id="konusmaListe"></div>
+  </section>
+  <section class="sohbet-sutun alan" aria-label="Sohbet" id="sohbetAlan"></section>
+</div>
+<div class="yan-panel-ortu" id="yeniMesaj" hidden>
+  <aside class="yan-panel" role="dialog" aria-modal="true" aria-labelledby="ymBaslik">
+    <div class="yan-panel-bas"><h2 id="ymBaslik">Yeni mesaj</h2><button class="ikon-dugme" type="button" aria-label="Kapat" data-kapat><i class="fa-solid fa-xmark" aria-hidden="true"></i></button></div>
+    <form class="yan-panel-govde" id="yeniMesajForm" novalidate>
+      <div class="alan"><label class="alan-etiket" for="ymDanisan">Danışan <span class="zorunlu" aria-hidden="true">*</span></label><select class="alan-secim" id="ymDanisan" required></select></div>
+      <div class="alan"><label class="alan-etiket" for="ymMetin">Mesaj <span class="zorunlu" aria-hidden="true">*</span></label><textarea class="alan-metin" id="ymMetin" rows="6" required></textarea></div>
+    </form>
+    <div class="yan-panel-ayak"><button class="dugme hayalet" type="button" data-kapat>Vazgeç</button><button class="dugme birincil" type="submit" form="yeniMesajForm">Gönder</button></div>
+  </aside>
+</div>

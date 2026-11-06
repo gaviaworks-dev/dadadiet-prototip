@@ -1,0 +1,79 @@
+<!--{"baslik":"Kazançlarım","yol":"diyetisyen-paneli/kazanclar","duzen":"panel","aktif":"kazanclar","js":["assets/js/sayfa/panel-b-ortak.js","assets/js/sayfa/panel-b-kazanclar.js"]}-->
+<div class="panel-bas">
+  <div>
+    <h1>Kazançlarım</h1>
+    <p>Seans ve paket gelirlerin. Brüt tutardan platform komisyonu düşülür, net tutar hakediş döneminde hesabına aktarılır.</p>
+  </div>
+  <div class="eylem-satiri">
+    <a class="dugme hayalet" href="{{kok}}diyetisyen-paneli/hizmet-paketleri/"><i class="fa-solid fa-box-open" aria-hidden="true"></i> Hizmet paketlerim</a>
+  </div>
+</div>
+<div class="yigin">
+  <div class="kart-izgara c4" id="kazancKpi"></div>
+  <div class="iki-kolon">
+    <div class="kart panel">
+      <div class="kart-bas">
+        <div><h2 class="kart-baslik">Son 12 ay</h2><p id="grafikNot"></p></div>
+        <div class="segment" id="grafikSeri" role="group" aria-label="Grafik serisi">
+          <button type="button" aria-pressed="true" data-deger="net">Net</button>
+          <button type="button" aria-pressed="false" data-deger="gelir">Brüt</button>
+          <button type="button" aria-pressed="false" data-deger="seans">Seans</button>
+        </div>
+      </div>
+      <div class="kart-govde"><div class="grafik-kap" id="kazancGrafik"></div></div>
+    </div>
+    <div class="kart panel">
+      <div class="kart-bas"><h2 class="kart-baslik">Bekleyen ödeme</h2></div>
+      <div class="kart-govde" id="bekleyenGovde"></div>
+    </div>
+  </div>
+  <div class="kart panel" id="liste">
+    <div class="suzgec-cubuk">
+      <div class="panel-arama">
+        <i class="fa-solid fa-magnifying-glass" aria-hidden="true"></i>
+        <label class="yalniz-okuyucu" for="islemAra">İşlem ara</label>
+        <input class="panel-arama-girdi" type="search" id="islemAra" placeholder="Danışan ya da paket ara" autocomplete="off">
+      </div>
+      <div class="sag">
+        <div class="segment" id="islemSuzgec" role="group" aria-label="Ödeme durumu">
+          <button type="button" aria-pressed="true" data-deger="hepsi">Tümü</button>
+          <button type="button" aria-pressed="false" data-deger="beklemede">Beklemede</button>
+          <button type="button" aria-pressed="false" data-deger="odendi">Ödendi</button>
+        </div>
+        <span class="suzgec-sayac"><b id="islemSayac">0</b> işlem</span>
+        <button class="dugme hayalet kucuk" type="button" data-kazanc="csv"><i class="fa-solid fa-file-arrow-down" aria-hidden="true"></i> Dışa aktar</button>
+      </div>
+    </div>
+    <div class="kart-govde bosluksuz" id="islemTablo"><div class="tablo-kap gomulu">
+      <table class="tablo panel dar-yigin" data-kolon-disiplin="1">
+        <caption class="yalniz-okuyucu">İşlemler</caption>
+        <thead><tr>
+          <th class="sirali" scope="col"><button type="button">Tarih</button></th>
+          <th class="sirali" scope="col"><button type="button">Danışan</button></th>
+          <th scope="col">Açıklama</th>
+          <th class="num" scope="col">Tutar</th>
+          <th class="num" scope="col">Komisyon</th>
+          <th class="num" scope="col">Net</th>
+          <th class="sirali" scope="col"><button type="button">Durum</button></th>
+        </tr></thead>
+        <tbody id="islemSatirlar"></tbody>
+      </table>
+    </div></div>
+    <div class="bos-durum kart-ici" id="islemBos" hidden>
+      <span class="bos-ikon"><i class="fa-solid fa-receipt" aria-hidden="true"></i></span>
+      <h3>İşlem bulunamadı</h3>
+      <p>Aramayı ya da durum süzgecini değiştir.</p>
+    </div>
+  </div>
+</div>
+
+<div class="modal-ortu" id="talepModal" hidden>
+  <div class="modal-kutu" role="dialog" aria-modal="true" aria-labelledby="talepBaslik">
+    <div class="modal-bas"><h2 id="talepBaslik">Ödeme talebi</h2><button class="kapat-dugme" type="button" data-kapat aria-label="Kapat"><i class="fa-solid fa-xmark" aria-hidden="true"></i></button></div>
+    <div class="modal-govde"><div class="yigin sik" id="talepGovde"></div></div>
+    <div class="sheet-ayak">
+      <button class="dugme hayalet" type="button" data-kapat>Vazgeç</button>
+      <button class="dugme birincil" type="button" data-kazanc="talep">Talebi gönder</button>
+    </div>
+  </div>
+</div>

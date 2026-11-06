@@ -1,0 +1,144 @@
+<!--{"baslik":"Profilim","yol":"diyetisyen-paneli/profil","duzen":"panel","aktif":"profil","js":["assets/js/sayfa/panel-b-ortak.js","assets/js/sayfa/panel-b-profil.js"]}-->
+<div class="panel-bas">
+  <div>
+    <h1 id="profilAd">Profilim</h1>
+    <p>Danışanların profil sayfanda gördüğü bilgiler. Metinler kaydedince yayına girer; unvan, adres ve yayın durumu yönetimden değişir.</p>
+  </div>
+  <div class="eylem-satiri"><a class="dugme hayalet" id="profilGor" href="{{kok}}diyetisyen-bul-sihirbazi/" target="_blank" rel="noopener"><i class="fa-solid fa-arrow-up-right-from-square" aria-hidden="true"></i> Profilimi görüntüle</a></div>
+</div>
+<nav class="sekmeler" aria-label="Profil ve ayarlar">
+  <a class="sekme aktif" aria-current="page" href="{{kok}}diyetisyen-paneli/profil/"><i class="fa-solid fa-id-badge" aria-hidden="true"></i> Public profil</a>
+  <a class="sekme" href="{{kok}}diyetisyen-paneli/hizmet-paketleri/"><i class="fa-solid fa-box-open" aria-hidden="true"></i> Hizmet ve ücret</a>
+  <a class="sekme" href="{{kok}}diyetisyen-paneli/musaitlik/"><i class="fa-solid fa-calendar-days" aria-hidden="true"></i> Müsaitlik takvimi</a>
+  <a class="sekme" href="{{kok}}diyetisyen-paneli/hesap-ayarlari/"><i class="fa-solid fa-sliders" aria-hidden="true"></i> Hesap ayarları</a>
+</nav>
+<form class="form-duzen" id="profilForm" novalidate>
+  <div class="kart panel">
+    <div class="kart-govde">
+      <div class="sekmeler" role="tablist" aria-label="Profil bölümleri">
+        <button class="sekme aktif" type="button" role="tab" id="t-genel" aria-controls="p-genel" aria-selected="true">Genel</button>
+        <button class="sekme" type="button" role="tab" id="t-uzmanlik" aria-controls="p-uzmanlik" aria-selected="false">Uzmanlık</button>
+        <button class="sekme" type="button" role="tab" id="t-hizmet" aria-controls="p-hizmet" aria-selected="false">Hizmet ve fiyat</button>
+        <button class="sekme" type="button" role="tab" id="t-belgeler" aria-controls="p-belgeler" aria-selected="false">Belgeler</button>
+      </div>
+    </div>
+
+    <section id="p-genel" role="tabpanel" aria-labelledby="t-genel">
+      <div class="form-bolum">
+        <h3 class="form-bolum-bas"><i class="fa-solid fa-image-portrait" aria-hidden="true"></i> Görseller</h3>
+        <div class="alan">
+          <span class="alan-etiket">Profil fotoğrafı</span>
+          <div class="gorsel-satir">
+            <span class="gorsel-kare" id="fotoOnizleme"></span>
+            <div class="eylem-satiri">
+              <label class="dugme hayalet kucuk" for="fotoDosya">Değiştir</label>
+              <input class="dosya-girdi" id="fotoDosya" type="file" accept="image/jpeg,image/png,image/webp" data-gorsel="#fotoOnizleme">
+              <button class="dugme hayalet kucuk" type="button" data-profil="foto-kaldir">Kaldır</button>
+            </div>
+          </div>
+          <p class="alan-yardim"><i class="fa-solid fa-circle-info" aria-hidden="true"></i><span>Kare, en az 400×400. Dizin kartında ve profil başlığında görünür.</span></p>
+        </div>
+        <div class="alan">
+          <span class="alan-etiket">Kapak görseli</span>
+          <label class="gorsel-bant" for="kapakDosya" id="kapakOnizleme"><i class="fa-solid fa-cloud-arrow-up" aria-hidden="true"></i>&nbsp;Görsel seçmek için tıkla</label>
+          <input class="dosya-girdi" id="kapakDosya" type="file" accept="image/jpeg,image/png,image/webp" data-gorsel="#kapakOnizleme">
+          <p class="alan-yardim"><i class="fa-solid fa-circle-info" aria-hidden="true"></i><span>JPG, PNG ya da WebP, en çok 5 MB. Seçilmezse hazır kapak görünür.</span></p>
+        </div>
+      </div>
+      <div class="form-bolum">
+        <h3 class="form-bolum-bas"><i class="fa-solid fa-id-card" aria-hidden="true"></i> Kimlik bilgileri</h3>
+        <div class="alan-izgara c2">
+          <div class="alan"><label class="alan-etiket" for="fAd">Ad soyad</label><input class="alan-girdi" id="fAd" type="text" readonly><p class="alan-yardim"><i class="fa-solid fa-circle-info" aria-hidden="true"></i><span>Ad hesabından gelir; Hesap ayarlarından değişir.</span></p></div>
+          <div class="alan"><label class="alan-etiket" for="fUnvan">Unvan</label><input class="alan-girdi" id="fUnvan" type="text" readonly><p class="alan-yardim"><i class="fa-solid fa-circle-info" aria-hidden="true"></i><span>Unvan belgeyle doğrulanır; değişikliği yönetim onaylar.</span></p></div>
+        </div>
+        <div class="alan-izgara c3">
+          <div class="alan"><label class="alan-etiket" for="fSehir">Şehir</label><select class="alan-secim" id="fSehir"></select></div>
+          <div class="alan"><label class="alan-etiket" for="fIlce">İlçe</label><input class="alan-girdi" id="fIlce" type="text" maxlength="40"></div>
+          <div class="alan"><label class="alan-etiket" for="fDeneyim">Deneyim <span class="istege-bagli">yıl</span></label><input class="alan-girdi" id="fDeneyim" type="number" min="0" max="60"></div>
+        </div>
+        <div class="alan-izgara c2">
+          <div class="alan"><label class="alan-etiket" for="fKullanici">Kullanıcı adı</label><input class="alan-girdi" id="fKullanici" type="text" readonly><p class="alan-yardim"><i class="fa-solid fa-circle-info" aria-hidden="true"></i><span>Profil adresinde görünür.</span></p></div>
+          <div class="alan"><label class="alan-etiket" for="fCinsiyet">Cinsiyet <span class="istege-bagli">listenin süzgecinde</span></label><select class="alan-secim" id="fCinsiyet"><option>Kadın</option><option>Erkek</option><option>Belirtmek istemiyorum</option></select></div>
+        </div>
+        <div class="alan"><label class="alan-etiket" for="fBaslik">Profil başlığı</label><input class="alan-girdi" id="fBaslik" type="text" maxlength="80"></div>
+        <div class="alan">
+          <label class="alan-etiket" for="fKisa">Kısa tanıtım <span class="istege-bagli">(isteğe bağlı)</span></label>
+          <textarea class="alan-metin" id="fKisa" maxlength="280"></textarea>
+          <p class="sayac-not" id="fKisaSayac">0 / 280</p>
+        </div>
+        <div class="alan"><label class="alan-etiket" for="fMetin">Profil metni <span class="istege-bagli">(isteğe bağlı)</span></label><textarea class="alan-metin" id="fMetin" rows="6"></textarea><p class="alan-yardim"><i class="fa-solid fa-circle-info" aria-hidden="true"></i><span>Kendi anlatımın: kimlerle, nasıl çalışırsın. Paragrafları boş satırla ayır.</span></p></div>
+      </div>
+    </section>
+
+    <section id="p-uzmanlik" role="tabpanel" aria-labelledby="t-uzmanlik" hidden>
+      <div class="form-bolum">
+        <h3 class="form-bolum-bas"><i class="fa-solid fa-star" aria-hidden="true"></i> Uzmanlık alanları</h3>
+        <div class="alan">
+          <span class="alan-etiket">Çalıştığın alanlar <span class="istege-bagli" id="uzmanlikSayac"></span></span>
+          <div class="cipler" id="uzmanlikCip"></div>
+          <p class="alan-yardim"><i class="fa-solid fa-circle-info" aria-hidden="true"></i><span>En çok 6 alan. İlk seçilen kartta ve profil başlığında öne çıkar.</span></p>
+        </div>
+      </div>
+      <div class="form-bolum">
+        <h3 class="form-bolum-bas"><i class="fa-solid fa-language" aria-hidden="true"></i> Diller ve çalışma biçimi</h3>
+        <div class="alan"><span class="alan-etiket">Diller</span><div class="cipler" id="dilCip"></div></div>
+        <div class="ayar-liste">
+          <div class="ayar-satir"><span class="as-ikon"><i class="fa-solid fa-video" aria-hidden="true"></i></span><span class="as-metin"><b>Online</b><span>Görüntülü görüşme</span></span><span class="as-eylem"><label class="anahtar"><input type="checkbox" id="fOnline" aria-label="Online"><span class="anahtar-ray"></span></label></span></div>
+          <div class="ayar-satir"><span class="as-ikon"><i class="fa-solid fa-location-dot" aria-hidden="true"></i></span><span class="as-metin"><b>Yüz yüze</b><span>Klinikte görüşme</span></span><span class="as-eylem"><label class="anahtar"><input type="checkbox" id="fYuz" aria-label="Yüz yüze"><span class="anahtar-ray"></span></label></span></div>
+        </div>
+      </div>
+    </section>
+
+    <section id="p-hizmet" role="tabpanel" aria-labelledby="t-hizmet" hidden>
+      <div class="form-bolum">
+        <h3 class="form-bolum-bas"><i class="fa-solid fa-box-open" aria-hidden="true"></i> Hizmet paketleri <span class="rozet pasif" id="hizmetSayi"></span></h3>
+        <div class="tablo-kap gomulu">
+          <table class="tablo panel" data-kolon-disiplin="1">
+            <caption class="yalniz-okuyucu">Hizmet paketleri</caption>
+            <thead><tr><th scope="col">Paket</th><th scope="col">Süre</th><th class="num" scope="col">Fiyat</th><th scope="col">Durum</th></tr></thead>
+            <tbody id="hizmetSatirlar"></tbody>
+          </table>
+        </div>
+        <p class="alan-yardim"><i class="fa-solid fa-circle-info" aria-hidden="true"></i><span>Pasif paket profilde gizlenir, mevcut randevular etkilenmez.</span></p>
+        <div class="eylem-satiri"><a class="dugme hayalet kucuk" href="{{kok}}diyetisyen-paneli/hizmet-paketleri/"><i class="fa-solid fa-pen" aria-hidden="true"></i> Paketleri yönet</a></div>
+      </div>
+    </section>
+
+    <section id="p-belgeler" role="tabpanel" aria-labelledby="t-belgeler" hidden>
+      <div class="form-bolum">
+        <h3 class="form-bolum-bas"><i class="fa-solid fa-graduation-cap" aria-hidden="true"></i> Eğitim</h3>
+        <div class="yigin sik" id="egitimListe"></div>
+        <button class="dugme hayalet kucuk" type="button" data-profil="egitim-ekle"><i class="fa-solid fa-plus" aria-hidden="true"></i> Eğitim ekle</button>
+      </div>
+      <div class="form-bolum">
+        <h3 class="form-bolum-bas"><i class="fa-solid fa-certificate" aria-hidden="true"></i> Sertifikalar ve üyelik</h3>
+        <div class="alan"><label class="alan-etiket" for="fSertifika">Sertifikalar <span class="istege-bagli">her satıra bir kayıt</span></label><textarea class="alan-metin" id="fSertifika"></textarea></div>
+        <div class="alan"><label class="alan-etiket" for="fDernek">Dernek üyeliği</label><input class="alan-girdi" id="fDernek" type="text" maxlength="80"></div>
+      </div>
+      <div class="form-bolum">
+        <h3 class="form-bolum-bas"><i class="fa-solid fa-file-shield" aria-hidden="true"></i> Belgeler <span class="rozet pasif" id="belgeSayi"></span></h3>
+        <div class="ayar-liste" id="belgeListe"></div>
+        <label class="birak-alani" for="belgeDosya"><span class="bos-ikon"><i class="fa-solid fa-cloud-arrow-up" aria-hidden="true"></i></span><b>Yeni belge yüklemek için tıkla</b><small>PDF, JPG ya da PNG. Belgeleri yalnız yönetim açar.</small></label>
+        <input class="dosya-girdi" id="belgeDosya" type="file" accept="application/pdf,image/jpeg,image/png">
+      </div>
+    </section>
+  </div>
+
+  <aside class="form-yan">
+    <div class="kart panel">
+      <div class="kart-bas"><h2 class="kart-baslik">Yayın</h2></div>
+      <div class="kart-govde">
+        <div class="alan"><span class="alan-etiket">Durum</span><p><span class="durum-hapi ikonlu cozulen"><i class="fa-solid fa-circle-check" aria-hidden="true"></i> Yayında</span></p><p class="alan-yardim"><i class="fa-solid fa-circle-info" aria-hidden="true"></i><span>Yayın kararı yönetimindir.</span></p></div>
+        <div class="alan"><span class="alan-etiket">Yeni randevu kabul ediyor</span><label class="anahtar"><input type="checkbox" id="fKabul" aria-label="Yeni randevu kabul ediyor"><span class="anahtar-ray"></span></label></div>
+        <div class="alan"><span class="alan-etiket">Diploma doğrulaması</span><p><span class="durum-hapi cozulen">Doğrulandı</span></p><p class="alan-yardim"><i class="fa-solid fa-circle-info" aria-hidden="true"></i><span>Başvuru kararıyla yazılır; güncelleme için destek talebi aç.</span></p></div>
+      </div>
+    </div>
+  </aside>
+</form>
+<div class="kart-alt form-eylem">
+  <span class="not" id="profilNot">Kaydedilmiş profil</span>
+  <div class="eylem-satiri">
+    <button class="dugme hayalet" type="button" data-profil="geri">Değişiklikleri geri al</button>
+    <button class="dugme birincil" type="button" data-profil="kaydet">Profili kaydet</button>
+  </div>
+</div>

@@ -1,0 +1,80 @@
+<!--{"baslik":"Müsaitlik","yol":"diyetisyen-paneli/musaitlik","duzen":"panel","aktif":"musaitlik","js":["assets/js/sayfa/panel-b-ortak.js","assets/js/sayfa/panel-b-musaitlik.js"]}-->
+<div class="panel-bas">
+  <div>
+    <h1>Müsaitlik</h1>
+    <p>Haftalık görüşme saatlerin. Danışanların randevuyu bu saatlerden üretilen açık seanslardan alır; alınmış randevular saat değişince yerinde kalır.</p>
+  </div>
+</div>
+<nav class="sekmeler" aria-label="Profil ve ayarlar">
+  <a class="sekme" href="{{kok}}diyetisyen-paneli/profil/"><i class="fa-solid fa-id-badge" aria-hidden="true"></i> Public profil</a>
+  <a class="sekme" href="{{kok}}diyetisyen-paneli/hizmet-paketleri/"><i class="fa-solid fa-box-open" aria-hidden="true"></i> Hizmet ve ücret</a>
+  <a class="sekme aktif" aria-current="page" href="{{kok}}diyetisyen-paneli/musaitlik/"><i class="fa-solid fa-calendar-days" aria-hidden="true"></i> Müsaitlik takvimi</a>
+  <a class="sekme" href="{{kok}}diyetisyen-paneli/hesap-ayarlari/"><i class="fa-solid fa-sliders" aria-hidden="true"></i> Hesap ayarları</a>
+</nav>
+<form class="form-duzen" id="musaitForm" novalidate>
+  <div class="yigin">
+    <div class="kart panel">
+      <div class="kart-bas">
+        <div><h2 class="kart-baslik">Haftalık çalışma saatleri</h2><p>Hücreye tıkla ya da sürükle: kapalı, online, yüz yüze. Gün başlığı o günü kapatır.</p></div>
+      </div>
+      <div class="kart-govde">
+        <div class="takvim-cubuk">
+          <div class="takvim-lejant">
+            <span class="durum-hapi cozulen">Online</span>
+            <span class="durum-hapi acik">Yüz yüze</span>
+            <span class="durum-hapi kapali">Kapalı</span>
+          </div>
+          <div class="eylem-satiri">
+            <button class="dugme hayalet kucuk" type="button" data-musait="hafta-ici">Hafta içi 09–17</button>
+            <button class="dugme hayalet kucuk" type="button" data-musait="pzt-uygula">Pazartesiyi hafta içine uygula</button>
+            <button class="dugme hayalet kucuk" type="button" data-musait="temizle">Temizle</button>
+          </div>
+        </div>
+        <div class="takvim-kap"><div class="takvim-izgara sik" id="musaitIzgara"></div></div>
+        <p class="alan-yardim"><i class="fa-solid fa-clock" aria-hidden="true"></i><span>Haftada <b id="haftaSaat">0</b> saat randevuya açıksın.</span></p>
+      </div>
+    </div>
+    <div class="kart panel">
+      <div class="kart-bas"><div><h2 class="kart-baslik">Kapalı tarihler</h2><p>İzin, eğitim ya da tatil günleri. Bu tarihlerde seans üretilmez.</p></div></div>
+      <div class="kart-govde">
+        <div class="alan-izgara c2">
+          <div class="alan"><label class="alan-etiket" for="izinTarih">Tarih</label><input class="alan-girdi" id="izinTarih" type="date"></div>
+          <div class="alan"><label class="alan-etiket" for="izinNeden">Neden <span class="istege-bagli">yalnız sen görürsün</span></label><input class="alan-girdi" id="izinNeden" type="text" maxlength="60" placeholder="Örn. Yıllık izin"></div>
+        </div>
+        <button class="dugme hayalet kucuk" type="button" data-musait="izin-ekle"><i class="fa-solid fa-plus" aria-hidden="true"></i> Kapalı tarih ekle</button>
+        <div class="ayar-liste" id="izinListe"></div>
+      </div>
+    </div>
+  </div>
+  <aside class="form-yan">
+    <div class="kart panel">
+      <div class="kart-bas"><h2 class="kart-baslik">Seans kuralları</h2></div>
+      <div class="kart-govde">
+        <div class="alan"><label class="alan-etiket" for="slotOnline">Online slot süresi</label><select class="alan-secim" id="slotOnline"><option value="30">30 dk</option><option value="45">45 dk</option><option value="60">60 dk</option></select></div>
+        <div class="alan"><label class="alan-etiket" for="slotYuz">Yüz yüze slot süresi</label><select class="alan-secim" id="slotYuz"><option value="30">30 dk</option><option value="45">45 dk</option><option value="60">60 dk</option></select></div>
+        <div class="alan"><label class="alan-etiket" for="tampon">Seanslar arası tampon</label><select class="alan-secim" id="tampon"><option value="0">Yok</option><option value="15">15 dk</option><option value="30">30 dk</option></select><p class="alan-yardim"><i class="fa-solid fa-circle-info" aria-hidden="true"></i><span>Ardışık randevular arasında not yazma ve hazırlık için boşluk bırakır.</span></p></div>
+        <div class="alan"><label class="alan-etiket" for="onayKural">Randevu onayı</label><select class="alan-secim" id="onayKural"><option value="otomatik">Otomatik onay</option><option value="elle">Ben onaylayayım</option></select></div>
+      </div>
+    </div>
+    <div class="kart panel">
+      <div class="kart-bas"><h2 class="kart-baslik">Görüşme biçimi</h2></div>
+      <div class="kart-govde">
+        <div class="ayar-liste">
+          <div class="ayar-satir"><span class="as-ikon"><i class="fa-solid fa-video" aria-hidden="true"></i></span><span class="as-metin"><b>Online</b><span>Görüntülü görüşme alırım</span></span><span class="as-eylem"><label class="anahtar"><input type="checkbox" id="kabulOnline" aria-label="Online görüşme"><span class="anahtar-ray"></span></label></span></div>
+          <div class="ayar-satir"><span class="as-ikon"><i class="fa-solid fa-location-dot" aria-hidden="true"></i></span><span class="as-metin"><b>Yüz yüze</b><span>Klinikte görüşme alırım</span></span><span class="as-eylem"><label class="anahtar"><input type="checkbox" id="kabulYuz" aria-label="Yüz yüze görüşme"><span class="anahtar-ray"></span></label></span></div>
+        </div>
+      </div>
+    </div>
+    <div class="kart panel">
+      <div class="kart-bas"><h2 class="kart-baslik">Açık saatler</h2></div>
+      <div class="kart-govde"><p class="alan-yardim"><i class="fa-solid fa-calendar-check" aria-hidden="true"></i><span><b id="acikSeans">0</b> açık seans önümüzdeki 7 günde. Seanslar 28 gün ileriye üretilir.</span></p></div>
+    </div>
+  </aside>
+</form>
+<div class="kart-alt form-eylem">
+  <span class="not" id="musaitNot">Kaydedilmiş düzen</span>
+  <div class="eylem-satiri">
+    <button class="dugme hayalet" type="button" data-musait="geri">Değişiklikleri geri al</button>
+    <button class="dugme birincil" type="button" data-musait="kaydet">Saatleri kaydet</button>
+  </div>
+</div>

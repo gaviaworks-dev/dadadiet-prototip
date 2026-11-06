@@ -1,0 +1,48 @@
+<!--{"baslik":"Takvim & Randevular","yol":"diyetisyen-paneli/takvim","duzen":"panel","aktif":"takvim","js":["assets/js/sayfa/panel-a-ortak.js","assets/js/sayfa/panel-a-randevu.js","assets/js/sayfa/panel-a-takvim.js"]}-->
+<div class="panel-bas">
+  <div><h1>Takvim &amp; Randevular</h1><p id="takvimOzet"></p></div>
+  <div class="eylem-satiri">
+    <a class="dugme hayalet" href="{{kok}}diyetisyen-paneli/musaitlik/"><i class="fa-solid fa-clock" aria-hidden="true"></i> Çalışma saatleri</a>
+    <button class="dugme birincil" type="button" data-randevu-ac><i class="fa-solid fa-plus" aria-hidden="true"></i> Randevu oluştur</button>
+  </div>
+</div>
+<div class="uyari-kutu uyari" id="sonucUyari" hidden></div>
+<div class="kart panel" id="kuyrukKart" hidden>
+  <div class="kart-bas"><div><h2 class="kart-baslik"><i class="fa-solid fa-inbox" aria-hidden="true"></i> Onay ve talepler</h2><p id="kuyrukSayi"></p></div><button class="dugme hayalet kucuk" type="button" id="kuyrukTum" hidden></button></div>
+  <div class="kart-govde"><div class="ayar-liste sarar" id="kuyrukListe"></div></div>
+</div>
+<div>
+  <div class="takvim-cubuk">
+    <div class="takvim-gezgin">
+      <div class="segment" id="takvimGorunum" role="group" aria-label="Takvim görünümü">
+        <button type="button" data-deger="hafta" aria-pressed="true">Hafta</button>
+        <button type="button" data-deger="gun" aria-pressed="false">Gün</button>
+      </div>
+      <button class="ikon-dugme" type="button" id="takvimOnceki" aria-label="Önceki"><i class="fa-solid fa-chevron-left" aria-hidden="true"></i></button>
+      <b id="takvimBaslik" aria-live="polite"></b>
+      <button class="ikon-dugme" type="button" id="takvimSonraki" aria-label="Sonraki"><i class="fa-solid fa-chevron-right" aria-hidden="true"></i></button>
+      <button class="dugme hayalet kucuk" type="button" id="takvimBugun">Bugün</button>
+    </div>
+  </div>
+  <div class="takvim-kap"><div class="takvim-izgara" id="takvimIzgara"></div></div>
+  <div class="takvim-lejant" aria-label="Durum lejantı">
+    <span class="lejant-kalem dolu">Dolu</span>
+    <span class="lejant-kalem sonuc-bekliyor">Sonuç bekliyor</span>
+    <span class="lejant-kalem onay-bekliyor">Onay bekliyor</span>
+    <span class="lejant-kalem talepli">Talep var</span>
+    <span class="lejant-kalem tamamlandi">Tamamlandı</span>
+    <span class="lejant-kalem gelmedi">Gelmedi</span>
+    <span class="lejant-kalem bos">Boş</span>
+    <span class="lejant-kalem kapali">Kapalı</span>
+  </div>
+</div>
+<div class="kart panel">
+  <div class="kart-bas"><div><h2 class="kart-baslik" id="listeBaslik">Bu haftanın randevuları</h2><p>Ertelenen ve iptal edilen randevular listede kalır; takvimde saat boşalır.</p></div></div>
+  <div class="kart-govde bosluksuz"><div class="tablo-kap gomulu">
+    <table class="tablo panel sabit-sutun etiketli-yigin">
+      <caption class="yalniz-okuyucu">Seçili dönemin randevuları</caption>
+      <thead><tr><th scope="col" data-oran="22">Tarih</th><th scope="col" data-oran="28">Danışan</th><th scope="col" data-oran="24">Görüşme</th><th scope="col" data-oran="14">Durum</th><th class="eylem" scope="col">İşlem</th></tr></thead>
+      <tbody id="randevuTablo"></tbody>
+    </table>
+  </div></div>
+</div>

@@ -1,0 +1,22 @@
+<!--{"baslik":"Bildirimler","yol":"diyetisyen-paneli/bildirimler","duzen":"panel","aktif":"genel-bakis","js":["assets/js/sayfa/panel-a-ortak.js","assets/js/sayfa/panel-a-bildirimler.js"]}-->
+<div class="panel-bas">
+  <div><h1>Bildirimler</h1><p>Yeni danışan talepleri, randevular, mesajlar ve izin yanıtları.</p></div>
+  <div class="eylem-satiri">
+    <a class="dugme hayalet" href="{{kok}}diyetisyen-paneli/hesap-ayarlari/"><i class="fa-solid fa-sliders" aria-hidden="true"></i> Bildirim tercihleri</a>
+    <button class="dugme birincil" type="button" id="tumunuOku"><i class="fa-solid fa-check-double" aria-hidden="true"></i> Tümünü okundu işaretle</button>
+  </div>
+</div>
+<div class="sekmeler" role="tablist" aria-label="Bildirim durumu" id="bildirimSekme">
+  <button class="sekme aktif" type="button" role="tab" id="b-tumu" data-sekme="tumu" aria-controls="bListe" aria-selected="true">Tümü <span class="sekme-sayi" data-sayi="tumu"></span></button>
+  <button class="sekme" type="button" role="tab" id="b-okunmamis" data-sekme="okunmamis" aria-controls="bListe" aria-selected="false">Okunmamış <span class="sekme-sayi" data-sayi="okunmamis"></span></button>
+  <button class="sekme" type="button" role="tab" id="b-okundu" data-sekme="okundu" aria-controls="bListe" aria-selected="false">Okundu <span class="sekme-sayi" data-sayi="okundu"></span></button>
+</div>
+<div class="kart panel" id="bListe" role="tabpanel" aria-labelledby="b-tumu">
+  <div class="kart-govde"><div class="ayar-liste" id="bildirimListe"></div>
+    <div class="bos-durum kart-ici" id="bildirimBos" hidden>
+      <span class="bos-ikon"><i class="fa-solid fa-bell-slash" aria-hidden="true"></i></span>
+      <h3>Burada bildirim yok</h3>
+      <p>Yeni bir gelişme olduğunda bu listede görünür.</p>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,51 @@
+<!--{"baslik":"Beslenme Planları","yol":"diyetisyen-paneli/planlar","duzen":"panel","aktif":"planlar","js":["assets/js/sayfa/panel-b-ortak.js","assets/js/sayfa/panel-b-planlar.js"]}-->
+<div class="panel-bas">
+  <div>
+    <h1>Beslenme Planları</h1>
+    <p>Danışanlarına kurduğun haftalık planlar. Taslağı kur, danışanına gönder; danışan planı Beslenme Planım ekranında görür ve PDF olarak indirir.</p>
+  </div>
+  <div class="eylem-satiri">
+    <a class="dugme birincil" href="{{kok}}diyetisyen-paneli/planlar/olustur/"><i class="fa-solid fa-plus" aria-hidden="true"></i> Yeni plan</a>
+  </div>
+</div>
+
+<div class="sekmeler" role="tablist" aria-label="Plan durumları" id="planSekmeler">
+  <button class="sekme" type="button" role="tab" id="t-tumu" aria-controls="planPano" aria-selected="false" data-sekme="tumu"><i class="fa-solid fa-clipboard-list" aria-hidden="true"></i> Tümü <span class="sekme-sayi" data-say="tumu"></span></button>
+  <button class="sekme aktif" type="button" role="tab" id="t-aktif" aria-controls="planPano" aria-selected="true" data-sekme="aktif"><i class="fa-solid fa-circle-check" aria-hidden="true"></i> Aktif <span class="sekme-sayi" data-say="aktif"></span></button>
+  <button class="sekme" type="button" role="tab" id="t-taslak" aria-controls="planPano" aria-selected="false" data-sekme="taslak"><i class="fa-solid fa-pen-ruler" aria-hidden="true"></i> Taslak <span class="sekme-sayi" data-say="taslak"></span></button>
+  <button class="sekme" type="button" role="tab" id="t-arsiv" aria-controls="planPano" aria-selected="false" data-sekme="arsiv"><i class="fa-solid fa-box-archive" aria-hidden="true"></i> Arşiv <span class="sekme-sayi" data-say="arsiv"></span></button>
+  <button class="sekme" type="button" role="tab" id="t-sablon" aria-controls="planPano" aria-selected="false" data-sekme="sablon"><i class="fa-solid fa-layer-group" aria-hidden="true"></i> Şablonlar <span class="sekme-sayi" data-say="sablon"></span></button>
+</div>
+
+<section id="planPano" role="tabpanel" aria-label="Plan listesi">
+  <div class="kart panel" id="liste">
+    <div class="suzgec-cubuk">
+      <div class="panel-arama">
+        <i class="fa-solid fa-magnifying-glass" aria-hidden="true"></i>
+        <label class="yalniz-okuyucu" for="planAra">Plan ya da danışan ara</label>
+        <input class="panel-arama-girdi" type="search" id="planAra" placeholder="Plan ya da danışan adı ara" autocomplete="off">
+      </div>
+      <div class="sag"><span class="suzgec-sayac"><b id="planSayac">0</b> kayıt</span></div>
+    </div>
+    <div class="kart-govde bosluksuz" id="tabloGovde"><div class="tablo-kap gomulu">
+      <table class="tablo panel dar-yigin" data-kolon-disiplin="1">
+        <caption class="yalniz-okuyucu">Beslenme planları</caption>
+        <thead><tr>
+          <th class="sirali" scope="col"><button type="button">Plan</button></th>
+          <th class="sirali" scope="col"><button type="button">Danışan</button></th>
+          <th class="sirali" scope="col"><button type="button">Son güncelleme</button></th>
+          <th class="sirali" scope="col"><button type="button">Durum</button></th>
+          <th class="eylem" scope="col">İşlem</th>
+        </tr></thead>
+        <tbody id="planSatirlar"></tbody>
+      </table>
+    </div></div>
+    <div class="kart-govde" id="sablonGovde" hidden><div class="secenek-izgara-kart" id="sablonKartlar"></div></div>
+    <div class="bos-durum kart-ici" id="planBos" hidden>
+      <span class="bos-ikon"><i class="fa-solid fa-clipboard-list" aria-hidden="true"></i></span>
+      <h3 id="planBosBaslik">Bu sekmede plan yok</h3>
+      <p id="planBosMetin">Aramayı değiştir ya da yeni plan oluştur.</p>
+      <a class="dugme hayalet" href="{{kok}}diyetisyen-paneli/planlar/olustur/"><i class="fa-solid fa-plus" aria-hidden="true"></i> Plan oluştur</a>
+    </div>
+  </div>
+</section>

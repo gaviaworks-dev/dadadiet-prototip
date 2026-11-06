@@ -1,0 +1,55 @@
+<!--{"baslik":"Hizmet Paketlerim","yol":"diyetisyen-paneli/hizmet-paketleri","duzen":"panel","aktif":"paketler","js":["assets/js/sayfa/panel-b-ortak.js","assets/js/sayfa/panel-b-paketler.js"]}-->
+<div class="panel-bas">
+  <div>
+    <h1>Hizmet Paketlerim</h1>
+    <p>Danışanlarına sattığın paketler. Yeni paket ve yayındaki paketin fiyat değişikliği yönetim onayından sonra geçerli olur; onaya kadar üye bugünkü fiyatı görür.</p>
+  </div>
+  <div class="eylem-satiri"><a class="dugme birincil" href="{{kok}}diyetisyen-paneli/hizmet-paketleri/yeni/"><i class="fa-solid fa-plus" aria-hidden="true"></i> Yeni paket</a></div>
+</div>
+<nav class="sekmeler" aria-label="Profil ve ayarlar">
+  <a class="sekme" href="{{kok}}diyetisyen-paneli/profil/"><i class="fa-solid fa-id-badge" aria-hidden="true"></i> Public profil</a>
+  <a class="sekme aktif" aria-current="page" href="{{kok}}diyetisyen-paneli/hizmet-paketleri/"><i class="fa-solid fa-box-open" aria-hidden="true"></i> Hizmet ve ücret</a>
+  <a class="sekme" href="{{kok}}diyetisyen-paneli/musaitlik/"><i class="fa-solid fa-calendar-days" aria-hidden="true"></i> Müsaitlik takvimi</a>
+  <a class="sekme" href="{{kok}}diyetisyen-paneli/hesap-ayarlari/"><i class="fa-solid fa-sliders" aria-hidden="true"></i> Hesap ayarları</a>
+</nav>
+<div class="yigin">
+  <div class="kart-izgara c4" id="paketKpi"></div>
+  <div class="kart panel" id="liste">
+    <div class="suzgec-cubuk">
+      <div class="panel-arama">
+        <i class="fa-solid fa-magnifying-glass" aria-hidden="true"></i>
+        <label class="yalniz-okuyucu" for="paketAra">Paket ara</label>
+        <input class="panel-arama-girdi" type="search" id="paketAra" placeholder="Paket ara" autocomplete="off">
+      </div>
+      <div class="sag">
+        <div class="segment" id="paketSuzgec" role="group" aria-label="Durum">
+          <button type="button" aria-pressed="true" data-deger="hepsi">Tümü</button>
+          <button type="button" aria-pressed="false" data-deger="yayinda">Yayında</button>
+          <button type="button" aria-pressed="false" data-deger="onay">Onayda</button>
+          <button type="button" aria-pressed="false" data-deger="kapali">Kapalı</button>
+        </div>
+        <span class="suzgec-sayac"><b id="paketSayac">0</b> paket</span>
+      </div>
+    </div>
+    <div class="kart-govde bosluksuz" id="paketTablo"><div class="tablo-kap gomulu">
+      <table class="tablo panel dar-yigin" data-kolon-disiplin="1">
+        <caption class="yalniz-okuyucu">Hizmet paketleri</caption>
+        <thead><tr>
+          <th class="sirali" scope="col"><button type="button">Paket</button></th>
+          <th scope="col">Süre</th>
+          <th class="num sirali" scope="col"><button type="button">Fiyat</button></th>
+          <th class="num sirali" scope="col"><button type="button">Satış</button></th>
+          <th class="sirali" scope="col"><button type="button">Durum</button></th>
+          <th class="eylem" scope="col">İşlem</th>
+        </tr></thead>
+        <tbody id="paketSatirlar"></tbody>
+      </table>
+    </div></div>
+    <div class="bos-durum kart-ici" id="paketBos" hidden>
+      <span class="bos-ikon"><i class="fa-solid fa-box-open" aria-hidden="true"></i></span>
+      <h3>Paket bulunamadı</h3>
+      <p>Süzgeci değiştir ya da yeni paket oluştur.</p>
+      <a class="dugme hayalet" href="{{kok}}diyetisyen-paneli/hizmet-paketleri/yeni/"><i class="fa-solid fa-plus" aria-hidden="true"></i> Yeni paket</a>
+    </div>
+  </div>
+</div>

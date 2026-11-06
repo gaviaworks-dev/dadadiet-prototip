@@ -1,0 +1,67 @@
+<!--{"baslik":"Hizmet paketi","yol":"diyetisyen-paneli/hizmet-paketleri/yeni","duzen":"panel","aktif":"paketler","js":["assets/js/sayfa/panel-b-ortak.js","assets/js/sayfa/panel-b-paket-form.js"]}-->
+<a class="geri-bag" href="{{kok}}diyetisyen-paneli/hizmet-paketleri/"><i class="fa-solid fa-arrow-left" aria-hidden="true"></i> Hizmet Paketlerim</a>
+<div class="panel-bas">
+  <div>
+    <h1 id="paketBaslik">Yeni hizmet paketi</h1>
+    <p>Danışanına sattığın paketin adı, kapsamı ve fiyatı. Yeni paket ve yayındaki paketin fiyat değişikliği yönetim onayından sonra geçerli olur.</p>
+  </div>
+</div>
+<form class="form-duzen" id="paketForm" novalidate>
+  <div class="kart panel">
+    <div class="form-bolum">
+      <h3 class="form-bolum-bas"><i class="fa-solid fa-tag" aria-hidden="true"></i> Künye</h3>
+      <div class="alan">
+        <label class="alan-etiket" for="pAd">Paket adı <span class="zorunlu" aria-hidden="true">*</span></label>
+        <input class="alan-girdi" id="pAd" type="text" maxlength="60" required placeholder="Örn. Online Başlangıç">
+      </div>
+      <div class="alan">
+        <label class="alan-etiket" for="pAciklama">Paketin içeriği <span class="istege-bagli">(isteğe bağlı)</span></label>
+        <textarea class="alan-metin" id="pAciklama" maxlength="240" placeholder="Görüşme sayısı, plan güncellemesi, mesaj desteği gibi kapsamı yaz."></textarea>
+      </div>
+    </div>
+    <div class="form-bolum">
+      <h3 class="form-bolum-bas"><i class="fa-solid fa-layer-group" aria-hidden="true"></i> Kapsam</h3>
+      <div class="alan-izgara c3">
+        <div class="alan">
+          <label class="alan-etiket" for="pSeans">Seans sayısı <span class="zorunlu" aria-hidden="true">*</span></label>
+          <input class="alan-girdi" id="pSeans" type="number" min="1" max="52" required>
+          <p class="alan-yardim"><i class="fa-solid fa-circle-info" aria-hidden="true"></i><span>Satın alan danışana tanınan görüşme hakkı.</span></p>
+        </div>
+        <div class="alan">
+          <label class="alan-etiket" for="pSure">Görüşme süresi (dk) <span class="zorunlu" aria-hidden="true">*</span></label>
+          <select class="alan-secim" id="pSure" required><option value="30">30 dk</option><option value="45">45 dk</option><option value="60">60 dk</option></select>
+        </div>
+        <div class="alan">
+          <label class="alan-etiket" for="pTur">Görüşme biçimi</label>
+          <select class="alan-secim" id="pTur"><option value="online">Online</option><option value="yüz yüze">Yüz yüze</option><option value="karma">Online ve yüz yüze</option></select>
+        </div>
+      </div>
+    </div>
+    <div class="form-bolum">
+      <h3 class="form-bolum-bas"><i class="fa-solid fa-turkish-lira-sign" aria-hidden="true"></i> Fiyat</h3>
+      <div class="alan">
+        <label class="alan-etiket" for="pFiyat">Paket fiyatı (₺) <span class="zorunlu" aria-hidden="true">*</span></label>
+        <input class="alan-girdi" id="pFiyat" type="number" min="1" step="50" required>
+        <p class="alan-yardim"><i class="fa-solid fa-circle-info" aria-hidden="true"></i><span id="pFiyatNot">Paketin tamamının fiyatı.</span></p>
+      </div>
+    </div>
+  </div>
+  <aside class="form-yan">
+    <div class="kart panel">
+      <div class="kart-bas"><h2 class="kart-baslik">Durum</h2></div>
+      <div class="kart-govde"><div class="deger-liste" id="pDurum"></div></div>
+    </div>
+    <div class="kart panel">
+      <div class="kart-bas"><h2 class="kart-baslik">Profilde görünüm</h2></div>
+      <div class="kart-govde"><div class="secenek-kart" id="pOnizleme"></div></div>
+    </div>
+  </aside>
+</form>
+<div class="kart-alt form-eylem">
+  <span class="not" id="pNot">Kaydedince yönetim onayına gider</span>
+  <div class="eylem-satiri">
+    <a class="dugme hayalet dar-gizli" href="{{kok}}diyetisyen-paneli/hizmet-paketleri/">İptal</a>
+    <button class="dugme hayalet" type="button" data-paket="kaldir" id="pKaldir" hidden>Yayından kaldır</button>
+    <button class="dugme birincil" type="button" data-paket="kaydet" id="pKaydet">Paketi onaya gönder</button>
+  </div>
+</div>

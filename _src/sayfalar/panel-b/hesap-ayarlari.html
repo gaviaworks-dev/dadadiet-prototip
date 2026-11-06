@@ -1,0 +1,60 @@
+<!--{"baslik":"Hesap ayarları","yol":"diyetisyen-paneli/hesap-ayarlari","duzen":"panel","aktif":"profil","js":["assets/js/sayfa/panel-b-ortak.js","assets/js/sayfa/panel-b-hesap.js"]}-->
+<div class="panel-bas">
+  <div>
+    <h1>Hesap ayarları</h1>
+    <p>Bildirim, hatırlatma, panel dili ve güvenlik tercihlerin. Profil bilgilerin Public profil sekmesinde.</p>
+  </div>
+</div>
+<nav class="sekmeler" aria-label="Profil ve ayarlar">
+  <a class="sekme" href="{{kok}}diyetisyen-paneli/profil/"><i class="fa-solid fa-id-badge" aria-hidden="true"></i> Public profil</a>
+  <a class="sekme" href="{{kok}}diyetisyen-paneli/hizmet-paketleri/"><i class="fa-solid fa-box-open" aria-hidden="true"></i> Hizmet ve ücret</a>
+  <a class="sekme" href="{{kok}}diyetisyen-paneli/musaitlik/"><i class="fa-solid fa-calendar-days" aria-hidden="true"></i> Müsaitlik takvimi</a>
+  <a class="sekme aktif" aria-current="page" href="{{kok}}diyetisyen-paneli/hesap-ayarlari/"><i class="fa-solid fa-sliders" aria-hidden="true"></i> Hesap ayarları</a>
+</nav>
+<form class="form-duzen" id="ayarForm" novalidate>
+  <div class="yigin">
+    <div class="kart panel">
+      <div class="kart-bas"><h2 class="kart-baslik">Bildirim tercihleri</h2></div>
+      <div class="kart-govde bosluksuz"><div class="tablo-kap gomulu">
+        <table class="tablo panel" data-kolon-disiplin="1">
+          <caption class="yalniz-okuyucu">Bildirim kanalları</caption>
+          <thead><tr><th scope="col">Bildirim</th><th scope="col">E-posta</th><th scope="col">Push</th></tr></thead>
+          <tbody id="bildirimSatirlar"></tbody>
+        </table>
+      </div></div>
+    </div>
+    <div class="kart panel">
+      <div class="kart-bas"><h2 class="kart-baslik">Randevu hatırlatmaları</h2></div>
+      <div class="kart-govde"><div class="ayar-liste" id="hatirlatmaListe"></div></div>
+    </div>
+    <div class="kart panel">
+      <div class="kart-bas"><h2 class="kart-baslik">Panel dili</h2></div>
+      <div class="kart-govde">
+        <div class="alan"><label class="alan-etiket" for="panelDil">Panelin dili</label><select class="alan-secim" id="panelDil"><option>Türkçe</option><option>English</option><option>Deutsch</option><option>Русский</option><option>Español</option></select><p class="alan-yardim"><i class="fa-solid fa-circle-info" aria-hidden="true"></i><span>Yalnız diyetisyen panelinin dili; e-postaların ve public sitenin dili değişmez.</span></p></div>
+      </div>
+    </div>
+  </div>
+  <aside class="form-yan">
+    <div class="kart panel">
+      <div class="kart-bas"><h2 class="kart-baslik">Hesap</h2></div>
+      <div class="kart-govde"><div class="deger-liste" id="hesapOzet"></div></div>
+    </div>
+    <div class="kart panel">
+      <div class="kart-bas"><h2 class="kart-baslik">Şifre değiştir</h2></div>
+      <div class="kart-govde" id="sifreAlan">
+        <div class="alan"><label class="alan-etiket" for="sEski">Mevcut şifren <span class="zorunlu" aria-hidden="true">*</span></label><input class="alan-girdi" id="sEski" type="password" autocomplete="current-password"></div>
+        <div class="alan"><label class="alan-etiket" for="sYeni">Yeni şifre <span class="zorunlu" aria-hidden="true">*</span></label><input class="alan-girdi" id="sYeni" type="password" autocomplete="new-password"><p class="alan-yardim"><i class="fa-solid fa-circle-info" aria-hidden="true"></i><span>En az 8 karakter; başka sitede kullandığın şifreyi kullanma.</span></p></div>
+        <div class="alan"><label class="alan-etiket" for="sTekrar">Yeni şifre (tekrar) <span class="zorunlu" aria-hidden="true">*</span></label><input class="alan-girdi" id="sTekrar" type="password" autocomplete="new-password"></div>
+        <button class="dugme hayalet tam-en" type="button" data-ayar="sifre"><i class="fa-solid fa-key" aria-hidden="true"></i> Şifreyi güncelle</button>
+      </div>
+    </div>
+    <div class="kart panel">
+      <div class="kart-bas"><h2 class="kart-baslik">Oturum ve güvenlik</h2></div>
+      <div class="kart-govde"><div class="ayar-liste" id="guvenlikListe"></div></div>
+    </div>
+  </aside>
+</form>
+<div class="kart-alt form-eylem">
+  <span class="not" id="ayarNot">Kaydedilmiş ayarlar</span>
+  <div class="eylem-satiri"><button class="dugme birincil" type="button" data-ayar="kaydet">Ayarları kaydet</button></div>
+</div>
