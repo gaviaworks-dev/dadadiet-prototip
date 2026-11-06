@@ -1,5 +1,5 @@
 // Anasayfa: canlı bölüm sırası, yeni bilgi mimarisine göre araç ve modül kartları, gerçek sayaçlar.
-import { K, sayfaJs, bolum, bolumBas, dugme, ikon, ikonKart, hesapKart, testKart, programKart, gorselKart, icerik, kac, DETAY, genelNot, ray, adimYol } from '../../parcalar/public-araclar/ortak.mjs';
+import { K, JS, bolum, bolumBas, dugme, ikon, ikonKart, hesapKart, testKart, programKart, gorselKart, icerik, kac, DETAY, genelNot, ray, adimYol } from '../../parcalar/public-araclar/ortak.mjs';
 import { bicim } from '../../parcalar/bicim.mjs';
 
 const SEHIRLER = [['İstanbul', 88, 'istanbul'], ['Muğla', 34, 'mugla'], ['Antalya', 25, 'antalya'], ['İzmir', 22, 'izmir'], ['Nevşehir', 16, 'nevsehir'], ['Ankara', 8, 'ankara']];
@@ -48,5 +48,5 @@ ${bolum(`${bolumBas({ etiket: 'Dışarıda ne yesem', ikon: 'fa-location-dot', b
 <section class="bolum foto-bolum kendi-zemini" data-bant-gorsel="${K}assets/img/hero/css-nasil-calisir-1.jpg"><div class="kap">${bolumBas({ etiket: 'Nasıl çalışır', ikon: 'fa-route', baslik: 'Dört adımda Dada Diet', metin: 'Kendini tanımakla başla, uzman desteğiyle sürdür. Her adım kendi aracına bağlıdır.' })}<div class="okuma-kolon"><div class="kart tasma-kapali" id="adimPanel">${adimYol(ADIMLAR, 'nasilYol')}<div class="kart-alt ortali-alt"><button class="dugme hayalet" id="sonrakiAdim" type="button">Sonraki adım ${ikon('fa-arrow-right')}</button></div></div><div class="eylem-satiri yayik foto-eylem">${dugme('Sağlık Araçları', 'hesaplayicilar/', 'cizgili', 'fa-toolbox')}${dugme('Bana Uygun Olanı Bul', 'bana-uygun-olani-bul/', 'birincil', 'fa-arrow-right', true)}</div></div></div></section>
 ${bolum(`${bolumBas({ etiket: 'Bilimsel bilgilendirme', ikon: 'fa-flask', baslik: 'Bu içerikler nereye dayanıyor?' })}${genelNot}<div class="bolum-eylem">${dugme('Bilimsel Kaynaklar', 'sayfa/bilimsel-kaynaklar/', 'hayalet', 'fa-arrow-right', true)}</div>`)}
 </div>`;
-  return [{ yol: '', meta: { baslik: 'Sağlığını mutfakta yönet', duzen: 'public', hero: true, js: sayfaJs('ray') }, govde }];
+  return [{ yol: '', meta: { baslik: 'Sağlığını mutfakta yönet', duzen: 'public', hero: true, js: [JS, 'assets/js/tercih-uyum.js', 'assets/js/sayfa/public-araclar-ray.js'] }, govde }];
 };

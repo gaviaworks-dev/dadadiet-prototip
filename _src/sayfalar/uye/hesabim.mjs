@@ -22,5 +22,5 @@ ${kart({ ikon: 'fa-compass', baslik: 'Kısayollar', bosluksuz: true, govde: `<di
 export default () => [uyeKabuk({
   yol: 'hesabim', aktif: 'hesabim/', baslik: 'Genel Bakış', aciklama: '<span id="gbSelam"></span>',
   eylem: dugme('Günlük takibe git', { sinif: 'hayalet', ikon: 'fa-utensils', href: 'hesabim/gunluk-takibim/' }),
-  govde, js: ['assets/js/sayfa/uye-genel.js'],
+  govde, js: ['assets/js/tercih-uyum.js', 'assets/js/sayfa/uye-genel.js'],
 })];

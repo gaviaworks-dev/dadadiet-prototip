@@ -10,6 +10,7 @@ ${kart({
 <div class="alan"><span class="alan-etiket">Kısıtların</span><div class="alan-izgara c2">${kisit.map(([d, a]) => `<label class="onay-kutusu" for="hmKisit-${d}"><input type="checkbox" id="hmKisit-${d}" name="kisit" value="${d}"><span>${a}</span></label>`).join('')}</div><p class="alan-yardim"><span>Seçtiğin kısıtlara giren tarifler menüne girmez. Sağlık Dosyam’daki hassasiyetlerin işaretli gelir.</span></p></div>`,
     alt: dugme('Menümü üret', { sinif: 'birincil', ikon: 'fa-wand-magic-sparkles', tur: 'submit' }),
   })}
+<div class="uyum-yer" id="hmTercih"></div>
 <div id="hmSonuc"></div>
 ${bilgi('fa-user-doctor', 'Bu menü yapay zekâ yardımıyla hazırlanmış örnek bir düzendir; kişiye özel plan yalnızca yetkili bir diyetisyen tarafından hazırlanır.')}
 </div>`;
@@ -18,5 +19,5 @@ export default () => [uyeSayfa({
   yol: 'hesabim/haftalik-menum', ad: 'Haftalık Menüm', aktif: 'hesabim/beslenme-planim/', ust: [['Beslenme Planım', 'hesabim/beslenme-planim/']],
   eylem: dugme('Beslenme Planım', { sinif: 'hayalet', href: 'hesabim/beslenme-planim/#hafta' }),
   giris: 'Bütçene ve kısıtlarına göre bir haftalık menü üret; her kalem tarif verisine bağlıdır.',
-  govde, js: ['assets/js/sayfa/uye-haftalik-menum.js'],
+  govde, js: ['assets/js/tercih-uyum.js', 'assets/js/sayfa/uye-haftalik-menum.js'],
 })];

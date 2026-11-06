@@ -2,7 +2,8 @@
 (function () {
   'use strict';
   const DD = window.DD, U = window.DDU;
-  const b = U.bugun();
+  const b = U.bugun(), TU = DD.tercihUyum;
+  TU.uyeBagla(U);
 
   function kaynaklar() {
     const p = U.plan(), l = p ? [{ anahtar: p.id, tip: 'plan', ad: p.ad, plan: p }] : [];
@@ -24,11 +25,18 @@
     return '<div class="gun-serit-liste" role="list" aria-label="Gün gün ilerleme">' + s + '</div>';
   }
 
+  /* Program öğünleri tercihe uyarlanır; plan değişmez, aykırı kalem varsa kartta yazar */
+  function tercihNot(k) {
+    if (k.tip === 'plan') return TU.planUyariHtml(U, k.plan);
+    const m = TU.bilgiMetni(TU.ogunOzeti(U.gunOgunleri(k, b)));
+    return m ? '<p class="alan-yardim"><i class="fa-solid fa-sliders" aria-hidden="true"></i> <span>' + m + '</span></p>' : '';
+  }
+
   function kart(k) {
     const d = durum(k), bas = U.kaynakBas(k), son = U.gunEkle(bas, sure(k) - 1), u = U.uyum(k);
     const gun = Math.max(0, Math.min(sure(k), U.gunFarki(bas, b) + 1));
     const hap = d === 'duraklatildi' ? U.durum('bekleyen', 'Duraklatıldı', 'fa-pause') : gun ? U.durum('cozulen', gun + '. gün / ' + sure(k), 'fa-play') : U.durum('bekleyen', 'Başlamadı');
-    return '<div class="kart panel tam-kolon"><div class="kart-bas"><div><h3 class="kart-baslik"><i class="fa-solid ' + (k.tip === 'plan' ? 'fa-user-doctor' : 'fa-list-check') + '" aria-hidden="true"></i> ' + U.kac(k.ad) + '</h3><p>' + (k.tip === 'plan' ? 'Diyetisyen planı' : sure(k) + ' günlük program') + ' · ' + U.kisaTarih(bas) + ' – ' + U.kisaTarih(son) + '</p></div><div class="as-eylem">' + hap + '</div></div><div class="kart-govde"><p class="alan-yardim"><span>Uyum <b>%' + u.oran + '</b> · ' + u.tamam + ' / ' + u.toplam + ' öğün tamamlandı</span></p><div class="olcer hap" role="img" aria-label="Uyum: yüzde ' + u.oran + '"><span data-oran="' + u.oran + '"></span></div>' + gunler(k) + '</div><div class="kart-alt eylem"><a class="dugme hayalet" href="' + DD.kok + 'hesabim/gunluk-takibim/" data-kaynak="' + k.anahtar + '">Günlük takip</a><a class="dugme birincil" href="' + DD.kok + 'hesabim/beslenme-planim/#ogun" data-kaynak="' + k.anahtar + '"><i class="fa-solid fa-utensils" aria-hidden="true"></i> Bugünün öğünleri</a></div></div>';
+    return '<div class="kart panel tam-kolon"><div class="kart-bas"><div><h3 class="kart-baslik"><i class="fa-solid ' + (k.tip === 'plan' ? 'fa-user-doctor' : 'fa-list-check') + '" aria-hidden="true"></i> ' + U.kac(k.ad) + '</h3><p>' + (k.tip === 'plan' ? 'Diyetisyen planı' : sure(k) + ' günlük program') + ' · ' + U.kisaTarih(bas) + ' – ' + U.kisaTarih(son) + '</p></div><div class="as-eylem">' + hap + '</div></div><div class="kart-govde"><p class="alan-yardim"><span>Uyum <b>%' + u.oran + '</b> · ' + u.tamam + ' / ' + u.toplam + ' öğün tamamlandı</span></p><div class="olcer hap" role="img" aria-label="Uyum: yüzde ' + u.oran + '"><span data-oran="' + u.oran + '"></span></div>' + gunler(k) + tercihNot(k) + '</div><div class="kart-alt eylem"><a class="dugme hayalet" href="' + DD.kok + 'hesabim/gunluk-takibim/" data-kaynak="' + k.anahtar + '">Günlük takip</a><a class="dugme birincil" href="' + DD.kok + 'hesabim/beslenme-planim/#ogun" data-kaynak="' + k.anahtar + '"><i class="fa-solid fa-utensils" aria-hidden="true"></i> Bugünün öğünleri</a></div></div>';
   }
   function bittiKart(k) {
     const u = U.uyum(k);

@@ -17,6 +17,7 @@ ${bilgi('fa-user-doctor', 'Bu plan sana özel hazırlandı; gebelik, kronik hast
 
 const hafta = `<div class="yigin">
 <div id="bpHaftaBas"></div>
+<div class="uyum-yer" data-bp-tercih></div>
 ${kart({
     ikon: 'fa-calendar-week', baslik: '7 günlük öğün dökümü', metin: 'Bugünün satırı işaretli. Porsiyonlar plan kalemlerinin ölçüsüyle verilir.', bosluksuz: true,
     govde: '<div class="tablo-kap gomulu" tabindex="0" role="region" aria-label="Haftalık menü"><table class="tablo panel"><caption class="yalniz-okuyucu">Haftanın günlük öğünleri</caption><thead id="bpHaftaBaslik"></thead><tbody id="bpHafta"></tbody></table></div>',
@@ -26,6 +27,7 @@ ${kart({
 
 const ogun = `<div class="yigin">
 <div id="bpOgunBas"></div>
+<div class="uyum-yer" data-bp-tercih></div>
 ${kart({
     ikon: 'fa-utensils', baslik: 'Öğün listesi', metin: '<span id="bpOgunOzet"></span>', bosluksuz: true,
     sag: '<div class="as-eylem"><span class="durum-hapi bekleyen" id="bpOgunSayac"></span></div>',
@@ -69,5 +71,5 @@ export default () => [uyeSayfa({
     { id: 'alternatif', ad: 'Alternatifler', ikon: 'fa-right-left', govde: alternatif },
     { id: 'gecmis', ad: 'Geçmiş', ikon: 'fa-clock-rotate-left', govde: gecmis },
   ],
-  sonEk, js: ['assets/js/sayfa/uye-beslenme-planim.js'],
+  sonEk, js: ['assets/js/tercih-uyum.js', 'assets/js/sayfa/uye-beslenme-planim.js'],
 })];

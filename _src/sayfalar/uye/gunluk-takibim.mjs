@@ -3,6 +3,7 @@ import { uyeSayfa, bolumBas, kart, dugme, modal, tablo, alan, secim } from '../.
 const sekmeler = [
   { id: 'ogun', ad: 'Bugün', ikon: 'fa-utensils', govde: `<div class="yigin">
 <div id="gtBas"></div>
+<div class="uyum-yer" id="gtTercih"></div>
 ${kart({ ikon: 'fa-clipboard-list', baslik: 'Günün kaydı', metin: '<span id="gtOzet"></span>', sag: '<div class="as-eylem"><span class="durum-hapi cozulen" id="gtKcal"></span></div>', bosluksuz: true, govde: '<div class="kalem-liste" id="gtOgunler"></div>', alt: `<span class="eylem-notu" id="gtPaylasNot"></span>${dugme('Günü diyetisyenimle paylaş', { ikon: 'fa-share-nodes', ek: ' id="gtPaylas"' })}` })}
 </div>` },
   { id: 'su', ad: 'Su', ikon: 'fa-droplet', govde: `<div class="yigin">
@@ -48,5 +49,5 @@ const sonEk = modal({
 export default () => [uyeSayfa({
   yol: 'hesabim/gunluk-takibim', ad: 'Günlük Takibim',
   giris: 'Öğün, su ve adım kayıtların tek yerde; plana uyduysan tek dokunuş yeter.',
-  grup: 'gt', sekmeler, sonEk, js: ['assets/js/sayfa/uye-gunluk-takibim.js'],
+  grup: 'gt', sekmeler, sonEk, js: ['assets/js/tercih-uyum.js', 'assets/js/sayfa/uye-gunluk-takibim.js'],
 })];

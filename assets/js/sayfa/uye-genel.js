@@ -2,6 +2,7 @@
 (function () {
   'use strict';
   const DD = window.DD, U = window.DDU;
+  DD.tercihUyum.uyeBagla(U);
   const $ = (s) => document.querySelector(s);
   const u = U.uye(), b = U.bugun(), dy = U.diyetisyen();
   const bag = (metin, yol, sinif) => '<a class="dugme ' + sinif + '" href="' + DD.kok + yol + '">' + metin + '</a>';

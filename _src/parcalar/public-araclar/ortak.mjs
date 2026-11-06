@@ -61,14 +61,30 @@ export const testKart = (t) => gorselKart({
   veri: ` data-kart data-grup="${t.grup === 'Sağlık & Beslenme' ? 'saglik' : 'eglence'}"`,
 });
 
+const testGrup = (t) => (t.grup === 'Sağlık & Beslenme' ? 'saglik' : 'eglence');
+const medyaKart = (t, { ust = '', alt, veri = '' }) => `<a class="medya-kart" href="${K}${DETAY.test}"${veri}><div class="medya-kart-gorsel"><img src="${icerik(t.gorsel_dosya)}" alt="" loading="lazy">${ust}</div><div class="medya-kart-govde"><h3 class="medya-kart-baslik">${kac(t.ad)}</h3><p class="medya-kart-metin">${kac(t.aciklama)}</p><div class="medya-kart-alt">${alt}</div></div></a>`;
+const testGit = `<span class="medya-kart-git">Başla ${ikon('fa-arrow-right')}</span>`;
+
+/* Canlı test listesi kartı: görselde rozet yok, soru sayısı alt satırda. */
+export const testListeKart = (t) => medyaKart(t, { alt: `<span>${ikon('fa-clipboard-question')} ${t.soru_sayisi} soru</span>${testGit}`, veri: ` data-kart data-grup="${testGrup(t)}"` });
+
+/* Canlı "Diğer Testler" kartı: grup ve soru sayısı görselin üstünde. */
+export const testOneriKart = (t) => medyaKart(t, { ust: `<span class="medya-kart-kategori">${kac(t.grup)}</span><span class="medya-kart-etiket">${ikon('fa-circle-question')} ${t.soru_sayisi} soru</span>`, alt: testGit });
+
 export const ikonKart = ({ href, ikon: i, baslik, metin, rozet = '' }) => `<a class="kart ikon-kart" href="${K}${href}"><span class="ikon-kutu">${ikon(i)}</span><span class="ikon-kart-metin"><span class="kart-baslik">${baslik}${rozet}</span><span class="kart-metin">${metin}</span></span>${ikon('fa-arrow-right ikon-kart-ok')}</a>`;
 
 export const hesapKart = (h) => ikonKart({ href: DETAY.hesaplayici, ikon: h.ikon, baslik: kac(h.ad), metin: kac(h.ozet) });
 
 export const gorusme = (d) => d.online && d.yuz_yuze ? 'Online ve yüz yüze' : d.online ? 'Online' : 'Yüz yüze';
 
-/* Diyetisyen kartı: harfli avatar (canlıda fotoğraf yok), puan yoksa "Henüz değerlendirme yok". */
-export const uzmanKart = (d, href = DETAY.diyetisyen) => `<a class="kart uzman-kart dik" href="${K}${href}" data-kart data-uzmanlik="${kac(d.uzmanlik.join('|'))}" data-gorusme="${[d.online && 'online', d.yuz_yuze && 'yuz'].filter(Boolean).join(' ')}" data-sehir="${d.sehir}" data-deneyim="${d.deneyim_yil}"><span class="kisi-avatar buyuk" aria-hidden="true">${d.harf}</span><div><h3 class="kart-baslik">${kac(d.ad)}</h3><span class="kart-metin">${d.unvan}<br>${d.puan ? `${bicim.sayi(d.puan, 1)} puan` : 'Henüz değerlendirme yok'}</span></div><div class="sonuc-etiketler">${d.uzmanlik.map((u) => `<span class="rozet pasif">${kac(u)}</span>`).join('')}</div><ul class="uzman-meta"><li>${ikon('fa-location-dot')} ${d.sehir}</li><li>${ikon('fa-video')} ${gorusme(d)}</li><li>${ikon('fa-briefcase')} ${d.deneyim_yil} yıl deneyim</li></ul><span class="sonuc-git">Profili gör ${ikon('fa-arrow-right')}</span></a>`;
+/* Diyetisyen kartı: canlı iskelet. Ton sırası komşu kartları ayırır; 10 yıl ve üzeri deneyim öne çıkar (veriden gelir). */
+const KART_TONLARI = ['koyu', 'acik', 'marka', 'orta'];
+const UZMANLIK_IKON = { 'Kilo Yönetimi': 'fa-weight-scale', 'Sporcu Beslenmesi': 'fa-dumbbell', 'Gebelik & Emzirme': 'fa-person-pregnant', 'Geriatri Beslenmesi': 'fa-person-cane', 'Hormonal Denge & PCOS': 'fa-venus', 'Bağırsak Sağlığı': 'fa-seedling' };
+const kartGorusme = (d) => (d.online && d.yuz_yuze ? 'Online &amp; Yüz yüze' : d.online ? 'Online' : 'Yüz yüze');
+export const uzmanKart = (d, sira = 0, href = DETAY.diyetisyen) => {
+  const oneCikan = d.deneyim_yil >= 10;
+  return `<a class="vitrin-kart${oneCikan ? ' one-cikan' : ''}" data-ton="${KART_TONLARI[sira % KART_TONLARI.length]}" href="${K}${href}" data-kart data-uzmanlik="${kac(d.uzmanlik.join('|'))}" data-gorusme="${[d.online && 'online', d.yuz_yuze && 'yuz'].filter(Boolean).join(' ')}" data-sehir="${d.sehir}" data-dogrulama="" data-deneyim="${d.deneyim_yil}" data-puan="${d.puan ?? ''}" data-degerlendirme="${d.degerlendirme_sayisi}" data-fiyat="${d.fiyat_araligi?.min ?? ''}">${oneCikan ? `<span class="vitrin-kart-kurdele">${ikon('fa-award')} 10+ yıl deneyim</span>` : ''}<span class="vitrin-kart-serit" aria-hidden="true">${ikon(UZMANLIK_IKON[d.uzmanlik[0]] ?? 'fa-leaf')}</span><div class="vitrin-kart-ust"><div class="vitrin-kart-avatar"><span aria-hidden="true">${d.harf}</span></div><div class="vitrin-kart-kimlik"><h3>${kac(d.ad)}</h3><p class="vitrin-kart-unvan">${d.unvan}</p><div class="vitrin-kart-puan">${d.puan ? `${ikon('fa-star')} ${bicim.sayi(d.puan, 1)}` : 'Henüz değerlendirme yok'}</div></div></div><div class="vitrin-kart-etiketler">${d.uzmanlik.map((u) => `<span class="vitrin-kart-etiket">${kac(u)}</span>`).join('')}</div><div class="vitrin-kart-meta"><span>${ikon('fa-location-dot')} ${d.sehir}</span><span>${ikon('fa-video')} ${kartGorusme(d)}</span></div><div class="vitrin-kart-alt"><span class="vitrin-kart-git">Profili Gör ${ikon('fa-arrow-right')}</span></div></a>`;
+};
 
 /* Yatay kart rayı: canlıdaki slider, oklar public-araclar-ray.js ile çalışır */
 export const ray = (kartlar, kolon = 'c3', etiket = 'Kartlar') => `<div class="ray-kap" data-ray><button class="ray-ok geri" type="button" aria-label="Geri kaydır" hidden>${ikon('fa-chevron-left')}</button><div class="kart-izgara ${kolon} ray-dar kart-ray" tabindex="0" role="group" aria-label="${etiket}">${kartlar}</div><button class="ray-ok ileri" type="button" aria-label="İleri kaydır">${ikon('fa-chevron-right')}</button></div>`;

@@ -34,9 +34,9 @@ export const DETAY = {
   diyetisyenBul: 'diyetisyen-bul-sihirbazi/',
 };
 
-export const sayfa = (yol, baslik, govde, { aktif, js = [] } = {}) => ({
+export const sayfa = (yol, baslik, govde, { aktif, js = [], onJs = [] } = {}) => ({
   yol, govde,
-  meta: { baslik, duzen: 'public', hero: true, ...(aktif ? { aktif } : {}), js: ['assets/js/sayfa/public-beslenme-ortak.js', ...js.map((a) => `assets/js/sayfa/public-beslenme-${a}.js`)] },
+  meta: { baslik, duzen: 'public', hero: true, ...(aktif ? { aktif } : {}), js: ['assets/js/sayfa/public-beslenme-ortak.js', ...onJs, ...js.map((a) => `assets/js/sayfa/public-beslenme-${a}.js`)] },
 });
 
 export const dizi = (...b) => `<div class="bolum-dizi">${b.join('')}</div>`;
@@ -56,16 +56,22 @@ export const cipler = (alan, etiket, kalemler, { aktif = '', sinif = 'dar-kayar'
   return c.href ? `<a class="${sn}" href="${K}${c.href}" ${ek}>${ic}</a>` : `<button class="${sn}" type="button" ${ek}>${ic}</button>`;
 }).join('')}</div>`;
 
-export const aramaKutusu = (id, etiket, yerTutucu) => `<div class="alan liste-arama"><label class="alan-etiket" for="${id}">${etiket}</label><input class="alan-girdi" id="${id}" type="search" placeholder="${yerTutucu}" autocomplete="off" data-liste-ara></div>`;
+export const aramaKutusu = (id, etiket, yerTutucu) => `<div class="alan liste-arama"><label class="yalniz-okuyucu" for="${id}">${etiket}</label><span class="liste-arama-ic">${ikon('fa-magnifying-glass')}<input class="alan-girdi" id="${id}" type="search" placeholder="${yerTutucu}" autocomplete="off" data-liste-ara></span></div>`;
 
-/* Süzgeçli liste kabı: davranış public-beslenme-liste.js. */
-export const liste = ({ toplam, birim, ust, kartlar, sinif = 'c3', bosMetin, boyut = 12, altNot = '' }) => `<div class="yigin" data-liste data-toplam="${toplam}" data-birim="${birim}" data-boyut="${boyut}">
-<div class="liste-ust yigin sik">${ust}</div>
-<p class="sonuc-not-kisa" data-liste-sayac role="status"></p>
-<div class="kart-izgara ${sinif}" data-liste-kap>${kartlar}</div>
+/* Canlı kart ailesi: solda maskeli görsel ve ikon rozeti, sağda başlık, özet, etiket ve okunma. */
+export const yatayKart = ({ href, gorsel, ikon: i, baslik, metin: m, etiket, meta, metaIkon = 'fa-eye', veri = '' }) => `<a class="yatay-kart" href="${K}${href}"${veri}><div class="yatay-kart-gorsel"><img src="${gorsel}" alt="" loading="lazy"></div><span class="yatay-kart-ikon">${ikon(i)}</span><div class="yatay-kart-govde"><h3 class="kart-baslik">${baslik}</h3><p>${m}</p><div class="yatay-kart-alt"><span class="yatay-kart-etiket">${etiket}</span><span class="yatay-kart-meta">${ikon(metaIkon)} ${meta}</span></div></div></a>`;
+
+/* Süzgeçli liste kabı: davranış public-beslenme-liste.js. ustNot: ızgaranın üstündeki özet satırı, sarmal: liste, boş durum ve sayfalamayı saran kart. */
+export const liste = ({ toplam, birim, ust, ustNot = '', kartlar, kapSinif = 'kart-izgara c3', kapBas = '', sarmal = '', bosMetin, boyut = 12, altNot = '' }) => {
+  const govde = `${kapBas}<div class="${kapSinif}" data-liste-kap>${kartlar}</div>
 <div class="bos-durum kart-ici" data-liste-bos hidden><span class="bos-ikon">${ikon('fa-magnifying-glass')}</span><h3>Aramana uyan sonuç yok</h3><p>${bosMetin}</p><button class="dugme birincil" type="button" data-liste-temizle>Süzgeçleri temizle</button></div>
-<nav class="sayfalama" aria-label="Sayfalar" data-liste-sayfalama hidden></nav>${altNot}
+<nav class="sayfalama" aria-label="Sayfalar" data-liste-sayfalama hidden></nav>
+<p class="liste-aralik" data-liste-aralik role="status"></p>`;
+  return `<div class="yigin" data-liste data-toplam="${toplam}" data-birim="${birim}" data-boyut="${boyut}">
+<div class="liste-ust">${ust}</div>${ustNot}
+${sarmal ? `<div class="${sarmal}">${govde}</div>` : govde}${altNot}
 </div>`;
+};
 
 /* İlgili içerik bölümü */
 export const ilgili = ({ etiket, baslik, metin: m, tumu, tumuAd, kartlar, sinif = 'c4' }) => bolum(`${bolumBas({ etiket, ikon: 'fa-arrow-right', baslik, metin: m, arac: tumu ? dugme(tumuAd, tumu, 'hayalet kucuk', 'fa-arrow-right', true) : '' })}<div class="kart-izgara ${sinif}">${kartlar}</div>`);

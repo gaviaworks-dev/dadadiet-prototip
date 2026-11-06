@@ -12,6 +12,11 @@
     const ray = kok.querySelector('.sekmeler');
     const q = new URLSearchParams(location.search);
     let deger = '', sayfa = Math.max(1, +q.get('sayfa') || 1);
+    /* Tercihe aykırı program kartı listeden çıktıysa sekme sayıları da onu saymaz */
+    if (ray && birim === 'program' && DD.tercihUyum && DD.tercihUyum.aktif()) ray.querySelectorAll('.sekme').forEach((s) => {
+      const n = s.querySelector('.sekme-sayi');
+      if (n) n.textContent = kartlar.filter((k) => !s.dataset.deger || (k.dataset[alan] || '').split(' ').includes(s.dataset.deger)).length;
+    });
 
     const uyan = () => kartlar.filter((k) => !deger || (k.dataset[alan] || '').split(' ').includes(deger));
 
@@ -38,7 +43,7 @@
       if (son < 2) return;
       const ok = (n, i, ad, kapali) => { const b = dugme(n, '<i class="fa-solid ' + i + '" aria-hidden="true"></i>', ' ok'); b.setAttribute('aria-label', ad); b.disabled = kapali; return b; };
       sayfalama.append(ok(1, 'fa-angles-left', 'İlk sayfa', sayfa === 1), ok(sayfa - 1, 'fa-chevron-left', 'Önceki sayfa', sayfa === 1));
-      const gosterilen = [...new Set([1, sayfa - 1, sayfa, sayfa + 1, son])].filter((n) => n >= 1 && n <= son).sort((a, b) => a - b);
+      const gosterilen = [...new Set([1, sayfa - 1, sayfa, sayfa + 1, ...(toplam != null ? [sayfa + 2] : []), son])].filter((n) => n >= 1 && n <= son).sort((a, b) => a - b);
       let onceki = 0;
       gosterilen.forEach((n) => {
         if (n - onceki > 1) { const s = document.createElement('span'); s.className = 'sayfa-nokta'; s.textContent = '…'; sayfalama.append(s); }
@@ -55,7 +60,7 @@
         const aktifSayi = ray && ray.querySelector('.sekme.aktif .sekme-sayi');
         const adet = aktifSayi ? +aktifSayi.textContent : toplam;
         sayfalamaCiz(adet);
-        not.textContent = adet + ' ' + birim + 'ten ' + l.length + ' tanesi gösteriliyor';
+        not.textContent = adet + ' ' + birim + 'ten 1–' + l.length + ' arası gösteriliyor';
         return;
       }
       const son = Math.max(1, Math.ceil(l.length / boyut));

@@ -9,10 +9,9 @@ const logo = fs.readFileSync(path.join(BU, 'logo.svg'), 'utf8');
 const K = '{{kok}}';
 const kacis = (s = '') => String(s).replace(/&/g, '&amp;').replace(/"/g, '&quot;').replace(/</g, '&lt;');
 
-const yeniRozet = '<span class="rozet olumlu menu-yeni">Yeni</span>';
 const kalemHtml = (k) => k.sihirbaz
   ? `<a class="mega-cat-all" href="${K}${k.href}"><i class="fa-solid ${k.ikon}"></i><span>${k.ad}<small>${k.alt}</small></span><i class="fa-solid fa-arrow-right mca-arrow"></i></a>`
-  : `<a href="${K}${k.href}"><i class="fa-solid ${k.ikon}"></i><span>${k.ad}${k.yeni ? ' ' + yeniRozet : ''}<small>${k.alt}</small></span></a>`;
+  : `<a href="${K}${k.href}"><i class="fa-solid ${k.ikon}"></i><span>${k.ad}<small>${k.alt}</small></span></a>`;
 
 function nav(aktif) {
   return anaMenu.map((m) => {

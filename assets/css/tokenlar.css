@@ -507,6 +507,7 @@
         yükseklik  max-width:1024 → 544 / 607 / 587
      901–1024 arasında bant 607px yüksek ama başlık hâlâ 42px. */
   --yazi-36:36px;      /* giriş panosunun başlığı (§61) */
+  --yazi-44:44px;      /* canlı Diet bant h1 masaüstü */
   --yazi-42:42px;      /* banner h1 masaüstü — ÖLÇÜLEN değer (lh 1.12 · ls -.03em) */
   --yazi-51:51px;      /* baş harf avatarı — kaynak diet `.pf-ava.is-harf`
                           (planim.css:402). Kardeş markada karşılığı YOK:

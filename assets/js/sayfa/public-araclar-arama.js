@@ -7,7 +7,11 @@
   const kac = (s) => String(s == null ? '' : s).replace(/[&<>"]/g, (m) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[m]));
   const ikon = (x) => '<i class="fa-solid ' + x + '" aria-hidden="true"></i>';
   const veri = window.DD_VERI || {};
-  const dizin = V.dizin.concat(
+  /* Oturum açık üyede adı tercihe aykırı program sonuçlara girmez, kalanın tanıtım cümlesi uyarlanır */
+  const TU = DD.tercihUyum;
+  const aykiri = (k) => k.tur === 'program' && !TU.programUygunMu(k);
+  const gizli = V.dizin.filter(aykiri);
+  const dizin = V.dizin.filter((k) => !aykiri(k)).map((k) => (k.tur === 'program' ? { ...k, metin: TU.aciklama(k.metin, k) } : k)).concat(
     (veri.besinler ? veri.besinler.besinler : []).map((b) => ({ tur: 'besin', ad: b.ad, metin: DD.bicim.kcal(b.kcal) + ' / 100 g · ' + b.kategori, href: V.besinDetay, ikon: 'fa-leaf', etiket: 'Besin' })));
 
   const q = (new URLSearchParams(location.search).get('q') || '').trim();
@@ -15,6 +19,7 @@
   if (!q) { $('aramaOzet').innerHTML = '<span class="arama-ipucu">Aramak için yukarıya yaz ya da popüler aramalardan birini seç.</span>'; return; }
 
   const kelimeler = kucult(q).split(/\s+/);
+  const gizlenen = gizli.filter((k) => kelimeler.every((w) => (kucult(k.ad) + ' ' + kucult(k.metin)).includes(w))).length;
   const sonuc = dizin.map((k) => {
     const ad = kucult(k.ad), tum = ad + ' ' + kucult(k.metin);
     if (!kelimeler.every((w) => tum.includes(w))) return null;
@@ -32,7 +37,8 @@
     $('aramaIzgara').innerHTML = l.slice(0, 24).map(kart).join('');
     $('aramaIzgara').hidden = !l.length;
     $('aramaBos').hidden = !!l.length;
-    $('aramaNot').innerHTML = l.length ? '<b>' + l.length + '</b> sonuç' + (l.length > 24 ? ', ilk 24 tanesi gösteriliyor' : '') : '';
+    const uyum = gizlenen && (tur === 'tumu' || tur === 'program') ? gizlenen + ' program tercihinle örtüşmediği için gösterilmiyor.' : '';
+    $('aramaNot').innerHTML = [l.length ? '<b>' + l.length + '</b> sonuç' + (l.length > 24 ? ', ilk 24 tanesi gösteriliyor' : '') : '', uyum].filter(Boolean).join(' · ');
   }
 
   $('aramaPop').hidden = true;

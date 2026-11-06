@@ -1,7 +1,8 @@
 /* Günlük Takibim: öğün işaretleri Beslenme Planım ile ortak; su ve adım demo.uye alanına yazar */
 (function () {
   'use strict';
-  const DD = window.DD, U = window.DDU;
+  const DD = window.DD, U = window.DDU, TU = DD.tercihUyum;
+  TU.uyeBagla(U);
   const $ = (s) => document.querySelector(s);
   const u = U.uye(), dn = U.danisan(), b = U.bugun(), t = u.tercihler || {};
   const k = U.aktifKaynak();
@@ -15,6 +16,7 @@
     U.bas('#gtBas', '<div class="bolum-bas"><div><span class="ust-etiket"><i class="fa-solid fa-calendar-day" aria-hidden="true"></i> ' + U.kisaTarih(b) + ' ' + U.gunAdi(b) + '</span><h2>Bugün ne yedin</h2><p class="giris-metni">Plandan farklı yediysen artıya basıp besin ekle.</p><div class="bolum-araclar"><a class="dugme hayalet" href="' + DD.kok + 'besin-kutuphanesi/">Besin kütüphanesinde ara</a></div></div></div>');
     if (!k) { U.bas('#gtOgunler', U.bos({ ikon: 'fa-utensils', baslik: 'Bugün için planın yok', metin: 'Program seçtiğinde öğünlerin burada açılır; besinlerini yine de ekleyebilirsin.', eylem: '<a class="dugme birincil" href="' + DD.kok + 'programlar/program-bul/">Program bul</a><button class="dugme hayalet" type="button" data-besin-ekle="kahvalti">Besin ekle</button>' })); $('#gtOzet').textContent = ekler().length + ' kalem kayıtlı.'; $('#gtKcal').textContent = DD.bicim.kcal(toplam().kcal); $('#gtPaylas').hidden = true; return; }
     const i = U.isaret(k, b), e = ekler();
+    U.bas('#gtTercih', k.tip === 'plan' ? TU.planUyariHtml(U, k.plan) : TU.bilgiHtml(TU.ogunOzeti(ogunler())));
     if (!ogunler().length) U.bas('#gtOgunler', U.bugunBos(k));
     else U.bas('#gtOgunler', ogunler().map((o) => {
       const ek = e.filter((x) => x.ogun === o.anahtar);

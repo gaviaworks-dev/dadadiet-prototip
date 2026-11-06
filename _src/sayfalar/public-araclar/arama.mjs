@@ -1,5 +1,5 @@
 // Arama: GET ?q= sonuç kabuğu. Dizin derlemede sayfaya gömülür, besin DD_VERI'den okunur.
-import { K, sayfaJs, kirinti, ikon, jsonGom, DETAY } from '../../parcalar/public-araclar/ortak.mjs';
+import { K, JS, kirinti, ikon, jsonGom, DETAY } from '../../parcalar/public-araclar/ortak.mjs';
 
 const SEKMELER = [['tumu', 'Tümü', 'fa-layer-group'], ['hesap', 'Araçlar', 'fa-calculator'], ['besin', 'Besinler', 'fa-leaf'], ['program', 'Programlar', 'fa-list-check'], ['rehber', 'Rehber', 'fa-book-open'], ['diyetisyen', 'Diyetisyenler', 'fa-user-doctor']];
 const POPULER = ['avokado', 'kalori', 'akdeniz', 'kilo', 'çorba', 'protein', 'aralıklı oruç', 'diyetisyen'];
@@ -9,7 +9,7 @@ export default ({ veri }) => {
     ...veri.hesaplayicilar.hesaplayicilar.map((h) => ({ tur: 'hesap', ad: h.ad, metin: h.ozet, href: DETAY.hesaplayici, ikon: h.ikon.replace('fa-solid ', ''), etiket: 'Hesaplayıcı' })),
     ...[['Akıllı Tabak ve Değişim', 'Tabağını kur, muadilini bul', 'akilli-tabak-ve-degisim/', 'fa-chart-pie'], ['Aralıklı Oruç Rehberi', 'Protokolünü ve saatlerini seç', 'aralikli-oruc-rehberi/', 'fa-clock'], ['Besin Karşılaştır', 'İki besini yan yana gör', 'besin-karsilastir/', 'fa-scale-balanced']].map(([ad, metin, href, ikon]) => ({ tur: 'hesap', ad, metin, href, ikon, etiket: 'Araç' })),
     ...veri.testler.testler.map((t) => ({ tur: 'hesap', ad: t.ad, metin: t.aciklama, href: DETAY.test, gorsel: t.gorsel_dosya, etiket: 'Test' })),
-    ...veri.programlar.programlar.map((p) => ({ tur: 'program', ad: p.ad, metin: p.aciklama, href: DETAY.program, gorsel: p.gorsel_dosya, etiket: p.sure })),
+    ...veri.programlar.programlar.map((p) => ({ tur: 'program', ad: p.ad, metin: p.aciklama, href: DETAY.program, gorsel: p.gorsel_dosya, etiket: p.sure, tercih: p.tercih, hedef: p.hedef, sure_gun: p.sure_gun })),
     ...veri.rehberler.rehberler.map((r) => ({ tur: 'rehber', ad: r.ad, metin: r.ozet, href: 'besin-rehberi/dengeli-tabak/', gorsel: r.gorsel_dosya, etiket: 'Rehber' })),
     ...veri.diyetisyenler.diyetisyenler.map((d) => ({ tur: 'diyetisyen', ad: d.ad, metin: `${d.uzmanlik[0]} · ${d.sehir}`, href: DETAY.diyetisyen, harf: d.harf, etiket: d.unvan })),
   ];
@@ -25,5 +25,5 @@ ${kirinti(['Arama'])}<span class="ust-etiket">${ikon('fa-seedling')} Dada Diet �
 <section class="sonuc-bant" id="aramaSonuc" hidden aria-live="polite"><div class="kap"><p class="sonuc-not" id="aramaNot"></p><div class="sonuc-izgara" id="aramaIzgara"></div><div class="bos-durum kart-ici" id="aramaBos" hidden><span class="bos-ikon">${ikon('fa-magnifying-glass')}</span><h3>Bu aramada sonuç yok</h3><p>Yazımı kontrol et ya da daha genel bir kelime dene.</p><a class="dugme birincil" href="${K}besin-kutuphanesi/">Besin kütüphanesine git</a></div></div></section>
 <div class="uyari-serit"><div class="kap">${ikon('fa-circle-info')}<p>Arama sonuçları genel bilgi amaçlıdır; kişiye özel tıbbi ya da beslenme önerisi değildir.</p></div></div>
 ${jsonGom('aramaDizin', { dizin, besinDetay: DETAY.besin })}`;
-  return [{ yol: 'arama', meta: { baslik: 'Arama', duzen: 'public', hero: true, js: sayfaJs('arama') }, govde }];
+  return [{ yol: 'arama', meta: { baslik: 'Arama', duzen: 'public', hero: true, js: [JS, 'assets/js/tercih-uyum.js', 'assets/js/sayfa/public-araclar-arama.js'] }, govde }];
 };

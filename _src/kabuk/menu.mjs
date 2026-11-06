@@ -3,12 +3,12 @@ export const anaMenu = [
   { ad: 'Sağlık Araçları', href: 'hesaplayicilar/', ikon: 'fa-toolbox', kalemler: [
     { ad: 'Hesaplayıcılar', alt: '10 araç: BKİ, kalori, su, makro', href: 'hesaplayicilar/', ikon: 'fa-calculator' },
     { ad: 'Sağlık Testleri', alt: '58 test ile alışkanlığını ölç', href: 'saglik-testleri/', ikon: 'fa-clipboard-question' },
-    { ad: 'Akıllı Tabak ve Değişim', alt: 'Tabağını kur, muadilini bul', href: 'akilli-tabak-ve-degisim/', ikon: 'fa-chart-pie', yeni: true },
-    { ad: 'Aralıklı Oruç Rehberi', alt: 'Protokolünü ve saatlerini seç', href: 'aralikli-oruc-rehberi/', ikon: 'fa-clock', yeni: true },
+    { ad: 'Akıllı Tabak ve Değişim', alt: 'Tabağını kur, muadilini bul', href: 'akilli-tabak-ve-degisim/', ikon: 'fa-chart-pie' },
+    { ad: 'Aralıklı Oruç Rehberi', alt: 'Protokolünü ve saatlerini seç', href: 'aralikli-oruc-rehberi/', ikon: 'fa-clock' },
   ] },
   { ad: 'Beslenme', href: 'besin-kutuphanesi/', ikon: 'fa-book-open', kalemler: [
     { ad: 'Besin Kütüphanesi', alt: '541 besinin değeri', href: 'besin-kutuphanesi/', ikon: 'fa-magnifying-glass' },
-    { ad: 'Besin Karşılaştır', alt: 'İki besini yan yana gör', href: 'besin-karsilastir/', ikon: 'fa-scale-balanced', yeni: true },
+    { ad: 'Besin Karşılaştır', alt: 'İki besini yan yana gör', href: 'besin-karsilastir/', ikon: 'fa-scale-balanced' },
     { ad: 'Kaç Kalori?', alt: 'Porsiyon karşılıkları', href: 'kac-kalori/', ikon: 'fa-fire' },
     { ad: 'Besin Rehberi', alt: 'Dengeli tabak, öğün, porsiyon', href: 'besin-rehberi/', ikon: 'fa-book-open' },
     { ad: 'Beslenme İpuçları & Püf Noktaları', alt: '159 ipucu, 277 püf noktası', href: 'ipuclari-ve-puf-noktalari/', ikon: 'fa-lightbulb' },

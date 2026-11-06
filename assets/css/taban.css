@@ -1,8 +1,6 @@
 /* Taban: Gilroy yüzleri ve sıfırlama. Kanondan ÖNCE yüklenir (bkz. PUBLIC-KANON §1). */
 @font-face{font-family:"Gilroy";src:url(../fonts/Gilroy-Medium.woff2) format("woff2");font-weight:500;font-display:swap}
 @font-face{font-family:"GilroyBd";src:url(../fonts/Gilroy-ExtraBold.woff2) format("woff2");font-weight:700;font-display:swap}
-/* 600 ve üstü gerçek kalın yüzden çizilir; canlıda Medium'un sentetik kalını kullanılıyordu */
-@font-face{font-family:"Gilroy";src:url(../fonts/Gilroy-ExtraBold.woff2) format("woff2");font-weight:600 900;font-display:swap}
 *,*::before,*::after{box-sizing:border-box}
 body,h1,h2,h3,h4,h5,p,ul,ol,figure{margin:0}
 ul,ol{padding:0;list-style:none}

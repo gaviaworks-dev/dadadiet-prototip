@@ -9,5 +9,5 @@ export default () => [uyeSayfa({
     { id: 'devam', ad: 'Devam eden', ikon: 'fa-clipboard-check', sayi: 'devam', govde: '<div class="yigin" id="prDevam"></div>' },
     { id: 'tamamlanan', ad: 'Tamamlanan', ikon: 'fa-circle-check', sayi: 'tamamlanan', govde: '<div class="yigin" id="prTamam"></div>' },
   ],
-  js: ['assets/js/sayfa/uye-programlarim.js'],
+  js: ['assets/js/tercih-uyum.js', 'assets/js/sayfa/uye-programlarim.js'],
 })];

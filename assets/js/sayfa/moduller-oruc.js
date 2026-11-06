@@ -9,6 +9,8 @@
     { id: '16-8', ad: '16:8', baslik: '16 saat oruç', alt: '16:8, en çok tercih edilen', ikon: 'fa-hourglass-half', yeme: 8, ilk: '12:00' },
     { id: '18-6', ad: '18:6', baslik: '18 saat oruç', alt: '18:6, ileri düzey', ikon: 'fa-stopwatch', yeme: 6, ilk: '13:00' },
     { id: '20-4', ad: '20:4 / OMAD', baslik: '20 saat oruç', alt: '20:4 / OMAD, en ileri düzey', ikon: 'fa-bowl-food', yeme: 4, ilk: '15:00' },
+    /* Rehberin listesinde yok, onboarding'de seçilmişse üyeye kendi düzeni olarak gösterilir */
+    { id: '12-12', ad: '12:12', baslik: '12 saat oruç', alt: '12:12, yumuşak başlangıç', ikon: 'fa-moon', yeme: 12, ilk: '08:00', ek: true },
   ];
   /* Kesintisiz evreler; cümleler uzman onayına kadar temkinli kipte */
   const ASAMA = [
@@ -19,12 +21,12 @@
     { bas: 16, bit: null, ad: 'Otofaji artabilir', metin: 'Hücresel temizlik süreçlerinin artabileceği düşünülüyor. İnsanlarda kanıt sınırlıdır, daha çok araştırma gerekiyor.' },
   ];
   const durum = { p: PROTOKOL[0], saat: PROTOKOL[0].ilk, elle: false };
-  const t = S.tercih();
-  if (t.oruc_protokol) {
-    const es = { '14-10': 'sirkadiyen' }[t.oruc_protokol] || t.oruc_protokol;
-    durum.p = PROTOKOL.find((x) => x.id === es) || durum.p;
-    durum.saat = t.ilk_ogun_saati || durum.p.ilk; durum.elle = Boolean(t.ilk_ogun_saati);
-  }
+  /* Sistem kullanıcıyı tercihlerinden bilir: oturum açık ve protokol doluysa seçim sorulmaz */
+  const t = DD.oturum.acik() ? S.tercih() : {};
+  const oruclu = Boolean(t.oruc_protokol) && t.oruc_protokol !== 'yok';
+  const kayitli = oruclu ? PROTOKOL.find((x) => x.id === ({ '14-10': 'sirkadiyen' }[t.oruc_protokol] || t.oruc_protokol)) : null;
+  if (kayitli) { durum.p = kayitli; durum.saat = kayitli.ilk; }
+  if (t.ilk_ogun_saati && t.oruc_protokol !== 'yok') { durum.saat = t.ilk_ogun_saati; durum.elle = true; }
   const dk = (s) => { const [h, m] = s.split(':').map(Number); return h * 60 + m; };
   const saat = (d) => { d = ((d % 1440) + 1440) % 1440; return String(Math.floor(d / 60)).padStart(2, '0') + '.' + String(d % 60).padStart(2, '0'); };
 
@@ -100,15 +102,19 @@
     document.querySelectorAll('#saatCipler .cip').forEach((c) => c.classList.toggle('aktif', c.dataset.saat === durum.saat));
     document.querySelectorAll('#protokoller .secenek').forEach((b) => b.setAttribute('aria-pressed', String(b.dataset.deger === durum.p.id)));
     $('ilkLokma').value = durum.saat;
+    const oz = $('bilinenDuzen');
+    oz.querySelector('.secili-ozet-ikon i').className = 'fa-solid ' + durum.p.ikon;
+    oz.querySelector('b').textContent = durum.p.baslik;
+    oz.querySelector('small').textContent = durum.p.alt + ' · ilk lokma ' + saat(bas);
   }
-  const kayitYaz = (k) => { $('kayitDurum').querySelector('span').textContent = k ? 'Saatlerin profiline kaydedildi: ' + durum.p.ad + ', ilk lokma ' + DD.bicim.saat(durum.saat) + '.' : 'Bir seçim yaptığında saatlerin profiline kaydedilir.'; };
+  const kayitYaz = (k, ilk) => { $('kayitDurum').querySelector('span').textContent = k ? (ilk ? 'Saatlerin profilinde kayıtlı: ' : 'Saatlerin profiline kaydedildi: ') + durum.p.ad + ', ilk lokma ' + DD.bicim.saat(durum.saat) + '.' : 'Bir seçim yaptığında saatlerin profiline kaydedilir.'; };
   function kaydet() {
     if (!DD.oturum.acik()) return;
     S.yaz({ oruc_protokol: durum.p.id, ilk_ogun_saati: durum.saat });
     kayitYaz(true);
   }
 
-  $('protokoller').innerHTML = PROTOKOL.map((p) => '<button class="secenek" type="button" data-deger="' + p.id + '" aria-pressed="false"><i class="fa-solid ' + p.ikon + '" aria-hidden="true"></i><span>' + p.baslik + '<small>' + p.alt + '</small></span></button>').join('');
+  $('protokoller').innerHTML = PROTOKOL.filter((p) => !p.ek || p === durum.p).map((p) => '<button class="secenek" type="button" data-deger="' + p.id + '" aria-pressed="false"><i class="fa-solid ' + p.ikon + '" aria-hidden="true"></i><span>' + p.baslik + '<small>' + p.alt + '</small></span></button>').join('');
   $('saatCipler').innerHTML = ['08:00', '10:00', '12:00', '14:00'].map((s) => '<button class="cip" type="button" data-saat="' + s + '">' + DD.bicim.saat(s) + '</button>').join('');
   $('protokoller').addEventListener('dd:secim', (e) => {
     durum.p = PROTOKOL.find((x) => x.id === e.detail.deger); if (!durum.elle) durum.saat = durum.p.ilk; ciz(); kaydet();
@@ -124,7 +130,21 @@
   cizelge.addEventListener('focusout', () => evreGoster(-1));
   setInterval(() => { const b = dk(durum.saat); carkCiz(b, b + durum.p.yeme * 60, 24 - durum.p.yeme); suAnCiz(b, b + durum.p.yeme * 60); }, 60000);
 
+  /* Bilinen üye özeti görür, seçim ancak Değiştir ile açılır */
+  function secimGoster(acik) {
+    $('protokolSecim').hidden = !acik; $('bilinenDuzen').hidden = acik;
+    $('pencereOzet').classList.toggle('dort-kutu', !acik);
+    const d = $('duzenDegistir'); d.textContent = acik ? 'Kapat' : 'Değiştir'; d.setAttribute('aria-expanded', String(acik));
+    $('duzenBaslik').textContent = acik ? 'Düzenini değiştir' : 'Senin düzenin';
+    $('duzenAlt').textContent = acik ? 'Yaptığın seçim profiline hemen kaydedilir.' : 'Tercihlerinden geldi, yeniden seçmen gerekmiyor.';
+  }
   ciz();
-  kayitYaz(Boolean(t.oruc_protokol) && t.oruc_protokol !== 'yok');
+  kayitYaz(Boolean(kayitli), true);
+  if (kayitli) {
+    $('duzenDegistir').hidden = false;
+    $('duzenDegistir').addEventListener('click', () => secimGoster($('protokolSecim').hidden));
+    secimGoster(false);
+    document.querySelector('.bant-alt').textContent = 'Düzenin tercihlerinden geldi; yeme ve oruç pencereni, oruç sırasında vücudunda neler olduğunu saat saat gör.';
+  }
   const g = $('serbestGovde'); g.style.maxHeight = g.scrollHeight + 'px';
 })();

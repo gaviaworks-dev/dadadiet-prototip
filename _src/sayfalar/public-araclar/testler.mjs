@@ -1,34 +1,31 @@
 // Sağlık testleri listesi + beslenme testi soru akışı ve sonucu.
-import { K, sayfaJs, bant, bolum, bolumBas, dugme, ikon, icerik, testKart, genelNot, jsonGom, kac } from '../../parcalar/public-araclar/ortak.mjs';
+import { sayfaJs, bant, bantSayilar, bolum, bolumBas, dugme, ikon, icerik, testListeKart, testOneriKart, jsonGom, kac } from '../../parcalar/public-araclar/ortak.mjs';
 
+const altSayilar = (l) => bantSayilar(l).replace('bant-sayilar', 'bant-sayilar alt-hiza');
 const GRUP_SLUG = { 'Sağlık & Beslenme': 'saglik', 'Eğlence & Bilgi Yarışması': 'eglence' };
 
 export default ({ veri }) => {
   const s = veri.sayaclar, T = veri.testler, d = T.detay, ilk = T.testler.find((t) => t.slug === d.slug);
-  const sekmeler = [['', 'Tümü', T.toplam, 'fa-layer-group'], ...T.gruplar.map((g) => [GRUP_SLUG[g.ad], g.ad, g.sayi, g.ad.startsWith('Sağlık') ? 'fa-heart-pulse' : 'fa-gamepad'])];
-  const liste = `${bant({ yol: [['Sağlık Testleri']], etiket: 'Sağlık testleri', etiketIkon: 'fa-clipboard-question', h1: 'Birkaç soruda <span class="vurgu">kendini keşfet</span>', gorsel: 'hero/testler-tst-top.jpg', alt: 'Alışkanlığını ölç, sonucuna özel açıklamayı oku. Testler teşhis koymaz, kendini tanımana yardım eder.', sayilar: [[s.test, 'Test'], [s.test_soru, 'Soru'], ['3 dk', 'Ortalama süre']] })}
-<div class="bolum-dizi">
+  const sekmeler = [['', 'Tümü', T.toplam, 'fa-layer-group'], ...T.gruplar.map((g) => [GRUP_SLUG[g.ad], g.ad, g.sayi, g.ad.startsWith('Sağlık') ? 'fa-heart-pulse' : 'fa-face-grin-stars'])];
+  const liste = `${bant({ yol: [['Beslenme Testi']], etiket: 'Beslenme Testi', etiketIkon: 'fa-clipboard-question', h1: '<span class="dar-baslik">Beslenme alışkanlıkların ne durumda?</span>', gorsel: 'hero/testler-tst-top.jpg', alt: 'Kısa bir testle beslenme alışkanlığını analiz et; sonunda kişisel değerlendirmeni gör.', alttaki: altSayilar([[s.test, 'Test'], [s.test_soru, 'Soru']]) })}
 ${bolum(`<div data-liste data-alan="grup" data-param="grup" data-boyut="12" data-toplam="${T.toplam}" data-birim="test">
-<div class="sekme-ray liste-ust"><div class="sekmeler suzgec" role="tablist" aria-label="Test grubu">${sekmeler.map(([v, a, n, i], k) => `<button class="sekme${k === 0 ? ' aktif' : ''}" type="button" role="tab" data-deger="${v}" aria-selected="${k === 0}"${k ? ' tabindex="-1"' : ''}>${ikon(i)} ${a} <span class="sekme-sayi">${n}</span></button>`).join('')}</div></div>
-<div class="kart-izgara c3" data-izgara>${T.testler.map(testKart).join('')}</div>
+<div class="sekme-ray liste-ust tam-serit-kap"><div class="sekmeler suzgec tam-serit" role="tablist" aria-label="Test grupları">${sekmeler.map(([v, a, n, i], k) => `<button class="sekme${k === 0 ? ' aktif' : ''}" type="button" role="tab" data-deger="${v}" aria-selected="${k === 0}"${k ? ' tabindex="-1"' : ''}>${ikon(i)} ${kac(a)} <span class="sekme-sayi">${n}</span></button>`).join('')}</div></div>
+<div class="medya-izgara" data-izgara>${T.testler.map(testListeKart).join('')}</div>
 <nav class="sayfalama" data-sayfalama aria-label="Sayfalama"></nav><p class="sayfalama-not" data-not></p>
-</div>`, { ilk: true })}
-${bolum(genelNot)}
-</div>`;
+</div>
+<div class="bilgi-notu genis">${ikon('fa-circle-info')}<div><p><b>Genel bilgi notu.</b> Bu içerik genel beslenme okuryazarlığını desteklemek amacıyla hazırlanmıştır; <b>tıbbi teşhis veya tedavi yerine geçmez</b>, kişisel beslenme tavsiyesi niteliği taşımaz. Kişiye özel plan yalnızca <b>yetkili bir diyetisyen</b> tarafından hazırlanır; gebelik, kronik hastalık, düzenli ilaç kullanımı, çocuk beslenmesi veya klinik bir durum varsa plana başlamadan önce <b>hekim ve diyetisyen kontrolü zorunludur</b>.</p>${dugme('Diyetisyen Bul', 'diyetisyenler/', 'birincil', 'fa-arrow-right', true)}</div></div>`, { ilk: true, sinif: 'ust-dar' })}`;
 
   const benzer = T.testler.filter((t) => t.slug !== d.slug && t.grup === ilk.grup).slice(0, 3);
-  const detay = `${bant({ yol: [['Sağlık Testleri', 'saglik-testleri/'], [kac(d.ad)]], etiket: 'Sağlık testi', etiketIkon: 'fa-clipboard-question', h1: kac(d.ad), gorsel: 'hero/test-beslenme-tst-top.webp', alt: kac(d.aciklama), sayilar: [[d.sorular.length, 'Soru'], ['3 dk', 'Süre'], ['Anında', 'Sonuç']] })}
+  const detay = `${bant({ yol: [['Testler', 'saglik-testleri/'], [kac(d.ad)]], etiket: 'Beslenme testi', etiketIkon: 'fa-circle-question', h1: kac(d.ad), gorsel: 'hero/test-beslenme-tst-top.webp', alt: kac(d.aciklama), alttaki: altSayilar([[d.sorular.length, 'Soru']]) })}
 <div class="bolum-dizi">
-${bolum(`<div class="okuma-kolon" id="testKok">
-<div class="sonuc-kart buyuk kapakli" id="testKapak"><div class="sonuc-gorsel"><img src="${icerik(ilk.gorsel_dosya)}" alt=""></div><div class="sonuc-govde"><p class="kart-metin">${kac(d.aciklama)}</p><ul class="isaretli-liste">${['Seçimini yap, test kendiliğinden ilerler', 'Sonunda seni tanımlayan bir sonuç ve puanına özel açıklama çıkar', 'Giriş yaptıysan sonucun hesabına kaydedilir'].map((m) => `<li>${ikon('fa-check')}<span>${m}</span></li>`).join('')}</ul><div class="sonuc-alt"><span class="sonuc-not-kisa">${ikon('fa-unlock')} Kayıt gerekmez, sonuç anında</span><button class="dugme birincil" id="testBasla" type="button">${ikon('fa-arrow-right')} Teste başla</button></div></div></div>
-<div class="kart" id="testOyun" hidden><div class="kart-govde">
-<div class="olcum-satir soru-ilerleme-dik"><div class="olcum-bas"><b id="testMetin"></b><span id="testYuzde" aria-live="polite"></span></div><div class="olcer hap" role="progressbar" aria-label="Test ilerlemesi" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0"><span id="testCubuk" data-oran="0"></span></div></div>
-<h2 class="soru-metin" id="soruMetin" tabindex="-1"></h2><div class="secenek-izgara" id="soruSecenek" data-tek-secim role="group" aria-labelledby="soruMetin"></div>
-</div><div class="kart-alt"><button class="dugme hayalet kucuk" id="soruGeri" type="button">${ikon('fa-arrow-left')} Geri</button><span class="not sag-not">${ikon('fa-wand-magic-sparkles')} Seçince otomatik ilerler</span></div></div>
-<div class="kart sonuc-yuzeyi" id="testSonuc" hidden><div class="kart-bas"><h2 class="kart-baslik">${ikon('fa-award')} Sonucun</h2><span class="rozet olumlu" id="sonucPuan"></span></div><div class="kart-govde"><p class="sonuc-sayi" id="sonucBaslik" tabindex="-1"></p><div class="olcer hap sonuc-olcer" role="img" id="sonucOlcerKap"><span id="sonucOlcer" data-oran="0"></span></div><p class="kart-metin" id="sonucMetin"></p></div><div class="kart-alt"><button class="dugme hayalet" id="testTekrar" type="button">${ikon('fa-rotate-left')} Testi tekrar çöz</button>${dugme('Sana uygun olanı bul', 'bana-uygun-olani-bul/', 'birincil', 'fa-arrow-right', true)}</div></div>
-</div>`, { ilk: true })}
-${bolum(`${bolumBas({ etiket: 'Diğer testler', ikon: 'fa-clipboard-question', baslik: 'Sıradaki testin hazır', metin: 'Kendini farklı açılardan keşfetmeye devam et.', arac: dugme('Tüm testler', 'saglik-testleri/', 'hayalet orta', 'fa-arrow-right', true) })}<div class="kart-izgara c3">${benzer.map(testKart).join('')}</div>`)}
-${bolum(genelNot)}
+${bolum(`<div class="soru-kolon" id="testKok">
+<div class="kapak-kart" id="testKapak"><div class="kapak-kart-gorsel"><img src="${icerik(ilk.gorsel_dosya)}" alt=""></div><div class="kapak-kart-govde"><p class="kapak-kart-metin">${kac(d.aciklama)}</p><ul class="kapak-liste">${['Görsel kartlardan seçimini yap, test kendiliğinden ilerler', 'Sonunda seni tanımlayan bir sonuç kartı ve puanına özel bir açıklama çıkar', 'Giriş yaptıysan sonucun hesabına kaydedilir, dilediğin an geri dönüp tekrar bakabilirsin'].map((m) => `<li>${ikon('fa-check')}<span>${m}</span></li>`).join('')}</ul><div class="kapak-eylem"><span class="kapak-not">${ikon('fa-lock-open')} Kayıt gerekmez · sonuç anında</span><button class="dugme birincil" id="testBasla" type="button">${ikon('fa-play')} Teste Başla</button></div></div></div>
+<div class="soru-kart" id="testOyun" hidden><div class="soru-ust"><span class="soru-adim" id="testMetin"></span><span class="soru-yuzde" id="testYuzde" aria-live="polite"></span></div><div class="soru-cubuk" role="progressbar" aria-label="Test ilerlemesi" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0"><i id="testCubuk"></i></div>
+<div class="soru-sahne" id="soruSahne"><h2 class="soru-baslik" id="soruMetin" tabindex="-1"></h2><div class="sik-izgara" id="soruSecenek" data-tek-secim role="group" aria-labelledby="soruMetin"></div></div>
+<div class="soru-alt"><button class="soru-geri" id="soruGeri" type="button" disabled>${ikon('fa-arrow-left')} Geri</button><span class="soru-ipucu">${ikon('fa-wand-magic-sparkles')} Seçince otomatik ilerler</span></div></div>
+<div class="sonuc-levha" id="testSonuc" hidden></div>
+</div>`, { ilk: true, sinif: 'ust-orta' })}
+${bolum(`${bolumBas({ etiket: 'Diğer Testler', ikon: 'fa-layer-group', baslik: 'Sıradaki testin hazır', metin: 'Kendini farklı açılardan keşfetmeye devam et.', arac: dugme('Tüm Testler', 'saglik-testleri/', 'hayalet orta notr', 'fa-arrow-right', true) })}<div class="medya-izgara">${benzer.map(testOneriKart).join('')}</div>`)}
 </div>${jsonGom('testVeri', d)}`;
 
   return [

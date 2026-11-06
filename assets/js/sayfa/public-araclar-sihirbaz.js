@@ -68,17 +68,29 @@
     if (!e.target.closest('[data-bastan]')) return;
     kok.querySelectorAll('[aria-pressed="true"]').forEach((b) => b.setAttribute('aria-pressed', 'false'));
     Object.keys(c).forEach((k) => delete c[k]);
+    tercihiDoldur();
     goster(0, true);
   });
 
   /* Kart: ortak.mjs gorselKart ile aynı iskelet */
   function programKart(p, nedenler) {
-    return '<a class="sonuc-kart buyuk" href="' + DD.kok + V.detay + '"><div class="sonuc-gorsel"><img src="' + DD.kok + 'assets/img/icerik/' + p.gorsel + '" alt=""><span class="sonuc-rozet">' + kac(p.kategori) + '</span><span class="sonuc-rozet alt">' + ikon('fa-calendar') + ' ' + kac(p.sure) + '</span></div><div class="sonuc-govde"><h3 class="kart-baslik">' + kac(p.ad) + '</h3><p>' + kac(p.aciklama) + '</p><div class="sonuc-etiketler"><span class="rozet olumlu ikonlu">' + ikon('fa-fire') + ' ' + kac(p.enerji) + '</span></div><ul class="sonuc-neden">' + nedenler.map((x) => '<li>' + ikon('fa-check') + kac(x) + '</li>').join('') + '</ul><div class="sonuc-alt"><span class="sonuc-not-kisa">' + p.ogun_sayisi + ' öğün planı</span><span class="sonuc-git">İncele ' + ikon('fa-arrow-right') + '</span></div></div></a>';
+    return '<a class="sonuc-kart buyuk" href="' + DD.kok + V.detay + '"><div class="sonuc-gorsel"><img src="' + DD.kok + 'assets/img/icerik/' + p.gorsel + '" alt=""><span class="sonuc-rozet">' + kac(p.kategori) + '</span><span class="sonuc-rozet alt">' + ikon('fa-calendar') + ' ' + kac(p.sure) + '</span></div><div class="sonuc-govde"><h3 class="kart-baslik">' + kac(p.ad) + '</h3><p>' + kac(TU ? TU.aciklama(p.aciklama, p) : p.aciklama) + '</p><div class="sonuc-etiketler"><span class="rozet olumlu ikonlu">' + ikon('fa-fire') + ' ' + kac(p.enerji) + '</span></div><ul class="sonuc-neden">' + nedenler.map((x) => '<li>' + ikon('fa-check') + kac(x) + '</li>').join('') + '</ul><div class="sonuc-alt"><span class="sonuc-not-kisa">' + p.ogun_sayisi + ' öğün planı</span><span class="sonuc-git">İncele ' + ikon('fa-arrow-right') + '</span></div></div></a>';
   }
   function uyariYaz(metin) {
     const u = $('sonucUyari');
     u.hidden = !metin;
     if (metin) u.querySelector('span').textContent = metin;
+  }
+
+  /* Tercihler biliniyorsa soru boş gelmez, kart listesi de tercihe aykırı programı getirmez */
+  const TU = DD.tercihUyum;
+  const uygunProgramlar = () => (TU ? V.programlar.filter(TU.programUygunMu) : V.programlar);
+  function tercihiDoldur() {
+    if (!TU || !TU.aktif()) return;
+    const k = TU.kisitlar(), tarz = ['vegan', 'vejetaryen', 'glutensiz'].find((x) => k.tarz.includes(x));
+    const bas = (alan, deger) => { const b = kok.querySelector('[data-alan="' + alan + '"] [data-deger="' + deger + '"]'); if (b) b.setAttribute('aria-pressed', 'true'); };
+    if (tarz) bas('tercih', tarz);
+    if (k.alerjen.length || k.belirsiz) bas('ozel', 'alerji');
   }
 
   const HEDEF = { dengeli: { a: 'hedef', v: ['dengeli'], m: 'Dengeli beslenme hedefine uygun' }, kilo: { a: 'hedef', v: ['kilo'], m: 'Kilo kontrolü hedefine uygun' }, sporcu: { a: 'hedef', v: ['protein', 'kas'], m: 'Protein ve toparlanma odaklı' }, bitkisel: { a: 'tercih', v: ['bitkisel', 'vejetaryen'], m: 'Bitkisel beslenmeye uygun' } };
@@ -87,7 +99,7 @@
   const URETICI = {
     program() {
       const kisit = TERCIH[c.tercih];
-      const havuz = kisit ? V.programlar.filter((p) => p.tercih.some((t) => kisit.v.includes(t))) : V.programlar;
+      const havuz = kisit ? uygunProgramlar().filter((p) => p.tercih.some((t) => kisit.v.includes(t))) : uygunProgramlar();
       const puanli = havuz.map((p) => {
         let puan = 0; const neden = [];
         const h = HEDEF[c.hedef];
@@ -104,7 +116,7 @@
       uyariYaz(c.ozel !== 'yok' ? (c.ozel === 'alerji' ? 'Besin alerjisi işaretledin; programlar alerjene göre süzülmez. ' : 'Sağlık durumu işaretledin. ') + 'Programlar genel örnek menülerdir, başlamadan önce bir diyetisyene ve hekimine danış.' : '');
     },
     sure() {
-      const puanli = V.programlar.map((p) => {
+      const puanli = uygunProgramlar().map((p) => {
         let puan = 0; const neden = [];
         if (c.sure === '28' ? p.sure_gun >= 28 : String(p.sure_gun) === c.sure) { puan += 4; neden.push(p.sure + ' süresi seçimine uyuyor'); }
         if (c.vakit === 'az' && p.ihtiyac.some((t) => t === 'pratik-ogun' || t === 'ise-goturulebilir')) { puan += 2; neden.push('Hazırlaması pratik'); }
@@ -150,5 +162,6 @@
     $('sonucYakin').innerHTML = yakin.map(kart).join('');
   };
 
+  tercihiDoldur();
   goster(0, false);
 })();

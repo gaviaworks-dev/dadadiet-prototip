@@ -3,7 +3,8 @@
   'use strict';
   const DD = window.DD, U = window.DDU;
   const $ = (s) => document.querySelector(s);
-  const b = U.bugun();
+  const b = U.bugun(), TU = DD.tercihUyum;
+  TU.uyeBagla(U);
   const kk = () => U.aktifKaynak();
   const bolumBas = (i, e, h, m, a) => '<div class="bolum-bas"><div><span class="ust-etiket"><i class="fa-solid ' + i + '" aria-hidden="true"></i> ' + e + '</span><h2>' + U.kac(h) + '</h2>' + (m ? '<p class="giris-metni">' + m + '</p>' : '') + (a ? '<div class="bolum-araclar">' + a + '</div>' : '') + '</div></div>';
   const tarihEtiket = U.tarih(b).replace(/ \d{4}$/, '') + ' ' + U.gunAdi(b);
@@ -25,7 +26,7 @@
     const dy = U.diyetisyen();
     const alt = k.tip === 'plan'
       ? '<i class="fa-solid fa-user-doctor" aria-hidden="true"></i> Diyetisyenin: ' + U.kac(dy ? dy.ad : '') + ' · Başlangıç ' + U.tarih(U.planBas(k.plan)) + ' · ' + DD.bicim.kcal(k.plan.hedef_kcal) + ' hedef'
-      : U.kac(k.program.aciklama || '') ;
+      : U.kac(TU.aciklama(k.program.aciklama || '', k.program)) ;
     U.bas('#bpBas', bolumBas('fa-seedling', 'Aktif programın', k.ad, alt, U.bag('Program kütüphanesi', 'programlar/', 'hayalet')));
     U.bas('#bpNotKap', k.tip === 'plan' && k.plan.danisana_not
       ? '<div class="kart panel tam-kolon"><div class="kart-bas"><div><h3 class="kart-baslik"><i class="fa-solid fa-comment-medical" aria-hidden="true"></i> Diyetisyeninin notu</h3><p>' + U.kac(dy ? dy.ad : '') + ' · ' + U.tarih(k.plan.tarih) + '</p></div></div><div class="kart-govde okuma"><p>' + U.kac(k.plan.danisana_not) + '</p></div></div>'
@@ -123,7 +124,14 @@
     U.bas('#bpGecmis', l.map((h) => '<tr><td class="tarih">' + U.kisaTarih(h.tarih) + '</td><td><span class="no">' + U.kac(h.ad) + '</span></td><td>' + U.kac(h.hareket) + '</td></tr>').join('') || '<tr><td colspan="3" class="bos-hucre">Henüz hareket yok.</td></tr>');
   }
 
-  function ciz() { kaynakCiz(); aktifCiz(); haftaCiz(); ogunCiz(); alternatifCiz(); arsivCiz(); }
+  /* Program için uyarlama bilgisi, diyetisyen planı için aykırı kalem uyarısı */
+  function tercihCiz() {
+    const k = kk();
+    const h = !k ? '' : k.tip === 'plan' ? TU.planUyariHtml(U, k.plan) : TU.bilgiHtml(TU.ogunOzeti(U.gunOgunleri(k, b)));
+    document.querySelectorAll('[data-bp-tercih]').forEach((e) => U.bas(e, h));
+  }
+
+  function ciz() { kaynakCiz(); aktifCiz(); haftaCiz(); ogunCiz(); alternatifCiz(); arsivCiz(); tercihCiz(); }
 
   document.addEventListener('dd:suzgec', (e) => {
     if (e.target.id !== 'bpKaynak') return;

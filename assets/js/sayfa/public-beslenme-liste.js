@@ -9,6 +9,7 @@
     const ilkSira = kartlar.slice();
     const boyut = +kok.dataset.boyut || 12;
     const sayac = kok.querySelector('[data-liste-sayac]');
+    const aralik = kok.querySelector('[data-liste-aralik]');
     const bos = kok.querySelector('[data-liste-bos]');
     const sayfalama = kok.querySelector('[data-liste-sayfalama]');
     const ara = kok.querySelector('[data-liste-ara]');
@@ -60,13 +61,12 @@
       kap.hidden = !uyan.length;
       bos.hidden = Boolean(uyan.length);
 
-      if (sayac) {
-        const dar = sec.filter((s) => s.alan !== 'tur');
-        const son = dar.length ? dar[dar.length - 1] : sec[0];
-        const toplam = son && son.sayi ? son.sayi : kok.dataset.toplam;
-        const tek = dar.length <= 1 && !q;
-        sayac.textContent = !uyan.length ? 'Sonuç yok' : tek ? toplam + ' ' + kok.dataset.birim + ' ' + gorunen.length + ' tanesi gösteriliyor' : uyan.length + ' sonuç bulundu';
-      }
+      const dar = sec.filter((s) => s.alan !== 'tur');
+      const son = dar.length ? dar[dar.length - 1] : sec[0];
+      const toplam = son && son.sayi ? son.sayi : kok.dataset.toplam;
+      const tek = dar.length <= 1 && !q;
+      if (sayac) sayac.textContent = !uyan.length ? 'Sonuç yok.' : tek ? 'Toplam ' + toplam + ' ' + kok.dataset.birim + ' ' + gorunen.length + ' tanesi gösteriliyor.' : uyan.length + ' sonuç bulundu.';
+      if (aralik) aralik.textContent = !uyan.length ? '' : tek ? toplam + ' ' + kok.dataset.birim + ' ' + (bas + 1) + '–' + (bas + gorunen.length) + ' arası gösteriliyor' : uyan.length + ' sonuç bulundu';
 
       if (sayfalama) {
         sayfalama.hidden = sayfaSayi < 2;

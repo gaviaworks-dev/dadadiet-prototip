@@ -248,8 +248,8 @@
 
   const eksikler = (b, r, taraf) => r.tum.filter((x) => (taraf === 'a' ? x.x : x.y) == null && x.grup !== 'mikro').map((x) => x.s.ad.replace(' (lif dahil)', '').toLocaleLowerCase('tr-TR'));
 
-  /* Sonuç bloğu: hem derlemede hem tarayıcıda aynı HTML'i üretir */
-  M.karsilastirHtml = function (a, b, kip, kok2) {
+  /* Sonuç parçaları: hem derlemede hem tarayıcıda aynı HTML'i üretir, sayfa parçaları kendi bölümlerine dizer */
+  M.karsilastirParcalar = function (a, b, kip, kok2) {
     const r = M.karsilastirma(a, b, kip);
     const adA = kac(M.kisaAd(a)), adB = kac(M.kisaAd(b));
     const kart = (x, taraf) => {
@@ -285,8 +285,7 @@
     const porsiyonYok = kip === 'porsiyon' ? [a, b].filter((x) => deger(x, 'kcal', 'porsiyon') == null) : kip === '100' ? [a, b].filter((x) => x.kcal == null) : [];
     let notlar = '';
     if (porsiyonYok.length) notlar += '<div class="uyari-kutu"><i class="fa-solid fa-circle-info" aria-hidden="true"></i><span>' + porsiyonYok.map((x) => kac(M.kisaAd(x))).join(' ve ') + ' için ' + (kip === '100' ? '100 g değeri kayıtlı değil, değerleri "1 porsiyon" görünümünde gör.' : 'porsiyon kaydı yok, değerleri "100 g" görünümünde gör.') + '</span></div>';
-    return serit + notlar + '<div class="iki-kolon esit">' + kart(a, 'a') + kart(b, 'b') + '</div>' + tablo
-      + '<div class="bolum-bas sik-bas"><div><h2>Hangisini ne zaman tercih etmelisin?</h2><p class="giris-metni">Tablodaki farklardan kurallarla çıkarıldı. Kişisel durumun için diyetisyenine danış.</p></div></div>'
+    return { serit, notlar, kartlar: '<div class="iki-kolon esit">' + kart(a, 'a') + kart(b, 'b') + '</div>', tablo, secim: '<div class="bolum-bas sik-bas"><div><h2>Hangisini ne zaman tercih etmelisin?</h2><p class="giris-metni">Tablodaki farklardan kurallarla çıkarıldı. Kişisel durumun için diyetisyenine danış.</p></div></div>'
       + '<div class="iki-kolon esit">' + nzKart(a, 'a') + nzKart(b, 'b') + '</div>'
       + '<div class="bilgi-notu"><i class="fa-solid fa-circle-info" aria-hidden="true"></i><div>'
       + '<p><b>Glisemik değerler tahminidir, uzman onayı bekliyor.</b> Rozet ve öneriler de bu tahmine dayanır. Değerler uluslararası glisemik indeks tablolarından alınmıştır ve her besin için kayıtlı değildir; yerel ürün ve pişirme yöntemine göre değişir. Karbonhidratlar kaynaklar arasında tutarlı olsun diye lif dahil gösterilir.</p>'
@@ -294,6 +293,7 @@
       + (eksikMetin ? '<p>' + eksikMetin + '; bu ölçütler sıralamaya girmedi.</p>' : '')
       + (mikYok.length ? '<p>İki kayıtta da verisi olmayan ögeler: ' + kac(mikYok.join(', ')) + '.</p>' : '')
       + (mineralSupheli(a) || mineralSupheli(b) ? '<p>Bu kayıttaki mineral değerleri kaynak doğrulaması bekliyor, mineral sıralamasına alınmadı.</p>' : '')
-      + '</div></div>';
+      + '</div></div>' };
   };
+  M.karsilastirHtml = (a, b, kip, kok2) => { const p = M.karsilastirParcalar(a, b, kip, kok2); return p.serit + p.notlar + p.kartlar + p.tablo + p.secim; };
 })(typeof window !== 'undefined' ? window : globalThis);
