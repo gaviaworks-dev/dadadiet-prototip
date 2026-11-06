@@ -8,7 +8,7 @@
   function balon(m) {
     const ben = m.kimden === 'diyetisyen';
     const ek = m.ek ? `<span class="sohbet-ek"><i class="fa-solid fa-paperclip" aria-hidden="true"></i><b>${h(m.ek.ad)}</b><small>${boyut(m.ek.boyut)}</small></span>` : '';
-    return `<div class="sohbet-balon ${ben ? 'uye' : 'karsi'}">${m.metin && !(m.ek && m.metin === m.ek.ad) ? `<p>${h(m.metin)}</p>` : ''}${ek}<div class="sohbet-kunye">${m.zaman.slice(11, 16)}</div></div>`;
+    return `<div class="sohbet-balon ${ben ? 'uye' : 'karsi'}">${m.metin && !(m.ek && m.metin === m.ek.ad) ? `<p>${h(m.metin)}</p>` : ''}${ek}<div class="sohbet-kunye">${DD.bicim.saat(m.zaman.slice(11, 16))}</div></div>`;
   }
   function akis(k) {
     let gun = '', s = '';

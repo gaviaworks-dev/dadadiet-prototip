@@ -68,7 +68,7 @@ ${alan({ ad: 'ftAd', etiket: 'Ad soyad', zorunlu: true })}
 <label class="onay-kutusu"><input type="checkbox" id="ftVarsayilan" checked><span>Bu bilgileri varsayılan fatura adresim yap</span></label></div>`;
 
 const sonEk = modal({ id: 'fdModal', baslik: 'Fatura belgesi', govde: '<div class="yigin sik" id="fdGovde"></div>', ayak: dugme('Yazdır', { ikon: 'fa-print', ek: ' id="fdYazdir"' }) + dugme('Belgeyi İndir', { sinif: 'birincil', ikon: 'fa-download', ek: ' id="fdIndir"' }) })
-  + modal({ id: 'ftModal', baslik: 'Fatura Bilgilerim', form: ' id="ftForm" novalidate', govde: ftForm, ayak: dugme('Vazgeç', { ek: ' data-kapat' }) + dugme('Bilgileri Kaydet', { sinif: 'birincil', ikon: 'fa-floppy-disk', tur: 'submit' }) })
+  + modal({ id: 'ftModal', baslik: 'Fatura Bilgilerim', form: ' id="ftForm" novalidate', govde: ftForm, ayak: dugme('Vazgeç', { ek: ' data-kapat' }) + dugme('Bilgileri Kaydet', { sinif: 'birincil', tur: 'submit' }) })
   + json('gKademe', kademeler);
 
 export default () => [uyeKabuk({

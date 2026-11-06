@@ -36,14 +36,14 @@
     $('sayaclar').innerHTML =
       kpi('fa-calendar-check', 'Bugünkü randevu', bugun.length, '', 'fa-hourglass-half', kalan + ' görüşme kaldı' + (onay ? ', ' + onay + ' onay' : '')) +
       kpi('fa-user-check', 'Aktif danışan', aktif.length, 'iyi', 'fa-users', d.danisanlar.length + ' kayıtlı danışan') +
-      kpi('fa-comments', 'Okunmamış mesaj', okunmamis, okunmamis ? 'kotu' : '', 'fa-clock', eskiMesaj ? 'En eskisi ' + PA.tarih(eskiMesaj) + ' ' + eskiMesaj.slice(11, 16) : 'Hepsi okundu') +
+      kpi('fa-comments', 'Okunmamış mesaj', okunmamis, okunmamis ? 'kotu' : '', 'fa-clock', eskiMesaj ? 'En eskisi ' + PA.tarih(eskiMesaj) + ' ' + DD.bicim.saat(eskiMesaj.slice(11, 16)) : 'Hepsi okundu') +
       kpi('fa-star', 'Profil puanı', PA.sayi(d.diyetisyen.puan), 'iyi', 'fa-comment-dots', d.diyetisyen.degerlendirme_sayisi + ' değerlendirme (örnek)');
 
     $('bugunListe').innerHTML = bugun.length ? bugun.map((r) => {
       const dn = PA.danisan(r.danisan_id), durum = PA.rDurum(r);
       const sinif = durum === 'dolu' ? '' : ['sonuc-bekliyor', 'onay-bekliyor'].includes(durum) ? ' bekleyen' : ' gecti';
       const eylem = durum === 'onay-bekliyor' ? `<button class="dugme birincil kucuk" type="button" data-kuyruk-kabul="${r.id}">Onayla</button>` : durum === 'dolu' ? (r.talep ? `<button class="dugme hayalet kucuk" type="button" data-randevu="${r.id}">İncele</button>` : `<a class="dugme hayalet kucuk" href="${PA.yol.gorusme(r.id)}">Görüşmeyi başlat</a>`) : durum === 'sonuc-bekliyor' ? `<button class="dugme hayalet kucuk" type="button" data-randevu="${r.id}">Sonuç gir</button>` : `<button class="ikon-dugme" type="button" data-randevu="${r.id}" aria-label="${h(dn.ad)} randevusunu aç"><i class="fa-solid fa-chevron-right" aria-hidden="true"></i></button>`;
-      return `<div class="ayar-satir"><span class="as-saat${sinif}">${r.saat}<small>${r.sure} dk</small></span><span class="as-metin"><b><a href="${PA.yol.danisan(dn.id)}">${h(dn.ad)}</a></b><span>${PA.rTur(r)}${r.not ? ' · ' + h(r.not) : ''}</span></span><span class="as-eylem">${PA.talepRozet(r) || PA.rHap(r)}${eylem}</span></div>`;
+      return `<div class="ayar-satir"><span class="as-saat${sinif}">${DD.bicim.saat(r.saat)}<small>${r.sure} dk</small></span><span class="as-metin"><b><a href="${PA.yol.danisan(dn.id)}">${h(dn.ad)}</a></b><span>${PA.rTur(r)}${r.not ? ' · ' + h(r.not) : ''}</span></span><span class="as-eylem">${PA.talepRozet(r) || PA.rHap(r)}${eylem}</span></div>`;
     }).join('') : bos('fa-calendar-xmark', 'Bugün randevu yok', 'Takvimden yeni bir görüşme oluşturabilirsin.');
 
     const konusmalar = d.mesajlar.filter((k) => k.mesajlar.length).sort((a, b) => (b.okunmamis ? 1 : 0) - (a.okunmamis ? 1 : 0) || b.mesajlar[b.mesajlar.length - 1].zaman.localeCompare(a.mesajlar[a.mesajlar.length - 1].zaman)).slice(0, 4);

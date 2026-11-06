@@ -7,7 +7,7 @@ ${kart({ ikon: 'fa-clipboard-list', baslik: 'Günün kaydı', metin: '<span id="
 </div>` },
   { id: 'su', ad: 'Su', ikon: 'fa-droplet', govde: `<div class="yigin">
 ${bolumBas({ etiket: 'Bugün', ikon: 'fa-droplet', baslik: 'Su takibin', metin: 'Her bardağı işaretle; haftalık grafiğin buna göre güncellenir.', arac: dugme('Su ihtiyacını hesapla', { href: 'hesaplayicilar/' }) })}
-<div class="iki-kolon esit">${kart({ ikon: 'fa-glass-water', baslik: 'Bugünkü su alımın', metin: '<span id="gtSuMetin"></span>', govde: '<div id="gtSu"></div>', alt: dugme('Geri al', { ek: ' data-su="-250"' }) + dugme('200 ml', { ek: ' data-su="200"' }) + dugme('250 ml', { ek: ' data-su="250"' }) + dugme('500 ml', { sinif: 'birincil', ek: ' data-su="500"' }) })}${kart({ ikon: 'fa-chart-line', baslik: 'Son 7 gün', metin: 'Kesik çizgi günlük hedefin.', govde: '<div id="gtSuGrafik"></div>' })}</div>
+<div class="iki-kolon esit">${kart({ ikon: 'fa-droplet', baslik: 'Bugünkü su alımın', metin: '<span id="gtSuMetin"></span>', govde: '<div id="gtSu"></div>', alt: dugme('Geri al', { ek: ' data-su="-250"' }) + dugme('200 ml', { ek: ' data-su="200"' }) + dugme('250 ml', { ek: ' data-su="250"' }) + dugme('500 ml', { sinif: 'birincil', ek: ' data-su="500"' }) })}${kart({ ikon: 'fa-chart-line', baslik: 'Son 7 gün', metin: 'Kesik çizgi günlük hedefin.', govde: '<div id="gtSuGrafik"></div>' })}</div>
 </div>` },
   { id: 'makro', ad: 'Enerji ve Makro', ikon: 'fa-chart-pie', govde: `<div class="yigin">
 ${bolumBas({ etiket: 'Bugün', ikon: 'fa-chart-pie', baslik: 'Enerji ve makro dengen', metin: 'İşaretlediğin öğünler ve eklediğin besinler günlük hedefinle karşılaştırılır.' })}
@@ -21,7 +21,7 @@ ${bolumBas({ etiket: 'Bugün', ikon: 'fa-person-walking', baslik: 'Adım ve hare
   { id: 'not', ad: 'Notlar', ikon: 'fa-note-sticky', govde: `<div class="yigin">
 ${bolumBas({ etiket: 'Kendine not', ikon: 'fa-note-sticky', baslik: 'Notların', metin: 'Gününe dair kısa notlar. İstersen diyetisyeninle paylaşırsın.' })}
 ${kart({
-    ikon: 'fa-pen-to-square', baslik: 'Bugüne not ekle', form: ' id="gtNotForm"',
+    ikon: 'fa-pen', baslik: 'Bugüne not ekle', form: ' id="gtNotForm"',
     govde: `<div class="alan"><label class="alan-etiket" for="gtNot">Notun <span class="zorunlu">*</span></label><textarea class="alan-metin" id="gtNot" rows="3" required></textarea></div>${secim({ ad: 'gtEtiket', etiket: 'Etiket', secenekler: ['Genel', 'Öğün', 'Su', 'Hareket', 'Uyku', 'Duygu durumu'] })}<label class="onay-kutusu"><input type="checkbox" id="gtNotPaylas"><span>Diyetisyenimle paylaş</span></label>`,
     alt: dugme('Notu kaydet', { sinif: 'birincil', tur: 'submit' }),
   })}

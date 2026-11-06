@@ -40,7 +40,7 @@
   };
   U.rTalepMetin = (r) => {
     const t = r.talep;
-    if (t && t.durum === 'bekliyor') return t.tur === 'iptal' ? 'İptal talebin onay bekliyor' : 'Saat değişikliği talebin (' + U.kisaTarih(t.yeni_tarih) + ', ' + t.yeni_saat + ') onay bekliyor';
+    if (t && t.durum === 'bekliyor') return t.tur === 'iptal' ? 'İptal talebin onay bekliyor' : 'Saat değişikliği talebin (' + U.kisaTarih(t.yeni_tarih) + ', ' + DD.bicim.saat(t.yeni_saat) + ') onay bekliyor';
     if (r.talep_sonuc === 'kabul') return 'Talebin kabul edildi';
     if (r.talep_sonuc === 'red') return 'Talebin reddedildi, randevun geçerli';
     return '';
@@ -63,15 +63,15 @@
   };
   const gun = (t) => { const p = String(t).slice(0, 10).split('-').map(Number); return new Date(p[0], p[1] - 1, p[2]); };
   U.gun = gun;
-  U.tarih = (t) => { if (!t) return ''; const g = gun(t); return g.getDate() + ' ' + AYLAR[g.getMonth()] + ' ' + g.getFullYear(); };
-  U.kisaTarih = (t) => { if (!t) return ''; const g = gun(t); return g.getDate() + ' ' + AYLAR[g.getMonth()]; };
-  U.noktaliTarih = (t) => { if (!t) return ''; const g = gun(t); return String(g.getDate()).padStart(2, '0') + '.' + String(g.getMonth() + 1).padStart(2, '0') + '.' + g.getFullYear(); };
+  U.tarih = (t) => (t ? DD.bicim.tarih(String(t)) : '');
+  U.kisaTarih = U.tarih;
+  U.noktaliTarih = U.tarih;
   U.gunAdi = (t) => GUNLER[gun(t).getDay()];
   U.gunEkle = (t, n) => { const g = gun(t); g.setDate(g.getDate() + n); return g.getFullYear() + '-' + String(g.getMonth() + 1).padStart(2, '0') + '-' + String(g.getDate()).padStart(2, '0'); };
   U.gunFarki = (a, b) => Math.round((gun(b) - gun(a)) / 86400000);
   U.bugun = () => DD.bugun;
-  U.sayi = (n, b = 0) => Number(n || 0).toLocaleString('tr-TR', { minimumFractionDigits: b, maximumFractionDigits: b });
-  U.tl = (n) => '₺' + Number(n || 0).toLocaleString('tr-TR', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+  U.sayi = (n, b = 0) => DD.bicim.sayi(n || 0, b, b);
+  U.tl = (n) => DD.bicim.para(n || 0, Number.isInteger(Number(n || 0)) ? 0 : 2);
 
   /* Boş durum: dört parça zorunlu (kanon §7) */
   U.bos = ({ ikon = 'fa-inbox', baslik, metin, eylem = '' }) => '<div class="bos-durum kart-ici"><span class="bos-ikon"><i class="fa-solid ' + ikon + '" aria-hidden="true"></i></span><h3>' + baslik + '</h3><p>' + metin + '</p>' + eylem + '</div>';
@@ -198,7 +198,7 @@
   U.veyaSatir = (o) => (o.veya || []).map((v) => '<small>veya ' + U.kac(v) + '</small>').join('');
   /* Öğün satırı: çip ve anahtar .as-eylem içinde aynı eksende */
   U.ogunDurum = (i, o) => (i[o.anahtar] ? 'uydu' : i[o.anahtar + '_atla'] ? 'atladi' : '');
-  U.ogunSatir = (o, durum) => '<div class="kalem-satiri" data-ogun="' + o.anahtar + '"><span class="ks-ikon"><i class="fa-solid ' + (durum === 'uydu' ? 'fa-check' : o.ikon) + '" aria-hidden="true"></i></span><div class="ks-metin"><b>' + U.kac(o.ad) + ' · ' + o.saat + '</b><small>' + U.kac(o.metin) + (o.degisti ? ' (alternatif)' : '') + '</small>' + U.veyaSatir(o) + '</div><div class="as-eylem"><div class="segment" role="group" aria-label="' + U.kac(o.ad) + ' durumu"><button type="button" data-ogun-durum="atladi" data-ogun-kalem="' + o.anahtar + '" aria-pressed="' + (durum === 'atladi') + '">Atladım</button><button type="button" data-ogun-durum="uydu" data-ogun-kalem="' + o.anahtar + '" aria-pressed="' + (durum === 'uydu') + '">Plana uydum</button></div></div></div>';
+  U.ogunSatir = (o, durum) => '<div class="kalem-satiri" data-ogun="' + o.anahtar + '"><span class="ks-ikon"><i class="fa-solid ' + (durum === 'uydu' ? 'fa-check' : o.ikon) + '" aria-hidden="true"></i></span><div class="ks-metin"><b>' + U.kac(o.ad) + ' · ' + DD.bicim.saat(o.saat) + '</b><small>' + U.kac(o.metin) + (o.degisti ? ' (alternatif)' : '') + '</small>' + U.veyaSatir(o) + '</div><div class="as-eylem"><div class="segment" role="group" aria-label="' + U.kac(o.ad) + ' durumu"><button type="button" data-ogun-durum="atladi" data-ogun-kalem="' + o.anahtar + '" aria-pressed="' + (durum === 'atladi') + '">Atladım</button><button type="button" data-ogun-durum="uydu" data-ogun-kalem="' + o.anahtar + '" aria-pressed="' + (durum === 'uydu') + '">Plana uydum</button></div></div></div>';
   /* Tek dokunuş: gram istemez; aynı seçime tekrar basmak geri alır */
   document.addEventListener('click', (e) => {
     const d = e.target.closest('[data-ogun-durum]');
@@ -227,7 +227,7 @@
     const R_BASLIK = { dolu: 'Yaklaşan randevun', 'onay-bekliyor': 'Randevu talebin onay bekliyor', 'sonuc-bekliyor': 'Görüşme sonucu bekleniyor', tamamlandi: 'Görüşmen tamamlandı', gelmedi: 'Görüşmeye katılmadın' };
     U.randevular().forEach((r) => {
       const dr = U.rDurum(r), bas = dr === 'iptal' ? (r.iptal_eden === 'diyetisyen' ? 'Diyetisyenin randevuyu iptal etti' : '') : R_BASLIK[dr];
-      if (bas) l.push({ id: 'rnd-' + r.id + '-' + dr, tur: 'randevu', tarih: r.tarih >= b ? b : r.tarih, baslik: bas, metin: dyAd + ' ile ' + U.tarih(r.tarih) + ', ' + r.saat + ' görüşmen.', yol: 'hesabim/diyetisyenim/#randevu' });
+      if (bas) l.push({ id: 'rnd-' + r.id + '-' + dr, tur: 'randevu', tarih: r.tarih >= b ? b : r.tarih, baslik: bas, metin: dyAd + ' ile ' + U.tarih(r.tarih) + ', ' + DD.bicim.saat(r.saat) + ' görüşmen.', yol: 'hesabim/diyetisyenim/#randevu' });
     });
     const son = U.sohbet().mesajlar.filter((m) => m.kimden !== 'danisan').slice(-1)[0];
     if (son) l.push({ id: 'msj-' + son.zaman, tur: 'mesaj', tarih: son.zaman.slice(0, 10), baslik: 'Yeni bir mesajın var', metin: dyAd + ': ' + (son.metin || (son.ek ? son.ek.ad : '')), yol: 'hesabim/diyetisyenim/#mesaj' });
@@ -265,12 +265,12 @@
     if (dn.tahlil_istegi) ekle('fa-flask-vial', 'Diyetisyenin tahlil istedi', dn.tahlil_istegi.not || 'Güncel tahlilini yükle.', 'Tahlil yükle', 'hesabim/saglik-dosyam/#tahlil');
     const rs = U.randevular();
     const sonuc = rs.find((r) => r.talep_sonuc === 'red' && r.tarih >= b);
-    if (sonuc) ekle('fa-calendar-xmark', 'Randevu talebin reddedildi', U.tarih(sonuc.tarih) + ', ' + sonuc.saat + ' görüşmen geçerli.', 'Randevuları gör', 'hesabim/diyetisyenim/#randevu');
+    if (sonuc) ekle('fa-calendar-xmark', 'Randevu talebin reddedildi', U.tarih(sonuc.tarih) + ', ' + DD.bicim.saat(sonuc.saat) + ' görüşmen geçerli.', 'Randevuları gör', 'hesabim/diyetisyenim/#randevu');
     if (u.okunmamis_mesaj) ekle('fa-comments', 'Diyetisyeninden yeni mesaj var', u.okunmamis_mesaj + ' okunmamış mesajın bekliyor.', 'Mesajı aç', 'hesabim/diyetisyenim/#mesaj');
     if (!Object.keys(u.tercihler || {}).length) ekle('fa-user-pen', 'Seni biraz tanıyalım', 'Birkaç soruyla planını ve önerilerini sana göre kuralım.', 'Başla', 'hesabim/hos-geldin/');
     if (k) {
       const i = U.isaret(k, b), bekleyen = U.secilenOgunler(k, b).find((o) => !U.ogunDurum(i, o));
-      if (bekleyen) ekle('fa-utensils', 'Sıradaki öğünün: ' + bekleyen.ad, bekleyen.saat + ' · plana uydun mu?', 'Öğünü işaretle', 'hesabim/gunluk-takibim/');
+      if (bekleyen) ekle('fa-utensils', 'Sıradaki öğünün: ' + bekleyen.ad, DD.bicim.saat(bekleyen.saat) + ' · plana uydun mu?', 'Öğünü işaretle', 'hesabim/gunluk-takibim/');
     } else ekle('fa-list-check', 'Kendine bir program seç', 'Sana uygun programı bul, bugünün öğünleri hemen hazır olsun.', 'Program bul', 'programlar/program-bul/');
     if (U.anamnezEksik().length && (dn.anamnez_hatirlatma || U.diyetisyen())) ekle('fa-notes-medical', 'Sağlık öykünü tamamla', U.anamnezEksik().length + ' alan eksik; yarıda bırakabilirsin.', 'Devam et', 'hesabim/saglik-dosyam/');
     const s = (dn.olcumler || []).slice(-1)[0];

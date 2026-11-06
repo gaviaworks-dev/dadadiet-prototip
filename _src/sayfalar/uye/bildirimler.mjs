@@ -8,6 +8,6 @@ const govde = `<div class="yigin">
 export default () => [uyeSayfa({
   yol: 'hesabim/bildirimler', ad: 'Bildirimler', aktif: 'hesabim/',
   giris: '<span id="bnOzet"></span>',
-  eylem: dugme('Bildirim ayarları', { ikon: 'fa-gear', href: 'hesabim/ayarlar/#bildirim' }) + dugme('Tümünü okundu işaretle', { sinif: 'birincil', ikon: 'fa-check-double', ek: ' id="bnHepsi"' }),
+  eylem: dugme('Bildirim ayarları', { ikon: 'fa-sliders', href: 'hesabim/ayarlar/#bildirim' }) + dugme('Tümünü okundu işaretle', { sinif: 'birincil', ikon: 'fa-check-double', ek: ' id="bnHepsi"' }),
   govde, js: ['assets/js/sayfa/uye-bildirimler.js'],
 })];

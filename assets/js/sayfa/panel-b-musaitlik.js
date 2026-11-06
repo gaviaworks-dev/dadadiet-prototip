@@ -34,7 +34,7 @@
       h += '<div class="takvim-gun-bas' + (kapali ? ' kapali' : '') + '"><button type="button" data-musait="gun" data-g="' + gi + '" aria-label="' + PB.GUNLER[gi] + ' ' + (kapali ? 'aç' : 'kapat') + '">' + g + '<small>' + (kapali ? 'Kapalı' : 'Açık') + '</small></button></div>';
     });
     for (let i = 0; i < SATIR; i++) {
-      h += '<div class="takvim-saat">' + (i % 2 ? '' : saat(BAS + i * ADIM)) + '</div>';
+      h += '<div class="takvim-saat">' + (i % 2 ? '' : DD.bicim.saat(saat(BAS + i * ADIM))) + '</div>';
       I.forEach((gun, gi) => { h += '<div class="takvim-hucre">' + hucre(gi, i) + '</div>'; });
     }
     $('#musaitIzgara').innerHTML = h;
@@ -44,7 +44,7 @@
   const IKON = { '': 'fa-minus', online: 'fa-video', yuzyuze: 'fa-location-dot' };
   function hucre(gi, i) {
     const d = I[gi][i];
-    return '<button class="takvim-slot ' + (d || 'bos') + '" type="button" data-g="' + gi + '" data-i="' + i + '" aria-label="' + PB.GUNLER[gi] + ' ' + saat(BAS + i * ADIM) + ', ' + AD[d] + '"><i class="fa-solid ' + IKON[d] + '" aria-hidden="true"></i></button>';
+    return '<button class="takvim-slot ' + (d || 'bos') + '" type="button" data-g="' + gi + '" data-i="' + i + '" aria-label="' + PB.GUNLER[gi] + ' ' + DD.bicim.saat(saat(BAS + i * ADIM)) + ', ' + AD[d] + '"><i class="fa-solid ' + IKON[d] + '" aria-hidden="true"></i></button>';
   }
   function hucreYaz(gi, i, d) {
     if (I[gi][i] === d) return;

@@ -701,7 +701,7 @@
       var sabit = tr.classList.toggle('sabit');
       d.setAttribute('aria-pressed', String(sabit));
       var si = d.querySelector('i');
-      if (si) si.className = sabit ? 'fa-solid fa-thumbtack' : 'fa-regular fa-thumbtack';
+      if (si) si.className = sabit ? 'fa-solid fa-thumbtack' : 'fa-solid fa-thumbtack';
       if (sabit) {
         /* Satır ÜSTE taşınır — sabitlemenin görünür karşılığı bu.
            Nereden geldiği saklanır ki geri alınabilsin. */

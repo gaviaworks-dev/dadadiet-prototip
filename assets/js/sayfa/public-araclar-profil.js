@@ -4,7 +4,7 @@
   const $ = (id) => document.getElementById(id);
   const kac = (s) => String(s == null ? '' : s).replace(/[&<>"]/g, (m) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[m]));
   const ikon = (x) => '<i class="fa-solid ' + x + '" aria-hidden="true"></i>';
-  const tl = (n) => '₺' + Number(n).toLocaleString('tr-TR');
+  const tl = (n) => DD.bicim.para(n);
 
   document.addEventListener('click', (e) => {
     const p = e.target.closest('[data-paylas]');
@@ -72,8 +72,8 @@
       }
       if (!l.length) continue;
       gosterilen++;
-      const ad = (i === 1 ? 'Yarın, ' : '') + GUN[t.getDay()] + ' ' + t.getDate() + ' ' + AY[t.getMonth()];
-      html += '<p class="gun-baslik">' + ad + '</p><div class="saat-izgara">' + l.slice(0, 10).map((s) => { const k = dolu.has(iso(t) + ' ' + s); return '<button class="cip" type="button" aria-pressed="false"' + (k ? ' disabled aria-label="' + s + ' dolu"' : '') + ' data-deger="' + iso(t) + ' ' + s + '" data-etiket="' + ad + ', ' + s + '">' + s + '</button>'; }).join('') + '</div>';
+      const ad = (i === 1 ? 'Yarın, ' : '') + GUN[t.getDay()] + ', ' + DD.bicim.tarih(iso(t));
+      html += '<p class="gun-baslik">' + ad + '</p><div class="saat-izgara">' + l.slice(0, 10).map((s) => { const k = dolu.has(iso(t) + ' ' + s); return '<button class="cip" type="button" aria-pressed="false"' + (k ? ' disabled aria-label="' + DD.bicim.saat(s) + ' dolu"' : '') + ' data-deger="' + iso(t) + ' ' + s + '" data-etiket="' + ad + ', ' + DD.bicim.saat(s) + '">' + DD.bicim.saat(s) + '</button>'; }).join('') + '</div>';
     }
     $('slotlar').innerHTML = html;
     $('slotNot').textContent = 'Bir saat seçilmedi.';

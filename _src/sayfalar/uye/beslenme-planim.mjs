@@ -8,7 +8,7 @@ ${kart({
     ikon: 'fa-chart-line', baslik: 'Programa uyum durumun', metin: 'Uyum, tamamlanan öğünlerin planlanan öğünlere oranıdır.',
     sag: `<div class="as-eylem">${dugme('Uyum dökümü', { sinif: 'hayalet kucuk', ikon: 'fa-table-list', ek: ' id="bpDokumDugme" aria-expanded="false" aria-controls="bpDokum"' })}</div>`,
     govde: '<div id="bpUyum"></div><div id="bpDokum" hidden></div>',
-    alt: `${dugme('Programı duraklat', { ikon: 'fa-pause', ek: ' id="bpDuraklat"' })}${dugme('Diyetisyene not gönder', { ikon: 'fa-pen-to-square', ek: ' data-not-ac' })}${dugme('Bugünün öğünleri', { sinif: 'birincil', ikon: 'fa-utensils', ek: ' data-sekme-git="ogun"' })}`,
+    alt: `${dugme('Programı duraklat', { ikon: 'fa-pause', ek: ' id="bpDuraklat"' })}${dugme('Diyetisyene not gönder', { ikon: 'fa-pen', ek: ' data-not-ac' })}${dugme('Bugünün öğünleri', { sinif: 'birincil', ikon: 'fa-utensils', ek: ' data-sekme-git="ogun"' })}`,
     id: 'bpUyumKart',
   })}
 ${kart({ ikon: 'fa-comments', baslik: 'Bu programda gönderdiğin notlar', metin: 'Diyetisyenine ilettiğin notlar mesajlarına da düşer.', bosluksuz: true, govde: '<div id="bpNotlar"></div>' })}
@@ -30,7 +30,7 @@ ${kart({
     ikon: 'fa-utensils', baslik: 'Öğün listesi', metin: '<span id="bpOgunOzet"></span>', bosluksuz: true,
     sag: '<div class="as-eylem"><span class="durum-hapi bekleyen" id="bpOgunSayac"></span></div>',
     govde: '<div class="kalem-liste" id="bpOgunler"></div>',
-    alt: `<span class="eylem-notu" id="bpOgunNot"></span>${dugme('Diyetisyene not gönder', { ikon: 'fa-pen-to-square', ek: ' data-not-ac' })}${dugme('Alternatifler', { ikon: 'fa-right-left', ek: ' data-sekme-git="alternatif"' })}${dugme('Kalan öğünleri işaretle', { sinif: 'birincil', ikon: 'fa-check-double', ek: ' id="bpHepsi"' })}`,
+    alt: `<span class="eylem-notu" id="bpOgunNot"></span>${dugme('Diyetisyene not gönder', { ikon: 'fa-pen', ek: ' data-not-ac' })}${dugme('Alternatifler', { ikon: 'fa-right-left', ek: ' data-sekme-git="alternatif"' })}${dugme('Kalan öğünleri işaretle', { sinif: 'birincil', ikon: 'fa-check-double', ek: ' id="bpHepsi"' })}`,
   })}
 ${kart({
     ikon: 'fa-chart-pie', baslik: 'Günün makro toplamı', metin: 'İşaretlenen öğünlerden hesaplanır. Hedef, günün plan toplamıdır.', bosluksuz: true,

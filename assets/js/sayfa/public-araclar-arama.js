@@ -8,7 +8,7 @@
   const ikon = (x) => '<i class="fa-solid ' + x + '" aria-hidden="true"></i>';
   const veri = window.DD_VERI || {};
   const dizin = V.dizin.concat(
-    (veri.besinler ? veri.besinler.besinler : []).map((b) => ({ tur: 'besin', ad: b.ad, metin: b.kcal + ' kcal / 100 g · ' + b.kategori, href: V.besinDetay, ikon: 'fa-leaf', etiket: 'Besin' })),
+    (veri.besinler ? veri.besinler.besinler : []).map((b) => ({ tur: 'besin', ad: b.ad, metin: DD.bicim.kcal(b.kcal) + ' / 100 g · ' + b.kategori, href: V.besinDetay, ikon: 'fa-leaf', etiket: 'Besin' })),
     (veri.tarifler ? veri.tarifler.tarifler : []).map((t) => ({ tur: 'tarif', ad: t.ad, metin: t.ozet, href: V.tarifDetay, gorsel: t.gorsel_dosya, etiket: 'Tarif' })));
 
   const q = (new URLSearchParams(location.search).get('q') || '').trim();

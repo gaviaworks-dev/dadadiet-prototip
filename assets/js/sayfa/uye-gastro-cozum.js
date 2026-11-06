@@ -45,7 +45,7 @@
 
   /* Yeni talep: konu bağlam alanı açar */
   const RANDEVU = ['Diyetisyen ve randevu'], ODEME = ['Ödeme sorunu', 'Fatura talebi', 'İptal ve iade', 'Pro abonelik'];
-  $('#tkRandevu').innerHTML = '<option value="">Seçme</option>' + U.randevular().map((r) => '<option>' + U.noktaliTarih(r.tarih) + ' · ' + r.saat + ' · ' + U.kac(U.basHarf(r.tur)) + '</option>').join('');
+  $('#tkRandevu').innerHTML = '<option value="">Seçme</option>' + U.randevular().map((r) => '<option>' + U.noktaliTarih(r.tarih) + ' · ' + DD.bicim.saat(r.saat) + ' · ' + U.kac(U.basHarf(r.tur)) + '</option>').join('');
   $('#tkOdeme').innerHTML = '<option value="">Seçme</option>' + G.faturalar().map((x) => '<option>' + U.kac(x.no) + '</option>').join('');
   $('#tkKonu').addEventListener('change', (e) => {
     const r = RANDEVU.includes(e.target.value), o = ODEME.includes(e.target.value);

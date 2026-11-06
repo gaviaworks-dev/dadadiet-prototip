@@ -25,7 +25,7 @@
     const dn = PA.danisan(r.danisan_id), durum = PA.rDurum(r);
     const sinif = (durum === 'dolu' ? 'dolu' : durum) + (r.talep ? ' talepli' : '');
     const isaret = r.talep ? `<span class="takvim-isaret"><i class="fa-solid ${r.talep.tur === 'iptal' ? 'fa-ban' : 'fa-arrow-right-arrow-left'}" aria-hidden="true"></i> ${PA.talepAdi(r)}</span>` : durum === 'onay-bekliyor' ? '<span class="takvim-isaret"><i class="fa-solid fa-circle-question" aria-hidden="true"></i> Onay</span>' : '';
-    return `<button class="takvim-slot ${sinif}" type="button" data-randevu="${r.id}" aria-label="${h(dn.ad)}, ${r.saat}, ${PA.rTur(r)}, ${r.sure} dakika, ${h(PA.rEtiket(r))}${r.talep ? ', ' + PA.talepAdi(r) : ''}"><b>${r.saat}${isaret}</b><small><i class="fa-solid ${PA.rIkon(r)}" aria-hidden="true"></i> ${h(dn.ad)}</small>${v.gorunum === 'gun' ? `<small>${PA.rTur(r)} · ${r.sure} dk · ${h(PA.rEtiket(r))}${r.not ? ' · ' + h(r.not) : ''}</small>` : ''}</button>`;
+    return `<button class="takvim-slot ${sinif}" type="button" data-randevu="${r.id}" aria-label="${h(dn.ad)}, ${DD.bicim.saat(r.saat)}, ${PA.rTur(r)}, ${r.sure} dakika, ${h(PA.rEtiket(r))}${r.talep ? ', ' + PA.talepAdi(r) : ''}"><b>${DD.bicim.saat(r.saat)}${isaret}</b><small><i class="fa-solid ${PA.rIkon(r)}" aria-hidden="true"></i> ${h(dn.ad)}</small>${v.gorunum === 'gun' ? `<small>${PA.rTur(r)} · ${r.sure} dk · ${h(PA.rEtiket(r))}${r.not ? ' · ' + h(r.not) : ''}</small>` : ''}</button>`;
   }
   function gunHucreleri(iso, sutun, a) {
     const g = PA.gunDuzeni(iso), parca = [];
@@ -34,7 +34,7 @@
     const rs = PA.d().randevular.filter((r) => r.tarih === iso && PA.rAcik(r)).sort((x, y) => x.saat.localeCompare(y.saat));
     const kapaliBlok = (bas, bit, metin) => {
       if (bit <= bas) return;
-      parca.push(yerlestir(dugum('takvim-hucre' + bugun, `<span class="takvim-slot kapali" role="img" aria-label="${h(metin)}, ${PA.saat(bas)}-${PA.saat(bit)}">${h(metin)}</span>`), sutun, satirOf(bas), (bit - bas) / ADIM));
+      parca.push(yerlestir(dugum('takvim-hucre' + bugun, `<span class="takvim-slot kapali" role="img" aria-label="${h(metin)}, ${DD.bicim.saat(PA.saat(bas))}-${DD.bicim.saat(PA.saat(bit))}">${h(metin)}</span>`), sutun, satirOf(bas), (bit - bas) / ADIM));
     };
     if (!g.acik) { kapaliBlok(a.bas, a.bit, g.neden); return parca; }
     kapaliBlok(a.bas, g.bas, 'Kapalı');
@@ -46,7 +46,7 @@
       const blok = PA.blokBul(iso, m, m + ADIM);
       if (blok) {
         const yuk = Math.max(1, Math.ceil((PA.dakika(blok.saat) + blok.sure - m) / ADIM));
-        parca.push(yerlestir(dugum('takvim-hucre' + bugun, `<button class="takvim-slot kapali" type="button" data-blok="${blok.id}" aria-label="${h(blok.neden)}, ${blok.saat}, kapatmayı kaldır">${h(blok.neden)}</button>`), sutun, satirOf(m), yuk));
+        parca.push(yerlestir(dugum('takvim-hucre' + bugun, `<button class="takvim-slot kapali" type="button" data-blok="${blok.id}" aria-label="${h(blok.neden)}, ${DD.bicim.saat(blok.saat)}, kapatmayı kaldır">${h(blok.neden)}</button>`), sutun, satirOf(m), yuk));
         m += yuk * ADIM;
         continue;
       }
@@ -63,7 +63,7 @@
         m += ADIM;
         continue;
       }
-      parca.push(yerlestir(dugum('takvim-hucre' + bugun, gecmis ? '' : `<button class="takvim-slot bos" type="button" data-tarih="${iso}" data-saat="${PA.saat(m)}" aria-label="${PA.tarih(iso)} ${PA.saat(m)}, boş, randevu oluştur"><i class="fa-solid fa-plus" aria-hidden="true"></i></button>`), sutun, satirOf(m), 1));
+      parca.push(yerlestir(dugum('takvim-hucre' + bugun, gecmis ? '' : `<button class="takvim-slot bos" type="button" data-tarih="${iso}" data-saat="${PA.saat(m)}" aria-label="${PA.tarih(iso)} ${DD.bicim.saat(PA.saat(m))}, boş, randevu oluştur"><i class="fa-solid fa-plus" aria-hidden="true"></i></button>`), sutun, satirOf(m), 1));
       m += ADIM;
     }
     return parca;
@@ -74,7 +74,7 @@
     izgara.innerHTML = '';
     izgara.appendChild(yerlestir(dugum('takvim-kose', 'Saat'), 1, 1));
     gl.forEach((iso, i) => izgara.appendChild(yerlestir(dugum('takvim-gun-bas' + (iso === DD.bugun ? ' bugun' : ''), `${PA.gunKisa(iso)}<b>${+iso.slice(8)}</b>`), i + 2, 1)));
-    for (let m = a.bas, s = 2; m < a.bit; m += ADIM, s++) izgara.appendChild(yerlestir(dugum('takvim-saat', m % 60 ? '' : PA.saat(m)), 1, s));
+    for (let m = a.bas, s = 2; m < a.bit; m += ADIM, s++) izgara.appendChild(yerlestir(dugum('takvim-saat', m % 60 ? '' : DD.bicim.saat(PA.saat(m))), 1, s));
     gl.forEach((iso, i) => gunHucreleri(iso, i + 2, a).forEach((e) => izgara.appendChild(e)));
     const bugunSira = gl.indexOf(DD.bugun), simdi = PA.dakika(PA.simdi.slice(11, 16));
     if (bugunSira > -1 && simdi >= a.bas && simdi < a.bit) izgara.appendChild(yerlestir(dugum('takvim-simdi'), bugunSira + 2, 2 + Math.floor((simdi - a.bas) / ADIM)));
@@ -94,7 +94,7 @@
         : PA.rDurum(r) === 'sonuc-bekliyor'
         ? `<button class="dugme hayalet kucuk" type="button" data-randevu="${r.id}">Sonuç gir</button>`
         : `<button class="ikon-dugme" type="button" data-randevu="${r.id}" aria-label="${h(dn.ad)} randevusunu aç"><i class="fa-solid fa-chevron-right" aria-hidden="true"></i></button>`;
-      return `<tr><td data-etiket="Tarih"><b>${PA.tarih(r.tarih)}</b><small>${PA.gunAdi(r.tarih)} · ${r.saat}</small></td><td data-etiket="Danışan"><a class="kisi-hucre" href="${PA.yol.danisan(dn.id)}">${PA.avatar(dn.ad)}<span class="kisi-bilgi"><span class="kisi-ad">${h(dn.ad)}</span></span></a></td><td data-etiket="Görüşme">${PA.rTur(r)}<small>${r.sure} dk${r.ozel_not || r.not ? ' · ' + h(r.ozel_not || r.not) : ''}</small></td><td data-etiket="Durum">${PA.rHap(r)}${PA.talepRozet(r)}</td><td class="eylem"><span class="satir-eylem">${eylem}</span></td></tr>`;
+      return `<tr><td data-etiket="Tarih"><b>${PA.tarih(r.tarih)}</b><small>${PA.gunAdi(r.tarih)} · ${DD.bicim.saat(r.saat)}</small></td><td data-etiket="Danışan"><a class="kisi-hucre" href="${PA.yol.danisan(dn.id)}">${PA.avatar(dn.ad)}<span class="kisi-bilgi"><span class="kisi-ad">${h(dn.ad)}</span></span></a></td><td data-etiket="Görüşme">${PA.rTur(r)}<small>${r.sure} dk${r.ozel_not || r.not ? ' · ' + h(r.ozel_not || r.not) : ''}</small></td><td data-etiket="Durum">${PA.rHap(r)}${PA.talepRozet(r)}</td><td class="eylem"><span class="satir-eylem">${eylem}</span></td></tr>`;
     }).join('') : '<tr><td colspan="5"><div class="bos-durum kart-ici"><span class="bos-ikon"><i class="fa-solid fa-calendar-xmark" aria-hidden="true"></i></span><h3>Bu dönemde randevu yok</h3><p>Boş bir saate tıklayarak randevu oluşturabilirsin.</p></div></td></tr>';
   }
   function ozetCiz() {

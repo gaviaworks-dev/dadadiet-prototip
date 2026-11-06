@@ -26,7 +26,7 @@
     durum.saat = t.ilk_ogun_saati || durum.p.ilk; durum.elle = Boolean(t.ilk_ogun_saati);
   }
   const dk = (s) => { const [h, m] = s.split(':').map(Number); return h * 60 + m; };
-  const saat = (d) => { d = ((d % 1440) + 1440) % 1440; return String(Math.floor(d / 60)).padStart(2, '0') + ':' + String(d % 60).padStart(2, '0'); };
+  const saat = (d) => { d = ((d % 1440) + 1440) % 1440; return String(Math.floor(d / 60)).padStart(2, '0') + '.' + String(d % 60).padStart(2, '0'); };
 
   /* Çark */
   const simdi = () => { const n = new Date(); return n.getHours() * 60 + n.getMinutes(); };
@@ -101,7 +101,7 @@
     document.querySelectorAll('#protokoller .secenek').forEach((b) => b.setAttribute('aria-pressed', String(b.dataset.deger === durum.p.id)));
     $('ilkLokma').value = durum.saat;
   }
-  const kayitYaz = (k) => { $('kayitDurum').querySelector('span').textContent = k ? 'Saatlerin profiline kaydedildi: ' + durum.p.ad + ', ilk lokma ' + durum.saat + '.' : 'Bir seçim yaptığında saatlerin profiline kaydedilir.'; };
+  const kayitYaz = (k) => { $('kayitDurum').querySelector('span').textContent = k ? 'Saatlerin profiline kaydedildi: ' + durum.p.ad + ', ilk lokma ' + DD.bicim.saat(durum.saat) + '.' : 'Bir seçim yaptığında saatlerin profiline kaydedilir.'; };
   function kaydet() {
     if (!DD.oturum.acik()) return;
     S.yaz({ oruc_protokol: durum.p.id, ilk_ogun_saati: durum.saat });
@@ -109,7 +109,7 @@
   }
 
   $('protokoller').innerHTML = PROTOKOL.map((p) => '<button class="secenek" type="button" data-deger="' + p.id + '" aria-pressed="false"><i class="fa-solid ' + p.ikon + '" aria-hidden="true"></i><span>' + p.baslik + '<small>' + p.alt + '</small></span></button>').join('');
-  $('saatCipler').innerHTML = ['08:00', '10:00', '12:00', '14:00'].map((s) => '<button class="cip" type="button" data-saat="' + s + '">' + s + '</button>').join('');
+  $('saatCipler').innerHTML = ['08:00', '10:00', '12:00', '14:00'].map((s) => '<button class="cip" type="button" data-saat="' + s + '">' + DD.bicim.saat(s) + '</button>').join('');
   $('protokoller').addEventListener('dd:secim', (e) => {
     durum.p = PROTOKOL.find((x) => x.id === e.detail.deger); if (!durum.elle) durum.saat = durum.p.ilk; ciz(); kaydet();
   });

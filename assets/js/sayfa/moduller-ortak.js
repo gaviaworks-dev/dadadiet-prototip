@@ -262,10 +262,10 @@
     const iki = (l) => l.filter((x) => x.x != null || x.y != null);
     const sat = (x) => satirHtml(x, [adA, adB]);
     /* Üst şerit: tabloya inmeden beş sayı */
-    const serit = '<div class="karsi-serit"><p class="alan-yardim"><span><b>' + adA + '</b> ↔ <b>' + adB + '</b> · ' + kac(kip === '100' ? '100 g başına' : kip === 'porsiyon' ? 'birer porsiyon' : '100 kcal başına') + '</span></p><dl class="kunye c5">'
+    const serit = '<div class="karsi-serit"><p class="alan-yardim"><span><b>' + adA + '</b> <i class="fa-solid fa-right-left" aria-hidden="true"></i> <b>' + adB + '</b> · ' + kac(kip === '100' ? '100 g başına' : kip === 'porsiyon' ? 'birer porsiyon' : '100 kcal başına') + '</span></p><dl class="kunye c5">'
       + r.ana.filter((x) => ['kcal', 'protein', 'yag', 'karb', 'lif'].includes(x.s.a)).map((x) => {
         const v = (d, t) => (d == null ? '–' : (onde(x) === t ? '<b>' + M.sayi(d, x.s.b == null ? 1 : x.s.b) + '</b>' : M.sayi(d, x.s.b == null ? 1 : x.s.b)));
-        return '<div><dt>' + kac(x.s.ad.replace(' (lif dahil)', '').replace('Karbonhidrat', 'Karb').replace('Toplam yağ', 'Yağ')) + '</dt><dd class="karsi-deger">' + v(x.x, -1) + ' ↔ ' + v(x.y, 1) + ' <small>' + x.s.birim + '</small></dd></div>';
+        return '<div><dt>' + kac(x.s.ad.replace(' (lif dahil)', '').replace('Karbonhidrat', 'Karb').replace('Toplam yağ', 'Yağ')) + '</dt><dd class="karsi-deger">' + v(x.x, -1) + ' <i class="fa-solid fa-right-left" aria-hidden="true"></i> ' + v(x.y, 1) + ' <small>' + x.s.birim + '</small></dd></div>';
       }).join('') + '</dl></div>';
     const mikGor = iki(r.mik);
     const mikYok = r.mik.filter((x) => x.x == null && x.y == null).map((x) => x.s.ad);

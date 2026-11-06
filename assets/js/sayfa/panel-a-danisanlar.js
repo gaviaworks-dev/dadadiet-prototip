@@ -36,7 +36,7 @@
     if (x.davet) return `<button class="ikon-dugme yikici" type="button" data-davet-sil="${x.id}" aria-label="${h(x.ad)} davetini geri al"><i class="fa-solid fa-xmark" aria-hidden="true"></i></button>`;
     const ac = `<a class="ikon-dugme" href="${PA.yol.danisan(x.id)}" aria-label="${h(x.ad)} kartını aç"><i class="fa-solid fa-eye" aria-hidden="true"></i></a>`;
     if (x.durum === 'talep') return `<button class="ikon-dugme" type="button" data-adim="talep-kabul" data-danisan="${x.id}" aria-label="${h(x.ad)} talebini kabul et"><i class="fa-solid fa-check" aria-hidden="true"></i></button><button class="ikon-dugme yikici" type="button" data-adim="talep-red" data-danisan="${x.id}" aria-label="${h(x.ad)} talebini reddet"><i class="fa-solid fa-xmark" aria-hidden="true"></i></button>` + ac;
-    const mesaj = `<a class="ikon-dugme" href="${PA.yol.sohbet(x.id)}" aria-label="${h(x.ad)} ile mesajlaş"><i class="fa-solid fa-comment" aria-hidden="true"></i></a>`;
+    const mesaj = `<a class="ikon-dugme" href="${PA.yol.sohbet(x.id)}" aria-label="${h(x.ad)} ile mesajlaş"><i class="fa-solid fa-paper-plane" aria-hidden="true"></i></a>`;
     const randevu = PA.takipte(x) ? `<button class="ikon-dugme" type="button" data-randevu-ac data-danisan="${x.id}" aria-label="${h(x.ad)} için randevu oluştur"><i class="fa-solid fa-calendar-plus" aria-hidden="true"></i></button>` : '';
     return ac + mesaj + randevu;
   }
@@ -109,7 +109,7 @@
     kolonlar.forEach((x) => {
       const acik = x === k && acilacak, th = document.querySelector('[data-kolon-opsiyon="' + x.dataset.kolonSec + '"]');
       x.setAttribute('aria-pressed', String(acik));
-      x.querySelector('i').className = acik ? 'fa-solid fa-square-check' : 'fa-regular fa-square';
+      x.querySelector('i').className = acik ? 'fa-solid fa-eye' : 'fa-solid fa-eye-slash';
       v.kolon[x.dataset.kolonSec] = acik;
       th.hidden = !acik;
       th.classList.toggle('gizli', !acik); /* kit fazla kolonu gizli işaretler */

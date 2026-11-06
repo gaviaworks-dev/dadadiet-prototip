@@ -82,7 +82,7 @@
         '<span class="gun-rozet ' + s.durum + '" title="' + (s.durum ? 'Hedefe göre ' + s.etiket : 'Gün boş') + '">' + (t.kcal ? sayi(t.kcal) : '—') + '<span class="rozet-hedef"> / ' + sayi(S.hedef_kcal) + '</span></span></div>';
     });
     acikOgunler().forEach((o) => {
-      h += '<div class="plan-ogun"><i class="fa-solid ' + o.ikon + '" aria-hidden="true"></i>' + esc(o.ad) + '<small>' + esc(o.saat) + '</small></div>';
+      h += '<div class="plan-ogun"><i class="fa-solid ' + o.ikon + '" aria-hidden="true"></i>' + esc(o.ad) + '<small>' + esc(DD.bicim.saat(o.saat)) + '</small></div>';
       gunler.forEach((i) => {
         const l = S.gunler[i].ogunler[o.id];
         const ekle = '<button class="plan-ekle simge" type="button" data-plan="ekle-ac" data-g="' + i + '" data-o="' + o.id + '" aria-label="' + gunAd(i) + ' ' + esc(o.ad) + ' öğününe ekle"><i class="fa-solid fa-plus" aria-hidden="true"></i></button>';
@@ -119,7 +119,7 @@
     const g = secGun, mak = (d) => '<span class="num makro">' + sayi(d.protein, 1) + '</span><span class="num makro">' + sayi(d.karb, 1) + '</span><span class="num makro">' + sayi(d.yag, 1) + '</span><span class="num makro">' + sayi(d.lif, 1) + '</span>';
     $('#gunDetay').innerHTML = acikOgunler().map((o) => {
       const l = S.gunler[g].ogunler[o.id], t = PB.topla(l);
-      return '<section class="gun-ogun plan-hucre-gun" data-g="' + g + '" data-o="' + o.id + '"><div class="gun-ogun-bas"><b><i class="fa-solid ' + o.ikon + '" aria-hidden="true"></i>' + esc(o.ad) + ' <small>' + esc(o.saat) + '</small></b><span class="num">kcal</span><span class="num makro">P</span><span class="num makro">K</span><span class="num makro">Y</span><span class="num makro">Lif</span><span></span></div>' +
+      return '<section class="gun-ogun plan-hucre-gun" data-g="' + g + '" data-o="' + o.id + '"><div class="gun-ogun-bas"><b><i class="fa-solid ' + o.ikon + '" aria-hidden="true"></i>' + esc(o.ad) + ' <small>' + esc(DD.bicim.saat(o.saat)) + '</small></b><span class="num">kcal</span><span class="num makro">P</span><span class="num makro">K</span><span class="num makro">Y</span><span class="num makro">Lif</span><span></span></div>' +
         l.map((k, ki) => {
           const d = PB.kalemDeger(k), uy = uyariOf(k), adr = ' data-g="' + g + '" data-o="' + o.id + '" data-k="' + ki + '"';
           return '<div class="gun-kalem' + (uy.length ? ' uyarili' : '') + '">' + gorselHtml(k, 'secim-gorsel') + '<button class="gun-kalem-ac" type="button" data-plan="kalem-ac"' + adr + '>' + esc(PB.kalemCumle(k)) + (k.alternatif ? '<small>veya ' + esc(PB.kalemCumle(k.alternatif)) + '</small>' : '') + (uy.length ? '<small>' + esc(uy.map(PB.hassasiyetAd).join(', ')) + '</small>' : '') + '</button>' +
@@ -267,7 +267,7 @@
     const degisik = kirli || (PB.liste('planlar').find((p) => p.id === S.id) || {}).taslak;
     const sira = window.PA && PA.siradaki ? PA.siradaki(dn) : null; /* danışan listesi ve kartıyla aynı cümle */
     $('#sonrakiAdim').innerHTML = '<span class="as-ikon"><i class="fa-solid fa-circle-check" aria-hidden="true"></i></span><span class="as-metin"><b>Plan ' + esc(dn.ad) + ' için gönderildi' + (S.surum > 1 ? ', sürüm ' + S.surum : '') + '</b><span>' + (degisik ? 'Gönderilmemiş değişiklik var; danışan önceki sürümü görüyor.' : sira && sira.etiket ? 'Sıradaki adım: ' + esc(sira.baslik) + '. ' + esc(sira.metin) : 'Sıradaki adım: danışana haber ver, kontrol görüşmesini planla.') + '</span></span>' +
-      '<a class="dugme hayalet kucuk" href="' + k + 'mesajlar/?danisan=' + dn.id + '"><i class="fa-solid fa-comment" aria-hidden="true"></i> Danışana mesaj yaz</a>' +
+      '<a class="dugme hayalet kucuk" href="' + k + 'mesajlar/?danisan=' + dn.id + '"><i class="fa-solid fa-paper-plane" aria-hidden="true"></i> Danışana mesaj yaz</a>' +
       '<a class="dugme hayalet kucuk" href="' + k + 'takvim/?yeni=1&danisan=' + dn.id + '"><i class="fa-solid fa-calendar-plus" aria-hidden="true"></i> Kontrol randevusu oluştur</a>' +
       (uye ? '<a class="dugme hayalet kucuk" href="' + DD.kok + 'hesabim/beslenme-planim/" target="_blank" rel="noopener"><i class="fa-solid fa-mobile-screen" aria-hidden="true"></i> Üye ekranını gör</a>' : '<a class="dugme hayalet kucuk" href="' + k + 'danisanlar/' + dn.id + '/?sekme=plan"><i class="fa-solid fa-id-card" aria-hidden="true"></i> Danışan kartını aç</a>');
   }
@@ -376,7 +376,7 @@
     hedefHucre = { g, o };
     mikroSuzgec = mikro || null;
     const og = S.ogun_duzeni.find((x) => x.id === o), odak = (k) => PB.kalemCumle(S.gunler[k.g].ogunler[k.o][k.k]);
-    $('#sheetBaslik').textContent = altHedef ? 'Alternatif seç · ' + odak(altHedef) : degistirHedef ? 'Değiştir · ' + odak(degistirHedef) : gunAd(g) + ' · ' + og.ad + ' · ' + og.saat + (mikro ? ' · ' + mikro.ad : '');
+    $('#sheetBaslik').textContent = altHedef ? 'Alternatif seç · ' + odak(altHedef) : degistirHedef ? 'Değiştir · ' + odak(degistirHedef) : gunAd(g) + ' · ' + og.ad + ' · ' + DD.bicim.saat(og.saat) + (mikro ? ' · ' + mikro.ad : '');
     arama = ''; $('#sheetAra').value = '';
     $('#suzOgun').value = OGUN_TIP[o]; $('#suzKcal').value = ''; $('#suzKategori').value = '';
     if (mikro) $('#suzOgun').value = '';
@@ -460,7 +460,7 @@
   }
   function kopyaAc(g, o, kalem) {
     kopyaKalem = kalem || null;
-    const secenek = acikOgunler().map((x) => '<option value="' + x.id + '">' + esc(x.ad) + ' · ' + esc(x.saat) + '</option>').join('');
+    const secenek = acikOgunler().map((x) => '<option value="' + x.id + '">' + esc(x.ad) + ' · ' + esc(DD.bicim.saat(x.saat)) + '</option>').join('');
     $('#kopyaOgunKaynak').innerHTML = secenek; $('#kopyaOgunHedef').innerHTML = secenek;
     if (o) { $('#kopyaOgunKaynak').value = o; $('#kopyaOgunHedef').value = o; }
     $('#kopyaPlan').innerHTML = '<option value="">Bu plan</option>' + kaynakPlanlar().map((p) => '<option value="' + esc(p.id) + '">' + esc(p.ad) + '</option>').join('');
@@ -567,7 +567,7 @@
       '<div class="gun-sekme">' + S.gunler.map((_, i) => '<button type="button" data-plan="oniz-gun" data-g="' + i + '" aria-pressed="' + (i === onizGun) + '">' + gunKisa(i) + ' ' + gunTarihi(i) + '</button>').join('') + '</div>' +
       '<div>' + acikOgunler().map((o) => {
         const l = g.ogunler[o.id];
-        return '<div class="oniz-ogun"><span><b>' + esc(o.saat) + '</b><small>' + esc(o.ad) + '</small></span><ul>' + (l.length ? l.map((k) => '<li>' + esc(metin(k)) + (k.alternatif ? '<small>veya ' + esc(metin(k.alternatif)) + '</small>' : '') + '</li>').join('') : '<li><small>Bu öğün için kalem yok.</small></li>') + '</ul><b>' + sayi(PB.topla(l).kcal) + ' kcal</b></div>';
+        return '<div class="oniz-ogun"><span><b>' + esc(DD.bicim.saat(o.saat)) + '</b><small>' + esc(o.ad) + '</small></span><ul>' + (l.length ? l.map((k) => '<li>' + esc(metin(k)) + (k.alternatif ? '<small>veya ' + esc(metin(k.alternatif)) + '</small>' : '') + '</li>').join('') : '<li><small>Bu öğün için kalem yok.</small></li>') + '</ul><b>' + sayi(PB.topla(l).kcal) + ' kcal</b></div>';
       }).join('') + '</div>' +
       '<div class="deger-satir"><span>Gün toplamı</span><b>' + sayi(t.kcal) + ' / ' + sayi(S.hedef_kcal) + ' kcal</b></div>';
   }

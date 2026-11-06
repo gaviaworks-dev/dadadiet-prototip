@@ -4,7 +4,7 @@ import { kart, ayarSatir, anahtar, dugme, modal } from '../../parcalar/uye/ust.m
 
 const bildirimler = [
   ['takip_uygulama', 'fa-utensils', 'Öğün hatırlatması', 'Öğün girmediğin günlerde akşam hatırlatması.', true],
-  ['su_uygulama', 'fa-glass-water', 'Su hatırlatması', 'Günlük su hedefine ulaşmadığında hatırlatma.', true],
+  ['su_uygulama', 'fa-droplet', 'Su hatırlatması', 'Günlük su hedefine ulaşmadığında hatırlatma.', true],
   ['oruc_uygulama', 'fa-hourglass-half', 'Oruç penceresi hatırlatması', 'Yeme penceren açılmadan ve kapanmadan önce haber verir.', false],
   ['rapor_eposta', 'fa-chart-line', 'Haftalık özet', 'Pazar akşamı e-postayla öğün, su ve ölçüm özeti.', true],
 ];

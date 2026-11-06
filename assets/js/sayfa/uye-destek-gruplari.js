@@ -16,7 +16,7 @@
   function detay() {
     const g = gruplar.find((x) => x.slug === secili);
     const u = uyelik()[g.slug];
-    const bas = '<div class="msj-kart-bas sohbet-bas"><span class="sohbet-mono buyuk ' + (u ? 'ok' : 'wait') + '">' + g.mono + '</span><div class="sohbet-bas-kimlik"><h3>' + U.kac(g.ad) + '</h3><p class="sohbet-bas-alt">' + (u ? 'Grupta ' + U.kac(u.gorunen) + ' olarak görünüyorsun' : 'Üye değilsin') + '</p></div></div>';
+    const bas = '<div class="msj-kart-bas sohbet-bas"><span class="sohbet-mono buyuk ' + (u ? 'ok' : 'wait') + '">' + g.mono + '</span><div class="sohbet-bas-kimlik"><h2>' + U.kac(g.ad) + '</h2><p class="sohbet-bas-alt">' + (u ? 'Grupta ' + U.kac(u.gorunen) + ' olarak görünüyorsun' : 'Üye değilsin') + '</p></div></div>';
     if (u) {
       const l = akis(g.slug);
       U.bas('#dgDetay', bas + '<div class="msj-akis sohbet-akis">' + (l.map((m) => '<div class="sohbet-balon uye"><p>' + U.kac(m.metin) + '</p><span class="sohbet-kunye">' + U.kisaTarih(m.tarih) + '</span></div>').join('') || U.bos({ ikon: 'fa-comments', baslik: 'Akış boş', metin: 'İlk gönderiyi sen paylaş.' })) + '</div><form class="msj-yaz sohbet-yaz" id="dgYaz"><div class="sohbet-yaz-satir"><label class="yalniz-okuyucu" for="dgMetin">Gönderin</label><textarea id="dgMetin" rows="1" placeholder="Gruba yaz"></textarea><button class="sohbet-dugme-kucuk gonder" type="submit" aria-label="Paylaş"><i class="fa-solid fa-paper-plane" aria-hidden="true"></i></button></div><p class="sohbet-ipucu"><button class="dugme hayalet kucuk" type="button" id="dgAyril">Gruptan ayrıl</button></p></form>');

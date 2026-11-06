@@ -7,10 +7,10 @@
   PB.$$ = (s, k) => Array.from((k || document).querySelectorAll(s));
   PB.esc = (s) => String(s == null ? '' : s).replace(/[&<>"]/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]));
   PB.kucuk = (s) => String(s || '').toLocaleLowerCase('tr');
-  PB.sayi = (n, b) => Number(n || 0).toLocaleString('tr-TR', { maximumFractionDigits: b || 0 });
-  PB.tl = (n) => '₺' + Number(n || 0).toLocaleString('tr-TR', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
-  PB.tarih = (iso) => { if (!iso) return '—'; const [y, a, g] = String(iso).slice(0, 10).split('-'); return g + '.' + a + '.' + y; };
-  PB.tarihSaat = (iso) => { if (!iso) return '—'; const s = String(iso); return PB.tarih(s) + (s.length > 10 ? ' ' + s.slice(11, 16) : ''); };
+  PB.sayi = (n, b) => DD.bicim.sayi(n || 0, b || 0);
+  PB.tl = (n) => DD.bicim.para(n || 0, Number.isInteger(Number(n || 0)) ? 0 : 2);
+  PB.tarih = (iso) => (iso ? DD.bicim.tarih(String(iso)) : '—');
+  PB.tarihSaat = (iso) => { if (!iso) return '—'; const s = String(iso); return PB.tarih(s) + (s.length > 10 ? ' ' + DD.bicim.saat(s.slice(11, 16)) : ''); };
   PB.simdi = () => DD.bugun + 'T' + new Date().toTimeString().slice(0, 5);
   PB.gunEkle = (iso, n) => { const d = new Date(iso + 'T12:00:00'); d.setDate(d.getDate() + n); return d.toISOString().slice(0, 10); };
   PB.yeniId = (on) => on + '-' + Date.now().toString(36);

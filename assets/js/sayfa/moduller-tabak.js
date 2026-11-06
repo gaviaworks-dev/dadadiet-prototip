@@ -9,7 +9,7 @@
     sebze: { ad: 'Sebze', kisa: 'Sebze', hedefOran: 50, ref: 200, renk: 'var(--makro-sebze)', ikon: 'fa-carrot', kural: 'Tabağın yarısı. Meyve de burada sayılır, patates sayılmaz.' },
     protein: { ad: 'Yağsız protein', kisa: 'Protein', hedefOran: 25, ref: 100, renk: 'var(--makro-protein)', ikon: 'fa-drumstick-bite', kural: 'Tabağın çeyreği. Balık, tavuk, yumurta, baklagil ya da yoğurt.' },
     karb: { ad: 'Kompleks karbonhidrat', kisa: 'Karbonhidrat', hedefOran: 25, ref: 100, renk: 'var(--makro-karb)', ikon: 'fa-wheat-awn', kural: 'Tabağın çeyreği. Tam tahıl, bulgur ve patates burada.' },
-    yag: { ad: 'Sağlıklı yağ', kisa: 'Sağlıklı yağ', ref: 10, renk: 'var(--makro-yag)', ikon: 'fa-droplet', kural: 'Küçük bir sosluk kadar: 5-15 g zeytinyağı ya da kuruyemiş.' },
+    yag: { ad: 'Sağlıklı yağ', kisa: 'Sağlıklı yağ', ref: 10, renk: 'var(--makro-yag)', ikon: 'fa-droplet', kural: 'Küçük bir sosluk kadar: 5–15 g zeytinyağı ya da kuruyemiş.' },
   };
   const bolmesi = (b) => {
     if (b.slug === 'avokado') return 'yag';
@@ -105,13 +105,13 @@
       const r = document.querySelector('.tabak-dolgu[data-bolme="' + id + '"]');
       if (r) r.style.transform = 'translateY(' + SINIR[id][1] * (1 - dol) + 'px)';
       const e = document.querySelector('[data-etiket="' + id + '"]');
-      if (e) e.textContent = kalemler.length ? M.sayi(h.gram[id], 0) + ' g' : BOLME[id].hedefOran ? 'hedef %' + BOLME[id].hedefOran : '5-15 g';
+      if (e) e.textContent = kalemler.length ? M.sayi(h.gram[id], 0) + ' g' : BOLME[id].hedefOran ? 'hedef %' + BOLME[id].hedefOran : '5–15 g';
     });
     /* Bölme listesi */
     const kalemVar = kalemler.length > 0;
     $('bolmeListe').innerHTML = Object.keys(BOLME).map((id) => {
       const bo = BOLME[id], g = h.gram[id], oran = (g / bo.ref) * 100;
-      const sag = !kalemVar ? 'hedef ' + (bo.hedefOran ? '%' + bo.hedefOran : '5-15 g') : bo.hedefOran ? '%' + M.sayi(h.oran[id], 0) + ' <small>hedef %' + bo.hedefOran + '</small>' : M.sayi(g, 0) + ' g <small>hedef 5-15 g</small>';
+      const sag = !kalemVar ? 'hedef ' + (bo.hedefOran ? '%' + bo.hedefOran : '5–15 g') : bo.hedefOran ? '%' + M.sayi(h.oran[id], 0) + ' <small>hedef %' + bo.hedefOran + '</small>' : M.sayi(g, 0) + ' g <small>hedef 5–15 g</small>';
       return '<div class="olcum-satir secilir" data-bolme-sec="' + id + '" role="button" tabindex="0" aria-pressed="false"><div class="olcum-bas"><span>' + bo.ad + '</span><b>' + sag + '</b></div><div class="olcer hap renkli" data-bolme="' + id + '"><span data-oran="' + Math.min(100, oran) + '"></span></div><small class="olcum-kural">' + bo.kural + '</small></div>';
     }).join('');
     document.querySelectorAll('#bolmeListe [data-oran]').forEach((e) => e.style.setProperty('--oran', e.dataset.oran));

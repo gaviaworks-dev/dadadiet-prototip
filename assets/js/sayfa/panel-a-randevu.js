@@ -86,14 +86,14 @@
     const l = PA.gunSlotlari(s.tarih, sureOf(), s.haric).filter((x) => x.uygun);
     const onceki = s.saat;
     if (s.saat && !l.some((x) => x.saat === s.saat)) s.saat = null;
-    kap.innerHTML = l.map((x) => `<button class="cip${x.saat === s.saat ? ' aktif' : ''}" type="button" data-saat="${x.saat}" aria-pressed="${x.saat === s.saat}">${x.saat}</button>`).join('');
+    kap.innerHTML = l.map((x) => `<button class="cip${x.saat === s.saat ? ' aktif' : ''}" type="button" data-saat="${x.saat}" aria-pressed="${x.saat === s.saat}">${DD.bicim.saat(x.saat)}</button>`).join('');
     $('rpSaatNot').textContent = onceki && !s.saat ? onceki + ' saatine ' + sureOf() + ' dk sığmıyor, başka saat seç.' : l.length ? PA.uzunTarih(s.tarih) : PA.uzunTarih(s.tarih) + ' için boş saat yok.';
     ozetCiz();
   }
   /* Onay özeti: kaydetmeden önce kim, ne zaman, nasıl tek satırda okunur */
   function ozetCiz() {
     const dn = PA.danisan(s.danisan), p = PA.paket(s.paket);
-    const zaman = s.tarih && s.saat ? h(PA.uzunTarih(s.tarih)) + ' · ' + s.saat + '–' + PA.saat(PA.dakika(s.saat) + sureOf()) : '';
+    const zaman = s.tarih && s.saat ? h(PA.uzunTarih(s.tarih)) + ' · ' + DD.bicim.saat(s.saat) + '–' + DD.bicim.saat(PA.saat(PA.dakika(s.saat) + sureOf())) : '';
     if (s.kip === 'blok') { $('rpOzet').innerHTML = zaman ? `<b>Kapanacak saat</b><span>${zaman}</span>` : '<span>Gün ve saat seç.</span>'; return; }
     if (!dn || !zaman) { $('rpOzet').innerHTML = `<span>${!dn && !zaman ? 'Danışan ve saat seç.' : !dn ? zaman + ' · danışan seç.' : h(dn.ad) + ' için gün ve saat seç.'}</span>`; return; }
     const kalan = p ? PA.kalanSeans(dn, p.id) : null;
@@ -202,7 +202,7 @@
       PA.bloklar().push({ id: 'b' + Date.now(), tarih: s.tarih, saat: s.saat, sure: s.sure, neden: $('rpNeden').value.trim() || 'Kapalı' });
       PA.kaydet();
       DD.kapat($('randevuPanel'));
-      DD.toast('Saat kapatıldı: ' + PA.tarih(s.tarih) + ' ' + s.saat);
+      DD.toast('Saat kapatıldı: ' + PA.tarih(s.tarih) + ' ' + DD.bicim.saat(s.saat));
       document.dispatchEvent(new CustomEvent('pa:degisti', { detail: { tarih: s.tarih } }));
       return;
     }
@@ -213,7 +213,7 @@
       Object.assign(r, { tarih: s.tarih, saat: s.saat, sure, tur: s.tur, ozel_not: not, durum: 'dolu' });
       delete r.iptal_eden;
       if (r.talep) { r.talep_sonuc = 'kabul'; delete r.talep; } /* talep başka saate alınarak karşılandı */
-      metin = 'Randevunuzu ' + PA.ayGun(s.tarih) + ' ' + s.saat + ' saatine aldım. ' + PA.rTur(r) + ' görüşeceğiz.';
+      metin = 'Randevunuzu ' + PA.ayGun(s.tarih) + ' ' + DD.bicim.saat(s.saat) + ' saatine aldım. ' + PA.rTur(r) + ' görüşeceğiz.';
     } else {
       const hafta = $('rpTekrar').checked ? +$('rpHafta').value : 1;
       adet = 0;
@@ -225,20 +225,20 @@
         if (!r) r = y;
         adet++;
       }
-      metin = PA.ayGun(s.tarih) + ' ' + s.saat + ' için ' + PA.rTur(r).toLocaleLowerCase('tr') + ' randevunuzu oluşturdum.' + (adet > 1 ? ' Aynı gün ve saatte ' + adet + ' hafta devam edeceğiz.' : '');
+      metin = PA.ayGun(s.tarih) + ' ' + DD.bicim.saat(s.saat) + ' için ' + PA.rTur(r).toLocaleLowerCase('tr') + ' randevunuzu oluşturdum.' + (adet > 1 ? ' Aynı gün ve saatte ' + adet + ' hafta devam edeceğiz.' : '');
     }
     if ($('rpBildir').checked) PA.mesajYaz(s.danisan, metin);
     PA.uyeRandevuTazele();
     PA.kaydet();
     DD.kapat($('randevuPanel'));
-    DD.toast(s.duzenlenen ? 'Randevu yeni saate alındı: ' + dn.ad + ', ' + PA.tarih(r.tarih) + ' ' + r.saat : (adet > 1 ? adet + ' randevu oluşturuldu: ' : 'Randevu oluşturuldu: ') + dn.ad + ', ' + PA.tarih(r.tarih) + ' ' + r.saat);
+    DD.toast(s.duzenlenen ? 'Randevu yeni saate alındı: ' + dn.ad + ', ' + PA.tarih(r.tarih) + ' ' + DD.bicim.saat(r.saat) : (adet > 1 ? adet + ' randevu oluşturuldu: ' : 'Randevu oluşturuldu: ') + dn.ad + ', ' + PA.tarih(r.tarih) + ' ' + DD.bicim.saat(r.saat));
     if (atlanan) DD.toast(atlanan + ' hafta o saat uygun olmadığı için atlandı.', 'uyari');
     document.dispatchEvent(new CustomEvent('pa:degisti', { detail: { randevu: r.id } }));
   });
 
   /* ── Detay ──────────────────────────────────────────────────────── */
   let acik = null;
-  const talepMetin = (r) => (r.talep.tur === 'iptal' ? 'Görüşmeyi iptal etmek istiyor.' : h(PA.ayGun(r.tarih)) + ' ' + r.saat + ' yerine ' + h(PA.ayGun(r.talep.yeni_tarih)) + ' ' + r.talep.yeni_saat + ' istiyor.');
+  const talepMetin = (r) => (r.talep.tur === 'iptal' ? 'Görüşmeyi iptal etmek istiyor.' : h(PA.ayGun(r.tarih)) + ' ' + DD.bicim.saat(r.saat) + ' yerine ' + h(PA.ayGun(r.talep.yeni_tarih)) + ' ' + DD.bicim.saat(r.talep.yeni_saat) + ' istiyor.');
   const talepKutu = (r) => (r.talep ? `<div class="uyari-kutu ${r.talep.tur === 'iptal' ? 'tehlike' : 'uyari'}"><i class="fa-solid ${r.talep.tur === 'iptal' ? 'fa-ban' : 'fa-arrow-right-arrow-left'}" aria-hidden="true"></i><p><b>${PA.talepAdi(r)}.</b> ${talepMetin(r)}${r.talep.neden ? ' ' + h(r.talep.neden) : ''}</p></div>` : '');
   /* Görüşme bitince doğal devam: not, plan, kontrol */
   PA.siradaBlok = (dn) => `<div class="sirada-blok"><b>Sırada ne var?</b><div class="ayar-liste"><a class="ayar-satir" href="${PA.yol.danisan(dn.id, 'not')}&eylem=not-ekle"><span class="as-ikon"><i class="fa-solid fa-note-sticky" aria-hidden="true"></i></span><span class="as-metin"><b>Not ekle</b><span>İlerleme notunu danışanla paylaşabilirsin</span></span><i class="fa-solid fa-chevron-right as-ok" aria-hidden="true"></i></a><a class="ayar-satir" href="${PA.yol.yeniPlan(dn.id)}"><span class="as-ikon"><i class="fa-solid fa-clipboard-list" aria-hidden="true"></i></span><span class="as-metin"><b>Plan oluştur</b><span>Haftalık planı kur ve gönder</span></span><i class="fa-solid fa-chevron-right as-ok" aria-hidden="true"></i></a><button class="ayar-satir" type="button" data-randevu-ac data-danisan="${dn.id}"><span class="as-ikon"><i class="fa-solid fa-calendar-plus" aria-hidden="true"></i></span><span class="as-metin"><b>Kontrol randevusu</b><span>Bir sonraki görüşmeyi planla</span></span><i class="fa-solid fa-chevron-right as-ok" aria-hidden="true"></i></button></div></div>`;
@@ -250,7 +250,7 @@
     const gelecek = durum === 'dolu', talepsiz = gelecek && !r.talep;
     const i = PA.ilerleme(dn);
     $('rdGovde').innerHTML = `<div class="ozet-bas"><a class="kisi-hucre" href="${PA.yol.danisan(dn.id)}">${PA.avatar(dn.ad)}<span class="kisi-bilgi"><span class="kisi-ad">${h(dn.ad)}</span><span class="kisi-alt">${h(dn.hedef)}${i ? ' · ' + i.hafta + '. hafta' : ''}</span></span></a>${PA.rHap(r)}</div>
-<div class="ayar-liste">${satir('fa-calendar-day', 'Tarih ve saat', h(PA.uzunTarih(r.tarih)) + ' · ' + r.saat)}${satir(PA.rIkon(r), 'Görüşme', PA.rTur(r) + ' · ' + r.sure + ' dk')}${satir('fa-box-open', 'Paket', p ? h(p.ad) + ' · ' + PA.kalanSeans(dn, p.id) + ' seans kaldı' : '—')}</div>
+<div class="ayar-liste">${satir('fa-calendar-day', 'Tarih ve saat', h(PA.uzunTarih(r.tarih)) + ' · ' + DD.bicim.saat(r.saat))}${satir(PA.rIkon(r), 'Görüşme', PA.rTur(r) + ' · ' + r.sure + ' dk')}${satir('fa-box-open', 'Paket', p ? h(p.ad) + ' · ' + PA.kalanSeans(dn, p.id) + ' seans kaldı' : '—')}</div>
 ${talepKutu(r)}
 ${r.not ? `<div class="not-kutu"><b>Görüşme notu</b>${h(r.not)}</div>` : ''}
 ${r.ozel_not ? `<div class="not-kutu"><b>Özel not</b>${h(r.ozel_not)}</div>` : ''}
@@ -258,7 +258,7 @@ ${r.tur === 'online' && talepsiz ? `<div class="alan"><label class="alan-etiket"
 ${sonucGirilir ? `<form id="rdSonuc" novalidate><h3 class="form-bolum-bas"><i class="fa-solid fa-clipboard-check" aria-hidden="true"></i> Görüşme sonucu</h3>
 <div class="alan"><div class="segment" id="rdSonucSec" role="group" aria-label="Görüşme sonucu"><button type="button" data-deger="tamamlandi" aria-pressed="${durum !== 'gelmedi'}">Tamamlandı</button><button type="button" data-deger="gelmedi" aria-pressed="${durum === 'gelmedi'}">Gelmedi</button></div></div>
 <div class="alan"><label class="alan-etiket" for="rdOzet">Görüşme özeti <span class="istege-bagli">(isteğe bağlı)</span></label><textarea class="alan-metin" id="rdOzet" rows="4">${h(r.ozet || '')}</textarea></div></form>` : ''}
-${r.gecmis && r.gecmis.length ? `<p class="alan-yardim"><i class="fa-solid fa-clock-rotate-left" aria-hidden="true"></i><span>Önceki saat: ${r.gecmis.map((g) => PA.tarih(g.tarih) + ' ' + g.saat).join(', ')}</span></p>` : ''}
+${r.gecmis && r.gecmis.length ? `<p class="alan-yardim"><i class="fa-solid fa-clock-rotate-left" aria-hidden="true"></i><span>Önceki saat: ${r.gecmis.map((g) => PA.tarih(g.tarih) + ' ' + DD.bicim.saat(g.saat)).join(', ')}</span></p>` : ''}
 ${durum === 'tamamlandi' ? siradaBlok(dn) : durum === 'gelmedi' ? '<div class="alan-yardim"><span>Görüşme gerçekleşmedi. Yeni saat için Yeniden planla.</span></div>' : ''}
 <div class="eylem-satiri">${talepsiz ? `<button class="dugme hayalet kucuk" type="button" data-rd="planla"><i class="fa-solid fa-clock-rotate-left" aria-hidden="true"></i> Yeniden planla</button>` : ''}<a class="dugme hayalet kucuk" href="${PA.yol.danisan(dn.id)}"><i class="fa-solid fa-id-card" aria-hidden="true"></i> Danışana git</a></div>`;
     let ayak = '<button class="dugme hayalet" type="button" data-kapat>Kapat</button>';
@@ -287,10 +287,10 @@ ${durum === 'tamamlandi' ? siradaBlok(dn) : durum === 'gelmedi' ? '<div class="a
     } else if (is === 'planla') {
       DD.kapat($('randevuDetay')); PA.randevuAc({ randevu: r, danisan: r.danisan_id });
     } else if (is === 'iptal') {
-      window.DM_ONAY('Randevu iptal edilsin mi?', dn.ad + ', ' + PA.tarih(r.tarih) + ' ' + r.saat + ' görüşmesi iptal edilir, saat boşa çıkar ve danışana mesaj gider.', 'İptal et', (ok) => {
+      window.DM_ONAY('Randevu iptal edilsin mi?', dn.ad + ', ' + PA.tarih(r.tarih) + ' ' + DD.bicim.saat(r.saat) + ' görüşmesi iptal edilir, saat boşa çıkar ve danışana mesaj gider.', 'İptal et', (ok) => {
         if (!ok) return;
         r.durum = 'iptal'; r.iptal_eden = 'diyetisyen';
-        PA.mesajYaz(r.danisan_id, PA.ayGun(r.tarih) + ' ' + r.saat + ' randevunuzu iptal etmek zorunda kaldım. Size uygun yeni bir saat planlayalım.');
+        PA.mesajYaz(r.danisan_id, PA.ayGun(r.tarih) + ' ' + DD.bicim.saat(r.saat) + ' randevunuzu iptal etmek zorunda kaldım. Size uygun yeni bir saat planlayalım.');
         degisti(); DD.kapat($('randevuDetay')); DD.toast('Randevu iptal edildi, saat yeniden boş.');
       });
     } else if (is === 'sonuc') {
@@ -304,7 +304,7 @@ ${durum === 'tamamlandi' ? siradaBlok(dn) : durum === 'gelmedi' ? '<div class="a
   /* ── Onay ve talep kuyruğu: takvim, genel bakış ve detay aynı işlemi kullanır ── */
   PA.bekleyenSatir = (r) => {
     const dn = PA.danisan(r.danisan_id);
-    const metin = r.talep ? talepMetin(r) + (r.talep.neden ? ' ' + h(r.talep.neden) : '') : h(PA.uzunTarih(r.tarih)) + ' · ' + r.saat + ' · ' + PA.rTur(r) + (r.not ? ' · ' + h(r.not) : '');
+    const metin = r.talep ? talepMetin(r) + (r.talep.neden ? ' ' + h(r.talep.neden) : '') : h(PA.uzunTarih(r.tarih)) + ' · ' + DD.bicim.saat(r.saat) + ' · ' + PA.rTur(r) + (r.not ? ' · ' + h(r.not) : '');
     return `<div class="ayar-satir">${PA.avatar(dn.ad)}<span class="as-metin"><b><button class="bag-dugme" type="button" data-randevu="${r.id}">${h(dn.ad)}</button></b><span>${metin}</span></span><span class="as-eylem">${r.talep ? PA.talepRozet(r) : PA.rHap(r)}<button class="dugme hayalet kucuk tehlike" type="button" data-kuyruk-red="${r.id}">Reddet</button><button class="dugme birincil kucuk" type="button" data-kuyruk-kabul="${r.id}">${r.talep ? 'Kabul et' : 'Onayla'}</button></span></div>`;
   };
   function kuyrukBitti(r, mesaj, metin, tip) {
@@ -319,22 +319,22 @@ ${durum === 'tamamlandi' ? siradaBlok(dn) : durum === 'gelmedi' ? '<div class="a
   }
   function kuyrukKabul(r) {
     const t = r.talep, dn = PA.danisan(r.danisan_id), ilk = PA.ilkAd(dn.ad);
-    if (!t) { r.durum = 'dolu'; kuyrukBitti(r, PA.ayGun(r.tarih) + ' ' + r.saat + ' randevunuzu onayladım.', ilk + ' için randevu onaylandı.'); return; }
+    if (!t) { r.durum = 'dolu'; kuyrukBitti(r, PA.ayGun(r.tarih) + ' ' + DD.bicim.saat(r.saat) + ' randevunuzu onayladım.', ilk + ' için randevu onaylandı.'); return; }
     if (t.tur === 'iptal') {
       r.durum = 'iptal'; r.iptal_eden = 'danisan'; r.talep_sonuc = 'kabul'; delete r.talep;
-      kuyrukBitti(r, 'İptal talebinizi aldım, ' + PA.ayGun(r.tarih) + ' ' + r.saat + ' randevunuz iptal edildi.', 'İptal talebi kabul edildi, saat yeniden boş.');
+      kuyrukBitti(r, 'İptal talebinizi aldım, ' + PA.ayGun(r.tarih) + ' ' + DD.bicim.saat(r.saat) + ' randevunuz iptal edildi.', 'İptal talebi kabul edildi, saat yeniden boş.');
       return;
     }
     if (!PA.slotUygun(t.yeni_tarih, PA.dakika(t.yeni_saat), r.sure, r.id)) { DD.toast('İstenen saat artık uygun değil, yeni saat seç.', 'uyari'); const o = $('randevuDetay'); if (!o.hidden) DD.kapat(o); PA.randevuAc({ randevu: r, danisan: r.danisan_id, tarih: t.yeni_tarih }); return; }
     (r.gecmis = r.gecmis || []).push({ tarih: r.tarih, saat: r.saat });
     r.tarih = t.yeni_tarih; r.saat = t.yeni_saat; r.talep_sonuc = 'kabul'; delete r.talep;
-    kuyrukBitti(r, 'Saat değişikliği talebinizi kabul ettim. Yeni randevunuz ' + PA.ayGun(r.tarih) + ' ' + r.saat + '.', 'Randevu yeni saate alındı: ' + PA.tarih(r.tarih) + ' ' + r.saat);
+    kuyrukBitti(r, 'Saat değişikliği talebinizi kabul ettim. Yeni randevunuz ' + PA.ayGun(r.tarih) + ' ' + DD.bicim.saat(r.saat) + '.', 'Randevu yeni saate alındı: ' + PA.tarih(r.tarih) + ' ' + DD.bicim.saat(r.saat));
   }
   function kuyrukRed(r) {
     const t = r.talep;
-    if (!t) { r.durum = 'iptal'; r.iptal_eden = 'diyetisyen'; kuyrukBitti(r, PA.ayGun(r.tarih) + ' ' + r.saat + ' için randevu talebinizi karşılayamıyorum. Size uygun başka bir saat planlayalım.', 'Randevu talebi reddedildi.'); return; }
+    if (!t) { r.durum = 'iptal'; r.iptal_eden = 'diyetisyen'; kuyrukBitti(r, PA.ayGun(r.tarih) + ' ' + DD.bicim.saat(r.saat) + ' için randevu talebinizi karşılayamıyorum. Size uygun başka bir saat planlayalım.', 'Randevu talebi reddedildi.'); return; }
     r.talep_sonuc = 'red'; delete r.talep;
-    kuyrukBitti(r, (t.tur === 'iptal' ? 'İptal talebinizi' : 'Saat değişikliği talebinizi') + ' karşılayamadım. ' + PA.ayGun(r.tarih) + ' ' + r.saat + ' randevunuz geçerli.', 'Talep reddedildi, randevu yerinde kaldı.');
+    kuyrukBitti(r, (t.tur === 'iptal' ? 'İptal talebinizi' : 'Saat değişikliği talebinizi') + ' karşılayamadım. ' + PA.ayGun(r.tarih) + ' ' + DD.bicim.saat(r.saat) + ' randevunuz geçerli.', 'Talep reddedildi, randevu yerinde kaldı.');
   }
   document.addEventListener('click', (e) => {
     const k = e.target.closest('[data-kuyruk-kabul]'), d = e.target.closest('[data-kuyruk-red]');

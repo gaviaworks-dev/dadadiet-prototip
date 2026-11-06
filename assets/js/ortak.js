@@ -5,6 +5,19 @@
   const DD = (window.DD = window.DD || {});
   const panelKipi = document.body.classList.contains('yetkili');
 
+  /* Sayı ve tarih biçimi: görünen her değer buradan geçer. Binlik nokta, ondalık virgül, 320 kcal, 06.11.2026, 13.00 */
+  const sayi = (v, basamak = 0, enAz = 0) => (v == null || v === '' || Number.isNaN(Number(v))) ? '—' : Number(v).toLocaleString('tr-TR', { minimumFractionDigits: enAz, maximumFractionDigits: basamak });
+  DD.bicim = {
+    sayi,
+    kcal: (v) => (v == null ? '—' : sayi(Math.round(v)) + ' kcal'),
+    gram: (v, basamak = 1) => (v == null ? '—' : sayi(v, basamak) + ' g'),
+    kilo: (v) => (v == null ? '—' : sayi(v, 1) + ' kg'),
+    yuzde: (v, basamak = 0) => (v == null ? '—' : '%' + sayi(v, basamak)),
+    para: (v, basamak = 0) => (v == null ? '—' : '₺' + sayi(v, basamak, basamak)),
+    tarih(d) { const m = String(d ?? '').match(/^(\d{4})-(\d{2})-(\d{2})/); return m ? m[3] + '.' + m[2] + '.' + m[1] : (d ?? '—'); },
+    saat: (s) => String(s ?? '—').replace(':', '.'),
+  };
+
   /* Video hero: kaynak sayfa açıldıktan sonra bağlanır; azaltılmış hareket ve veri tasarrufunda poster kalır */
   const hareketAzalt = matchMedia('(prefers-reduced-motion: reduce)').matches;
   const veriTasarrufu = navigator.connection && navigator.connection.saveData;

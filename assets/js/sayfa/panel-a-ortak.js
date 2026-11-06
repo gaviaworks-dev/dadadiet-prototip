@@ -27,21 +27,21 @@
   PA.iso = (d) => d.getFullYear() + '-' + iki(d.getMonth() + 1) + '-' + iki(d.getDate());
   PA.ekle = (iso, n) => { const d = tarihe(iso); d.setDate(d.getDate() + n); return PA.iso(d); };
   PA.haftaBasi = (iso) => { const d = tarihe(iso); return PA.ekle(iso, -((d.getDay() + 6) % 7)); };
-  PA.tarih = (iso) => (iso ? iso.slice(8, 10) + '.' + iso.slice(5, 7) + '.' + iso.slice(0, 4) : '—');
+  PA.tarih = (iso) => DD.bicim.tarih(iso);
   PA.gunAdi = (iso) => GUN[tarihe(iso).getDay()];
   PA.gunKisa = (iso) => GUN_K[tarihe(iso).getDay()];
   PA.ayAdi = (iso) => { const d = tarihe(iso); return AY[d.getMonth()] + ' ' + d.getFullYear(); };
-  PA.uzunTarih = (iso) => { const d = tarihe(iso); return d.getDate() + ' ' + AY[d.getMonth()] + ' ' + GUN[d.getDay()]; };
-  PA.ayGun = (iso) => { const d = tarihe(iso); return d.getDate() + ' ' + AY[d.getMonth()]; };
+  PA.uzunTarih = (iso) => GUN[tarihe(iso).getDay()] + ', ' + DD.bicim.tarih(iso);
+  PA.ayGun = (iso) => DD.bicim.tarih(iso);
   PA.gunFarki = (a, b) => Math.round((tarihe(b) - tarihe(a)) / 864e5);
   PA.dakika = (s) => { const [a, b] = s.split(':').map(Number); return a * 60 + b; };
   PA.saat = (m) => iki(Math.floor(m / 60)) + ':' + iki(m % 60);
-  PA.sayi = (n, b = 1) => (n == null ? '—' : Number(n).toLocaleString('tr-TR', { maximumFractionDigits: b }));
+  PA.sayi = (n, b = 1) => DD.bicim.sayi(n, b);
   PA.zaman = (z) => {
     const g = z.slice(0, 10), s = z.slice(11, 16);
-    if (g === DD.bugun) return s;
+    if (g === DD.bugun) return DD.bicim.saat(s);
     if (g === PA.ekle(DD.bugun, -1)) return 'Dün';
-    return g.slice(8, 10) + '.' + g.slice(5, 7);
+    return DD.bicim.tarih(g);
   };
   PA.ilkAd = (ad) => ad.split(/\s+/)[0];
   /* Özel ad + ilgi eki: Ayşe'nin, Cem'in, Selma'nın, Tolga'nın */
@@ -58,7 +58,7 @@
   PA.danisanlar = () => PA.d().danisanlar || [];
   PA.danisan = (id) => PA.danisanlar().find((x) => x.id === id);
   PA.paket = (id) => (PA.d().paketler || []).find((x) => x.id === id);
-  PA.para = (n) => Number(n).toLocaleString('tr-TR') + ' ₺';
+  PA.para = (n) => DD.bicim.para(n);
   PA.davetler = () => PA.d().davetler || (PA.d().davetler = []);
   PA.durumlar = {
     aktif: ['Aktif', 'cozulen'], 'yanit-bekliyor': ['Yanıt bekliyor', 'bekleyen'], talep: ['Yeni talep', 'acik'],
@@ -113,14 +113,14 @@
     if (dn.durum === 'reddedildi') return { oncelik: 99, ikon: 'fa-user-xmark', baslik: 'Talep reddedildi', metin: 'Bu danışanla ilişki açılmadı.' };
     if (dn.durum === 'bitti') return { oncelik: 99, ikon: 'fa-flag-checkered', baslik: 'Takip bitti', metin: 'Geçmiş kayıtlar kartta kalır.' };
     const kuyruk = rs.find((r) => r.durum === 'onay-bekliyor' || r.talep);
-    if (kuyruk) return { oncelik: 2, ikon: 'fa-inbox', baslik: kuyruk.talep ? PA.talepAdi(kuyruk) + ' bekliyor' : 'Randevu onayı bekliyor', metin: PA.ayGun(kuyruk.tarih) + ' ' + kuyruk.saat + ' görüşmesi için karar ver.', etiket: 'İncele', randevu: kuyruk.id };
+    if (kuyruk) return { oncelik: 2, ikon: 'fa-inbox', baslik: kuyruk.talep ? PA.talepAdi(kuyruk) + ' bekliyor' : 'Randevu onayı bekliyor', metin: PA.ayGun(kuyruk.tarih) + ' ' + DD.bicim.saat(kuyruk.saat) + ' görüşmesi için karar ver.', etiket: 'İncele', randevu: kuyruk.id };
     /* Öncelik: talep, onay, anamnez, ilk görüşme, sonuç, plan, yanıt, kontrol; sonra izin ve notlar */
     const gelecek = PA.gelecekRandevu(id), tamam = durum('tamamlandi');
     if (tamam.length && PA.anamnezEksik(dn).length && iz.anamnez !== false) return { oncelik: 3, ikon: 'fa-notes-medical', baslik: 'Anamnezi tamamla', metin: dn.anamnez ? PA.anamnezEksik(dn).length + ' alan eksik.' : ilgi + ' sağlık öyküsü boş.', etiket: 'Anamnez', sekme: 'not' };
     if (!rs.filter(PA.rAcik).length) return { oncelik: 4, ikon: 'fa-calendar-plus', baslik: 'İlk randevuyu oluştur', metin: ilk + ' seninle henüz görüşmedi.', etiket: 'İlk randevuyu oluştur', is: 'randevu' };
-    if (!tamam.length && gelecek) return { oncelik: 4, ikon: 'fa-video', baslik: 'İlk görüşmeyi başlat', metin: PA.ayGun(gelecek.tarih) + ' ' + gelecek.saat + '. Anamnez görüşmede dolar.', etiket: 'Görüşmeyi başlat', href: PA.yol.gorusme(gelecek.id) };
+    if (!tamam.length && gelecek) return { oncelik: 4, ikon: 'fa-video', baslik: 'İlk görüşmeyi başlat', metin: PA.ayGun(gelecek.tarih) + ' ' + DD.bicim.saat(gelecek.saat) + '. Anamnez görüşmede dolar.', etiket: 'Görüşmeyi başlat', href: PA.yol.gorusme(gelecek.id) };
     const sonuc = durum('sonuc-bekliyor')[0];
-    if (sonuc) return { oncelik: 5, ikon: 'fa-hourglass-half', baslik: 'Görüşme sonucunu gir', metin: PA.ayGun(sonuc.tarih) + ' ' + sonuc.saat + ' görüşmesi işaretlenmedi.', etiket: 'Sonuç gir', randevu: sonuc.id };
+    if (sonuc) return { oncelik: 5, ikon: 'fa-hourglass-half', baslik: 'Görüşme sonucunu gir', metin: PA.ayGun(sonuc.tarih) + ' ' + DD.bicim.saat(sonuc.saat) + ' görüşmesi işaretlenmedi.', etiket: 'Sonuç gir', randevu: sonuc.id };
     if (!planlar.some((p) => p.durum === 'gonderildi')) {
       const taslak = planlar.find((p) => p.durum === 'taslak');
       return taslak ? { oncelik: 6, ikon: 'fa-paper-plane', baslik: 'Taslak planı gönder', metin: taslak.ad, etiket: 'Planı aç', href: PA.yol.plan(taslak.id) } : { oncelik: 6, ikon: 'fa-clipboard-list', baslik: 'Plan oluştur', metin: ilgi + ' gönderilmiş planı yok.', etiket: 'Plan oluştur', href: PA.yol.yeniPlan(id) };
@@ -136,9 +136,9 @@
     const sonNot = (dn.klinik_notlar || []).map((n) => n.tarih).sort().pop();
     if (sonTamam && (!sonNot || sonNot < sonTamam)) return { oncelik: 11, ikon: 'fa-note-sticky', baslik: 'İlerleme notu ekle', metin: PA.ayGun(sonTamam) + ' görüşmesinin notu yok.', etiket: 'Not ekle', is: 'not-ekle' };
     if (!gelecek) return { oncelik: 12, ikon: 'fa-calendar-plus', baslik: 'Kontrol randevusu oluştur', metin: 'Planlı görüşme yok' + (dn.son_gorusme ? ', son görüşme ' + PA.tarih(dn.son_gorusme) : '') + '.', etiket: 'Randevu oluştur', is: 'randevu' };
-    if (gelecek.tarih === DD.bugun) return { oncelik: 4, ikon: 'fa-video', baslik: 'Bugünkü görüşme', metin: gelecek.saat + ' · ' + PA.rTur(gelecek), etiket: 'Görüşmeyi başlat', href: PA.yol.gorusme(gelecek.id) };
+    if (gelecek.tarih === DD.bugun) return { oncelik: 4, ikon: 'fa-video', baslik: 'Bugünkü görüşme', metin: DD.bicim.saat(gelecek.saat) + ' · ' + PA.rTur(gelecek), etiket: 'Görüşmeyi başlat', href: PA.yol.gorusme(gelecek.id) };
     if (eksik.length) return { oncelik: 20, ikon: 'fa-hourglass', baslik: 'İzin yanıtı bekleniyor', metin: ilk + ' izin isteğini görecek.' };
-    return { oncelik: 30, ikon: 'fa-circle-check', baslik: 'Takip yolunda', metin: 'Sıradaki görüşme ' + PA.ayGun(gelecek.tarih) + ' ' + gelecek.saat + '.' };
+    return { oncelik: 30, ikon: 'fa-circle-check', baslik: 'Takip yolunda', metin: 'Sıradaki görüşme ' + PA.ayGun(gelecek.tarih) + ' ' + DD.bicim.saat(gelecek.saat) + '.' };
   };
   /* Eylemi bağa ya da data niteliğine çevirir: liste, iş listesi ve kart aynı düğmeyi üretir */
   PA.adimEylem = (a, dn, sinif, yazi) => {
@@ -281,11 +281,11 @@
     (d.danisanlar || []).filter((x) => x.durum === 'talep').forEach((x) => l.push({ id: 'n-' + x.id, tur: 'Danışan', ikon: 'fa-user-plus', baslik: x.ad + ' seninle çalışmak istiyor', metin: (x.talep_bilgi || {}).mesaj || 'Yeni danışan talebi.', zaman: ((x.talep_bilgi || {}).tarih || DD.bugun) + 'T08:40', git: PA.yol.danisan(x.id) }));
     (d.danisanlar || []).filter((x) => x.durum === 'yanit-bekliyor').forEach((x) => l.push({ id: 'y-' + x.id, tur: 'Danışan', ikon: 'fa-user-clock', baslik: x.ad + ' yanıtını bekliyor', metin: x.mesaj_ozeti || 'Danışanın senden yanıt bekliyor.', zaman: x.son_gorusme + 'T09:00', git: PA.yol.danisan(x.id) }));
     d.randevular.forEach((r) => {
-      if (r.durum === 'sonuc-bekliyor') l.push({ id: 's-' + r.id, tur: 'Randevu', ikon: 'fa-hourglass-half', baslik: ad(r.danisan_id) + ' görüşmesinin sonucu bekleniyor', metin: PA.tarih(r.tarih) + ' ' + r.saat + ' görüşmesini Tamamlandı ya da Gelmedi olarak işaretle.', zaman: r.tarih + 'T' + r.saat, git: PA.yol.takvim + '?randevu=' + r.id });
-      if (r.durum === 'iptal' && PA.gunFarki(r.tarih, DD.bugun) < 7 && !r.iptal_eden) l.push({ id: 'i-' + r.id, tur: 'Randevu', ikon: 'fa-calendar-xmark', baslik: ad(r.danisan_id) + ' randevuyu iptal etti', metin: PA.tarih(r.tarih) + ' ' + r.saat + ' görüşmesi iptal edildi, saat yeniden açıldı.', zaman: (r.tarih > DD.bugun ? DD.bugun : r.tarih) + 'T08:00', git: PA.yol.takvim + '?randevu=' + r.id });
+      if (r.durum === 'sonuc-bekliyor') l.push({ id: 's-' + r.id, tur: 'Randevu', ikon: 'fa-hourglass-half', baslik: ad(r.danisan_id) + ' görüşmesinin sonucu bekleniyor', metin: PA.tarih(r.tarih) + ' ' + DD.bicim.saat(r.saat) + ' görüşmesini Tamamlandı ya da Gelmedi olarak işaretle.', zaman: r.tarih + 'T' + r.saat, git: PA.yol.takvim + '?randevu=' + r.id });
+      if (r.durum === 'iptal' && PA.gunFarki(r.tarih, DD.bugun) < 7 && !r.iptal_eden) l.push({ id: 'i-' + r.id, tur: 'Randevu', ikon: 'fa-calendar-xmark', baslik: ad(r.danisan_id) + ' randevuyu iptal etti', metin: PA.tarih(r.tarih) + ' ' + DD.bicim.saat(r.saat) + ' görüşmesi iptal edildi, saat yeniden açıldı.', zaman: (r.tarih > DD.bugun ? DD.bugun : r.tarih) + 'T08:00', git: PA.yol.takvim + '?randevu=' + r.id });
     });
     PA.bekleyenler().forEach((r) => {
-      const talep = r.talep, kim = ad(r.danisan_id), saat = PA.tarih(r.tarih) + ' ' + r.saat;
+      const talep = r.talep, kim = ad(r.danisan_id), saat = PA.tarih(r.tarih) + ' ' + DD.bicim.saat(r.saat);
       l.push({ id: 'k-' + r.id + (talep ? talep.tur : 'onay'), tur: 'Randevu', ikon: talep ? 'fa-arrow-right-arrow-left' : 'fa-circle-question', baslik: talep ? kim + ' ' + (talep.tur === 'iptal' ? 'iptal istiyor' : 'saat değişikliği istiyor') : kim + ' randevu onayı bekliyor', metin: saat + (talep && talep.neden ? ' · ' + talep.neden : ''), zaman: (talep && talep.zaman) || DD.bugun + 'T08:30', git: PA.yol.takvim + '?randevu=' + r.id, okundu: false });
     });
     (d.danisanlar || []).forEach((x) => {
@@ -333,7 +333,7 @@
       const uy = (s) => s.toLocaleLowerCase('tr').includes(q);
       const d = PA.d();
       const dn = d.danisanlar.filter((x) => uy(x.ad) || uy(x.hedef)).slice(0, 5).map((x) => kalem(PA.yol.danisan(x.id), 'fa-user', x.ad, 'Danışan'));
-      const rn = d.randevular.filter((r) => PA.rAcik(r) && r.tarih >= DD.bugun && uy(PA.danisan(r.danisan_id).ad)).slice(0, 3).map((r) => kalem(PA.yol.takvim + '?randevu=' + r.id, 'fa-calendar-check', PA.danisan(r.danisan_id).ad, PA.tarih(r.tarih) + ' ' + r.saat));
+      const rn = d.randevular.filter((r) => PA.rAcik(r) && r.tarih >= DD.bugun && uy(PA.danisan(r.danisan_id).ad)).slice(0, 3).map((r) => kalem(PA.yol.takvim + '?randevu=' + r.id, 'fa-calendar-check', PA.danisan(r.danisan_id).ad, PA.tarih(r.tarih) + ' ' + DD.bicim.saat(r.saat)));
       const pl = d.planlar.filter((p) => uy(p.ad)).slice(0, 3).map((p) => kalem(PA.yol.plan(p.id), 'fa-clipboard-list', p.ad, 'Plan'));
       const hepsi = [...dn, ...rn, ...pl];
       y.innerHTML = '<div class="acilir-bas">Sonuçlar</div>' + (hepsi.join('') || '<span class="acilir-kalem">Eşleşen kayıt yok</span>');
@@ -414,7 +414,7 @@
     const d = PA.d();
     if (!d.musaitlik || d.musaitlik.onay !== 'otomatik' || !d.randevular) return;
     const l = d.randevular.filter((r) => r.durum === 'onay-bekliyor' && r.olusturan === 'uye');
-    l.forEach((r) => { r.durum = 'dolu'; PA.mesajYaz(r.danisan_id, PA.ayGun(r.tarih) + ' ' + r.saat + ' randevunuz onaylandı.'); });
+    l.forEach((r) => { r.durum = 'dolu'; PA.mesajYaz(r.danisan_id, PA.ayGun(r.tarih) + ' ' + DD.bicim.saat(r.saat) + ' randevunuz onaylandı.'); });
     if (l.length) DD.demo.kaydet();
   }
   /* Sıradaki adım düğmeleri her ekranda aynı işi yapar */

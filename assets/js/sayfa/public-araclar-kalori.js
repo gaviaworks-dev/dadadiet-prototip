@@ -3,7 +3,7 @@
   'use strict';
   const $ = (id) => document.getElementById(id);
   const form = $('kaloriForm'), EN_DUSUK = 1400;
-  const tr = (n) => Math.round(n).toLocaleString('tr-TR');
+  const tr = (n) => DD.bicim.sayi(Math.round(n));
   const secili = (kap) => { const b = kap.querySelector('[aria-pressed="true"]'); return b ? b : null; };
   const hata = (id, var_) => { $(id + 'Hata').classList.toggle('goster', var_); const g = $(id); if (g.tagName === 'INPUT') { g.classList.toggle('hatali', var_); g.setAttribute('aria-invalid', String(var_)); } };
   let son = null;

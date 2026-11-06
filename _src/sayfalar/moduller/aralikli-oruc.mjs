@@ -40,7 +40,7 @@ const bolumler = [
   <div class="kart"><div class="kart-govde"><div class="zaman-cizelgesi" id="cizelge"></div></div></div>
   <div class="akordeon">
     <div class="akordeon-kalem acik">
-      <button class="akordeon-bas" type="button" aria-expanded="true"><span class="akordeon-ikon"><i class="fa-solid fa-glass-water" aria-hidden="true"></i></span>Oruçta serbest olanlar<i class="fa-solid fa-chevron-down akordeon-ok" aria-hidden="true"></i></button>
+      <button class="akordeon-bas" type="button" aria-expanded="true"><span class="akordeon-ikon"><i class="fa-solid fa-droplet" aria-hidden="true"></i></span>Oruçta serbest olanlar<i class="fa-solid fa-chevron-down akordeon-ok" aria-hidden="true"></i></button>
       <div class="akordeon-govde" id="serbestGovde"><ul class="isaretli-liste akordeon-liste"><li><i class="fa-solid fa-check" aria-hidden="true"></i><span>Su ve sade maden suyu</span></li><li><i class="fa-solid fa-check" aria-hidden="true"></i><span>Sütsüz, şekersiz çay ve kahve</span></li><li><i class="fa-solid fa-check" aria-hidden="true"></i><span>Şekersiz bitki çayları</span></li></ul></div>
     </div>
     <div class="akordeon-kalem">
