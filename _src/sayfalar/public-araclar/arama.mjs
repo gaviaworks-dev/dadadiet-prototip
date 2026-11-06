@@ -1,7 +1,7 @@
-// Arama: GET ?q= sonuç kabuğu. Dizin derlemede sayfaya gömülür, besin ve tarif DD_VERI'den okunur.
+// Arama: GET ?q= sonuç kabuğu. Dizin derlemede sayfaya gömülür, besin DD_VERI'den okunur.
 import { K, sayfaJs, kirinti, ikon, jsonGom, DETAY } from '../../parcalar/public-araclar/ortak.mjs';
 
-const SEKMELER = [['tumu', 'Tümü', 'fa-layer-group'], ['hesap', 'Araçlar', 'fa-calculator'], ['besin', 'Besinler', 'fa-leaf'], ['program', 'Programlar', 'fa-list-check'], ['tarif', 'Tarifler', 'fa-utensils'], ['rehber', 'Rehber', 'fa-book-open'], ['diyetisyen', 'Diyetisyenler', 'fa-user-doctor']];
+const SEKMELER = [['tumu', 'Tümü', 'fa-layer-group'], ['hesap', 'Araçlar', 'fa-calculator'], ['besin', 'Besinler', 'fa-leaf'], ['program', 'Programlar', 'fa-list-check'], ['rehber', 'Rehber', 'fa-book-open'], ['diyetisyen', 'Diyetisyenler', 'fa-user-doctor']];
 const POPULER = ['avokado', 'kalori', 'akdeniz', 'kilo', 'çorba', 'protein', 'aralıklı oruç', 'diyetisyen'];
 
 export default ({ veri }) => {
@@ -24,6 +24,6 @@ ${kirinti(['Arama'])}<span class="ust-etiket">${ikon('fa-seedling')} Dada Diet �
 <div class="sekme-ray yapiskan dikis bant-ustunde" id="aramaSekme" hidden><div class="kap"><div class="sekmeler" role="tablist" aria-label="İçerik türü">${SEKMELER.map(([v, a, i], n) => `<button class="sekme${n === 0 ? ' aktif' : ''}" type="button" role="tab" data-tur="${v}" aria-selected="${n === 0}"${n ? ' tabindex="-1"' : ''}>${ikon(i)} ${a} <span class="sekme-sayi" data-sayi="${v}">0</span></button>`).join('')}</div></div></div>
 <section class="sonuc-bant" id="aramaSonuc" hidden aria-live="polite"><div class="kap"><p class="sonuc-not" id="aramaNot"></p><div class="sonuc-izgara" id="aramaIzgara"></div><div class="bos-durum kart-ici" id="aramaBos" hidden><span class="bos-ikon">${ikon('fa-magnifying-glass')}</span><h3>Bu aramada sonuç yok</h3><p>Yazımı kontrol et ya da daha genel bir kelime dene.</p><a class="dugme birincil" href="${K}besin-kutuphanesi/">Besin kütüphanesine git</a></div></div></section>
 <div class="uyari-serit"><div class="kap">${ikon('fa-circle-info')}<p>Arama sonuçları genel bilgi amaçlıdır; kişiye özel tıbbi ya da beslenme önerisi değildir.</p></div></div>
-${jsonGom('aramaDizin', { dizin, besinDetay: DETAY.besin, tarifDetay: DETAY.tarif })}`;
+${jsonGom('aramaDizin', { dizin, besinDetay: DETAY.besin })}`;
   return [{ yol: 'arama', meta: { baslik: 'Arama', duzen: 'public', hero: true, js: sayfaJs('arama') }, govde }];
 };

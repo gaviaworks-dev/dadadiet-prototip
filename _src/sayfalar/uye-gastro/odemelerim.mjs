@@ -1,6 +1,6 @@
 import { uyeKabuk } from '../../parcalar/uye/kabuk.mjs';
 import { bolumBas, kart, ayarSatir, anahtar, alan, secim, dugme, modal, tablo } from '../../parcalar/uye/ust.mjs';
-import { ikon, altNot, uyari, durumSatir, sonuc, bag, sekmeGit, json, kademeler } from './_ortak.mjs';
+import { ikon, altNot, uyari, durumSatir, sonuc, bag, sekmeGit, json, kademeler, okumaBolum } from './_ortak.mjs';
 
 const say = (id, m = '') => `<span class="durum-hapi kapali" id="${id}">${m}</span>`;
 const dizinBag = bag('Diyetisyen Dizini', 'diyetisyenler/');
@@ -73,14 +73,15 @@ const sonEk = modal({ id: 'fdModal', baslik: 'Fatura belgesi', govde: '<div clas
 
 export default () => [uyeKabuk({
   yol: 'hesabim/odemelerim', baslik: 'Ödemelerim',
-  aciklama: 'Abonelik, diyetisyen ödemeleri, faturalar, kayıtlı kartlar ve iade talepleri tek adreste.',
+  aciklama: 'Abonelik, diyetisyen ödemeleri, faturalar, kayıtlı kartlar ve iade talepleri tek adreste. Sekme değişir, kimlik kartın yerinde kalır.',
+  muhur: 'Dada Diet · kişisel alanın', ikon: 'fa-seedling',
   grup: 'od',
   sekmeler: [
-    { id: 'abonelik', ad: 'Abonelik Ödemeleri', ikon: 'fa-crown', govde: abonelik },
-    { id: 'hizmet', ad: 'Hizmet / Uzman Ödemeleri', ikon: 'fa-user-doctor', govde: hizmet },
-    { id: 'faturalar', ad: 'Faturalar', ikon: 'fa-file-invoice', govde: faturalar },
-    { id: 'kartlar', ad: 'Kayıtlı Kartlar', ikon: 'fa-credit-card', govde: kartlar },
-    { id: 'iade', ad: 'İade Talepleri', ikon: 'fa-rotate-left', govde: iade },
+    { id: 'abonelik', ad: 'Abonelik Ödemeleri', ikon: 'fa-crown', govde: okumaBolum(abonelik) },
+    { id: 'hizmet', ad: 'Hizmet / Uzman Ödemeleri', ikon: 'fa-user-doctor', govde: okumaBolum(hizmet) },
+    { id: 'faturalar', ad: 'Faturalar', ikon: 'fa-file-invoice', govde: okumaBolum(faturalar) },
+    { id: 'kartlar', ad: 'Kayıtlı Kartlar', ikon: 'fa-credit-card', govde: okumaBolum(kartlar) },
+    { id: 'iade', ad: 'İade Talepleri', ikon: 'fa-rotate-left', govde: okumaBolum(iade) },
   ],
   sonEk,
   js: ['assets/js/sayfa/uye-gastro-ortak.js', 'assets/js/sayfa/uye-gastro-odemelerim.js'],

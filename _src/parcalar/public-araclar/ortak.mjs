@@ -18,7 +18,7 @@ export const sayi = (n) => bicim.sayi(n, 3);
 /* Örneklenen detaylar: bütün kartlar buraya bağlanır. */
 export const DETAY = {
   hesaplayici: 'hesaplayici/gunluk-kalori/', test: 'test/beslenme/', program: 'program/akdeniz-tipi-beslenme/',
-  diyetisyen: 'diyetisyen/dyt-elif-sahin/', besin: 'besin/avokado/', tarif: 'tarif/cilbir/',
+  diyetisyen: 'diyetisyen/dyt-elif-sahin/', besin: 'besin/avokado/',
 };
 
 export const kirinti = (...yollar) => `<nav class="kirinti" aria-label="Sayfa yolu"><a class="kirinti-ev" href="${K}">${ikon('fa-house')}<span class="yalniz-okuyucu">Dada Diet ana sayfa</span></a>${yollar.map(([ad, href]) => `${ikon('fa-chevron-right')}${href ? `<a href="${K}${href}">${ad}</a>` : `<span class="kirinti-simdi">${ad}</span>`}`).join('')}</nav>`;

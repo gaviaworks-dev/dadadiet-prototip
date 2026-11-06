@@ -1,6 +1,6 @@
 import { uyeKabuk } from '../../parcalar/uye/kabuk.mjs';
 import { kart, alan, dugme } from '../../parcalar/uye/ust.mjs';
-import { ikon, altNot, bag, sekmeGit, json } from './_ortak.mjs';
+import { ikon, bag, okumaBolum } from './_ortak.mjs';
 
 const K = '{{kok}}';
 const filtreler = [['tumu', 'fa-layer-group', 'Tümü'], ['acik', 'fa-inbox', 'Açık talep'], ['yanit', 'fa-reply', 'Yanıt bekleyen'], ['cozulen', 'fa-circle-check', 'Çözülen'], ['kapali', 'fa-lock', 'Kapatılan']];
@@ -106,19 +106,21 @@ const detay = `<div class="yigin"><div id="tdGovde"></div></div>`;
 
 export default () => [uyeKabuk({
   yol: 'hesabim/cozum-merkezi', baslik: 'Çözüm Merkezi',
-  aciklama: 'Taleplerin, yeni talep açma, sık sorulanlar ve öneri kutusu tek adreste.',
+  aciklama: 'Taleplerin, yeni talep açma, sık sorulanlar ve öneri kutusu tek adreste. Sekme değişir, kimlik kartın yerinde kalır.',
+  muhur: 'Dada Diet · kişisel alanın', ikon: 'fa-seedling',
   grup: 'destek',
   sekmeler: [
-    { id: 'taleplerim', ad: 'Destek Taleplerim', ikon: 'fa-inbox', govde: taleplerim },
-    { id: 'yeni', ad: 'Yeni Destek Talebi', ikon: 'fa-plus', govde: yeni },
-    { id: 'sss', ad: 'Sıkça Sorulan Sorular', ikon: 'fa-circle-question', govde: sssPano },
-    { id: 'oneri', ad: 'Öneri ve Şikâyet', ikon: 'fa-comment-dots', govde: oneri },
+    { id: 'taleplerim', ad: 'Destek Taleplerim', ikon: 'fa-inbox', govde: okumaBolum(taleplerim) },
+    { id: 'yeni', ad: 'Yeni Destek Talebi', ikon: 'fa-plus', govde: okumaBolum(yeni) },
+    { id: 'sss', ad: 'Sıkça Sorulan Sorular', ikon: 'fa-circle-question', govde: okumaBolum(sssPano) },
+    { id: 'oneri', ad: 'Öneri ve Şikâyet', ikon: 'fa-comment-dots', govde: okumaBolum(oneri) },
   ],
   js: ['assets/js/sayfa/uye-gastro-ortak.js', 'assets/js/sayfa/uye-gastro-destek.js', 'assets/js/sayfa/uye-gastro-cozum.js'],
 }), uyeKabuk({
   yol: 'hesabim/cozum-merkezi/talep', baslik: 'Destek talebi', aciklama: 'Yazışmanı buradan sürdürür, çözüldüyse talebi kapatırsın.',
   aktif: 'hesabim/cozum-merkezi/', ust: [['Çözüm Merkezi', 'hesabim/cozum-merkezi/']],
   eylem: `<a class="dugme hayalet" href="${K}hesabim/cozum-merkezi/#taleplerim">${ikon('fa-arrow-left')} Taleplerime Dön</a>`,
-  govde: detay,
+  muhur: 'Dada Diet · kişisel alanın', ikon: 'fa-seedling',
+  govde: `<div class="okuma-kolonu">${detay}</div>`,
   js: ['assets/js/sayfa/uye-gastro-ortak.js', 'assets/js/sayfa/uye-gastro-destek.js', 'assets/js/sayfa/uye-gastro-talep.js'],
 })];

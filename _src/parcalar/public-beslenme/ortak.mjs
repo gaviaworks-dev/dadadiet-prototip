@@ -30,7 +30,7 @@ export const metin = JSON.parse(fs.readFileSync(path.join(BU, 'metin.json'), 'ut
 export const DETAY = {
   besin: 'besin/avokado/', kacKalori: 'kac-kalori/bir-avuc-badem-kac-kalori/', rehber: 'besin-rehberi/dengeli-tabak/',
   makro: 'makro-rehberi/protein-kaynaklari-hayvansal-bitkisel/', ipucu: 'ipuclari/gunde-ne-kadar-su-icmek-gerekir/',
-  puf: 'puflar/buzdolabinda-hangi-raf-neye-ait/', tarif: 'tarif/cilbir/', yasal: 'yasal/kvkk/', program: 'program/akdeniz-tipi-beslenme/',
+  puf: 'puflar/buzdolabinda-hangi-raf-neye-ait/', yasal: 'yasal/kvkk/', program: 'program/akdeniz-tipi-beslenme/',
   diyetisyenBul: 'diyetisyen-bul-sihirbazi/',
 };
 

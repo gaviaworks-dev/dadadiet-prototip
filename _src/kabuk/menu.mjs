@@ -13,7 +13,6 @@ export const anaMenu = [
     { ad: 'Besin Rehberi', alt: 'Dengeli tabak, öğün, porsiyon', href: 'besin-rehberi/', ikon: 'fa-book-open' },
     { ad: 'Beslenme İpuçları & Püf Noktaları', alt: '159 ipucu, 277 püf noktası', href: 'ipuclari-ve-puf-noktalari/', ikon: 'fa-lightbulb' },
     { ad: 'Dışarıda Ne Yesem?', alt: 'Mekanlarda tahmini kalori', href: 'disarida-ne-yesem/', ikon: 'fa-location-dot' },
-    { ad: 'Sağlıklı Tarifler', alt: 'Sağlık odaklı tarif koleksiyonu', href: 'tarifler/', ikon: 'fa-utensils' },
   ], vitrin: { etiket: 'Rehber', baslik: 'Dengeli bir tabak nasıl kurulur?', href: 'besin-rehberi/', gorsel: 'assets/img/hero/mega-photo-1467453678174-768ec283a940.avif' } },
   { ad: 'Programlar', href: 'programlar/', ikon: 'fa-list-check', kalemler: [
     { ad: 'Program Bul', alt: 'Beş adımda eşleştirme', href: 'programlar/program-bul/', ikon: 'fa-wand-magic-sparkles', sihirbaz: true },
@@ -28,7 +27,7 @@ export const anaMenu = [
 
 export const footerKolonlar = [
   { ad: 'Sağlık Araçları', kalemler: [['Hesaplayıcılar', 'hesaplayicilar/'], ['Sağlık Testleri', 'saglik-testleri/'], ['Akıllı Tabak ve Değişim', 'akilli-tabak-ve-degisim/'], ['Aralıklı Oruç Rehberi', 'aralikli-oruc-rehberi/'], ['Bana Uygun Olanı Bul', 'bana-uygun-olani-bul/']] },
-  { ad: 'Beslenme', kalemler: [['Besin Kütüphanesi', 'besin-kutuphanesi/'], ['Besin Karşılaştır', 'besin-karsilastir/'], ['Kaç Kalori?', 'kac-kalori/'], ['Besin Rehberi', 'besin-rehberi/'], ['İpuçları & Püf Noktaları', 'ipuclari-ve-puf-noktalari/'], ['Sağlıklı Tarifler', 'tarifler/'], ['Makro Rehberi', 'makro-rehberi/']] },
+  { ad: 'Beslenme', kalemler: [['Besin Kütüphanesi', 'besin-kutuphanesi/'], ['Besin Karşılaştır', 'besin-karsilastir/'], ['Kaç Kalori?', 'kac-kalori/'], ['Besin Rehberi', 'besin-rehberi/'], ['İpuçları & Püf Noktaları', 'ipuclari-ve-puf-noktalari/'], ['Makro Rehberi', 'makro-rehberi/']] },
   { ad: 'Uzman Desteği', kalemler: [['Programlar', 'programlar/'], ['Diyetisyenler', 'diyetisyenler/'], ['Diyetisyen Bul', 'diyetisyen-bul-sihirbazi/'], ['Diyetisyen Ol', 'diyetisyen-ol/'], ['Nasıl Çalışır?', 'sayfa/nasil-calisir/'], ['Uzmanla Çalışma Rehberi', 'sayfa/uzmanla-calisma-rehberi/']] },
 ];
 export const footerKurumsal = [['Hakkımızda', 'sayfa/hakkimizda/'], ['Editoryal ve Bilimsel Kurul', 'sayfa/editoryal-kurul/'], ['Künye', 'sayfa/kunye/'], ['İletişim', 'sayfa/iletisim/'], ['Çözüm Merkezi', 'sayfa/cozum-merkezi/'], ['Pro', 'pro/'], ['Reklam Ver', 'reklam-ver/'], ['Marka İş Birlikleri', 'marka-is-birlikleri/']];

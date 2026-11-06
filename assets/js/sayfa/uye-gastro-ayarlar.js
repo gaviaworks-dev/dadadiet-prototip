@@ -1,4 +1,4 @@
-/* Hesap Ayarlarım: profil, güvenlik, bağlı uygulamalar, veri, dondurma ve silme */
+/* Hesap Ayarlarım (fotoğraf ve kapak örtüleri kabukta): profil, güvenlik, bağlı uygulamalar, veri, dondurma ve silme */
 (function () {
   'use strict';
   const DD = window.DD, U = window.DDU, G = window.DDG;
@@ -67,39 +67,6 @@
     const b = e.target.closest('[data-ulke]');
     if (b) { profil.ulke = b.dataset.ulke; ulkeYaz(b.dataset.ulke); U.kaydet(); }
     if (!e.target.closest('.alan-telefon') || b) { katman.hidden = true; ulkeDugme.setAttribute('aria-expanded', 'false'); }
-  });
-
-  /* Fotoğraf: küçültülür, yalnız bu tarayıcıda durur */
-  const fotoBas = () => {
-    const f = U.yerel('gorunum', {}).avatar;
-    document.querySelectorAll('.kisi-avatar[data-uye="harf"]').forEach((e) => {
-      e.style.backgroundImage = f ? 'url("' + f + '")' : '';
-      e.style.backgroundSize = f ? 'cover' : '';
-      e.style.color = f ? 'transparent' : '';
-    });
-  };
-  fotoBas();
-  $('#fotoDosya').addEventListener('change', (e) => {
-    const d = e.target.files[0];
-    if (!d) return;
-    if (d.size > 5 * 1024 * 1024) { DD.toast('Dosya 5 MB’tan büyük olamaz.', 'hata'); return; }
-    const img = new Image();
-    img.onload = () => {
-      const c = document.createElement('canvas'), n = 160, s = Math.min(img.width, img.height);
-      c.width = c.height = n;
-      c.getContext('2d').drawImage(img, (img.width - s) / 2, (img.height - s) / 2, s, s, 0, 0, n, n);
-      U.yerel('gorunum', {}).avatar = c.toDataURL('image/jpeg', 0.8);
-      U.kaydet(); fotoBas(); URL.revokeObjectURL(img.src);
-      DD.kapat($('#fotoModal'));
-      DD.toast('Profil fotoğrafın değişti.');
-    };
-    img.src = URL.createObjectURL(d);
-  });
-  $('#fotoSil').addEventListener('click', () => {
-    delete U.yerel('gorunum', {}).avatar;
-    U.kaydet(); fotoBas();
-    DD.kapat($('#fotoModal'));
-    DD.toast('Baş harfin kullanılıyor.');
   });
 
   /* Şifre */

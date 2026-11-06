@@ -1,6 +1,6 @@
 import { uyeKabuk } from '../../parcalar/uye/kabuk.mjs';
 import { bolumBas, kart, ayarSatir, anahtar, alan, secim, dugme, modal } from '../../parcalar/uye/ust.mjs';
-import { ikon, altNot, uyari, durumSatir, bag, sekmeGit } from './_ortak.mjs';
+import { ikon, altNot, uyari, durumSatir, bag, sekmeGit, duzBolum, okumaBolum } from './_ortak.mjs';
 
 const kaydedildi = `<span class="kaydedildi">${ikon('fa-circle-check')} Kaydedildi</span>`;
 const kartAlt = (not, metin = 'Tercihleri Kaydet', dIkon = '') => `<span class="not">${not}</span>${kaydedildi}${dugme(metin, { sinif: 'birincil', ikon: dIkon, tur: 'submit' })}`;
@@ -9,7 +9,7 @@ const sifre = (ad, etiket, otomatik) => `<div class="alan"><label class="alan-et
 const secenek = (ad, etiket, l) => `<select class="alan-secim" name="${ad}" aria-label="${etiket}">${l.map((o) => `<option>${o}</option>`).join('')}</select>`;
 
 const profil = `<div class="yigin">
-${kart({ ikon: 'fa-id-card', baslik: 'Profil Bilgilerim', metin: 'Adın ve fotoğrafın diyetisyenine, destek gruplarında ve profilinde görünür.', form: ' id="profilForm" novalidate', govde: `<div class="ayar-liste">${ayarSatir({ baslik: 'Profil fotoğrafı', metin: 'JPG veya PNG, en çok 5 MB. Yalnız bu tarayıcıda görünür.', sag: `<span class="as-eylem"><span class="kisi-avatar" data-uye="harf"></span>${satirDugme(`${ikon('fa-camera')} Değiştir`, ' data-ac="#fotoModal"')}</span>` })}</div>
+${kart({ ikon: 'fa-id-card', baslik: 'Profil Bilgilerim', metin: 'Adın ve fotoğrafın diyetisyenine, destek gruplarında ve profilinde görünür.', form: ' id="profilForm" novalidate', govde: `<p class="alan-yardim"><span>Fotoğrafını kartın üstündeki kamera düğmelerinden değiştirebilirsin: JPG veya PNG, en çok 5 MB. Kapak görselini de aynı yerden seçersin.</span></p>
 <div class="alan-izgara c2">${alan({ ad: 'hsAd', etiket: 'Ad', zorunlu: true })}${alan({ ad: 'hsSoyad', etiket: 'Soyad', zorunlu: true })}</div>
 <div class="alan"><label class="alan-etiket" for="hsKullanici">Kullanıcı adı <span class="zorunlu">*</span></label><input class="alan-girdi" id="hsKullanici" required><p class="alan-yardim"><span>Destek gruplarında bu adla görünürsün: <b id="hsAdres"></b></span></p></div>
 <div class="alan-izgara c2">${alan({ ad: 'hsEposta', etiket: 'E-posta', tur: 'email', zorunlu: true, yardim: 'Değiştirirsen yeni adrese doğrulama bağlantısı gönderilir.' })}
@@ -82,24 +82,24 @@ ${bolumBas({ etiket: 'Dört seçenek', ikon: 'fa-list-check', baslik: 'Bağlant�
 <div class="suzgec-satir"><div class="cipler" role="group" aria-label="Bağlantı durumu süzgeci" id="baSuzgec"><span class="cipler-basligi">Durum</span>${[['tumu', '', 'Tümü'], ['acik', 'fa-circle-check', 'Etkin'], ['kapali', 'fa-circle-minus', 'Etkin değil']].map(([k, i, a], n) => `<button class="cip suzgec${n ? '' : ' aktif'}" type="button" data-durum="${k}">${i ? ikon(i) + ' ' : ''}${a}</button>`).join('')}</div><span class="kart-sayac"><b id="baSay">4</b> bağlantı gösteriliyor</span></div>
 <div class="yigin" id="baListe"></div><div id="baBos" hidden></div>
 ${bolumBas({ etiket: 'Senkronizasyon', ikon: 'fa-rotate', baslik: 'Ne sıklıkla güncellensin?', metin: 'Bu tercih tüm etkin bağlantılar için geçerlidir. Bağlantı başına izinler yukarıda ayrı ayrı duruyor; burası yalnız <b>ne zaman</b> okunacağını belirler.' })}
-${kart({ ikon: 'fa-clock-rotate-left', baslik: 'Sıklık ve elle yenileme', govde: `<div class="alan"><label class="alan-etiket" for="baSiklik">Senkronizasyon sıklığı</label><select class="alan-secim" id="baSiklik">${['Otomatik: cihaz uygun olduğunda', 'Saatte bir', 'Günde bir', 'Yalnız elle yenilediğimde'].map((o) => `<option>${o}</option>`).join('')}</select><p class="alan-yardim"><span>Otomatikte ölçüm geldiğinde ve uygulamayı açtığında okunur.</span></p></div>${dugme('Şimdi Senkronize Et', { sinif: 'birincil', ikon: 'fa-rotate', ek: ' id="baSimdi"' })}<p class="durum-satir" id="baCanli" role="status" hidden>${ikon('fa-circle-check')} <span></span></p>` })}
-${kart({ ikon: 'fa-list-check', baslik: 'Senkronlanan veri nereye düşer', bosluksuz: true, govde: `<div class="ayar-liste">${[['fa-utensils', 'Günlük Takibim', 'Adım, hareket ve su kayıtların burada birikir', 'hesabim/gunluk-takibim/'], ['fa-notes-medical', 'Sağlık Dosyam', 'Tartıdan gelen kilo, yağ oranı ve bel ölçümün', 'hesabim/saglik-dosyam/'], ['fa-user-shield', 'Veri İzinlerim', 'Diyetisyeninin bu veriyi görüp görmeyeceği', 'hesabim/veri-izinlerim/'], ['fa-shield-halved', 'Veri ve Hesap Yönetimi', 'Tuttuğumuz veri grupları, dışa aktarım, saklama süresi ve veri silme', 'hesabim/ayarlar/#veri']].map(([i, b, m, h]) => ayarSatir({ ikon: i, baslik: b, metin: m, sag: `<a class="satir-dugme" href="{{kok}}${h}">Aç</a>` })).join('')}</div>` })}
+<div class="iki-kolon esit">${kart({ kolon: true, ikon: 'fa-clock-rotate-left', baslik: 'Sıklık ve elle yenileme', govde: `<div class="alan"><label class="alan-etiket" for="baSiklik">Senkronizasyon sıklığı</label><select class="alan-secim" id="baSiklik">${['Otomatik: cihaz uygun olduğunda', 'Saatte bir', 'Günde bir', 'Yalnız elle yenilediğimde'].map((o) => `<option>${o}</option>`).join('')}</select><p class="alan-yardim"><span>Otomatikte ölçüm geldiğinde ve uygulamayı açtığında okunur.</span></p></div>${dugme('Şimdi Senkronize Et', { sinif: 'birincil', ikon: 'fa-rotate', ek: ' id="baSimdi"' })}<p class="durum-satir" id="baCanli" role="status" hidden>${ikon('fa-circle-check')} <span></span></p>` })}
+${kart({ kolon: true, ikon: 'fa-list-check', baslik: 'Senkronlanan veri nereye düşer', bosluksuz: true, govde: `<div class="ayar-liste">${[['fa-utensils', 'Günlük Takibim', 'Adım, hareket ve su kayıtların burada birikir', 'hesabim/gunluk-takibim/'], ['fa-notes-medical', 'Sağlık Dosyam', 'Tartıdan gelen kilo, yağ oranı ve bel ölçümün', 'hesabim/saglik-dosyam/'], ['fa-user-shield', 'Veri İzinlerim', 'Diyetisyeninin bu veriyi görüp görmeyeceği', 'hesabim/veri-izinlerim/'], ['fa-shield-halved', 'Veri ve Hesap Yönetimi', 'Tuttuğumuz veri grupları, dışa aktarım, saklama süresi ve veri silme', 'hesabim/ayarlar/#veri']].map(([i, b, m, h]) => ayarSatir({ ikon: i, baslik: b, metin: m, sag: `<a class="satir-dugme" href="{{kok}}${h}">Aç</a>` })).join('')}</div>` })}</div>
 <div class="bilgi-notu">${ikon('fa-shield-halved')}<p><b>Bu sekme yalnız cihaz ve uygulama bağlantılarını yönetir.</b> Verinin hangi amaçla tutulduğu, saklama süresi ve verini indirme ya da silme işlemleri ${sekmeGit('Veri ve Hesap Yönetimi', 'veri')} sekmesindedir. Bağlı Uygulamalar’daki hiçbir anahtar oradaki izinleri otomatik açmaz. Paketin ve ödemelerinle ilgili işlemler için ${bag('Paketlerim', 'hesabim/paketlerim/')}, yasal metinler için ${bag('Gizlilik (KVKK)', 'yasal/kvkk/')}.</p></div>
 </div>`;
 
 const kalem = (i, b, m, uc) => `<div class="kalem-satiri"><span class="ks-ikon">${ikon(i)}</span><div class="ks-metin"><b>${b}</b><small>${m}</small></div><span class="ks-uc">${uc}</span></div>`;
-const eylem = (m, ek = '') => `<button class="fp-act fp-actbtn" type="button"${ek}>${m}</button>`;
-const bagUc = (m, y) => `<a class="fp-act" href="{{kok}}${y}">${m}</a>`;
-const veri = `<div class="yigin">
-${kart({ ikon: 'fa-database', baslik: 'Verini gör, indir, sil', id: 'indir', govde: `<div class="fp-list">
+const eylem = (m, ek = '') => `<button class="satir-dugme" type="button"${ek}>${m}</button>`;
+const bagUc = (m, y) => `<a class="satir-dugme" href="{{kok}}${y}">${m}</a>`;
+const veri = `<div class="iki-kolon esit">
+${kart({ kolon: true, ikon: 'fa-database', baslik: 'Verini gör, indir, sil', id: 'indir', govde: `<div class="fp-list">
 ${kalem('fa-list', 'Tuttuğumuz veriler', 'Profil, planlar, öğün ve su kayıtları, ölçümler, belgeler ve mesajlar', eylem('Listele', ' id="vzListele" aria-expanded="false" aria-controls="vzListe"'))}
 <div id="vzListe" hidden><div class="tablo-kap gomulu" tabindex="0" role="region" aria-label="Hesabında tutulan veri grupları"><table class="tablo panel"><caption class="yalniz-okuyucu">Hesabında tutulan veri grupları</caption><thead><tr><th scope="col">Veri grubu</th><th scope="col">Kayıt</th><th scope="col">İlk kayıt</th><th scope="col">Saklama</th></tr></thead><tbody id="vzTablo"></tbody></table></div><p class="alan-yardim"><span>Hesabını silersen bu grupların tamamı 30 gün içinde silinir; faturalar yasal saklama süresince muhasebe kaydında kalır.</span></p></div>
 ${kalem('fa-download', 'Veriyi indir', 'Planların, kayıtların ve ölçümlerin makine okunur dosya olarak, tek seferde', eylem('İndir', ' id="vzIndir"'))}
 <div id="vzIndirDurum" hidden><div class="yigin sik" id="vzAdimlar"></div></div>
 ${kalem('fa-pen', 'Kaydı düzelt', 'Yanlış girdiğin öğün, ölçüm ya da su kaydını düzeltebilirsin', bagUc('Günlüğe git', 'hesabim/gunluk-takibim/'))}
-${kalem('fa-trash-can', 'Veriyi sil', 'Yalnız takip verisi ya da tüm hesap: ikisi ayrı seçenektir', `<a class="fp-act" href="#dondurma" data-sekme-git="dondurma">Sil</a>`)}
+${kalem('fa-trash-can', 'Veriyi sil', 'Yalnız takip verisi ya da tüm hesap: ikisi ayrı seçenektir', `<a class="satir-dugme" href="#dondurma" data-sekme-git="dondurma">Sil</a>`)}
 </div>` })}
-${kart({ ikon: 'fa-hourglass-half', baslik: 'Saklama ve erişim', govde: `<div class="fp-list">
+${kart({ kolon: true, ikon: 'fa-hourglass-half', baslik: 'Saklama ve erişim', govde: `<div class="fp-list">
 ${kalem('fa-calendar', 'Öğün, takip ve ölçüm kaydı', 'Hesabın açık kaldığı sürece; hesap silinince 30 gün içinde silinir', 'Aktif')}
 ${kalem('fa-user-shield', 'Rol bazlı erişim', 'Diyetisyen yalnız izin verdiğin veriyi görür; yönetim erişimi işlem kaydına yazılır', 'Açık')}
 ${kalem('fa-clipboard-list', 'İşlem kaydı', 'Verine kimin ne zaman eriştiği tutulur', bagUc(`Görüntüle ${ikon('fa-arrow-right')}`, 'hesabim/veri-izinlerim/'))}
@@ -123,22 +123,23 @@ const tfa = `<ol class="adim-serit" id="tfaSerit"><li class="acik">1 Yöntem</li
 <div data-tfa-adim="2" hidden>${alan({ ad: 'tfaKod', etiket: 'Doğrulama kodu', zorunlu: true, yardim: 'Bu demoda gerçek bir kod gönderilmez; altı haneyi doldurman yeterli.', ek: ' inputmode="numeric" maxlength="6" autocomplete="one-time-code"' })}</div>
 <div data-tfa-adim="3" hidden><div class="yigin sik"><p class="alan-yardim"><span>Bu kodları güvenli bir yere kaydet. Telefonuna erişemezsen hesabına yalnız bunlarla girebilirsin; her kod bir kez kullanılır.</span></p><div class="cipler" id="tfaKodlar"></div><label class="onay-kutusu"><input type="checkbox" id="tfaOnay"><span>Kurtarma kodlarımı güvenli bir yere kaydettim.</span></label></div></div>`;
 
-const sonEk = modal({ id: 'fotoModal', baslik: 'Profil fotoğrafı', govde: `<div class="okuma"><p>JPG veya PNG, en çok 5 MB. Fotoğrafın yalnız bu tarayıcıda görünür.</p></div><div class="alan"><span class="alan-etiket">Fotoğraf</span><div class="alan-dosya"><label class="alan-dosya-dugme" for="fotoDosya">${ikon('fa-camera')} Dosya seç</label><input class="yalniz-okuyucu" id="fotoDosya" type="file" accept="image/jpeg,image/png"><span class="alan-dosya-ad">JPG veya PNG</span></div></div>`, ayak: dugme('Harfi Kullan', { ek: ' id="fotoSil"' }) + dugme('Kapat', { sinif: 'birincil', ek: ' data-kapat' }) })
+const sonEk = ''
   + modal({ id: 'tfaModal', baslik: 'İki Adımlı Doğrulama', govde: tfa, ayak: dugme('Geri', { ek: ' id="tfaGeri" hidden' }) + dugme('Devam', { sinif: 'birincil', ek: ' id="tfaIleri"' }) })
   + modal({ id: 'kodModal', baslik: 'Kurtarma kodların', govde: '<div class="cipler" id="kodListe"></div>', ayak: dugme('Kopyala', { ikon: 'fa-copy', ek: ' id="kodKopyala"' }) + dugme('Kapat', { sinif: 'birincil', ek: ' data-kapat' }) });
 
 export default () => [uyeKabuk({
   yol: 'hesabim/ayarlar', baslik: 'Hesap Ayarlarım',
-  aciklama: 'Profilin, bildirimlerin, güvenliğin, birim tercihlerin ve bağlı uygulamaların burada; hesabını dondurma ve silme de.',
+  aciklama: 'Profilin, bildirimlerin, güvenliğin, birim tercihlerin ve bağlı uygulamaların burada; hesabını dondurma ve silme de. Paketin ve kademelerin Paketlerim’de, tahsilat ve kartların Ödemelerim’de.',
+  muhur: 'Hesabın · kişisel alanın', ikon: 'fa-sliders', duzenle: true,
   grup: 'hs',
   sekmeler: [
-    { id: 'profil', ad: 'Profil', ikon: 'fa-id-card', govde: profil },
-    { id: 'bildirim', ad: 'Bildirim Tercihleri', ikon: 'fa-bell', govde: bildirim },
-    { id: 'guvenlik', ad: 'Güvenlik', ikon: 'fa-lock', govde: guvenlik },
-    { id: 'dil', ad: 'Dil ve Bölge', ikon: 'fa-globe', govde: dil },
-    { id: 'baglanti', ad: 'Bağlı Uygulamalar', ikon: 'fa-plug-circle-check', govde: baglanti },
-    { id: 'veri', ad: 'Veri ve Hesap Yönetimi', ikon: 'fa-database', govde: veri },
-    { id: 'dondurma', ad: 'Hesabı Dondurma / Silme', ikon: 'fa-circle-pause', govde: dondurma },
+    { id: 'profil', ad: 'Profil', ikon: 'fa-id-card', govde: okumaBolum(profil) },
+    { id: 'bildirim', ad: 'Bildirim Tercihleri', ikon: 'fa-bell', govde: okumaBolum(bildirim) },
+    { id: 'guvenlik', ad: 'Güvenlik', ikon: 'fa-lock', govde: okumaBolum(guvenlik) },
+    { id: 'dil', ad: 'Dil ve Bölge', ikon: 'fa-globe', govde: okumaBolum(dil) },
+    { id: 'baglanti', ad: 'Bağlı Uygulamalar', ikon: 'fa-plug-circle-check', govde: duzBolum(baglanti) },
+    { id: 'veri', ad: 'Veri ve Hesap Yönetimi', ikon: 'fa-database', govde: duzBolum(veri) },
+    { id: 'dondurma', ad: 'Hesabı Dondurma / Silme', ikon: 'fa-circle-pause', govde: okumaBolum(dondurma) },
   ],
   sonEk,
   js: ['assets/js/sayfa/uye-gastro-ortak.js', 'assets/js/sayfa/uye-gastro-destek.js', 'assets/js/sayfa/uye-gastro-ayarlar.js'],

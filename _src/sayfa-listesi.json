@@ -525,16 +525,6 @@
   "duzen": "public"
  },
  {
-  "yol": "tarif/cilbir",
-  "baslik": "Çılbır",
-  "duzen": "public"
- },
- {
-  "yol": "tarifler",
-  "baslik": "Sağlıklı Tarifler",
-  "duzen": "public"
- },
- {
   "yol": "test/beslenme",
   "baslik": "Beslenme alışkanlığın ne durumda?",
   "duzen": "public"

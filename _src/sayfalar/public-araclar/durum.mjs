@@ -2,7 +2,7 @@
 import { K, JS, ikon, kirinti } from '../../parcalar/public-araclar/ortak.mjs';
 
 const CIKIS = [['', 'fa-house', 'Ana sayfa', 'Hesaplayıcılar, besinler ve programlar için başlangıç noktası.'], ['besin-kutuphanesi/', 'fa-carrot', 'Besin Kütüphanesi', 'Kalori, makro ve porsiyon bilgisi tek yerde.'], ['sayfa/cozum-merkezi/', 'fa-headset', 'Çözüm Merkezi', 'Sık sorulanlar ve destek talebi. Kırık bağlantıyı buradan bildirebilirsin.']];
-const SIK = [['programlar/', 'fa-list-check', 'Programlar'], ['hesaplayicilar/', 'fa-calculator', 'Hesaplayıcılar'], ['diyetisyen-bul-sihirbazi/', 'fa-user-check', 'Diyetisyen Bul'], ['besin-rehberi/', 'fa-book-open', 'Besin Rehberi'], ['saglik-testleri/', 'fa-clipboard-question', 'Sağlık Testleri'], ['tarifler/', 'fa-utensils', 'Sağlıklı Tarifler']];
+const SIK = [['programlar/', 'fa-list-check', 'Programlar'], ['hesaplayicilar/', 'fa-calculator', 'Hesaplayıcılar'], ['diyetisyen-bul-sihirbazi/', 'fa-user-check', 'Diyetisyen Bul'], ['besin-rehberi/', 'fa-book-open', 'Besin Rehberi'], ['saglik-testleri/', 'fa-clipboard-question', 'Sağlık Testleri'], ['ipuclari-ve-puf-noktalari/', 'fa-lightbulb', 'İpuçları ve Püf Noktaları']];
 
 export default () => [{
   yol: '404', meta: { baslik: 'Sayfa bulunamadı', duzen: 'public', hero: true, js: [JS] },

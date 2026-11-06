@@ -1707,44 +1707,6 @@ html[data-oturum="1"] .acct-wrap{display:flex}
 /* Üye ekibi istek dosyası. Genel bileşenler; yalnız token, ekran adı yok. */
 
 /* Üye kabuğu: özet şeridi üstte, sol menü + içerik altta */
-.uye-alan{background:var(--zemin)}
-.uye-alan .kirinti{color:var(--metin-ikincil);font-weight:var(--agirlik-govde);margin-bottom:var(--bosluk-16)}
-.uye-alan .kirinti a{color:var(--metin-ikincil)}
-.uye-alan .kirinti a:hover{color:var(--aksan-koyu)}
-.uye-alan .kirinti>i{color:var(--cizgi-vurgu)}
-.uye-alan .kirinti-ev i{color:var(--aksan-koyu)}
-.uye-alan .kirinti-simdi{color:var(--murekkep);font-weight:var(--agirlik-kalin)}
-.uye-ozet{margin:0 0 var(--bosluk-24);border-radius:var(--yuvarlak-lg)}
-.uye-ozet .sayac{flex:1 1 180px;color:inherit;transition:background var(--sure) var(--yumusama)}
-.uye-ozet a.sayac:hover{background:var(--aksan-yikama-2)}
-.uye-ozet .sayac b{font-size:var(--rol-deger-boyut);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
-.uye-ozet .kisi-avatar{flex:none;width:44px;height:44px;background:var(--aksan-koyu);color:var(--kagit);font-size:var(--yazi-18)}
-.uye-kabuk{display:grid;grid-template-columns:248px minmax(0,1fr);gap:var(--bosluk-24);align-items:start}
-.uye-icerik{min-width:0}
-.uye-icerik>.sekme-ray{margin:0 0 var(--bosluk-24)}
-.uye-icerik>.sekme-ray .sekmeler{width:100%;justify-content:safe flex-start}
-.uye-menu{position:sticky;top:calc(var(--kabuk-h) + var(--bosluk-16));display:flex;flex-direction:column;gap:var(--bosluk-8);padding:var(--bosluk-8);background:var(--kagit);border:1px solid var(--cizgi);border-radius:var(--yuvarlak-lg);box-shadow:var(--golge-sm)}
-.uye-menu-grup{display:flex;flex-direction:column;gap:var(--bosluk-4)}
-.uye-menu-grup+.uye-menu-grup{border-top:1px solid var(--cizgi);padding-top:var(--bosluk-8)}
-.uye-menu a{display:flex;align-items:center;gap:var(--bosluk-12);min-height:44px;padding:0 var(--bosluk-12);border-radius:var(--yuvarlak-md);font-size:var(--yazi-14);font-weight:var(--agirlik-orta);color:var(--murekkep-yumusak);white-space:nowrap;transition:background var(--sure) var(--yumusama),color var(--sure) var(--yumusama)}
-.uye-menu a i{width:20px;text-align:center;color:var(--metin-ikincil)}
-.uye-menu a:hover{background:var(--aksan-yikama);color:var(--aksan-koyu)}
-.uye-menu a:hover i{color:var(--aksan-koyu)}
-.uye-menu a[aria-current="page"]{background:var(--aksan-koyu);color:var(--kagit);font-weight:var(--agirlik-kalin)}
-.uye-menu a[aria-current="page"] i{color:var(--kagit)}
-@media(max-width:1024px){
-  .uye-kabuk{grid-template-columns:minmax(0,1fr);gap:var(--bosluk-16)}
-  .uye-menu{position:static;flex-direction:row;gap:var(--bosluk-4);overflow-x:auto;scrollbar-width:none}
-  .uye-menu::-webkit-scrollbar{display:none}
-  .uye-menu-grup{flex-direction:row;flex:none}
-  .uye-menu-grup+.uye-menu-grup{border-top:0;padding-top:0;border-left:1px solid var(--cizgi);padding-left:var(--bosluk-4)}
-}
-@media(max-width:640px){
-  .uye-ozet{flex-wrap:nowrap;overflow-x:auto;scrollbar-width:none;margin-bottom:var(--bosluk-16)}
-  .uye-ozet::-webkit-scrollbar{display:none}
-  .uye-ozet .sayac{flex:0 0 auto;max-width:220px}
-}
-.uye-ozet .kisi-avatar{display:grid;place-items:center;border-radius:var(--yuvarlak-daire);font-weight:var(--agirlik-kalin)}
 
 /* Sayaç ızgarasının üç kolonlu hali */
 .sayac-izgara.uc{grid-template-columns:repeat(3,minmax(0,1fr))}
@@ -1913,13 +1875,12 @@ body:not(.yetkili) .tablo.panel thead th{color:var(--murekkep-yumusak)}
 .sekmeler.suzgec .sekme-sayi{font-size:var(--yazi-11);font-weight:var(--agirlik-kalin)}
 
 /* ── Kırıntı: 13/600 her zeminde ────────────────────────────────────────── */
-.kirinti,.uye-alan .kirinti,.kimlik-bant .kirinti,.giris-hero .kirinti{font-size:var(--yazi-13);font-weight:var(--agirlik-orta)}
-.kirinti-simdi,.uye-alan .kirinti-simdi,.kimlik-bant .kirinti-simdi,.giris-hero .kirinti .kirinti-simdi{font-weight:var(--agirlik-orta)}
+.kirinti,.kimlik-bant .kirinti,.giris-hero .kirinti{font-size:var(--yazi-13);font-weight:var(--agirlik-orta)}
+.kirinti-simdi,.kimlik-bant .kirinti-simdi,.giris-hero .kirinti .kirinti-simdi{font-weight:var(--agirlik-orta)}
 
 /* ── Büyük sayı ve küçük sayı ───────────────────────────────────────────── */
 .kart.kpi .sayi,.sayac b,.giris-sayilar b,.skor-kisa b,.bant-sayilar dd,.kademe-fiyat b,.paket-fiyat b,.plan-fiyat,.sonuc-sayi.kucuk,.puan-sayi,.paket-satiri .fiyat b{
   font-size:var(--rol-metrik-boyut);font-weight:var(--rol-metrik-agirlik);line-height:var(--rol-metrik-satir);letter-spacing:var(--aralik-baslik)}
-.uye-ozet .sayac b{font-size:var(--rol-deger-boyut);font-weight:var(--rol-deger-agirlik);line-height:var(--satir-govde);letter-spacing:normal}
 .kunye dd,.kunye.belge dd,.kunye dd.karsi-deger,.deger-satir dd,.deger-satir b,.kart-bas .deger-vurgu,.yetkili .as-saat,.as-metin b,.as-metin>a,.ks-metin b,.secim-metin b,.gun-baslik,.ara-baslik h4,.plan-baslangic p{
   font-size:var(--rol-deger-boyut);font-weight:var(--rol-deger-agirlik)}
 .ara-baslik h4{line-height:var(--satir-govde);letter-spacing:normal}
@@ -1972,8 +1933,6 @@ body:not(.yetkili) .kart.panel>.kart-alt{padding:var(--rol-kart-alt-dikey) var(-
   .giris-hero .kirinti{font-size:var(--yazi-13)}
 }
 
-/* Kullanıcı adı veri alanıdır: etiket rolünün versali uygulanmaz */
-.uye-ozet-kisi small,.uye-ozet-kisi span{text-transform:none;letter-spacing:normal}
 
 /* ── Katkı: son rol kuralları ── */
 /* Rol katmanı eki: etkileşimle doğan yüzeyler. Ana katman ek-bilesenler.css "zz-tutarlilik" bölümünde. Değerler --rol-* token'larından. */
@@ -1982,3 +1941,14 @@ body:not(.yetkili) .kart.panel>.kart-alt{padding:var(--rol-kart-alt-dikey) var(-
 .yetkili .onay-kapi p{font-size:var(--rol-aciklama-boyut);font-weight:var(--rol-aciklama-agirlik);line-height:var(--rol-aciklama-satir)}
 .soru-metin{font-size:var(--rol-alt-baslik-boyut);line-height:var(--rol-baslik-satir)}
 .halka>*{font-size:var(--rol-metrik-boyut);font-weight:var(--rol-metrik-agirlik);line-height:var(--rol-metrik-satir)}
+
+/* Üye hesap kabuğu: canlı Diet ve Gastro ölçüleri (kapak, kimlik kartı, sayaç şeridi, sekme rayı) */
+.header:not([data-hero]) ~ .page-main .zebra>.bolum.kimlik-bant.kabuk-alti{padding-top:0}
+.kimlik-bant .kimlik-govde h1{font-size:var(--yazi-29)}
+.kimlik-bant .sayac b{font-size:var(--yazi-16-5);line-height:var(--satir-govde)}
+.kimlik-bant .sayac span{font-size:var(--yazi-11);text-transform:none;letter-spacing:var(--aralik-genis)}
+@media(max-width:640px){.kimlik-bant .kimlik-govde h1{font-size:var(--yazi-25)}}
+
+
+/* İki kolonda yan yana kartlar aynı hizada başlar */
+.iki-kolon>.kart.panel+.kart.panel{margin-top:0}

@@ -23,3 +23,7 @@ export const matris = [
   ['Pro ve Pro Max kalemleri', 'fa-bolt', pro.map((m) => [m, 0, 1, 1])],
   ['Yalnız Pro Max', 'fa-gem', max.map((m) => [m, 0, 0, 1])],
 ];
+
+// Gastro pano kolonları: okuma kolonu 860, Bağlı Uygulamalar ve Veri tam kap.
+export const okumaBolum = (html) => `<div class="okuma-kolonu">${html}</div>`;
+export const duzBolum = (html) => html;

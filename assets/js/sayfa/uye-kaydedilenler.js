@@ -4,11 +4,10 @@
   const DD = window.DD, U = window.DDU;
   const $ = (s) => document.querySelector(s);
   const kat = JSON.parse($('#kdKatalog').textContent);
-  const TUR = [['tarifler', 'Tarif', 'tarif/'], ['besinler', 'Besin', 'besin/'], ['programlar', 'Program', 'program/'], ['rehberler', 'Rehber', 'beslenme/']];
+  const TUR = [['besinler', 'Besin', 'besin/'], ['programlar', 'Program', 'program/'], ['rehberler', 'Rehber', 'beslenme/']];
   const k = () => { const u = U.uye(); u.kaydedilenler = u.kaydedilenler || {}; return u.kaydedilenler; };
   let suzgec = 'tumu';
   const adi = (tur, s) => {
-    if (tur === 'tarifler') return (U.tarif(s) || {}).ad || s;
     if (tur === 'besinler') return (U.besin(s) || {}).ad || s;
     return kat[tur][s] || s;
   };

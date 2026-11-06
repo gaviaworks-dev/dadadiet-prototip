@@ -81,9 +81,9 @@
   U.oranlar = (kok) => { kok.querySelectorAll('[data-oran]').forEach((e) => e.style.setProperty('--oran', e.dataset.oran)); };
   /* Sayfanın bütün içeriği yerine tek boş durum: yeni üyede sekme ve boş kart görünmez */
   U.sayfaBos = (html) => {
-    const k = document.querySelector('.uye-icerik');
+    const k = document.querySelector('.modul-govde .zebra');
     k.querySelectorAll('.sekme-ray,.fit-pane').forEach((e) => { e.hidden = true; e.style.display = 'none'; });
-    k.insertAdjacentHTML('beforeend', '<div class="kart panel tam-kolon">' + html + '</div>');
+    k.insertAdjacentHTML('beforeend', '<div class="fit-pane"><section class="bolum"><div class="wrap kap"><div class="kart panel tam-kolon">' + html + '</div></div></section></div>');
   };
   U.sayac = (ad, n) => { document.querySelectorAll('.sekme-sayi[data-sayi="' + ad + '"]').forEach((e) => { e.textContent = n; e.hidden = !n; }); };
 
@@ -286,12 +286,23 @@
     const kalan = Math.round(hedefKcal - U.gunToplam().kcal);
     const yaz = (a, metin, yol) => document.querySelectorAll('[data-ozet="' + a + '"]').forEach((e) => { e.querySelector('b').textContent = metin; e.href = DD.kok + yol; });
     document.querySelectorAll('[data-uye]').forEach((e) => {
-      const v = { adSoyad: ad, harf: (ad[0] || 'A').toLocaleUpperCase('tr'), kullanici: '@' + U.kullaniciAdi() }[e.dataset.uye];
+      const ilk = (dn.olcumler || [])[0], pk = U.paket();
+      const v = { adSoyad: ad, harf: (ad[0] || 'A').toLocaleUpperCase('tr'), kullanici: '@' + U.kullaniciAdi(), kademe: 'Ücretsiz', paket: pk ? pk.ad : '', rozet: 'Rozet ' + (u.rozetler || []).length, uyelik: 'Üyelik: ' + (ilk ? U.tarih(ilk.tarih) : U.tarih(U.bugun())) }[e.dataset.uye];
       if (v != null) e.textContent = v;
+    });
+    document.querySelectorAll('[data-uye-paket]').forEach((e) => { e.hidden = !U.paket(); });
+    const g = U.yerel('gorunum', {});
+    if (g.kapak) document.querySelectorAll('[data-kapak]').forEach((e) => { e.style.backgroundImage = 'url("' + DD.kok + g.kapak + '")'; });
+    document.querySelectorAll('[data-uye-avatar]').forEach((e) => {
+      e.style.backgroundImage = g.avatar ? 'url("' + g.avatar + '")' : '';
+      const h = e.querySelector('[data-uye="harf"]');
+      if (h) h.hidden = !!g.avatar;
+      e.classList.toggle('harf', !g.avatar);
     });
     yaz('hedef', hk ? U.sayi(hk, hk % 1 ? 1 : 0) + ' kg · ' + U.sayi(Math.abs(kilo - hk), 1) + ' kg kaldı' : 'Hedefini belirle', hk ? 'hesabim/saglik-dosyam/#olcum' : 'hesabim/tercihlerim/');
     yaz('kalori', hedefKcal ? (kalan >= 0 ? DD.bicim.kcal(kalan) : DD.bicim.kcal(-kalan) + ' fazla') : 'Hedef yok', 'hesabim/gunluk-takibim/#makro');
-    yaz('program', k ? k.ad : 'Program seç', k ? 'hesabim/beslenme-planim/' : 'programlar/');
+    const kisa = (x) => (x.length > 24 ? x.slice(0, 23).trimEnd() + '…' : x);
+    yaz('program', k ? kisa(k.ad) : 'Program seç', k ? 'hesabim/beslenme-planim/' : 'programlar/');
     yaz('diyetisyen', dy ? dy.ad : 'Diyetisyen bul', dy ? 'hesabim/diyetisyenim/' : 'diyetisyen-bul-sihirbazi/');
   };
 
@@ -306,7 +317,7 @@
   };
   /* Sabit üst kabuğun altında kalmasın diye ray kabuk yüksekliği kadar aşağıda durur */
   U.rayaGit = function (davranis) {
-    const r = document.querySelector('.uye-icerik .sekme-ray'), h = document.querySelector('[data-site-header]');
+    const r = document.querySelector('.sekme-ray'), h = document.querySelector('[data-site-header]');
     if (r) window.scrollTo({ top: r.getBoundingClientRect().top + window.scrollY - (h ? h.offsetHeight : 0) - 16, behavior: davranis || 'auto' });
   };
   document.addEventListener('click', (e) => {
@@ -349,6 +360,40 @@
     DD.toast(f.dataset.mesaj || 'Tercihlerin kaydedildi.');
   });
 
+  /* Kapak ve profil fotoğrafı: kabuk örtüleri, seçim yalnız bu tarayıcıda durur */
+  document.addEventListener('click', (e) => {
+    if (e.target.closest('[data-kapak-uygula]')) {
+      const s = document.querySelector('[data-kapak-sec][aria-pressed="true"]');
+      U.yerel('gorunum', {}).kapak = s.dataset.kapakSec;
+      U.kaydet();
+      DD.kapat(document.getElementById('kabukKapak'));
+      DD.toast('Kapak görselin değişti.');
+    }
+    if (e.target.closest('[data-avatar-sil]')) {
+      delete U.yerel('gorunum', {}).avatar;
+      U.kaydet();
+      DD.kapat(document.getElementById('kabukAvatar'));
+      DD.toast('Baş harfin kullanılıyor.');
+    }
+  });
+  document.addEventListener('change', (e) => {
+    if (e.target.id !== 'kabukAvatarDosya') return;
+    const d = e.target.files[0];
+    if (!d) return;
+    if (d.size > 5 * 1024 * 1024) { DD.toast('Dosya 5 MB’tan büyük olamaz.', 'hata'); return; }
+    const img = new Image();
+    img.onload = () => {
+      const c = document.createElement('canvas'), n = 256, s = Math.min(img.width, img.height);
+      c.width = c.height = n;
+      c.getContext('2d').drawImage(img, (img.width - s) / 2, (img.height - s) / 2, s, s, 0, 0, n, n);
+      U.yerel('gorunum', {}).avatar = c.toDataURL('image/jpeg', 0.8);
+      U.kaydet(); URL.revokeObjectURL(img.src);
+      DD.kapat(document.getElementById('kabukAvatar'));
+      DD.toast('Profil fotoğrafın değişti.');
+    };
+    img.src = URL.createObjectURL(d);
+  });
+
   /* Yalnız bilgi veren eylemler: [data-mesaj] düğmesi toast verir */
   document.addEventListener('click', (e) => {
     const b = e.target.closest('button[data-mesaj],a[data-mesaj]');
@@ -359,10 +404,7 @@
 
   U.ozet();
   U.zil();
-  if (U.bosKip) document.querySelectorAll('.uye-menu a').forEach((a) => { a.href += '?bos=1'; });
-  /* Dar ekranda yatay menüde aktif kalem görünür kalır */
-  const aktifMenu = document.querySelector('.uye-menu [aria-current="page"]');
-  if (aktifMenu && aktifMenu.parentElement.parentElement.scrollWidth > aktifMenu.parentElement.parentElement.clientWidth) aktifMenu.scrollIntoView({ block: 'nearest', inline: 'center' });
+  if (U.bosKip) document.querySelectorAll('.acct-menu a[href*="hesabim/"]').forEach((a) => { a.href += '?bos=1'; });
   document.querySelectorAll('[data-ayar-form]').forEach(formDoldur);
   /* Sayfa betikleri çizdikten sonra sekmeye git */
   document.addEventListener('DOMContentLoaded', () => {

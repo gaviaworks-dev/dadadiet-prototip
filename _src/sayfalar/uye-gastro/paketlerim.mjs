@@ -1,6 +1,6 @@
 import { uyeKabuk } from '../../parcalar/uye/kabuk.mjs';
 import { bolumBas } from '../../parcalar/uye/ust.mjs';
-import { ikon, altNot, ayrim, bag, sekmeGit, json, kademeler, matris } from './_ortak.mjs';
+import { ikon, altNot, ayrim, bag, json, kademeler, matris, okumaBolum } from './_ortak.mjs';
 import { bicim } from '../../parcalar/bicim.mjs';
 
 const ayriMetin = 'Diyetisyen görüşmeleri ve görüşme paketi ücretleri Pro üyeliğe dâhil değildir; bedeli diyetisyene ayrı ödersin. Diyetisyeni takip etmek ya da profilini kaydetmek görüşme hakkı açmaz. Pro ise sitenin gelişmiş program ve plan katmanını açar. İki katman karıştırılmaz.';
@@ -13,7 +13,7 @@ ${altNot('fa-circle-info', `Tahsilatların, faturaların ve kayıtlı kartların
 <div class="cipler" role="group" aria-label="Kademe görünümü" id="pkGorunum"><span class="cipler-basligi">Kademe görünümü</span>${kademeler.map((k) => `<button class="cip" type="button" data-kademe="${k.kod}">${k.ad}</button>`).join('')}</div>
 </div>`;
 
-const kademeKart = (k) => `<div class="kademe-karti${k.one ? ' one-cikan' : ''}" data-kademe-kart="${k.kod}"><span class="kademe-bayrak" data-bayrak${k.bayrak ? '' : ' hidden'}>${k.bayrak ?? ''}</span><div class="kademe-bas">${ikon(k.ikon)}<b>${k.ad}</b></div><p class="kademe-ozet">${k.ozet}</p><div class="kademe-fiyat">${k.kod === 'ucretsiz' ? `<b>${bicim.para(0)}</b><span>/ her zaman</span>` : '<b>—</b><span>Fiyat henüz belirlenmedi</span>'}</div><ul class="kademe-ozellikler">${k.miras ? `<li>${ikon('fa-check')} <b>${k.miras}</b></li>` : ''}${k.ozellik.map((m) => `<li>${ikon('fa-check')} ${m}</li>`).join('')}</ul>${k.kapali.length ? `<details class="kademe-kapali"><summary>${k.kapali.length} özellik bu kademede kapalı</summary><ul class="kademe-ozellikler">${k.kapali.map((m) => `<li class="no">${ikon('fa-xmark')} ${m}</li>`).join('')}</ul></details>` : ''}<div data-kademe-eylem></div></div>`;
+const kademeKart = (k) => `<div class="kademe-karti${k.one ? ' one-cikan' : ''}" data-kademe-kart="${k.kod}"><span class="kademe-bayrak" data-bayrak${k.bayrak ? '' : ' hidden'}>${k.bayrak ?? ''}</span><div class="kademe-bas">${ikon(k.ikon)}<b>${k.ad}</b></div><p class="kademe-ozet">${k.ozet}</p><div class="kademe-fiyat">${k.kod === 'ucretsiz' ? `<b>${bicim.para(0)}</b><span>/ her zaman</span>` : '<b>—</b><span>Fiyat henüz belirlenmedi</span>'}</div><ul class="kademe-ozellikler">${k.miras ? `<li>${ikon('fa-check')} <b>${k.miras}</b></li>` : ''}${k.ozellik.map((m) => `<li>${ikon('fa-check')} ${m}</li>`).join('')}</ul>${k.one ? `<a class="pro-daha" href="#karsilastir" data-sekme-git="karsilastir">ve ${kademeler[0].ozellik.length} özellik daha ${ikon('fa-arrow-right')}</a>` : ''}${k.kapali.length ? `<details class="kademe-kapali"><summary>${k.kapali.length} özellik bu kademede kapalı</summary><ul class="kademe-ozellikler">${k.kapali.map((m) => `<li class="no">${ikon('fa-xmark')} ${m}</li>`).join('')}</ul></details>` : ''}<div data-kademe-eylem></div></div>`;
 
 const kademe = `<div class="yigin">
 ${bolumBas({ etiket: 'Üç kademe', ikon: 'fa-layer-group', baslik: 'Ücretsiz, Pro ve Pro Max', metin: 'Ücretsiz kalıcıdır, süresi dolmaz. Pro ve Pro Max henüz satışa açılmadı; açıldığında haber almak için kademeyi işaretleyebilirsin.' })}
@@ -34,12 +34,13 @@ ${altNot('fa-user-doctor', ayriMetin)}
 
 export default () => [uyeKabuk({
   yol: 'hesabim/paketlerim', baslik: 'Paketlerim',
-  aciklama: 'Hangi kademedesin, üç kademe neyi açıyor, nasıl yükseltir ya da düşürürsün.',
+  aciklama: 'Hangi kademedesin, üç kademe neyi açıyor, nasıl yükseltir ya da düşürürsün. Sekme değişir, kimlik kartın yerinde kalır.',
+  muhur: 'Dada Diet · kişisel alanın', ikon: 'fa-seedling',
   grup: 'pk',
   sekmeler: [
-    { id: 'paketim', ad: 'Mevcut Paketim', ikon: 'fa-crown', govde: mevcut },
-    { id: 'kademeler', ad: 'Paket Kademeleri', ikon: 'fa-layer-group', govde: kademe },
-    { id: 'karsilastir', ad: 'Paket Karşılaştırma', ikon: 'fa-table-list', govde: karsilastir },
+    { id: 'paketim', ad: 'Mevcut Paketim', ikon: 'fa-crown', govde: okumaBolum(mevcut) },
+    { id: 'kademeler', ad: 'Paket Kademeleri', ikon: 'fa-layer-group', govde: okumaBolum(kademe) },
+    { id: 'karsilastir', ad: 'Paket Karşılaştırma', ikon: 'fa-table-list', govde: okumaBolum(karsilastir) },
   ],
   sonEk: json('gKademe', kademeler),
   js: ['assets/js/sayfa/uye-gastro-ortak.js', 'assets/js/sayfa/uye-gastro-paketlerim.js'],

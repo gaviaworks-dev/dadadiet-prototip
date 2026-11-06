@@ -27,7 +27,7 @@
     location.reload();
   });
   /* İçerik örnekleme: her tipte 1 detay üretildi. Öteki kayıtlara giden bağlantı o tipin örneğini açar. */
-  const ORNEK = { besin: 'avokado', tarif: 'cilbir', program: 'akdeniz-tipi-beslenme', hesaplayici: 'gunluk-kalori', test: 'beslenme', ipuclari: 'gunde-ne-kadar-su-icmek-gerekir', puflar: 'buzdolabinda-hangi-raf-neye-ait', 'kac-kalori': 'bir-avuc-badem-kac-kalori', 'besin-rehberi': 'dengeli-tabak', beslenme: 'dengeli-tabak' };
+  const ORNEK = { besin: 'avokado', program: 'akdeniz-tipi-beslenme', hesaplayici: 'gunluk-kalori', test: 'beslenme', ipuclari: 'gunde-ne-kadar-su-icmek-gerekir', puflar: 'buzdolabinda-hangi-raf-neye-ait', 'kac-kalori': 'bir-avuc-badem-kac-kalori', 'besin-rehberi': 'dengeli-tabak', beslenme: 'dengeli-tabak' };
   const ORNEK_DISI = ['kategori'];
   document.addEventListener('click', function (e) {
     const a = e.target.closest && e.target.closest('a[href]');

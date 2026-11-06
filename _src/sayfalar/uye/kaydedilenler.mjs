@@ -12,7 +12,7 @@ ${kart({ bosluksuz: true, govde: tablo({ id: 'kdListe', etiket: 'Kaydedilen içe
 <script type="application/json" id="kdKatalog">${JSON.stringify(katalog).replace(/</g, '\\u003c')}</script>`;
   return [uyeSayfa({
     yol: 'hesabim/kaydedilenler', ad: 'Kaydedilenler', aktif: 'hesabim/programlarim/', ust: [['Programlarım', 'hesabim/programlarim/']],
-    giris: 'Kaydettiğin tarifler, besinler, programlar ve rehberler tek listede.',
+    giris: 'Kaydettiğin besinler, programlar ve rehberler tek listede.',
     govde, js: ['assets/js/sayfa/uye-kaydedilenler.js'],
   })];
 };
