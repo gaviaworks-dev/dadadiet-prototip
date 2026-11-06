@@ -292,7 +292,8 @@
     });
     document.querySelectorAll('[data-uye-paket]').forEach((e) => { e.hidden = !U.paket(); });
     const g = U.yerel('gorunum', {});
-    if (g.kapak) document.querySelectorAll('[data-kapak]').forEach((e) => { e.style.backgroundImage = 'url("' + DD.kok + g.kapak + '")'; });
+    /* Nitelik de yazılır: demo.js DOMContentLoaded'da data-arkaplan değerini uygular */
+    if (g.kapak) document.querySelectorAll('[data-kapak]').forEach((e) => { e.dataset.arkaplan = DD.kok + g.kapak; e.style.backgroundImage = 'url("' + DD.kok + g.kapak + '")'; });
     document.querySelectorAll('[data-uye-avatar]').forEach((e) => {
       e.style.backgroundImage = g.avatar ? 'url("' + g.avatar + '")' : '';
       const h = e.querySelector('[data-uye="harf"]');
