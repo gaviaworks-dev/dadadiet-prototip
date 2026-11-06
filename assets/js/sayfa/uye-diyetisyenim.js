@@ -7,8 +7,11 @@
   const bosSatir = (n, m) => '<tr><td colspan="' + n + '" class="bos-hucre">' + m + '</td></tr>';
   const gecen = (r) => ['tamamlandi', 'sonuc-bekliyor', 'gelmedi'].includes(U.rDurum(r));
   const yaklasan = () => U.randevular().filter((r) => r.tarih >= b && U.rAcik(r));
+  /* Tamamlanan görüşmede panelin özeti öne geçer; ozel_not hiçbir yerde okunmaz */
+  const gorusmeMetni = (r) => (U.rDurum(r) === 'tamamlandi' && r.ozet ? r.ozet : r.not);
   const bekleyenTalep = (r) => r.talep && r.talep.durum === 'bekliyor';
   /* Eylem: bekleyen talep varsa geri alınır, yoksa iptal ve saat değişikliği talebi açılır */
+  const katil = (r, sinif) => (r.tur === 'online' && /^https?:\/\//.test(r.baglanti || '') ? '<a class="dugme ' + sinif + '" href="' + U.kac(r.baglanti) + '" target="_blank" rel="noopener"><i class="fa-solid fa-video" aria-hidden="true"></i> Görüşmeye katıl</a>' : '');
   const eylemler = (r, kucuk) => {
     const k = kucuk ? ' kucuk' : '';
     if (bekleyenTalep(r)) return '<button class="dugme hayalet' + k + '" type="button" data-talep-geri="' + r.id + '">Talebi geri al</button>';
@@ -35,14 +38,15 @@
     const s = y[0];
     const talep = s && U.rTalepMetin(s);
     U.bas('#dySiradaki', s
-      ? '<div class="kart panel tam-kolon"><div class="kart-bas"><div><h3 class="kart-baslik"><i class="fa-solid fa-calendar-day" aria-hidden="true"></i> Sıradaki görüşmen</h3><p>' + U.tarih(s.tarih) + ' ' + U.gunAdi(s.tarih) + ', ' + s.saat + ' · ' + s.sure + ' dakika · ' + U.kac(s.tur) + '</p></div><div class="as-eylem">' + U.rHap(s) + U.durum('acik', U.gunFarki(b, s.tarih) === 0 ? 'Bugün' : U.gunFarki(b, s.tarih) + ' gün sonra') + '</div></div>' + (s.not ? '<div class="kart-govde okuma"><p>' + U.kac(s.not) + '</p></div>' : '') + '<div class="kart-alt eylem">' + (talep ? '<span class="eylem-notu">' + talep + '</span>' : '') + eylemler(s, false) + '</div></div>'
+      ? '<div class="kart panel tam-kolon"><div class="kart-bas"><div><h3 class="kart-baslik"><i class="fa-solid fa-calendar-day" aria-hidden="true"></i> Sıradaki görüşmen</h3><p>' + U.tarih(s.tarih) + ' ' + U.gunAdi(s.tarih) + ', ' + s.saat + ' · ' + s.sure + ' dakika · ' + U.kac(s.tur) + '</p></div><div class="as-eylem">' + U.rHap(s) + U.durum('acik', U.gunFarki(b, s.tarih) === 0 ? 'Bugün' : U.gunFarki(b, s.tarih) + ' gün sonra') + '</div></div>' + (s.not ? '<div class="kart-govde okuma"><p>' + U.kac(s.not) + '</p></div>' : '') + '<div class="kart-alt eylem">' + (talep ? '<span class="eylem-notu">' + talep + '</span>' : '') + eylemler(s, false) + katil(s, 'birincil') + '</div></div>'
       : '');
     const durumHucre = (r) => { const m = U.rTalepMetin(r); return U.rHap(r) + (m ? '<small class="eylem-notu">' + m + '</small>' : ''); };
-    U.bas('#dyRandevular', U.randevular().slice().reverse().map((r) => '<tr><td class="tarih">' + U.noktaliTarih(r.tarih) + '</td><td>' + r.saat + '</td><td><span class="no">' + U.kac(U.basHarf(r.tur)) + ' görüşme<small>' + r.sure + ' dakika</small></span></td><td>' + durumHucre(r) + '</td><td class="eylem-kolon"><div class="tablo-eylem">' + (r.tarih >= b && U.rAcik(r) && r !== s ? eylemler(r, true) : '') + '</div></td></tr>').join('') || bosSatir(5, 'Henüz randevun yok.'));
-    U.bas('#dyGorusme', U.randevular().filter(gecen).reverse().map((r) => '<tr><td class="tarih">' + U.noktaliTarih(r.tarih) + '</td><td>' + U.rHap(r) + '</td><td class="sol">' + U.kac(r.not || '—') + '</td></tr>').join('') || bosSatir(3, 'Henüz tamamlanan görüşmen yok.'));
+    U.bas('#dyRandevular', U.randevular().slice().reverse().map((r) => '<tr><td class="tarih">' + U.noktaliTarih(r.tarih) + '</td><td>' + r.saat + '</td><td><span class="no">' + U.kac(U.basHarf(r.tur)) + ' görüşme<small>' + r.sure + ' dakika</small></span></td><td>' + durumHucre(r) + '</td><td class="eylem-kolon"><div class="tablo-eylem">' + (r.tarih >= b && U.rAcik(r) && r !== s ? eylemler(r, true) + katil(r, 'birincil kucuk') : '') + '</div></td></tr>').join('') || bosSatir(5, 'Henüz randevun yok.'));
+    U.bas('#dyGorusme', U.randevular().filter(gecen).reverse().map((r) => '<tr><td class="tarih">' + U.noktaliTarih(r.tarih) + '</td><td>' + U.rHap(r) + '</td><td class="sol">' + U.kac(gorusmeMetni(r) || '—') + '</td></tr>').join('') || bosSatir(3, 'Henüz tamamlanan görüşmen yok.'));
     hak();
   }
 
+  const boyut = (n) => (n >= 1048576 ? U.sayi(n / 1048576, 1) + ' MB' : U.sayi(Math.max(1, n / 1024)) + ' KB');
   function mesaj() {
     const s = U.sohbet(), y = yaklasan()[0];
     $('#dyMono').textContent = dy.harf || dy.ad[0];
@@ -53,7 +57,9 @@
       const t = m.zaman.slice(0, 10);
       const ayrac = t !== gun ? '<span class="sohbet-gun">' + U.kisaTarih(t) + '</span>' : '';
       gun = t;
-      return ayrac + '<div class="sohbet-balon ' + (m.kimden === 'danisan' ? 'uye' : 'karsi') + '"><p>' + U.kac(m.metin) + '</p><span class="sohbet-kunye">' + m.zaman.slice(11, 16) + '</span></div>';
+      /* Dosya içeriği saklanmaz; balonda adı ve boyutu görünür */
+      const ek = m.ek ? '<span class="sohbet-ek"><i class="fa-solid fa-paperclip" aria-hidden="true"></i><b>' + U.kac(m.ek.ad) + '</b>' + (m.ek.boyut ? '<small>' + boyut(m.ek.boyut) + '</small>' : '') + '</span>' : '';
+      return ayrac + '<div class="sohbet-balon ' + (m.kimden === 'danisan' ? 'uye' : 'karsi') + '">' + (m.metin && !(m.ek && m.metin === m.ek.ad) ? '<p>' + U.kac(m.metin) + '</p>' : '') + ek + '<span class="sohbet-kunye">' + m.zaman.slice(11, 16) + '</span></div>';
     }).join('') || U.bos({ ikon: 'fa-comments', baslik: 'Henüz mesaj yok', metin: 'Diyetisyenine ilk mesajını aşağıdan yaz.' }));
     const a = $('#dyAkis'); a.scrollTop = a.scrollHeight;
     U.sayac('mesaj', U.uye().okunmamis_mesaj || 0);
@@ -67,14 +73,14 @@
     const p = U.plan();
     const l = [];
     if (p && p.danisana_not) l.push(satirKur('fa-clipboard-list', p.ad + ' · ' + U.tarih(p.tarih), p.danisana_not));
-    U.randevular().filter((r) => gecen(r) && r.not).reverse().forEach((r) => l.push(satirKur('fa-calendar-check', 'Görüşme · ' + U.tarih(r.tarih), r.not)));
+    U.randevular().filter((r) => gecen(r) && gorusmeMetni(r)).reverse().forEach((r) => l.push(satirKur('fa-calendar-check', 'Görüşme · ' + U.tarih(r.tarih), gorusmeMetni(r))));
     U.bas('#dyNotlar', l.join('') || U.bos({ ikon: 'fa-note-sticky', baslik: 'Henüz paylaşılan not yok', metin: 'Diyetisyenin sana not bıraktığında burada görünür.' }));
   }
 
   function dosyalar() {
     const p = U.plan();
     U.bas('#dyGelen', p
-      ? satirKur('fa-file-pdf', p.ad + '.pdf', U.tarih(p.tarih) + ' · Beslenme planı', '<a class="dugme hayalet kucuk" href="' + DD.kok + 'hesabim/beslenme-planim/">Planda aç</a>')
+      ? satirKur('fa-file-pdf', p.ad + '.pdf', U.tarih(U.planBas(p)) + ' · Beslenme planı', '<a class="dugme hayalet kucuk" href="' + DD.kok + 'hesabim/beslenme-planim/">Planda aç</a>')
       : U.bos({ ikon: 'fa-inbox', baslik: 'Henüz dosya yok', metin: 'Diyetisyenin dosya gönderdiğinde burada listelenir.' }));
     const l = (dn.tahliller || []).map((t) => satirKur('fa-file-pdf', t.dosya_adi, U.tarih(t.tarih) + ' · Tahlil'))
       .concat(U.yerel('paylasilanDosya', []).map((d) => satirKur('fa-file-arrow-up', d.ad, U.tarih(d.tarih) + ' · Sen paylaştın')));
@@ -100,10 +106,12 @@
     /* Kapalı saat blokları ve açık randevular çakışma sayılır */
     const dolu = (d.takvim_bloklari || []).filter((x) => x.tarih === tarih).map((x) => [dk(x.saat), dk(x.saat) + x.sure])
       .concat((d.randevular || []).filter((r) => r.tarih === tarih && U.rAcik(r) && r.id !== haric).map((r) => [dk(r.saat), dk(r.saat) + r.sure]));
-    if (Array.isArray(g.ara) && g.ara.length === 2) dolu.push([dk(g.ara[0]), dk(g.ara[1])]);
+    /* Seanslar arası tampon iki yöne uygulanır; panelde olduğu gibi öğle arasına uygulanmaz */
+    const tampon = m.tampon || 0, ara = Array.isArray(g.ara) && g.ara.length === 2 ? [dk(g.ara[0]), dk(g.ara[1])] : null;
     const l = [];
     for (let t = dk(g.baslangic); t + sure <= dk(g.bitis); t += sure) {
-      if (!dolu.some(([a, z]) => t < z && t + sure > a)) l.push(String(Math.floor(t / 60)).padStart(2, '0') + ':' + String(t % 60).padStart(2, '0'));
+      if (ara && t < ara[1] && t + sure > ara[0]) continue;
+      if (!dolu.some(([a, z]) => t - tampon < z && t + sure + tampon > a)) l.push(String(Math.floor(t / 60)).padStart(2, '0') + ':' + String(t % 60).padStart(2, '0'));
     }
     return l;
   }
@@ -120,6 +128,8 @@
     yenile();
     return yenile;
   }
+  const otomatik = () => (U.d().musaitlik || {}).onay === 'otomatik';
+  if (otomatik()) $('#dyRandevuForm button[type=submit]').textContent = 'Randevu oluştur';
   const slot = (tur) => ((U.d().musaitlik || {}).slot || {})[tur] || 45;
   const turSec = $('#yeniTur');
   const yeniYenile = saatBagla('yeni', () => slot(turSec.value));
@@ -134,9 +144,9 @@
     e.preventDefault();
     const t = $('#yeniTarih').value, s = $('#yeniSaat').value, tur = turSec.value;
     if (!t || !s) { DD.toast('Tarih ve saat seç.', 'hata'); return; }
-    U.d().randevular.push({ id: 'r-u' + Date.now(), danisan_id: U.uyeId(), paket_id: dn.paket_id, tarih: t, saat: s, sure: slot(tur), tur, durum: 'onay-bekliyor', not: '', olusturan: 'uye' });
+    U.d().randevular.push({ id: 'r-u' + Date.now(), danisan_id: U.uyeId(), paket_id: dn.paket_id, tarih: t, saat: s, sure: slot(tur), tur, durum: otomatik() ? 'dolu' : 'onay-bekliyor', not: '', olusturan: 'uye' });
     U.kaydet(); DD.kapat($('#dyRandevu')); ciz();
-    DD.toast('Randevu talebin diyetisyenine iletildi, onay bekliyor.');
+    DD.toast(otomatik() ? 'Randevun oluşturuldu: ' + U.tarih(t) + ', ' + s + '.' : 'Randevu talebin diyetisyenine iletildi, onay bekliyor.');
   });
   document.addEventListener('click', (e) => {
     const i = e.target.closest('[data-iptal]');

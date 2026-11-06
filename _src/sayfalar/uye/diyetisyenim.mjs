@@ -16,7 +16,7 @@ ${bolumBas({ etiket: 'Paketin', ikon: 'fa-box-open', baslik: 'Aldığın hizmetl
 ${kart({ ikon: 'fa-receipt', baslik: 'Hizmet dökümü', bosluksuz: true, govde: tablo({ id: 'dyHizmet', etiket: 'Aldığın hizmetler', basliklar: ['Hizmet', ['Tür', 'dar-kolon'], ['Seans', 'dar-kolon sag'], ['Tutar', 'dar-kolon sag']] }) })}
 </div>` },
   { id: 'randevu', ad: 'Randevularım', ikon: 'fa-calendar-check', sayi: 'randevu', govde: `<div class="yigin">
-${bolumBas({ etiket: 'Randevuların', ikon: 'fa-calendar-check', baslik: 'Randevuların', metin: 'Sıradaki görüşmen ve bütün randevuların. Yeni randevu, iptal ve saat değişikliği talepleri diyetisyen onayına gider.', arac: dugme('Randevu oluştur', { sinif: 'birincil', ikon: 'fa-calendar-plus', ek: ' data-ac="#dyRandevu"' }) })}
+${bolumBas({ etiket: 'Randevuların', ikon: 'fa-calendar-check', baslik: 'Randevuların', metin: 'Sıradaki görüşmen ve bütün randevuların. İptal ve saat değişikliği talepleri diyetisyen onayına gider.', arac: dugme('Randevu oluştur', { sinif: 'birincil', ikon: 'fa-calendar-plus', ek: ' data-ac="#dyRandevu"' }) })}
 <div id="dySiradaki"></div>
 ${kart({ ikon: 'fa-list', baslik: 'Bütün randevuların', bosluksuz: true, govde: tablo({ id: 'dyRandevular', etiket: 'Bütün randevular', basliklar: [['Tarih', 'dar-kolon'], ['Saat', 'dar-kolon'], 'Görüşme', ['Durum', 'dar-kolon'], ['İşlem', 'eylem-kolon']] }) })}
 </div>` },

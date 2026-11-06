@@ -9,7 +9,7 @@
   <div class="yan-panel-bas"><h2 id="rpBaslik">Randevu oluştur</h2>${kapatDugme}</div>
   <form class="yan-panel-govde" id="rpForm" novalidate>
     <div class="alan" id="rpKipAlan"><div class="segment" id="rpKip" role="group" aria-label="İşlem türü"><button type="button" data-deger="randevu" aria-pressed="true">Randevu</button><button type="button" data-deger="blok" aria-pressed="false">Saat kapat</button></div></div>
-    <div class="alan oneri-kap" data-kip="randevu"><label class="alan-etiket" for="rpDanisan">Danışan <span class="zorunlu" aria-hidden="true">*</span></label><input class="alan-girdi" id="rpDanisan" type="text" role="combobox" aria-autocomplete="list" aria-expanded="false" autocomplete="off" placeholder="Ad yaz ya da listeden seç"><div class="oneri-liste" id="rpOneri" role="listbox" aria-label="Danışanlar" hidden></div></div>
+    <div class="alan oneri-kap" data-kip="randevu"><label class="alan-etiket" for="rpDanisan">Danışan <span class="zorunlu" aria-hidden="true">*</span></label><input class="alan-girdi" id="rpDanisan" type="text" autocomplete="off" placeholder="Ad yaz ya da listeden seç"><div class="oneri-liste" id="rpOneri" role="group" aria-label="Danışan önerileri" hidden></div></div>
     <div class="alan" data-kip="randevu"><label class="alan-etiket" for="rpPaket">Paket</label><select class="alan-secim" id="rpPaket"></select><p class="alan-yardim" id="rpPaketNot"></p></div>
     <div class="alan-izgara c2">
       <div class="alan" data-kip="randevu"><span class="alan-etiket" id="rpTurE">Görüşme biçimi</span><div class="segment" id="rpTur" role="group" aria-labelledby="rpTurE"><button type="button" data-deger="online" aria-pressed="true">Online</button><button type="button" data-deger="yüz yüze" aria-pressed="false">Yüz yüze</button></div></div>
@@ -103,14 +103,14 @@
 
   /* Danışan önerisi */
   const girdi = $('rpDanisan'), oneri = $('rpOneri');
+  /* Düz düğme listesi: kit `role=listbox` kaplarını kendi seçicisi sanıp toast basıyor. Oklar odağı taşır. */
   function oneriAc() {
     const q = girdi.value.trim().toLocaleLowerCase('tr');
     const l = secilebilir().filter((x) => x.ad.toLocaleLowerCase('tr').includes(q)).slice(0, 8);
-    oneri.innerHTML = l.length ? l.map((x, i) => { const p = PA.paket(x.paket_id); return `<button class="oneri-kalem" type="button" role="option" data-id="${x.id}" aria-selected="${i === 0}">${h(x.ad)}<small>${p ? h(p.ad) : ''}</small></button>`; }).join('') : '<span class="oneri-kalem">Eşleşen danışan yok</span>';
+    oneri.innerHTML = l.length ? l.map((x) => { const p = PA.paket(x.paket_id); return `<button class="oneri-kalem" type="button" data-id="${x.id}">${h(x.ad)}<small>${p ? h(p.ad) : ''}</small></button>`; }).join('') : '<span class="oneri-kalem">Eşleşen danışan yok</span>';
     oneri.hidden = false;
-    girdi.setAttribute('aria-expanded', 'true');
   }
-  function oneriKapat() { oneri.hidden = true; girdi.setAttribute('aria-expanded', 'false'); }
+  function oneriKapat() { oneri.hidden = true; }
   function danisanSec(id) {
     const dn = PA.danisan(id);
     s.danisan = id;
@@ -125,15 +125,21 @@
   girdi.addEventListener('input', () => { s.danisan = ''; oneriAc(); });
   girdi.addEventListener('keydown', (e) => {
     if (oneri.hidden) return;
-    const l = [...oneri.querySelectorAll('[data-id]')], i = l.findIndex((x) => x.getAttribute('aria-selected') === 'true');
-    if (e.key === 'ArrowDown' || e.key === 'ArrowUp') {
-      e.preventDefault();
-      const y = l[(i + (e.key === 'ArrowDown' ? 1 : -1) + l.length) % l.length];
-      l.forEach((x) => x.setAttribute('aria-selected', String(x === y)));
-      if (y) y.scrollIntoView({ block: 'nearest' });
-    } else if (e.key === 'Enter') { e.preventDefault(); if (l[i]) danisanSec(l[i].dataset.id); }
+    const l = [...oneri.querySelectorAll('[data-id]')];
+    if (e.key === 'ArrowDown' && l[0]) { e.preventDefault(); l[0].focus(); }
+    else if (e.key === 'Enter') { e.preventDefault(); if (l[0]) danisanSec(l[0].dataset.id); }
     else if (e.key === 'Escape') { e.stopPropagation(); oneriKapat(); }
   });
+  oneri.addEventListener('keydown', (e) => {
+    const l = [...oneri.querySelectorAll('[data-id]')], i = l.indexOf(document.activeElement);
+    if (e.key === 'ArrowDown' || e.key === 'ArrowUp') {
+      e.preventDefault();
+      const y = i + (e.key === 'ArrowDown' ? 1 : -1);
+      (y < 0 ? girdi : l[Math.min(y, l.length - 1)]).focus();
+    } else if (e.key === 'Escape') { e.stopPropagation(); oneriKapat(); girdi.focus(); }
+  });
+  /* Fareyle seçim mousedown'da: odak kayınca liste kımıldıyor, click düğme yerine kaba düşüyordu */
+  oneri.addEventListener('mousedown', (e) => { const b = e.target.closest('[data-id]'); if (b) { e.preventDefault(); danisanSec(b.dataset.id); } });
   oneri.addEventListener('click', (e) => { const b = e.target.closest('[data-id]'); if (b) danisanSec(b.dataset.id); });
   $('randevuPanel').addEventListener('click', (e) => { if (!e.target.closest('.oneri-kap')) oneriKapat(); });
 

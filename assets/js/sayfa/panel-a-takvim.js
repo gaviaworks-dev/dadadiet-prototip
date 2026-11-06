@@ -58,6 +58,11 @@
         continue;
       }
       const gecmis = iso + 'T' + PA.saat(m) <= PA.simdi;
+      if (!gecmis && PA.d().musaitlik.tampon && !PA.slotUygun(iso, m, ADIM)) {
+        parca.push(yerlestir(dugum('takvim-hucre' + bugun, '<span class="takvim-slot kapali" role="img" aria-label="Seanslar arası tampon">Tampon</span>'), sutun, satirOf(m), 1));
+        m += ADIM;
+        continue;
+      }
       parca.push(yerlestir(dugum('takvim-hucre' + bugun, gecmis ? '' : `<button class="takvim-slot bos" type="button" data-tarih="${iso}" data-saat="${PA.saat(m)}" aria-label="${PA.tarih(iso)} ${PA.saat(m)}, boş, randevu oluştur"><i class="fa-solid fa-plus" aria-hidden="true"></i></button>`), sutun, satirOf(m), 1));
       m += ADIM;
     }

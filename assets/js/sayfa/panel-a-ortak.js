@@ -145,7 +145,8 @@
     if (!g.acik || bas < g.bas || bit > g.bit) return false;
     if (g.ara && bas < g.ara[1] && bit > g.ara[0]) return false;
     if (iso + 'T' + PA.saat(bas) <= PA.simdi) return false;
-    return !PA.dolulukVar(iso, bas, bit, haric);
+    const tampon = PA.d().musaitlik.tampon || 0; /* seanslar arası boşluk her iki yöne uygulanır */
+    return !PA.dolulukVar(iso, bas - tampon, bit + tampon, haric);
   };
   PA.gunSlotlari = (iso, sure, haric) => {
     const g = PA.gunDuzeni(iso), l = [];
@@ -172,7 +173,7 @@
     const son = k.mesajlar.length ? k.mesajlar[k.mesajlar.length - 1].zaman : '';
     let z = PA.simdi + ':' + iki(sira++ % 60);
     if (son > z) z = DD.bugun + 'T' + son.slice(11, 16) + ':' + iki(sira % 60);
-    const m = { kimden: 'diyetisyen', zaman: z, metin };
+    const m = { kimden: 'diyetisyen', zaman: z, metin: metin || (ek ? ek.ad : '') }; /* yalnız dosyalı mesajda da metin dolu kalır */
     if (ek) m.ek = ek;
     k.mesajlar.push(m);
     if (d.uye && d.uye.danisan_id === id) d.uye.okunmamis_mesaj = (d.uye.okunmamis_mesaj || 0) + 1;
@@ -317,5 +318,13 @@
     talep('r21', { tur: 'saat', yeni_tarih: PA.ekle(DD.bugun, 4), yeni_saat: '11:00', neden: 'Pazartesi öğleden sonra toplantım çıktı.' });
     DD.demo.kaydet();
   }
-  try { tohum(); PA.kabukTazele(); ustArama(); } catch (e) { /* panel-b ekranını sayaç hatası düşürmesin */ }
+  /* Otomatik onay kuralı: üyenin yeni randevusu kuyruğa düşmeden kesinleşir */
+  function onayKurali() {
+    const d = PA.d();
+    if (!d.musaitlik || d.musaitlik.onay !== 'otomatik' || !d.randevular) return;
+    const l = d.randevular.filter((r) => r.durum === 'onay-bekliyor' && r.olusturan === 'uye');
+    l.forEach((r) => { r.durum = 'dolu'; PA.mesajYaz(r.danisan_id, PA.ayGun(r.tarih) + ' ' + r.saat + ' randevunuz onaylandı.'); });
+    if (l.length) DD.demo.kaydet();
+  }
+  try { tohum(); onayKurali(); PA.kabukTazele(); ustArama(); } catch (e) { /* panel-b ekranını sayaç hatası düşürmesin */ }
 })();

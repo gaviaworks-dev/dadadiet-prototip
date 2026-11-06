@@ -78,7 +78,7 @@
   function ozetCiz() {
     const i = PA.ilerleme(dn), rs = PA.d().randevular.filter((r) => r.danisan_id === id).sort((a, b) => (b.tarih + b.saat).localeCompare(a.tarih + a.saat));
     const say = (d) => rs.filter((r) => PA.rDurum(r) === d).length;
-    const plan = PA.d().planlar.filter((x) => x.danisan_id === id && x.durum === 'gonderildi').pop();
+    const plan = PA.d().planlar.filter((x) => x.danisan_id === id && x.durum === 'gonderildi').sort((a, b) => b.tarih.localeCompare(a.tarih))[0];
     const notlar = notSirali().slice(0, 2);
     const acik = dn.izinler.anamnez;
     $('p-ozet').innerHTML = `<div class="yigin">

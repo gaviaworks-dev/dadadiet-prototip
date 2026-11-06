@@ -8,9 +8,9 @@
     const l = [];
     const p = U.plan();
     if (p) {
-      const son = U.gunEkle(p.tarih, p.gunler.length - 1);
-      const gun = Math.min(p.gunler.length, U.gunFarki(p.tarih, U.bugun()) + 1);
-      l.push({ anahtar: p.id, ad: p.ad, alt: 'Diyetisyen planı', bas: p.tarih, son, durum: 'devam', gun, toplam: p.gunler.length });
+      const pb = U.planBas(p), son = U.gunEkle(pb, p.gunler.length - 1);
+      const gun = Math.max(0, Math.min(p.gunler.length, U.gunFarki(pb, U.bugun()) + 1));
+      l.push({ anahtar: p.id, ad: p.ad, alt: 'Diyetisyen planı', bas: pb, son, durum: 'devam', gun, toplam: p.gunler.length });
     }
     U.programlar().forEach((x) => {
       const son = U.gunEkle(x.baslangic, x.sure_gun - 1);
@@ -18,7 +18,7 @@
     });
     return l;
   }
-  const hap = (s) => (s.durum === 'tamamlandi' ? U.durum('cozulen', 'Tamamlandı', 'fa-circle-check') : s.durum === 'duraklatildi' ? U.durum('bekleyen', 'Duraklatıldı', 'fa-pause') : U.durum('cozulen', 'Sürüyor · ' + s.gun + '. gün / ' + s.toplam, 'fa-play'));
+  const hap = (s) => (s.durum === 'tamamlandi' ? U.durum('cozulen', 'Tamamlandı', 'fa-circle-check') : s.durum === 'duraklatildi' ? U.durum('bekleyen', 'Duraklatıldı', 'fa-pause') : (s.gun ? U.durum('cozulen', 'Sürüyor · ' + s.gun + '. gün / ' + s.toplam, 'fa-play') : U.durum('bekleyen', 'Başlamadı')));
   const eylem = (s) => (s.durum === 'tamamlandi'
     ? '<a class="dugme hayalet kucuk" href="' + kok + 'program/' + s.slug + '/">İncele</a>'
     : '<a class="dugme hayalet kucuk" href="' + kok + 'hesabim/gunluk-takibim/">Günlük takip</a><a class="dugme birincil kucuk" href="' + kok + 'hesabim/beslenme-planim/#ogun" data-kaynak="' + s.anahtar + '">Planıma git</a>');

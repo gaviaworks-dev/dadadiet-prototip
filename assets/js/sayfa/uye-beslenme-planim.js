@@ -24,7 +24,7 @@
     }
     const dy = U.diyetisyen();
     const alt = k.tip === 'plan'
-      ? '<i class="fa-solid fa-user-doctor" aria-hidden="true"></i> Diyetisyenin: ' + U.kac(dy ? dy.ad : '') + ' · ' + U.tarih(k.plan.tarih) + ' · ' + U.sayi(k.plan.hedef_kcal) + ' kcal hedef'
+      ? '<i class="fa-solid fa-user-doctor" aria-hidden="true"></i> Diyetisyenin: ' + U.kac(dy ? dy.ad : '') + ' · Başlangıç ' + U.tarih(U.planBas(k.plan)) + ' · ' + U.sayi(k.plan.hedef_kcal) + ' kcal hedef'
       : U.kac(k.program.aciklama || '') ;
     U.bas('#bpBas', bolumBas('fa-seedling', 'Aktif programın', k.ad, alt, U.bag('Program kütüphanesi', 'programlar/', 'hayalet')));
     U.bas('#bpNotKap', k.tip === 'plan' && k.plan.danisana_not
@@ -40,7 +40,7 @@
   function dokumCiz() {
     const k = kk();
     if (!k) return;
-    const bas = k.tip === 'plan' ? k.plan.tarih : k.program.baslangic;
+    const bas = U.kaynakBas(k);
     let s = '';
     for (let t = bas; t <= b; t = U.gunEkle(t, 1)) {
       const l = U.gunOgunleri(k, t), i = U.isaret(k, t), n = l.filter((o) => i[o.anahtar]).length;
@@ -60,7 +60,8 @@
   function haftaCiz() {
     const k = kk();
     if (!k) { U.bas('#bpHaftaBas', ''); return; }
-    const bas = U.gunEkle(b, -((U.gun(b).getDay() + 6) % 7));
+    /* Hafta, programın başladığı günden sayılır */
+    const kb = U.kaynakBas(k), bas = U.gunEkle(kb, Math.max(0, Math.floor(U.gunFarki(kb, b) / 7)) * 7);
     U.bas('#bpHaftaBas', bolumBas('fa-calendar-week', U.kisaTarih(bas) + ' – ' + U.kisaTarih(U.gunEkle(bas, 6)), 'Haftalık menün', 'Gün gün öğünlerin. Değiştirmek için Öğün Alternatifleri sekmesini kullan.', U.bag('Yapay zekâ haftalık menüm', 'hesabim/haftalik-menum/', 'hayalet')));
     /* Kapatılan öğün o günün kaydında yer almaz; kolon haftanın herhangi bir gününde varsa görünür */
     const haftaGunleri = [0, 1, 2, 3, 4, 5, 6].map((i) => U.gunOgunleri(k, U.gunEkle(bas, i)));
@@ -85,7 +86,7 @@
     const l = U.secilenOgunler(k, b);
     if (!k) { U.bas('#bpOgunler', U.bos({ ikon: 'fa-utensils', baslik: 'Bugün için öğün yok', metin: 'Aktif bir programın olduğunda öğünlerin burada listelenir.', eylem: U.bag('Program seç', 'programlar/') })); return; }
     const i = U.isaret(k, b);
-    U.bas('#bpOgunler', l.map((o) => U.ogunSatir(o, !!i[o.anahtar])).join(''));
+    U.bas('#bpOgunler', l.map((o) => U.ogunSatir(o, !!i[o.anahtar])).join('') || U.bugunBos(k));
     const n = l.filter((o) => i[o.anahtar]).length;
     $('#bpOgunOzet').textContent = k.ad + ' · ' + l.length + ' öğün planlandı.';
     $('#bpOgunSayac').textContent = n + ' / ' + l.length + ' tamamlandı';
@@ -106,6 +107,7 @@
     const k = kk();
     if (!k) { U.bas('#bpAlternatif', U.bos({ ikon: 'fa-right-left', baslik: 'Alternatif yok', metin: 'Aktif programın olduğunda her öğün için alternatifler burada görünür.', eylem: U.bag('Program seç', 'programlar/') })); return; }
     const sec = (U.yerel('alternatifler', {})[k.anahtar] || {})[b] || {};
+    if (!U.gunOgunleri(k, b).length) { U.bas('#bpAlternatif', U.bugunBos(k)); return; }
     U.bas('#bpAlternatif', U.gunOgunleri(k, b).map((o) => {
       const cip = U.alternatif(o).map((t) => '<button class="cip' + (sec[o.anahtar] === t.slug ? ' aktif' : '') + '" type="button" data-alt-ogun="' + o.anahtar + '" data-alt="' + t.slug + '" aria-pressed="' + (sec[o.anahtar] === t.slug) + '">' + U.kac(t.ad) + ' · ' + U.sayi(t.kcal) + ' kcal</button>').join('');
       return '<div class="kalem-satiri"><span class="ks-ikon"><i class="fa-solid ' + o.ikon + '" aria-hidden="true"></i></span><div class="ks-metin"><b>' + o.ad + ' · ' + U.sayi(o.kcal) + ' kcal</b><small>' + U.kac(o.metin) + '</small>' + U.veyaSatir(o) + '</div><div class="as-eylem"><div class="cipler">' + cip + '</div></div></div>';
@@ -171,6 +173,7 @@
     if (!metin) return;
     U.yerel('planNotlari', []).push({ kaynak: k.anahtar, tarih: b, metin });
     U.sohbet().mesajlar.push({ kimden: 'danisan', zaman: b + 'T' + new Date().toTimeString().slice(0, 5), metin: 'Plan notu: ' + metin });
+    U.sohbet().okunmamis = (U.sohbet().okunmamis || 0) + 1; /* panelde okunmamış görünür */
     U.kaydet(); m.value = ''; DD.kapat($('#bpNotModal')); notlarCiz();
     DD.toast('Notun diyetisyenine iletildi.');
   });

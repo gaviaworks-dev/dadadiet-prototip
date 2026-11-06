@@ -98,6 +98,9 @@
   const ogunKur = (anahtar, ad, saat, ikon, kalemler) => ({ anahtar, ad, saat, ikon, kalemler, metin: kalemler.map(U.kalemMetin).join(' + '), veya: kalemler.filter((k) => k.alternatif).map((k) => U.kalemAd(k) + ' yerine ' + U.kalemMetin(k.alternatif)), kcal: topla(kalemler, 'kcal'), protein: topla(kalemler, 'protein'), yag: topla(kalemler, 'yag'), karb: topla(kalemler, 'karb') });
   U.ogunTanimi = OGUN;
 
+  /* Planın başlangıcı panelde seçilir; eski kayıtta gönderim tarihi geçerlidir */
+  U.planBas = (p) => p.baslangic || p.tarih;
+  U.kaynakBas = (k) => (k.tip === 'plan' ? U.planBas(k.plan) : k.program.baslangic);
   /* Başlatılan programların kaydı */
   U.programlar = () => U.yerel('programlar', []);
   U.kaynaklar = () => {
@@ -118,8 +121,11 @@
   U.gunOgunleri = function (k, tarih) {
     if (!k) return [];
     if (k.tip === 'plan') {
-      const g = k.plan.gunler.find((x) => x.ad === U.gunAdi(tarih)) || k.plan.gunler[0];
-      return OGUN.filter((o) => g.ogunler[o[0]]).map((o) => ogunKur(o[0], o[1], o[2], o[3], g.ogunler[o[0]]));
+      /* Gün tarihten bulunur: 1. gün başlangıç tarihidir, gün adı kaydı etiket değildir */
+      const g = k.plan.gunler[U.gunFarki(U.planBas(k.plan), tarih)];
+      if (!g) return [];
+      const duzen = k.plan.ogun_duzeni || [];
+      return OGUN.filter((o) => g.ogunler[o[0]]).map((o) => { const d = duzen.find((x) => x.id === o[0]) || {}; return ogunKur(o[0], d.ad || o[1], d.saat || o[2], o[3], g.ogunler[o[0]]); });
     }
     const p = k.program, no = U.gunFarki(p.baslangic, tarih);
     if (p.ornekGunler && p.ornekGunler.length) {
@@ -155,7 +161,7 @@
   /* Uyum: başlangıçtan bugüne planlanan öğünlerin tamamlanma oranı */
   U.uyum = function (k) {
     if (!k) return { tamam: 0, toplam: 0, oran: 0 };
-    const bas = k.tip === 'plan' ? k.plan.tarih : k.program.baslangic;
+    const bas = U.kaynakBas(k);
     let tamam = 0, toplam = 0;
     for (let t = bas; t <= U.bugun(); t = U.gunEkle(t, 1)) {
       const l = U.gunOgunleri(k, t), i = U.isaret(k, t);
@@ -165,17 +171,22 @@
     return { tamam, toplam, oran: toplam ? Math.round((tamam / toplam) * 100) : 0 };
   };
 
+  /* Plan bugün yoksa neden yok yazar: başlangıç gelecekte ya da süre bitti */
+  U.bugunBos = (k) => {
+    const bas = U.kaynakBas(k), gelecek = U.bugun() < bas;
+    return U.bos({ ikon: 'fa-calendar-day', baslik: gelecek ? 'Planın ' + U.tarih(bas) + ' günü başlıyor' : 'Bu planın süresi doldu', metin: gelecek ? 'Haftalık menünden planını şimdiden inceleyebilirsin.' : 'Diyetisyenin yeni plan gönderdiğinde öğünlerin burada görünür.', eylem: '<a class="dugme hayalet" href="' + DD.kok + 'hesabim/beslenme-planim/#hafta">Haftalık menü</a>' });
+  };
   /* Diyetisyenin kaleme eklediği alternatif: veya satırı */
   U.veyaSatir = (o) => (o.veya || []).map((v) => '<small>veya ' + U.kac(v) + '</small>').join('');
   /* Öğün satırı: çip ve anahtar .as-eylem içinde aynı eksende */
   U.ogunSatir = (o, tamam) => '<div class="kalem-satiri" data-ogun="' + o.anahtar + '"><span class="ks-ikon"><i class="fa-solid ' + o.ikon + '" aria-hidden="true"></i></span><div class="ks-metin"><b>' + o.ad + ' · ' + o.saat + '</b><small>' + U.kac(o.metin) + (o.degisti ? ' (alternatif)' : '') + '</small>' + U.veyaSatir(o) + '</div><div class="as-eylem">' + (tamam ? U.durum('cozulen', 'Tamamlandı') : U.durum('bekleyen', 'Bekliyor')) + '<label class="anahtar"><input type="checkbox" data-ogun-isaret="' + o.anahtar + '"' + (tamam ? ' checked' : '') + ' aria-label="' + o.ad + ' tamamlandı"><span class="anahtar-ray"></span></label></div></div>';
   U.uyumGovde = function (k) {
     const u = U.uyum(k);
-    const bas = k.tip === 'plan' ? k.plan.tarih : k.program.baslangic;
+    const bas = U.kaynakBas(k);
     const sure = k.tip === 'plan' ? k.plan.gunler.length : k.program.sure_gun;
-    const gun = Math.min(sure, U.gunFarki(bas, U.bugun()) + 1);
+    const gun = Math.max(0, Math.min(sure, U.gunFarki(bas, U.bugun()) + 1));
     const s = (i, e, d) => '<div class="sayac"><i class="fa-solid ' + i + '" aria-hidden="true"></i><div><span>' + e + '</span><b>' + d + '</b></div></div>';
-    return '<div class="olcer hap" role="img" aria-label="Programa uyum: yüzde ' + u.oran + '"><span data-oran="' + u.oran + '"></span></div><div class="sayac-izgara">' + s('fa-calendar-day', 'Bugün', gun + '. gün') + s('fa-utensils', 'Tamamlanan öğün', u.tamam + ' / ' + u.toplam) + s('fa-percent', 'Uyum', '%' + u.oran) + s('fa-flag-checkered', 'Kalan', (sure - gun) + ' gün') + '</div><p class="alan-yardim"><i class="fa-solid fa-circle-info" aria-hidden="true"></i> <span>Başlangıç <b>' + U.tarih(bas) + '</b>, bitiş <b>' + U.tarih(U.gunEkle(bas, sure - 1)) + '</b>. Uyum, tamamlanan öğünlerin planlanan öğünlere oranıdır.</span></p>';
+    return '<div class="olcer hap" role="img" aria-label="Programa uyum: yüzde ' + u.oran + '"><span data-oran="' + u.oran + '"></span></div><div class="sayac-izgara">' + s('fa-calendar-day', 'Bugün', gun ? gun + '. gün' : 'Başlamadı') + s('fa-utensils', 'Tamamlanan öğün', u.tamam + ' / ' + u.toplam) + s('fa-percent', 'Uyum', '%' + u.oran) + s('fa-flag-checkered', 'Kalan', (sure - gun) + ' gün') + '</div><p class="alan-yardim"><i class="fa-solid fa-circle-info" aria-hidden="true"></i> <span>Başlangıç <b>' + U.tarih(bas) + '</b>, bitiş <b>' + U.tarih(U.gunEkle(bas, sure - 1)) + '</b>. Uyum, tamamlanan öğünlerin planlanan öğünlere oranıdır.</span></p>';
   };
 
   /* Bildirimler: demo kayıtlarından türer, okundu ve silme durumu üye tarafında tutulur */
@@ -189,7 +200,7 @@
       if (bas) l.push({ id: 'rnd-' + r.id + '-' + dr, tur: 'randevu', tarih: r.tarih >= b ? b : r.tarih, baslik: bas, metin: dyAd + ' ile ' + U.tarih(r.tarih) + ', ' + r.saat + ' görüşmen.', yol: 'hesabim/diyetisyenim/#randevu' });
     });
     const son = U.sohbet().mesajlar.filter((m) => m.kimden !== 'danisan').slice(-1)[0];
-    if (son) l.push({ id: 'msj-' + son.zaman, tur: 'mesaj', tarih: son.zaman.slice(0, 10), baslik: 'Yeni bir mesajın var', metin: dyAd + ': ' + son.metin, yol: 'hesabim/diyetisyenim/#mesaj' });
+    if (son) l.push({ id: 'msj-' + son.zaman, tur: 'mesaj', tarih: son.zaman.slice(0, 10), baslik: 'Yeni bir mesajın var', metin: dyAd + ': ' + (son.metin || (son.ek ? son.ek.ad : '')), yol: 'hesabim/diyetisyenim/#mesaj' });
     (u.rozetler || []).forEach((r) => l.push({ id: 'roz-' + r.slug, tur: 'rozet', tarih: r.tarih, baslik: 'Yeni rozet: ' + r.ad, metin: r.aciklama, yol: 'hesabim/rozetlerim/' }));
     const dur = U.yerel('bildirimDurum', { okundu: {}, silindi: {} });
     /* Son iki haftadan eskiler başlangıçta okunmuş sayılır */

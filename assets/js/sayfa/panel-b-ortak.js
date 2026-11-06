@@ -180,6 +180,10 @@
   PB.makroGram = (kcal, m) => ({ protein: (kcal * m.p) / 400, karb: (kcal * m.k) / 400, yag: (kcal * m.y) / 900 });
   PB.GUNLER = ['Pazartesi', 'Salı', 'Çarşamba', 'Perşembe', 'Cuma', 'Cumartesi', 'Pazar'];
   PB.GUN_KISA = ['Pzt', 'Sal', 'Çar', 'Per', 'Cum', 'Cmt', 'Paz'];
+  /* Plan günü i, başlangıç tarihinden i gün sonradır; ad tarihten çıkar. haftaGunu: Pazartesi 0 */
+  PB.haftaGunu = (iso, i) => (new Date(PB.gunEkle(iso, i) + 'T12:00:00').getDay() + 6) % 7;
+  PB.gunAd = (iso, i) => PB.GUNLER[PB.haftaGunu(iso, i)];
+  PB.gunKisa = (iso, i) => PB.GUN_KISA[PB.haftaGunu(iso, i)];
   PB.bosGunler = () => PB.GUNLER.map((ad, i) => ({ gun: i + 1, ad, ogunler: { kahvalti: [], ara1: [], ogle: [], ara2: [], aksam: [] } }));
   PB.planOzet = (p) => {
     const g = (p.gunler || []).map((x) => PB.topla(Object.values(x.ogunler).flat()));

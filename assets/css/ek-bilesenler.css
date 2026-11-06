@@ -206,8 +206,10 @@ html:not([data-oturum="1"]) .oturum-acik{display:none!important}
 @media(max-width:640px){.header:not([data-hero]) ~ .page-main{padding-top:var(--kabuk-h-dar)}}
 .menu-yeni{margin-left:var(--bosluk-4);vertical-align:1px}
 
-/* Panelde alt eylem çubuğunu örtmesin: toast üst sağda */
-.yetkili .dd-toast-kap{top:80px;bottom:auto}
+/* Toast tıklamayı yutmaz; panelde alt eylem çubuğunun üstünde durur */
+.dd-toast-kap{pointer-events:none}
+.yetkili .dd-toast-kap{bottom:96px}
+.yetkili .toast-kap,.yetkili .toast{pointer-events:none}
 
 /* Ekran haritası listesi */
 .ekran-liste{display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:var(--bosluk-8)}

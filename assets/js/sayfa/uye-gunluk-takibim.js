@@ -20,7 +20,8 @@
     U.bas('#gtBas', '<div class="bolum-bas"><div><span class="ust-etiket"><i class="fa-solid fa-calendar-day" aria-hidden="true"></i> ' + U.kisaTarih(b) + ' ' + U.gunAdi(b) + '</span><h2>Bugün ne yedin</h2><p class="giris-metni">Yediklerini öğün öğün kaydet. Kaydettiğin her kalem, günün enerji ve makro toplamına işlenir.</p><div class="bolum-araclar"><a class="dugme hayalet" href="' + DD.kok + 'besin-kutuphanesi/">Besin kütüphanesinde ara</a></div></div></div>');
     if (!k) { U.bas('#gtOgunler', U.bos({ ikon: 'fa-utensils', baslik: 'Bugün için planın yok', metin: 'Besinlerini yine de ekleyebilirsin.', eylem: U.bag('Program seç', 'programlar/') })); return; }
     const i = U.isaret(k, b), e = ekler();
-    U.bas('#gtOgunler', ogunler().map((o) => {
+    if (!ogunler().length) U.bas('#gtOgunler', U.bugunBos(k));
+    else U.bas('#gtOgunler', ogunler().map((o) => {
       const ek = e.filter((x) => x.ogun === o.anahtar);
       const ekMetin = ek.length ? ' Eklediğin: ' + ek.map((x) => U.kalemMetin(x)).join(', ') + '.' : '';
       const satir = U.ogunSatir({ ...o, metin: 'Planlanan: ' + o.metin + '.' + ekMetin }, !!i[o.anahtar]);
