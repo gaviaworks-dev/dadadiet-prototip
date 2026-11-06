@@ -9,7 +9,7 @@ ${kart({
     alt: dugme('Değişiklikleri geri al', { ek: ' id="sdGeri"' }) + dugme('Profili güncelle', { sinif: 'birincil', tur: 'submit' }),
   })}
 ${kart({ ikon: 'fa-triangle-exclamation', baslik: 'Dikkat edilmesi gerekenler', metin: 'Program ve öğün önerileri bu kayıtlara göre süzülür.', bosluksuz: true, govde: '<div class="ayar-liste" id="sdDikkat"></div>' })}
-${kart({ ikon: 'fa-notes-medical', baslik: 'Sağlık öykün', metin: 'Diyetisyeninle paylaştığın anamnez özeti.', govde: '<dl class="kunye" id="sdAnamnez"></dl>' })}
+${kart({ ikon: 'fa-notes-medical', baslik: 'Sağlık öykün', metin: '<span id="sdAnamnezOzet"></span>', sag: '<div class="as-eylem"><button class="dugme hayalet kucuk" type="button" id="sdAnamnezDugme">Düzenle</button></div>', govde: '<dl class="kunye" id="sdAnamnez"></dl>' })}
 </div>` },
   { id: 'olcum', ad: 'Ölçümlerim', ikon: 'fa-weight-scale', sayi: 'olcum', govde: `<div class="yigin">
 ${bolumBas({ etiket: 'Ölçümlerin', ikon: 'fa-weight-scale', baslik: 'Vücut ölçümlerin', metin: 'Kilo, bel ve yağ oranı kayıtların. Yeni ölçüm diyetisyen panelinde de görünür.', arac: dugme('Yeni ölçüm ekle', { sinif: 'birincil', ikon: 'fa-plus', ek: ' data-ac="#sdOlcumModal"' }) })}
@@ -18,7 +18,12 @@ ${kart({ ikon: 'fa-table-list', baslik: 'Ölçüm geçmişin', bosluksuz: true, 
 </div>` },
   { id: 'tahlil', ad: 'Tahlillerim', ikon: 'fa-flask-vial', sayi: 'tahlil', govde: `<div class="yigin">
 ${bolumBas({ etiket: 'Tahlillerin', ikon: 'fa-flask-vial', baslik: 'Tahlil ve raporların', metin: 'Yüklediğin tahlillerin değerleri referans aralığıyla karşılaştırılır. Yorum için diyetisyenine ya da hekimine danış.', arac: dugme('Yeni belge yükle', { sinif: 'birincil', ikon: 'fa-upload', ek: ' data-ac="#sdBelgeModal"' }) })}
+<div id="sdTahlilIstek"></div>
+<div id="sdIzinNot"></div>
 <div class="yigin" id="sdTahliller"></div>
+</div>` },
+  { id: 'not', ad: 'Diyetisyen Notları', ikon: 'fa-comment-medical', sayi: 'not', govde: `<div class="yigin">
+${kart({ ikon: 'fa-comment-medical', baslik: 'Seninle paylaşılan notlar', metin: 'Diyetisyeninin tahlil ve ölçümlerin için bıraktığı değerlendirmeler.', bosluksuz: true, govde: '<div class="ayar-liste" id="sdNotlar"></div>' })}
 </div>` },
   { id: 'recete', ad: 'Belgelerim', ikon: 'fa-file-prescription', govde: `<div class="yigin">
 ${bolumBas({ etiket: 'Belgelerin', ikon: 'fa-file-prescription', baslik: 'Reçete ve belgelerin', metin: 'Düzenli kullandıkların ve yüklediğin belgeler.', arac: dugme('Yeni belge yükle', { sinif: 'birincil', ikon: 'fa-upload', ek: ' data-ac="#sdBelgeModal"' }) })}
@@ -26,8 +31,7 @@ ${kart({ ikon: 'fa-pills', baslik: 'Düzenli kullandıkların', bosluksuz: true,
 ${kart({ ikon: 'fa-folder-open', baslik: 'Belge listesi', bosluksuz: true, govde: '<div class="ayar-liste" id="sdBelgeler"></div>' })}
 </div>` },
   { id: 'test', ad: 'Testlerim', ikon: 'fa-clipboard-question', govde: `<div class="yigin">
-${bolumBas({ etiket: 'Testlerin', ikon: 'fa-clipboard-question', baslik: 'Test sonuçların', metin: 'Çözdüğün sağlık testleri ve sonuçların.', arac: dugme('Bütün testlere göz at', { href: 'saglik-testleri/' }) })}
-${kart({ bosluksuz: true, govde: '<div id="sdTestler"></div>' })}
+${kart({ ikon: 'fa-clipboard-question', baslik: 'Çözdüğün testler', sag: dugme('Bütün testler', { sinif: 'hayalet kucuk', href: 'saglik-testleri/' }), bosluksuz: true, govde: '<div class="ayar-liste" id="sdTestler"></div>' })}
 </div>` },
   { id: 'hesap', ad: 'Hesaplarım', ikon: 'fa-calculator', govde: `<div class="yigin">
 ${bolumBas({ etiket: 'Hesapların', ikon: 'fa-calculator', baslik: 'Hesaplama geçmişin', metin: 'Sağlık dosyandaki güncel değerlerle hesaplanan sonuçların.', arac: dugme('Hesaplayıcılara git', { href: 'hesaplayicilar/' }) })}
@@ -45,6 +49,10 @@ ${kart({ ikon: 'fa-folder-open', baslik: 'Oluşturduğun raporlar', bosluksuz: t
 ];
 
 const sonEk = modal({
+  id: 'sdAnamnezModal', baslik: 'Sağlık öykün', form: ' id="sdAnamnezForm"',
+  govde: `<p class="kart-metin">Hepsini şimdi doldurman gerekmez; yazdıkların kaydedilir, kalanına sonra dönersin.</p>${[['meslek', 'Meslek'], ['sikayet', 'Şikâyetin'], ['uyku', 'Uyku düzenin'], ['su', 'Günlük su'], ['hareket', 'Hareket düzenin'], ['aile_oykusu', 'Aile öykün'], ['aliskanliklar', 'Alışkanlıkların']].map(([a, e]) => alan({ ad: a, etiket: e })).join('')}`,
+  ayak: dugme('Vazgeç', { ek: ' data-kapat' }) + dugme('Kaydet', { sinif: 'birincil', tur: 'submit' }),
+}) + modal({
   id: 'sdOlcumModal', baslik: 'Yeni ölçüm ekle', form: ' id="sdOlcumForm"',
   govde: `<div class="alan-izgara c2">${alan({ ad: 'oKilo', etiket: 'Kilo (kg)', tur: 'number', zorunlu: true, ek: ' min="30" max="300" step="0.1"' })}${alan({ ad: 'oBel', etiket: 'Bel (cm)', tur: 'number', ek: ' min="40" max="200" step="0.1"' })}${alan({ ad: 'oYag', etiket: 'Yağ oranı (%)', tur: 'number', ek: ' min="3" max="70" step="0.1"' })}</div>`,
   ayak: dugme('Vazgeç', { ek: ' data-kapat' }) + dugme('Ölçümü kaydet', { sinif: 'birincil', tur: 'submit' }),
@@ -55,7 +63,7 @@ const sonEk = modal({
 });
 
 export default () => [uyeSayfa({
-  yol: 'hesabim/saglik-dosyam', ad: 'Sağlık Dosyam', muhur: 'Sağlık dosyan · kişisel alanın', ikon: 'fa-notes-medical',
+  yol: 'hesabim/saglik-dosyam', ad: 'Sağlık Dosyam',
   giris: 'Sağlık profilin, ölçümlerin, tahlillerin, belgelerin ve gelişim raporların tek ve güvenli alanda.',
   grup: 'sd', sekmeler, sonEk, js: ['assets/js/sayfa/uye-saglik-dosyam.js'],
 })];

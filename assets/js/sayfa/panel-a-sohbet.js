@@ -29,7 +29,7 @@
     const i = PA.ilerleme(dn);
     const bas = o.kisayol === false ? '' : `<div class="sohbet-alan-bas"><div class="kisi-hucre">
 <button class="ikon-dugme sohbet-alan-geri" type="button" data-sohbet="geri" aria-label="Konuşmalara dön"><i class="fa-solid fa-arrow-left" aria-hidden="true"></i></button>${PA.avatar(dn.ad)}<span class="kisi-bilgi"><span class="kisi-ad">${h(dn.ad)}</span><span class="kisi-alt">${(PA.durumlar[dn.durum] || [''])[0]}${i ? ' · ' + i.hafta + '. hafta' : ''}</span></span></div>
-<div class="eylem-satiri"><button class="ikon-dugme" type="button" data-randevu-ac data-danisan="${dn.id}" aria-label="Randevu planla"><i class="fa-solid fa-calendar-plus" aria-hidden="true"></i></button><a class="ikon-dugme" href="${PA.yol.danisan(dn.id)}" aria-label="Danışan kartını aç"><i class="fa-solid fa-id-card" aria-hidden="true"></i></a></div></div>`;
+<div class="eylem-satiri">${PA.takipte(dn) ? `<button class="dugme hayalet kucuk" type="button" data-randevu-ac data-danisan="${dn.id}"><i class="fa-solid fa-calendar-plus" aria-hidden="true"></i> Kontrol randevusu</button>` : ''}<a class="ikon-dugme" href="${PA.yol.danisan(dn.id)}" aria-label="Danışan kartını aç"><i class="fa-solid fa-id-card" aria-hidden="true"></i></a></div></div>`;
     kap.innerHTML = `${bas}<div class="sohbet-akis" aria-live="polite"></div>
 <form class="sohbet-yaz"><div class="sohbet-kunye" hidden></div><div class="sohbet-yaz-satir">
 <input type="file" hidden aria-hidden="true" tabindex="-1">

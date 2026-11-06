@@ -1358,3 +1358,12 @@ td>small.eylem-notu{display:block;margin-top:var(--bosluk-4)}
 @keyframes hero-kesfet{0%,100%{transform:translateY(0)}50%{transform:translateY(6px)}}
 @media(prefers-reduced-motion:reduce){.hero-video-medya video{display:none}.hero-video-kesfet i{animation:none}}
 @media(max-width:640px){.hero-video{align-items:flex-start;padding-top:calc(var(--kabuk-h-dar) + var(--bosluk-12))}.hero-video h1{font-size:var(--yazi-29)}.hero-video p{font-size:var(--yazi-14-5)}}
+
+/* Akış adımları (ekran haritası) */
+.akis{padding:var(--bosluk-12) 0;border-top:1px solid var(--cizgi)}
+.akis:first-child{border-top:0;padding-top:0}
+.akis>b{display:block;font-size:var(--yazi-14);color:var(--murekkep);margin-bottom:var(--bosluk-8)}
+.akis-adimlar{display:flex;flex-wrap:wrap;gap:var(--bosluk-8)}
+.akis-adimlar a{display:inline-flex;align-items:center;gap:var(--bosluk-8);min-height:36px;padding:var(--bosluk-4) var(--bosluk-12);border:1px solid var(--cizgi);border-radius:var(--yuvarlak-sm);font-size:var(--yazi-13);color:var(--murekkep)}
+.akis-adimlar a:hover{border-color:var(--aksan);background:var(--aksan-yikama)}
+.akis-adimlar span{width:20px;height:20px;display:inline-flex;align-items:center;justify-content:center;border-radius:50%;background:var(--aksan-yikama);color:var(--aksan-koyu);font-size:var(--yazi-11-5);font-weight:var(--agirlik-kalin)}

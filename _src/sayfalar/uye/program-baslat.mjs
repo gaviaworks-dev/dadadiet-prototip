@@ -10,12 +10,12 @@ ${kart({ ikon: 'fa-chart-line', baslik: 'Programa uyum durumun', metin: 'Uyum, t
 ${kart({
     ikon: 'fa-utensils', baslik: 'Bugünün öğünleri', metin: '<span id="pbOzet"></span>', bosluksuz: true,
     govde: '<div class="kalem-liste" id="pbOgunler"></div>',
-    alt: `${dugme('Günlük takip', { ikon: 'fa-clipboard-list', href: 'hesabim/gunluk-takibim/' })}${dugme('Planıma git', { sinif: 'birincil', ikon: 'fa-arrow-right', href: 'hesabim/beslenme-planim/#ogun' })}`,
+    alt: `${dugme('Programlarım', { href: 'hesabim/programlarim/' })}${dugme('Günlük takip', { ikon: 'fa-clipboard-list', href: 'hesabim/gunluk-takibim/' })}${dugme('Planıma git', { sinif: 'birincil', ikon: 'fa-arrow-right', href: 'hesabim/beslenme-planim/#ogun' })}`,
   })}
 </div>
 <script type="application/json" id="programKatalog">${JSON.stringify(katalog).replace(/</g, '\\u003c')}</script>`;
   return [uyeSayfa({
-    yol: 'hesabim/program-baslat', ad: 'Program Başlat', muhur: 'Programın · kişisel alanın', ikon: 'fa-play',
+    yol: 'hesabim/program-baslat', ad: 'Program Başlat', aktif: 'hesabim/programlarim/', ust: [['Programlarım', 'hesabim/programlarim/']],
     giris: 'Seçtiğin program beslenme planına eklenir; bugünün öğünleri hemen hazır olur.',
     govde, js: ['assets/js/sayfa/uye-program-baslat.js'],
   })];

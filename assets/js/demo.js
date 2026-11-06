@@ -3,7 +3,7 @@
 (function () {
   'use strict';
   const DD = (window.DD = window.DD || {});
-  const ANAHTAR = 'dd-demo-durum-v1';
+  const ANAHTAR = 'dd-demo-durum-v2'; /* veri değişince sürüm artar, eski tarayıcı durumu okunmaz */
   const bas = () => JSON.parse(JSON.stringify((window.DD_VERI && window.DD_VERI.demo) || {}));
   let durum;
   try { durum = JSON.parse(localStorage.getItem(ANAHTAR)) || bas(); } catch (e) { durum = bas(); }
@@ -20,6 +20,12 @@
     kapat() { try { localStorage.removeItem('dd-oturum'); } catch (e) { /* yok say */ } delete document.documentElement.dataset.oturum; },
   };
   document.addEventListener('click', function (e) { if (e.target.closest('[data-cikis]')) DD.oturum.kapat(); });
+  document.addEventListener('click', function (e) {
+    if (!e.target.closest('[data-demo-sifirla]')) return;
+    try { Object.keys(localStorage).filter((k) => k.startsWith('dd-')).forEach((k) => localStorage.removeItem(k)); } catch (h) { /* yok say */ }
+    DD.demo.sifirla();
+    location.reload();
+  });
   /* İçerik örnekleme: her tipte 1 detay üretildi. Öteki kayıtlara giden bağlantı o tipin örneğini açar. */
   const ORNEK = { besin: 'avokado', tarif: 'cilbir', program: 'akdeniz-tipi-beslenme', hesaplayici: 'gunluk-kalori', test: 'beslenme', ipuclari: 'gunde-ne-kadar-su-icmek-gerekir', puflar: 'buzdolabinda-hangi-raf-neye-ait', 'kac-kalori': 'bir-avuc-badem-kac-kalori', 'besin-rehberi': 'dengeli-tabak', beslenme: 'dengeli-tabak' };
   const ORNEK_DISI = ['kategori'];

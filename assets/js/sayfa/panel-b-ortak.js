@@ -142,10 +142,11 @@
     return [...son.values()];
   };
   PB.tahlilDurum = (d) => (d.ref_alt != null && d.sonuc < d.ref_alt ? 'dusuk' : d.ref_ust != null && d.sonuc > d.ref_ust ? 'yuksek' : '');
+  PB.tahlilIzni = (danisan) => !danisan.izinler || danisan.izinler.tahlil !== false;
   PB.oneriler = (danisan) => {
     if (!danisan) return [];
     const sonuc = [];
-    PB.sonTahlil(danisan).forEach((d) => {
+    (PB.tahlilIzni(danisan) ? PB.sonTahlil(danisan) : []).forEach((d) => {
       const yon = PB.tahlilDurum(d), ad = PB.kucuk(d.ad);
       const k = TAHLIL.find((x) => x.yon === yon && x.anahtar.some((a) => ad.includes(a)));
       if (!k || sonuc.some((s) => s.not === k.not)) return;
@@ -188,7 +189,8 @@
   PB.planOzet = (p) => {
     const g = (p.gunler || []).map((x) => PB.topla(Object.values(x.ogunler).flat()));
     const dolu = g.filter((x) => x.kcal > 0);
-    const ort = dolu.length ? dolu.reduce((a, x) => a + x.kcal, 0) / g.length : 0;
+    /* Yarım planda ortalama dolu günlerden alınır */
+    const ort = dolu.length ? dolu.reduce((a, x) => a + x.kcal, 0) / dolu.length : 0;
     const durumlar = g.map((x) => PB.sapma(x.kcal, p.hedef_kcal).durum);
     return { ort, dolu: dolu.length, durumlar, hedefte: durumlar.filter((x) => x === 'hedefte').length };
   };

@@ -22,7 +22,7 @@ export default ({ veri }) => {
 <div class="sihirbaz-ilerleme"><div class="olcer hap" id="ilerlemeKap" role="progressbar" aria-label="Sihirbaz ilerlemesi" aria-valuemin="0" aria-valuemax="100"><span id="ilerleme" data-oran="0"></span></div><span class="sihirbaz-sayac" id="sayac"></span></div></header>
 <main class="sihirbaz-govde" id="sihirbazGovde"></main>
 <footer class="sihirbaz-ayak"><button class="dugme hayalet" id="geri" type="button"><i class="fa-solid fa-arrow-left" aria-hidden="true"></i> Geri</button>
-<div class="sag"><button class="dugme hayalet" id="atla" type="button">Atla</button><button class="dugme birincil" id="ileri" type="button">Devam et <i class="fa-solid fa-arrow-right" aria-hidden="true"></i></button><a class="dugme birincil" id="bitir" href="{{kok}}hesabim/beslenme-planim/" hidden>Hesabıma git</a></div></footer>
+<div class="sag"><button class="dugme hayalet" id="atla" type="button">Atla</button><button class="dugme birincil" id="ileri" type="button">Devam et <i class="fa-solid fa-arrow-right" aria-hidden="true"></i></button><a class="dugme birincil" id="bitir" href="{{kok}}hesabim/" hidden>Hesabıma git</a></div></footer>
 </div>
 <script type="application/json" id="programVeri">${JSON.stringify(programlar).replace(/</g, '\\u003c')}</script>`;
   return [{ yol: 'hesabim/hos-geldin', meta: { baslik: 'Hoş geldin', duzen: 'tam', js: ['assets/js/sayfa/moduller-ortak.js', 'assets/js/sayfa/moduller-soru.js', 'assets/js/sayfa/moduller-sihirbaz.js'] }, govde }];

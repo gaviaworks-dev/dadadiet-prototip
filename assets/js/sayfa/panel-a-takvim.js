@@ -149,4 +149,5 @@
   if (adresR) v.tarih = adresR.tarih;
   ciz();
   if (adresR) PA.randevuDetay(adresR.id);
+  else if (PA.parametre('yeni')) PA.randevuAc({ danisan: PA.parametre('danisan') || undefined });
 })();

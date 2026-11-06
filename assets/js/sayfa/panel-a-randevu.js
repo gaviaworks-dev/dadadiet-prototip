@@ -35,7 +35,7 @@
   const form = $('rpForm');
   let s = {}; /* açık form durumu: danisan, paket, tur, tarih, saat, sure, haric, sayfaBas */
 
-  const secilebilir = () => PA.danisanlar().filter((x) => x.durum !== 'bitti');
+  const secilebilir = () => PA.danisanlar().filter(PA.takipte);
   const sureOf = () => s.sure;
   const varsayilanSure = () => PA.d().musaitlik.slot[s.tur] || 30;
   function paketDoldur() {
@@ -240,6 +240,9 @@
   let acik = null;
   const talepMetin = (r) => (r.talep.tur === 'iptal' ? 'Görüşmeyi iptal etmek istiyor.' : h(PA.ayGun(r.tarih)) + ' ' + r.saat + ' yerine ' + h(PA.ayGun(r.talep.yeni_tarih)) + ' ' + r.talep.yeni_saat + ' istiyor.');
   const talepKutu = (r) => (r.talep ? `<div class="uyari-kutu ${r.talep.tur === 'iptal' ? 'tehlike' : 'uyari'}"><i class="fa-solid ${r.talep.tur === 'iptal' ? 'fa-ban' : 'fa-arrow-right-arrow-left'}" aria-hidden="true"></i><p><b>${PA.talepAdi(r)}.</b> ${talepMetin(r)}${r.talep.neden ? ' ' + h(r.talep.neden) : ''}</p></div>` : '');
+  /* Görüşme bitince doğal devam: not, plan, kontrol */
+  PA.siradaBlok = (dn) => `<div class="sirada-blok"><b>Sırada ne var?</b><div class="ayar-liste"><a class="ayar-satir" href="${PA.yol.danisan(dn.id, 'not')}&eylem=not-ekle"><span class="as-ikon"><i class="fa-solid fa-note-sticky" aria-hidden="true"></i></span><span class="as-metin"><b>Not ekle</b><span>İlerleme notunu danışanla paylaşabilirsin</span></span><i class="fa-solid fa-chevron-right as-ok" aria-hidden="true"></i></a><a class="ayar-satir" href="${PA.yol.yeniPlan(dn.id)}"><span class="as-ikon"><i class="fa-solid fa-clipboard-list" aria-hidden="true"></i></span><span class="as-metin"><b>Plan oluştur</b><span>Haftalık planı kur ve gönder</span></span><i class="fa-solid fa-chevron-right as-ok" aria-hidden="true"></i></a><button class="ayar-satir" type="button" data-randevu-ac data-danisan="${dn.id}"><span class="as-ikon"><i class="fa-solid fa-calendar-plus" aria-hidden="true"></i></span><span class="as-metin"><b>Kontrol randevusu</b><span>Bir sonraki görüşmeyi planla</span></span><i class="fa-solid fa-chevron-right as-ok" aria-hidden="true"></i></button></div></div>`;
+  const siradaBlok = PA.siradaBlok;
   const satir = (ikon, etiket, deger) => `<div class="ayar-satir"><span class="as-ikon"><i class="fa-solid ${ikon}" aria-hidden="true"></i></span><span class="as-metin"><span>${etiket}</span><b>${deger}</b></span></div>`;
   function detayCiz() {
     const r = acik, dn = PA.danisan(r.danisan_id), p = PA.paket(r.paket_id), durum = PA.rDurum(r);
@@ -255,13 +258,13 @@ ${r.tur === 'online' && talepsiz ? `<div class="alan"><label class="alan-etiket"
 ${sonucGirilir ? `<form id="rdSonuc" novalidate><h3 class="form-bolum-bas"><i class="fa-solid fa-clipboard-check" aria-hidden="true"></i> Görüşme sonucu</h3>
 <div class="alan"><div class="segment" id="rdSonucSec" role="group" aria-label="Görüşme sonucu"><button type="button" data-deger="tamamlandi" aria-pressed="${durum !== 'gelmedi'}">Tamamlandı</button><button type="button" data-deger="gelmedi" aria-pressed="${durum === 'gelmedi'}">Gelmedi</button></div></div>
 <div class="alan"><label class="alan-etiket" for="rdOzet">Görüşme özeti <span class="istege-bagli">(isteğe bağlı)</span></label><textarea class="alan-metin" id="rdOzet" rows="4">${h(r.ozet || '')}</textarea></div></form>` : ''}
-${talepsiz ? '<p class="alan-yardim"><i class="fa-solid fa-circle-info" aria-hidden="true"></i><span>Sonuç, görüşme saatinden sonra girilir.</span></p>' : ''}
 ${r.gecmis && r.gecmis.length ? `<p class="alan-yardim"><i class="fa-solid fa-clock-rotate-left" aria-hidden="true"></i><span>Önceki saat: ${r.gecmis.map((g) => PA.tarih(g.tarih) + ' ' + g.saat).join(', ')}</span></p>` : ''}
-<a class="dugme hayalet kucuk" href="${PA.yol.danisan(dn.id)}"><i class="fa-solid fa-id-card" aria-hidden="true"></i> Danışana git</a>`;
+${durum === 'tamamlandi' ? siradaBlok(dn) : durum === 'gelmedi' ? '<div class="alan-yardim"><span>Görüşme gerçekleşmedi. Yeni saat için Yeniden planla.</span></div>' : ''}
+<div class="eylem-satiri">${talepsiz ? `<button class="dugme hayalet kucuk" type="button" data-rd="planla"><i class="fa-solid fa-clock-rotate-left" aria-hidden="true"></i> Yeniden planla</button>` : ''}<a class="dugme hayalet kucuk" href="${PA.yol.danisan(dn.id)}"><i class="fa-solid fa-id-card" aria-hidden="true"></i> Danışana git</a></div>`;
     let ayak = '<button class="dugme hayalet" type="button" data-kapat>Kapat</button>';
     if (durum === 'onay-bekliyor') ayak = `<button class="dugme hayalet tehlike" type="button" data-kuyruk-red="${r.id}">Reddet</button><button class="dugme birincil" type="button" data-kuyruk-kabul="${r.id}">Onayla</button>`;
     else if (r.talep) ayak = `<button class="dugme hayalet tehlike" type="button" data-kuyruk-red="${r.id}">Reddet</button><button class="dugme birincil" type="button" data-kuyruk-kabul="${r.id}">Kabul et</button>`;
-    else if (gelecek) ayak = `<button class="dugme hayalet tehlike" type="button" data-rd="iptal">İptal et</button><button class="dugme birincil" type="button" data-rd="planla">Yeniden planla</button>`;
+    else if (gelecek) ayak = `<button class="dugme hayalet tehlike" type="button" data-rd="iptal">İptal et</button><a class="dugme birincil" href="${PA.yol.gorusme(r.id)}"><i class="fa-solid fa-play" aria-hidden="true"></i> Görüşmeyi başlat</a>`;
     else if (sonucGirilir) ayak += `<button class="dugme birincil" type="button" data-rd="sonuc">Sonucu kaydet</button>`;
     else if (durum === 'iptal') ayak += `<button class="dugme birincil" type="button" data-rd="planla">Yeniden planla</button>`;
     $('rdAyak').innerHTML = ayak;
@@ -272,7 +275,7 @@ ${r.gecmis && r.gecmis.length ? `<p class="alan-yardim"><i class="fa-solid fa-cl
     detayCiz();
     DD.ac('#randevuDetay');
   };
-  const degisti = () => { PA.uyeRandevuTazele(); PA.kaydet(); document.dispatchEvent(new CustomEvent('pa:degisti', { detail: { randevu: acik.id } })); };
+  const degisti = () => { PA.kazancTazele(); PA.uyeRandevuTazele(); PA.kaydet(); document.dispatchEvent(new CustomEvent('pa:degisti', { detail: { randevu: acik.id } })); };
   $('randevuDetay').addEventListener('click', (e) => {
     const b = e.target.closest('[data-rd]');
     if (!b) return;
@@ -293,8 +296,8 @@ ${r.gecmis && r.gecmis.length ? `<p class="alan-yardim"><i class="fa-solid fa-cl
     } else if (is === 'sonuc') {
       const sec = $('rdSonucSec').querySelector('[aria-pressed="true"]').dataset.deger;
       r.durum = sec; r.ozet = $('rdOzet').value.trim();
-      if (sec === 'tamamlandi' && r.tarih > dn.son_gorusme) dn.son_gorusme = r.tarih;
-      degisti(); DD.kapat($('randevuDetay')); DD.toast('Görüşme sonucu kaydedildi: ' + (sec === 'gelmedi' ? 'Gelmedi' : 'Tamamlandı'));
+      if (sec === 'tamamlandi') { if (!dn.son_gorusme || r.tarih > dn.son_gorusme) dn.son_gorusme = r.tarih; dn.yeni = false; }
+      degisti(); detayCiz(); DD.toast('Görüşme sonucu kaydedildi: ' + (sec === 'gelmedi' ? 'Gelmedi' : 'Tamamlandı'));
     }
   });
 
@@ -306,6 +309,7 @@ ${r.gecmis && r.gecmis.length ? `<p class="alan-yardim"><i class="fa-solid fa-cl
   };
   function kuyrukBitti(r, mesaj, metin, tip) {
     if (mesaj) PA.mesajYaz(r.danisan_id, mesaj);
+    PA.kazancTazele();
     PA.uyeRandevuTazele();
     PA.kaydet();
     const o = $('randevuDetay');
@@ -341,6 +345,11 @@ ${r.gecmis && r.gecmis.length ? `<p class="alan-yardim"><i class="fa-solid fa-cl
 
   document.addEventListener('click', (e) => {
     const b = e.target.closest('[data-randevu-ac]');
-    if (b) { e.preventDefault(); PA.randevuAc({ danisan: b.dataset.danisan }); }
+    if (b) {
+      e.preventDefault();
+      const o = $('randevuDetay');
+      if (!o.hidden) DD.kapat(o);
+      PA.randevuAc({ danisan: b.dataset.danisan });
+    }
   });
 })();

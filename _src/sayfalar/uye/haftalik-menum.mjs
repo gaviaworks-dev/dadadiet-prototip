@@ -1,10 +1,9 @@
-import { uyeSayfa, bolumBas, kart, dugme, bilgi } from '../../parcalar/uye/ust.mjs';
+import { uyeSayfa, kart, dugme, bilgi } from '../../parcalar/uye/ust.mjs';
 
 const butce = [['ekonomik', 'fa-coins', 'Ekonomik', 'Baklagil, sebze ve yumurta ağırlıklı.'], ['orta', 'fa-wallet', 'Orta', 'Temel ürünler ve taze ürün.'], ['genis', 'fa-gem', 'Geniş', 'Fiyat sınıfı sınırı yok.']];
 const kisit = [['laktoz', 'Laktoz (süt ve süt ürünleri)'], ['gluten', 'Gluten (buğday, arpa, çavdar, yulaf)'], ['yumurta', 'Yumurta'], ['kuruyemis', 'Kuruyemiş ve yer fıstığı'], ['balik', 'Balık ve deniz ürünleri'], ['susam', 'Susam']];
 
 const govde = `<div class="yigin">
-${bolumBas({ etiket: 'Yapay zekâ önerisi', ikon: 'fa-wand-magic-sparkles', baslik: 'Haftalık menün', metin: 'Bütçe seviyeni ve kısıtlarını seç; kalori ve makrolar Dada Diet tarif verisinden hesaplanır.', arac: dugme('Beslenme planına git', { href: 'hesabim/beslenme-planim/#hafta' }) })}
 ${kart({
     ikon: 'fa-sliders', baslik: 'Bütçe ve kısıtlar', metin: 'Menü bu seçimlere göre kurulur. Değiştirdikten sonra menünü yeniden üret.', form: ' id="hmForm"',
     govde: `<div class="ayar-liste" role="radiogroup" aria-label="Bütçe seviyesi">${butce.map(([d, i, a, m]) => `<label class="ayar-satir secim-satir" for="hmButce-${d}"><span class="as-ikon" aria-hidden="true"><i class="fa-solid ${i}"></i></span><div class="as-metin"><b>${a}</b><span>${m}</span></div><input class="secim-radyo" type="radio" name="butce" id="hmButce-${d}" value="${d}"${d === 'orta' ? ' checked' : ''}></label>`).join('')}</div>
@@ -16,7 +15,8 @@ ${bilgi('fa-user-doctor', 'Bu menü yapay zekâ yardımıyla hazırlanmış örn
 </div>`;
 
 export default () => [uyeSayfa({
-  yol: 'hesabim/haftalik-menum', ad: 'Haftalık Menüm', muhur: 'Haftalık menün · kişisel alanın', ikon: 'fa-calendar-week',
+  yol: 'hesabim/haftalik-menum', ad: 'Haftalık Menüm', aktif: 'hesabim/beslenme-planim/', ust: [['Beslenme Planım', 'hesabim/beslenme-planim/']],
+  eylem: dugme('Beslenme Planım', { sinif: 'hayalet', href: 'hesabim/beslenme-planim/#hafta' }),
   giris: 'Bütçene ve kısıtlarına göre bir haftalık menü üret; her kalem tarif verisine bağlıdır.',
   govde, js: ['assets/js/sayfa/uye-haftalik-menum.js'],
 })];

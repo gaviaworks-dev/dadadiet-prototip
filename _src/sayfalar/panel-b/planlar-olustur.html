@@ -1,62 +1,144 @@
-<!--{"baslik":"Plan oluşturucu","yol":"diyetisyen-paneli/planlar/olustur","duzen":"panel","aktif":"planlar","js":["assets/js/sayfa/panel-b-ortak.js","assets/js/sayfa/panel-b-olustur.js"]}-->
+<!--{"baslik":"Plan oluşturucu","yol":"diyetisyen-paneli/planlar/olustur","duzen":"panel","aktif":"planlar","js":["assets/js/sayfa/panel-b-ortak.js","assets/js/sayfa/panel-b-durum.js","assets/js/sayfa/panel-b-olustur.js"]}-->
 <a class="geri-bag yazdirma-disi" href="{{kok}}diyetisyen-paneli/planlar/"><i class="fa-solid fa-arrow-left" aria-hidden="true"></i> Beslenme Planları</a>
 <div class="panel-bas yazdirma-disi">
   <div>
     <h1 id="planBaslik">Yeni beslenme planı</h1>
-    <p>Hücreye tarif ya da besin ekle; kalori ve makrolar canlı hesaplanır. <span class="durum-hapi bekleyen" id="planDurum">Taslak</span></p>
+    <p><span id="planAlt">Hücreye tarif ya da besin ekle; kalori ve makrolar canlı hesaplanır.</span> <span class="durum-hapi bekleyen" id="planDurum">Taslak</span></p>
   </div>
   <div class="eylem-satiri">
-    <button class="dugme hayalet" type="button" data-plan="sablon-ac"><i class="fa-solid fa-layer-group" aria-hidden="true"></i> Şablondan başla</button>
-    <button class="dugme hayalet" type="button" data-plan="yazdir"><i class="fa-solid fa-file-pdf" aria-hidden="true"></i> PDF / Yazdır</button>
+    <button class="dugme hayalet" type="button" data-plan="sablon-ac"><i class="fa-solid fa-layer-group" aria-hidden="true"></i> Şablondan doldur</button>
+    <button class="dugme hayalet" type="button" data-plan="sablon-kaydet"><i class="fa-solid fa-bookmark" aria-hidden="true"></i> Şablon olarak kaydet</button>
+    <button class="dugme hayalet dar-goster" type="button" data-plan="onizle-ac">Önizle</button>
+    <button class="dugme hayalet dar-goster" type="button" data-plan="alisveris-ac">Alışveriş listesi</button>
+    <button class="dugme hayalet dar-goster" type="button" data-plan="yazdir">PDF / Yazdır</button>
   </div>
 </div>
 
 <div class="yazdirma-basligi" id="yazdirmaBaslik"></div>
 
-<div class="yigin">
-  <div class="iki-kolon yazdirma-disi">
+<div class="kart panel yazdirma-disi plan-ust-kart" id="sonrakiKart" hidden><div class="kart-govde"><div class="sonraki-adim" id="sonrakiAdim"></div></div></div>
+
+<div class="plan-calisma" id="planCalisma">
+  <div class="yigin">
+    <div class="kart panel" id="planKart">
+      <div class="kart-bas yazdirma-disi">
+        <div>
+          <h2 class="kart-baslik">Haftalık plan</h2>
+          <div class="takvim-lejant" aria-label="Sapma lejantı">
+            <span class="lejant-kalem hedefte">Hedefte ±%5</span>
+            <span class="lejant-kalem sinirda">Sınırda ±%15</span>
+            <span class="lejant-kalem sapma">Sapma</span>
+          </div>
+        </div>
+        <div class="eylem-satiri">
+          <div class="segment" id="planGorunum" role="group" aria-label="Görünüm">
+            <button type="button" aria-pressed="true" data-deger="hafta">Hafta</button>
+            <button type="button" aria-pressed="false" data-deger="gun">Gün</button>
+            <button type="button" aria-pressed="false" data-deger="analiz">Analiz</button>
+          </div>
+          <button class="dugme hayalet kucuk" type="button" data-plan="ogun-ac"><i class="fa-solid fa-clock" aria-hidden="true"></i> Öğün düzeni</button>
+          <button class="ikon-dugme plan-yan-dugme" type="button" data-plan="yan-degistir" id="yanDugme" aria-label="Sağ paneli gizle" aria-pressed="true"><i class="fa-solid fa-table-columns" aria-hidden="true"></i></button>
+        </div>
+      </div>
+
+      <div class="plan-baslangic yazdirma-disi" id="baslangic" hidden>
+        <p>Plana nasıl başlayalım?</p>
+        <div class="secenek-izgara c3">
+          <button class="secenek" type="button" data-plan="bos-basla"><i class="fa-solid fa-table-cells" aria-hidden="true"></i><span>Boş plan<small>Izgarayı kendin doldur.</small></span></button>
+          <button class="secenek" type="button" data-plan="sablon-ac"><i class="fa-solid fa-layer-group" aria-hidden="true"></i><span>Şablondan<small>Hazır ya da kendi şablonun.</small></span></button>
+          <button class="secenek" type="button" data-plan="onceki-ac"><i class="fa-solid fa-clock-rotate-left" aria-hidden="true"></i><span>Önceki plandan<small>Kayıtlı planı kopyala.</small></span></button>
+        </div>
+      </div>
+
+      <div class="kart-govde bosluksuz tam-kenar" id="haftaPano">
+        <div class="plan-kap"><div class="plan-izgara hafta" id="planIzgara"></div></div>
+      </div>
+
+      <div class="kart-govde bosluksuz tam-kenar yazdirma-disi" id="gunPano" hidden>
+        <div class="gun-sekme" id="gunSecici" role="group" aria-label="Gün seç"></div>
+        <div class="hedef-serit" id="gunOzet" aria-live="polite"></div>
+        <div id="gunDetay"></div>
+      </div>
+
+      <div class="kart-govde yazdirma-disi" id="analizPano" hidden>
+        <div class="iki-kolon">
+          <div class="tablo-kap gomulu">
+            <table class="tablo panel dar-yigin" data-kolon-disiplin="1">
+              <caption class="yalniz-okuyucu">Günlere göre besin değerleri</caption>
+              <thead><tr><th scope="col">Gün</th><th class="num" scope="col">kcal</th><th scope="col">Sapma</th><th class="num" scope="col">Protein</th><th class="num" scope="col">Karb.</th><th class="num" scope="col">Yağ</th><th class="num" scope="col">Lif</th></tr></thead>
+              <tbody id="analizSatirlar"></tbody>
+              <tfoot id="analizToplam"></tfoot>
+            </table>
+          </div>
+          <div class="yigin sik">
+            <h3 class="form-bolum-bas"><i class="fa-solid fa-ranking-star" aria-hidden="true"></i> En çok katkı veren kalemler</h3>
+            <div class="alan"><label class="alan-etiket" for="analizKapsam">Kapsam</label><select class="alan-secim" id="analizKapsam"></select></div>
+            <div class="segment" id="analizOge" role="group" aria-label="Besin öğesi">
+              <button type="button" aria-pressed="true" data-deger="kcal">Enerji</button>
+              <button type="button" aria-pressed="false" data-deger="protein">Protein</button>
+              <button type="button" aria-pressed="false" data-deger="karb">Karb.</button>
+              <button type="button" aria-pressed="false" data-deger="yag">Yağ</button>
+            </div>
+            <div class="deger-liste" id="analizKatki"></div>
+          </div>
+        </div>
+        <div class="iki-kolon esit analiz-alt">
+          <div class="yigin sik">
+            <h3 class="form-bolum-bas"><i class="fa-solid fa-scale-balanced" aria-hidden="true"></i> Makro dağılımı <span class="istege-bagli">enerji payı, gerçek / hedef</span></h3>
+            <div class="deger-liste" id="analizMakro"></div>
+          </div>
+          <div class="yigin sik">
+            <h3 class="form-bolum-bas"><i class="fa-solid fa-utensils" aria-hidden="true"></i> Öğün dağılımı <span class="istege-bagli">günlük enerjinin payı</span></h3>
+            <div class="halka-sira" id="analizOgun"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="kart panel yazdirma-disi">
+      <div class="kart-bas"><h2 class="kart-baslik">Plan uyarıları</h2><span class="rozet bekleme" id="uyariSayi" hidden></span></div>
+      <div class="kart-govde" id="uyariGovde"></div>
+    </div>
+  </div>
+
+  <aside class="plan-yan yazdirma-disi" id="planYan" aria-label="Plan bilgileri">
     <div class="kart panel">
-      <div class="form-bolum">
-        <h3 class="form-bolum-bas"><i class="fa-solid fa-file-medical" aria-hidden="true"></i> Plan bilgileri</h3>
+      <div class="kart-bas"><h2 class="kart-baslik">Reçete bilgileri</h2></div>
+      <div class="kart-govde">
         <div class="alan">
           <label class="alan-etiket" for="planAd">Plan adı <span class="zorunlu" aria-hidden="true">*</span></label>
           <input class="alan-girdi" id="planAd" type="text" maxlength="80" placeholder="Örn. Sütsüz Demir Destekli Hafta">
         </div>
-        <div class="alan-izgara c2">
-          <div class="alan">
-            <label class="alan-etiket" for="planDanisan">Danışan</label>
-            <select class="alan-secim" id="planDanisan"></select>
-          </div>
-          <div class="alan">
-            <label class="alan-etiket" for="planHedef">Hedef kalori <span class="istege-bagli">kcal/gün</span></label>
-            <input class="alan-girdi" id="planHedef" type="number" min="800" max="4000" step="50" inputmode="numeric">
-            <p class="alan-yardim"><i class="fa-solid fa-calculator" aria-hidden="true"></i><span>Emin değilsen <a href="{{kok}}hesaplayici/gunluk-kalori/" target="_blank" rel="noopener">günlük kalori hesaplayıcısıyla</a> doğrula.</span></p>
-          </div>
-        </div>
-        <div class="alan-izgara c2">
-          <div class="alan">
-            <label class="alan-etiket" for="planBaslangic">Başlangıç tarihi</label>
-            <input class="alan-girdi" id="planBaslangic" type="date">
-          </div>
-          <div class="alan">
-            <span class="alan-etiket">Bitiş tarihi</span>
-            <input class="alan-girdi" id="planBitis" type="text" readonly aria-label="Bitiş tarihi, başlangıçtan yedi gün">
-          </div>
+        <div class="alan">
+          <label class="alan-etiket" for="planDanisan">Danışan</label>
+          <select class="alan-secim" id="planDanisan"></select>
         </div>
         <div class="alan">
-          <label class="alan-etiket" for="planNot">Danışanın göreceği not <span class="istege-bagli">(isteğe bağlı)</span></label>
-          <textarea class="alan-metin" id="planNot" maxlength="600" placeholder="Danışanın plan ekranında ve çıktısında görünür."></textarea>
+          <label class="alan-etiket" for="planHedef">Hedef kalori <span class="istege-bagli">kcal/gün</span></label>
+          <input class="alan-girdi" id="planHedef" type="number" min="800" max="4000" step="50" inputmode="numeric">
+          <p class="alan-yardim"><i class="fa-solid fa-calculator" aria-hidden="true"></i><span><a href="{{kok}}hesaplayici/gunluk-kalori/" target="_blank" rel="noopener">Günlük kalori hesaplayıcısı</a></span></p>
+        </div>
+        <div class="alan">
+          <label class="alan-etiket" for="planBaslangic">Başlangıç tarihi</label>
+          <input class="alan-girdi" id="planBaslangic" type="date">
+          <p class="alan-yardim"><i class="fa-solid fa-calendar-check" aria-hidden="true"></i><span>Bitiş <b id="planBitis"></b></span></p>
+        </div>
+        <div class="alan">
+          <label class="alan-etiket" for="planNot">Danışanın göreceği not</label>
+          <textarea class="alan-metin" id="planNot" maxlength="600" placeholder="Plan ekranında ve çıktıda görünür."></textarea>
         </div>
       </div>
     </div>
-    <div class="yigin">
-      <div class="kart panel" id="danisanKart">
-        <div class="kart-bas"><h2 class="kart-baslik">Danışan özeti</h2></div>
-        <div class="kart-govde" id="danisanOzet"></div>
-      </div>
-      <div class="kart panel">
-        <div class="kart-bas"><h2 class="kart-baslik">Makro hedefi</h2></div>
-        <div class="kart-govde">
+    <div class="kart panel" id="danisanKart">
+      <div class="kart-bas"><h2 class="kart-baslik">Danışan özeti</h2></div>
+      <div class="kart-govde" id="danisanOzet"></div>
+    </div>
+    <div class="kart panel">
+      <div class="kart-bas"><h2 class="kart-baslik">Haftalık özet</h2><span class="durum-hapi kapali" id="ozetDurum">Eksik plan</span></div>
+      <div class="kart-govde">
+        <div class="deger-liste" id="ozetGovde"></div>
+        <details class="plan-acilir">
+          <summary>Makro hedefini değiştir</summary>
           <div class="alan-izgara c3">
             <div class="alan"><label class="alan-etiket" for="makroP">Protein %</label><input class="alan-girdi" id="makroP" type="number" min="5" max="60" step="1" data-makro="p"></div>
             <div class="alan"><label class="alan-etiket" for="makroK">Karb. %</label><input class="alan-girdi" id="makroK" type="number" min="5" max="75" step="1" data-makro="k"></div>
@@ -68,153 +150,95 @@
             <button class="cip" type="button" data-deger="30,25,45">Düşük karb.</button>
           </div>
           <p class="alan-yardim" id="makroNot"></p>
-        </div>
+        </details>
       </div>
     </div>
-  </div>
-
-  <div class="kart panel" id="planKart">
-    <div class="kart-bas">
-      <div>
-        <h2 class="kart-baslik">Haftalık plan</h2>
-        <div class="takvim-lejant" aria-label="Sapma lejantı">
-          <span class="lejant-kalem hedefte">Hedefte (±%5)</span>
-          <span class="lejant-kalem sinirda">Sınırda (±%15)</span>
-          <span class="lejant-kalem sapma">Sapma var</span>
-        </div>
-      </div>
-      <div class="eylem-satiri">
-        <div class="segment yazdirma-disi" id="planGorunum" role="group" aria-label="Görünüm">
-          <button type="button" aria-pressed="true" data-deger="plan">Plan</button>
-          <button type="button" aria-pressed="false" data-deger="analiz">Analiz</button>
-        </div>
-        <button class="dugme hayalet kucuk" type="button" data-plan="kopyala-ac"><i class="fa-solid fa-clone" aria-hidden="true"></i> Günü kopyala</button>
-        <button class="dugme hayalet kucuk" type="button" data-plan="ogun-ac"><i class="fa-solid fa-clock" aria-hidden="true"></i> Öğün düzeni</button>
-        <button class="dugme hayalet kucuk" type="button" data-plan="sablon-kaydet"><i class="fa-solid fa-bookmark" aria-hidden="true"></i> Şablon olarak kaydet</button>
-      </div>
-    </div>
-    <div class="kart-govde bosluksuz tam-kenar" id="planPano">
-      <div class="plan-gun-secici" id="gunSecici" aria-label="Gün seç"></div>
-      <div class="hedef-serit yazdirma-disi" id="gunOzet" aria-live="polite"></div>
-      <div class="plan-bos yazdirma-disi" id="planBos" hidden>
-        <span>Plan boş. Hücreden kalem ekle ya da hazır şablonla başla.</span>
-        <button class="dugme hayalet kucuk" type="button" data-plan="sablon-ac"><i class="fa-solid fa-layer-group" aria-hidden="true"></i> Şablondan başla</button>
-      </div>
-      <div class="plan-kap"><div class="plan-izgara sikisik" id="planIzgara"></div></div>
-    </div>
-    <div class="kart-govde yazdirma-disi" id="analizPano" hidden>
-      <div class="iki-kolon">
-        <div class="tablo-kap gomulu">
-          <table class="tablo panel dar-yigin" data-kolon-disiplin="1">
-            <caption class="yalniz-okuyucu">Günlere göre besin değerleri</caption>
-            <thead><tr><th scope="col">Gün</th><th class="num" scope="col">kcal</th><th scope="col">Sapma</th><th class="num" scope="col">Protein</th><th class="num" scope="col">Karb.</th><th class="num" scope="col">Yağ</th><th class="num" scope="col">Lif</th></tr></thead>
-            <tbody id="analizSatirlar"></tbody>
-            <tfoot id="analizToplam"></tfoot>
-          </table>
-        </div>
-        <div class="yigin sik">
-          <h3 class="form-bolum-bas"><i class="fa-solid fa-ranking-star" aria-hidden="true"></i> En çok katkı veren kalemler</h3>
-          <div class="alan">
-            <label class="alan-etiket" for="analizKapsam">Kapsam</label>
-            <select class="alan-secim" id="analizKapsam"></select>
-          </div>
-          <div class="segment" id="analizOge" role="group" aria-label="Besin öğesi">
-            <button type="button" aria-pressed="true" data-deger="kcal">Enerji</button>
-            <button type="button" aria-pressed="false" data-deger="protein">Protein</button>
-            <button type="button" aria-pressed="false" data-deger="karb">Karb.</button>
-            <button type="button" aria-pressed="false" data-deger="yag">Yağ</button>
-          </div>
-          <div class="deger-liste" id="analizKatki"></div>
-        </div>
-      </div>
-      <div class="iki-kolon esit analiz-alt">
-        <div class="yigin sik">
-          <h3 class="form-bolum-bas"><i class="fa-solid fa-scale-balanced" aria-hidden="true"></i> Makro dağılımı <span class="istege-bagli">enerji payı, gerçek / hedef</span></h3>
-          <div class="deger-liste" id="analizMakro"></div>
-        </div>
-        <div class="yigin sik">
-          <h3 class="form-bolum-bas"><i class="fa-solid fa-utensils" aria-hidden="true"></i> Öğün dağılımı <span class="istege-bagli">günlük enerjinin payı</span></h3>
-          <div class="halka-sira" id="analizOgun"></div>
-        </div>
-      </div>
-    </div>
-  </div>
-
-  <div class="iki-kolon esit yazdirma-disi">
-    <div class="kart panel">
-      <div class="kart-bas">
-        <h2 class="kart-baslik">Plan uyarıları</h2>
-        <span class="rozet bekleme" id="uyariSayi" hidden></span>
-      </div>
-      <div class="kart-govde" id="uyariGovde"></div>
-    </div>
-    <div class="kart panel">
-      <div class="kart-bas"><h2 class="kart-baslik">Haftalık özet</h2><span class="durum-hapi kapali" id="ozetDurum">Eksik plan</span></div>
-      <div class="kart-govde"><div class="deger-liste" id="ozetGovde"></div></div>
-    </div>
-  </div>
+  </aside>
 </div>
 
 <div class="kart-alt form-eylem yazdirma-disi">
   <span class="not" id="kayitNot">Henüz kaydedilmedi</span>
   <div class="eylem-satiri">
-    <a class="dugme hayalet dar-gizli" href="{{kok}}diyetisyen-paneli/planlar/">İptal</a>
     <button class="dugme hayalet" type="button" data-plan="kaydet">Taslak kaydet</button>
+    <button class="dugme hayalet dar-gizli" type="button" data-plan="onizle-ac"><i class="fa-solid fa-eye" aria-hidden="true"></i> Önizle</button>
+    <button class="dugme hayalet dar-gizli" type="button" data-plan="alisveris-ac"><i class="fa-solid fa-basket-shopping" aria-hidden="true"></i> Alışveriş listesi</button>
+    <button class="dugme hayalet dar-gizli" type="button" data-plan="yazdir"><i class="fa-solid fa-file-pdf" aria-hidden="true"></i> PDF / Yazdır</button>
     <button class="dugme birincil" type="button" data-plan="gonder-ac"><i class="fa-solid fa-paper-plane" aria-hidden="true"></i> Danışana gönder</button>
   </div>
 </div>
 
-<div class="sheet-ortu" id="eklemeSheet" hidden>
-  <div class="sheet sabit" role="dialog" aria-modal="true" aria-labelledby="sheetBaslik">
-    <div class="sheet-bas">
+<div class="acilir-yuzey plan-menu" id="kartMenu" role="menu" aria-label="Kalem işlemleri" hidden>
+  <button class="acilir-kalem" type="button" role="menuitem" data-plan="k-degistir"><i class="fa-solid fa-right-left" aria-hidden="true"></i> Değiştir</button>
+  <button class="acilir-kalem" type="button" role="menuitem" data-plan="k-porsiyon"><i class="fa-solid fa-scale-unbalanced" aria-hidden="true"></i> Porsiyon</button>
+  <button class="acilir-kalem" type="button" role="menuitem" data-plan="k-kopyala"><i class="fa-solid fa-clone" aria-hidden="true"></i> Başka güne ya da öğüne kopyala</button>
+  <button class="acilir-kalem" type="button" role="menuitem" data-plan="k-tumu"><i class="fa-solid fa-calendar-week" aria-hidden="true"></i> Tüm günlere uygula</button>
+  <button class="acilir-kalem" type="button" role="menuitem" data-plan="k-sil"><i class="fa-solid fa-trash-can" aria-hidden="true"></i> Sil</button>
+</div>
+<div class="acilir-yuzey plan-menu" id="gunMenu" role="menu" aria-label="Gün işlemleri" hidden>
+  <button class="acilir-kalem" type="button" role="menuitem" data-plan="g-kopyala"><i class="fa-solid fa-clone" aria-hidden="true"></i> Günü kopyala</button>
+  <button class="acilir-kalem" type="button" role="menuitem" data-plan="g-sablon"><i class="fa-solid fa-layer-group" aria-hidden="true"></i> Şablondan doldur</button>
+  <button class="acilir-kalem" type="button" role="menuitem" data-plan="g-temizle"><i class="fa-solid fa-eraser" aria-hidden="true"></i> Temizle</button>
+</div>
+
+<div class="yan-panel-ortu seffaf" id="seciciPanel" hidden>
+  <aside class="yan-panel secici" role="dialog" aria-labelledby="sheetBaslik">
+    <div class="yan-panel-bas">
       <h2 id="sheetBaslik">Öğüne ekle</h2>
       <button class="kapat-dugme" type="button" data-kapat aria-label="Kapat"><i class="fa-solid fa-xmark" aria-hidden="true"></i></button>
     </div>
-    <div class="sheet-govde">
+    <div class="yan-panel-govde">
       <div class="sekmeler" role="tablist" aria-label="Ekleme kaynağı">
-        <button class="sekme aktif" type="button" role="tab" id="tTarif" aria-controls="pEkleme" aria-selected="true" data-kaynak="tarif"><i class="fa-solid fa-bowl-food" aria-hidden="true"></i> Sağlıklı Tarifler</button>
-        <button class="sekme" type="button" role="tab" id="tBesin" aria-controls="pEkleme" aria-selected="false" data-kaynak="besin"><i class="fa-solid fa-carrot" aria-hidden="true"></i> Besin Kütüphanesi</button>
-        <button class="sekme" type="button" role="tab" id="tSerbest" aria-controls="pEkleme" aria-selected="false" data-kaynak="serbest"><i class="fa-solid fa-pen" aria-hidden="true"></i> Serbest kalem</button>
+        <button class="sekme aktif" type="button" role="tab" id="tTarif" aria-controls="pEkleme" aria-selected="true" data-kaynak="tarif">Sağlıklı Tarifler</button>
+        <button class="sekme" type="button" role="tab" id="tBesin" aria-controls="pEkleme" aria-selected="false" data-kaynak="besin">Besin Kütüphanesi</button>
+        <button class="sekme" type="button" role="tab" id="tSerbest" aria-controls="pEkleme" aria-selected="false" data-kaynak="serbest">Serbest</button>
       </div>
       <div id="pEkleme" role="tabpanel">
         <div id="serbestAlan" hidden>
           <div class="alan-izgara c2">
-            <div class="alan"><label class="alan-etiket" for="sbAd">Kalem adı <span class="istege-bagli">zorunlu</span></label><input class="alan-girdi" id="sbAd" type="text" maxlength="60" placeholder="Örn. Ev yapımı tarhana çorbası"></div>
+            <div class="alan"><label class="alan-etiket" for="sbAd">Kalem adı <span class="istege-bagli">zorunlu</span></label><input class="alan-girdi" id="sbAd" type="text" maxlength="60" placeholder="Örn. Ev yapımı tarhana"></div>
             <div class="alan"><label class="alan-etiket" for="sbOlcu">Ölçü</label><input class="alan-girdi" id="sbOlcu" type="text" maxlength="30" placeholder="Örn. 1 kase"></div>
-          </div>
-          <div class="alan-izgara c2">
             <div class="alan"><label class="alan-etiket" for="sbKcal">Enerji (kcal) <span class="istege-bagli">zorunlu</span></label><input class="alan-girdi" id="sbKcal" type="number" min="0" step="5"></div>
             <div class="alan"><label class="alan-etiket" for="sbP">Protein (g)</label><input class="alan-girdi" id="sbP" type="number" min="0" step="0.5"></div>
             <div class="alan"><label class="alan-etiket" for="sbK">Karbonhidrat (g)</label><input class="alan-girdi" id="sbK" type="number" min="0" step="0.5"></div>
             <div class="alan"><label class="alan-etiket" for="sbY">Yağ (g)</label><input class="alan-girdi" id="sbY" type="number" min="0" step="0.5"></div>
           </div>
-          <p class="alan-yardim"><i class="fa-solid fa-circle-info" aria-hidden="true"></i><span>Katalogda olmayan kalem için. Değerleri sen girersin; danışan planında adıyla ve ölçüsüyle görünür, hassasiyet kuralı adındaki kelimelere bakar.</span></p>
+          <p class="alan-yardim"><i class="fa-solid fa-circle-info" aria-hidden="true"></i><span>Katalogda olmayan kalem için. Danışan planında adıyla ve ölçüsüyle görünür.</span></p>
           <button class="dugme hayalet" type="button" data-plan="serbest-ekle"><i class="fa-solid fa-plus" aria-hidden="true"></i> Öğüne ekle</button>
         </div>
         <div id="katalogAlan">
-        <div class="secim-arac">
-          <div class="panel-arama">
-            <i class="fa-solid fa-magnifying-glass" aria-hidden="true"></i>
-            <label class="yalniz-okuyucu" for="sheetAra">Ara</label>
-            <input class="panel-arama-girdi" id="sheetAra" type="search" placeholder="Tarif ara, örn. çorba" autocomplete="off">
+          <div class="secim-arac">
+            <div class="panel-arama">
+              <i class="fa-solid fa-magnifying-glass" aria-hidden="true"></i>
+              <label class="yalniz-okuyucu" for="sheetAra">Ara</label>
+              <input class="panel-arama-girdi" id="sheetAra" type="search" placeholder="Ara" autocomplete="off">
+            </div>
+            <div class="alan-izgara c3">
+              <div class="alan"><label class="alan-etiket" for="suzOgun">Öğün tipi</label><select class="alan-secim" id="suzOgun"><option value="">Tümü</option><option value="kahvalti">Kahvaltı</option><option value="ara">Ara öğün</option><option value="ogle">Öğle</option><option value="aksam">Akşam</option></select></div>
+              <div class="alan"><label class="alan-etiket" for="suzKcal">Kalori</label><select class="alan-secim" id="suzKcal"><option value="">Tümü</option><option value="0-150">150 altı</option><option value="150-300">150–300</option><option value="300-500">300–500</option><option value="500-9999">500 üstü</option></select></div>
+              <div class="alan"><label class="alan-etiket" for="suzKategori">Kategori</label><select class="alan-secim" id="suzKategori"></select></div>
+            </div>
+            <div class="cipler" id="suzDiyet" aria-label="Diyet süzgeci">
+              <button class="cip" type="button" data-deger="Vegan" aria-pressed="false">Vegan</button>
+              <button class="cip" type="button" data-deger="Vejetaryen" aria-pressed="false">Vejetaryen</button>
+              <button class="cip" type="button" data-deger="Glütensiz" aria-pressed="false">Glütensiz</button>
+              <button class="cip" type="button" data-deger="Laktozsuz" aria-pressed="false">Laktozsuz</button>
+            </div>
           </div>
-          <div class="cipler tek-satir" id="sheetKategori" data-suzgec></div>
-        </div>
-        <div class="secim-liste" id="sheetListe"></div>
-        <div class="bos-durum kart-ici" id="sheetBos" hidden>
-          <span class="bos-ikon"><i class="fa-solid fa-magnifying-glass" aria-hidden="true"></i></span>
-          <h3>Sonuç bulunamadı</h3>
-          <p>Aramayı değiştir ya da serbest kalem olarak ekle.</p>
-          <button class="dugme hayalet" type="button" data-plan="serbest-gec">Serbest kalem ekle</button>
-        </div>
+          <div class="secim-liste" id="sheetListe"></div>
+          <div class="bos-durum kart-ici" id="sheetBos" hidden>
+            <span class="bos-ikon"><i class="fa-solid fa-magnifying-glass" aria-hidden="true"></i></span>
+            <h3>Sonuç bulunamadı</h3>
+            <p>Süzgeci gevşet ya da serbest kalem olarak ekle.</p>
+            <button class="dugme hayalet" type="button" data-plan="serbest-gec">Serbest kalem ekle</button>
+          </div>
         </div>
       </div>
     </div>
-    <div class="sheet-ayak yayik">
+    <div class="yan-panel-ayak yayik">
       <span class="not" id="sheetOzet"></span>
       <button class="dugme birincil" type="button" data-kapat>Bitti</button>
     </div>
-  </div>
+  </aside>
 </div>
 
 <div class="modal-ortu" id="kalemModal" hidden>
@@ -232,24 +256,18 @@
   <div class="modal-kutu" role="dialog" aria-modal="true" aria-labelledby="kopyaBaslik">
     <div class="modal-bas"><h2 id="kopyaBaslik">Kopyala</h2><button class="kapat-dugme" type="button" data-kapat aria-label="Kapat"><i class="fa-solid fa-xmark" aria-hidden="true"></i></button></div>
     <div class="modal-govde">
-      <div class="alan">
+      <div class="alan" id="kopyaTurAlan">
         <div class="segment" id="kopyaTur" role="group" aria-label="Neyi kopyalıyorsun">
           <button type="button" aria-pressed="true" data-deger="gun">Bütün gün</button>
           <button type="button" aria-pressed="false" data-deger="ogun">Tek öğün</button>
         </div>
       </div>
-      <div class="alan-izgara c2">
-        <div class="alan">
-          <label class="alan-etiket" for="kopyaPlan">Kaynak plan</label>
-          <select class="alan-secim" id="kopyaPlan"></select>
-        </div>
-        <div class="alan">
-          <label class="alan-etiket" for="kopyaKaynak">Kaynak gün</label>
-          <select class="alan-secim" id="kopyaKaynak"></select>
-        </div>
+      <div class="alan-izgara c2" id="kopyaKaynakAlan">
+        <div class="alan"><label class="alan-etiket" for="kopyaPlan">Kaynak plan</label><select class="alan-secim" id="kopyaPlan"></select></div>
+        <div class="alan"><label class="alan-etiket" for="kopyaKaynak">Kaynak gün</label><select class="alan-secim" id="kopyaKaynak"></select></div>
       </div>
       <div class="alan-izgara c2" id="kopyaOgunAlan" hidden>
-        <div class="alan"><label class="alan-etiket" for="kopyaOgunKaynak">Kaynak öğün</label><select class="alan-secim" id="kopyaOgunKaynak"></select></div>
+        <div class="alan" id="kopyaOgunKaynakAlan"><label class="alan-etiket" for="kopyaOgunKaynak">Kaynak öğün</label><select class="alan-secim" id="kopyaOgunKaynak"></select></div>
         <div class="alan"><label class="alan-etiket" for="kopyaOgunHedef">Hedef öğün</label><select class="alan-secim" id="kopyaOgunHedef"></select></div>
       </div>
       <div class="alan">
@@ -262,10 +280,14 @@
         <div class="cipler" id="kopyaHedef"></div>
       </div>
       <div class="alan">
-        <span class="alan-etiket">Hedefteki kalemler</span>
-        <div class="segment" id="kopyaKip" role="group" aria-label="Hedefteki kalemler">
+        <span class="alan-etiket" id="kopyaKipEtiket">Hedefteki kalemler</span>
+        <div class="segment" id="kopyaKip" role="group" aria-labelledby="kopyaKipEtiket">
           <button type="button" aria-pressed="true" data-deger="yaz">Üzerine yaz</button>
           <button type="button" aria-pressed="false" data-deger="ekle">Yanına ekle</button>
+        </div>
+        <div class="segment" id="kopyaKalemKip" role="group" aria-labelledby="kopyaKipEtiket" hidden>
+          <button type="button" aria-pressed="true" data-deger="kopya">Kopyala</button>
+          <button type="button" aria-pressed="false" data-deger="tasi">Taşı</button>
         </div>
       </div>
     </div>
@@ -289,8 +311,33 @@
 
 <div class="modal-ortu" id="sablonModal" hidden>
   <div class="modal-kutu" role="dialog" aria-modal="true" aria-labelledby="sablonBaslik">
-    <div class="modal-bas"><h2 id="sablonBaslik">Şablondan başla</h2><button class="kapat-dugme" type="button" data-kapat aria-label="Kapat"><i class="fa-solid fa-xmark" aria-hidden="true"></i></button></div>
+    <div class="modal-bas"><h2 id="sablonBaslik">Şablondan doldur</h2><button class="kapat-dugme" type="button" data-kapat aria-label="Kapat"><i class="fa-solid fa-xmark" aria-hidden="true"></i></button></div>
     <div class="modal-govde"><div class="yigin sik" id="sablonListe"></div></div>
+  </div>
+</div>
+
+<div class="modal-ortu" id="oncekiModal" hidden>
+  <div class="modal-kutu" role="dialog" aria-modal="true" aria-labelledby="oncekiBaslik">
+    <div class="modal-bas"><h2 id="oncekiBaslik">Önceki plandan kopyala</h2><button class="kapat-dugme" type="button" data-kapat aria-label="Kapat"><i class="fa-solid fa-xmark" aria-hidden="true"></i></button></div>
+    <div class="modal-govde"><div class="yigin sik" id="oncekiListe"></div></div>
+  </div>
+</div>
+
+<div class="modal-ortu" id="onizleModal" hidden>
+  <div class="modal-kutu genis" role="dialog" aria-modal="true" aria-labelledby="onizleBaslik">
+    <div class="modal-bas"><h2 id="onizleBaslik">Danışanın göreceği hali</h2><button class="kapat-dugme" type="button" data-kapat aria-label="Kapat"><i class="fa-solid fa-xmark" aria-hidden="true"></i></button></div>
+    <div class="modal-govde"><div class="yigin sik" id="onizleGovde"></div></div>
+  </div>
+</div>
+
+<div class="modal-ortu" id="alisverisModal" hidden>
+  <div class="modal-kutu" role="dialog" aria-modal="true" aria-labelledby="alisverisBaslik">
+    <div class="modal-bas"><h2 id="alisverisBaslik">Alışveriş listesi</h2><button class="kapat-dugme" type="button" data-kapat aria-label="Kapat"><i class="fa-solid fa-xmark" aria-hidden="true"></i></button></div>
+    <div class="modal-govde"><div class="yigin sik" id="alisverisGovde"></div></div>
+    <div class="modal-ayak-cubuk yayik">
+      <span class="not" id="alisverisNot"></span>
+      <button class="dugme birincil" type="button" data-plan="alisveris-kopyala"><i class="fa-solid fa-copy" aria-hidden="true"></i> Listeyi kopyala</button>
+    </div>
   </div>
 </div>
 

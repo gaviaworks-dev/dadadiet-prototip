@@ -29,5 +29,6 @@
     PA.kaydet(); ciz();
     DD.toast('Bütün bildirimler okundu işaretlendi.');
   });
+  document.addEventListener('pa:degisti', ciz);
   ciz();
 })();

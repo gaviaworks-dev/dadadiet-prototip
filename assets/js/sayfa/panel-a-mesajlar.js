@@ -32,7 +32,7 @@
     $('sohbetAlan').innerHTML = '<div class="bos-durum kart-ici"><span class="bos-ikon"><i class="fa-solid fa-comments" aria-hidden="true"></i></span><h3>Bir konuşma seç</h3><p>Soldaki listeden bir danışan seç ya da yeni mesaj başlat.</p></div>';
   }
 
-  $('ymDanisan').innerHTML = '<option value="">Danışan seç</option>' + PA.danisanlar().map((x) => `<option value="${x.id}">${h(x.ad)}</option>`).join('');
+  $('ymDanisan').innerHTML = '<option value="">Danışan seç</option>' + PA.danisanlar().filter(PA.takipte).map((x) => `<option value="${x.id}">${h(x.ad)}</option>`).join('');
   $('konusmaAra').addEventListener('input', liste);
   $('konusmaSuzgec').addEventListener('dd:secim', (e) => { v.suzgec = e.detail.deger; liste(); });
   $('konusmaListe').addEventListener('click', (e) => { const b = e.target.closest('[data-konusma]'); if (b) sec(b.dataset.konusma, true); });

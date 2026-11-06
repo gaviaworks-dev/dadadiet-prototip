@@ -1,41 +1,10 @@
-// Üye ekranlarının ortak üst parçası: kimlik bandı + sekme rayı + pano iskeleti.
-// Bütün hesabim/* sayfaları bu parçadan geçer; kimlik alanlarını uye-ortak.js demo durumundan doldurur.
-const K = '{{kok}}';
-
-const kirinti = (ad, kok) => `<nav class="kirinti" aria-label="Sayfa yolu"><a class="kirinti-ev" href="${K}"><i class="fa-solid fa-house" aria-hidden="true"></i><span class="yalniz-okuyucu">Dada Diet ana sayfa</span></a><i class="fa-solid fa-chevron-right" aria-hidden="true"></i>${kok ? '' : `<a href="${K}hesabim/">Hesabım</a><i class="fa-solid fa-chevron-right" aria-hidden="true"></i>`}<span class="kirinti-simdi">${ad}</span></nav>`;
-
-export function kimlikBant({ ad, muhur, ikon = 'fa-seedling', giris, kapak = 'assets/img/hero/beslenme-reh-hero.jpg', kok = false, duzenle = false }) {
-  const kapakDugme = duzenle ? `<button type="button" class="kapak-duzenle" data-ac="#kapakSec"><i class="fa-solid fa-camera" aria-hidden="true"></i> Kapağı Değiştir</button>` : '';
-  const avatarDugme = duzenle ? `<button type="button" class="kimlik-avatar-duzenle" data-ac="#avatarSec" aria-label="Profil fotoğrafını değiştir"><i class="fa-solid fa-camera" aria-hidden="true"></i></button>` : '';
-  return `<section class="bolum kabuk-alti kimlik-bant${duzenle ? ' duzenlenebilir' : ''}"><div class="kap">
-${kirinti(ad, kok)}
-<div class="kapak" data-kapak data-arkaplan="${K}${kapak}"><span class="kapak-muhur"><i class="fa-solid ${ikon}" aria-hidden="true"></i> ${muhur}</span>${kapakDugme}</div>
-<div class="kimlik"><span class="kimlik-avatar harf" data-uye-avatar><span data-uye="harf"></span>${avatarDugme}</span>
-<div class="kimlik-govde"><h1>${ad}</h1><span class="kimlik-kullanici"><span data-uye="adSoyad"></span> · <span class="kimlik-uad" data-uye="kullanici"></span></span><p class="kimlik-giris">${giris}</p>
-<div class="kimlik-meta"><span><i class="fa-solid fa-box-open" aria-hidden="true"></i> <span data-uye="paket"></span></span><span><i class="fa-solid fa-award" aria-hidden="true"></i> <span data-uye="rozet"></span></span><span><i class="fa-solid fa-calendar-days" aria-hidden="true"></i> <span data-uye="uyelik"></span></span></div></div></div>
-</div></section>`;
-}
-
-export const sekme = (grup, s, i) => `<button class="sekme${i === 0 ? ' aktif' : ''}" type="button" role="tab" id="${grup}-tab-${s.id}" aria-controls="${grup}-pane-${s.id}" aria-selected="${i === 0}"${i === 0 ? '' : ' tabindex="-1"'}><i class="fa-solid ${s.ikon}" aria-hidden="true"></i> ${s.ad}${s.sayi ? ` <span class="sekme-sayi" data-sayi="${s.sayi}"></span>` : ''}</button>`;
-
-export const sekmeRay = (grup, etiket, sekmeler) => `<div class="sekme-ray"><div class="wrap kap"><div class="sekmeler ortali" role="tablist" aria-label="${etiket}">${sekmeler.map((s, i) => sekme(grup, s, i)).join('')}</div></div></div>`;
-
-export const pano = (grup, s, i) => `<div class="fit-pane" id="${grup}-pane-${s.id}" role="tabpanel" aria-labelledby="${grup}-tab-${s.id}" tabindex="-1"${i === 0 ? '' : ' hidden'}><div class="wrap kap">${s.govde}</div></div>`;
+// Üye ekranlarının kart, satır ve form yardımcıları. Kabuk: kabuk.mjs (imza tasks/uye-kabuk.md).
+import { uyeKabuk } from './kabuk.mjs';
 
 export const bolumBas = ({ etiket, ikon, baslik, metin, arac = '' }) => `<div class="bolum-bas"><div><span class="ust-etiket"><i class="fa-solid ${ikon}" aria-hidden="true"></i> ${etiket}</span><h2>${baslik}</h2>${metin ? `<p class="giris-metni">${metin}</p>` : ''}${arac ? `<div class="bolum-araclar">${arac}</div>` : ''}</div></div>`;
 
-// Tek noktadan üye sayfası: sekmeli (grup + sekmeler) ya da tek gövdeli (govde).
-export function uyeSayfa({ yol, ad, muhur, ikon, giris, kapak, kok, duzenle, grup, sekmeler, govde, sonEk = '', js = [] }) {
-  const ust = kimlikBant({ ad, muhur, ikon, giris, kapak, kok, duzenle });
-  const orta = sekmeler
-    ? sekmeRay(grup, `${ad} bölümleri`, sekmeler) + sekmeler.map((s, i) => pano(grup, s, i)).join('')
-    : `<div class="fit-pane"><div class="wrap kap">${govde}</div></div>`;
-  return {
-    yol,
-    meta: { baslik: ad, duzen: 'uye', js: ['assets/js/sayfa/uye-ortak.js', ...js] },
-    govde: `<div class="modul-govde"><div class="zebra">${ust}${orta}</div></div>${sonEk}`,
-  };
-}
+// Eski çağrı biçimi: ad/giris adlarını kabuğa taşır.
+export const uyeSayfa = ({ ad, giris, ...o }) => uyeKabuk({ baslik: ad, aciklama: giris, ...o });
 
 // Kart ve satır yardımcıları: kanon iskeletini tek yerden basar.
 export const kart = ({ ikon, baslik, metin, sag = '', govde = '', alt = '', bosluksuz = false, sinif = '', form = '', id = '', kolon = false }) => {

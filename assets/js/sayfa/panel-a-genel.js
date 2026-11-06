@@ -11,6 +11,17 @@
   const kpi = (ikon, etiket, sayi, sinif, ikon2, alt) => `<div class="kart kpi"><span class="ikon"><i class="fa-solid ${ikon}" aria-hidden="true"></i></span><div class="govde"><span class="etiket">${etiket}</span><span class="sayi">${sayi}</span><span class="kpi-degisim ${sinif}"><i class="fa-solid ${ikon2}" aria-hidden="true"></i> ${alt}</span></div></div>`;
   const bos = (ikon, baslik, metin) => `<div class="bos-durum kart-ici"><span class="bos-ikon"><i class="fa-solid ${ikon}" aria-hidden="true"></i></span><h3>${baslik}</h3><p>${metin}</p></div>`;
 
+  /* İş listesi: talep kararı, onay ve talepler, ardından danışanların sıradaki adımı */
+  let isTam = false;
+  const isSatir = ({ dn, adim }) => `<div class="ayar-satir"><span class="as-ikon"><i class="fa-solid ${adim.ikon}" aria-hidden="true"></i></span><span class="as-metin"><b><a href="${PA.yol.danisan(dn.id)}">${h(dn.ad)}</a> · ${h(adim.baslik)}</b><span>${h(adim.metin)}</span></span><span class="as-eylem">${adim.ikincil ? `<button class="dugme hayalet kucuk tehlike" type="button" data-adim="${adim.ikincilIs}" data-danisan="${dn.id}">${adim.ikincil}</button>` : ''}${PA.adimEylem(adim, dn, adim.oncelik === 1 ? 'dugme birincil kucuk' : 'dugme hayalet kucuk')}</span></div>`;
+  function isCiz() {
+    const liste = PA.isListesi(), talep = liste.filter((x) => x.adim.oncelik === 1), kuyruk = PA.bekleyenler(), diger = liste.filter((x) => x.adim.oncelik > 2);
+    const satirlar = [...talep.map(isSatir), ...kuyruk.map(PA.bekleyenSatir), ...diger.map(isSatir)];
+    $('isListe').innerHTML = (isTam ? satirlar : satirlar.slice(0, 6)).join('') || bos('fa-circle-check', 'Bugünlük iş kalmadı', 'Yeni bir gelişme olduğunda burada görünür.');
+    $('isOzet').textContent = satirlar.length ? satirlar.length + ' iş bekliyor, en acil olan üstte.' : 'Bekleyen iş yok.';
+    $('isTum').hidden = satirlar.length <= 6;
+    $('isTum').textContent = isTam ? 'Daralt' : 'Tümünü göster (' + satirlar.length + ')';
+  }
   function ciz() {
     const d = PA.d(), bugun = PA.rBugun();
     const aktif = d.danisanlar.filter((x) => x.durum === 'aktif');
@@ -19,10 +30,7 @@
     const kalan = bugun.filter((r) => PA.rDurum(r) === 'dolu').length;
     const okunmamis = PA.okunmamis();
     const onay = bugun.filter((r) => PA.rDurum(r) === 'onay-bekliyor').length;
-    const kuyruk = PA.bekleyenler();
-    $('kuyrukKart').hidden = !kuyruk.length;
-    $('kuyrukListe').innerHTML = kuyruk.slice(0, 3).map(PA.bekleyenSatir).join('');
-    $('kuyrukNot').textContent = kuyruk.length > 3 ? kuyruk.length + ' kayıt bekliyor, ilk 3 tanesi burada.' : 'Randevu onayları, danışanın iptal ve saat değişikliği talepleri.';
+    isCiz();
     const eskiMesaj = d.mesajlar.filter((k) => k.okunmamis).map((k) => k.mesajlar[k.mesajlar.length - 1].zaman).sort()[0];
     $('gunOzeti').textContent = 'Günaydın ' + d.diyetisyen.ad.replace(/^Dyt\.\s*/, '').split(' ')[0] + '. ' + PA.gunAdi(DD.bugun) + ', ' + PA.tarih(DD.bugun) + '. Bugün ' + kalan + ' görüşmen kaldı, ' + okunmamis + ' okunmamış mesajın var.';
     $('sayaclar').innerHTML =
@@ -34,14 +42,9 @@
     $('bugunListe').innerHTML = bugun.length ? bugun.map((r) => {
       const dn = PA.danisan(r.danisan_id), durum = PA.rDurum(r);
       const sinif = durum === 'dolu' ? '' : ['sonuc-bekliyor', 'onay-bekliyor'].includes(durum) ? ' bekleyen' : ' gecti';
-      const eylem = durum === 'onay-bekliyor' ? `<button class="dugme birincil kucuk" type="button" data-kuyruk-kabul="${r.id}">Onayla</button>` : durum === 'dolu' ? `<button class="dugme hayalet kucuk" type="button" data-randevu="${r.id}">Detay</button>` : durum === 'sonuc-bekliyor' ? `<button class="dugme hayalet kucuk" type="button" data-randevu="${r.id}">Sonuç gir</button>` : `<button class="ikon-dugme" type="button" data-randevu="${r.id}" aria-label="${h(dn.ad)} randevusunu aç"><i class="fa-solid fa-chevron-right" aria-hidden="true"></i></button>`;
+      const eylem = durum === 'onay-bekliyor' ? `<button class="dugme birincil kucuk" type="button" data-kuyruk-kabul="${r.id}">Onayla</button>` : durum === 'dolu' ? (r.talep ? `<button class="dugme hayalet kucuk" type="button" data-randevu="${r.id}">İncele</button>` : `<a class="dugme hayalet kucuk" href="${PA.yol.gorusme(r.id)}">Görüşmeyi başlat</a>`) : durum === 'sonuc-bekliyor' ? `<button class="dugme hayalet kucuk" type="button" data-randevu="${r.id}">Sonuç gir</button>` : `<button class="ikon-dugme" type="button" data-randevu="${r.id}" aria-label="${h(dn.ad)} randevusunu aç"><i class="fa-solid fa-chevron-right" aria-hidden="true"></i></button>`;
       return `<div class="ayar-satir"><span class="as-saat${sinif}">${r.saat}<small>${r.sure} dk</small></span><span class="as-metin"><b><a href="${PA.yol.danisan(dn.id)}">${h(dn.ad)}</a></b><span>${PA.rTur(r)}${r.not ? ' · ' + h(r.not) : ''}</span></span><span class="as-eylem">${PA.talepRozet(r) || PA.rHap(r)}${eylem}</span></div>`;
     }).join('') : bos('fa-calendar-xmark', 'Bugün randevu yok', 'Takvimden yeni bir görüşme oluşturabilirsin.');
-
-    $('talepListe').innerHTML = bekleyen.length ? bekleyen.map((x) => {
-      const k = PA.konusma(x.id), m = k && k.mesajlar.filter((y) => y.kimden === 'danisan').pop();
-      return `<div class="ayar-satir">${PA.avatar(x.ad)}<span class="as-metin"><b><a href="${PA.yol.danisan(x.id)}">${h(x.ad)}</a></b><span>${h(m ? m.metin : x.mesaj_ozeti)}</span></span><span class="as-eylem">${PA.danisanHap(x)}<a class="dugme hayalet kucuk" href="${PA.yol.sohbet(x.id)}">Yanıtla</a></span></div>`;
-    }).join('') : bos('fa-circle-check', 'Yanıt bekleyen danışan yok', 'Bütün danışanların yanıtlandı.');
 
     const konusmalar = d.mesajlar.filter((k) => k.mesajlar.length).sort((a, b) => (b.okunmamis ? 1 : 0) - (a.okunmamis ? 1 : 0) || b.mesajlar[b.mesajlar.length - 1].zaman.localeCompare(a.mesajlar[a.mesajlar.length - 1].zaman)).slice(0, 4);
     $('mesajListe').innerHTML = konusmalar.map((k) => {
@@ -97,6 +100,7 @@
     DD.toast('Pro geçiş talebin alındı.');
     ciz();
   });
+  $('isTum').addEventListener('click', () => { isTam = !isTam; isCiz(); });
   document.addEventListener('pa:degisti', ciz);
   ciz();
 })();

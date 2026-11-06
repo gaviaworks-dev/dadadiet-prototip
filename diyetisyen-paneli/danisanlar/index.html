@@ -13,6 +13,11 @@
 <link rel="stylesheet" href="../../assets/css/bilesenler.css">
 <link rel="stylesheet" href="../../assets/css/admin.css">
 <link rel="stylesheet" href="../../assets/css/ek-bilesenler.css">
+<link rel="stylesheet" href="../../_src/istek/panel-a.css">
+<link rel="stylesheet" href="../../_src/istek/panel-b.css">
+<link rel="stylesheet" href="../../_src/istek/public-araclar.css">
+<link rel="stylesheet" href="../../_src/istek/uye-gastro.css">
+<link rel="stylesheet" href="../../_src/istek/uye.css">
 <script>try{if(localStorage.getItem('dd-oturum')==='1')document.documentElement.dataset.oturum='1'}catch(e){}</script>
 <script src="../../assets/js/panel/panel.js" defer></script>
 <script src="../../assets/js/panel/admin-kit.js" defer></script>
@@ -20,6 +25,7 @@
 <script src="../../assets/js/demo.js" defer></script>
 <script src="../../assets/js/ortak.js" defer></script>
 <script src="../../assets/js/sayfa/panel-a-ortak.js" defer></script>
+<script src="../../assets/js/sayfa/panel-b-durum.js" defer></script>
 <script src="../../assets/js/sayfa/panel-a-randevu.js" defer></script>
 <script src="../../assets/js/sayfa/panel-a-danisanlar.js" defer></script>
 </head>
@@ -28,17 +34,18 @@
 <nav class="panel-menu" id="panelMenu" aria-label="Modüller"><div class="panel-menu-bas"><a class="panel-marka" href="../../diyetisyen-paneli/" aria-label="DadaDiet diyetisyen paneli"><span class="yalniz-okuyucu">DadaDiet · Diyetisyen paneli</span></a></div><button type="button" class="panel-katla" aria-pressed="false" aria-label="Menüyü daralt"><i class="fa-solid fa-chevron-left" aria-hidden="true"></i></button><div class="panel-menu-govde"><div class="panel-menu-bolum">Danışan İşleri</div><a class="panel-menu-link" href="../../diyetisyen-paneli/"><i class="fa-solid fa-gauge-high"></i>Genel Bakış</a><a class="panel-menu-link" href="../../diyetisyen-paneli/takvim/"><i class="fa-solid fa-calendar-check"></i>Takvim & Randevular<span class="sayac">4</span></a><a class="panel-menu-link aktif" aria-current="page" href="../../diyetisyen-paneli/danisanlar/"><i class="fa-solid fa-users"></i>Danışanlarım</a><a class="panel-menu-link" href="../../diyetisyen-paneli/planlar/"><i class="fa-solid fa-clipboard-list"></i>Beslenme Planları</a><a class="panel-menu-link" href="../../diyetisyen-paneli/mesajlar/"><i class="fa-solid fa-comments"></i>Mesajlar<span class="sayac">3</span></a><div class="panel-menu-bolum">Profil ve Hizmet</div><a class="panel-menu-link" href="../../diyetisyen-paneli/profil/"><i class="fa-solid fa-id-badge"></i>Profilim</a><a class="panel-menu-link" href="../../diyetisyen-paneli/hizmet-paketleri/"><i class="fa-solid fa-box-open"></i>Hizmet Paketlerim</a><a class="panel-menu-link" href="../../diyetisyen-paneli/musaitlik/"><i class="fa-solid fa-clock"></i>Müsaitlik</a><a class="panel-menu-link" href="../../diyetisyen-paneli/kazanclar/"><i class="fa-solid fa-wallet"></i>Kazançlarım</a></div><div class="panel-menu-alt"><a class="panel-menu-link" href="../../diyetisyen/dyt-ece-tunali/"><i class="fa-solid fa-eye"></i>Profilimi görüntüle</a><a class="panel-menu-link" href="../../"><i class="fa-solid fa-arrow-up-right-from-square"></i>Siteyi gör</a></div></nav>
 <header class="panel-ust"><button class="panel-ust-dugme panel-ac" type="button" aria-expanded="false" aria-controls="panelMenu" aria-label="Modül menüsünü aç"><i class="fa-solid fa-bars" aria-hidden="true"></i></button><div class="panel-arama"><i class="fa-solid fa-magnifying-glass" aria-hidden="true"></i><input type="search" class="panel-arama-girdi" placeholder="Danışan, randevu veya plan ara" autocomplete="off" aria-label="Panelde ara"></div><div class="panel-ust-sag"><a class="panel-ust-dugme" href="../../diyetisyen-paneli/bildirimler/" aria-label="Bildirimler, 2 okunmamış"><i class="fa-solid fa-bell"></i><span class="benek" aria-hidden="true"></span></a><div class="acilir-kap"><button class="panel-ust-ben" type="button" aria-expanded="false" aria-controls="hesapAcilir"><span class="kisi-avatar" aria-hidden="true">ET</span><span><span class="ad">Dyt. Ece Tunalı</span><span class="rol">Diyetisyen</span></span><i class="fa-solid fa-chevron-down" aria-hidden="true"></i></button><div class="acilir-yuzey saga" id="hesapAcilir" role="menu" aria-label="Hesap" hidden><div class="acilir-bas">Dyt. Ece Tunalı</div><a class="acilir-kalem" href="../../diyetisyen-paneli/profil/" role="menuitem"><i class="fa-solid fa-user"></i>Profilim</a><a class="acilir-kalem" href="../../diyetisyen-paneli/hesap-ayarlari/" role="menuitem"><i class="fa-solid fa-gear"></i>Hesap ayarları</a><a class="acilir-kalem" href="../../" role="menuitem"><i class="fa-solid fa-right-from-bracket"></i>Çıkış yap</a></div></div></div></header>
 <main class="panel-govde"><div class="panel-sayfa"><div class="panel-bas">
-  <div><h1>Danışanlarım</h1><p>Talepler, aktif ilişkiler ve biten takipler tek listede.</p></div>
+  <div><h1>Danışanlarım</h1><p>Yeni talepler, aktif takipler ve biten ilişkiler tek listede. Her satır o danışanın sıradaki adımını gösterir; satırdaki bağ doğrudan o işi açar. · <b id="baslikSayi"></b> kayıt</p></div>
   <div class="eylem-satiri">
     <button class="dugme hayalet" type="button" id="disaAktar"><i class="fa-solid fa-file-export" aria-hidden="true"></i> Dışa aktar</button>
     <button class="dugme birincil" type="button" data-ac="#danisanEkle"><i class="fa-solid fa-user-plus" aria-hidden="true"></i> Danışan ekle</button>
   </div>
 </div>
 <div class="sekmeler" role="tablist" aria-label="Danışan durumu" id="danisanSekme">
-  <button class="sekme aktif" type="button" role="tab" id="s-tumu" data-sekme="tumu" aria-controls="liste" aria-selected="true">Tümü <span class="sekme-sayi" data-sayi="tumu"></span></button>
-  <button class="sekme" type="button" role="tab" id="s-aktif" data-sekme="aktif" aria-controls="liste" aria-selected="false">Aktif <span class="sekme-sayi" data-sayi="aktif"></span></button>
-  <button class="sekme" type="button" role="tab" id="s-yanit" data-sekme="yanit" aria-controls="liste" aria-selected="false">Yanıt bekliyor <span class="sekme-sayi" data-sayi="yanit"></span></button>
-  <button class="sekme" type="button" role="tab" id="s-bitti" data-sekme="bitti" aria-controls="liste" aria-selected="false">Bitti <span class="sekme-sayi" data-sayi="bitti"></span></button>
+  <button class="sekme aktif" type="button" role="tab" id="s-tumu" data-sekme="tumu" aria-controls="liste" aria-selected="true"><i class="fa-solid fa-users" aria-hidden="true"></i> Tümü <span class="sekme-sayi" data-sayi="tumu"></span></button>
+  <button class="sekme" type="button" role="tab" id="s-talep" data-sekme="talep" aria-controls="liste" aria-selected="false"><i class="fa-solid fa-user-plus" aria-hidden="true"></i> Yeni talep <span class="sekme-sayi" data-sayi="talep"></span></button>
+  <button class="sekme" type="button" role="tab" id="s-aktif" data-sekme="aktif" aria-controls="liste" aria-selected="false"><i class="fa-solid fa-circle-check" aria-hidden="true"></i> Aktif <span class="sekme-sayi" data-sayi="aktif"></span></button>
+  <button class="sekme" type="button" role="tab" id="s-yanit" data-sekme="yanit" aria-controls="liste" aria-selected="false"><i class="fa-solid fa-reply" aria-hidden="true"></i> Yanıt bekliyor <span class="sekme-sayi" data-sayi="yanit"></span></button>
+  <button class="sekme" type="button" role="tab" id="s-bitti" data-sekme="bitti" aria-controls="liste" aria-selected="false"><i class="fa-solid fa-flag-checkered" aria-hidden="true"></i> Bitti <span class="sekme-sayi" data-sayi="bitti"></span></button>
 </div>
 <div class="kart panel" id="liste" role="tabpanel" aria-labelledby="s-tumu">
   <div class="suzgec-cubuk">
@@ -63,6 +70,14 @@
           <button class="cip suzgec" type="button" aria-pressed="false" data-deger="Yolunda">Yolunda</button>
         </div>
       </div>
+      <div class="coklu-secim">
+        <button class="suzgec-dugme" type="button" aria-haspopup="true" aria-expanded="false" aria-controls="sKolon"><i class="fa-solid fa-table-columns" aria-hidden="true"></i><span>Kolonlar</span></button>
+        <div class="acilir-yuzey saga kolon-menu" id="sKolon" role="group" aria-label="Kolonlar" hidden>
+          <div class="acilir-bas">Kolonlar</div>
+          <button class="acilir-kalem" type="button" data-kolon-sec="hedef" aria-pressed="false"><i class="fa-regular fa-square" aria-hidden="true"></i>Hedef ve ilerleme</button>
+          <button class="acilir-kalem" type="button" data-kolon-sec="paket" aria-pressed="false"><i class="fa-regular fa-square" aria-hidden="true"></i>Paket</button>
+        </div>
+      </div>
       <span class="suzgec-sayac"><b id="gorunenSayi">0</b> / <span id="toplamSayi">0</span> kayıt</span>
       <div class="segment" id="listeGorunum" role="group" aria-label="Liste görünümü">
         <button type="button" data-deger="tablo" aria-pressed="true" aria-label="Tablo görünümü"><i class="fa-solid fa-table-list" aria-hidden="true"></i></button>
@@ -83,10 +98,12 @@
       <caption class="yalniz-okuyucu">Danışanlar</caption>
       <thead><tr>
         <th class="sec" scope="col"><label><input type="checkbox" aria-label="Görünen tümünü seç"></label></th>
-        <th class="sirali" scope="col" data-kolon-tut data-oran="32"><button type="button">Danışan</button></th>
-        <th scope="col" data-kolon-tut data-oran="28">Hedef ve ilerleme</th>
-        <th class="sirali" scope="col" data-kolon-tut data-oran="16"><button type="button">Son görüşme</button></th>
+        <th class="sirali" scope="col" data-kolon-tut data-oran="30"><button type="button">Danışan</button></th>
+        <th scope="col" data-kolon-tut data-oran="30">Sıradaki adım</th>
+        <th scope="col" data-kolon-opsiyon="hedef" data-oran="22" hidden>Hedef ve ilerleme</th>
+        <th scope="col" data-kolon-opsiyon="paket" data-oran="14" hidden>Paket</th>
         <th class="sirali" scope="col" data-kolon-tut data-oran="14"><button type="button">Durum</button></th>
+        <th class="sirali" scope="col" data-kolon-tut data-oran="14"><button type="button">Son görüşme</button></th>
         <th class="eylem" scope="col">İşlem</th>
       </tr></thead>
       <tbody id="danisanTablo"></tbody>

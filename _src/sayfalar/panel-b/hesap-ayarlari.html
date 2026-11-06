@@ -1,4 +1,4 @@
-<!--{"baslik":"Hesap ayarları","yol":"diyetisyen-paneli/hesap-ayarlari","duzen":"panel","aktif":"profil","js":["assets/js/sayfa/panel-b-ortak.js","assets/js/sayfa/panel-b-hesap.js"]}-->
+<!--{"baslik":"Hesap ayarları","yol":"diyetisyen-paneli/hesap-ayarlari","duzen":"panel","aktif":"profil","js":["assets/js/sayfa/panel-b-ortak.js","assets/js/sayfa/panel-b-durum.js","assets/js/sayfa/panel-b-hesap.js"]}-->
 <div class="panel-bas">
   <div>
     <h1>Hesap ayarları</h1>
@@ -42,6 +42,7 @@
     <div class="kart panel">
       <div class="kart-bas"><h2 class="kart-baslik">Şifre değiştir</h2></div>
       <div class="kart-govde" id="sifreAlan">
+        <div class="bilgi-notu" id="sifreSonuc" hidden></div>
         <div class="alan"><label class="alan-etiket" for="sEski">Mevcut şifren <span class="zorunlu" aria-hidden="true">*</span></label><input class="alan-girdi" id="sEski" type="password" autocomplete="current-password"></div>
         <div class="alan"><label class="alan-etiket" for="sYeni">Yeni şifre <span class="zorunlu" aria-hidden="true">*</span></label><input class="alan-girdi" id="sYeni" type="password" autocomplete="new-password"><p class="alan-yardim"><i class="fa-solid fa-circle-info" aria-hidden="true"></i><span>En az 8 karakter; başka sitede kullandığın şifreyi kullanma.</span></p></div>
         <div class="alan"><label class="alan-etiket" for="sTekrar">Yeni şifre (tekrar) <span class="zorunlu" aria-hidden="true">*</span></label><input class="alan-girdi" id="sTekrar" type="password" autocomplete="new-password"></div>

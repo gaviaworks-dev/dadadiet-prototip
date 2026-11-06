@@ -13,6 +13,11 @@
 <link rel="stylesheet" href="../assets/css/bilesenler.css">
 <link rel="stylesheet" href="../assets/css/admin.css">
 <link rel="stylesheet" href="../assets/css/ek-bilesenler.css">
+<link rel="stylesheet" href="../_src/istek/panel-a.css">
+<link rel="stylesheet" href="../_src/istek/panel-b.css">
+<link rel="stylesheet" href="../_src/istek/public-araclar.css">
+<link rel="stylesheet" href="../_src/istek/uye-gastro.css">
+<link rel="stylesheet" href="../_src/istek/uye.css">
 <script>try{if(localStorage.getItem('dd-oturum')==='1')document.documentElement.dataset.oturum='1'}catch(e){}</script>
 <script src="../assets/js/panel/panel.js" defer></script>
 <script src="../assets/js/panel/admin-kit.js" defer></script>
@@ -20,6 +25,7 @@
 <script src="../assets/js/demo.js" defer></script>
 <script src="../assets/js/ortak.js" defer></script>
 <script src="../assets/js/sayfa/panel-a-ortak.js" defer></script>
+<script src="../assets/js/sayfa/panel-b-durum.js" defer></script>
 <script src="../assets/js/sayfa/panel-a-randevu.js" defer></script>
 <script src="../assets/js/sayfa/panel-a-genel.js" defer></script>
 </head>
@@ -38,17 +44,13 @@
 <div class="kart-izgara c4" id="sayaclar"></div>
 <div class="form-duzen pano">
   <div class="yigin">
-    <div class="kart panel" id="kuyrukKart" hidden>
-      <div class="kart-bas"><div><h2 class="kart-baslik"><i class="fa-solid fa-inbox" aria-hidden="true"></i> Onay ve talepler</h2><p id="kuyrukNot"></p></div><a class="dugme hayalet kucuk" href="../diyetisyen-paneli/takvim/">Takvimde gör</a></div>
-      <div class="kart-govde"><div class="ayar-liste sarar" id="kuyrukListe"></div></div>
+    <div class="kart panel">
+      <div class="kart-bas"><div><h2 class="kart-baslik"><i class="fa-solid fa-list-check" aria-hidden="true"></i> Günün iş listesi</h2><p id="isOzet"></p></div><button class="dugme hayalet kucuk" type="button" id="isTum" hidden></button></div>
+      <div class="kart-govde"><div class="ayar-liste sarar" id="isListe"></div></div>
     </div>
     <div class="kart panel">
       <div class="kart-bas"><div><h2 class="kart-baslik"><i class="fa-solid fa-calendar-check" aria-hidden="true"></i> Bugünün randevuları</h2><p>Bugün planlı görüşmeler, saat sırasıyla.</p></div><a class="dugme hayalet kucuk" href="../diyetisyen-paneli/takvim/">Takvime git</a></div>
       <div class="kart-govde"><div class="ayar-liste" id="bugunListe"></div></div>
-    </div>
-    <div class="kart panel">
-      <div class="kart-bas"><div><h2 class="kart-baslik"><i class="fa-solid fa-user-clock" aria-hidden="true"></i> Yanıt bekleyen danışanlar</h2><p>Sorusu yanıtını bekleyen danışanlar. Yanıt yazınca listeden çıkar.</p></div><a class="dugme hayalet kucuk" href="../diyetisyen-paneli/danisanlar/?sekme=yanit">Tümü</a></div>
-      <div class="kart-govde"><div class="ayar-liste" id="talepListe"></div></div>
     </div>
     <div class="kart panel">
       <div class="kart-bas"><div><h2 class="kart-baslik"><i class="fa-solid fa-comments" aria-hidden="true"></i> Son mesajlar</h2><p>Okunmamış mesajı olan konuşma önce.</p></div><a class="dugme hayalet kucuk" href="../diyetisyen-paneli/mesajlar/">Mesajlara git</a></div>

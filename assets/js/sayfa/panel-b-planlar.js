@@ -6,6 +6,14 @@
   const planlar = () => PB.liste('planlar');
   const uyar = (p) => sekme === 'tumu' || PB.planDurum(p.durum).sekme === sekme;
 
+  /* Durumdan türeyen sıradaki aksiyon */
+  function sonraki(p, d, duzenle) {
+    const k = DD.kok + 'diyetisyen-paneli/', ok = '<i class="fa-solid fa-arrow-right" aria-hidden="true"></i>';
+    if (p.durum === 'arsiv') return '<button class="sonraki-bag" type="button" data-liste="kopyala">Taslak olarak yeniden kullan ' + ok + '</button>';
+    if (p.durum !== 'gonderildi') return d ? '<a class="sonraki-bag" href="' + duzenle + '&gonder=1">Danışana gönder ' + ok + '</a>' : '<a class="sonraki-bag" href="' + duzenle + '">Danışan ata ' + ok + '</a>';
+    if (p.taslak) return '<a class="sonraki-bag" href="' + duzenle + '&gonder=1">Değişikliği gönder ' + ok + '</a>';
+    return d ? '<a class="sonraki-bag" href="' + k + 'takvim/?yeni=1&danisan=' + d.id + '">Kontrol randevusu ' + ok + '</a>' : '';
+  }
   function satir(p) {
     const d = PB.danisan(p.danisan_id), dr = PB.planDurum(p.durum), o = PB.planOzet(p), ad = esc(p.ad);
     const cakisma = d ? (p.gunler || []).flatMap((g) => Object.values(g.ogunler).flat()).filter((k) => PB.kalemUyariK(k, d).length).length : 0;
@@ -14,7 +22,7 @@
       '<td><a href="' + duzenle + '"><b>' + ad + '</b></a><small>Hedef ' + sayi(p.hedef_kcal) + ' kcal · ort. ' + sayi(o.ort) + ' kcal</small><small>' + PB.gunSerit(o.durumlar) + ' ' + o.hedefte + '/' + o.durumlar.length + ' gün hedefte</small></td>' +
       '<td data-etiket="Danışan">' + (d ? '<a class="kisi-hucre" href="' + DD.kok + 'diyetisyen-paneli/danisanlar/' + d.id + '/"><span class="kisi-avatar" aria-hidden="true">' + esc(PB.basHarf(d.ad)) + '</span><span class="kisi-bilgi"><span class="kisi-ad">' + esc(d.ad) + '</span></span></a>' : '<span class="rozet pasif">Atanmadı</span>') + '</td>' +
       '<td data-etiket="Son güncelleme">' + PB.sira(p.guncelleme || p.tarih) + PB.tarihSaat(p.guncelleme || p.tarih) + '</td>' +
-      '<td data-etiket="Durum"><span class="durum-hapi ' + dr.hap + '">' + dr.ad + '</span>' + (p.taslak ? ' <span class="rozet bekleme">Gönderilmemiş değişiklik</span>' : '') + (cakisma ? ' <span class="rozet durdu" title="Danışanın hassasiyetiyle çakışan kalem">' + cakisma + ' çakışma</span>' : '') + '</td>' +
+      '<td data-etiket="Durum"><span class="durum-hapi ' + dr.hap + '">' + dr.ad + '</span>' + (p.taslak ? ' <span class="rozet bekleme">Gönderilmemiş değişiklik</span>' : '') + (cakisma ? ' <span class="rozet durdu" title="Danışanın hassasiyetiyle çakışan kalem">' + cakisma + ' çakışma</span>' : '') + sonraki(p, d, duzenle) + '</td>' +
       '<td class="eylem"><span class="satir-eylem">' +
       '<a class="ikon-dugme" href="' + duzenle + '" aria-label="' + ad + ' düzenle"><i class="fa-solid fa-pen" aria-hidden="true"></i></a>' +
       '<button class="ikon-dugme" type="button" data-liste="kopyala" aria-label="' + ad + ' kopyala"><i class="fa-solid fa-copy" aria-hidden="true"></i></button>' +
@@ -27,14 +35,14 @@
   function sablonKart(s) {
     const g = PB.sablonGorsel(s);
     return '<article class="secenek-kart">' + (g ? '<img class="kapak" src="' + g + '" alt="" loading="lazy">' : '') + '<h3>' + esc(s.ad) + '</h3><p>' + esc(s.aciklama || '') + '</p>' +
-      '<p><span class="rozet olumlu">' + sayi(s.kcal) + ' kcal/gün</span> <span class="rozet pasif">' + (s.gunler || []).length + ' gün</span>' + (s.ozel ? ' <span class="rozet bekleme">Kendi şablonun</span>' : '') + '</p>' +
+      '<p><span class="rozet olumlu">' + sayi(s.kcal) + ' kcal/gün</span> <span class="rozet pasif">' + (s.gunler || []).length + ' gün</span>' + (s.kendi || s.ozel ? ' <span class="rozet bekleme">Kendi şablonun</span>' : '') + '</p>' +
       '<div class="alt-satir"><a class="dugme hayalet kucuk" href="' + DD.kok + 'diyetisyen-paneli/planlar/olustur/?sablon=' + encodeURIComponent(s.id) + '">Şablondan başlat</a>' +
-      (s.ozel ? '<button class="ikon-dugme yikici" type="button" data-liste="sablon-sil" data-id="' + esc(s.id) + '" aria-label="' + esc(s.ad) + ' şablonunu sil"><i class="fa-solid fa-trash-can" aria-hidden="true"></i></button>' : '') + '</div></article>';
+      (s.kendi || s.ozel ? '<button class="ikon-dugme yikici" type="button" data-liste="sablon-sil" data-id="' + esc(s.id) + '" aria-label="' + esc(s.ad) + ' şablonunu sil"><i class="fa-solid fa-trash-can" aria-hidden="true"></i></button>' : '') + '</div></article>';
   }
   function ciz() {
     const sb = sekme === 'sablon', ql = PB.kucuk(q);
     const eslesir = (metin) => PB.kucuk(metin).includes(ql);
-    const liste = sb ? PB.liste('sablonlar').filter((s) => eslesir(s.ad))
+    const liste = sb ? PB.liste('sablonlar').filter((s) => eslesir(s.ad)).sort((a, b) => (b.kendi || b.ozel ? 1 : 0) - (a.kendi || a.ozel ? 1 : 0))
       : planlar().filter(uyar).filter((p) => { const d = PB.danisan(p.danisan_id); return eslesir(p.ad) || (d && eslesir(d.ad)); });
     $('#tabloGovde').hidden = sb || !liste.length;
     $('#sablonGovde').hidden = !sb || !liste.length;

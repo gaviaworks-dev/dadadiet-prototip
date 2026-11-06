@@ -62,7 +62,7 @@
     if (!k) { U.bas('#bpHaftaBas', ''); return; }
     /* Hafta, programın başladığı günden sayılır */
     const kb = U.kaynakBas(k), bas = U.gunEkle(kb, Math.max(0, Math.floor(U.gunFarki(kb, b) / 7)) * 7);
-    U.bas('#bpHaftaBas', bolumBas('fa-calendar-week', U.kisaTarih(bas) + ' – ' + U.kisaTarih(U.gunEkle(bas, 6)), 'Haftalık menün', 'Gün gün öğünlerin. Değiştirmek için Öğün Alternatifleri sekmesini kullan.', U.bag('Yapay zekâ haftalık menüm', 'hesabim/haftalik-menum/', 'hayalet')));
+    U.bas('#bpHaftaBas', bolumBas('fa-calendar-week', U.kisaTarih(bas) + ' – ' + U.kisaTarih(U.gunEkle(bas, 6)), 'Haftalık menün', 'Gün gün öğünlerin. Değiştirmek için Öğün Alternatifleri sekmesini kullan.', ''));
     /* Kapatılan öğün o günün kaydında yer almaz; kolon haftanın herhangi bir gününde varsa görünür */
     const haftaGunleri = [0, 1, 2, 3, 4, 5, 6].map((i) => U.gunOgunleri(k, U.gunEkle(bas, i)));
     const tanim = U.ogunTanimi.filter((o) => haftaGunleri.some((g) => g.some((x) => x.anahtar === o[0])));
@@ -82,11 +82,11 @@
 
   function ogunCiz() {
     const k = kk();
-    U.bas('#bpOgunBas', bolumBas('fa-calendar-day', tarihEtiket, 'Bugünün öğünleri', 'Tamamladığın öğünü işaretle; günün makro toplamı ve uyumun buna göre güncellenir.'));
+    U.bas('#bpOgunBas', bolumBas('fa-calendar-day', tarihEtiket, 'Bugünün öğünleri', 'Plana uyduysan tek dokunuşla işaretle; toplamın ve uyumun buna göre güncellenir.', U.bag('Günlük Takibim', 'hesabim/gunluk-takibim/', 'hayalet')));
     const l = U.secilenOgunler(k, b);
     if (!k) { U.bas('#bpOgunler', U.bos({ ikon: 'fa-utensils', baslik: 'Bugün için öğün yok', metin: 'Aktif bir programın olduğunda öğünlerin burada listelenir.', eylem: U.bag('Program seç', 'programlar/') })); return; }
     const i = U.isaret(k, b);
-    U.bas('#bpOgunler', l.map((o) => U.ogunSatir(o, !!i[o.anahtar])).join('') || U.bugunBos(k));
+    U.bas('#bpOgunler', l.map((o) => U.ogunSatir(o, U.ogunDurum(i, o))).join('') || U.bugunBos(k));
     const n = l.filter((o) => i[o.anahtar]).length;
     $('#bpOgunOzet').textContent = k.ad + ' · ' + l.length + ' öğün planlandı.';
     $('#bpOgunSayac').textContent = n + ' / ' + l.length + ' tamamlandı';
@@ -129,12 +129,7 @@
     if (e.target.id !== 'bpKaynak') return;
     U.yerel('gorunum', {}).kaynak = e.detail.deger; U.kaydet(); ciz();
   });
-  document.addEventListener('change', (e) => {
-    const c = e.target.closest('[data-ogun-isaret]');
-    if (!c) return;
-    U.isaret(kk(), b)[c.dataset.ogunIsaret] = c.checked;
-    U.kaydet(); ogunCiz(); aktifCiz();
-  });
+  document.addEventListener('dd:ogun', () => { ogunCiz(); aktifCiz(); });
   document.addEventListener('click', (e) => {
     const a = e.target.closest('[data-alt]');
     if (a) {

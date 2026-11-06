@@ -3,7 +3,19 @@
   'use strict';
   const DD = window.DD, U = window.DDU;
   const $ = (s) => document.querySelector(s);
+  /* Diyetisyen profilinden paket seçilerek gelindi: ilişki ve paket kurulur, randevu formu açılır */
+  const paketId = new URLSearchParams(location.search).get('paket');
+  const secilen = paketId && (U.d().paketler || []).find((p) => p.id === paketId);
+  if (secilen) {
+    U.danisan().paket_id = secilen.id;
+    U.uye().diyetisyen_slug = U.d().diyetisyen.slug;
+    U.kaydet();
+  }
   const dy = U.diyetisyen(), dn = U.danisan(), pk = U.paket(), b = U.bugun();
+  if (!dy) {
+    U.sayfaBos(U.bos({ ikon: 'fa-user-doctor', baslik: 'Henüz bir diyetisyenle çalışmıyorsun', metin: 'Hedefine uygun uzmanı bul; paketini seçince randevun, mesajların ve planın burada toplanır.', eylem: U.bag('Diyetisyen bul', 'diyetisyen-bul-sihirbazi/') }));
+    return;
+  }
   const bosSatir = (n, m) => '<tr><td colspan="' + n + '" class="bos-hucre">' + m + '</td></tr>';
   const gecen = (r) => ['tamamlandi', 'sonuc-bekliyor', 'gelmedi'].includes(U.rDurum(r));
   const yaklasan = () => U.randevular().filter((r) => r.tarih >= b && U.rAcik(r));
@@ -73,6 +85,7 @@
     const p = U.plan();
     const l = [];
     if (p && p.danisana_not) l.push(satirKur('fa-clipboard-list', p.ad + ' · ' + U.tarih(p.tarih), p.danisana_not));
+    (dn.klinik_notlar || []).filter((x) => x.paylasildi).slice().reverse().forEach((x) => l.push(satirKur('fa-comment-medical', 'Diyetisyen notu · ' + U.tarih(x.tarih), x.metin)));
     U.randevular().filter((r) => gecen(r) && gorusmeMetni(r)).reverse().forEach((r) => l.push(satirKur('fa-calendar-check', 'Görüşme · ' + U.tarih(r.tarih), gorusmeMetni(r))));
     U.bas('#dyNotlar', l.join('') || U.bos({ ikon: 'fa-note-sticky', baslik: 'Henüz paylaşılan not yok', metin: 'Diyetisyenin sana not bıraktığında burada görünür.' }));
   }
@@ -207,6 +220,7 @@
   /* Takvimden gelen ?tarih=YYYY-MM-DD&saat=HH:MM randevu formunu ön dolu açar */
   function onDoldur() {
     const q = new URLSearchParams(location.search), tarih = q.get('tarih'), saat = q.get('saat');
+    if (secilen) { DD.toast(secilen.ad + ' paketin seçildi. Şimdi ilk görüşmeni planla.'); U.sekmeAc('randevu'); DD.ac('#dyRandevu'); }
     if (!/^\d{4}-\d{2}-\d{2}$/.test(tarih || '')) return;
     DD.ac('#dyRandevu');
     if (tarih <= b) { DD.toast('Geçmiş bir tarih için randevu alınamaz, yeni tarih seç.', 'uyari'); return; }

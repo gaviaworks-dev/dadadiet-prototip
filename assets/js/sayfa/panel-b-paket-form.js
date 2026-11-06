@@ -22,7 +22,7 @@
     if (!p) {
       liste.push(Object.assign(v, { id: PB.yeniId('p'), sure_hafta: v.seans, aktif: false, onay: 'bekliyor', satis_sayisi: 0 }));
       PB.kaydet();
-      location.href = DD.kok + 'diyetisyen-paneli/hizmet-paketleri/';
+      location.href = DD.kok + 'diyetisyen-paneli/hizmet-paketleri/?kayit=1';
       return;
     }
     const fiyatDegisti = p.aktif && v.fiyat !== p.fiyat;

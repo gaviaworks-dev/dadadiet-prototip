@@ -14,8 +14,14 @@
     $('#bildirimSatirlar').innerHTML = BILDIRIM.map(([k, a, m]) => '<tr><td><b>' + a + '</b><small>' + m + '</small></td><td>' + anahtar('kanal.' + k + '.eposta', A.kanal[k].eposta, a + ' e-posta') + '</td><td>' + anahtar('kanal.' + k + '.push', A.kanal[k].push, a + ' push') + '</td></tr>').join('');
     $('#hatirlatmaListe').innerHTML = HATIRLAT.map(([k, i, a, m]) => '<div class="ayar-satir"><span class="as-ikon"><i class="fa-solid ' + i + '" aria-hidden="true"></i></span><span class="as-metin"><b>' + a + '</b><span>' + m + '</span></span><span class="as-eylem">' + anahtar('hatirlat.' + k, A.hatirlat[k], a) + '</span></div>').join('');
     $('#panelDil').value = A.dil;
-    $('#hesapOzet').innerHTML = '<div class="deger-satir"><span>Ad soyad</span><b>' + esc(dyt.ad) + '</b></div><div class="deger-satir"><span>E-posta</span><b>hesap@ornek.com</b></div><div class="deger-satir"><span>Üyelik</span><b>Diyetisyen</b></div>';
+    $('#hesapOzet').innerHTML = '<div class="deger-satir"><span>Ad soyad</span><b>' + esc(dyt.ad) + '</b></div><div class="deger-satir"><span>E-posta</span><b>hesap@ornek.com</b></div><div class="deger-satir"><span>Üyelik</span><b>Diyetisyen</b></div><div class="deger-satir"><span>Şifre</span><b>' + (A.sifre_son ? PB.tarihSaat(A.sifre_son) + ' değişti' : 'Son 90 günde değişmedi') + '</b></div>';
+    sifreDurum();
     guvenlikCiz();
+  }
+  function sifreDurum() {
+    const e = $('#sifreSonuc');
+    e.hidden = !A.sifre_son;
+    if (A.sifre_son) e.innerHTML = '<i class="fa-solid fa-circle-check" aria-hidden="true"></i><p><b>Şifren güncellendi.</b> ' + PB.tarihSaat(A.sifre_son) + ' tarihinde değişti; diğer cihazlardaki oturumlar kapatıldı.</p>';
   }
   function guvenlikCiz() {
     const digerler = A.oturumlar.filter((o) => !o.bu);
@@ -51,6 +57,10 @@
       if (yeni.value.length < 8) { window.DM_HATA_YAZ(yeni.closest('.alan'), 'En az 8 karakter olmalı.'); yeni.focus(); return; }
       if (yeni.value !== tekrar.value) { window.DM_HATA_YAZ(tekrar.closest('.alan'), 'İki şifre aynı değil.'); tekrar.focus(); return; }
       eski.value = yeni.value = tekrar.value = '';
+      A.sifre_son = PB.simdi();
+      A.oturumlar = A.oturumlar.filter((o) => o.bu);
+      dyt.ayarlar = JSON.parse(JSON.stringify(A)); PB.kaydet();
+      ciz();
       DD.toast('Şifren güncellendi.');
     }
   });

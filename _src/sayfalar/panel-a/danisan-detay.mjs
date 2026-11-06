@@ -1,5 +1,6 @@
 // Her danışan için ayrı kart sayfası. İçerik demo durumundan panel-a-danisan.js ile dolar.
-const JS = ['ortak', 'randevu', 'sohbet', 'danisan'].map((a) => `assets/js/sayfa/panel-a-${a}.js`);
+const a = (ad) => `assets/js/sayfa/panel-a-${ad}.js`;
+const JS = [a('ortak'), 'assets/js/sayfa/panel-b-durum.js', a('randevu'), a('sohbet'), a('danisan')];
 const SEKME = [['ozet', 'Özet'], ['olcum', 'Ölçümler'], ['tahlil', 'Tahliller'], ['not', 'Anamnez'], ['plan', 'Planlar'], ['mesaj', 'Mesajlar'], ['izin', 'İzinler']];
 const sekmeler = SEKME.map(([id, ad], i) => `<button class="sekme${i ? '' : ' aktif'}" type="button" role="tab" id="t-${id}" aria-controls="p-${id}" aria-selected="${i ? 'false' : 'true'}">${ad}<span data-sekme-ek="${id}"></span></button>`).join('');
 const panolar = SEKME.map(([id], i) => `<section id="p-${id}" role="tabpanel" aria-labelledby="t-${id}"${i ? ' hidden' : ''}></section>`).join('');
@@ -31,7 +32,7 @@ const govde = (d) => `<a class="geri-bag" href="{{kok}}diyetisyen-paneli/danisan
     <a class="dugme birincil" href="{{kok}}diyetisyen-paneli/planlar/olustur/?danisan=${d.id}"><i class="fa-solid fa-plus" aria-hidden="true"></i> Yeni plan</a>
   </div>
 </div>
-<div id="talepBand"></div>
+<div id="siradaKart"></div>
 <div class="form-duzen pano sol-yan">
   <aside class="form-yan" id="kunyeKart" aria-label="Danışan künyesi"></aside>
   <div class="detay-govde">
@@ -46,7 +47,9 @@ ${drawer('notPanel', 'Klinik not ekle', notForm, 'Notu kaydet')}
 ${drawer('hassasiyetPanel', 'Alerji ya da hassasiyet ekle', hassasiyetForm, 'Ekle')}`;
 
 export default ({ veri }) => {
-  const liste = veri.demo?.danisanlar ?? Array.from({ length: 12 }, (_, i) => ({ id: 'd' + (i + 1) }));
+  const liste = [...(veri.demo?.danisanlar ?? [])];
+  /* Yeni talep danışanları tohumdan gelir; demo.json'a alınınca aynı kayıt tekrar üretilmez */
+  ['d13', 'd14'].forEach((id) => { if (!liste.some((d) => d.id === id)) liste.push({ id }); });
   return liste.map((d) => ({
     yol: `diyetisyen-paneli/danisanlar/${d.id}`,
     meta: { baslik: d.ad ?? 'Danışan', duzen: 'panel', aktif: 'danisanlar', js: JS },

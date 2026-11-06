@@ -10,12 +10,24 @@
   U.kac = (s) => String(s == null ? '' : s).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
   U.basHarf = (s) => { const m = String(s || ''); return m.charAt(0).toLocaleUpperCase('tr') + m.slice(1); };
   U.d = () => DD.demo.al();
-  U.kaydet = () => DD.demo.kaydet();
+  U.kaydet = () => { if (!U.bosKip) DD.demo.kaydet(); U.ozet(); U.zil(); };
+  /* ?bos=1: yeni üyenin ekranı. Kayda yazmadan yalnız bu sayfada veriyi boşaltır */
+  U.bosKip = new URLSearchParams(location.search).has('bos');
+  if (U.bosKip) {
+    const d = U.d(), u = d.uye || {}, id = u.danisan_id;
+    const dn = (d.danisanlar || []).find((x) => x.id === id) || {};
+    Object.assign(dn, { olcumler: [], tahliller: [], klinik_notlar: [], izin_talepleri: {}, izinler: {}, hassasiyetler: [], kronik: [], anamnez: {}, paket_id: null, hedef_kilo: null });
+    d.planlar = (d.planlar || []).filter((p) => p.danisan_id !== id);
+    d.randevular = (d.randevular || []).filter((r) => r.danisan_id !== id);
+    d.mesajlar = (d.mesajlar || []).filter((m) => m.danisan_id !== id);
+    Object.assign(u, { rozetler: [], kaydedilenler: {}, tercihler: {}, diyetisyen_slug: null, okunmamis_mesaj: 0, su: { hedef_ml: 2000, bugun_ml: 0, hafta: [], ortalama_ml: 0 }, adim: { hedef: 8000, bugun: 0, hafta: [], ortalama: 0 } });
+    d.uyeYerel = {};
+  }
   /* Oturumdaki üye: demo.uye hesap tarafı, demo.danisanlar içindeki d1 panelin gördüğü kayıt */
   U.uye = () => U.d().uye || {};
   U.uyeId = () => U.uye().danisan_id || 'd1';
   U.danisan = () => (U.d().danisanlar || []).find((x) => x.id === U.uyeId()) || {};
-  U.diyetisyen = () => U.d().diyetisyen || null;
+  U.diyetisyen = () => (U.uye().diyetisyen_slug ? U.d().diyetisyen || null : null);
   U.paket = () => (U.d().paketler || []).find((p) => p.id === U.danisan().paket_id) || null;
   U.randevular = () => (U.d().randevular || []).filter((r) => r.danisan_id === U.uyeId()).sort((a, b) => (a.tarih + a.saat).localeCompare(b.tarih + b.saat));
   /* Randevu durumu: panelle aynı kural, kayıtta dolu kalmış geçmiş randevu tamamlanmış sayılır */
@@ -67,6 +79,12 @@
   U.durum = (sinif, metin, ikon) => '<span class="durum-hapi ' + sinif + (ikon ? ' ikonlu' : '') + '">' + (ikon ? '<i class="fa-solid ' + ikon + '" aria-hidden="true"></i> ' : '') + metin + '</span>';
   U.bas = (kok, html) => { const e = typeof kok === 'string' ? document.querySelector(kok) : kok; if (e) { e.innerHTML = html; U.oranlar(e); } return e; };
   U.oranlar = (kok) => { kok.querySelectorAll('[data-oran]').forEach((e) => e.style.setProperty('--oran', e.dataset.oran)); };
+  /* Sayfanın bütün içeriği yerine tek boş durum: yeni üyede sekme ve boş kart görünmez */
+  U.sayfaBos = (html) => {
+    const k = document.querySelector('.uye-icerik');
+    k.querySelectorAll('.sekme-ray,.fit-pane').forEach((e) => { e.hidden = true; e.style.display = 'none'; });
+    k.insertAdjacentHTML('beforeend', '<div class="kart panel tam-kolon">' + html + '</div>');
+  };
   U.sayac = (ad, n) => { document.querySelectorAll('.sekme-sayi[data-sayi="' + ad + '"]').forEach((e) => { e.textContent = n; e.hidden = !n; }); };
 
   U.kullaniciAdi = () => {
@@ -179,7 +197,19 @@
   /* Diyetisyenin kaleme eklediği alternatif: veya satırı */
   U.veyaSatir = (o) => (o.veya || []).map((v) => '<small>veya ' + U.kac(v) + '</small>').join('');
   /* Öğün satırı: çip ve anahtar .as-eylem içinde aynı eksende */
-  U.ogunSatir = (o, tamam) => '<div class="kalem-satiri" data-ogun="' + o.anahtar + '"><span class="ks-ikon"><i class="fa-solid ' + o.ikon + '" aria-hidden="true"></i></span><div class="ks-metin"><b>' + o.ad + ' · ' + o.saat + '</b><small>' + U.kac(o.metin) + (o.degisti ? ' (alternatif)' : '') + '</small>' + U.veyaSatir(o) + '</div><div class="as-eylem">' + (tamam ? U.durum('cozulen', 'Tamamlandı') : U.durum('bekleyen', 'Bekliyor')) + '<label class="anahtar"><input type="checkbox" data-ogun-isaret="' + o.anahtar + '"' + (tamam ? ' checked' : '') + ' aria-label="' + o.ad + ' tamamlandı"><span class="anahtar-ray"></span></label></div></div>';
+  U.ogunDurum = (i, o) => (i[o.anahtar] ? 'uydu' : i[o.anahtar + '_atla'] ? 'atladi' : '');
+  U.ogunSatir = (o, durum) => '<div class="kalem-satiri" data-ogun="' + o.anahtar + '"><span class="ks-ikon"><i class="fa-solid ' + (durum === 'uydu' ? 'fa-check' : o.ikon) + '" aria-hidden="true"></i></span><div class="ks-metin"><b>' + U.kac(o.ad) + ' · ' + o.saat + '</b><small>' + U.kac(o.metin) + (o.degisti ? ' (alternatif)' : '') + '</small>' + U.veyaSatir(o) + '</div><div class="as-eylem"><div class="segment" role="group" aria-label="' + U.kac(o.ad) + ' durumu"><button type="button" data-ogun-durum="atladi" data-ogun-kalem="' + o.anahtar + '" aria-pressed="' + (durum === 'atladi') + '">Atladım</button><button type="button" data-ogun-durum="uydu" data-ogun-kalem="' + o.anahtar + '" aria-pressed="' + (durum === 'uydu') + '">Plana uydum</button></div></div></div>';
+  /* Tek dokunuş: gram istemez; aynı seçime tekrar basmak geri alır */
+  document.addEventListener('click', (e) => {
+    const d = e.target.closest('[data-ogun-durum]');
+    if (!d) return;
+    const k = U.aktifKaynak(), i = U.isaret(k, U.bugun()), a = d.dataset.ogunKalem, uydu = d.dataset.ogunDurum === 'uydu';
+    const onceki = uydu ? i[a] : i[a + '_atla'];
+    i[a] = uydu ? !onceki : false;
+    i[a + '_atla'] = uydu ? false : !onceki;
+    U.kaydet();
+    document.dispatchEvent(new CustomEvent('dd:ogun'));
+  });
   U.uyumGovde = function (k) {
     const u = U.uyum(k);
     const bas = U.kaynakBas(k);
@@ -201,6 +231,10 @@
     });
     const son = U.sohbet().mesajlar.filter((m) => m.kimden !== 'danisan').slice(-1)[0];
     if (son) l.push({ id: 'msj-' + son.zaman, tur: 'mesaj', tarih: son.zaman.slice(0, 10), baslik: 'Yeni bir mesajın var', metin: dyAd + ': ' + (son.metin || (son.ek ? son.ek.ad : '')), yol: 'hesabim/diyetisyenim/#mesaj' });
+    const dn = U.danisan(), IZ = { olcum: 'ölçüm', tahlil: 'tahlil', gunluk: 'günlük takip', belge: 'belge', anamnez: 'sağlık profili' };
+    Object.keys(dn.izin_talepleri || {}).filter((t) => !(dn.izinler || {})[t]).forEach((t) => l.push({ id: 'izn-' + t, tur: 'program', tarih: dn.izin_talepleri[t], baslik: 'İzin isteği', metin: dyAd + ' ' + IZ[t] + ' verini görmek istiyor.', yol: 'hesabim/veri-izinlerim/' }));
+    if (dn.tahlil_istegi) l.push({ id: 'thl-' + dn.tahlil_istegi.tarih, tur: 'program', tarih: dn.tahlil_istegi.tarih, baslik: 'Tahlil isteği', metin: dn.tahlil_istegi.not || dyAd + ' güncel tahlilini istiyor.', yol: 'hesabim/saglik-dosyam/#tahlil' });
+    (dn.klinik_notlar || []).filter((x) => x.paylasildi).forEach((x) => l.push({ id: 'not-' + x.tarih, tur: 'program', tarih: x.tarih, baslik: 'Diyetisyeninden not', metin: x.metin, yol: 'hesabim/saglik-dosyam/#not' }));
     (u.rozetler || []).forEach((r) => l.push({ id: 'roz-' + r.slug, tur: 'rozet', tarih: r.tarih, baslik: 'Yeni rozet: ' + r.ad, metin: r.aciklama, yol: 'hesabim/rozetlerim/' }));
     const dur = U.yerel('bildirimDurum', { okundu: {}, silindi: {} });
     /* Son iki haftadan eskiler başlangıçta okunmuş sayılır */
@@ -208,22 +242,57 @@
   };
   U.zil = () => { const n = U.bildirimler().filter((x) => !x.okundu).length; document.querySelectorAll('.hb-badge').forEach((e) => { e.textContent = n; e.hidden = !n; }); return n; };
 
-  /* Kimlik bandı */
-  U.kimlik = function () {
-    const u = U.uye(), dn = U.danisan(), pk = U.paket();
-    const ad = u.ad || dn.ad || '';
-    const ilk = (dn.olcumler || [])[0];
-    const alan = {
-      adSoyad: ad,
-      harf: (ad[0] || 'A').toLocaleUpperCase('tr'),
-      kullanici: '@' + U.kullaniciAdi(),
-      paket: pk ? pk.ad : 'Paket yok',
-      rozet: (u.rozetler || []).length + ' rozet',
-      uyelik: ilk ? 'Üyelik: ' + U.tarih(ilk.tarih) : '',
-    };
-    document.querySelectorAll('[data-uye]').forEach((e) => { if (alan[e.dataset.uye] != null) e.textContent = alan[e.dataset.uye]; });
-    const k = U.yerel('gorunum', {});
-    if (k.kapak) document.querySelectorAll('[data-kapak]').forEach((e) => { e.style.backgroundImage = 'url("' + DD.kok + k.kapak + '")'; });
+  /* Bugünün toplamı: işaretlenen öğünler ve günlüğe eklenen kalemler */
+  U.gunToplam = function () {
+    const k = U.aktifKaynak(), b = U.bugun(), i = k ? U.isaret(k, b) : {};
+    const ek = (U.yerel('gunlukEk', {})[b]) || [];
+    const l = U.secilenOgunler(k, b).filter((o) => i[o.anahtar]).flatMap((o) => o.kalemler.map((x) => ({ ...x, ogun: o.anahtar }))).concat(ek);
+    const top = (a) => l.reduce((s, x) => s + (Number(x[a]) || 0), 0);
+    return { l, kcal: top('kcal'), protein: top('protein'), karb: top('karb'), yag: top('yag') };
+  };
+
+  /* Anamnez duvar değil görevdir: eksik alanlar sayılır, form yarıda bırakılabilir */
+  U.ANAMNEZ = [['meslek', 'Meslek'], ['sikayet', 'Şikâyet'], ['uyku', 'Uyku'], ['su', 'Su'], ['hareket', 'Hareket'], ['aile_oykusu', 'Aile öyküsü'], ['aliskanliklar', 'Alışkanlıklar']];
+  U.anamnezEksik = () => U.ANAMNEZ.filter(([k]) => !(U.danisan().anamnez || {})[k]);
+
+  /* Sıradaki iş: liste değil öncelik. Üstteki satır önerilen sonraki adımdır */
+  U.yapilacaklar = function () {
+    const u = U.uye(), dn = U.danisan(), b = U.bugun(), k = U.aktifKaynak(), l = [];
+    const ekle = (ikon, baslik, metin, etiket, yol) => l.push({ ikon, baslik, metin, etiket, yol });
+    const IZ = { olcum: 'ölçüm', tahlil: 'tahlil', gunluk: 'günlük takip', belge: 'belge', anamnez: 'sağlık profili' };
+    const ist = Object.keys(dn.izin_talepleri || {}).filter((t) => !(dn.izinler || {})[t]);
+    if (ist.length) ekle('fa-user-shield', 'Diyetisyenin ' + IZ[ist[0]] + ' iznini istedi', 'Kararını Veri İzinlerim ekranından ver.', 'İzni incele', 'hesabim/veri-izinlerim/');
+    if (dn.tahlil_istegi) ekle('fa-flask-vial', 'Diyetisyenin tahlil istedi', dn.tahlil_istegi.not || 'Güncel tahlilini yükle.', 'Tahlil yükle', 'hesabim/saglik-dosyam/#tahlil');
+    const rs = U.randevular();
+    const sonuc = rs.find((r) => r.talep_sonuc === 'red' && r.tarih >= b);
+    if (sonuc) ekle('fa-calendar-xmark', 'Randevu talebin reddedildi', U.tarih(sonuc.tarih) + ', ' + sonuc.saat + ' görüşmen geçerli.', 'Randevuları gör', 'hesabim/diyetisyenim/#randevu');
+    if (u.okunmamis_mesaj) ekle('fa-comments', 'Diyetisyeninden yeni mesaj var', u.okunmamis_mesaj + ' okunmamış mesajın bekliyor.', 'Mesajı aç', 'hesabim/diyetisyenim/#mesaj');
+    if (!Object.keys(u.tercihler || {}).length) ekle('fa-user-pen', 'Seni biraz tanıyalım', 'Birkaç soruyla planını ve önerilerini sana göre kuralım.', 'Başla', 'hesabim/hos-geldin/');
+    if (k) {
+      const i = U.isaret(k, b), bekleyen = U.secilenOgunler(k, b).find((o) => !U.ogunDurum(i, o));
+      if (bekleyen) ekle('fa-utensils', 'Sıradaki öğünün: ' + bekleyen.ad, bekleyen.saat + ' · plana uydun mu?', 'Öğünü işaretle', 'hesabim/gunluk-takibim/');
+    } else ekle('fa-list-check', 'Kendine bir program seç', 'Sana uygun programı bul, bugünün öğünleri hemen hazır olsun.', 'Program bul', 'programlar/program-bul/');
+    if (U.anamnezEksik().length && (dn.anamnez_hatirlatma || U.diyetisyen())) ekle('fa-notes-medical', 'Sağlık öykünü tamamla', U.anamnezEksik().length + ' alan eksik; yarıda bırakabilirsin.', 'Devam et', 'hesabim/saglik-dosyam/');
+    const s = (dn.olcumler || []).slice(-1)[0];
+    if (s && U.gunFarki(s.tarih, b) >= 7) ekle('fa-weight-scale', 'Ölçüm zamanı', 'Son ölçümün ' + U.tarih(s.tarih) + ' tarihli.', 'Ölçüm ekle', 'hesabim/saglik-dosyam/#olcum');
+    return l;
+  };
+
+  /* Kabuk özet şeridi: bütün sekmelerde aynı beş hücre */
+  U.ozet = function () {
+    const u = U.uye(), dn = U.danisan(), ad = u.ad || dn.ad || '', k = U.aktifKaynak(), dy = U.diyetisyen();
+    const s = (dn.olcumler || []).slice(-1)[0], kilo = s ? s.kilo : dn.kilo, hk = dn.hedef_kilo;
+    const hedefKcal = (u.tercihler || {}).kcal || (k && k.tip === 'plan' ? k.plan.hedef_kcal : 0);
+    const kalan = Math.round(hedefKcal - U.gunToplam().kcal);
+    const yaz = (a, metin, yol) => document.querySelectorAll('[data-ozet="' + a + '"]').forEach((e) => { e.querySelector('b').textContent = metin; e.href = DD.kok + yol; });
+    document.querySelectorAll('[data-uye]').forEach((e) => {
+      const v = { adSoyad: ad, harf: (ad[0] || 'A').toLocaleUpperCase('tr'), kullanici: '@' + U.kullaniciAdi() }[e.dataset.uye];
+      if (v != null) e.textContent = v;
+    });
+    yaz('hedef', hk ? U.sayi(hk, hk % 1 ? 1 : 0) + ' kg · ' + U.sayi(Math.abs(kilo - hk), 1) + ' kg kaldı' : 'Hedefini belirle', hk ? 'hesabim/saglik-dosyam/#olcum' : 'hesabim/tercihlerim/');
+    yaz('kalori', hedefKcal ? (kalan >= 0 ? U.sayi(kalan) + ' kcal' : U.sayi(-kalan) + ' kcal fazla') : 'Hedef yok', 'hesabim/gunluk-takibim/#makro');
+    yaz('program', k ? k.ad : 'Program seç', k ? 'hesabim/beslenme-planim/' : 'programlar/');
+    yaz('diyetisyen', dy ? dy.ad : 'Diyetisyen bul', dy ? 'hesabim/diyetisyenim/' : 'diyetisyen-bul-sihirbazi/');
   };
 
   /* Sekme: adres parçası ile açılır, [data-sekme-git] aynı sayfada sekme değiştirir */
@@ -237,7 +306,7 @@
   };
   /* Sabit üst kabuğun altında kalmasın diye ray kabuk yüksekliği kadar aşağıda durur */
   U.rayaGit = function (davranis) {
-    const r = document.querySelector('.sekme-ray'), h = document.querySelector('[data-site-header]');
+    const r = document.querySelector('.uye-icerik .sekme-ray'), h = document.querySelector('[data-site-header]');
     if (r) window.scrollTo({ top: r.getBoundingClientRect().top + window.scrollY - (h ? h.offsetHeight : 0) - 16, behavior: davranis || 'auto' });
   };
   document.addEventListener('click', (e) => {
@@ -288,8 +357,12 @@
     DD.toast(b.dataset.mesaj, b.dataset.mesajTip);
   });
 
-  U.kimlik();
+  U.ozet();
   U.zil();
+  if (U.bosKip) document.querySelectorAll('.uye-menu a').forEach((a) => { a.href += '?bos=1'; });
+  /* Dar ekranda yatay menüde aktif kalem görünür kalır */
+  const aktifMenu = document.querySelector('.uye-menu [aria-current="page"]');
+  if (aktifMenu && aktifMenu.parentElement.parentElement.scrollWidth > aktifMenu.parentElement.parentElement.clientWidth) aktifMenu.scrollIntoView({ block: 'nearest', inline: 'center' });
   document.querySelectorAll('[data-ayar-form]').forEach(formDoldur);
   /* Sayfa betikleri çizdikten sonra sekmeye git */
   document.addEventListener('DOMContentLoaded', () => {

@@ -54,3 +54,7 @@ a.ayar-satir>i{margin-left:auto;color:var(--cizgi-vurgu)}
 .gun-kutu b{font-size:var(--yazi-13);color:var(--murekkep)}
 .gun-kutu small{font-size:var(--yazi-11-5);color:var(--metin-ikincil)}
 @media(max-width:860px){.gun-serit-liste{grid-template-columns:repeat(7,112px);overflow-x:auto;scrollbar-width:none}}
+.bos-durum .dugme+.dugme{margin-left:var(--bosluk-8)}
+.yigin>.uyari-kutu,.yigin>div>.uyari-kutu{margin:0}
+.bos-durum .dugme+.dugme{margin-left:var(--bosluk-8)}
+.yigin>.uyari-kutu,.yigin>div>.uyari-kutu{margin:0}

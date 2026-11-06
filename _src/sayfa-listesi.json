@@ -27,7 +27,7 @@
  {
   "yol": "bana-uygun-olani-bul",
   "baslik": "Bana Uygun Olanı Bul",
-  "duzen": "tam"
+  "duzen": "public"
  },
  {
   "yol": "besin-karsilastir",
@@ -36,22 +36,22 @@
  },
  {
   "yol": "besin-karsilastir/badem-vs-ceviz",
-  "baslik": "Badem vs Ceviz",
+  "baslik": "Badem ve Ceviz",
   "duzen": "public"
  },
  {
   "yol": "besin-karsilastir/kinoa-vs-pirinc",
-  "baslik": "Kinoa vs Pirinç",
+  "baslik": "Kinoa ve Pirinç",
   "duzen": "public"
  },
  {
   "yol": "besin-karsilastir/somon-vs-tavuk-gogsu",
-  "baslik": "Somon vs Tavuk Göğsü",
+  "baslik": "Somon ve Tavuk Göğsü",
   "duzen": "public"
  },
  {
   "yol": "besin-karsilastir/zeytinyagi-vs-tereyagi",
-  "baslik": "Zeytinyağı vs Tereyağı",
+  "baslik": "Zeytinyağı ve Tereyağı",
   "duzen": "public"
  },
  {
@@ -82,7 +82,7 @@
  {
   "yol": "diyetisyen-bul-sihirbazi",
   "baslik": "Diyetisyen Bul",
-  "duzen": "tam"
+  "duzen": "public"
  },
  {
   "yol": "diyetisyen-ol",
@@ -125,6 +125,16 @@
   "duzen": "panel"
  },
  {
+  "yol": "diyetisyen-paneli/danisanlar/d13",
+  "baslik": "Pelin Aksoy",
+  "duzen": "panel"
+ },
+ {
+  "yol": "diyetisyen-paneli/danisanlar/d14",
+  "baslik": "Kerem Sağlam",
+  "duzen": "panel"
+ },
+ {
   "yol": "diyetisyen-paneli/danisanlar/d2",
   "baslik": "Cem Tan",
   "duzen": "panel"
@@ -162,6 +172,11 @@
  {
   "yol": "diyetisyen-paneli/danisanlar/d9",
   "baslik": "Tolga Ersoy",
+  "duzen": "panel"
+ },
+ {
+  "yol": "diyetisyen-paneli/gorusme",
+  "baslik": "Görüşme",
   "duzen": "panel"
  },
  {
@@ -236,7 +251,12 @@
  },
  {
   "yol": "hesabim",
-  "baslik": "Hesap Ayarları",
+  "baslik": "Genel Bakış",
+  "duzen": "uye"
+ },
+ {
+  "yol": "hesabim/ayarlar",
+  "baslik": "Hesap Ayarlarım",
   "duzen": "uye"
  },
  {
@@ -247,6 +267,16 @@
  {
   "yol": "hesabim/bildirimler",
   "baslik": "Bildirimler",
+  "duzen": "uye"
+ },
+ {
+  "yol": "hesabim/cozum-merkezi",
+  "baslik": "Çözüm Merkezi",
+  "duzen": "uye"
+ },
+ {
+  "yol": "hesabim/cozum-merkezi/talep",
+  "baslik": "Destek talebi",
   "duzen": "uye"
  },
  {
@@ -280,12 +310,17 @@
   "duzen": "uye"
  },
  {
+  "yol": "hesabim/odeme",
+  "baslik": "Ödeme",
+  "duzen": "uye"
+ },
+ {
   "yol": "hesabim/odemelerim",
   "baslik": "Ödemelerim",
   "duzen": "uye"
  },
  {
-  "yol": "hesabim/paketler",
+  "yol": "hesabim/paketlerim",
   "baslik": "Paketlerim",
   "duzen": "uye"
  },
@@ -407,7 +442,7 @@
  {
   "yol": "programlar/program-bul",
   "baslik": "Program Bul",
-  "duzen": "tam"
+  "duzen": "public"
  },
  {
   "yol": "programlar/sureye-gore",

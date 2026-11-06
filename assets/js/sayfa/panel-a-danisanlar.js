@@ -4,16 +4,16 @@
   'use strict';
   const DD = window.DD, PA = window.PA, h = PA.h;
   const $ = (id) => document.getElementById(id);
-  const v = { sekme: 'tumu', gorunum: 'tablo' };
-  const SEKME_SUZ = { tumu: () => true, aktif: (x) => x.durum === 'aktif', yanit: (x) => x.durum === 'yanit-bekliyor', bitti: (x) => x.durum === 'bitti' };
-  const ARA_YER = { tumu: 'Ad, e-posta ya da hedef ara', aktif: 'Aktif danışan ara', yanit: 'Yanıt bekleyen danışan ara', bitti: 'Biten danışan ara' };
+  const v = { sekme: 'tumu', gorunum: 'tablo', kolon: {} };
+  const SEKME_SUZ = { tumu: () => true, talep: (x) => x.durum === 'talep', aktif: (x) => x.durum === 'aktif', yanit: (x) => x.durum === 'yanit-bekliyor', bitti: (x) => ['bitti', 'reddedildi'].includes(x.durum) };
+  const ARA_YER = { tumu: 'Ad, e-posta ya da hedef ara', talep: 'Talep eden kişiyi ara', aktif: 'Aktif danışan ara', yanit: 'Yanıt bekleyen danışan ara', bitti: 'Biten danışan ara' };
 
   const eposta = (x) => x.eposta || x.ad.toLocaleLowerCase('tr').replace(/\s+/g, '.').replace(/ı/g, 'i').replace(/ş/g, 's').replace(/ğ/g, 'g').replace(/ü/g, 'u').replace(/ö/g, 'o').replace(/ç/g, 'c') + '@ornek.test';
   /* Davetler kart açılana kadar ayrı tutulur; listede aynı satır biçiminde görünür */
   const kayitlar = () => PA.danisanlar().concat(PA.davetler().map((x) => Object.assign({ davet: true, durum: 'davet', izinler: {}, olcumler: [], son_gorusme: null }, x)));
   const suzgecDeger = (id) => { const t = document.querySelector('[aria-controls="' + id + '"]'); const d = t && t.getAttribute('data-deger'); return d && d !== 'hepsi' ? d : ''; };
   const paketAdi = (x) => { const p = PA.paket(x.paket_id); return p ? p.ad : ''; };
-  const takipAdi = (x) => (x.davet ? '' : PA.takip(x));
+  const takipAdi = (x) => (x.davet || !PA.takipte(x) ? '' : PA.takip(x));
 
   function suzulmus() {
     const q = $('ara').value.trim().toLocaleLowerCase('tr');
@@ -34,29 +34,37 @@
   }
   function islemler(x) {
     if (x.davet) return `<button class="ikon-dugme yikici" type="button" data-davet-sil="${x.id}" aria-label="${h(x.ad)} davetini geri al"><i class="fa-solid fa-xmark" aria-hidden="true"></i></button>`;
+    const ac = `<a class="ikon-dugme" href="${PA.yol.danisan(x.id)}" aria-label="${h(x.ad)} kartını aç"><i class="fa-solid fa-eye" aria-hidden="true"></i></a>`;
+    if (x.durum === 'talep') return `<button class="ikon-dugme" type="button" data-adim="talep-kabul" data-danisan="${x.id}" aria-label="${h(x.ad)} talebini kabul et"><i class="fa-solid fa-check" aria-hidden="true"></i></button><button class="ikon-dugme yikici" type="button" data-adim="talep-red" data-danisan="${x.id}" aria-label="${h(x.ad)} talebini reddet"><i class="fa-solid fa-xmark" aria-hidden="true"></i></button>` + ac;
     const mesaj = `<a class="ikon-dugme" href="${PA.yol.sohbet(x.id)}" aria-label="${h(x.ad)} ile mesajlaş"><i class="fa-solid fa-comment" aria-hidden="true"></i></a>`;
-    const randevu = x.durum === 'bitti' ? '' : `<button class="ikon-dugme" type="button" data-randevu-ac data-danisan="${x.id}" aria-label="${h(x.ad)} için randevu oluştur"><i class="fa-solid fa-calendar-plus" aria-hidden="true"></i></button>`;
-    const ac = `<a class="ikon-dugme" href="${PA.yol.danisan(x.id)}" aria-label="${h(x.ad)} kartını aç"><i class="fa-solid fa-arrow-right" aria-hidden="true"></i></a>`;
-    return mesaj + randevu + ac;
+    const randevu = PA.takipte(x) ? `<button class="ikon-dugme" type="button" data-randevu-ac data-danisan="${x.id}" aria-label="${h(x.ad)} için randevu oluştur"><i class="fa-solid fa-calendar-plus" aria-hidden="true"></i></button>` : '';
+    return ac + mesaj + randevu;
+  }
+  /* Sıradaki adım: üst satır bağ, alt satır nedeni. Bekleme durumunda bağ yok */
+  function adimHucre(x) {
+    if (x.davet) return '<b>Davet gönderildi</b><small>Kabul bekleniyor</small>';
+    const a = PA.siradaki(x);
+    const ust = a.etiket && a.oncelik !== 1 ? PA.adimEylem(a, x, 'adim-bag', a.baslik) : `<b>${h(a.baslik)}</b>`;
+    return `${ust}<small class="adim-neden">${h(a.metin)}</small>`;
   }
   const kisi = (x) => {
-    const ic = `${PA.avatar(x.ad)}<span class="kisi-bilgi"><span class="kisi-ad">${h(x.ad)}</span><span class="kisi-alt">${h(eposta(x))}</span></span>`;
+    const ic = `${PA.avatar(x.ad)}<span class="kisi-bilgi"><span class="kisi-ad">${h(x.ad)}${x.yeni ? ' <span class="rozet olumlu">Yeni</span>' : ''}</span><span class="kisi-alt">${h(eposta(x))}</span></span>`;
     return x.davet ? `<span class="kisi-hucre">${ic}</span>` : `<a class="kisi-hucre" href="${PA.yol.danisan(x.id)}">${ic}</a>`;
   };
   const sonGorusme = (x) => (x.son_gorusme ? `<b>${PA.tarih(x.son_gorusme)}</b><small>${PA.gunFarki(x.son_gorusme, DD.bugun)} gün önce</small>` : '<b>—</b><small>Henüz yok</small>');
-  const takipRozet = (x) => { const t = takipAdi(x); return t === 'Kontrol gecikti' ? '<small class="rozet bekleme">Kontrol gecikti</small>' : ''; };
 
   function ciz() {
     const l = suzulmus(), hepsi = kayitlar();
-    const sayilar = { tumu: hepsi.length, aktif: hepsi.filter(SEKME_SUZ.aktif).length, yanit: hepsi.filter(SEKME_SUZ.yanit).length, bitti: hepsi.filter(SEKME_SUZ.bitti).length };
+    const sayilar = { tumu: hepsi.length, talep: hepsi.filter(SEKME_SUZ.talep).length, aktif: hepsi.filter(SEKME_SUZ.aktif).length, yanit: hepsi.filter(SEKME_SUZ.yanit).length, bitti: hepsi.filter(SEKME_SUZ.bitti).length };
     Object.keys(sayilar).forEach((k) => { document.querySelector('[data-sayi="' + k + '"]').textContent = sayilar[k]; });
     $('gorunenSayi').textContent = l.length;
     $('toplamSayi').textContent = sayilar[v.sekme];
+    $('baslikSayi').textContent = sayilar.tumu;
     $('ara').placeholder = ARA_YER[v.sekme];
-    $('danisanTablo').innerHTML = l.map((x) => `<tr data-id="${x.id}"><td class="sec"><label><input type="checkbox" data-sec="" aria-label="${h(x.ad)} satırını seç"></label></td><td>${kisi(x)}</td><td data-etiket="Hedef ve ilerleme">${ilerlemeHucre(x)}</td><td data-etiket="Son görüşme">${sonGorusme(x)}</td><td data-etiket="Durum">${PA.danisanHap(x)}${takipRozet(x)}</td><td class="eylem"><span class="satir-eylem">${islemler(x)}</span></td></tr>`).join('');
+    $('danisanTablo').innerHTML = l.map((x) => `<tr data-id="${x.id}"><td class="sec"><label><input type="checkbox" data-sec="" aria-label="${h(x.ad)} satırını seç"></label></td><td>${kisi(x)}</td><td data-etiket="Sıradaki adım">${adimHucre(x)}</td>${v.kolon.hedef ? `<td data-etiket="Hedef">${ilerlemeHucre(x)}</td>` : ''}${v.kolon.paket ? `<td data-etiket="Paket">${h(paketAdi(x) || '—')}</td>` : ''}<td data-etiket="Durum">${PA.danisanHap(x)}</td><td data-etiket="Son görüşme">${sonGorusme(x)}</td><td class="eylem"><span class="satir-eylem">${islemler(x)}</span></td></tr>`).join('');
     $('danisanKartlar').innerHTML = l.map((x) => {
       const i = PA.ilerleme(x);
-      return `<article class="kisi-kart"><div class="kisi-kart-bas">${kisi(x)}${PA.danisanHap(x)}</div>${x.hedef ? `<span class="kisi-alt">${h(x.hedef)}</span>` : ''}${i ? PA.olcer(i.yuzde) + `<div class="kisi-kart-alt"><span>${PA.kgMetin(i.degisim)} · ${i.hafta}. hafta</span><span>%${i.yuzde}</span></div>` : ''}<div class="kisi-kart-alt"><span>${x.son_gorusme ? 'Son görüşme ' + PA.tarih(x.son_gorusme) : 'Görüşme yok'}</span><span class="satir-eylem">${islemler(x)}</span></div></article>`;
+      return `<article class="kisi-kart"><div class="kisi-kart-bas">${kisi(x)}${PA.danisanHap(x)}</div><div>${adimHucre(x)}</div>${i ? PA.olcer(i.yuzde) + `<div class="kisi-kart-alt"><span>${PA.kgMetin(i.degisim)} · ${i.hafta}. hafta</span><span>%${i.yuzde}</span></div>` : ''}<div class="kisi-kart-alt"><span>${x.son_gorusme ? 'Son görüşme ' + PA.tarih(x.son_gorusme) : 'Görüşme yok'}</span><span class="satir-eylem">${islemler(x)}</span></div></article>`;
     }).join('');
     PA.oranlar($('liste'));
     const bos = !l.length;
@@ -93,12 +101,29 @@
   $('sPaket').innerHTML = '<div class="acilir-bas">Paket</div><button class="cip suzgec aktif" type="button" aria-pressed="true" data-deger="hepsi">Tümü</button>' + PA.d().paketler.map((p) => `<button class="cip suzgec" type="button" aria-pressed="false" data-deger="${h(p.ad)}">${h(p.ad)}</button>`).join('');
   $('dePaket').innerHTML = PA.d().paketler.filter((p) => p.aktif).map((p) => `<option value="${p.id}">${h(p.ad)}</option>`).join('');
 
+  /* Kit süzgeç çubuğundaki label'ları ekran okuyucuya indirir; kolon seçimi bu yüzden düğmedir */
+  /* Ek kolon tek seçimlidir: dört veri kolonuna en çok biri eklenir, tablo sıkışmaz */
+  const kolonlar = [...document.querySelectorAll('[data-kolon-sec]')];
+  kolonlar.forEach((k) => k.addEventListener('click', () => {
+    const acilacak = k.getAttribute('aria-pressed') !== 'true';
+    kolonlar.forEach((x) => {
+      const acik = x === k && acilacak, th = document.querySelector('[data-kolon-opsiyon="' + x.dataset.kolonSec + '"]');
+      x.setAttribute('aria-pressed', String(acik));
+      x.querySelector('i').className = acik ? 'fa-solid fa-square-check' : 'fa-regular fa-square';
+      v.kolon[x.dataset.kolonSec] = acik;
+      th.hidden = !acik;
+      th.classList.toggle('gizli', !acik); /* kit fazla kolonu gizli işaretler */
+    });
+    ciz();
+  }));
   $('danisanSekme').addEventListener('click', (e) => { const t = e.target.closest('[data-sekme]'); if (t) sekmeSec(t.dataset.sekme); });
   $('danisanSekme').addEventListener('keydown', (e) => { if (['ArrowLeft', 'ArrowRight', 'Home', 'End'].includes(e.key)) setTimeout(() => sekmeSec(document.activeElement.dataset.sekme), 0); });
   $('ara').addEventListener('input', ciz);
   $('listeGorunum').addEventListener('dd:secim', (e) => { v.gorunum = e.detail.deger; ciz(); });
   document.addEventListener('click', (e) => {
     if (e.target.closest('.suzgec-cubuk .acilir-yuzey [data-deger]') || e.target.closest('[data-eylem="suzgec-temizle"]')) setTimeout(ciz, 0);
+    const rd = e.target.closest('[data-randevu]');
+    if (rd) { PA.randevuDetay(rd.dataset.randevu); return; }
     const sil = e.target.closest('[data-davet-sil]');
     if (sil) {
       const l = PA.davetler(), i = l.findIndex((x) => x.id === sil.dataset.davetSil);

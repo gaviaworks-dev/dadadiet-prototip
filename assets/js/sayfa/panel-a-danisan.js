@@ -28,25 +28,23 @@
       ? `<button class="ayar-satir" type="button" data-randevu="${g.id}"><span class="as-ikon"><i class="fa-solid fa-calendar-check" aria-hidden="true"></i></span><span class="as-metin"><span>Sonraki randevu</span><b>${h(PA.ayGun(g.tarih))} · ${g.saat}</b></span><i class="fa-solid fa-chevron-right as-ok" aria-hidden="true"></i></button>`
       : satir('fa-calendar-xmark', 'Sonraki randevu', `${h(ilgi)} yaklaşan randevusu yok`);
     $('kunyeKart').innerHTML = `<div class="kart panel"><div class="kart-govde"><div class="kunye-kimlik">${PA.avatar(dn.ad)}<div><h2>${h(dn.ad)}</h2>${PA.danisanHap(dn)}</div></div>
-<div class="kunye-kisayol"><button class="ikon-dugme" type="button" data-sekme-git="mesaj" aria-label="Mesaj gönder"><i class="fa-solid fa-comment" aria-hidden="true"></i></button>${dn.durum === 'bitti' ? '' : `<button class="ikon-dugme" type="button" data-randevu-ac data-danisan="${id}" aria-label="Randevu oluştur"><i class="fa-solid fa-calendar-plus" aria-hidden="true"></i></button>`}<button class="ikon-dugme" type="button" data-is="not-ekle" aria-label="Klinik not ekle"><i class="fa-solid fa-note-sticky" aria-hidden="true"></i></button><a class="ikon-dugme" href="${PA.yol.yeniPlan(id)}" aria-label="Yeni plan"><i class="fa-solid fa-clipboard-list" aria-hidden="true"></i></a></div>
+<div class="kunye-kisayol"><button class="ikon-dugme" type="button" data-sekme-git="mesaj" aria-label="Mesaj gönder"><i class="fa-solid fa-comment" aria-hidden="true"></i></button>${!PA.takipte(dn) ? '' : `<button class="ikon-dugme" type="button" data-randevu-ac data-danisan="${id}" aria-label="Randevu oluştur"><i class="fa-solid fa-calendar-plus" aria-hidden="true"></i></button>`}<button class="ikon-dugme" type="button" data-is="not-ekle" aria-label="Klinik not ekle"><i class="fa-solid fa-note-sticky" aria-hidden="true"></i></button><a class="ikon-dugme" href="${PA.yol.yeniPlan(id)}" aria-label="Yeni plan"><i class="fa-solid fa-clipboard-list" aria-hidden="true"></i></a></div>
 <div class="ayar-liste">${satir('fa-weight-scale', 'Güncel kilo', i ? PA.sayi(i.son) + ' kg <small>' + PA.tarih(dn.olcumler[dn.olcumler.length - 1].tarih) + '</small>' : 'İzin yok')}${satir('fa-bullseye', 'Hedef', PA.sayi(dn.hedef_kilo) + ' kg' + (i ? ' · %' + i.yuzde : ''))}${randevu}${satir('fa-box-open', 'Paket', p ? h(p.ad) + ' · ' + PA.kalanSeans(dn) + '/' + p.seans : '—')}${satir('fa-id-badge', 'Kişi', dn.yas + ' yaş · ' + h(dn.cinsiyet) + ' · ' + dn.boy + ' cm')}</div>
-<div class="kunye-eylem"><button class="dugme hayalet kucuk tam-en" type="button" data-is="hedef">Hedefi güncelle</button>${dn.durum === 'bitti' ? '<button class="dugme hayalet kucuk tam-en" type="button" data-is="baslat">Takibi yeniden başlat</button>' : '<button class="dugme hayalet kucuk tehlike tam-en" type="button" data-is="bitir">Takibi bitir</button>'}</div></div></div>`;
+<div class="kunye-eylem"><button class="dugme hayalet kucuk tam-en" type="button" data-is="hedef">Hedefi güncelle</button>${dn.durum === 'bitti' ? '<button class="dugme hayalet kucuk tam-en" type="button" data-is="baslat">Takibi yeniden başlat</button>' : PA.takipte(dn) ? '<button class="dugme hayalet kucuk tehlike tam-en" type="button" data-is="bitir">Takibi bitir</button>' : ''}</div></div></div>`;
   }
   function basCiz() {
+    $('danisanAd').textContent = dn.ad;
+    document.title = dn.ad + ' · Dada Diet';
     $('danisanAlt').textContent = dn.hedef;
-    document.querySelector('#danisanBas [data-randevu-ac]').hidden = dn.durum === 'bitti';
+    document.querySelector('#danisanBas [data-randevu-ac]').hidden = !PA.takipte(dn);
     Object.keys(IZIN).forEach((t) => {
       const sekme = IZIN[t][3];
       if (!sekme) return;
-      $('t-' + sekme).querySelector('[data-sekme-ek]').innerHTML = dn.izinler[t] ? '' : '<i class="fa-solid fa-lock kilit-ikon" aria-label="İzin yok"></i>';
+      $('t-' + sekme).querySelector('[data-sekme-ek]').innerHTML = dn.izinler[t] || (t === 'anamnez' && (PA.anamnezGorunur(dn) || dn.talep_bilgi)) ? '' : '<i class="fa-solid fa-lock kilit-ikon" aria-label="İzin yok"></i>';
     });
-    const b = $('talepBand');
-    if (dn.durum === 'yanit-bekliyor') {
-      const k = PA.konusma(id), m = k && k.mesajlar.filter((x) => x.kimden === 'danisan').pop();
-      b.innerHTML = `<div class="uyari-kutu uyari"><i class="fa-solid fa-user-clock" aria-hidden="true"></i><p><b>Yanıtını bekliyor.</b> ${h(m ? m.metin : dn.mesaj_ozeti)}</p><div class="eylem-satiri"><button class="dugme hayalet kucuk" type="button" data-is="yanitla">Yanıtla</button><button class="dugme hayalet kucuk" type="button" data-is="yanitlandi">Yanıtlandı işaretle</button></div></div>`;
-    } else if (dn.durum === 'bitti') {
-      b.innerHTML = `<div class="bilgi-notu"><i class="fa-solid fa-flag-checkered" aria-hidden="true"></i><p><b>Takip bitti.</b> Son görüşme ${PA.tarih(dn.son_gorusme)}. Geçmiş kayıtlar burada kalır.</p></div>`;
-    } else b.innerHTML = '';
+    /* Durumdan türeyen tek sıradaki adım */
+    const a = PA.siradaki(dn);
+    $('siradaKart').innerHTML = `<div class="kart panel sirada-kart"><div class="kart-govde"><span class="as-ikon"><i class="fa-solid ${a.ikon}" aria-hidden="true"></i></span><div class="sirada-metin"><span>Sıradaki adım</span><b>${h(a.baslik)}</b><p>${h(a.metin)}</p></div><div class="eylem-satiri">${a.ikincil ? `<button class="dugme hayalet" type="button" data-adim="${a.ikincilIs}" data-danisan="${id}">${a.ikincil}</button>` : ''}${dn.durum === 'yanit-bekliyor' ? `<button class="dugme hayalet" type="button" data-adim="yanitlandi" data-danisan="${id}">Yanıtlandı işaretle</button>` : ''}${a.sekme ? `<button class="dugme birincil" type="button" data-sekme-git="${a.sekme}">${h(a.etiket)}</button>` : a.is === 'not-ekle' ? `<button class="dugme birincil" type="button" data-is="not-ekle">${h(a.etiket)}</button>` : PA.adimEylem(a, dn, 'dugme birincil')}</div></div></div>`;
     kunyeCiz();
   }
 
@@ -60,7 +58,7 @@
     if (v.randevu === 'yaklasan') l.reverse();
     const satirlar = l.map((r) => `<button class="ayar-satir" type="button" data-randevu="${r.id}"><span class="as-saat${v.randevu === 'yaklasan' ? '' : ' gecti'}">${+r.tarih.slice(8)}.${r.tarih.slice(5, 7)}<small>${r.saat}</small></span><span class="as-metin"><b>${PA.rTur(r)} · ${r.sure} dk</b><span>${h(r.ozet || r.not || PA.gunAdi(r.tarih))}</span></span><span class="as-eylem">${PA.talepRozet(r) || PA.rHap(r)}</span></button>`).join('');
     const sekme = [['yaklasan', 'Yaklaşan'], ['gecmis', 'Geçmiş'], ['olmadi', 'Gerçekleşmedi']].map(([k, a]) => `<button type="button" data-deger="${k}" aria-pressed="${k === v.randevu}">${a} ${rs.filter((r) => R_KUME[k].includes(PA.rDurum(r))).length}</button>`).join('');
-    const eylem = dn.durum === 'bitti' ? '' : `<button class="dugme hayalet" type="button" data-randevu-ac data-danisan="${id}">Randevu oluştur</button>`;
+    const eylem = !PA.takipte(dn) ? '' : `<button class="dugme hayalet" type="button" data-randevu-ac data-danisan="${id}">Randevu oluştur</button>`;
     return `<div class="kart panel">${kartBas('fa-calendar-days', 'Randevular')}<div class="kart-govde"><div class="segment" id="randevuKume" role="group" aria-label="Randevu kümesi">${sekme}</div>${l.length ? `<div class="ayar-liste kart-ic-liste">${satirlar}</div>` : bos('fa-calendar-xmark', `${h(ilgi)} ${R_BOS[v.randevu]}`, 'Takvimden yeni bir görüşme planlayabilirsin.', v.randevu === 'yaklasan' ? eylem : '')}</div></div>`;
   }
   function paketKart() {
@@ -75,13 +73,21 @@
     const git = `<a class="dugme hayalet kucuk" href="${DD.kok}diyetisyen-paneli/kazanclar/">Kazançlarım</a>`;
     return `<div class="kart panel">${kartBas('fa-wallet', 'Ödemeler', l.length ? git : '', l.length ? (bekleyen ? PA.para(bekleyen) + ' beklemede' : 'Bekleyen ödeme yok') : '')}<div class="kart-govde">${l.length ? `<div class="ayar-liste">${l.map((x) => `<div class="ayar-satir"><span class="as-metin"><b>${PA.para(x.tutar)}</b><span>${h(x.aciklama)} · ${PA.tarih(x.tarih)}</span></span><span class="as-eylem">${x.durum === 'odendi' ? PA.hap('Ödendi', 'cozulen') : PA.hap('Beklemede', 'bekleyen')}</span></div>`).join('')}</div>` : bos('fa-wallet', `${h(ilgi)} son ödeme kaydı yok`, 'Tamamlanan seanslar burada listelenir.', git)}</div></div>`;
   }
+  /* İlk görüşme ilerlemesi: dört adım tamamlanınca kalkar */
+  function ilkSeri() {
+    if (!dn.talep_bilgi) return '';
+    const adimlar = [['Anamnez', !PA.anamnezEksik(dn).length], ['Ölçüm', dn.olcumler.length > 0], ['Hedef', !!dn.hedef_turu], ['Plan', PA.d().planlar.some((p) => p.danisan_id === id && p.durum === 'gonderildi')]];
+    if (adimlar.every((a) => a[1])) return '';
+    const aktif = adimlar.findIndex((a) => !a[1]);
+    return `<ol class="adim-serit" aria-label="İlk görüşme adımları">${adimlar.map(([a, bitti], i) => `<li class="${bitti ? 'acik bitti' : i === aktif ? 'acik' : ''}"><span>${bitti ? '<i class="fa-solid fa-check" aria-hidden="true"></i>' : i + 1}</span>${a}</li>`).join('')}</ol>`;
+  }
   function ozetCiz() {
     const i = PA.ilerleme(dn), rs = PA.d().randevular.filter((r) => r.danisan_id === id).sort((a, b) => (b.tarih + b.saat).localeCompare(a.tarih + a.saat));
     const say = (d) => rs.filter((r) => PA.rDurum(r) === d).length;
     const plan = PA.d().planlar.filter((x) => x.danisan_id === id && x.durum === 'gonderildi').sort((a, b) => b.tarih.localeCompare(a.tarih))[0];
     const notlar = notSirali().slice(0, 2);
-    const acik = dn.izinler.anamnez;
-    $('p-ozet').innerHTML = `<div class="yigin">
+    const acik = PA.anamnezGorunur(dn);
+    $('p-ozet').innerHTML = `<div class="yigin">${ilkSeri()}
 <div class="kart-izgara c4">${i
     ? kpi('fa-flag', 'Başlangıç', PA.sayi(i.bas) + ' kg', PA.tarih(dn.olcumler[0].tarih)) + kpi('fa-arrow-trend-down', 'Değişim', PA.kgMetin(i.degisim), i.hafta + '. hafta') + kpi('fa-chart-line', 'İlerleme', '%' + i.yuzde, h(PA.takip(dn))) + kpi('fa-calendar-check', 'Tamamlanan', say('tamamlandi'), 'görüşme')
     : kpi('fa-lock', 'Ölçüm', '—', 'İzin yok') + kpi('fa-bullseye', 'Hedef', PA.sayi(dn.hedef_kilo) + ' kg', h(PA.takip(dn))) + kpi('fa-calendar-check', 'Tamamlanan', say('tamamlandi'), 'görüşme') + kpi('fa-ticket', 'Kalan seans', PA.kalanSeans(dn) ?? '—', 'paket hakkı')}</div>
@@ -105,7 +111,7 @@ ${randevuKart(rs)}
     if (!o.length) { $('p-olcum').innerHTML = `<div class="kart panel"><div class="kart-govde">${bos('fa-weight-scale', `${h(ilgi)} ölçümü yok`, 'İlk ölçüm kaydıyla grafik burada başlar.', '<button class="dugme hayalet" type="button" data-is="olcum-ekle">Ölçüm ekle</button>')}</div></div>`; return; }
     const fark = (i) => { const k = ters[i], e = ters[i + 1]; return e && k.kilo != null && e.kilo != null ? Math.round((k.kilo - e.kilo) * 10) / 10 : null; };
     $('p-olcum').innerHTML = `<div class="yigin"><div class="kart panel">${kartBas('fa-chart-line', 'Gelişim', `<div class="segment" id="metrikSec" role="group" aria-label="Ölçüm türü">${Object.keys(METRIK).map((k) => `<button type="button" data-deger="${k}" aria-pressed="${k === v.metrik}">${METRIK[k][0]}</button>`).join('')}</div>`)}<div class="kart-govde"><div class="grafik-kap" id="olcumGrafik"></div><div class="grafik-lejant" id="olcumLejant"></div></div></div>
-<div class="kart panel">${kartBas('fa-table-list', 'Ölçüm geçmişi', `<button class="dugme hayalet kucuk" type="button" data-is="olcum-ekle"><i class="fa-solid fa-plus" aria-hidden="true"></i> Ölçüm ekle</button>`, o.length + ' kayıt')}<div class="kart-govde bosluksuz"><div class="tablo-kap gomulu"><table class="tablo panel sabit-sutun tek-eylem etiketli-yigin"><caption class="yalniz-okuyucu">Ölçüm geçmişi</caption><thead><tr><th scope="col" data-oran="22">Tarih</th><th class="num" scope="col" data-oran="16">Kilo</th><th class="num" scope="col" data-oran="16">Değişim</th><th class="num" scope="col" data-oran="16">Bel</th><th class="num" scope="col" data-oran="16">Yağ</th><th class="eylem" scope="col">İşlem</th></tr></thead><tbody>${ters.map((m, i) => { const f = fark(i); return `<tr><td data-etiket="Tarih"><b>${PA.tarih(m.tarih)}</b><small>${m.hafta}. hafta${m.not ? ' · ' + h(m.not) : ''}</small></td><td class="num" data-etiket="Kilo">${PA.sayi(m.kilo)} kg</td><td class="num" data-etiket="Değişim">${f == null ? '—' : PA.kgMetin(f)}</td><td class="num" data-etiket="Bel">${m.bel == null ? '—' : PA.sayi(m.bel) + ' cm'}</td><td class="num" data-etiket="Yağ">${m.yag_orani == null ? '—' : '%' + PA.sayi(m.yag_orani)}</td><td class="eylem"><span class="satir-eylem"><button class="ikon-dugme" type="button" data-olcum="${o.indexOf(m)}" aria-label="${PA.tarih(m.tarih)} ölçümünü düzelt"><i class="fa-solid fa-pen" aria-hidden="true"></i></button></span></td></tr>`; }).join('')}</tbody></table></div></div></div></div>`;
+<div class="kart panel">${kartBas('fa-table-list', 'Ölçüm geçmişi', `<button class="dugme hayalet kucuk" type="button" data-is="olcum-ekle"><i class="fa-solid fa-plus" aria-hidden="true"></i> Ölçüm ekle</button>`, o.length + ' kayıt')}<div class="kart-govde bosluksuz"><div class="tablo-kap gomulu"><table class="tablo panel sabit-sutun tek-eylem etiketli-yigin"><caption class="yalniz-okuyucu">Ölçüm geçmişi</caption><thead><tr><th scope="col" data-oran="22">Tarih</th><th class="num" scope="col" data-oran="16">Kilo</th><th class="num" scope="col" data-oran="16">Değişim</th><th class="num" scope="col" data-oran="16">Bel</th><th class="num" scope="col" data-oran="16">Yağ</th><th class="eylem" scope="col">İşlem</th></tr></thead><tbody>${ters.map((m, i) => { const f = fark(i); return `<tr><td data-etiket="Tarih"><b>${PA.tarih(m.tarih)}</b><small>${m.hafta}. hafta${m.not ? ' · ' + h(m.not) : ''}</small></td><td class="num" data-etiket="Kilo">${PA.sayi(m.kilo)} kg</td><td class="num" data-etiket="Değişim">${f == null ? '—' : `<span class="rozet pasif">${PA.kgMetin(f)}</span>`}</td><td class="num" data-etiket="Bel">${m.bel == null ? '—' : PA.sayi(m.bel) + ' cm'}</td><td class="num" data-etiket="Yağ">${m.yag_orani == null ? '—' : '%' + PA.sayi(m.yag_orani)}</td><td class="eylem"><span class="satir-eylem"><button class="ikon-dugme" type="button" data-olcum="${o.indexOf(m)}" aria-label="${PA.tarih(m.tarih)} ölçümünü düzelt"><i class="fa-solid fa-pen" aria-hidden="true"></i></button></span></td></tr>`; }).join('')}</tbody></table></div></div></div></div>`;
     PA.oranTablo($('p-olcum'));
     grafikCiz();
     $('metrikSec').addEventListener('dd:secim', (e) => { v.metrik = e.detail.deger; grafikCiz(); });
@@ -153,7 +159,7 @@ ${randevuKart(rs)}
   function tahlilCiz() {
     if (!dn.izinler.tahlil) { $('p-tahlil').innerHTML = kilit('tahlil'); return; }
     const l = [...dn.tahliller].sort((a, b) => b.tarih.localeCompare(a.tarih));
-    const dugmeler = `<div class="eylem-satiri"><button class="dugme hayalet kucuk" type="button" data-is="tahlil-iste">Tahlil iste</button><button class="dugme hayalet kucuk" type="button" data-is="tahlil-yukle"><i class="fa-solid fa-upload" aria-hidden="true"></i> Tahlil yükle</button></div><input type="file" id="tahlilDosya" accept=".pdf,image/*" hidden aria-hidden="true" tabindex="-1">`;
+    const dugmeler = `<div class="eylem-satiri">${dn.tahlil_istegi && !dn.tahliller.some((x) => x.tarih >= dn.tahlil_istegi.tarih) ? PA.hap('İstendi · ' + PA.tarih(dn.tahlil_istegi.tarih), 'bekleyen') : '<button class="dugme hayalet kucuk" type="button" data-is="tahlil-iste">Tahlil iste</button>'}<button class="dugme hayalet kucuk" type="button" data-is="tahlil-yukle"><i class="fa-solid fa-upload" aria-hidden="true"></i> Tahlil yükle</button></div><input type="file" id="tahlilDosya" accept=".pdf,image/*" hidden aria-hidden="true" tabindex="-1">`;
     if (!l.length) { $('p-tahlil').innerHTML = `<div class="kart panel">${kartBas('fa-vial', 'Kan tahlilleri', dugmeler)}<div class="kart-govde">${bos('fa-vial', `${h(ilgi)} tahlili yok`, 'Danışan yüklediğinde ya da sen eklediğinde burada görünür.')}</div></div>`; return; }
     const t = l.find((x) => x.dosya_adi === v.tahlil) || l[0];
     v.tahlil = t.dosya_adi;
@@ -164,7 +170,8 @@ ${randevuKart(rs)}
       return `<tr${r ? ' class="referans-disi"' : ''}><td data-etiket="Parametre"><b>${h(d.ad)}</b></td><td class="num" data-etiket="Sonuç"><span>${r ? `<span class="deger-yon"><i class="fa-solid fa-arrow-${r === 'dusuk' ? 'down' : 'up'}" aria-hidden="true"></i> ${PA.sayi(d.sonuc, 2)}</span>` : PA.sayi(d.sonuc, 2)} ${h(d.birim || '')}</span></td><td class="num" data-etiket="Referans">${ref}</td><td class="num" data-etiket="Önceki">${e ? PA.sayi(e.sonuc, 2) : '—'}</td><td data-etiket="Durum">${r ? PA.hap(r === 'dusuk' ? 'Düşük' : 'Yüksek', 'bekleyen') : PA.hap('Normal', 'cozulen')}</td></tr>`;
     };
     const disi = t.degerler.filter(refDisi).length;
-    $('p-tahlil').innerHTML = `<div class="yigin"><div class="kart panel">${kartBas('fa-table-list', PA.tarih(t.tarih) + ' sonuçları', `<button class="dugme hayalet kucuk" type="button" data-is="deger-ekle"><i class="fa-solid fa-plus" aria-hidden="true"></i> Değer ekle</button>`, t.degerler.length ? t.degerler.length + ' değer, ' + disi + ' tanesi referans dışında' : h(t.dosya_adi))}<div class="kart-govde bosluksuz">${t.degerler.length ? `<div class="tablo-kap gomulu"><table class="tablo panel sabit-sutun etiketli-yigin"><caption class="yalniz-okuyucu">Tahlil değerleri</caption><thead><tr><th scope="col" data-oran="30">Parametre</th><th class="num" scope="col" data-oran="22">Sonuç</th><th class="num" scope="col" data-oran="18">Referans</th><th class="num" scope="col" data-oran="14">Önceki</th><th scope="col" data-oran="16">Durum</th></tr></thead><tbody>${t.degerler.map(satir).join('')}</tbody></table></div>` : `<div class="kart-govde">${bos('fa-keyboard', 'Değer girilmedi', 'Dosya listede. Değerleri elle ekleyerek tabloya işleyebilirsin.')}</div>`}</div></div>
+    const incele = PA.tahlilYeni(t) ? `<button class="dugme hayalet kucuk" type="button" data-is="tahlil-incelendi"><i class="fa-solid fa-check" aria-hidden="true"></i> İncelendi</button>` : '';
+    $('p-tahlil').innerHTML = `<div class="yigin"><div class="kart panel">${kartBas('fa-table-list', PA.tarih(t.tarih) + ' sonuçları', `<div class="eylem-satiri">${incele}<button class="dugme hayalet kucuk" type="button" data-is="deger-ekle"><i class="fa-solid fa-plus" aria-hidden="true"></i> Değer ekle</button></div>`, t.degerler.length ? t.degerler.length + ' değer, ' + disi + ' tanesi referans dışında' : h(t.dosya_adi))}<div class="kart-govde bosluksuz">${t.degerler.length ? `<div class="tablo-kap gomulu"><table class="tablo panel sabit-sutun etiketli-yigin"><caption class="yalniz-okuyucu">Tahlil değerleri</caption><thead><tr><th scope="col" data-oran="30">Parametre</th><th class="num" scope="col" data-oran="22">Sonuç</th><th class="num" scope="col" data-oran="18">Referans</th><th class="num" scope="col" data-oran="14">Önceki</th><th scope="col" data-oran="16">Durum</th></tr></thead><tbody>${t.degerler.map(satir).join('')}</tbody></table></div>` : `<div class="kart-govde">${bos('fa-keyboard', 'Değer girilmedi', 'Dosya listede. Değerleri elle ekleyerek tabloya işleyebilirsin.')}</div>`}</div></div>
 <div class="kart panel">${kartBas('fa-file-medical', 'Yüklenen tahliller', dugmeler)}<div class="kart-govde"><div class="ayar-liste">${l.map((x) => `<button class="ayar-satir" type="button" data-tahlil="${h(x.dosya_adi)}"><span class="as-ikon"><i class="fa-solid fa-file-pdf" aria-hidden="true"></i></span><span class="as-metin"><b>${PA.tarih(x.tarih)}</b><span>${h(x.dosya_adi)}</span></span>${x === t ? '<span class="rozet olumlu">Açık</span>' : '<i class="fa-solid fa-chevron-right as-ok" aria-hidden="true"></i>'}</button>`).join('')}</div></div></div></div>`;
     PA.oranTablo($('p-tahlil'));
   }
@@ -179,11 +186,14 @@ ${randevuKart(rs)}
   /* ── Anamnez ve notlar ──────────────────────────────────────────── */
   function notSirali() { return [...dn.klinik_notlar].sort((a, b) => (b.sabit ? 1 : 0) - (a.sabit ? 1 : 0) || b.tarih.localeCompare(a.tarih)); }
   function notCiz() {
-    const a = dn.anamnez;
+    const a = dn.anamnez, eksikAlan = PA.anamnezEksik(dn).length;
     const hs = dn.hassasiyetler.concat(dn.kronik);
-    const anamnez = !dn.izinler.anamnez ? kilit('anamnez')
-      : a ? `<div class="kart panel">${kartBas('fa-notes-medical', 'Anamnez', '<button class="dugme hayalet kucuk" type="button" data-is="hassasiyet"><i class="fa-solid fa-plus" aria-hidden="true"></i> Alerji ekle</button>')}<div class="kart-govde">${kunye([['Meslek', h(a.meslek)], ['Şikâyet', h(a.sikayet)], ['Uyku', h(a.uyku)], ['Su', h(a.su)], ['Hareket', h(a.hareket)], ['İlaç ve takviye', a.ilaclar.length ? h(a.ilaclar.join(', ')) : 'Yok'], ['Aile öyküsü', h(a.aile_oykusu)], ['Alışkanlıklar', h(a.aliskanliklar)], ['Hassasiyet ve kronik durum', hs.length ? h(hs.join(', ')) : 'Yok']])}</div></div>`
-        : `<div class="kart panel"><div class="kart-govde">${bos('fa-notes-medical', `${h(ilgi)} anamnezi boş`, 'İzin açık, danışan henüz formu doldurmadı.')}</div></div>`;
+    const gelecek = PA.gelecekRandevu(id);
+    const hatirlat = dn.anamnez_hatirlatma ? PA.hap('Hatırlatıldı · ' + PA.tarih(dn.anamnez_hatirlatma), 'bekleyen') : '<button class="dugme hayalet" type="button" data-is="anamnez-hatirlat">Hatırlat</button>';
+    const anamnez = dn.talep_bilgi && !a ? `<div class="kart panel">${kartBas('fa-notes-medical', 'Anamnez', PA.hap('Bekliyor', 'bekleyen'))}<div class="kart-govde">${bos('fa-notes-medical', `${h(ilgi)} anamnezi boş`, 'Danışan doldurabilir ya da ilk görüşmede dolar.', (gelecek ? `<a class="dugme hayalet" href="${PA.yol.gorusme(gelecek.id)}">Görüşmeyi başlat</a> ` : '') + hatirlat)}</div></div>`
+      : !PA.anamnezGorunur(dn) ? kilit('anamnez')
+      : a ? `<div class="kart panel">${kartBas('fa-notes-medical', 'Anamnez', `<div class="eylem-satiri">${eksikAlan ? PA.hap(eksikAlan + ' alan eksik', 'bekleyen') + (dn.anamnez_hatirlatma ? '' : '<button class="dugme hayalet kucuk" type="button" data-is="anamnez-hatirlat">Hatırlat</button>') : PA.hap('Dolduruldu', 'cozulen')}<button class="dugme hayalet kucuk" type="button" data-is="hassasiyet"><i class="fa-solid fa-plus" aria-hidden="true"></i> Alerji ekle</button></div>`)}<div class="kart-govde">${kunye([['Meslek', h(a.meslek)], ['Şikâyet', h(a.sikayet)], ['Uyku', h(a.uyku)], ['Su', h(a.su)], ['Hareket', h(a.hareket)], ['İlaç ve takviye', (a.ilaclar || []).length ? h(a.ilaclar.join(', ')) : 'Yok'], ['Aile öyküsü', h(a.aile_oykusu)], ['Alışkanlıklar', h(a.aliskanliklar)], ['Hassasiyet ve kronik durum', hs.length ? h(hs.join(', ')) : 'Yok']])}</div></div>`
+        : `<div class="kart panel">${kartBas('fa-notes-medical', 'Anamnez', PA.hap('Bekliyor', 'bekleyen'))}<div class="kart-govde">${bos('fa-notes-medical', `${h(ilgi)} anamnezi boş`, 'İzin açık, danışan henüz formu doldurmadı.', hatirlat)}</div></div>`;
     const l = notSirali();
     $('p-not').innerHTML = `<div class="yigin">${anamnez}<div class="kart panel">${kartBas('fa-clock-rotate-left', 'Klinik notlar', '<button class="dugme hayalet kucuk" type="button" data-is="not-ekle"><i class="fa-solid fa-plus" aria-hidden="true"></i> Not ekle</button>', l.length + ' not')}<div class="kart-govde">${l.length ? `<div class="zaman-cizelgesi">${l.map((n) => `<div class="zc-kalem gecti"><div class="zc-zaman">${PA.tarih(n.tarih)}</div><div class="zc-metin">${h(n.metin)}</div>${n.sabit || n.paylasildi ? `<div class="eylem-satiri">${n.sabit ? '<span class="rozet olumlu">Sabit</span>' : ''}${n.paylasildi ? '<span class="rozet pasif">Danışanla paylaşıldı</span>' : ''}</div>` : ''}</div>`).join('')}</div>` : bos('fa-note-sticky', `${h(ilgi)} klinik notu yok`, 'İlk görüşme notunu ekle.')}</div></div></div>`;
   }
@@ -224,17 +234,13 @@ ${randevuKart(rs)}
   function izinCiz() {
     const t = talepler();
     $('p-izin').innerHTML = `<div class="yigin"><div class="bilgi-notu"><i class="fa-solid fa-shield-halved" aria-hidden="true"></i><p>Veri paylaşımını danışan kendi hesabından yönetir. Kapalı türleri göremezsin, izin isteyebilirsin. <b>Her görüntüleme kayda geçer.</b></p></div>
-<div class="kart panel">${kartBas('fa-key', 'Paylaşılan veri türleri')}<div class="kart-govde"><div class="ayar-liste">${Object.keys(IZIN).map((k) => { const [ad, ikon, acik] = IZIN[k], var_ = dn.izinler[k]; return `<div class="ayar-satir"><span class="as-ikon"><i class="fa-solid ${var_ ? ikon : 'fa-lock'}" aria-hidden="true"></i></span><span class="as-metin"><b>${ad}</b><span>${acik}</span></span><span class="as-eylem">${var_ ? PA.hap('İzin var', 'cozulen') : t[k] ? PA.hap('İstendi · ' + PA.tarih(t[k]), 'bekleyen') : PA.hap('İzin yok', 'kapali') + `<button class="dugme hayalet kucuk" type="button" data-izin-iste="${k}">İzin iste</button>`}</span></div>`; }).join('')}</div></div></div></div>`;
+<div class="kart panel">${kartBas('fa-key', 'Paylaşılan veri türleri')}<div class="kart-govde"><div class="ayar-liste">${Object.keys(IZIN).map((k) => { const [ad, ikon, acik] = IZIN[k], var_ = dn.izinler[k]; return `<div class="ayar-satir"><span class="as-ikon"><i class="fa-solid ${var_ ? ikon : 'fa-lock'}" aria-hidden="true"></i></span><span class="as-metin"><b>${ad}</b><span>${acik}</span></span><span class="as-eylem">${var_ ? PA.hap('İzin var', 'cozulen') : (dn.izin_cevap || {})[k] === 'red' && !t[k] ? PA.hap('Reddedildi', 'hata') + `<button class="dugme hayalet kucuk" type="button" data-izin-iste="${k}">Yeniden iste</button>` : t[k] ? PA.hap('İstendi · ' + PA.tarih(t[k]), 'bekleyen') : PA.hap('İzin yok', 'kapali') + `<button class="dugme hayalet kucuk" type="button" data-izin-iste="${k}">İzin iste</button>`}</span></div>`; }).join('')}</div></div></div></div>`;
   }
   function izinIste(tur) {
-    talepler()[tur] = DD.bugun;
-    PA.mesajYaz(id, IZIN[tur][0] + ' verinizi görebilmem için paylaşım izni vermenizi rica ederim. İzni hesabınızdaki veri izinlerinden açabilirsiniz.');
-    PA.kaydet();
-    DD.toast(dn.ad + ' için izin isteği gönderildi.');
-    izinCiz();
-    const s = IZIN[tur][3];
-    if (s === 'olcum') olcumCiz(); else if (s === 'tahlil') tahlilCiz(); else if (s === 'not') notCiz();
+    PA.izinIste(id, tur);
+    tumunuCiz();
   }
+  const tumunuCiz = () => { basCiz(); ozetCiz(); olcumCiz(); tahlilCiz(); notCiz(); planCiz(); izinCiz(); };
 
   /* ── Olaylar ────────────────────────────────────────────────────── */
   function hedefAc() {
@@ -283,9 +289,11 @@ ${randevuKart(rs)}
     else if (is === 'yanitlandi') { PA.yanitlandi(id); PA.kaydet(); basCiz(); ozetCiz(); DD.toast('Danışan aktif listesine alındı.'); }
     else if (is === 'deger-ekle') DD.ac('#degerPanel');
     else if (is === 'not-ekle') DD.ac('#notPanel');
+    else if (is === 'anamnez-hatirlat') { dn.anamnez_hatirlatma = DD.bugun; PA.mesajYaz(id, 'Görüşmemize hazırlık için Sağlık Dosyam ekranındaki anamnez formunu doldurabilir misiniz?'); PA.kaydet(); DD.toast('Anamnez hatırlatması gönderildi.'); notCiz(); }
     else if (is === 'hassasiyet') DD.ac('#hassasiyetPanel');
     else if (is === 'tahlil-yukle') $('tahlilDosya').click();
-    else if (is === 'tahlil-iste') { PA.mesajYaz(id, 'Güncel kan tahlilinizi hesabınıza yükleyebilir misiniz? Görüşmede birlikte değerlendirelim.'); PA.kaydet(); DD.toast('Tahlil isteği mesaj olarak gönderildi.'); }
+    else if (is === 'tahlil-iste') { dn.tahlil_istegi = { tarih: DD.bugun, not: 'Güncel kan tahlili' }; PA.mesajYaz(id, 'Güncel kan tahlilinizi Sağlık Dosyam ekranından yükleyebilir misiniz? Görüşmede birlikte değerlendirelim.'); PA.kaydet(); DD.toast('Tahlil isteği gönderildi.'); tahlilCiz(); }
+    else if (is === 'tahlil-incelendi') { const t = dn.tahliller.find((x) => x.dosya_adi === v.tahlil); if (t) t.incelendi = true; PA.kaydet(); DD.toast('Tahlil incelendi olarak işaretlendi.'); tahlilCiz(); basCiz(); }
     else if (is === 'baslat') { dn.durum = 'aktif'; PA.kaydet(); basCiz(); ozetCiz(); DD.toast('Takip yeniden başladı.'); }
     else if (is === 'bitir') window.DM_ONAY('Takip bitirilsin mi?', dn.ad + ' Bitti sekmesine geçer. Geçmiş kayıtlar silinmez.', 'Takibi bitir', (ok) => { if (!ok) return; dn.durum = 'bitti'; PA.kaydet(); basCiz(); ozetCiz(); DD.toast('Takip bitirildi.'); });
   });
@@ -296,7 +304,7 @@ ${randevuKart(rs)}
     v.tahlil = f.name;
     PA.kaydet(); DD.toast('Dosya eklendi. Prototipte yalnız adı kaydedilir.'); tahlilCiz();
   });
-  document.addEventListener('pa:degisti', () => { basCiz(); ozetCiz(); if (sohbetKurulu) sohbetKur(); });
+  document.addEventListener('pa:degisti', () => { tumunuCiz(); if (sohbetKurulu) sohbetKur(); });
 
   /* Sabit sütunlu tabloların yüzde genişlikleri: basıldıktan sonra uygulanır */
   PA.oranTablo = PA.oranlar;
@@ -304,4 +312,5 @@ ${randevuKart(rs)}
   PA.sekmeSabitle($('detaySekme'));
   const ilkSekme = PA.parametre('sekme');
   if (ilkSekme) sekmeAc(ilkSekme);
+  if (PA.parametre('eylem') === 'not-ekle') DD.ac('#notPanel');
 })();

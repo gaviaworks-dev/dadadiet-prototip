@@ -13,7 +13,7 @@
   const hedef = (u.rozetler || []).filter((r) => r.slug === 'ilk-hedef').length;
   const suanki = kademeler.filter((k) => puan >= k[1] && gun >= k[2] && hedef >= k[3]).pop() || kademeler[0];
   const sonraki = kademeler[kademeler.indexOf(suanki) + 1];
-  let suzgec = 'tumu';
+  let suzgec = 'kazanilan';
 
   const pk = (i, b, s, a) => '<div class="puan-karti"><span class="puan-bas"><i class="fa-solid ' + i + '" aria-hidden="true"></i> ' + b + '</span><b class="puan-sayi">' + s + '</b><span class="puan-alt">' + a + '</span></div>';
   const kart = (r) => {
@@ -24,8 +24,10 @@
   function koleksiyon() {
     U.bas('#rzOzet', pk('fa-medal', 'Kazanılan rozet', (u.rozetler || []).length, 'toplam ' + hepsi.length + ' rozetten') + pk('fa-star', 'Toplam puan', puan, 'rozetlerinden gelir') + pk('fa-calendar-check', 'Takip günü', gun, 'ilk ölçümünden bu yana') + pk('fa-stairs', 'Kademen', suanki[0], sonraki ? 'sıradaki ' + sonraki[0] : 'en üst basamak') + pk('fa-lock-open', 'Açık puan', U.sayi(hepsi.reduce((t, r) => t + r.puan, 0) - puan), 'kazanılmayı bekliyor'));
     const sayi = (a) => a.rozetler.filter((r) => kazanilan[r.ad]).length;
-    U.bas('#rzSuzgec', '<button class="cip' + (suzgec === 'tumu' ? ' aktif' : '') + '" type="button" data-deger="tumu">Tümü</button>' + aileler.map((a) => '<button class="cip' + (suzgec === a.ad ? ' aktif' : '') + '" type="button" data-deger="' + U.kac(a.ad) + '">' + U.kac(a.ad) + ' <span class="cip-sayi">' + sayi(a) + ' / ' + a.rozetler.length + '</span></button>').join(''));
-    U.bas('#rzAileler', aileler.filter((a) => suzgec === 'tumu' || a.ad === suzgec).map((a) => '<div class="rozet-ailesi"><div class="rozet-aile-bas"><h3><i class="fa-solid ' + a.ikon + '" aria-hidden="true"></i> ' + U.kac(a.ad) + '</h3><span class="rozet-aile-sayi">' + sayi(a) + ' / ' + a.rozetler.length + '</span></div><p class="rozet-aile-not">' + U.kac(a.not) + '</p><div class="rozet-izgara">' + a.rozetler.map(kart).join('') + '</div></div>').join(''));
+    U.bas('#rzSuzgec', '<button class="cip' + (suzgec === 'kazanilan' ? ' aktif' : '') + '" type="button" data-deger="kazanilan">Kazandıkların</button><button class="cip' + (suzgec === 'tumu' ? ' aktif' : '') + '" type="button" data-deger="tumu">Tümü</button>' + aileler.map((a) => '<button class="cip' + (suzgec === a.ad ? ' aktif' : '') + '" type="button" data-deger="' + U.kac(a.ad) + '">' + U.kac(a.ad) + ' <span class="cip-sayi">' + sayi(a) + ' / ' + a.rozetler.length + '</span></button>').join(''));
+    const secili = suzgec === 'kazanilan' ? aileler.filter((a) => sayi(a)) : aileler.filter((a) => suzgec === 'tumu' || a.ad === suzgec);
+    const listele = (a) => (suzgec === 'kazanilan' ? a.rozetler.filter((r) => kazanilan[r.ad]) : a.rozetler);
+    U.bas('#rzAileler', secili.map((a) => '<div class="rozet-ailesi"><div class="rozet-aile-bas"><h3><i class="fa-solid ' + a.ikon + '" aria-hidden="true"></i> ' + U.kac(a.ad) + '</h3><span class="rozet-aile-sayi">' + sayi(a) + ' / ' + a.rozetler.length + '</span></div><p class="rozet-aile-not">' + U.kac(a.not) + '</p><div class="rozet-izgara">' + listele(a).map(kart).join('') + '</div></div>').join('') || U.bos({ ikon: 'fa-medal', baslik: 'Henüz rozetin yok', metin: 'İlk öğününü işaretlediğinde koleksiyonun başlar.', eylem: U.bag('Günlük takibe git', 'hesabim/gunluk-takibim/') }));
   }
   function kademe() {
     $('#rzKademe').textContent = 'Şu anki kademen: ' + suanki[0];
@@ -44,7 +46,7 @@
     const p = (u.ad || '').split(' ');
     U.bas('#rzLiderlik', gorunur
       ? '<div class="siralama-satir ben"><span class="siralama-sira">1</span><span class="siralama-kim"><b>' + U.kac(p[0] + ' ' + (p[1] || '').charAt(0) + '.') + ' <span class="rozet olumlu">Sen</span></b><small>@' + U.kullaniciAdi() + ' · ' + (u.rozetler || []).length + ' rozet</small></span><span class="siralama-puan"><b>' + puan + '</b><small>puan</small></span></div>'
-      : U.bos({ ikon: 'fa-eye-slash', baslik: 'Adın tabloda görünmüyor', metin: 'Sıralamaya katılmak için görünürlüğünü aç.', eylem: U.bag('Hesap Ayarları', 'hesabim/') }));
+      : U.bos({ ikon: 'fa-eye-slash', baslik: 'Adın tabloda görünmüyor', metin: 'Sıralamaya katılmak için görünürlüğünü aç.', eylem: U.bag('Hesap Ayarları', 'hesabim/ayarlar/') }));
     U.bas('#rzMeydan', U.bos({ ikon: 'fa-trophy', baslik: 'Şu an açık meydan okuma yok', metin: 'Yeni meydan okumalar açıldığında burada görünür.', eylem: U.bag('Günlük takibe dön', 'hesabim/gunluk-takibim/', 'hayalet') }));
   }
   document.addEventListener('dd:suzgec', (e) => { if (e.target.id === 'rzSuzgec') { suzgec = e.detail.deger; koleksiyon(); } });

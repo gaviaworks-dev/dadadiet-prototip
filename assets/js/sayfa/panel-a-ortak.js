@@ -12,6 +12,7 @@
     danisan: (id, sekme) => K + 'danisanlar/' + id + '/' + (sekme ? '?sekme=' + sekme : ''),
     sohbet: (id) => K + 'mesajlar/?danisan=' + id, /* ?id= kitte kayıt anahtarıdır, başlığı değiştirir */
     plan: (id) => K + 'planlar/olustur/?plan=' + id,
+    gorusme: (id) => K + 'gorusme/?randevu=' + id,
     yeniPlan: (id) => K + 'planlar/olustur/' + (id ? '?danisan=' + id : ''),
   };
 
@@ -60,8 +61,8 @@
   PA.para = (n) => Number(n).toLocaleString('tr-TR') + ' ₺';
   PA.davetler = () => PA.d().davetler || (PA.d().davetler = []);
   PA.durumlar = {
-    aktif: ['Aktif', 'cozulen'], 'yanit-bekliyor': ['Yanıt bekliyor', 'bekleyen'],
-    bitti: ['Bitti', 'kapali'], davet: ['Davet gönderildi', 'acik'],
+    aktif: ['Aktif', 'cozulen'], 'yanit-bekliyor': ['Yanıt bekliyor', 'bekleyen'], talep: ['Yeni talep', 'acik'],
+    bitti: ['Bitti', 'kapali'], reddedildi: ['Reddedildi', 'kapali'], davet: ['Davet gönderildi', 'acik'],
   };
   PA.hap = (etiket, sinif) => '<span class="durum-hapi ' + sinif + '">' + PA.h(etiket) + '</span>';
   PA.danisanHap = (dn) => { const [e, s] = PA.durumlar[dn.durum] || [dn.durum, 'kapali']; return PA.hap(e, s); };
@@ -86,11 +87,93 @@
   PA.takip = (dn) => {
     if (dn.durum === 'bitti') return 'Tamamlandı';
     const aralik = dn.kontrol_araligi || 14;
-    if (!PA.gelecekRandevu(dn.id) && PA.gunFarki(dn.son_gorusme, DD.bugun) > aralik) return 'Kontrol gecikti';
+    if (dn.son_gorusme && !PA.gelecekRandevu(dn.id) && PA.gunFarki(dn.son_gorusme, DD.bugun) > aralik) return 'Kontrol gecikti';
     const i = PA.ilerleme(dn);
     if (i && (i.yuzde >= 80 || Math.abs(i.son - i.hedef) <= 1)) return 'Hedefe yakın';
     return 'Yolunda';
   };
+
+  /* Takipte olmayan danışan randevu ve mesaj listelerine girmez */
+  PA.takipte = (dn) => !['talep', 'reddedildi', 'bitti'].includes(dn.durum);
+  /* Üyenin yüklediği, değeri girilmemiş dosya değerlendirme bekler */
+  PA.tahlilYeni = (x) => !x.incelendi && (x.yukleyen === 'uye' || (!x.yukleyen && !(x.degerler || []).length));
+  /* Üye anamnezi yarıda bırakabilir: kayıt var diye tamam sayılmaz */
+  PA.anamnezEksik = (dn) => ['meslek', 'sikayet', 'uyku', 'su', 'hareket', 'aile_oykusu', 'aliskanliklar'].filter((k) => !(dn.anamnez || {})[k]);
+  PA.anamnezGorunur = (dn) => !!((dn.izinler || {}).anamnez || dn.anamnez_kaynak === 'gorusme');
+
+  /* Sıradaki adım: danışanın durumundan türeyen tek eylem. Kart, liste ve iş listesi aynı sonucu okur.
+     {oncelik, ikon, baslik, metin, etiket, href | is, randevu} ; etiket yoksa bekleme durumudur */
+  PA.siradaki = (dn) => {
+    const d = PA.d(), id = dn.id, ilk = PA.ilkAd(dn.ad), ilgi = PA.ilgi(ilk);
+    const rs = d.randevular.filter((r) => r.danisan_id === id);
+    const durum = (x) => rs.filter((r) => PA.rDurum(r) === x);
+    const iz = dn.izinler || {}, ist = dn.izin_talepleri || {};
+    const planlar = (d.planlar || []).filter((p) => p.danisan_id === id);
+    if (dn.durum === 'talep') return { oncelik: 1, ikon: 'fa-user-plus', baslik: 'Danışan talebini yanıtla', metin: (dn.talep_bilgi || {}).mesaj || ilk + ' seninle çalışmak istiyor.', etiket: 'Kabul et', is: 'talep-kabul', ikincil: 'Reddet', ikincilIs: 'talep-red' };
+    if (dn.durum === 'reddedildi') return { oncelik: 99, ikon: 'fa-user-xmark', baslik: 'Talep reddedildi', metin: 'Bu danışanla ilişki açılmadı.' };
+    if (dn.durum === 'bitti') return { oncelik: 99, ikon: 'fa-flag-checkered', baslik: 'Takip bitti', metin: 'Geçmiş kayıtlar kartta kalır.' };
+    const kuyruk = rs.find((r) => r.durum === 'onay-bekliyor' || r.talep);
+    if (kuyruk) return { oncelik: 2, ikon: 'fa-inbox', baslik: kuyruk.talep ? PA.talepAdi(kuyruk) + ' bekliyor' : 'Randevu onayı bekliyor', metin: PA.ayGun(kuyruk.tarih) + ' ' + kuyruk.saat + ' görüşmesi için karar ver.', etiket: 'İncele', randevu: kuyruk.id };
+    /* Öncelik: talep, onay, anamnez, ilk görüşme, sonuç, plan, yanıt, kontrol; sonra izin ve notlar */
+    const gelecek = PA.gelecekRandevu(id), tamam = durum('tamamlandi');
+    if (tamam.length && PA.anamnezEksik(dn).length && iz.anamnez !== false) return { oncelik: 3, ikon: 'fa-notes-medical', baslik: 'Anamnezi tamamla', metin: dn.anamnez ? PA.anamnezEksik(dn).length + ' alan eksik.' : ilgi + ' sağlık öyküsü boş.', etiket: 'Anamnez', sekme: 'not' };
+    if (!rs.filter(PA.rAcik).length) return { oncelik: 4, ikon: 'fa-calendar-plus', baslik: 'İlk randevuyu oluştur', metin: ilk + ' seninle henüz görüşmedi.', etiket: 'İlk randevuyu oluştur', is: 'randevu' };
+    if (!tamam.length && gelecek) return { oncelik: 4, ikon: 'fa-video', baslik: 'İlk görüşmeyi başlat', metin: PA.ayGun(gelecek.tarih) + ' ' + gelecek.saat + '. Anamnez görüşmede dolar.', etiket: 'Görüşmeyi başlat', href: PA.yol.gorusme(gelecek.id) };
+    const sonuc = durum('sonuc-bekliyor')[0];
+    if (sonuc) return { oncelik: 5, ikon: 'fa-hourglass-half', baslik: 'Görüşme sonucunu gir', metin: PA.ayGun(sonuc.tarih) + ' ' + sonuc.saat + ' görüşmesi işaretlenmedi.', etiket: 'Sonuç gir', randevu: sonuc.id };
+    if (!planlar.some((p) => p.durum === 'gonderildi')) {
+      const taslak = planlar.find((p) => p.durum === 'taslak');
+      return taslak ? { oncelik: 6, ikon: 'fa-paper-plane', baslik: 'Taslak planı gönder', metin: taslak.ad, etiket: 'Planı aç', href: PA.yol.plan(taslak.id) } : { oncelik: 6, ikon: 'fa-clipboard-list', baslik: 'Plan oluştur', metin: ilgi + ' gönderilmiş planı yok.', etiket: 'Plan oluştur', href: PA.yol.yeniPlan(id) };
+    }
+    if (dn.durum === 'yanit-bekliyor') return { oncelik: 7, ikon: 'fa-reply', baslik: ilk + ' yanıtını bekliyor', metin: dn.mesaj_ozeti || 'Son mesajını yanıtla.', etiket: 'Yanıtla', href: PA.yol.sohbet(id) };
+    if (!gelecek && PA.takip(dn) === 'Kontrol gecikti') return { oncelik: 8, ikon: 'fa-clock-rotate-left', baslik: 'Kontrol gecikti', metin: 'Son görüşme ' + PA.tarih(dn.son_gorusme) + ', planlı görüşme yok.', etiket: 'Randevu oluştur', is: 'randevu' };
+    const tahlil = (dn.tahliller || []).find(PA.tahlilYeni);
+    if (tahlil && iz.tahlil) return { oncelik: 9, ikon: 'fa-vial', baslik: 'Yeni tahlili değerlendir', metin: tahlil.dosya_adi + ' yüklendi.', etiket: 'Tahlili aç', sekme: 'tahlil' };
+    const red = dn.izin_cevap || {}, eksik = ['olcum', 'tahlil'].filter((k) => !iz[k] && red[k] !== 'red');
+    const istenmemis = eksik.find((k) => !ist[k]);
+    if (istenmemis) return { oncelik: 10, ikon: 'fa-key', baslik: (istenmemis === 'olcum' ? 'Ölçüm' : 'Tahlil') + ' iznini iste', metin: ilk + ' bu veriyi henüz paylaşmıyor.', etiket: 'İzin iste', izin: istenmemis };
+    const sonTamam = tamam.map((r) => r.tarih).sort().pop();
+    const sonNot = (dn.klinik_notlar || []).map((n) => n.tarih).sort().pop();
+    if (sonTamam && (!sonNot || sonNot < sonTamam)) return { oncelik: 11, ikon: 'fa-note-sticky', baslik: 'İlerleme notu ekle', metin: PA.ayGun(sonTamam) + ' görüşmesinin notu yok.', etiket: 'Not ekle', is: 'not-ekle' };
+    if (!gelecek) return { oncelik: 12, ikon: 'fa-calendar-plus', baslik: 'Kontrol randevusu oluştur', metin: 'Planlı görüşme yok' + (dn.son_gorusme ? ', son görüşme ' + PA.tarih(dn.son_gorusme) : '') + '.', etiket: 'Randevu oluştur', is: 'randevu' };
+    if (gelecek.tarih === DD.bugun) return { oncelik: 4, ikon: 'fa-video', baslik: 'Bugünkü görüşme', metin: gelecek.saat + ' · ' + PA.rTur(gelecek), etiket: 'Görüşmeyi başlat', href: PA.yol.gorusme(gelecek.id) };
+    if (eksik.length) return { oncelik: 20, ikon: 'fa-hourglass', baslik: 'İzin yanıtı bekleniyor', metin: ilk + ' izin isteğini görecek.' };
+    return { oncelik: 30, ikon: 'fa-circle-check', baslik: 'Takip yolunda', metin: 'Sıradaki görüşme ' + PA.ayGun(gelecek.tarih) + ' ' + gelecek.saat + '.' };
+  };
+  /* Eylemi bağa ya da data niteliğine çevirir: liste, iş listesi ve kart aynı düğmeyi üretir */
+  PA.adimEylem = (a, dn, sinif, yazi) => {
+    if (!a.etiket) return '';
+    const c = sinif || 'dugme hayalet kucuk', e = PA.h(yazi || a.etiket);
+    if (a.href) return `<a class="${c}" href="${a.href}">${e}</a>`;
+    if (a.sekme) return `<a class="${c}" href="${PA.yol.danisan(dn.id, a.sekme)}">${e}</a>`;
+    if (a.randevu) return `<button class="${c}" type="button" data-randevu="${a.randevu}">${e}</button>`;
+    if (a.izin) return `<button class="${c}" type="button" data-izin-hizli="${a.izin}" data-danisan="${dn.id}">${e}</button>`;
+    if (a.is === 'randevu') return `<button class="${c}" type="button" data-randevu-ac data-danisan="${dn.id}">${e}</button>`;
+    if (a.is === 'not-ekle') return `<a class="${c}" href="${PA.yol.danisan(dn.id, 'not')}&eylem=not-ekle">${e}</a>`;
+    return `<button class="${c}" type="button" data-adim="${a.is}" data-danisan="${dn.id}">${e}</button>`;
+  };
+  /* Danışan talebi kararı ve hızlı izin isteği her ekrandan aynı yazımı yapar */
+  PA.talepKarar = (id, kabul) => {
+    const dn = PA.danisan(id);
+    if (!dn) return;
+    dn.durum = kabul ? 'aktif' : 'reddedildi';
+    dn.karar_tarihi = DD.bugun;
+    if (kabul) { dn.yeni = true; PA.mesajYaz(id, 'Merhaba ' + PA.ilkAd(dn.ad) + ', talebini kabul ettim. Birlikte çalışmak için ilk görüşmemizi planlayalım.'); }
+    PA.kaydet();
+    DD.toast(kabul ? dn.ad + ' danışanların arasına eklendi.' : dn.ad + ' talebi reddedildi.');
+  };
+  const IZIN_AD = { olcum: 'Ölçüm', tahlil: 'Kan tahlili', anamnez: 'Anamnez', gunluk: 'Günlük takip', belge: 'Belge' };
+  PA.izinIste = (id, tur) => {
+    const dn = PA.danisan(id);
+    (dn.izin_talepleri = dn.izin_talepleri || {})[tur] = DD.bugun;
+    PA.mesajYaz(id, IZIN_AD[tur] + ' verinizi görebilmem için paylaşım izni vermenizi rica ederim. İzni Veri İzinlerim ekranından açabilirsiniz.');
+    PA.kaydet();
+    DD.toast(dn.ad + ' için izin isteği gönderildi.');
+  };
+  /* Kazanç tek yazardan geçer: panel-b-durum.js; sayfada yoksa Kazançlar açılışı aynı senkronu yapar */
+  PA.kazancTazele = () => { if (window.PBD) window.PBD.kazancSenkron(); };
+  /* Günün iş listesi: her danışanın sıradaki adımı önceliğe göre */
+  PA.isListesi = () => PA.danisanlar().map((dn) => ({ dn, adim: PA.siradaki(dn) })).filter((x) => x.adim.etiket).sort((a, b) => a.adim.oncelik - b.adim.oncelik);
 
   /* ── Randevu ────────────────────────────────────────────────────── */
   PA.rBitis = (r) => PA.dakika(r.saat) + r.sure;
@@ -195,6 +278,7 @@
       if (!m || PA.gunFarki(m.zaman, DD.bugun) > 7) return;
       l.push({ id: 'm-' + k.danisan_id + m.zaman, tur: 'Mesaj', ikon: 'fa-comments', baslik: ad(k.danisan_id) + ' mesaj gönderdi', metin: m.metin, zaman: m.zaman, git: PA.yol.sohbet(k.danisan_id), okundu: !k.okunmamis });
     });
+    (d.danisanlar || []).filter((x) => x.durum === 'talep').forEach((x) => l.push({ id: 'n-' + x.id, tur: 'Danışan', ikon: 'fa-user-plus', baslik: x.ad + ' seninle çalışmak istiyor', metin: (x.talep_bilgi || {}).mesaj || 'Yeni danışan talebi.', zaman: ((x.talep_bilgi || {}).tarih || DD.bugun) + 'T08:40', git: PA.yol.danisan(x.id) }));
     (d.danisanlar || []).filter((x) => x.durum === 'yanit-bekliyor').forEach((x) => l.push({ id: 'y-' + x.id, tur: 'Danışan', ikon: 'fa-user-clock', baslik: x.ad + ' yanıtını bekliyor', metin: x.mesaj_ozeti || 'Danışanın senden yanıt bekliyor.', zaman: x.son_gorusme + 'T09:00', git: PA.yol.danisan(x.id) }));
     d.randevular.forEach((r) => {
       if (r.durum === 'sonuc-bekliyor') l.push({ id: 's-' + r.id, tur: 'Randevu', ikon: 'fa-hourglass-half', baslik: ad(r.danisan_id) + ' görüşmesinin sonucu bekleniyor', metin: PA.tarih(r.tarih) + ' ' + r.saat + ' görüşmesini Tamamlandı ya da Gelmedi olarak işaretle.', zaman: r.tarih + 'T' + r.saat, git: PA.yol.takvim + '?randevu=' + r.id });
@@ -225,7 +309,7 @@
   PA.kabukTazele = () => {
     rozet('diyetisyen-paneli/takvim/', PA.rBugun().length);
     rozet('diyetisyen-paneli/mesajlar/', PA.okunmamis());
-    rozet('diyetisyen-paneli/danisanlar/', PA.danisanlar().filter((x) => x.durum === 'yanit-bekliyor').length);
+    rozet('diyetisyen-paneli/danisanlar/', PA.danisanlar().filter((x) => ['yanit-bekliyor', 'talep'].includes(x.durum)).length);
     const n = PA.bildirimler().filter((b) => !b.okundu).length;
     const zil = document.querySelector('.panel-ust-sag a.panel-ust-dugme');
     if (zil) {
@@ -301,21 +385,28 @@
   };
   PA.kilitGorunum = (etiket, tur, istendi, ad) => '<div class="bos-durum kart-ici"><span class="bos-ikon"><i class="fa-solid fa-lock" aria-hidden="true"></i></span><h3>' + PA.h(etiket) + ' paylaşılmıyor</h3><p>' + PA.h(ad || 'Danışan') + ' bu veri türü için izin vermedi. İzin verdiğinde içerik burada açılır.</p>' + (istendi ? '<span class="durum-hapi bekleyen">İzin istendi · ' + PA.tarih(istendi) + '</span>' : '<button class="dugme hayalet" type="button" data-izin-iste="' + tur + '"><i class="fa-solid fa-key" aria-hidden="true"></i> İzin iste</button>') + '</div>';
 
-  /* Örnek onay ve talepler: demo.json'a dokunmadan bir kez işaretlenir, üye tarafı aynı durumu okur */
+  /* Örnek iş akışı durumu: demo.json'a alınana kadar bir kez işlenir; alan listesi tasks/akis-panel-a.md */
+  const YENI_DANISAN = [
+    { id: 'd13', ad: 'Pelin Aksoy', yas: 31, cinsiyet: 'kadın', boy: 168, kilo: 74.5, hedef_kilo: 66, hedef: 'Doğum sonrası kilo verme', paket_id: 'p2', talep_bilgi: { tarih: '2026-11-06', paket_id: 'p2', kaynak: 'diyetisyen-profili', mesaj: 'Doğum sonrası kilo vermek ve emzirme döneminde dengeli beslenmek istiyorum.' } },
+    { id: 'd14', ad: 'Kerem Sağlam', yas: 42, cinsiyet: 'erkek', boy: 178, kilo: 96, hedef_kilo: 84, hedef: 'Tansiyon için kilo verme', paket_id: 'p1', talep_bilgi: { tarih: '2026-11-05', paket_id: 'p1', kaynak: 'diyetisyen-bul', mesaj: 'Doktorum kilo vermemi önerdi, online takip istiyorum.' } },
+  ];
   function tohum() {
     const d = PA.d();
-    if (d.demo_tohum_v2 || !d.randevular) return;
-    d.demo_tohum_v2 = 1;
-    if (d.panel_tohum) { /* önceki tohumu geri al */
-      d.randevular = d.randevular.filter((r) => !/^rt\d$/.test(r.id));
-      d.randevular.forEach((r) => { if (r.talep && !r.talep.durum) delete r.talep; });
-      delete d.panel_tohum;
+    if (!d.randevular || !d.danisanlar) return;
+    if (!d.demo_tohum_v2) {
+      d.demo_tohum_v2 = 1;
+      const bul = (id) => d.randevular.find((x) => x.id === id && x.durum === 'dolu' && x.danisan_id !== 'd1');
+      ['r16', 'r18'].forEach((id) => { const r = bul(id); if (r) r.durum = 'onay-bekliyor'; });
+      const talep = (id, t) => { const r = bul(id); if (r && !r.talep) r.talep = Object.assign({ durum: 'bekliyor', zaman: DD.bugun + 'T09:10' }, t); };
+      talep('r17', { tur: 'iptal', neden: 'Antrenman saati değişti, bugün gelemiyorum.' });
+      talep('r21', { tur: 'saat', yeni_tarih: PA.ekle(DD.bugun, 4), yeni_saat: '11:00', neden: 'Pazartesi öğleden sonra toplantım çıktı.' });
     }
-    const bul = (id) => d.randevular.find((x) => x.id === id && x.durum === 'dolu' && x.danisan_id !== 'd1');
-    ['r16', 'r18'].forEach((id) => { const r = bul(id); if (r) r.durum = 'onay-bekliyor'; });
-    const talep = (id, t) => { const r = bul(id); if (r && !r.talep) r.talep = Object.assign({ durum: 'bekliyor', zaman: DD.bugun + 'T09:10' }, t); };
-    talep('r17', { tur: 'iptal', neden: 'Antrenman saati değişti, bugün gelemiyorum.' });
-    talep('r21', { tur: 'saat', yeni_tarih: PA.ekle(DD.bugun, 4), yeni_saat: '11:00', neden: 'Pazartesi öğleden sonra toplantım çıktı.' });
+    if (!d.demo_tohum_v3) {
+      d.demo_tohum_v3 = 1;
+      YENI_DANISAN.forEach((x) => { if (!d.danisanlar.some((y) => y.id === x.id)) d.danisanlar.push(Object.assign({ durum: 'talep', son_gorusme: null, hassasiyetler: [], kronik: [], olcumler: [], tahliller: [], anamnez: null, klinik_notlar: [], izinler: { olcum: false, tahlil: false, gunluk: false, belge: false, anamnez: false }, mesaj_ozeti: '' }, x)); });
+      const u = d.danisanlar.find((x) => x.id === 'd1');
+      if (u) u.izinler.tahlil = false; /* üyede izin isteği adımı gezilebilsin */
+    }
     DD.demo.kaydet();
   }
   /* Otomatik onay kuralı: üyenin yeni randevusu kuyruğa düşmeden kesinleşir */
@@ -326,5 +417,16 @@
     l.forEach((r) => { r.durum = 'dolu'; PA.mesajYaz(r.danisan_id, PA.ayGun(r.tarih) + ' ' + r.saat + ' randevunuz onaylandı.'); });
     if (l.length) DD.demo.kaydet();
   }
+  /* Sıradaki adım düğmeleri her ekranda aynı işi yapar */
+  const degisti = () => document.dispatchEvent(new CustomEvent('pa:degisti', { detail: {} }));
+  document.addEventListener('click', (e) => {
+    const a = e.target.closest('[data-adim]'), z = e.target.closest('[data-izin-hizli]');
+    if (z) { PA.izinIste(z.dataset.danisan, z.dataset.izinHizli); degisti(); return; }
+    if (!a) return;
+    const id = a.dataset.danisan, dn = PA.danisan(id);
+    if (a.dataset.adim === 'talep-kabul') { PA.talepKarar(id, true); degisti(); }
+    else if (a.dataset.adim === 'talep-red') window.DM_ONAY('Talep reddedilsin mi?', dn.ad + ' danışanların arasına eklenmez.', 'Reddet', (ok) => { if (ok) { PA.talepKarar(id, false); degisti(); } });
+    else if (a.dataset.adim === 'yanitlandi') { PA.yanitlandi(id); PA.kaydet(); DD.toast(dn.ad + ' aktif listesine alındı.'); degisti(); }
+  });
   try { tohum(); onayKurali(); PA.kabukTazele(); ustArama(); } catch (e) { /* panel-b ekranını sayaç hatası düşürmesin */ }
 })();

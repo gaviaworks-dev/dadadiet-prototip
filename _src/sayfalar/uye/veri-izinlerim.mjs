@@ -1,6 +1,7 @@
 import { uyeSayfa, bolumBas, kart, ayarSatir, anahtar, dugme, modal, tablo, secim } from '../../parcalar/uye/ust.mjs';
 
 const aktif = `<div class="yigin">
+<div id="viIstek"></div>
 ${bolumBas({ etiket: 'Varsayılan: kapalı', ikon: 'fa-shield-halved', baslik: 'Veri paylaşım izinlerin', metin: 'Sağlık verilerin sen izin vermeden kimseyle paylaşılmaz; verdiğin izni istediğin an geri çekebilirsin.' })}
 ${kart({
     ikon: 'fa-heart-pulse', baslik: 'Sağlık verisi paylaşımı', metin: 'Kapattığında bütün erişimler anında durur.', bosluksuz: true,
@@ -56,7 +57,7 @@ const sonEk = modal({
 });
 
 export default () => [uyeSayfa({
-  yol: 'hesabim/veri-izinlerim', ad: 'Veri İzinlerim', muhur: 'Veri izinlerin · kişisel alanın', ikon: 'fa-user-shield',
+  yol: 'hesabim/veri-izinlerim', ad: 'Veri İzinlerim',
   giris: 'Sağlık verilerinin hangi kapsamda ve ne kadar süreyle paylaşılacağını buradan yönetirsin.',
   grup: 'vi',
   sekmeler: [

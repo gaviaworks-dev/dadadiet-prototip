@@ -24,11 +24,18 @@
 
   function turDegis(k, acik) {
     iz[k] = acik;
+    if (acik && dn.izin_cevap) delete dn.izin_cevap[k]; /* yeniden verilen izinde eski red kalkar */
     yaz(adi(k) + (acik ? ' izni açıldı.' : ' izni kapatıldı.'));
     if (!acik) kapanan().push({ tarih: U.bugun(), izin: adi(k), durum: 'Geri çekildi' });
   }
 
+  function istekCiz() {
+    const l = Object.keys(dn.izin_talepleri || {}).filter((t) => !iz[t]);
+    U.bas('#viIstek', l.length ? '<div class="kart panel tam-kolon"><div class="kart-bas"><div><h3 class="kart-baslik"><i class="fa-solid fa-hand" aria-hidden="true"></i> Bekleyen izin istekleri</h3><p>Karar senin; onaylamazsan diyetisyenin bu veriyi göremez.</p></div></div><div class="kart-govde bosluksuz"><div class="ayar-liste">' + l.map((t) => { const x = TUR.find((y) => y[0] === t) || [t, 'fa-shield-halved', t, '']; return '<div class="ayar-satir"><span class="as-ikon"><i class="fa-solid ' + x[1] + '" aria-hidden="true"></i></span><div class="as-metin"><b>' + x[2] + '</b><span>' + U.kac(dy ? dy.ad : '') + ' · ' + U.tarih(dn.izin_talepleri[t]) + ' tarihinde istedi</span></div><span class="as-eylem"><button class="dugme hayalet kucuk" type="button" data-istek-red="' + t + '">Reddet</button><button class="dugme birincil kucuk" type="button" data-istek-onay="' + t + '">Onayla</button></span></div>'; }).join('') + '</div></div></div>' : '');
+  }
+
   function aktifCiz() {
+    istekCiz();
     const n = acikTurler().length;
     $('#viGenel').checked = n > 0;
     U.bas('#viOzet', n ? U.durum('cozulen', n + ' veri türü açık') : U.durum('kapali', 'Paylaşım kapalı'));
@@ -90,6 +97,9 @@
   document.addEventListener('click', (e) => {
     const k = e.target.closest('[data-kapat-izin]');
     if (k) { turDegis(k.dataset.kapatIzin, false); bitir(adi(k.dataset.kapatIzin) + ' izni geri çekildi.', 'uyari'); }
+    const o = e.target.closest('[data-istek-onay]'), r = e.target.closest('[data-istek-red]');
+    if (o) { const t = o.dataset.istekOnay; turDegis(t, true); delete dn.izin_talepleri[t]; bitir(adi(t) + ' izni verildi; diyetisyenin artık görebilir.'); }
+    if (r) { const t = r.dataset.istekRed; delete dn.izin_talepleri[t]; (dn.izin_cevap = dn.izin_cevap || {})[t] = 'red'; yaz(adi(t) + ' isteği reddedildi.'); bitir('İzin isteği reddedildi.', 'uyari'); }
   });
   $('#viGeriCekOnay').addEventListener('click', () => { hepsiniKapat(); DD.kapat($('#viGeriCek')); bitir('Bütün izinler geri çekildi.', 'uyari'); });
   $('#viYeniForm').addEventListener('submit', (e) => {

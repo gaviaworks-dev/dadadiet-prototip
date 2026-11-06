@@ -30,7 +30,7 @@ ${kart({ bosluksuz: true, govde: '<div id="rzMeydan"></div>' })}
 
 export default () => {
   const p = uyeSayfa({
-    yol: 'hesabim/rozetlerim', ad: 'Rozetlerim', muhur: 'Rozetlerin · kişisel alanın', ikon: 'fa-medal',
+    yol: 'hesabim/rozetlerim', ad: 'Rozetlerim',
     giris: 'Kazandığın rozetler, topladığın puan, merdivendeki kademen ve sıran.',
     grup: 'rz', sekmeler, js: ['assets/js/sayfa/uye-rozetlerim.js'],
     sonEk: `<script type="application/json" id="rzKatalog">${JSON.stringify({ aileler, kademeler }).replace(/</g, '\\u003c')}</script>`,

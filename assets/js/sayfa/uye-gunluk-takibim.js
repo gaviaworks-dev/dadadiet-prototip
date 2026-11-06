@@ -9,29 +9,24 @@
   const ogunler = () => U.secilenOgunler(k, b);
   const ogunAd = (a) => (U.ogunTanimi.find((o) => o[0] === a) || [])[1] || a;
 
-  function toplam() {
-    const i = k ? U.isaret(k, b) : {};
-    const l = ogunler().filter((o) => i[o.anahtar]).flatMap((o) => o.kalemler.map((x) => ({ ...x, ogun: o.anahtar }))).concat(ekler());
-    const top = (a) => l.reduce((s, x) => s + (Number(x[a]) || 0), 0);
-    return { l, kcal: top('kcal'), protein: top('protein'), karb: top('karb'), yag: top('yag') };
-  }
+  const toplam = () => U.gunToplam();
 
   function ogunCiz() {
-    U.bas('#gtBas', '<div class="bolum-bas"><div><span class="ust-etiket"><i class="fa-solid fa-calendar-day" aria-hidden="true"></i> ' + U.kisaTarih(b) + ' ' + U.gunAdi(b) + '</span><h2>Bugün ne yedin</h2><p class="giris-metni">Yediklerini öğün öğün kaydet. Kaydettiğin her kalem, günün enerji ve makro toplamına işlenir.</p><div class="bolum-araclar"><a class="dugme hayalet" href="' + DD.kok + 'besin-kutuphanesi/">Besin kütüphanesinde ara</a></div></div></div>');
-    if (!k) { U.bas('#gtOgunler', U.bos({ ikon: 'fa-utensils', baslik: 'Bugün için planın yok', metin: 'Besinlerini yine de ekleyebilirsin.', eylem: U.bag('Program seç', 'programlar/') })); return; }
+    U.bas('#gtBas', '<div class="bolum-bas"><div><span class="ust-etiket"><i class="fa-solid fa-calendar-day" aria-hidden="true"></i> ' + U.kisaTarih(b) + ' ' + U.gunAdi(b) + '</span><h2>Bugün ne yedin</h2><p class="giris-metni">Plandan farklı yediysen artıya basıp besin ekle.</p><div class="bolum-araclar"><a class="dugme hayalet" href="' + DD.kok + 'besin-kutuphanesi/">Besin kütüphanesinde ara</a></div></div></div>');
+    if (!k) { U.bas('#gtOgunler', U.bos({ ikon: 'fa-utensils', baslik: 'Bugün için planın yok', metin: 'Program seçtiğinde öğünlerin burada açılır; besinlerini yine de ekleyebilirsin.', eylem: '<a class="dugme birincil" href="' + DD.kok + 'programlar/program-bul/">Program bul</a><button class="dugme hayalet" type="button" data-besin-ekle="kahvalti">Besin ekle</button>' })); $('#gtOzet').textContent = ekler().length + ' kalem kayıtlı.'; $('#gtKcal').textContent = U.sayi(toplam().kcal) + ' kcal'; $('#gtPaylas').hidden = true; return; }
     const i = U.isaret(k, b), e = ekler();
     if (!ogunler().length) U.bas('#gtOgunler', U.bugunBos(k));
     else U.bas('#gtOgunler', ogunler().map((o) => {
       const ek = e.filter((x) => x.ogun === o.anahtar);
       const ekMetin = ek.length ? ' Eklediğin: ' + ek.map((x) => U.kalemMetin(x)).join(', ') + '.' : '';
-      const satir = U.ogunSatir({ ...o, metin: 'Planlanan: ' + o.metin + '.' + ekMetin }, !!i[o.anahtar]);
-      return satir.replace('<label class="anahtar">', '<button class="dugme hayalet kucuk" type="button" data-besin-ekle="' + o.anahtar + '">Besin ekle</button><label class="anahtar">');
+      const satir = U.ogunSatir({ ...o, metin: 'Planlanan: ' + o.metin + '.' + ekMetin }, U.ogunDurum(i, o));
+      return satir.replace('<div class="segment"', '<button class="dugme hayalet kucuk" type="button" data-besin-ekle="' + o.anahtar + '" aria-label="' + U.kac(o.ad) + ' için besin ekle"><i class="fa-solid fa-plus" aria-hidden="true"></i></button><div class="segment"');
     }).join(''));
     const tm = toplam();
     $('#gtOzet').textContent = ogunler().filter((o) => i[o.anahtar]).length + ' / ' + ogunler().length + ' öğün tamamlandı, ' + e.length + ' ek kalem kayıtlı.';
     $('#gtKcal').textContent = U.sayi(tm.kcal) + ' kcal';
     /* Paylaşım izne bağlı: nedeni ekranda yazar */
-    const izin = !!(dn.izinler && dn.izinler.gunluk);
+    const izin = !!(dn.izinler && dn.izinler.gunluk) && !!U.diyetisyen();
     $('#gtPaylas').disabled = !izin;
     $('#gtPaylasNot').innerHTML = izin ? '' : 'Paylaşmak için <a href="' + DD.kok + 'hesabim/veri-izinlerim/">günlük takip iznini</a> aç.';
   }
@@ -43,13 +38,13 @@
     const s = u.su, oran = Math.round((s.bugun_ml / s.hedef_ml) * 100);
     $('#gtSuMetin').textContent = U.sayi(s.bugun_ml) + ' ml / ' + U.sayi(s.hedef_ml) + ' ml hedef';
     U.bas('#gtSu', olcer(oran, 'Su hedefi'));
-    DD.grafik.cizgi($('#gtSuGrafik'), { baslik: 'Son yedi günün su alımı', etiketler: s.hafta.map((x) => kisaGun(x.tarih)), seriler: [{ ad: 'Su', degerler: s.hafta.map((x) => x.tarih === b ? s.bugun_ml : x.ml) }], hedef: s.hedef_ml });
+    if (s.hafta.length) DD.grafik.cizgi($('#gtSuGrafik'), { baslik: 'Son yedi günün su alımı', etiketler: s.hafta.map((x) => kisaGun(x.tarih)), seriler: [{ ad: 'Su', degerler: s.hafta.map((x) => x.tarih === b ? s.bugun_ml : x.ml) }], hedef: s.hedef_ml });
   }
   function adimCiz() {
     const a = u.adim, oran = Math.round((a.bugun / a.hedef) * 100);
     $('#gtAdimMetin').textContent = U.sayi(a.bugun) + ' adım / ' + U.sayi(a.hedef) + ' adım hedef';
     U.bas('#gtAdim', olcer(oran, 'Adım hedefi'));
-    DD.grafik.cizgi($('#gtAdimGrafik'), { baslik: 'Son yedi günün adımları', etiketler: a.hafta.map((x) => kisaGun(x.tarih)), seriler: [{ ad: 'Adım', degerler: a.hafta.map((x) => x.tarih === b ? a.bugun : x.adim) }], hedef: a.hedef });
+    if (a.hafta.length) DD.grafik.cizgi($('#gtAdimGrafik'), { baslik: 'Son yedi günün adımları', etiketler: a.hafta.map((x) => kisaGun(x.tarih)), seriler: [{ ad: 'Adım', degerler: a.hafta.map((x) => x.tarih === b ? a.bugun : x.adim) }], hedef: a.hedef });
   }
   function makroCiz() {
     const tm = toplam();
@@ -76,12 +71,7 @@
   const ciz = () => { ogunCiz(); suCiz(); adimCiz(); makroCiz(); notCiz(); ozetCiz(); };
 
   /* Öğün işareti */
-  document.addEventListener('change', (e) => {
-    const c = e.target.closest('[data-ogun-isaret]');
-    if (!c) return;
-    U.isaret(k, b)[c.dataset.ogunIsaret] = c.checked;
-    U.kaydet(); ogunCiz(); makroCiz(); ozetCiz();
-  });
+  document.addEventListener('dd:ogun', () => { ogunCiz(); makroCiz(); ozetCiz(); });
   /* Su */
   document.addEventListener('click', (e) => {
     const s = e.target.closest('[data-su]');

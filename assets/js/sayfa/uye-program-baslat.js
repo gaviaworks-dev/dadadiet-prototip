@@ -28,21 +28,16 @@
   const k = { anahtar: slug, tip: 'program', ad: kayit.ad, program: kayit };
   $('#pbBildirimMetin').innerHTML = zatenVar ? '<b>Bu program zaten planında.</b> Kaldığın yerden devam edebilirsin.' : '<b>Program beslenme planına eklendi.</b> Bugünün öğünlerini aşağıdan işaretleyebilirsin.';
   $('#pbBildirim').hidden = false;
-  const h1 = document.querySelector('.kimlik-govde h1');
+  const h1 = document.querySelector('.sayfa-bas h1');
   if (h1) h1.textContent = zatenVar ? 'Programın Sürüyor' : 'Programın Başladı';
   U.bas('#pbBas', '<div class="bolum-bas"><div><span class="ust-etiket"><i class="fa-solid fa-seedling" aria-hidden="true"></i> Aktif programın</span><h2>' + U.kac(kayit.ad) + '</h2><p class="giris-metni">' + U.kac(kayit.aciklama) + '</p></div></div>');
 
   function ciz() {
     const l = U.gunOgunleri(k, b), i = U.isaret(k, b);
     U.bas('#pbUyum', U.uyumGovde(k));
-    U.bas('#pbOgunler', l.map((o) => U.ogunSatir(o, !!i[o.anahtar])).join(''));
+    U.bas('#pbOgunler', l.map((o) => U.ogunSatir(o, U.ogunDurum(i, o))).join(''));
     $('#pbOzet').textContent = U.tarih(b) + ' · ' + l.length + ' öğün planlandı, ' + l.filter((o) => i[o.anahtar]).length + ' tanesi tamamlandı.';
   }
-  document.addEventListener('change', (e) => {
-    const c = e.target.closest('[data-ogun-isaret]');
-    if (!c) return;
-    U.isaret(k, b)[c.dataset.ogunIsaret] = c.checked;
-    U.kaydet(); ciz();
-  });
+  document.addEventListener('dd:ogun', ciz);
   ciz();
 })();

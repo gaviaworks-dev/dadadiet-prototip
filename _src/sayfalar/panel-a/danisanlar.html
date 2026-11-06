@@ -1,16 +1,17 @@
-<!--{"baslik":"Danışanlarım","yol":"diyetisyen-paneli/danisanlar","duzen":"panel","aktif":"danisanlar","js":["assets/js/sayfa/panel-a-ortak.js","assets/js/sayfa/panel-a-randevu.js","assets/js/sayfa/panel-a-danisanlar.js"]}-->
+<!--{"baslik":"Danışanlarım","yol":"diyetisyen-paneli/danisanlar","duzen":"panel","aktif":"danisanlar","js":["assets/js/sayfa/panel-a-ortak.js","assets/js/sayfa/panel-b-durum.js","assets/js/sayfa/panel-a-randevu.js","assets/js/sayfa/panel-a-danisanlar.js"]}-->
 <div class="panel-bas">
-  <div><h1>Danışanlarım</h1><p>Talepler, aktif ilişkiler ve biten takipler tek listede.</p></div>
+  <div><h1>Danışanlarım</h1><p>Yeni talepler, aktif takipler ve biten ilişkiler tek listede. Her satır o danışanın sıradaki adımını gösterir; satırdaki bağ doğrudan o işi açar. · <b id="baslikSayi"></b> kayıt</p></div>
   <div class="eylem-satiri">
     <button class="dugme hayalet" type="button" id="disaAktar"><i class="fa-solid fa-file-export" aria-hidden="true"></i> Dışa aktar</button>
     <button class="dugme birincil" type="button" data-ac="#danisanEkle"><i class="fa-solid fa-user-plus" aria-hidden="true"></i> Danışan ekle</button>
   </div>
 </div>
 <div class="sekmeler" role="tablist" aria-label="Danışan durumu" id="danisanSekme">
-  <button class="sekme aktif" type="button" role="tab" id="s-tumu" data-sekme="tumu" aria-controls="liste" aria-selected="true">Tümü <span class="sekme-sayi" data-sayi="tumu"></span></button>
-  <button class="sekme" type="button" role="tab" id="s-aktif" data-sekme="aktif" aria-controls="liste" aria-selected="false">Aktif <span class="sekme-sayi" data-sayi="aktif"></span></button>
-  <button class="sekme" type="button" role="tab" id="s-yanit" data-sekme="yanit" aria-controls="liste" aria-selected="false">Yanıt bekliyor <span class="sekme-sayi" data-sayi="yanit"></span></button>
-  <button class="sekme" type="button" role="tab" id="s-bitti" data-sekme="bitti" aria-controls="liste" aria-selected="false">Bitti <span class="sekme-sayi" data-sayi="bitti"></span></button>
+  <button class="sekme aktif" type="button" role="tab" id="s-tumu" data-sekme="tumu" aria-controls="liste" aria-selected="true"><i class="fa-solid fa-users" aria-hidden="true"></i> Tümü <span class="sekme-sayi" data-sayi="tumu"></span></button>
+  <button class="sekme" type="button" role="tab" id="s-talep" data-sekme="talep" aria-controls="liste" aria-selected="false"><i class="fa-solid fa-user-plus" aria-hidden="true"></i> Yeni talep <span class="sekme-sayi" data-sayi="talep"></span></button>
+  <button class="sekme" type="button" role="tab" id="s-aktif" data-sekme="aktif" aria-controls="liste" aria-selected="false"><i class="fa-solid fa-circle-check" aria-hidden="true"></i> Aktif <span class="sekme-sayi" data-sayi="aktif"></span></button>
+  <button class="sekme" type="button" role="tab" id="s-yanit" data-sekme="yanit" aria-controls="liste" aria-selected="false"><i class="fa-solid fa-reply" aria-hidden="true"></i> Yanıt bekliyor <span class="sekme-sayi" data-sayi="yanit"></span></button>
+  <button class="sekme" type="button" role="tab" id="s-bitti" data-sekme="bitti" aria-controls="liste" aria-selected="false"><i class="fa-solid fa-flag-checkered" aria-hidden="true"></i> Bitti <span class="sekme-sayi" data-sayi="bitti"></span></button>
 </div>
 <div class="kart panel" id="liste" role="tabpanel" aria-labelledby="s-tumu">
   <div class="suzgec-cubuk">
@@ -35,6 +36,14 @@
           <button class="cip suzgec" type="button" aria-pressed="false" data-deger="Yolunda">Yolunda</button>
         </div>
       </div>
+      <div class="coklu-secim">
+        <button class="suzgec-dugme" type="button" aria-haspopup="true" aria-expanded="false" aria-controls="sKolon"><i class="fa-solid fa-table-columns" aria-hidden="true"></i><span>Kolonlar</span></button>
+        <div class="acilir-yuzey saga kolon-menu" id="sKolon" role="group" aria-label="Kolonlar" hidden>
+          <div class="acilir-bas">Kolonlar</div>
+          <button class="acilir-kalem" type="button" data-kolon-sec="hedef" aria-pressed="false"><i class="fa-regular fa-square" aria-hidden="true"></i>Hedef ve ilerleme</button>
+          <button class="acilir-kalem" type="button" data-kolon-sec="paket" aria-pressed="false"><i class="fa-regular fa-square" aria-hidden="true"></i>Paket</button>
+        </div>
+      </div>
       <span class="suzgec-sayac"><b id="gorunenSayi">0</b> / <span id="toplamSayi">0</span> kayıt</span>
       <div class="segment" id="listeGorunum" role="group" aria-label="Liste görünümü">
         <button type="button" data-deger="tablo" aria-pressed="true" aria-label="Tablo görünümü"><i class="fa-solid fa-table-list" aria-hidden="true"></i></button>
@@ -55,10 +64,12 @@
       <caption class="yalniz-okuyucu">Danışanlar</caption>
       <thead><tr>
         <th class="sec" scope="col"><label><input type="checkbox" aria-label="Görünen tümünü seç"></label></th>
-        <th class="sirali" scope="col" data-kolon-tut data-oran="32"><button type="button">Danışan</button></th>
-        <th scope="col" data-kolon-tut data-oran="28">Hedef ve ilerleme</th>
-        <th class="sirali" scope="col" data-kolon-tut data-oran="16"><button type="button">Son görüşme</button></th>
+        <th class="sirali" scope="col" data-kolon-tut data-oran="30"><button type="button">Danışan</button></th>
+        <th scope="col" data-kolon-tut data-oran="30">Sıradaki adım</th>
+        <th scope="col" data-kolon-opsiyon="hedef" data-oran="22" hidden>Hedef ve ilerleme</th>
+        <th scope="col" data-kolon-opsiyon="paket" data-oran="14" hidden>Paket</th>
         <th class="sirali" scope="col" data-kolon-tut data-oran="14"><button type="button">Durum</button></th>
+        <th class="sirali" scope="col" data-kolon-tut data-oran="14"><button type="button">Son görüşme</button></th>
         <th class="eylem" scope="col">İşlem</th>
       </tr></thead>
       <tbody id="danisanTablo"></tbody>

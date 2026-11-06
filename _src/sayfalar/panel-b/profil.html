@@ -1,4 +1,4 @@
-<!--{"baslik":"Profilim","yol":"diyetisyen-paneli/profil","duzen":"panel","aktif":"profil","js":["assets/js/sayfa/panel-b-ortak.js","assets/js/sayfa/panel-b-profil.js"]}-->
+<!--{"baslik":"Profilim","yol":"diyetisyen-paneli/profil","duzen":"panel","aktif":"profil","js":["assets/js/sayfa/panel-b-ortak.js","assets/js/sayfa/panel-b-durum.js","assets/js/sayfa/panel-b-profil.js"]}-->
 <div class="panel-bas">
   <div>
     <h1 id="profilAd">Profilim</h1>
@@ -6,6 +6,7 @@
   </div>
   <div class="eylem-satiri"><a class="dugme hayalet" id="profilGor" href="{{kok}}diyetisyen-bul-sihirbazi/" target="_blank" rel="noopener"><i class="fa-solid fa-arrow-up-right-from-square" aria-hidden="true"></i> Profilimi görüntüle</a></div>
 </div>
+<div class="kart panel" id="durumKart"><div class="kart-govde"><div class="durum-serit" id="durumSerit"></div></div></div>
 <nav class="sekmeler" aria-label="Profil ve ayarlar">
   <a class="sekme aktif" aria-current="page" href="{{kok}}diyetisyen-paneli/profil/"><i class="fa-solid fa-id-badge" aria-hidden="true"></i> Public profil</a>
   <a class="sekme" href="{{kok}}diyetisyen-paneli/hizmet-paketleri/"><i class="fa-solid fa-box-open" aria-hidden="true"></i> Hizmet ve ücret</a>
@@ -32,7 +33,7 @@
             <span class="gorsel-kare" id="fotoOnizleme"></span>
             <div class="eylem-satiri">
               <label class="dugme hayalet kucuk" for="fotoDosya">Değiştir</label>
-              <input class="dosya-girdi" id="fotoDosya" type="file" accept="image/jpeg,image/png,image/webp" data-gorsel="#fotoOnizleme">
+              <input class="dosya-girdi" id="fotoDosya" type="file" accept=".jpg,.jpeg,.png,.webp" data-gorsel="#fotoOnizleme">
               <button class="dugme hayalet kucuk" type="button" data-profil="foto-kaldir">Kaldır</button>
             </div>
           </div>
@@ -41,7 +42,7 @@
         <div class="alan">
           <span class="alan-etiket">Kapak görseli</span>
           <label class="gorsel-bant" for="kapakDosya" id="kapakOnizleme"><i class="fa-solid fa-cloud-arrow-up" aria-hidden="true"></i>&nbsp;Görsel seçmek için tıkla</label>
-          <input class="dosya-girdi" id="kapakDosya" type="file" accept="image/jpeg,image/png,image/webp" data-gorsel="#kapakOnizleme">
+          <input class="dosya-girdi" id="kapakDosya" type="file" accept=".jpg,.jpeg,.png,.webp" data-gorsel="#kapakOnizleme">
           <p class="alan-yardim"><i class="fa-solid fa-circle-info" aria-hidden="true"></i><span>JPG, PNG ya da WebP, en çok 5 MB. Seçilmezse hazır kapak görünür.</span></p>
         </div>
       </div>
@@ -119,7 +120,7 @@
         <h3 class="form-bolum-bas"><i class="fa-solid fa-file-shield" aria-hidden="true"></i> Belgeler <span class="rozet pasif" id="belgeSayi"></span></h3>
         <div class="ayar-liste" id="belgeListe"></div>
         <label class="birak-alani" for="belgeDosya"><span class="bos-ikon"><i class="fa-solid fa-cloud-arrow-up" aria-hidden="true"></i></span><b>Yeni belge yüklemek için tıkla</b><small>PDF, JPG ya da PNG. Belgeleri yalnız yönetim açar.</small></label>
-        <input class="dosya-girdi" id="belgeDosya" type="file" accept="application/pdf,image/jpeg,image/png">
+        <input class="dosya-girdi" id="belgeDosya" type="file" accept=".pdf,.jpg,.jpeg,.png">
       </div>
     </section>
   </div>
@@ -128,9 +129,16 @@
     <div class="kart panel">
       <div class="kart-bas"><h2 class="kart-baslik">Yayın</h2></div>
       <div class="kart-govde">
-        <div class="alan"><span class="alan-etiket">Durum</span><p><span class="durum-hapi ikonlu cozulen"><i class="fa-solid fa-circle-check" aria-hidden="true"></i> Yayında</span></p><p class="alan-yardim"><i class="fa-solid fa-circle-info" aria-hidden="true"></i><span>Yayın kararı yönetimindir.</span></p></div>
-        <div class="alan"><span class="alan-etiket">Yeni randevu kabul ediyor</span><label class="anahtar"><input type="checkbox" id="fKabul" aria-label="Yeni randevu kabul ediyor"><span class="anahtar-ray"></span></label></div>
+        <div class="alan"><span class="alan-etiket">Public profil</span><p id="yayinHap"></p><p class="alan-yardim"><i class="fa-solid fa-circle-info" aria-hidden="true"></i><span>Yayın kararı yönetimindir.</span></p></div>
+        <div class="alan"><span class="alan-etiket">Yeni randevu kabul ediyor</span><label class="anahtar"><input type="checkbox" id="fKabul" aria-label="Yeni randevu kabul ediyor"><span class="anahtar-ray"></span></label><p class="alan-yardim" id="kabulNot" hidden><i class="fa-solid fa-lock" aria-hidden="true"></i><span>Onaydan sonra açılır.</span></p></div>
         <div class="alan"><span class="alan-etiket">Diploma doğrulaması</span><p><span class="durum-hapi cozulen">Doğrulandı</span></p><p class="alan-yardim"><i class="fa-solid fa-circle-info" aria-hidden="true"></i><span>Başvuru kararıyla yazılır; güncelleme için destek talebi aç.</span></p></div>
+      </div>
+    </div>
+    <div class="kart panel">
+      <div class="kart-bas"><h2 class="kart-baslik">Public önizleme</h2></div>
+      <div class="kart-govde">
+        <div class="onizleme-kart" id="onizleme"></div>
+        <p class="alan-yardim"><i class="fa-solid fa-circle-info" aria-hidden="true"></i><span>Yazdıkça güncellenir. Kaydedince public sayfaya geçer.</span></p>
       </div>
     </div>
   </aside>

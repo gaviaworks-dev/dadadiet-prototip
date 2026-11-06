@@ -1,4 +1,4 @@
-import { uyeSayfa, bolumBas, kart, dugme, bilgi, modal } from '../../parcalar/uye/ust.mjs';
+import { uyeSayfa, kart, dugme, bilgi, modal } from '../../parcalar/uye/ust.mjs';
 
 const aktif = `<div class="yigin" id="bpAktif">
 <div class="cipler" id="bpKaynak" role="group" aria-label="Aktif program seçimi" data-suzgec hidden></div>
@@ -30,7 +30,7 @@ ${kart({
     ikon: 'fa-utensils', baslik: 'Öğün listesi', metin: '<span id="bpOgunOzet"></span>', bosluksuz: true,
     sag: '<div class="as-eylem"><span class="durum-hapi bekleyen" id="bpOgunSayac"></span></div>',
     govde: '<div class="kalem-liste" id="bpOgunler"></div>',
-    alt: `<span class="eylem-notu" id="bpOgunNot"></span>${dugme('Diyetisyene not gönder', { ikon: 'fa-pen-to-square', ek: ' data-not-ac' })}${dugme('Alternatife geç', { ikon: 'fa-right-left', ek: ' data-sekme-git="alternatif"' })}${dugme('Kalan öğünleri işaretle', { sinif: 'birincil', ikon: 'fa-check-double', ek: ' id="bpHepsi"' })}`,
+    alt: `<span class="eylem-notu" id="bpOgunNot"></span>${dugme('Diyetisyene not gönder', { ikon: 'fa-pen-to-square', ek: ' data-not-ac' })}${dugme('Alternatifler', { ikon: 'fa-right-left', ek: ' data-sekme-git="alternatif"' })}${dugme('Kalan öğünleri işaretle', { sinif: 'birincil', ikon: 'fa-check-double', ek: ' id="bpHepsi"' })}`,
   })}
 ${kart({
     ikon: 'fa-chart-pie', baslik: 'Günün makro toplamı', metin: 'İşaretlenen öğünlerden hesaplanır. Hedef, günün plan toplamıdır.', bosluksuz: true,
@@ -39,17 +39,11 @@ ${kart({
 </div>`;
 
 const alternatif = `<div class="yigin">
-${bolumBas({ etiket: 'Bugün', ikon: 'fa-right-left', baslik: 'Öğün alternatifleri', metin: 'Her öğün için enerjisi en yakın tarifler. Seçtiğin alternatif bugünün planına yazılır.' })}
-${kart({ ikon: 'fa-shuffle', baslik: 'Bugünün öğünleri', metin: 'Seçimini geri almak için öğünün yanındaki düğmeyi kullan.', bosluksuz: true, govde: '<div class="kalem-liste" id="bpAlternatif"></div>' })}
-</div>`;
-
-const tamamlanan = `<div class="yigin">
-${bolumBas({ etiket: 'Arşiv', ikon: 'fa-box-archive', baslik: 'Tamamladığın programlar', metin: 'Sonuna kadar uyguladığın programlar ve uyum oranların.' })}
-${kart({ bosluksuz: true, govde: '<div class="tablo-kap gomulu" tabindex="0" role="region" aria-label="Tamamlanan programlar"><table class="tablo panel sabit"><caption class="yalniz-okuyucu">Tamamlanan programlar, süreleri ve uyum oranları</caption><thead><tr><th scope="col">Program</th><th scope="col" class="dar-kolon">Süre</th><th scope="col" class="dar-kolon">Tarih aralığı</th><th scope="col" class="dar-kolon">Uyum</th></tr></thead><tbody id="bpTamam"></tbody></table></div>' })}
+${kart({ ikon: 'fa-shuffle', baslik: 'Bugünün öğünleri', metin: 'Enerjisi en yakın tarifler. Seçtiğin alternatif bugünün planına yazılır; aynı düğmeye basmak geri alır.', bosluksuz: true, govde: '<div class="kalem-liste" id="bpAlternatif"></div>' })}
 </div>`;
 
 const gecmis = `<div class="yigin">
-${bolumBas({ etiket: 'Bütün hareketler', ikon: 'fa-clock-rotate-left', baslik: 'Program geçmişin', metin: 'Başlattığın, duraklattığın ve devam ettirdiğin programların tam kaydı.' })}
+${kart({ ikon: 'fa-box-archive', baslik: 'Tamamladığın programlar', bosluksuz: true, govde: '<div class="tablo-kap gomulu" tabindex="0" role="region" aria-label="Tamamlanan programlar"><table class="tablo panel sabit"><caption class="yalniz-okuyucu">Tamamlanan programlar, süreleri ve uyum oranları</caption><thead><tr><th scope="col">Program</th><th scope="col" class="dar-kolon">Süre</th><th scope="col" class="dar-kolon">Tarih aralığı</th><th scope="col" class="dar-kolon">Uyum</th></tr></thead><tbody id="bpTamam"></tbody></table></div>' })}
 ${kart({ ikon: 'fa-timeline', baslik: 'Hareket kaydı', metin: 'En yeni hareket üstte.', bosluksuz: true, govde: '<div class="tablo-kap gomulu" tabindex="0" role="region" aria-label="Hareket kaydı"><table class="tablo panel sabit"><caption class="yalniz-okuyucu">Program hareketleri</caption><thead><tr><th scope="col" class="dar-kolon">Tarih</th><th scope="col">Program</th><th scope="col" class="dar-kolon">Hareket</th></tr></thead><tbody id="bpGecmis"></tbody></table></div>' })}
 </div>`;
 
@@ -64,16 +58,16 @@ const sonEk = modal({
 });
 
 export default () => [uyeSayfa({
-  yol: 'hesabim/beslenme-planim', ad: 'Beslenme Planım', muhur: 'Beslenme planın · kişisel alanın', ikon: 'fa-seedling',
-  giris: 'Aktif programın, haftalık menün ve günlük öğünlerin burada; öğünlerini işaretle, uyumunu izle.',
+  yol: 'hesabim/beslenme-planim', ad: 'Beslenme Planım',
+  giris: 'Bugünün öğünleri, haftalık menün ve diyetisyeninin planı.',
+  eylem: dugme('Haftalık Menüm', { sinif: 'hayalet', ikon: 'fa-wand-magic-sparkles', href: 'hesabim/haftalik-menum/' }),
   grup: 'bp',
   sekmeler: [
-    { id: 'aktif', ad: 'Aktif Programım', ikon: 'fa-clipboard-check', govde: aktif },
-    { id: 'hafta', ad: 'Haftalık Menüm', ikon: 'fa-calendar-week', govde: hafta },
-    { id: 'ogun', ad: 'Günlük Öğünlerim', ikon: 'fa-utensils', govde: ogun },
-    { id: 'alternatif', ad: 'Öğün Alternatifleri', ikon: 'fa-right-left', govde: alternatif },
-    { id: 'tamamlanan', ad: 'Tamamlanan Programlar', ikon: 'fa-circle-check', govde: tamamlanan },
-    { id: 'gecmis', ad: 'Program Geçmişim', ikon: 'fa-clock-rotate-left', govde: gecmis },
+    { id: 'ogun', ad: 'Bugün', ikon: 'fa-utensils', govde: ogun },
+    { id: 'hafta', ad: 'Hafta', ikon: 'fa-calendar-week', govde: hafta },
+    { id: 'aktif', ad: 'Plan Özeti', ikon: 'fa-clipboard-check', govde: aktif },
+    { id: 'alternatif', ad: 'Alternatifler', ikon: 'fa-right-left', govde: alternatif },
+    { id: 'gecmis', ad: 'Geçmiş', ikon: 'fa-clock-rotate-left', govde: gecmis },
   ],
   sonEk, js: ['assets/js/sayfa/uye-beslenme-planim.js'],
 })];

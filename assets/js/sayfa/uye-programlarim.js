@@ -1,37 +1,45 @@
-/* Programlarım: diyetisyen planı ve başlatılan programlar aynı tabloda */
+/* Programlarım: her program kendi kartında; gün gün durum, uyum ve tek sıradaki eylem */
 (function () {
   'use strict';
   const DD = window.DD, U = window.DDU;
-  const kok = DD.kok;
+  const b = U.bugun();
 
-  function satirlar() {
-    const l = [];
-    const p = U.plan();
-    if (p) {
-      const pb = U.planBas(p), son = U.gunEkle(pb, p.gunler.length - 1);
-      const gun = Math.max(0, Math.min(p.gunler.length, U.gunFarki(pb, U.bugun()) + 1));
-      l.push({ anahtar: p.id, ad: p.ad, alt: 'Diyetisyen planı', bas: pb, son, durum: 'devam', gun, toplam: p.gunler.length });
-    }
-    U.programlar().forEach((x) => {
-      const son = U.gunEkle(x.baslangic, x.sure_gun - 1);
-      l.push({ anahtar: x.slug, slug: x.slug, ad: x.ad, alt: x.sure_gun + ' günlük program', bas: x.baslangic, son, durum: x.durum, gun: Math.min(x.sure_gun, U.gunFarki(x.baslangic, U.bugun()) + 1), toplam: x.sure_gun });
-    });
+  function kaynaklar() {
+    const p = U.plan(), l = p ? [{ anahtar: p.id, tip: 'plan', ad: p.ad, plan: p }] : [];
+    U.programlar().forEach((x) => l.push({ anahtar: x.slug, tip: 'program', ad: x.ad, program: x }));
     return l;
   }
-  const hap = (s) => (s.durum === 'tamamlandi' ? U.durum('cozulen', 'Tamamlandı', 'fa-circle-check') : s.durum === 'duraklatildi' ? U.durum('bekleyen', 'Duraklatıldı', 'fa-pause') : (s.gun ? U.durum('cozulen', 'Sürüyor · ' + s.gun + '. gün / ' + s.toplam, 'fa-play') : U.durum('bekleyen', 'Başlamadı')));
-  const eylem = (s) => (s.durum === 'tamamlandi'
-    ? '<a class="dugme hayalet kucuk" href="' + kok + 'program/' + s.slug + '/">İncele</a>'
-    : '<a class="dugme hayalet kucuk" href="' + kok + 'hesabim/gunluk-takibim/">Günlük takip</a><a class="dugme birincil kucuk" href="' + kok + 'hesabim/beslenme-planim/#ogun" data-kaynak="' + s.anahtar + '">Planıma git</a>');
-  const satir = (s) => '<tr><td><span class="no">' + U.kac(s.ad) + '<small>' + U.kac(s.alt) + '</small></span></td><td class="tarih">' + U.kisaTarih(s.bas) + ' – ' + U.kisaTarih(s.son) + '</td><td>' + hap(s) + '</td><td class="eylem-kolon"><div class="tablo-eylem">' + eylem(s) + '</div></td></tr>';
-  const bosSatir = (m) => '<tr><td colspan="4" class="bos-hucre">' + m + '</td></tr>';
+  const durum = (k) => (k.tip === 'program' ? k.program.durum : U.yerel('planDurak', {})[k.anahtar] ? 'duraklatildi' : 'devam');
+  const sure = (k) => (k.tip === 'plan' ? k.plan.gunler.length : k.program.sure_gun);
+
+  /* Gün şeridi: en çok 7 gün; biten, bugün ve sıradakiler */
+  function gunler(k) {
+    const bas = U.kaynakBas(k), n = sure(k), i0 = Math.max(0, Math.min(n - 7, U.gunFarki(bas, b) - 3));
+    let s = '';
+    for (let i = i0; i < Math.min(n, i0 + 7); i++) {
+      const t = U.gunEkle(bas, i), og = U.gunOgunleri(k, t), is = U.isaret(k, t), tamam = og.filter((o) => is[o.anahtar]).length;
+      const hap = t > b ? U.durum('kapali', 'Sırada') : t === b ? U.durum('acik', 'Bugün') : tamam === og.length && og.length ? U.durum('cozulen', 'Tamam') : U.durum('bekleyen', tamam + ' / ' + og.length);
+      s += '<div class="gun-kutu"><b>' + (i + 1) + '. gün</b><small>' + U.kisaTarih(t) + '</small>' + hap + '</div>';
+    }
+    return '<div class="gun-serit-liste" role="list" aria-label="Gün gün ilerleme">' + s + '</div>';
+  }
+
+  function kart(k) {
+    const d = durum(k), bas = U.kaynakBas(k), son = U.gunEkle(bas, sure(k) - 1), u = U.uyum(k);
+    const gun = Math.max(0, Math.min(sure(k), U.gunFarki(bas, b) + 1));
+    const hap = d === 'duraklatildi' ? U.durum('bekleyen', 'Duraklatıldı', 'fa-pause') : gun ? U.durum('cozulen', gun + '. gün / ' + sure(k), 'fa-play') : U.durum('bekleyen', 'Başlamadı');
+    return '<div class="kart panel tam-kolon"><div class="kart-bas"><div><h3 class="kart-baslik"><i class="fa-solid ' + (k.tip === 'plan' ? 'fa-user-doctor' : 'fa-list-check') + '" aria-hidden="true"></i> ' + U.kac(k.ad) + '</h3><p>' + (k.tip === 'plan' ? 'Diyetisyen planı' : sure(k) + ' günlük program') + ' · ' + U.kisaTarih(bas) + ' – ' + U.kisaTarih(son) + '</p></div><div class="as-eylem">' + hap + '</div></div><div class="kart-govde"><p class="alan-yardim"><span>Uyum <b>%' + u.oran + '</b> · ' + u.tamam + ' / ' + u.toplam + ' öğün tamamlandı</span></p><div class="olcer hap" role="img" aria-label="Uyum: yüzde ' + u.oran + '"><span data-oran="' + u.oran + '"></span></div>' + gunler(k) + '</div><div class="kart-alt eylem"><a class="dugme hayalet" href="' + DD.kok + 'hesabim/gunluk-takibim/" data-kaynak="' + k.anahtar + '">Günlük takip</a><a class="dugme birincil" href="' + DD.kok + 'hesabim/beslenme-planim/#ogun" data-kaynak="' + k.anahtar + '"><i class="fa-solid fa-utensils" aria-hidden="true"></i> Bugünün öğünleri</a></div></div>';
+  }
+  function bittiKart(k) {
+    const u = U.uyum(k);
+    return '<a class="ayar-satir" href="' + DD.kok + 'program/' + k.program.slug + '/"><span class="as-ikon"><i class="fa-solid fa-circle-check" aria-hidden="true"></i></span><span class="as-metin"><b>' + U.kac(k.ad) + '</b><span>' + U.kisaTarih(k.program.baslangic) + ' – ' + U.kisaTarih(U.gunEkle(k.program.baslangic, sure(k) - 1)) + ' · Uyum %' + u.oran + '</span></span><i class="fa-solid fa-chevron-right" aria-hidden="true"></i></a>';
+  }
 
   function ciz() {
-    const l = satirlar();
-    const devam = l.filter((s) => s.durum !== 'tamamlandi'), bitti = l.filter((s) => s.durum === 'tamamlandi');
-    U.bas('#prDevam', devam.map(satir).join('') || bosSatir('Devam eden programın yok. Kütüphaneden bir program başlatabilirsin.'));
-    U.bas('#prTamam', bitti.map(satir).join('') || bosSatir('Henüz tamamladığın bir program yok.'));
-    U.bas('#prTumu', l.map(satir).join('') || bosSatir('Henüz bir programın yok.'));
-    U.sayac('devam', devam.length); U.sayac('tamamlanan', bitti.length); U.sayac('tumu', l.length);
+    const l = kaynaklar(), devam = l.filter((k) => durum(k) !== 'tamamlandi'), bitti = l.filter((k) => durum(k) === 'tamamlandi');
+    U.bas('#prDevam', devam.map(kart).join('') || '<div class="kart panel tam-kolon">' + U.bos({ ikon: 'fa-list-check', baslik: 'Henüz başlattığın program yok', metin: 'Sana uygun programı bul; bugünün öğünleri hemen hazır olsun.', eylem: U.bag('Program bul', 'programlar/program-bul/') }) + '</div>');
+    U.bas('#prTamam', bitti.length ? '<div class="kart panel tam-kolon"><div class="kart-govde bosluksuz"><div class="ayar-liste">' + bitti.map(bittiKart).join('') + '</div></div></div>' : '<div class="kart panel tam-kolon">' + U.bos({ ikon: 'fa-circle-check', baslik: 'Henüz tamamladığın program yok', metin: 'Programını bitirdiğinde uyum oranınla burada arşivlenir.', eylem: U.bag('Devam edenlere dön', 'hesabim/programlarim/', 'hayalet') }) + '</div>');
+    U.sayac('devam', devam.length); U.sayac('tamamlanan', bitti.length);
   }
   document.addEventListener('click', (e) => {
     const a = e.target.closest('[data-kaynak]');
