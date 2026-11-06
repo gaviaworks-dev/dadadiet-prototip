@@ -5,7 +5,7 @@
   const kok = $('sihirbaz'), tur = kok.dataset.sihirbaz;
   const adimlar = [...kok.querySelectorAll('.sihirbaz-adim[data-adim]')];
   const sonucEl = kok.querySelector('[data-sonuc]');
-  const govde = $('sihirbazGovde'), gorsel = $('sihirbazGorsel'), ayak = $('sihirbazAyak');
+  const akis = $('sihirbazAkis'), yol = [...$('adimYol').children];
   const V = $('sihirbazVeri') ? JSON.parse($('sihirbazVeri').textContent) : {};
   const hata = $('adimHata'), n = adimlar.length;
   const c = {};
@@ -13,32 +13,20 @@
 
   const kac = (s) => String(s == null ? '' : s).replace(/[&<>"]/g, (m) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[m]));
   const ikon = (x) => '<i class="fa-solid ' + x + '" aria-hidden="true"></i>';
+  const basaGit = (el) => el.scrollIntoView({ block: 'start', behavior: 'smooth' });
 
-  function ilerle(oran, metin) {
-    const b = $('ilerleme');
-    b.style.setProperty('--oran', oran);
-    b.parentElement.setAttribute('aria-valuenow', oran);
-    $('sayac').textContent = metin;
-  }
-  function gorselGoster(a) {
-    if (!gorsel) return;
-    const g = a.dataset.gorsel, gi = a.dataset.gorselIkon;
-    gorsel.hidden = !g && !gi;
-    gorsel.innerHTML = g ? '<img src="' + g + '" alt="">' : gi ? ikon(gi) : '';
-  }
   function goster(k, odak) {
     i = k;
     adimlar.forEach((a, x) => { a.hidden = x !== i; });
     if (sonucEl) sonucEl.hidden = true;
-    govde.classList.remove('genis');
-    ayak.hidden = false;
+    akis.hidden = false;
     hata.classList.remove('goster');
-    $('geri').disabled = i === 0;
-    $('ileri').innerHTML = (i === n - 1 || duzenleme ? 'Sonucu gör ' : 'Devam et ') + ikon('fa-arrow-right');
-    ilerle(Math.round(((i + 1) / n) * 100), 'Adım ' + (i + 1) + ' / ' + n);
-    gorselGoster(adimlar[i]);
+    yol.forEach((l, x) => { l.classList.toggle('acik', x === i); l.classList.toggle('bitti', x < i); });
+    $('sayac').textContent = 'Adım ' + (i + 1) + ' / ' + n;
+    $('geri').hidden = i === 0;
+    $('ileri').innerHTML = (i === n - 1 || duzenleme ? 'Sonucu gör ' : 'İleri ') + ikon('fa-arrow-right');
     kosullar();
-    if (odak) { adimlar[i].querySelector('h1').focus({ preventScroll: true }); scrollTo(0, 0); }
+    if (odak) { adimlar[i].querySelector('h2').focus({ preventScroll: true }); basaGit(akis); }
   }
   const secim = (alan) => [...alan.querySelectorAll('[aria-pressed="true"]')].map((b) => b.dataset.deger);
   function kosullar() {
@@ -61,15 +49,11 @@
     return tamam;
   }
   function bitir() {
-    adimlar.forEach((a) => { a.hidden = true; });
-    if (gorsel) gorsel.hidden = true;
+    akis.hidden = true;
     sonucEl.hidden = false;
-    govde.classList.add('genis');
-    ayak.hidden = true;
-    ilerle(100, 'Sonuç');
     URETICI[tur]();
-    sonucEl.querySelector('h1').focus({ preventScroll: true });
-    scrollTo(0, 0);
+    sonucEl.querySelector('h2').focus({ preventScroll: true });
+    basaGit(sonucEl);
   }
 
   kok.addEventListener('dd:secim', () => { hata.classList.remove('goster'); kosullar(); });
@@ -89,7 +73,7 @@
 
   /* Kart: ortak.mjs gorselKart ile aynı iskelet */
   function programKart(p, nedenler) {
-    return '<a class="sonuc-kart buyuk" href="' + DD.kok + V.detay + '"><div class="sonuc-gorsel"><img src="' + DD.kok + 'assets/img/icerik/' + p.gorsel + '" alt=""><span class="sonuc-rozet">' + kac(p.kategori) + '</span><span class="sonuc-rozet alt">' + ikon('fa-calendar') + ' ' + kac(p.sure) + '</span></div><div class="sonuc-govde"><h2 class="kart-baslik">' + kac(p.ad) + '</h2><p>' + kac(p.aciklama) + '</p><div class="sonuc-etiketler"><span class="rozet olumlu ikonlu">' + ikon('fa-fire') + ' ' + kac(p.enerji) + '</span></div><ul class="sonuc-neden">' + nedenler.map((x) => '<li>' + ikon('fa-check') + kac(x) + '</li>').join('') + '</ul><div class="sonuc-alt"><span class="sonuc-not-kisa">' + p.ogun_sayisi + ' öğün planı</span><span class="sonuc-git">İncele ' + ikon('fa-arrow-right') + '</span></div></div></a>';
+    return '<a class="sonuc-kart buyuk" href="' + DD.kok + V.detay + '"><div class="sonuc-gorsel"><img src="' + DD.kok + 'assets/img/icerik/' + p.gorsel + '" alt=""><span class="sonuc-rozet">' + kac(p.kategori) + '</span><span class="sonuc-rozet alt">' + ikon('fa-calendar') + ' ' + kac(p.sure) + '</span></div><div class="sonuc-govde"><h3 class="kart-baslik">' + kac(p.ad) + '</h3><p>' + kac(p.aciklama) + '</p><div class="sonuc-etiketler"><span class="rozet olumlu ikonlu">' + ikon('fa-fire') + ' ' + kac(p.enerji) + '</span></div><ul class="sonuc-neden">' + nedenler.map((x) => '<li>' + ikon('fa-check') + kac(x) + '</li>').join('') + '</ul><div class="sonuc-alt"><span class="sonuc-not-kisa">' + p.ogun_sayisi + ' öğün planı</span><span class="sonuc-git">İncele ' + ikon('fa-arrow-right') + '</span></div></div></a>';
   }
   function uyariYaz(metin) {
     const u = $('sonucUyari');
@@ -119,6 +103,19 @@
       $('sonucKartlar').innerHTML = puanli.map((x) => programKart(x.p, x.neden.slice(0, 3))).join('');
       uyariYaz(c.ozel !== 'yok' ? (c.ozel === 'alerji' ? 'Besin alerjisi işaretledin; programlar alerjene göre süzülmez. ' : 'Sağlık durumu işaretledin. ') + 'Programlar genel örnek menülerdir, başlamadan önce bir diyetisyene ve hekimine danış.' : '');
     },
+    sure() {
+      const puanli = V.programlar.map((p) => {
+        let puan = 0; const neden = [];
+        if (c.sure === '28' ? p.sure_gun >= 28 : String(p.sure_gun) === c.sure) { puan += 4; neden.push(p.sure + ' süresi seçimine uyuyor'); }
+        if (c.vakit === 'az' && p.ihtiyac.some((t) => t === 'pratik-ogun' || t === 'ise-goturulebilir')) { puan += 2; neden.push('Hazırlaması pratik'); }
+        if (c.vakit !== 'az' && p.tercih.includes('ev-yemekleri')) { puan += 1; neden.push('Ev yemeklerine dayalı'); }
+        if (c.hazirlik === 'toplu' && p.ihtiyac.includes('ise-goturulebilir')) { puan += 2; neden.push('Toplu hazırlığa uygun'); }
+        if ((c.tempo === 'rahat' && (p.zorluk === 'Kolay' || p.zorluk === 'Başlangıç')) || (c.tempo === 'dengeli' && p.zorluk === 'Orta')) { puan += 2; neden.push(p.zorluk + ' seviye'); }
+        return { p, puan, neden };
+      }).sort((a, b) => b.puan - a.puan).slice(0, 3);
+      $('sonucBaslik').textContent = 'Sürene uygun ' + puanli.length + ' program';
+      $('sonucKartlar').innerHTML = puanli.map((x) => programKart(x.p, x.neden.slice(0, 3))).join('');
+    },
     uygun() {
       const R = V.rotalar[c.amac];
       $('sonucMetin').textContent = R.metin;
@@ -136,7 +133,7 @@
     const sirala = (l) => l.sort((a, b) => b.deneyim_yil - a.deneyim_yil);
     const eslesen = sirala(D.filter((d) => d.uzmanlik.includes(alan) && gorusmeUyar(d) && sehirUyar(d)));
     const nedenler = (d) => [d.uzmanlik.includes(alan) ? alan + ' alanında çalışıyor' : null, d.online && c.gorusme !== 'yuz' ? 'Online görüşüyor' : d.yuz_yuze ? 'Yüz yüze görüşüyor' : null, d.sehir].filter(Boolean).slice(0, 3);
-    const kart = (d) => '<div class="kart uzman-kart"><div class="uzman-bas"><span class="kisi-avatar buyuk" aria-hidden="true">' + kac(d.harf) + '</span><div><h2 class="kart-baslik">' + kac(d.ad) + '</h2><span class="kart-metin">' + kac(d.unvan) + ' · ' + d.deneyim_yil + ' yıl deneyim</span></div></div><div class="sonuc-etiketler">' + d.uzmanlik.slice(0, 3).map((u) => '<span class="rozet olumlu">' + kac(u) + '</span>').join('') + (d.uzmanlik.length > 3 ? '<span class="rozet pasif">+' + (d.uzmanlik.length - 3) + '</span>' : '') + '</div><ul class="isaretli-liste">' + nedenler(d).map((x) => '<li>' + ikon('fa-check') + '<span>' + kac(x) + '</span></li>').join('') + '</ul><div class="uzman-eylem"><a class="dugme hayalet" href="' + DD.kok + V.detay + '">Profili gör</a><a class="dugme birincil" href="' + DD.kok + V.detay + '#randevu">Randevu al</a></div></div>';
+    const kart = (d) => '<div class="kart uzman-kart"><div class="uzman-bas"><span class="kisi-avatar buyuk" aria-hidden="true">' + kac(d.harf) + '</span><div><h3 class="kart-baslik">' + kac(d.ad) + '</h3><span class="kart-metin">' + kac(d.unvan) + ' · ' + d.deneyim_yil + ' yıl deneyim</span></div></div><div class="sonuc-etiketler">' + d.uzmanlik.slice(0, 3).map((u) => '<span class="rozet olumlu">' + kac(u) + '</span>').join('') + (d.uzmanlik.length > 3 ? '<span class="rozet pasif">+' + (d.uzmanlik.length - 3) + '</span>' : '') + '</div><ul class="isaretli-liste">' + nedenler(d).map((x) => '<li>' + ikon('fa-check') + '<span>' + kac(x) + '</span></li>').join('') + '</ul><div class="uzman-eylem"><a class="dugme hayalet" href="' + DD.kok + V.detay + '">Profili gör</a><a class="dugme birincil" href="' + DD.kok + V.detay + '#randevu">Randevu al</a></div></div>';
     $('sonucCipler').innerHTML = V.cipler.map(([adim, alanAd, map]) => c[alanAd] && map[c[alanAd]] ? '<button class="cip" type="button" data-adim-git="' + adim + '">' + kac(map[c[alanAd]]) + ' ' + ikon('fa-pen') + '</button>' : '').join('');
     $('sonucBaslik').textContent = eslesen.length ? eslesen.length + ' uzman eşleşti' : 'Bu seçimde uzman bulamadık';
     $('sonucGiris').textContent = eslesen.length ? 'Seçimlerine göre uygun olabilecek uzmanlar. Cevabını değiştirmek için üstteki çipe dokun.' : 'Cevabını değiştirmek için üstteki çipe dokun ya da yakın seçeneklere bak.';

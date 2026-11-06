@@ -18,7 +18,12 @@
     }
     if (e.target.closest('[data-sosyal]')) { DD.oturum.ac(); git($('kayitForm') ? 'hesabim/hos-geldin/' : 'hesabim/'); }
     const rol = e.target.closest('#girisRol button');
-    if (rol) rol.parentElement.querySelectorAll('button').forEach((b) => { const a = b === rol; b.classList.toggle('aktif', a); b.setAttribute('aria-pressed', String(a)); });
+    if (rol) {
+      rol.parentElement.querySelectorAll('button').forEach((b) => { const a = b === rol; b.classList.toggle('aktif', a); b.setAttribute('aria-pressed', String(a)); });
+      /* Demo: rol değişince o hesabın kurgu bilgileri dolar */
+      $('eposta').value = rol.dataset.eposta; $('sifre').value = 'demo1234';
+      hata('eposta', false); hata('sifre', false);
+    }
   });
 
   const giris = $('girisForm');
@@ -26,8 +31,9 @@
     e.preventDefault();
     const h1 = hata('eposta', !epostaMi(metin('eposta'))), h2 = hata('sifre', $('sifre').value.length < 8);
     if (h1 || h2) return;
+    if (giris.querySelector('#girisRol .aktif').dataset.rol === 'diyetisyen') { git('diyetisyen-paneli/'); return; }
     DD.oturum.ac();
-    git(giris.querySelector('#girisRol .aktif').dataset.rol === 'diyetisyen' ? 'diyetisyen-paneli/' : giris.dataset.hedef);
+    git(giris.dataset.hedef);
   });
 
   const kayit = $('kayitForm');

@@ -1,0 +1,89 @@
+/* Public araçlar: canlı karşılaştırma turunda gereken genel kurallar. Lead ek-bilesenler.css sonuna ekler. Yalnız token. */
+/* Yatay kart rayı */
+.ray-kap{position:relative}
+.kart-izgara.kart-ray:is(.c3,.c4){grid-template-columns:none;grid-auto-flow:column;overflow-x:auto;scroll-snap-type:x proximity;scrollbar-width:none;padding-block:var(--bosluk-4)}
+.kart-izgara.kart-ray.c3{grid-auto-columns:calc((100% - 2*var(--bosluk-16))/3)}
+.kart-izgara.kart-ray.c4{grid-auto-columns:calc((100% - 3*var(--bosluk-16))/4)}
+.kart-izgara.kart-ray>*{scroll-snap-align:start}
+.kart-ray::-webkit-scrollbar{display:none}
+.ray-ok{position:absolute;top:50%;transform:translateY(-50%);z-index:2;width:40px;height:40px;display:grid;place-items:center;border:1px solid var(--cizgi);border-radius:50%;background:var(--kagit);box-shadow:var(--golge-md);color:var(--murekkep);cursor:pointer}
+.ray-ok.geri{left:calc(-1*var(--bosluk-16))}
+.ray-ok.ileri{right:calc(-1*var(--bosluk-16))}
+.ray-ok[hidden]{display:none}
+@media(max-width:1100px){.kart-izgara.kart-ray:is(.c3,.c4){grid-auto-columns:46%}}
+@media(max-width:640px){.kart-izgara.kart-ray:is(.c3,.c4){grid-auto-columns:78%}.ray-ok{display:none}}
+/* Numaralı adım yolu: sihirbaz ve Nasıl Çalışır */
+.adim-yol{display:flex;list-style:none;margin:0;padding:var(--bosluk-24) var(--bosluk-16) var(--bosluk-16);background:var(--zemin);border-bottom:1px solid var(--cizgi)}
+.adim-yol li{position:relative;flex:1;min-width:0;display:flex;flex-direction:column;align-items:center;gap:var(--bosluk-4);text-align:center;font-size:var(--yazi-13);font-weight:var(--agirlik-kalin);color:var(--metin-ikincil)}
+.adim-yol li::before{content:"";position:absolute;top:17px;left:-50%;width:100%;height:2px;background:var(--cizgi)}
+.adim-yol li:first-child::before{display:none}
+.adim-yol li>span{position:relative;z-index:1;width:36px;height:36px;display:grid;place-items:center;margin-bottom:var(--bosluk-4);border:2px solid var(--cizgi);border-radius:50%;background:var(--kagit);font-size:var(--yazi-14)}
+.adim-yol small{font-size:var(--yazi-12);font-weight:var(--agirlik-govde);color:var(--metin-ikincil)}
+.adim-yol li.acik{color:var(--murekkep)}
+.adim-yol li.acik>span{border-color:var(--aksan);background:var(--aksan-yikama);color:var(--aksan-koyu)}
+.adim-yol li.bitti>span{border-color:var(--aksan-koyu);background:var(--aksan-koyu);color:var(--kagit)}
+.adim-yol li.bitti::before,.adim-yol li.acik::before{background:var(--aksan)}
+@media(max-width:640px){.adim-yol{padding-inline:var(--bosluk-8)}.adim-yol small{display:none}.adim-yol li{font-size:var(--yazi-12)}}
+/* Fotoğraflı koyu bölüm */
+.foto-bolum{background:var(--bant-perde-ana),var(--bant-gorsel) center/cover no-repeat,var(--bant-zemin);color:var(--kagit)}
+.foto-bolum .bolum-bas h2{color:var(--kagit)}
+.foto-bolum .giris-metni{color:var(--koyu-metin)}
+.foto-bolum .ust-etiket{color:var(--aksan-parlak)}
+.foto-bolum .ust-etiket::before{background:var(--aksan-parlak)}
+.foto-eylem{display:flex;flex-wrap:wrap;gap:var(--bosluk-12);margin-top:var(--bosluk-24)}
+.ortali-alt{justify-content:center}
+.ortali-alt>.dugme{margin:0}
+/* Sihirbaz kartı */
+.sag-eylem{display:flex;gap:var(--bosluk-8);margin-left:auto}
+.dugme[hidden]{display:none}
+.bant .hero-video-guven{margin-top:var(--bosluk-8)}
+#sihirbaz .bolum-bas{margin-bottom:var(--bosluk-24)}
+#sihirbaz .bolum-bas>div:first-child>.giris-metni{max-width:none}
+#sihirbaz .alan-hata{margin:0}
+[data-sonuc] .kart-izgara{margin-top:var(--bosluk-8)}
+/* Süzgeç sütunu */
+.suzgec-kart{margin:0}
+.suzgec-kart summary{list-style:none;cursor:pointer}
+.suzgec-kart summary::-webkit-details-marker{display:none}
+.suzgec-grup{display:flex;flex-direction:column;gap:var(--bosluk-8);border:0;padding:0;margin:0 0 var(--bosluk-24);min-width:0}
+.suzgec-grup:last-child{margin-bottom:0}
+.suzgec-grup legend{margin-bottom:var(--bosluk-8);padding:0}
+.liste-satir{display:flex;align-items:center;justify-content:space-between;gap:var(--bosluk-16)}
+.liste-satir .alan{margin:0}
+.liste-satir .alan-secim{min-width:200px}
+@media(min-width:1025px){.iki-kolon.sol-yan>.suzgec-kart{position:sticky;top:calc(var(--kabuk-h) + var(--bosluk-16))}}
+/* Dikey uzman kartı */
+a.uzman-kart.dik{align-items:center;text-align:center}
+a.uzman-kart.dik .kart-baslik{justify-content:center}
+a.uzman-kart.dik .kisi-avatar.buyuk{width:72px;height:72px;font-size:var(--yazi-24)}
+a.uzman-kart.dik .sonuc-etiketler{justify-content:center}
+/* Kapaklı test kartı, gün çipi, soru ilerlemesi, yeşil kart */
+.sonuc-kart.kapakli .sonuc-gorsel{height:232px}
+.sonuc-kart.kapakli .isaretli-liste{margin-top:var(--bosluk-12)}
+.sonuc-kart.kapakli .sonuc-govde{padding:var(--bosluk-24)}
+.sonuc-kart.kapakli .sonuc-alt{margin-top:var(--bosluk-24);border-top:1px solid var(--cizgi)}
+.akordeon-ikon.gun-cip{width:44px;font-size:var(--yazi-12-5);font-weight:var(--agirlik-kalin)}
+.soru-ilerleme-dik{margin-bottom:var(--bosluk-24)}
+.sag-not{margin-left:auto}
+.kart-yesil{background:var(--aksan-koyu);border-color:var(--aksan-koyu);color:var(--kagit)}
+.kart-yesil .kart-baslik,.kart-yesil .kart-baslik i,.kart-yesil .isaretli-liste,.kart-yesil .isaretli-liste i{color:var(--kagit)}
+.kart-yesil .kart-bas{border-color:var(--koyu-cizgi)}
+/* Canlıdaki reveal: yalnız kayma */
+.belir{transform:translateY(16px);transition:transform var(--sure-yavas) var(--yumusama)}
+.belir.gorundu{transform:none}
+@media(prefers-reduced-motion:reduce){.belir{transform:none;transition:none}}
+/* Hero metni yaslanmaz; süzgeç onay kutuları çerçevesiz */
+.hero-video p{text-align:left;text-align-last:auto}
+.suzgec-grup .onay-kutusu{min-height:32px;padding:0;margin:0;border:0;background:none;font-weight:var(--agirlik-govde)}
+/* Ortak bantta arama kutusu; kimlik kartında not aralığı; yayında olmayan profilde eylem sütunu */
+.bant .arama-kutu{width:100%}
+.bant .arama-ozet:empty{display:none}
+.giris-kart .bilgi-notu{margin:0 0 var(--bosluk-12);padding:var(--bosluk-8) var(--bosluk-12)}
+.giris-kart .bilgi-notu p{font-size:var(--yazi-13)}
+.kimlik-eylem[hidden]{display:none}
+#onizlemeSerit{position:relative;z-index:3}
+/* Oturum açıkken public sayfada avatar menüsü: kabuk.css yalnız body.is-auth (duzen:uye) için açıyordu */
+html[data-oturum="1"] .acct-wrap{display:flex}
+.acct-item:focus-within .acct-menu{opacity:1;visibility:visible;transform:translateY(0)}
+@media(min-width:1025px){html[data-oturum="1"] .head-bell{display:grid}}
+.sekme-ray.yapiskan.dikis{background:var(--kagit);backdrop-filter:none}

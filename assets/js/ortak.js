@@ -5,6 +5,15 @@
   const DD = (window.DD = window.DD || {});
   const panelKipi = document.body.classList.contains('yetkili');
 
+  /* Video hero: kaynak sayfa açıldıktan sonra bağlanır; azaltılmış hareket ve veri tasarrufunda poster kalır */
+  const hareketAzalt = matchMedia('(prefers-reduced-motion: reduce)').matches;
+  const veriTasarrufu = navigator.connection && navigator.connection.saveData;
+  if (!hareketAzalt && !veriTasarrufu) document.querySelectorAll('video source[data-src]').forEach((k) => {
+    k.src = k.dataset.src;
+    const v = k.parentElement;
+    if (!k.nextElementSibling) { v.load(); v.play().catch(() => { /* otomatik oynatma engellenirse poster kalır */ }); }
+  });
+
   /* Toast */
   DD.toast = function (mesaj, tip) {
     let kap = document.querySelector('.dd-toast-kap');

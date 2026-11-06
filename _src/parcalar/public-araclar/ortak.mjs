@@ -25,11 +25,11 @@ export const kirinti = (...yollar) => `<nav class="kirinti" aria-label="Sayfa yo
 export const bantSayilar = (l) => `<dl class="bant-sayilar">${l.map(([s, e]) => `<div><dd>${s}</dd><dt>${e}</dt></div>`).join('')}</dl>`;
 
 /* Üst bant: tek yükseklik (.bant), tek h1 ölçüsü. Görsel --bant-gorsel üzerinden ortak JS ile basılır. */
-export function bant({ yol = [], etiket, etiketIkon = 'fa-seedling', h1, alt, gorsel, sayilar, eylem = '' }) {
+export function bant({ yol = [], etiket, etiketIkon = 'fa-seedling', h1, alt, gorsel, sayilar, eylem = '', alttaki = '' }) {
   return `<section class="bant"${gorsel ? ` data-bant-gorsel="${K}assets/img/${gorsel}"` : ''}><div class="kap">
 ${yol.length ? kirinti(...yol) : ''}<span class="ust-etiket">${ikon(etiketIkon)} ${etiket}</span>
 <h1>${h1}</h1>
-${alt ? `<p class="bant-alt">${alt}</p>` : ''}${eylem ? `<div class="bant-eylem">${eylem}</div>` : ''}${sayilar ? bantSayilar(sayilar) : ''}
+${alt ? `<p class="bant-alt">${alt}</p>` : ''}${eylem ? `<div class="bant-eylem">${eylem}</div>` : ''}${alttaki}${sayilar ? bantSayilar(sayilar) : ''}
 </div></section>`;
 }
 
@@ -56,7 +56,7 @@ export const programKart = (p, { gizli = false } = {}) => gorselKart({
 
 export const testKart = (t) => gorselKart({
   href: DETAY.test, gorsel: icerik(t.gorsel_dosya), rozet: t.grup === 'Sağlık & Beslenme' ? 'Sağlık' : 'Eğlence', rozetIkon: t.grup === 'Sağlık & Beslenme' ? 'fa-heart-pulse' : 'fa-gamepad',
-  altRozet: `${ikon('fa-circle-question')} ${t.soru_sayisi} soru`, baslik: kac(t.ad), metin: kac(t.aciklama), git: 'Teste başla', sinif: 'buyuk',
+  altRozet: `${ikon('fa-circle-question')} ${t.soru_sayisi} soru · 3 dk`, baslik: kac(t.ad), metin: kac(t.aciklama), git: 'Teste başla', sinif: 'buyuk',
   veri: ` data-kart data-grup="${t.grup === 'Sağlık & Beslenme' ? 'saglik' : 'eglence'}"`,
 });
 
@@ -67,20 +67,22 @@ export const hesapKart = (h) => ikonKart({ href: DETAY.hesaplayici, ikon: h.ikon
 export const gorusme = (d) => d.online && d.yuz_yuze ? 'Online ve yüz yüze' : d.online ? 'Online' : 'Yüz yüze';
 
 /* Diyetisyen kartı: harfli avatar (canlıda fotoğraf yok), puan yoksa "Henüz değerlendirme yok". */
-export const uzmanKart = (d, href = DETAY.diyetisyen) => `<a class="kart uzman-kart" href="${K}${href}" data-kart><div class="uzman-bas"><span class="kisi-avatar buyuk" aria-hidden="true">${d.harf}</span><div><h3 class="kart-baslik">${kac(d.ad)}</h3><span class="kart-metin">${d.unvan}</span></div></div><div class="sonuc-etiketler">${d.uzmanlik.map((u) => `<span class="rozet olumlu">${kac(u)}</span>`).join('')}</div><ul class="uzman-meta"><li>${ikon('fa-location-dot')} ${d.sehir}</li><li>${ikon('fa-video')} ${gorusme(d)}</li><li>${ikon('fa-briefcase')} ${d.deneyim_yil} yıl deneyim</li><li>${ikon('fa-star')} ${d.puan ? `${String(d.puan).replace('.', ',')} puan` : 'Henüz değerlendirme yok'}</li></ul><span class="sonuc-git">Profili gör ${ikon('fa-arrow-right')}</span></a>`;
+export const uzmanKart = (d, href = DETAY.diyetisyen) => `<a class="kart uzman-kart dik" href="${K}${href}" data-kart data-uzmanlik="${kac(d.uzmanlik.join('|'))}" data-gorusme="${[d.online && 'online', d.yuz_yuze && 'yuz'].filter(Boolean).join(' ')}" data-sehir="${d.sehir}" data-deneyim="${d.deneyim_yil}"><span class="kisi-avatar buyuk" aria-hidden="true">${d.harf}</span><div><h3 class="kart-baslik">${kac(d.ad)}</h3><span class="kart-metin">${d.unvan}<br>${d.puan ? `${String(d.puan).replace('.', ',')} puan` : 'Henüz değerlendirme yok'}</span></div><div class="sonuc-etiketler">${d.uzmanlik.map((u) => `<span class="rozet pasif">${kac(u)}</span>`).join('')}</div><ul class="uzman-meta"><li>${ikon('fa-location-dot')} ${d.sehir}</li><li>${ikon('fa-video')} ${gorusme(d)}</li><li>${ikon('fa-briefcase')} ${d.deneyim_yil} yıl deneyim</li></ul><span class="sonuc-git">Profili gör ${ikon('fa-arrow-right')}</span></a>`;
+
+/* Yatay kart rayı: canlıdaki slider, oklar public-araclar-ray.js ile çalışır */
+export const ray = (kartlar, kolon = 'c3', etiket = 'Kartlar') => `<div class="ray-kap" data-ray><button class="ray-ok geri" type="button" aria-label="Geri kaydır" hidden>${ikon('fa-chevron-left')}</button><div class="kart-izgara ${kolon} ray-dar kart-ray" tabindex="0" role="group" aria-label="${etiket}">${kartlar}</div><button class="ray-ok ileri" type="button" aria-label="İleri kaydır">${ikon('fa-chevron-right')}</button></div>`;
+
+/* Adım yolu: canlıdaki numaralı adım şeridi. Sihirbazda ve Nasıl Çalışır'da ortak. */
+export const adimYol = (l, id = 'adimYol') => `<ol class="adim-yol" id="${id}">${l.map(([b, m, href], i) => `<li${i === 0 ? ' class="acik"' : ''}><span>${i + 1}</span>${href ? `<a href="${K}${href}">${b}</a>` : b}<small>${m}</small></li>`).join('')}</ol>`;
 
 export const genelNot = `<div class="bilgi-notu"><i class="fa-solid fa-circle-info" aria-hidden="true"></i><p>Bu içerik genel beslenme okuryazarlığını desteklemek amacıyla hazırlanmıştır; <b>tıbbi teşhis veya tedavi yerine geçmez</b>. Kişiye özel plan yalnızca <b>yetkili bir diyetisyen</b> tarafından hazırlanır. Gebelik, kronik hastalık, düzenli ilaç kullanımı, çocuk beslenmesi veya klinik bir durum varsa plana başlamadan önce <b>hekim ve diyetisyen kontrolü zorunludur</b>.</p></div>`;
 
-/* Tam ekran sihirbaz kabuğu: kanon .sihirbaz iç bileşenleri. */
-export const sihirbazKabuk = ({ id, cikis, govde, ek = '' }) => `<div class="sihirbaz" id="sihirbaz" data-sihirbaz="${id}">
-<header class="sihirbaz-ust"><a href="${K}" aria-label="Dada Diet ana sayfa">${logo}</a>
-<div class="sihirbaz-ilerleme"><div class="olcer hap" role="progressbar" aria-label="Sihirbaz ilerlemesi" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0"><span id="ilerleme" data-oran="0"></span></div><span class="sihirbaz-sayac" id="sayac" aria-live="polite"></span></div>
-<a class="kapat-dugme" href="${K}${cikis}" aria-label="Sihirbazdan çık">${ikon('fa-xmark')}</a></header>
-<main class="sihirbaz-govde" id="sihirbazGovde">${govde}</main>
-<footer class="sihirbaz-ayak" id="sihirbazAyak"><button class="dugme hayalet" id="geri" type="button">${ikon('fa-arrow-left')} Geri</button><div class="sag"><span class="alan-hata" id="adimHata" role="alert"></span><button class="dugme birincil" id="ileri" type="button">Devam et ${ikon('fa-arrow-right')}</button></div></footer>
-</div>${ek}`;
+/* Sihirbaz: canlıdaki gibi bant altında adım yollu kart; sonuç aynı sayfada açılır. İç parçalar kanon .sihirbaz-adim, .secenek. */
+export const sihirbazNot = (metin) => `<div class="bilgi-notu"><i class="fa-solid fa-circle-info" aria-hidden="true"></i><p>${metin}</p></div>`;
+export const sihirbazBolum = ({ id, adimlar, govde, sonuc, not, ek = '' }) => `<section class="bolum dikis bant-ustunde"><div class="kap"><div id="sihirbaz" data-sihirbaz="${id}"><div class="okuma-kolon yigin" id="sihirbazAkis"><div class="kart tasma-kapali" id="sihirbazKart">${adimYol(adimlar)}<div class="kart-govde">${govde}</div><div class="kart-alt"><span class="not" id="sayac" aria-live="polite"></span><span class="alan-hata" id="adimHata" role="alert"></span><div class="eylem-satiri sag-eylem"><button class="dugme hayalet" id="geri" type="button">${ikon('fa-arrow-left')} Geri</button><button class="dugme birincil" id="ileri" type="button">İleri ${ikon('fa-arrow-right')}</button></div></div></div>${sihirbazNot(not)}</div>${sonuc}</div></div></section>${ek}`;
+export const guven = (l) => `<div class="hero-video-guven">${l.map(([i, m]) => `<span>${ikon(i)} ${m}</span>`).join('')}</div>`;
 
 export const secenek = ({ deger, baslik, alt, ikon: i }) => `<button class="secenek" type="button" data-deger="${deger}" aria-pressed="false">${i ? ikon(i) : ''}<span>${baslik}${alt ? `<small>${alt}</small>` : ''}</span></button>`;
 
 /* Adım: tek seçim alanları. alanlar: [{ad, etiket?, secenekler, sinif?, coklu?, istege?}] */
-export const adim = ({ id, baslik, alt, alanlar, gorsel, gorselIkon, sonuc = false }) => `<section class="sihirbaz-adim" data-adim="${id}"${gorsel ? ` data-gorsel="${K}assets/img/${gorsel}"` : ''}${gorselIkon ? ` data-gorsel-ikon="${gorselIkon}"` : ''} hidden><h1 tabindex="-1">${baslik}</h1><p>${alt}</p>${alanlar.map((a) => `${a.etiket ? `<h2 class="kart-baslik sihirbaz-alt-baslik">${a.etiket}</h2>` : ''}<div class="secenek-izgara${a.sinif ? ' ' + a.sinif : ''}" data-alan="${a.ad}"${a.istege ? ' data-istege="1"' : ''}${a.kosul ? ` data-kosul="${a.kosul}" hidden` : ''} ${a.coklu ? 'data-coklu-secim' : 'data-tek-secim'} role="group" aria-label="${a.etiket ?? baslik}">${a.secenekler.map(secenek).join('')}</div>`).join('')}</section>`;
+export const adim = ({ id, baslik, alt, alanlar }) => `<section class="sihirbaz-adim" data-adim="${id}" hidden><div class="bolum-bas"><div><h2 tabindex="-1">${baslik}</h2><p class="giris-metni">${alt}</p></div></div>${alanlar.map((a) => `${a.etiket ? `<h3 class="kart-baslik sihirbaz-alt-baslik">${a.etiket}</h3>` : ''}<div class="secenek-izgara${a.sinif ? ' ' + a.sinif : ''}" data-alan="${a.ad}"${a.istege ? ' data-istege="1"' : ''}${a.kosul ? ` data-kosul="${a.kosul}" hidden` : ''} ${a.coklu ? 'data-coklu-secim' : 'data-tek-secim'} role="group" aria-label="${a.etiket ?? baslik}">${a.secenekler.map(secenek).join('')}</div>`).join('')}</section>`;

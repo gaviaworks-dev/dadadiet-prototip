@@ -1,5 +1,5 @@
 // Bana Uygun Olanı Bul: dört adımlı yönlendirme sihirbazı, tümü istemci tarafı.
-import { K, sayfaJs, sihirbazKabuk, adim, jsonGom, ikon } from '../../parcalar/public-araclar/ortak.mjs';
+import { K, sayfaJs, bant, sihirbazBolum, adim, jsonGom, ikon, guven } from '../../parcalar/public-araclar/ortak.mjs';
 
 const ROTALAR = {
   bilgi: { metin: 'Önce mantığı öğrenmek istiyorsun. Rehber içerikleri kısa, genel ve uygulanabilir; hesaplama ve programa oradan geçmek daha kolay olur.',
@@ -26,13 +26,14 @@ const sec = (l) => l.map(([deger, baslik, alt, i]) => ({ deger, baslik, alt, iko
 const etiket = (alan) => ({ 0: alan, ...Object.fromEntries(A[alan].map(([d, b]) => [d, b])) });
 
 export default () => {
-  const govde = `${adim({ id: 'amac', baslik: 'Bugün burada ne yapmak istiyorsun?', alt: 'Dört soruda sana en uygun başlangıç adımını gösterelim.', gorsel: 'hero/diet-hero-poster.jpg', alanlar: [{ ad: 'amac', secenekler: sec(A.amac) }] })}
-${adim({ id: 'hedef', baslik: 'Neyi hedefliyorsun?', alt: 'Hedefin önerinin yönünü belirler.', gorsel: 'hero/programlar-dl-top.jpg', alanlar: [{ ad: 'hedef', secenekler: sec(A.hedef) }] })}
-${adim({ id: 'duzen', baslik: 'Gününde beslenmeye ne kadar yer var?', alt: 'Sürdürebileceğin süre, ideal süreden daha değerli.', gorsel: 'hero/css-photo-1494859802809-d069c3b71a8a.jpg', alanlar: [{ ad: 'duzen', secenekler: sec(A.duzen) }] })}
-${adim({ id: 'tercih', baslik: 'Beslenme tercihin ve özel bir durumun var mı?', alt: 'Öneriyi buna göre yorumlayalım.', gorselIkon: 'fa-notes-medical', alanlar: [{ ad: 'tercih', etiket: 'Beslenme tercihin', secenekler: sec(A.tercih) }, { ad: 'ozel', etiket: 'Özel durum', sinif: 'c3', secenekler: sec(A.ozel) }] })}
-<section class="sihirbaz-adim" data-sonuc hidden><h1 tabindex="-1">Önerilen başlangıç adımın</h1><p id="sonucMetin"></p><div class="cipler sonuc-cipler" id="sonucCipler"></div><div class="uyari-kutu" id="sonucUyari" role="note" hidden>${ikon('fa-triangle-exclamation')}<span></span></div>
-<h2 class="kart-baslik sihirbaz-alt-baslik">${ikon('fa-star')} Birincil öneri</h2><div id="sonucBirincil"></div><h2 class="kart-baslik sihirbaz-alt-baslik">${ikon('fa-compass')} İkinci seçenekler</h2><div class="kart-izgara c3" id="sonucIkinci"></div>
-<div class="bolum-eylem"><a class="dugme hayalet" href="${K}programlar/">Programlar</a><button class="dugme birincil" type="button" data-bastan>${ikon('fa-rotate-left')} Baştan başla</button></div><p class="alt-not">${ikon('fa-circle-info')}<span>Bu sihirbaz bir yönlendirmedir; sağlık teşhisi koymaz, kişiye özel tıbbi ya da beslenme önerisi üretmez.</span></p></section>
-<div class="sihirbaz-gorsel" id="sihirbazGorsel" aria-hidden="true"></div>`;
-  return [{ yol: 'bana-uygun-olani-bul', meta: { baslik: 'Bana Uygun Olanı Bul', duzen: 'tam', js: sayfaJs('sihirbaz') }, govde: sihirbazKabuk({ id: 'uygun', cikis: '', govde, ek: jsonGom('sihirbazVeri', { rotalar: ROTALAR, etiketler: ['amac', 'hedef', 'duzen', 'tercih'].map(etiket) }) }) }];
+  const govde = `${adim({ id: 'amac', baslik: 'Bugün burada ne yapmak istiyorsun?', alt: 'Seni doğru araca yönlendirelim.', alanlar: [{ ad: 'amac', secenekler: sec(A.amac) }] })}
+${adim({ id: 'hedef', baslik: 'Neyi hedefliyorsun?', alt: 'Hedefin önerinin yönünü belirler.', alanlar: [{ ad: 'hedef', secenekler: sec(A.hedef) }] })}
+${adim({ id: 'duzen', baslik: 'Gününde beslenmeye ne kadar yer var?', alt: 'Sürdürebileceğin süre, ideal süreden daha değerli.', alanlar: [{ ad: 'duzen', sinif: 'c3', secenekler: sec(A.duzen) }] })}
+${adim({ id: 'tercih', baslik: 'Beslenme tercihin ve özel bir durumun var mı?', alt: 'Öneriyi buna göre yorumlayalım.', alanlar: [{ ad: 'tercih', etiket: 'Beslenme tercihin', secenekler: sec(A.tercih) }, { ad: 'ozel', etiket: 'Özel durum', sinif: 'c3', secenekler: sec(A.ozel) }] })}`;
+  const sonuc = `<section class="sihirbaz-adim" data-sonuc hidden><div class="bolum-bas"><div><h2 tabindex="-1">Önerilen başlangıç adımın</h2><p class="giris-metni" id="sonucMetin"></p></div></div><div class="cipler sonuc-cipler" id="sonucCipler"></div><div class="uyari-kutu" id="sonucUyari" role="note" hidden>${ikon('fa-triangle-exclamation')}<span></span></div>
+<h3 class="kart-baslik sihirbaz-alt-baslik">${ikon('fa-star')} Birincil öneri</h3><div id="sonucBirincil"></div><h3 class="kart-baslik sihirbaz-alt-baslik">${ikon('fa-compass')} İkinci seçenekler</h3><div class="kart-izgara c3" id="sonucIkinci"></div>
+<div class="bolum-eylem"><a class="dugme hayalet" href="${K}programlar/">Programlar</a><button class="dugme birincil" type="button" data-bastan>${ikon('fa-rotate-left')} Baştan başla</button></div></section>`;
+  const sayfa = `${bant({ yol: [['Bana Uygun Olanı Bul']], etiket: 'Başlangıç rehberi', etiketIkon: 'fa-compass', h1: 'Nereden başlayacağını <span class="vurgu">birlikte bulalım</span>', gorsel: 'hero/anasayfa-sh-hero-vid.webp', alt: 'Dört kısa soru: neyi amaçladığın, neyi hedeflediğin, gününde ne kadar yer olduğu ve beslenme tercihin. Sonunda sana uygun ilk adımı ve alternatiflerini gösteriyoruz.', alttaki: guven([['fa-stopwatch', '1 dakikadan kısa'], ['fa-shuffle', 'Araç, program ve uzman önerisi'], ['fa-shield-halved', 'Tıbbi teşhis üretmez']]) })}
+<div class="bolum-dizi">${sihirbazBolum({ id: 'uygun', adimlar: [['Amacın', 'Ne yapmak istiyorsun?'], ['Hedefin', 'Neye ulaşmak istiyorsun?'], ['Günlük Düzen', 'Ne kadar vaktin var?'], ['Tercih', 'Beslenme ve özel durum']], govde, sonuc, not: 'Bu sihirbaz bir <b>yönlendirmedir</b>; <b>sağlık teşhisi koymaz, kişiye özel tıbbi ya da beslenme önerisi üretmez.</b> Verdiği sonuç genel bilgi ve seçimlerine dayanan bir başlangıç önerisidir. Gebelik, kronik hastalık, düzenli ilaç kullanımı, besin alerjisi veya klinik bir durum varsa plana başlamadan önce bir diyetisyene ve hekimine danış.', ek: jsonGom('sihirbazVeri', { rotalar: ROTALAR, etiketler: ['amac', 'hedef', 'duzen', 'tercih'].map(etiket) }) })}</div>`;
+  return [{ yol: 'bana-uygun-olani-bul', meta: { baslik: 'Bana Uygun Olanı Bul', duzen: 'public', hero: true, js: sayfaJs('sihirbaz') }, govde: sayfa }];
 };

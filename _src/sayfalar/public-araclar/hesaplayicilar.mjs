@@ -19,7 +19,8 @@ ${bolum(genelNot)}
 
   const detay = `${bant({ yol: [['Hesaplayıcılar', 'hesaplayicilar/'], [h.ad]], etiket: 'Hesaplayıcı', etiketIkon: 'fa-utensils', h1: kac(h.ad), gorsel: 'hero/hesaplayicilar-tst-top.webp', alt: kac(h.aciklama) })}
 <div class="bolum-dizi">
-${bolum(`<div class="iki-kolon esit">
+${bolum(`<div class="sekme-ray liste-ust"><nav class="sekmeler" aria-label="Hesaplayıcılar">${H.map((x) => `<a class="sekme${x.slug === h.slug ? ' aktif' : ''}" href="${K}hesaplayici/gunluk-kalori/"${x.slug === h.slug ? ' aria-current="page"' : ` data-toast="Prototipte Günlük Kalori aracı örneklendi." data-toast-tip="uyari"`}>${ikon(x.ikon)} ${kac(x.kisa_ad)}</a>`).join('')}</nav></div>
+<div class="iki-kolon esit">
 <form class="kart" id="kaloriForm" novalidate data-ek-erkek="${h.formul_ayarlari.cinsiyet_ekleri.erkek}" data-ek-kadin="${h.formul_ayarlari.cinsiyet_ekleri.kadin}" data-bant="${h.formul_ayarlari.band_farki_kcal}">
 <div class="kart-bas"><div><h2 class="kart-baslik">${ikon('fa-pen-to-square')} Bilgilerini gir</h2><p>Sonucun bu sayfada hesaplanır, hiçbir yere gönderilmez.</p></div></div>
 <div class="kart-govde">

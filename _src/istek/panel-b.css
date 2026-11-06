@@ -1,0 +1,26 @@
+/* Panel B istek katmanı (iş günü turu). Değerler yalnız token. */
+
+/* Hesap durumu: şerit ve banner */
+.durum-bant{align-items:center}
+.durum-bant>span{flex:1;min-width:0}
+.durum-serit{display:flex;align-items:center;gap:var(--bosluk-16);flex-wrap:wrap}
+.durum-serit .as-metin{flex:1 1 320px;min-width:0}
+.durum-serit .demo-gecis{display:flex;align-items:center;gap:var(--bosluk-8);flex-wrap:wrap;font-size:var(--yazi-12-5);color:var(--metin-ikincil)}
+
+/* Sıradaki adım: kaydın durumundan çıkan aksiyon */
+.sonraki-adim{display:flex;align-items:center;gap:var(--bosluk-12);flex-wrap:wrap}
+.sonraki-adim .as-metin{flex:1 1 280px;min-width:0}
+.sonraki-bag{display:inline-flex;align-items:center;gap:var(--bosluk-4);margin-top:var(--bosluk-4);padding:0;border:0;background:none;font:inherit;font-size:var(--yazi-12-5);font-weight:var(--agirlik-kalin);color:var(--aksan-koyu);cursor:pointer;text-decoration:none}
+.sonraki-bag:hover{text-decoration:underline}
+td .sonraki-bag{display:flex}
+
+/* Profil önizleme kartı: public kartın özeti, form değiştikçe güncellenir */
+.onizleme-kart{display:flex;flex-direction:column;gap:var(--bosluk-8);border:1px solid var(--cizgi);border-radius:var(--yuvarlak-md);overflow:hidden}
+.onizleme-kapak{height:72px;background:var(--aksan-yikama);background-size:cover;background-position:center}
+.onizleme-kapak img{width:100%;height:100%;object-fit:cover;display:block}
+.onizleme-govde{display:flex;flex-direction:column;gap:var(--bosluk-8);padding:0 var(--bosluk-12) var(--bosluk-12)}
+.onizleme-govde .gorsel-kare{width:56px;height:56px;margin-top:calc(var(--bosluk-32)*-1);font-size:var(--yazi-16);border:2px solid var(--kagit)}
+.onizleme-govde h3{font-size:var(--yazi-15);font-weight:var(--agirlik-kalin);color:var(--murekkep)}
+.onizleme-govde p{font-size:var(--yazi-12-5);color:var(--metin-ikincil)}
+.onizleme-govde .etiketler{display:flex;flex-wrap:wrap;gap:var(--bosluk-4)}
+@media(max-width:640px){.durum-bant{flex-wrap:wrap}}

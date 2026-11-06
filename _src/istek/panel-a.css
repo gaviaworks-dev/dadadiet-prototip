@@ -1,0 +1,16 @@
+/* panel-a isteği: iş günü akışı parçaları. Yalnız token okur. */
+.sirada-kart .kart-govde{display:flex;align-items:center;gap:var(--bosluk-16);flex-wrap:wrap}
+.sirada-kart{border-left:3px solid var(--aksan-koyu)}
+.sirada-metin{flex:1 1 280px;min-width:0}
+.sirada-metin span{display:block;font-size:var(--yazi-11-5);font-weight:var(--agirlik-kalin);letter-spacing:var(--aralik-versal);text-transform:uppercase;color:var(--metin-ikincil)}
+.sirada-metin b{display:block;font-size:var(--yazi-16);font-weight:var(--agirlik-ekstra);color:var(--murekkep)}
+.sirada-metin p{margin:var(--bosluk-2) 0 0;font-size:var(--yazi-13-5);color:var(--metin-ikincil)}
+.sirada-blok>b{display:block;margin-top:var(--bosluk-8);font-size:var(--yazi-14);color:var(--murekkep)}
+.yetkili .adim-bag{display:inline-block;padding:0;border:0;background:none;font:inherit;font-size:var(--yazi-13-5);font-weight:var(--agirlik-kalin);color:var(--aksan-koyu);text-decoration:none;cursor:pointer}
+.yetkili .adim-bag:hover{text-decoration:underline}
+.yetkili .tablo td small.adim-neden{display:block;overflow:hidden;white-space:nowrap;text-overflow:ellipsis}
+.yetkili .kisi-ad .rozet{margin-left:var(--bosluk-4);padding:1px var(--bosluk-6);font-size:var(--yazi-10-5)}
+.yetkili .acilir-yuzey.kolon-secim .onay-kutusu{display:flex;padding:var(--bosluk-4) 0}
+.yetkili .suzgec-dugme i:first-child{color:var(--metin-ikincil)}
+.yetkili .suzgec-dugme:has(>i:first-child){gap:var(--bosluk-8)}
+.yetkili .tablo.sabit-sutun th.eylem{width:136px}

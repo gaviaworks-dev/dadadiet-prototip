@@ -13,15 +13,15 @@ export default ({ veri }) => {
     ...veri.rehberler.rehberler.map((r) => ({ tur: 'rehber', ad: r.ad, metin: r.ozet, href: 'besin-rehberi/dengeli-tabak/', gorsel: r.gorsel_dosya, etiket: 'Rehber' })),
     ...veri.diyetisyenler.diyetisyenler.map((d) => ({ tur: 'diyetisyen', ad: d.ad, metin: `${d.uzmanlik[0]} · ${d.sehir}`, href: DETAY.diyetisyen, harf: d.harf, etiket: d.unvan })),
   ];
-  const govde = `<section class="arama-hero" id="aramaUst"><div class="arama-susleme" aria-hidden="true"></div><div class="kap">
+  const govde = `<section class="bant" data-bant-gorsel="${K}assets/img/hero/besin-kutuphanesi-nb-top.webp"><div class="kap">
 ${kirinti(['Arama'])}<span class="ust-etiket">${ikon('fa-seedling')} Dada Diet · Arama</span>
 <h1 id="aramaBaslik">Dada Diet'te <span class="vurgu">ara</span></h1>
-<p class="arama-giris" id="aramaGiris">Hesaplayıcı, besin, program, rehber ya da diyetisyen: tek kutudan tüm içerikte ara.</p>
+<p class="bant-alt" id="aramaGiris">Hesaplayıcı, besin, program, rehber ya da diyetisyen: tek kutudan tüm içerikte ara.</p>
 <form class="arama-kutu" id="aramaForm" role="search" autocomplete="off" method="get" action="${K}arama/"><div class="arama-satir"><div class="arama-girdi-kap">${ikon('fa-magnifying-glass')}<input id="aramaGirdi" name="q" type="search" placeholder="Hesaplayıcı, besin, program veya diyetisyen ara" aria-label="Dada Diet içeriğinde ara"></div><button class="dugme birincil" type="submit">${ikon('fa-magnifying-glass')} Ara</button></div></form>
 <p class="arama-ozet" id="aramaOzet"></p>
 </div></section>
-<section class="arama-pop" id="aramaPop"><div class="kap"><h3>${ikon('fa-fire')} Popüler aramalar</h3><div class="cipler">${POPULER.map((p) => `<a class="cip hap" href="${K}arama/?q=${encodeURIComponent(p)}">${p}</a>`).join('')}</div></div></section>
-<div class="sekme-ray yapiskan" id="aramaSekme" hidden><div class="kap"><div class="sekmeler" role="tablist" aria-label="İçerik türü">${SEKMELER.map(([v, a, i], n) => `<button class="sekme${n === 0 ? ' aktif' : ''}" type="button" role="tab" data-tur="${v}" aria-selected="${n === 0}"${n ? ' tabindex="-1"' : ''}>${ikon(i)} ${a} <span class="sekme-sayi" data-sayi="${v}">0</span></button>`).join('')}</div></div></div>
+<section class="arama-pop dikis bant-ustunde" id="aramaPop"><div class="kap"><h3>${ikon('fa-fire')} Popüler aramalar</h3><div class="cipler">${POPULER.map((p) => `<a class="cip hap" href="${K}arama/?q=${encodeURIComponent(p)}">${p}</a>`).join('')}</div></div></section>
+<div class="sekme-ray yapiskan dikis bant-ustunde" id="aramaSekme" hidden><div class="kap"><div class="sekmeler" role="tablist" aria-label="İçerik türü">${SEKMELER.map(([v, a, i], n) => `<button class="sekme${n === 0 ? ' aktif' : ''}" type="button" role="tab" data-tur="${v}" aria-selected="${n === 0}"${n ? ' tabindex="-1"' : ''}>${ikon(i)} ${a} <span class="sekme-sayi" data-sayi="${v}">0</span></button>`).join('')}</div></div></div>
 <section class="sonuc-bant" id="aramaSonuc" hidden aria-live="polite"><div class="kap"><p class="sonuc-not" id="aramaNot"></p><div class="sonuc-izgara" id="aramaIzgara"></div><div class="bos-durum kart-ici" id="aramaBos" hidden><span class="bos-ikon">${ikon('fa-magnifying-glass')}</span><h3>Bu aramada sonuç yok</h3><p>Yazımı kontrol et ya da daha genel bir kelime dene.</p><a class="dugme birincil" href="${K}besin-kutuphanesi/">Besin kütüphanesine git</a></div></div></section>
 <div class="uyari-serit"><div class="kap">${ikon('fa-circle-info')}<p>Arama sonuçları genel bilgi amaçlıdır; kişiye özel tıbbi ya da beslenme önerisi değildir.</p></div></div>
 ${jsonGom('aramaDizin', { dizin, besinDetay: DETAY.besin, tarifDetay: DETAY.tarif })}`;

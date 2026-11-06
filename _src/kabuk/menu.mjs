@@ -35,9 +35,9 @@ export const footerKurumsal = [['Hakkımızda', 'sayfa/hakkimizda/'], ['Editorya
 export const footerYasal = [['KVKK Aydınlatma Metni', 'yasal/kvkk/'], ['Tüm Yasal Metinler', 'yasal/']];
 
 export const uyeMenu = [
-  [['fa-clipboard-list', 'Beslenme Planım', 'hesabim/beslenme-planim/'], ['fa-list-check', 'Programlarım', 'hesabim/programlarim/'], ['fa-bookmark', 'Kaydedilenler', 'hesabim/kaydedilenler/'], ['fa-utensils', 'Günlük Takibim', 'hesabim/gunluk-takibim/'], ['fa-calendar-week', 'Haftalık Menüm', 'hesabim/haftalik-menum/'], ['fa-user-doctor', 'Diyetisyenim', 'hesabim/diyetisyenim/'], ['fa-notes-medical', 'Sağlık Dosyam', 'hesabim/saglik-dosyam/'], ['fa-user-shield', 'Veri İzinlerim', 'hesabim/veri-izinlerim/']],
-  [['fa-medal', 'Rozetlerim', 'hesabim/rozetlerim/'], ['fa-people-group', 'Destek Grupları', 'hesabim/destek-gruplari/']],
-  [['fa-crown', 'Paketlerim', 'hesabim/paketler/'], ['fa-receipt', 'Ödemelerim', 'hesabim/odemelerim/'], ['fa-sliders', 'Hesap Ayarları', 'hesabim/'], ['fa-user-pen', 'Tercihlerim', 'hesabim/tercihlerim/'], ['fa-bell', 'Bildirimler', 'hesabim/bildirimler/']],
+  [['fa-gauge-high', 'Genel Bakış', 'hesabim/'], ['fa-clipboard-list', 'Beslenme Planım', 'hesabim/beslenme-planim/'], ['fa-utensils', 'Günlük Takibim', 'hesabim/gunluk-takibim/'], ['fa-list-check', 'Programlarım', 'hesabim/programlarim/'], ['fa-user-doctor', 'Diyetisyenim', 'hesabim/diyetisyenim/']],
+  [['fa-notes-medical', 'Sağlık Dosyam', 'hesabim/saglik-dosyam/'], ['fa-user-shield', 'Veri İzinlerim', 'hesabim/veri-izinlerim/'], ['fa-medal', 'Rozetlerim', 'hesabim/rozetlerim/'], ['fa-user-pen', 'Tercihlerim', 'hesabim/tercihlerim/']],
+  [['fa-crown', 'Paketlerim', 'hesabim/paketlerim/'], ['fa-receipt', 'Ödemelerim', 'hesabim/odemelerim/'], ['fa-sliders', 'Hesap Ayarlarım', 'hesabim/ayarlar/'], ['fa-headset', 'Çözüm Merkezi', 'hesabim/cozum-merkezi/']],
 ];
 
 export const panelMenu = [

@@ -1,9 +1,8 @@
-<!--{"baslik":"Aralıklı Oruç Rehberi","yol":"aralikli-oruc-rehberi","duzen":"public","aktif":"Sağlık Araçları","js":["assets/js/sayfa/moduller-ortak.js","assets/js/sayfa/moduller-soru.js","assets/js/sayfa/moduller-oruc.js"]}-->
-<div class="modul-govde"><section class="bolum sik"><div class="kap">
-<nav class="kirinti acik-zemin" aria-label="Sayfa yolu"><a class="kirinti-ev" href="{{kok}}"><i class="fa-solid fa-house" aria-hidden="true"></i><span class="yalniz-okuyucu">Dada Diet</span></a><i class="fa-solid fa-chevron-right" aria-hidden="true"></i><a href="{{kok}}hesaplayicilar/">Sağlık Araçları</a><i class="fa-solid fa-chevron-right" aria-hidden="true"></i><span class="kirinti-simdi">Aralıklı Oruç Rehberi</span></nav>
-<div class="sayfa-bas"><div><h1>Aralıklı Oruç Rehberi</h1><p>Protokolünü ve ilk lokma saatini seç; yeme ve oruç pencereni, oruç sırasında vücudunda neler olduğunu saat saat gör.</p></div></div>
+// Aralıklı Oruç Rehberi: public kalıbı, görselli bant + bolum-dizi. Üst bant ve bölüm işaretlemesi public-araclar/ortak.mjs'ten gelir.
+import { JS, bant, bolum } from '../../parcalar/public-araclar/ortak.mjs';
 
-<div class="uyari-kutu tehlike" role="note"><i class="fa-solid fa-triangle-exclamation" aria-hidden="true"></i><span><b>Herkese uygun değildir.</b> Gebelik ya da emzirme, diyabet, yeme bozukluğu öyküsü ya da düzenli ilaç kullanımı varsa başlamadan önce hekimine ve diyetisyenine danış. 18 yaşından küçükler için önerilmez.</span></div>
+const bolumler = [
+`<div class="uyari-kutu tehlike" role="note"><i class="fa-solid fa-triangle-exclamation" aria-hidden="true"></i><span><b>Herkese uygun değildir.</b> Gebelik ya da emzirme, diyabet, yeme bozukluğu öyküsü ya da düzenli ilaç kullanımı varsa başlamadan önce hekimine ve diyetisyenine danış. 18 yaşından küçükler için önerilmez.</span></div>
 
 <div class="iki-kolon esit">
   <div class="kart">
@@ -35,9 +34,8 @@
     </div>
     <div class="kart-govde bosluksuz-ust"><p class="durum-satir su-an" id="suAn"><i class="fa-solid fa-location-crosshairs" aria-hidden="true"></i><span></span></p><dl class="kunye iki-sutun" id="pencereOzet"></dl></div>
   </div>
-</div>
-
-<div class="bolum-bas sik-bas muadil-bas"><div><span class="ust-etiket"><i class="fa-solid fa-dna" aria-hidden="true"></i> Biyolojik zaman çizelgesi</span><h2>Oruçta vücudunda neler olur?</h2><p class="giris-metni">Saatler son lokmandan itibaren sayılır. Süreler kişiye, öğüne ve hareketine göre değişir, yaklaşık bir çerçeve olarak oku. Evre saatleri uzman onayı bekliyor.</p></div></div>
+</div>`,
+`<div class="bolum-bas"><div><span class="ust-etiket"><i class="fa-solid fa-dna" aria-hidden="true"></i> Biyolojik zaman çizelgesi</span><h2>Oruçta vücudunda neler olur?</h2><p class="giris-metni">Saatler son lokmandan itibaren sayılır. Süreler kişiye, öğüne ve hareketine göre değişir, yaklaşık bir çerçeve olarak oku. Evre saatleri uzman onayı bekliyor.</p></div></div>
 <div class="iki-kolon esit">
   <div class="kart"><div class="kart-govde"><div class="zaman-cizelgesi" id="cizelge"></div></div></div>
   <div class="akordeon">
@@ -50,5 +48,20 @@
       <div class="akordeon-govde"><ul class="isaretli-liste olumsuz akordeon-liste"><li><i class="fa-solid fa-xmark" aria-hidden="true"></i><span>Süt, krema ya da şeker eklenmiş kahve ve çay</span></li><li><i class="fa-solid fa-xmark" aria-hidden="true"></i><span>Meyve suyu, gazlı içecek ve enerji içeceği</span></li><li><i class="fa-solid fa-xmark" aria-hidden="true"></i><span>Kalori içeren her yiyecek, küçük atıştırmalıklar dahil</span></li><li><i class="fa-solid fa-xmark" aria-hidden="true"></i><span>Alkol</span></li></ul><p>Düzenli ilaçlarını oruç nedeniyle kendi başına atlama ya da saatini değiştirme, hekimine sor.</p></div>
     </div>
   </div>
-</div>
-</div></section></div>
+</div>`,
+`<div class="bilgi-notu"><i class="fa-solid fa-circle-info" aria-hidden="true"></i><div><p><b>Bu rehber genel bilgi amaçlıdır.</b> Evre saatleri kaynaklar arasında farklılık gösterir ve uzman onayı bekliyor. Aralıklı oruç tıbbi bir tedavi değildir; kişisel durumun için hekimine ve diyetisyenine danış.</p></div></div>`,
+];
+
+export default ({ veri }) => [{
+  yol: 'aralikli-oruc-rehberi',
+  meta: { baslik: 'Aralıklı Oruç Rehberi', duzen: 'public', aktif: 'Sağlık Araçları', hero: true, js: [JS, 'assets/js/sayfa/moduller-ortak.js', 'assets/js/sayfa/moduller-soru.js', 'assets/js/sayfa/moduller-oruc.js'] },
+  govde: `${bant({
+    yol: [['Sağlık Araçları', 'hesaplayicilar/'], ['Aralıklı Oruç Rehberi']], etiket: 'Sağlık araçları', etiketIkon: 'fa-clock',
+    h1: 'Aralıklı Oruç <span class="vurgu">Rehberi</span>', gorsel: 'hero/css-photo-1490818387583-1baba5e638af.avif',
+    alt: 'Protokolünü ve ilk lokma saatini seç; yeme ve oruç pencereni, oruç sırasında vücudunda neler olduğunu saat saat gör.',
+    sayilar: [[4, 'protokol'], [veri.programlar.kirilimlar.beslenme_tercihi.find((k) => k.slug === 'aralikli-oruc').sayi, 'oruç programı']],
+  })}
+<div class="bolum-dizi">
+${bolumler.map((h, i) => bolum(h, { ilk: i === 0 })).join('\n')}
+</div>`,
+}];

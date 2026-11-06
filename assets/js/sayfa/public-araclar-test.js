@@ -11,7 +11,8 @@
     const y = cevap.filter((c) => c != null).length, oran = Math.round((y / n) * 100);
     oranYaz($('testCubuk'), oran);
     $('testCubuk').parentElement.setAttribute('aria-valuenow', oran);
-    $('testMetin').textContent = 'Soru ' + (i + 1) + ' / ' + n + ' · %' + oran;
+    $('testMetin').textContent = 'Soru ' + (i + 1) + ' / ' + n;
+    $('testYuzde').textContent = '%' + oran + ' tamamlandı';
   }
   function soruCiz() {
     const s = S[i];
@@ -21,6 +22,7 @@
       const b = document.createElement('button');
       b.type = 'button'; b.className = 'secenek'; b.dataset.deger = k;
       b.setAttribute('aria-pressed', String(cevap[i] === k));
+      b.innerHTML = '<i class="fa-solid fa-circle-dot" aria-hidden="true"></i>';
       const sp = document.createElement('span'); sp.textContent = o.metin; b.append(sp);
       kap.append(b);
     });

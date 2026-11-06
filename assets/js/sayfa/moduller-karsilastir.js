@@ -15,7 +15,7 @@
     }
     sonuc.innerHTML = M.karsilastirHtml(durum.a, durum.b, durum.kip, DD.kok);
     sonuc.querySelectorAll('[data-oran]').forEach((e) => e.style.setProperty('--oran', e.dataset.oran));
-    if (baslik) baslik.textContent = M.kisaAd(durum.a) + ' vs ' + M.kisaAd(durum.b);
+    if (baslik) baslik.textContent = M.kisaAd(durum.a) + ' ve ' + M.kisaAd(durum.b);
   }
   const bagla = (girdi, anahtar, diger) => {
     M.oneri(girdi, {

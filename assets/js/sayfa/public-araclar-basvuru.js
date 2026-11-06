@@ -4,7 +4,7 @@
   'use strict';
   const $ = (id) => document.getElementById(id);
   const form = $('basvuruForm'), alan = $('basvuruAlan'), durum = $('basvuruDurum');
-  const TASLAK = ['ad', 'soyad', 'sehir', 'cinsiyet', 'universite', 'mezuniyet', 'unvan', 'deneyim', 'bio', 'klinikAd', 'klinikAdres'];
+  const TASLAK = ['ad', 'soyad', 'sehir', 'cinsiyet', 'universite', 'mezuniyet', 'unvan', 'deneyim', 'bio', 'klinikAd', 'klinikAdres', 'diller', 'ucretNot'];
   const ZORUNLU = ['ad', 'soyad', 'eposta', 'telefon', 'sehir', 'diploma', 'universite', 'mezuniyet', 'unvan', 'deneyim', 'bio'];
   const uzmanlar = () => [...$('uzmanlik').querySelectorAll('[aria-pressed="true"]')].map((b) => b.dataset.deger);
   const gorusme = () => [...$('gorusme').querySelectorAll('[aria-pressed="true"]')].map((b) => b.dataset.deger);

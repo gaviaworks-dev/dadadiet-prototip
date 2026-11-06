@@ -22,6 +22,23 @@
 
   if (!$('paketler')) return;
   const d = DD.demo.al(), dyt = d.diyetisyen, P = dyt.profil || {};
+
+  /* Panelde değişen alanlar: derleme değerinin üstüne yazılır */
+  const yaz = (ad, v) => document.querySelectorAll('[data-alan="' + ad + '"]').forEach((e) => { e.textContent = v; });
+  yaz('deneyim', dyt.deneyim_yil + ' yıl');
+  yaz('sehir', dyt.sehir);
+  yaz('gorusme', dyt.online && dyt.yuz_yuze ? 'Online ve yüz yüze' : dyt.online ? 'Online' : 'Yüz yüze');
+  yaz('uzmanlik1', (dyt.uzmanlik || [])[0] || '');
+  $('eceAlan').innerHTML = (dyt.uzmanlik || []).map((u) => '<span class="rozet olumlu">' + kac(u) + '</span>').join('');
+  if (P.foto) { const a = $('profilAvatar'); a.textContent = ''; a.classList.remove('harf'); a.style.backgroundImage = 'url("' + P.foto + '")'; }
+  if (P.kapak) $('profilKapak').style.backgroundImage = 'url("' + P.kapak + '")';
+
+  /* Yayın durumu: onaylı değilse ziyaretçi profili görmez; ?onizleme=1 durumdan bağımsız açar */
+  const onizleme = new URLSearchParams(location.search).get('onizleme') === '1';
+  const yayinda = (dyt.onay_durumu || 'onayli') === 'onayli';
+  $('onizlemeSerit').hidden = !onizleme;
+  if (!yayinda && !onizleme) { $('profilKapali').hidden = false; $('profilGovde').hidden = true; $('profilEylem').hidden = true; }
+
   $('eceKisa').textContent = P.kisa || 'Kilo yönetimi ve sporcu beslenmesinde, yaşam tarzına uyan sürdürülebilir planlar hazırlıyorum.';
   $('eceBaslik').querySelector('span').textContent = P.baslik || 'Sürdürülebilir kilo yönetimi ve sporcu beslenmesi';
   const metin = P.metin || 'Klinik ve online danışmanlık deneyimimle kilo yönetimi, insülin direnci ve sporcu beslenmesi alanlarında çalışıyorum.\n\nİlk görüşmede alışkanlıklarını, hedefini ve günlük ritmini konuşuyoruz; planı birlikte kuruyor, iki haftada bir gözden geçiriyoruz.';

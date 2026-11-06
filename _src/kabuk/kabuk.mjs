@@ -63,6 +63,7 @@ export function kabukla(s, { istekler }) {
   const panel = duzen === 'panel';
   const css = ['taban', ...(panel ? [] : ['kabuk']), 'tokenlar', 'diet', 'bilesenler', ...(panel ? ['admin'] : []), 'ek-bilesenler'];
   const link = css.map((c) => `<link rel="stylesheet" href="${K}assets/css/${c}.css">`).join('\n');
+  const istek = istekler.map((c) => `<link rel="stylesheet" href="${K}_src/istek/${c}">`).join('\n');
   const fa = `<link rel="stylesheet" href="${K}assets/fontawesome/css/all.min.css">`;
   const js = [
     ...(panel ? ['assets/js/panel/panel.js', 'assets/js/panel/admin-kit.js'] : []),
@@ -85,6 +86,7 @@ export function kabukla(s, { istekler }) {
 <link rel="icon" href="${K}assets/img/marka/favicon.ico">
 ${fa}
 ${link}
+${istek}
 <script>${oturum}</script>
 ${js}
 </head>
