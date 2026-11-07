@@ -14,20 +14,21 @@
     if ((t.protein * 4) / t.kcal >= 0.3) return 'protein';
     return (t.karb * 4) / t.kcal >= 0.45 ? 'karb' : 'sebze';
   };
-  M.tarifKayitlari = () => {
+  M.yemekKayitlari = () => {
     if (tarifOnbellek) return tarifOnbellek;
     const k = kok.DD_VERI && kok.DD_VERI.tarifler, l = Array.isArray(k) ? k : (k && k.tarifler) || [];
-    const var_ = new Set(liste().map((b) => b.slug));
-    tarifOnbellek = l.filter((t) => !var_.has(t.slug) && t.kcal != null).map((t) => ({
+    tarifOnbellek = l.filter((t) => t.kcal != null).map((t) => ({
       slug: 'tarif-' + t.slug, ad: t.ad, kategori: 'Tarif', tarif_turu: t.kategori, kategori_kodu: 'tarif', kayit_turu: 'tarif', tabak_grubu: tarifBolmesi(t),
       porsiyon: { ad: '1 porsiyon', gram: null }, kcal: null, protein: null, yag: null, karb: null, lif: null, karb_lif_dahil: null,
       porsiyon_degerleri: { kcal: t.kcal, protein: t.protein, yag: t.yag, karb: t.karb, lif: t.lif }, alerjenler: t.hassasiyet || [], yol: t.yol,
     }));
     return tarifOnbellek;
   };
+  /* Besin listesinde aynı adla duran kayıt iki kez çıkmasın */
+  M.tarifKayitlari = () => { const var_ = new Set(liste().map((b) => b.slug)); return M.yemekKayitlari().filter((t) => !var_.has(t.slug.slice(6))); };
   M.tumKayitlar = () => liste().concat(M.tarifKayitlari());
   M.tarifMi = (b) => b.kayit_turu === 'tarif';
-  M.besin = (slug) => liste().find((x) => x.slug === slug) || M.tarifKayitlari().find((x) => x.slug === slug) || null;
+  M.besin = (slug) => liste().find((x) => x.slug === slug) || M.yemekKayitlari().find((x) => x.slug === slug) || null;
   M.kesir = (v) => {
     const tam = Math.floor(v), k = { 0.25: '¼', 0.5: '½', 0.75: '¾' }[+(v - tam).toFixed(2)] || '';
     return (tam || !k ? tam : '') + k;
@@ -115,7 +116,7 @@
       sonuc = (secenek.kaynak || liste)().filter((b) => !haric.includes(b.slug) && (!secenek.suz || secenek.suz(b)) && (!q || M.kucult(b.ad).includes(q) || M.kucult(b.kategori || '').includes(q)))
         .sort((x, y) => (M.kucult(y.ad).startsWith(q) ? 1 : 0) - (M.kucult(x.ad).startsWith(q) ? 1 : 0)).slice(0, 8);
       if (!sonuc.length) {
-        ul.innerHTML = '<div class="oneri-kalem" role="option" aria-disabled="true">Bu adla kayıtlı besin yok</div>';
+        ul.innerHTML = '<div class="oneri-kalem" role="option" aria-disabled="true">' + (secenek.bosMetin ? secenek.bosMetin() : 'Bu adla kayıtlı besin yok') + '</div>';
       } else {
         ul.innerHTML = sonuc.map((b, i) => '<button type="button" class="oneri-kalem" role="option" id="' + kimlik + '-' + i + '" aria-selected="false" data-slug="' + b.slug + '"><span>' + kac(b.ad) + '</span><small>' + kac(b.kategori || '') + '</small></button>').join('');
       }

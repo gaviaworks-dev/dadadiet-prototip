@@ -2609,3 +2609,7 @@ body:not(.yetkili) .kart.panel>.kart-alt{padding:var(--rol-kart-alt-dikey) var(-
   .muadil-ozet .deger-satir{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));width:100%;gap:var(--bosluk-4)}
   .muadil-ozet .deger-satir>div{flex-direction:column;gap:var(--bosluk-4);padding:var(--bosluk-6) var(--bosluk-8)}
 }
+
+/* Akıllı Tabak: yemek ve porsiyon seçimi */
+.segment.kucuk button{min-height:30px;padding:0 var(--bosluk-10);font-size:var(--yazi-12)}
+#eklemeKipi{margin-bottom:var(--bosluk-16)}

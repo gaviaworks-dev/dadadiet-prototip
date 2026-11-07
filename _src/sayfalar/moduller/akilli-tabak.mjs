@@ -5,10 +5,12 @@ const bolumler = [
 `<div class="iki-kolon genis-yan">
   <div class="yigin">
     <div class="kart">
-      <div class="kart-bas"><div><h2 class="kart-baslik"><i class="fa-solid fa-plus" aria-hidden="true"></i> Tabağına besin ekle</h2><p>Bir hazır tabakla başla ya da kendin kur.</p></div></div>
+      <div class="kart-bas"><div><h2 class="kart-baslik"><i class="fa-solid fa-plus" aria-hidden="true"></i> Tabağına yemek ekle</h2><p>Yemeğini ve porsiyonunu seç, tabak bölmelere kendisi dağıtır.</p></div></div>
       <div class="kart-govde">
-        <div class="alan"><label class="alan-etiket" for="tabakArama">Besin ara</label><div class="oneri-kap"><input class="alan-girdi" id="tabakArama" type="search" placeholder="Örneğin brokoli, tavuk, bulgur"></div><button class="cip aktif bolme-suzgec" id="bolmeSuzgec" type="button" hidden></button></div>
+        <div class="segment" id="eklemeKipi" role="group" aria-label="Ne ekleyeceksin?"><button type="button" data-deger="yemek" aria-pressed="true">Yemek</button><button type="button" data-deger="besin" aria-pressed="false">Tek besin</button></div>
+        <div class="alan"><label class="alan-etiket" for="tabakArama" id="tabakAramaEtiket">Yemek ara</label><div class="oneri-kap"><input class="alan-girdi" id="tabakArama" type="search" placeholder="Örneğin mercimek çorbası, sebzeli tavuk"></div><button class="cip aktif bolme-suzgec" id="bolmeSuzgec" type="button" hidden></button></div>
         <div class="cipler" id="hazirTabaklar" role="group" aria-label="Hazır tabaklar"></div>
+        <p class="alan-yardim">Yemeklerin bölme dağılımı örnektir, diyetisyen onayı bekliyor.</p>
       </div>
       <div class="kart-govde bosluksuz" id="tabakKalemler"></div>
       <div class="kart-alt"><span class="not" id="tabakSayac"></span><button class="dugme hayalet tehlike kucuk" id="tabakTemizle" type="button"><i class="fa-solid fa-trash" aria-hidden="true"></i> Tabağı boşalt</button></div>
@@ -72,7 +74,7 @@ export default ({ veri }) => [{
   govde: `${bant({
     yol: [['Sağlık Araçları', 'hesaplayicilar/'], ['Akıllı Tabak ve Değişim']], etiket: 'Sağlık araçları', etiketIkon: 'fa-chart-pie',
     h1: 'Akıllı Tabak ve <span class="vurgu">Değişim</span>', gorsel: 'hero/beslenme-reh-hero.jpg',
-    alt: 'Tabağının yarısı sebze, çeyreği yağsız protein, çeyreği kompleks karbonhidrat olsun. Besin ekledikçe bölmeler dolar, toplamlar ve denge skorun hemen değişir.',
+    alt: 'Tabağının yarısı sebze, çeyreği yağsız protein, çeyreği kompleks karbonhidrat olsun. Yemek ekledikçe bölmeler dolar, toplamlar ve denge skorun hemen değişir.',
     sayilar: [[veri.sayaclar.besin, 'besin kütüphanede'], [veri.sayaclar.tarif, 'tarif']],
   })}
 <div class="bolum-dizi">
