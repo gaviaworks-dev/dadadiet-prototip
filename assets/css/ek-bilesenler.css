@@ -2687,3 +2687,8 @@ body:not(.yetkili) .kart.panel>.kart-alt{padding:var(--rol-kart-alt-dikey) var(-
 button.metin-bag{padding:0;background:none;border:0;font-size:var(--yazi-12);cursor:pointer;text-align:left}
 .yan-ekle{display:flex;flex-wrap:wrap;align-items:center;gap:var(--bosluk-12);padding:var(--bosluk-16) var(--bosluk-24)}
 .yan-ekle .not{font-size:var(--yazi-13);color:var(--metin-ikincil)}
+
+/* Çipler tek satırda kalır, sığmazsa yatay kayar */
+.cipler.tek-satir{flex-wrap:nowrap;overflow-x:auto;scroll-snap-type:x proximity;scrollbar-width:none}
+.cipler.tek-satir::-webkit-scrollbar{display:none}
+.cipler.tek-satir>.cip{flex:none;scroll-snap-align:start}

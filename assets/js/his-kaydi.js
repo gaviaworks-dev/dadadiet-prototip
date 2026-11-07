@@ -28,7 +28,7 @@
 
   function bas(hedef) {
     const his = kayit(U.bugun());
-    const kok = U.bas(hedef, '<div class="kart panel tam-kolon" data-his-kart><div class="kart-bas"><div><h3 class="kart-baslik"><i class="fa-solid fa-heart-pulse" aria-hidden="true"></i> Kendini nasıl hissediyorsun?</h3><p>Bugün için tek dokunuş yeter; gün içinde değişirse yeniden seçebilirsin.</p></div></div><div class="kart-govde"><div class="yigin sik"><div class="cipler" data-tek-secim data-his-secim role="group" aria-label="Bugün kendini nasıl hissediyorsun">'
+    const kok = U.bas(hedef, '<div class="kart panel tam-kolon" data-his-kart><div class="kart-bas"><div><h3 class="kart-baslik"><i class="fa-solid fa-heart-pulse" aria-hidden="true"></i> Kendini nasıl hissediyorsun?</h3><p>Bugün için tek dokunuş yeter; gün içinde değişirse yeniden seçebilirsin.</p></div></div><div class="kart-govde"><div class="yigin sik"><div class="cipler tek-satir" data-tek-secim data-his-secim role="group" aria-label="Bugün kendini nasıl hissediyorsun">'
       + SECENEK.map((x) => '<button class="cip" type="button" data-deger="' + x[0] + '" aria-pressed="' + (x[0] === his) + '">' + x[1] + '</button>').join('')
       + '</div><div data-his-uyari hidden></div></div></div></div>');
     if (kok) uyariCiz(kok);
