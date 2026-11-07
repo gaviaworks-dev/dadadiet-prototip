@@ -3017,3 +3017,13 @@ html[data-oturum="1"] .head-bell{display:grid}
 .ogun-sutun.kapali b,.ogun-sutun.kapali .as-ikon{opacity:.55}
 .segment button[aria-pressed="true"] .sekme-sayi{color:inherit;opacity:.8}
 @media(max-width:640px){.ogun-sutun .as-ikon{display:none}.ogun-sutun{padding:var(--bosluk-8)}}
+/* Liste ayağı: solda kayıt aralığı, sağda sayfa boyu ve numaralar */
+.sayfalama.kart-ayagi[hidden]{display:none}
+.yetkili .sayfalama-sag{display:flex;align-items:center;flex-wrap:wrap;gap:var(--bosluk-16)}
+.sayfa-boyut{display:inline-flex;align-items:center;gap:var(--bosluk-8);font-size:var(--yazi-12-5);font-weight:var(--agirlik-govde);color:var(--metin-ikincil)}
+.yetkili .sayfa-boyut .alan-secim{width:auto;min-width:72px;height:36px;min-height:36px;padding-block:0;padding-left:var(--bosluk-12);font-size:var(--yazi-13);margin:0}
+.yetkili .sayfalama.kart-ayagi .sayfa-dugme{min-width:36px;height:36px;padding:0 var(--bosluk-8);border-radius:var(--yuvarlak-sm);font-size:var(--yazi-13)}
+@media(max-width:640px){
+  .yetkili .sayfalama.kart-ayagi .sayfa-dugme{min-width:44px;height:44px}
+  .yetkili .sayfalama-sag{justify-content:center;width:100%}
+}
