@@ -9,7 +9,7 @@
   const SEKME_SUZ = { tumu: () => true, talep: (x) => x.durum === 'talep', aktif: (x) => x.durum === 'aktif', yanit: (x) => x.durum === 'yanit-bekliyor', bitti: (x) => ['bitti', 'reddedildi'].includes(x.durum) };
   const ARA_YER = { tumu: 'Ad, e-posta ya da hedef ara', talep: 'Talep eden kişiyi ara', aktif: 'Aktif danışan ara', yanit: 'Yanıt bekleyen danışan ara', bitti: 'Biten danışan ara' };
 
-  const eposta = (x) => x.eposta || x.ad.toLocaleLowerCase('tr').replace(/\s+/g, '.').replace(/ı/g, 'i').replace(/ş/g, 's').replace(/ğ/g, 'g').replace(/ü/g, 'u').replace(/ö/g, 'o').replace(/ç/g, 'c') + '@ornek.test';
+  const eposta = PA.eposta;
   /* Davetler kart açılana kadar ayrı tutulur; listede aynı satır biçiminde görünür */
   const kayitlar = () => PA.danisanlar().concat(PA.davetler().map((x) => Object.assign({ davet: true, durum: 'davet', izinler: {}, olcumler: [], son_gorusme: null }, x)));
   const suzgecDeger = (id) => { const t = document.querySelector('[aria-controls="' + id + '"]'); const d = t && t.getAttribute('data-deger'); return d && d !== 'hepsi' ? d : ''; };

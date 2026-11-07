@@ -58,6 +58,7 @@
   PA.danisanlar = () => PA.d().danisanlar || [];
   PA.danisan = (id) => PA.danisanlar().find((x) => x.id === id);
   PA.paket = (id) => (PA.d().paketler || []).find((x) => x.id === id);
+  PA.eposta = (x) => x.eposta || x.ad.toLocaleLowerCase('tr').replace(/\s+/g, '.').replace(/ı/g, 'i').replace(/ş/g, 's').replace(/ğ/g, 'g').replace(/ü/g, 'u').replace(/ö/g, 'o').replace(/ç/g, 'c') + '@ornek.test';
   PA.para = (n) => DD.bicim.para(n);
   PA.davetler = () => PA.d().davetler || (PA.d().davetler = []);
   PA.durumlar = {
