@@ -90,8 +90,14 @@
   }
   function makroCiz() {
     const tm = toplam();
-    const m = [['Enerji', 'kcal', t.kcal, 'kcal', 0], ['Protein', 'protein', t.protein, 'g', 0], ['Karbonhidrat', 'karb', t.karb, 'g', 0], ['Yağ', 'yag', t.yag, 'g', 0]];
-    U.bas('#gtMakro', m.map((x) => { const v = tm[x[1]], o = x[2] ? Math.round((v / x[2]) * 100) : 0; return '<div><p class="alan-yardim"><span><b>' + x[0] + '</b> · ' + U.sayi(v) + ' / ' + U.sayi(x[2]) + ' ' + x[3] + ' (%' + o + ')</span></p>' + olcer(o, x[0]) + '</div>'; }).join(''));
+    /* Halka Akıllı Tabak'taki makro payıyla aynı hesap: protein ve karbonhidrat 4, yağ 9 kcal/g */
+    const m = [['Protein', 'protein', t.protein, 4, 'm-protein'], ['Karbonhidrat', 'karb', t.karb, 4, 'm-karb'], ['Yağ', 'yag', t.yag, 9, 'm-yag']];
+    const enerji = m.reduce((a, x) => a + tm[x[1]] * x[3], 0);
+    const pay = m.map((x) => (enerji ? Math.round((tm[x[1]] * x[3] / enerji) * 100) : 0));
+    const satir = (ad, deger, hedef, birim, sinif, ek) => { const o = hedef ? Math.round((deger / hedef) * 100) : 0; return '<div class="makro-satir ' + sinif + '"><div class="olcum-bas"><span class="lejant-kalem ' + sinif + '">' + ad + (ek ? ' <small>' + ek + '</small>' : '') + '</span><b>' + U.sayi(deger) + ' / ' + U.sayi(hedef) + ' ' + birim + ' <small>%' + o + '</small></b></div><div class="yigma-cubuk" role="img" aria-label="' + ad + ' hedefi: yüzde ' + o + '"><span data-oran="' + Math.min(100, o) + '"></span></div></div>'; };
+    const halka = U.bas('#gtMakro', '<div class="halka dilimli' + (enerji ? '' : ' bos') + '" role="img" aria-label="' + (enerji ? m.map((x, i) => x[0] + ' yüzde ' + pay[i]).join(', ') : 'Bugün henüz kalem yok') + '"><span><b>' + U.sayi(tm.kcal) + '</b><small>/ ' + U.sayi(t.kcal) + ' kcal</small></span></div><div class="yigin sik">' + satir('Enerji', tm.kcal, t.kcal, 'kcal', 'm-enerji') + m.map((x, i) => satir(x[0], tm[x[1]], x[2], 'g', x[4], enerji ? 'enerji payı %' + pay[i] : '')).join('') + '</div>');
+    const dilim = halka && halka.querySelector('.halka');
+    if (dilim) { dilim.style.setProperty('--dilim-1', pay[0]); dilim.style.setProperty('--dilim-2', pay[0] + pay[1]); }
     U.bas('#gtKalemler', tm.l.map((x) => '<tr><td><span class="no">' + U.kac(U.kalemMetin(x)) + '</span></td><td>' + ogunAd(x.ogun) + '</td><td class="tutar sag">' + DD.bicim.kcal(x.kcal) + '</td></tr>').join('') || '<tr><td colspan="3" class="bos-hucre">Bugün henüz kalem kaydedilmedi.</td></tr>');
   }
   function notCiz() {
