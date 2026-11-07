@@ -3,8 +3,8 @@
 (function () {
   'use strict';
   const DD = window.DD, U = window.DDU;
-  /* Yüz ikonları mobille aynı: [değer, ad, ikon] */
-  const SECENEK = [['iyi', 'İyi', 'fa-face-smile'], ['normal', 'Normal', 'fa-face-meh'], ['yorgun', 'Yorgun', 'fa-face-tired'], ['bitkin', 'Bitkin', 'fa-face-frown'], ['halsiz', 'Halsiz', 'fa-face-meh-blank'], ['bas-donmesi', 'Baş dönmesi', 'fa-face-dizzy'], ['carpinti', 'Çarpıntı', 'fa-heart-pulse']];
+  /* Revize 20 ve 23: seçenekler emojili. Haftalık haplarda Font Awesome ikonu kalır: [değer, ad, ikon, emoji] */
+  const SECENEK = [['iyi', 'İyi', 'fa-face-smile', '😊'], ['normal', 'Normal', 'fa-face-meh', '😐'], ['yorgun', 'Yorgun', 'fa-face-tired', '😴'], ['bitkin', 'Bitkin', 'fa-face-frown', '😞'], ['halsiz', 'Halsiz', 'fa-face-meh-blank', '🤒'], ['bas-donmesi', 'Baş dönmesi', 'fa-face-dizzy', '😵'], ['carpinti', 'Çarpıntı', 'fa-heart-pulse', '💓']];
   const UYARI = {
     sakin: { sinif: 'uyari-kutu', rol: 'status', ikon: 'fa-circle-info', metin: 'Bu belirtiler sürüyorsa diyete ara ver ve bir diyetisyen ya da hekime danış.' },
     net: { sinif: 'uyari-kutu hata', rol: 'alert', ikon: 'fa-triangle-exclamation', metin: 'Diyete devam etme, bir hekime başvur.' },
@@ -37,7 +37,7 @@
   function bas(hedef) {
     const his = kayit(U.bugun());
     const kok = U.bas(hedef, '<div class="kart panel tam-kolon" data-his-kart><div class="kart-bas"><div><h3 class="kart-baslik"><i class="fa-solid fa-heart-pulse" aria-hidden="true"></i> Kendini Nasıl Hissediyorsun?</h3><p>Bugün için tek dokunuş yeter; gün içinde değişirse yeniden seçebilirsin.</p></div></div><div class="kart-govde"><div class="yigin sik"><div class="cipler ortali tek-satir his-secim" data-tek-secim data-his-secim role="group" aria-label="Bugün kendini nasıl hissediyorsun">'
-      + SECENEK.map((x) => '<button class="cip" type="button" data-deger="' + x[0] + '" aria-pressed="' + (x[0] === his) + '"><i class="fa-solid ' + x[2] + '" aria-hidden="true"></i><span>' + x[1] + '</span></button>').join('')
+      + SECENEK.map((x) => '<button class="cip" type="button" data-deger="' + x[0] + '" aria-pressed="' + (x[0] === his) + '"><span class="his-emoji" aria-hidden="true">' + x[3] + '</span><span>' + x[1] + '</span></button>').join('')
       + '</div><div data-his-uyari hidden></div></div></div></div>');
     if (kok) { uyariCiz(kok); gorunur(kok); }
   }

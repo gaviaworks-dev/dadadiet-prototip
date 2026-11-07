@@ -3103,3 +3103,6 @@ html[data-oturum="1"] .head-bell{display:grid}
 @media(max-width:640px){.hafta-gun{padding:var(--bosluk-16)}.hafta-ogunler{grid-template-columns:minmax(0,1fr)}}
 @media print{.hafta-gun{break-inside:avoid}.hafta-gun.bugun{box-shadow:none}.hafta-ogun{padding:var(--bosluk-8)}}
 .hafta-gun.bugun .durum-hapi{background:var(--kagit)}
+/* His seçimi: emoji */
+.cipler.his-secim>.cip .his-emoji{font-size:var(--yazi-24);line-height:1;transition:transform .2s ease}
+.cipler.his-secim>.cip[aria-pressed="true"] .his-emoji{transform:scale(1.12)}
