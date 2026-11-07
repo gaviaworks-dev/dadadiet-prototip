@@ -1,4 +1,4 @@
-// Akıllı Tabak onay özeti: Yasin Bey'in oranları, yeni yemekleri ve puan formülünü tek sayfada onaylaması için. Menüde yer almaz.
+// Akıllı Tabak hesap notları: alınan kararlar, oranlar, yeni yemekler ve puan formülü. Menüde yer almaz.
 import { bolum, bolumBas } from '../../parcalar/public-araclar/ortak.mjs';
 
 const tablo = (basliklar, satirlar) => `<div class="tablo-kap"><table class="tablo"><thead><tr>${basliklar.map((b) => `<th scope="col">${b}</th>`).join('')}</tr></thead><tbody>${satirlar.map((s) => `<tr>${s.map((h, i) => (i ? `<td>${h}</td>` : `<th scope="row">${h}</th>`)).join('')}</tr>`).join('')}</tbody></table></div>`;
@@ -10,12 +10,12 @@ const TUBER = 'https://hsgm.saglik.gov.tr/media/attachments/2025/05/12/turkiye-b
 const MYPLATE = 'https://www.center4research.org/my-plate-dietary-guidelines/';
 const USDA = 'https://fdc.nal.usda.gov/';
 
-const kararlar = `<div class="uyari-kutu" role="note"><i class="fa-solid fa-signature" aria-hidden="true"></i><div class="yigin sik"><b>Onayınız gereken 4 konu</b><ol class="isaretli-liste">
-<li><span><b>1.</b> Beş yemek grubunun oranları (Bölüm 1).</span></li>
-<li><span><b>2.</b> Karnıyarık ve Somon Izgara değerleri (Bölüm 2).</span></li>
-<li><span><b>3.</b> Puan formülü ve 0,47 katsayısı (Bölüm 3).</span></li>
-<li><span><b>4.</b> Spesifikasyondaki yağ oranları ağırlık mı, enerji mi? Zeytinyağlı grubunda yağ %20 yazıyor, İmambayıldı tarifinde yağ ağırlıkça %3. Ağırlıksa grup oranları düşmeli.</span></li>
-</ol></div></div>`;
+const kararlar = `<div class="bilgi-notu"><i class="fa-solid fa-circle-check" aria-hidden="true"></i><div class="yigin sik"><p><b>Alınan kararlar, prototipte uygulandı</b></p><ul class="isaretli-liste">
+<li><i class="fa-solid fa-check" aria-hidden="true"></i><span>Beş yemek grubunun oranı tarif malzeme gramlarından hesaplandı (Bölüm 1).</span></li>
+<li><i class="fa-solid fa-check" aria-hidden="true"></i><span>Karnıyarık ve Somon Izgara USDA verisiyle eklendi (Bölüm 2).</span></li>
+<li><i class="fa-solid fa-check" aria-hidden="true"></i><span>Puan formülü 100 − 0,47 × toplam sapma olarak kaldı (Bölüm 3).</span></li>
+<li><i class="fa-solid fa-check" aria-hidden="true"></i><span>Spesifikasyondaki dört grubun oranları değiştirilmedi. Bu oranlar gram ağırlığı değil, yemeğin tabaktaki payı olarak kullanılıyor: zeytinyağlıda yağ %20 yazar, İmambayıldı tarifinde yağ ağırlıkça %3'tür ama enerjinin büyük kısmı yağdan gelir. Ağırlığa çevirmek, tabağa yağ ekleme önerisi doğururdu.</span></li>
+</ul></div></div>`;
 
 const oranlar = `${bolumBas({ etiket: 'Bölüm 1', ikon: 'fa-chart-pie', baslik: 'Eksik grupların tabak oranları', metin: 'Yemeğin tabağa hangi oranda dağıldığı.' })}
 <div class="bilgi-notu"><i class="fa-solid fa-circle-info" aria-hidden="true"></i><p><b>Kaynaklar yemek bazında oran vermez.</b> TÜBER, Harvard ve MyPlate besin gruplarını ve tabak ilkesini verir. Bu yüzden her malzemeyi bu kaynaklara göre bir bölmeye koyduk, oranı sitedeki tariflerin çiğ malzeme gramlarından hesapladık ve 5'e yuvarladık.</p></div>
@@ -29,7 +29,7 @@ ${tablo(['Grup', 'Sebze', 'Protein', 'Karb', 'Yağ', 'Gerekçe', 'Kaynak', 'Duru
 <p class="alan-yardim">Orta porsiyon gramları (ör. yumurtalı yemek 150 g) ve el/kap ölçüleri kaynaksızdır: ${tahmini}</p>`;
 
 const yemekler = `${bolumBas({ etiket: 'Bölüm 2', ikon: 'fa-bowl-food', baslik: 'Karnıyarık ve Somon Izgara', metin: 'Bir porsiyonun değeri ve varsayımları.' })}
-<div class="bilgi-notu"><i class="fa-solid fa-circle-info" aria-hidden="true"></i><p><b>Kaynak USDA FoodData Central.</b> TÜRKOMP sitesine bu ortamdan erişilemedi, arama sonuçlarında da karnıyarık kaydı bulunamadı. Malzeme değerleri ABD verisidir. TÜRKOMP'tan kontrol edilmesi önerilir.</p></div>
+<div class="bilgi-notu"><i class="fa-solid fa-circle-info" aria-hidden="true"></i><p><b>Kaynak USDA FoodData Central.</b> TÜRKOMP sitesine bu ortamdan erişilemedi, arama sonuçlarında da karnıyarık kaydı bulunamadı. Malzeme değerleri ABD verisidir.</p></div>
 ${tablo(['Yemek', 'Kalori', 'Protein', 'Yağ', 'Karb', 'Lif', 'Tabak oranı (sebze / protein / karb / yağ)'], [
   ['Karnıyarık, 1 patlıcan', '298 kcal', '14,4 g', '19,6 g', '18,8 g', '7,8 g', '%80 / %15 / %0 / %5'],
   ['Somon Izgara, 1 dilim', '353 kcal', '33,1 g', '23,5 g', '0 g', '0 g', '%0 / %95 / %0 / %5'],
@@ -66,14 +66,14 @@ const kaynaklar = `${bolumBas({ etiket: 'Kaynaklar', ikon: 'fa-book-open', basli
 <li><i class="fa-solid fa-link" aria-hidden="true"></i><span>${bag('Türkiye Beslenme Rehberi 2022, Sağlık Bakanlığı sunumu', TUBER)}: et, yumurta ve kurubaklagil aynı grup; süt ayrı grup. Tam rehber metni değil, sunum okundu.</span></li>
 <li><i class="fa-solid fa-link" aria-hidden="true"></i><span>${bag('MyPlate özeti', MYPLATE)}: yumurta ve baklagil protein, süt tabağın yanında. myplate.gov'a erişilemedi, ikincil kaynaktır.</span></li>
 <li><i class="fa-solid fa-link" aria-hidden="true"></i><span>${bag('USDA FoodData Central', USDA)}: tablodaki FDC numaralı SR Legacy kayıtları, API'den okundu.</span></li>
-<li><i class="fa-solid fa-triangle-exclamation" aria-hidden="true"></i><span>TÜRKOMP'a erişilemedi. Salata ve meyve oranları bir ya da iki tarife dayanıyor. Değerler prototip içindir, uzman onayı olmadan kesinleşmez.</span></li>
+<li><i class="fa-solid fa-triangle-exclamation" aria-hidden="true"></i><span>TÜRKOMP'a erişilemedi. Salata ve meyve oranları bir ya da iki tarife dayanıyor. Değerler prototip içindir.</span></li>
 </ul>`;
 
 export default () => [{
   yol: 'onay/akilli-tabak',
-  meta: { baslik: 'Akıllı Tabak Onay Özeti', duzen: 'public', aktif: 'Sağlık Araçları' },
+  meta: { baslik: 'Akıllı Tabak Hesap Notları', duzen: 'public', aktif: 'Sağlık Araçları' },
   govde: `<div class="bolum-dizi">
-${bolum(`<div class="bolum-bas"><div><span class="ust-etiket"><i class="fa-solid fa-clipboard-check" aria-hidden="true"></i> Yasin Bey için · 07.11.2026</span><h1>Akıllı Tabak onay özeti</h1><p class="giris-metni">Karar verildi: Mercimek Köftesi %50 karb, %30 protein, %10 sebze, %10 yağ kalıyor; adres /akilli-tabak-ve-degisim kalıyor.</p></div></div>${kararlar}`, { sinif: 'kabuk-alti' })}
+${bolum(`<div class="bolum-bas"><div><span class="ust-etiket"><i class="fa-solid fa-clipboard-check" aria-hidden="true"></i> 07.11.2026</span><h1>Akıllı Tabak hesap notları</h1><p class="giris-metni">Mercimek Köftesi %50 karb, %30 protein, %10 sebze, %10 yağ; adres /akilli-tabak-ve-degisim.</p></div></div>${kararlar}`, { sinif: 'kabuk-alti' })}
 ${bolum(oranlar)}
 ${bolum(yemekler)}
 ${bolum(puan)}

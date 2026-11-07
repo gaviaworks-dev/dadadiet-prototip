@@ -16,7 +16,7 @@
     return { sebze: 'sebze', meyve: 'sebze', protein: 'protein', sut: 'protein', karb: 'karb', diger: 'karb', yag: 'yag' }[b.tabak_grubu] || 'karb';
   };
   /* Yemek tek bölmeye yazılmaz: kategori dört bölmeye yüzde dağılım [sebze, protein, karb, yağ] taşır.
-     Geçici katsayılar, diyetisyen onayı bekliyor. et, bakliyat, zeytinyagli ve hamur spesifikasyon v1.2'den;
+     et, bakliyat, zeytinyagli ve hamur spesifikasyon v1.2'den;
      salata, yumurta, meze, meyve ve tatli tariflerin malzeme gramlarından hesaplandı (onay/akilli-tabak sayfası).
      gram orta porsiyon, olcu küçük/orta/büyük el ve kap karşılığıdır. */
   const KATEGORI = {

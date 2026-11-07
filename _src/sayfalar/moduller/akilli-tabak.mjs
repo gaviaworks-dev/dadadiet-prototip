@@ -10,7 +10,7 @@ const bolumler = [
         <div class="segment" id="eklemeKipi" role="group" aria-label="Ne ekleyeceksin?"><button type="button" data-deger="yemek" aria-pressed="true">Yemek</button><button type="button" data-deger="besin" aria-pressed="false">Tek besin</button></div>
         <div class="alan"><label class="alan-etiket" for="tabakArama" id="tabakAramaEtiket">Yemek ara</label><div class="oneri-kap"><input class="alan-girdi" id="tabakArama" type="search" placeholder="Örneğin karnıyarık, mercimek köftesi, somon ızgara"></div><button class="cip aktif bolme-suzgec" id="bolmeSuzgec" type="button" hidden></button></div>
         <div class="cipler" id="hazirTabaklar" role="group" aria-label="Hazır tabaklar"></div>
-        <p class="alan-yardim">Bölme dağılımları geçici katsayıdır, diyetisyen onayı bekliyor.</p>
+        <p class="alan-yardim">Bölme dağılımları yaklaşık değerlerdir.</p>
       </div>
       <div class="kart-govde bosluksuz" id="tabakKalemler"></div>
       <div class="kart-alt"><span class="not" id="tabakSayac"></span><button class="dugme hayalet tehlike kucuk" id="tabakTemizle" type="button"><i class="fa-solid fa-trash" aria-hidden="true"></i> Tabağı boşalt</button></div>
