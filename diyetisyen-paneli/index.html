@@ -21,6 +21,7 @@
 <script src="../assets/js/ortak.js" defer></script>
 <script src="../assets/js/bildirim-zili.js" defer></script>
 <script src="../assets/js/mentor.js" defer></script>
+<script src="../assets/js/kenar-dugmeler.js" defer></script>
 <script src="../assets/js/sayfa/panel-a-ortak.js" defer></script>
 <script src="../assets/js/sayfa/panel-b-durum.js" defer></script>
 <script src="../assets/js/sayfa/panel-a-randevu.js" defer></script>
@@ -42,26 +43,26 @@
 <div class="form-duzen pano">
   <div class="yigin">
     <div class="kart panel">
-      <div class="kart-bas"><div><h2 class="kart-baslik"><i class="fa-solid fa-list-check" aria-hidden="true"></i> Günün iş listesi</h2><p id="isOzet"></p></div><button class="dugme hayalet kucuk" type="button" id="isTum" hidden></button></div>
+      <div class="kart-bas"><div><h2 class="kart-baslik"><i class="fa-solid fa-list-check" aria-hidden="true"></i> Günün İş Listesi</h2><p id="isOzet"></p></div><button class="dugme hayalet kucuk" type="button" id="isTum" hidden></button></div>
       <div class="kart-govde"><div class="ayar-liste sarar" id="isListe"></div></div>
     </div>
     <div class="kart panel">
-      <div class="kart-bas"><div><h2 class="kart-baslik"><i class="fa-solid fa-calendar-check" aria-hidden="true"></i> Bugünün randevuları</h2><p>Bugün planlı görüşmeler, saat sırasıyla.</p></div><a class="dugme hayalet kucuk" href="../diyetisyen-paneli/takvim/">Takvime git</a></div>
+      <div class="kart-bas"><div><h2 class="kart-baslik"><i class="fa-solid fa-calendar-check" aria-hidden="true"></i> Bugünün Randevuları</h2><p>Bugün planlı görüşmeler, saat sırasıyla.</p></div><a class="dugme hayalet kucuk" href="../diyetisyen-paneli/takvim/">Takvime git</a></div>
       <div class="kart-govde"><div class="ayar-liste" id="bugunListe"></div></div>
     </div>
     <div class="kart panel">
-      <div class="kart-bas"><div><h2 class="kart-baslik"><i class="fa-solid fa-comments" aria-hidden="true"></i> Son mesajlar</h2><p>Okunmamış mesajı olan konuşma önce.</p></div><a class="dugme hayalet kucuk" href="../diyetisyen-paneli/mesajlar/">Mesajlara git</a></div>
+      <div class="kart-bas"><div><h2 class="kart-baslik"><i class="fa-solid fa-comments" aria-hidden="true"></i> Son Mesajlar</h2><p>Okunmamış mesajı olan konuşma önce.</p></div><a class="dugme hayalet kucuk" href="../diyetisyen-paneli/mesajlar/">Mesajlara git</a></div>
       <div class="kart-govde"><div class="ayar-liste" id="mesajListe"></div></div>
     </div>
     <div class="kart panel">
-      <div class="kart-bas"><div><h2 class="kart-baslik"><i class="fa-solid fa-chart-line" aria-hidden="true"></i> Danışan ilerlemesi</h2><p>Önce kontrolü geciken, sonra hedefine yakın danışanlar.</p></div><a class="dugme hayalet kucuk" href="../diyetisyen-paneli/danisanlar/">Tüm danışanlar</a></div>
+      <div class="kart-bas"><div><h2 class="kart-baslik"><i class="fa-solid fa-chart-line" aria-hidden="true"></i> Danışan İlerlemesi</h2><p>Önce kontrolü geciken, sonra hedefine yakın danışanlar.</p></div><a class="dugme hayalet kucuk" href="../diyetisyen-paneli/danisanlar/">Tüm danışanlar</a></div>
       <div class="kart-govde"><div class="ayar-liste" id="ilerlemeListe"></div></div>
     </div>
   </div>
   <aside class="form-yan">
     <div class="yigin">
       <div class="kart panel">
-        <div class="kart-bas"><h2 class="kart-baslik"><i class="fa-solid fa-bolt" aria-hidden="true"></i> Hızlı işlemler</h2></div>
+        <div class="kart-bas"><h2 class="kart-baslik"><i class="fa-solid fa-bolt" aria-hidden="true"></i> Hızlı İşlemler</h2></div>
         <div class="kart-govde"><div class="ayar-liste">
           <button class="ayar-satir" type="button" data-randevu-ac><span class="as-ikon"><i class="fa-solid fa-calendar-plus" aria-hidden="true"></i></span><span class="as-metin"><b>Randevu oluştur</b><span>Danışan, paket ve saat seç</span></span><i class="fa-solid fa-chevron-right as-ok" aria-hidden="true"></i></button>
           <a class="ayar-satir" href="../diyetisyen-paneli/planlar/olustur/"><span class="as-ikon"><i class="fa-solid fa-clipboard-list" aria-hidden="true"></i></span><span class="as-metin"><b>Yeni plan</b><span>Gün gün öğün planı kur</span></span><i class="fa-solid fa-chevron-right as-ok" aria-hidden="true"></i></a>
@@ -70,11 +71,11 @@
         </div></div>
       </div>
       <div class="kart panel">
-        <div class="kart-bas"><h2 class="kart-baslik"><i class="fa-solid fa-clipboard-check" aria-hidden="true"></i> Danışan özeti</h2></div>
+        <div class="kart-bas"><h2 class="kart-baslik"><i class="fa-solid fa-clipboard-check" aria-hidden="true"></i> Danışan Özeti</h2></div>
         <div class="kart-govde"><div class="ayar-liste" id="ozetListe"></div></div>
       </div>
       <div class="kart panel">
-        <div class="kart-bas"><div><h2 class="kart-baslik"><i class="fa-solid fa-crown" aria-hidden="true"></i> Pro araçları</h2><p>Pro planındaki diyetisyenlere açık.</p></div></div>
+        <div class="kart-bas"><div><h2 class="kart-baslik"><i class="fa-solid fa-crown" aria-hidden="true"></i> Pro Araçları</h2><p>Pro planındaki diyetisyenlere açık.</p></div></div>
         <div class="kart-govde"><div class="ayar-liste" id="proListe"></div></div>
       </div>
     </div>
@@ -82,7 +83,7 @@
 </div>
 <div class="yan-panel-ortu" id="proPanel" hidden>
   <aside class="yan-panel" role="dialog" aria-modal="true" aria-labelledby="proBaslik">
-    <div class="yan-panel-bas"><h2 id="proBaslik">Pro özelliği</h2><button class="ikon-dugme" type="button" aria-label="Kapat" data-kapat><i class="fa-solid fa-xmark" aria-hidden="true"></i></button></div>
+    <div class="yan-panel-bas"><h2 id="proBaslik">Pro Özelliği</h2><button class="ikon-dugme" type="button" aria-label="Kapat" data-kapat><i class="fa-solid fa-xmark" aria-hidden="true"></i></button></div>
     <div class="yan-panel-govde" id="proGovde"></div>
     <div class="yan-panel-ayak"><button class="dugme hayalet" type="button" data-kapat>Vazgeç</button><button class="dugme birincil" type="button" id="proTalep">Pro'ya geçiş iste</button></div>
   </aside>
