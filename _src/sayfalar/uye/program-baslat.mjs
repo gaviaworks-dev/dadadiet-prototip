@@ -7,9 +7,9 @@ export default ({ veri }) => {
 <div class="bilgi-notu" id="pbBildirim" hidden><i class="fa-solid fa-circle-check" aria-hidden="true"></i><p id="pbBildirimMetin"></p></div>
 <div id="pbBas"></div>
 <div class="uyum-yer" id="pbTercih"></div>
-${kart({ ikon: 'fa-chart-line', baslik: 'Programa uyum durumun', metin: 'Uyum, tamamlanan öğünlerin planlanan öğünlere oranıdır.', govde: '<div id="pbUyum"></div>' })}
+${kart({ ikon: 'fa-chart-line', baslik: 'Programa Uyum Durumun', metin: 'Uyum, tamamlanan öğünlerin planlanan öğünlere oranıdır.', govde: '<div id="pbUyum"></div>' })}
 ${kart({
-    ikon: 'fa-utensils', baslik: 'Bugünün öğünleri', metin: '<span id="pbOzet"></span>', bosluksuz: true,
+    ikon: 'fa-utensils', baslik: 'Bugünün Öğünleri', metin: '<span id="pbOzet"></span>', bosluksuz: true,
     govde: '<div class="kalem-liste" id="pbOgunler"></div>',
     alt: `${dugme('Programlarım', { href: 'hesabim/programlarim/' })}${dugme('Günlük takip', { ikon: 'fa-clipboard-list', href: 'hesabim/gunluk-takibim/' })}${dugme('Planıma git', { sinif: 'birincil', ikon: 'fa-arrow-right', href: 'hesabim/beslenme-planim/#ogun' })}`,
   })}

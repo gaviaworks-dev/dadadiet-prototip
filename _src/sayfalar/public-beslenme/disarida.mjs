@@ -58,7 +58,7 @@ function disarida(veri) {
 <div class="bos-durum kart-ici" id="dzBos" hidden><span class="bos-ikon">${ikon('fa-location-dot')}</span><h3>Bu filtreyle henüz mekan yok</h3><p>Seçimlerini azaltmayı dene ya da seçili filtreleri temizle.</p><button class="dugme birincil" type="button" id="dzBosTemizle">Seçili Filtreleri Temizle</button></div>
 <nav class="sayfalama" aria-label="Sayfalar" id="dzSayfalama" hidden></nav>
 <p class="alan-yardim"><span>Mekan bilgileri ve görseller Dada Gourmet'ten gelir. Görüntülenme sayısı prototip örneğidir: Dada Gourmet'te 7 Kasım 2026'da görünen değerdir. Henüz değerlendirme almamış mekanda puan gösterilmez. Bu önizlemede Dada Gourmet'teki ${d.sayaclar.mekan} mekandan ${d.mekan_ornekleri.length} tanesi listelenir, süzgeç sayıları bu kartları sayar.</span></p>
-<div class="yigin sik"><h2 class="kart-baslik">Dışarıda yemek rehberleri</h2><div class="cipler">${REHBER.map((r) => `<a class="cip" href="${K}${DETAY.rehber}">${r}</a>`).join('')}</div></div>
+<div class="yigin sik"><h2 class="kart-baslik">Dışarıda Yemek Rehberleri</h2><div class="cipler">${REHBER.map((r) => `<a class="cip" href="${K}${DETAY.rehber}">${r}</a>`).join('')}</div></div>
 ${bilgiNot('Bu sayfa genel bilgilendirme amaçlıdır; <b>tıbbi teşhis veya tedavi yerine geçmez</b>. Alerjin ya da klinik bir durumun varsa siparişten önce mekana danış.', false)}
 </div></div>`, { ilk: true })), { ...A, js: ['disarida'] });
 }

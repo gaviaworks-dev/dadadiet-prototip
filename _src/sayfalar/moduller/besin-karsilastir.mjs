@@ -41,7 +41,7 @@ ${bolum(bl.makro, { id: 'sonuc-makro' })}
 ${bolum(bl.fark, { id: 'sonuc-fark' })}
 ${bolum(bl.tablo, { id: 'sonuc-tablo' })}
 ${bolum(bl.secim, { id: 'sonuc-secim' })}
-${bolum(`<div class="bolum-bas"><div><span class="ust-etiket"><i class="fa-solid fa-scale-balanced" aria-hidden="true"></i> Hazır ikililer</span><h2>Hazır karşılaştırmalar</h2><p class="giris-metni">En çok merak edilen ikililer.</p></div></div>
+${bolum(`<div class="bolum-bas"><div><span class="ust-etiket"><i class="fa-solid fa-scale-balanced" aria-hidden="true"></i> Hazır ikililer</span><h2>Hazır Karşılaştırmalar</h2><p class="giris-metni">En çok merak edilen ikililer.</p></div></div>
 <div class="kart-izgara c4 ray-dar">${hazir}</div>`)}
 </div>`;
 }

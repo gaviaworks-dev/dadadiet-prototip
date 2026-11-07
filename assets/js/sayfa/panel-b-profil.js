@@ -6,7 +6,7 @@
   const DILLER = ['Türkçe', 'İngilizce', 'Almanca', 'Arapça', 'Rusça'];
   const SEHIRLER = ['Adana', 'Ankara', 'Antalya', 'Bursa', 'Denizli', 'Diyarbakır', 'Erzurum', 'Eskişehir', 'Gaziantep', 'Hatay', 'İstanbul', 'İzmir', 'Kayseri', 'Kocaeli', 'Konya', 'Malatya', 'Manisa', 'Mersin', 'Muğla', 'Samsun', 'Sakarya', 'Tekirdağ', 'Trabzon', 'Van'];
   const VARSAYILAN = {
-    baslik: 'Sürdürülebilir kilo yönetimi ve sporcu beslenmesi',
+    baslik: 'Sürdürülebilir Kilo Yönetimi ve Sporcu Beslenmesi',
     kisa: 'Kilo yönetimi ve sporcu beslenmesinde, yaşam tarzına uyan sürdürülebilir planlar hazırlıyorum.',
     metin: 'Dört yıldır kilo yönetimi, insülin direnci ve sporcu beslenmesi üzerine çalışıyorum. Danışanlarımla klinikte ve online görüşüyorum. Amacım kısa süreli bir diyet değil, günlük hayatına uyan ve uzun vadede sürdürebileceğin bir beslenme düzeni kurmak.\n\nİlk görüşmede alışkanlıklarını, hedefini ve günlük ritmini birlikte konuşuyoruz. Planı buna göre kuruyor, iki haftada bir gözden geçirip ihtiyacın olan yerde güncelliyoruz.',
     ilce: 'Kadıköy', cinsiyet: 'Kadın', diller: ['Türkçe', 'İngilizce'], dernek: 'Türkiye Diyetisyenler Derneği',

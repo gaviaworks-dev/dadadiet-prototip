@@ -125,7 +125,7 @@
     const satir = (x) => '<div class="kelebek-satir"><span class="kelebek-ad">' + kac(x.s.ad.replace(' (lif dahil)', '')) + '</span>'
       + '<span class="kelebek-deger sol">' + degerYaz(x, x.x) + '</span><div class="olcer ters seri-a"><span data-oran="' + oran(x.x, x.y) + '"></span></div>'
       + '<div class="olcer seri-b"><span data-oran="' + oran(x.y, x.x) + '"></span></div><span class="kelebek-deger sag">' + degerYaz(x, x.y) + '</span></div>';
-    return '<div class="kart"><div class="kart-bas"><div><h3 class="kart-baslik"><i class="fa-solid fa-chart-simple" aria-hidden="true"></i> Yan yana değerler</h3><p>Her satırda uzun çubuk o değeri yüksek olan besindir.</p></div></div><div class="kart-govde">'
+    return '<div class="kart"><div class="kart-bas"><div><h3 class="kart-baslik"><i class="fa-solid fa-chart-simple" aria-hidden="true"></i> Yan Yana Değerler</h3><p>Her satırda uzun çubuk o değeri yüksek olan besindir.</p></div></div><div class="kart-govde">'
       + '<div class="kelebek-bas"><span><span class="seri-nokta a" aria-hidden="true"></span>' + adA + '</span><span>' + adB + '<span class="seri-nokta b" aria-hidden="true"></span></span></div>'
       + '<div class="kelebek">' + r.ana.filter((x) => ['kcal', 'protein', 'yag', 'doymus_yag', 'karb', 'lif', 'seker'].includes(x.s.a)).map(satir).join('') + '</div></div></div>';
   }
@@ -157,11 +157,11 @@
     const makro = (x, taraf) => { makroKart.taraf = taraf; return makroKart(x, kip); };
     return {
       ozet: p.notlar + '<div class="duello">' + duelloKart(a, r, 'a', kip, kok2) + '<span class="duello-vs" aria-hidden="true">vs</span>' + duelloKart(b, r, 'b', kip, kok2) + '</div>',
-      makro: bolumBas('fa-chart-pie', 'Makro dağılımı', 'Enerji nereden geliyor?', 'Protein ve karbonhidrat gramı 4, yağ gramı 9 kcal sayılır; oranlar bu yaklaşık hesaptan gelir.')
+      makro: bolumBas('fa-chart-pie', 'Makro dağılımı', 'Enerji Nereden Geliyor?', 'Protein ve karbonhidrat gramı 4, yağ gramı 9 kcal sayılır; oranlar bu yaklaşık hesaptan gelir.')
         + '<div class="yigin"><div class="iki-kolon esit">' + makro(a, 'a') + makro(b, 'b') + '</div>' + yanYana(r, adA, adB) + '</div>',
-      fark: bolumBas('fa-bolt', 'Öne çıkan farklar', 'İkisini ayıran değerler', 'Aynı ölçüde karşılaştırıldığında en belirgin farklar.')
+      fark: bolumBas('fa-bolt', 'Öne çıkan farklar', 'İkisini Ayıran Değerler', 'Aynı ölçüde karşılaştırıldığında en belirgin farklar.')
         + (fark.length ? '<div class="kart-izgara c4 ray-dar fark-izgara">' + fark.map((x) => farkKart(x, a, b, kok2)).join('') + '</div>' : '<div class="kart"><div class="kart-govde"><p class="kart-metin">Bu ikili karşılaştırılan ölçütlerde birbirine yakın, belirgin bir fark çıkmadı.</p></div></div>'),
-      tablo: bolumBas('fa-table-list', 'Ayrıntılı tablo', 'Bütün değerler', 'Vitamin ve mineraller dahil kayıtlı her değer. Kaydı olmayan değer boş bırakılır, tahmin edilmez.') + p.tablo,
+      tablo: bolumBas('fa-table-list', 'Ayrıntılı tablo', 'Bütün Değerler', 'Vitamin ve mineraller dahil kayıtlı her değer. Kaydı olmayan değer boş bırakılır, tahmin edilmez.') + p.tablo,
       secim: '<div class="yigin">' + p.secim.replace('<div class="bolum-bas sik-bas"><div>', '<div class="bolum-bas"><div><span class="ust-etiket"><i class="fa-solid fa-lightbulb" aria-hidden="true"></i> Seçim rehberi</span>') + '</div>',
     };
   };

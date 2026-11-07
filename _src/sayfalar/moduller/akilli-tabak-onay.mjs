@@ -17,7 +17,7 @@ const kararlar = `<div class="bilgi-notu"><i class="fa-solid fa-circle-check" ar
 <li><i class="fa-solid fa-check" aria-hidden="true"></i><span>Spesifikasyondaki dört grubun oranları değiştirilmedi. Bu oranlar gram ağırlığı değil, yemeğin tabaktaki payı olarak kullanılıyor: zeytinyağlıda yağ %20 yazar, İmambayıldı tarifinde yağ ağırlıkça %3'tür ama enerjinin büyük kısmı yağdan gelir. Ağırlığa çevirmek, tabağa yağ ekleme önerisi doğururdu.</span></li>
 </ul></div></div>`;
 
-const oranlar = `${bolumBas({ etiket: 'Bölüm 1', ikon: 'fa-chart-pie', baslik: 'Eksik grupların tabak oranları', metin: 'Yemeğin tabağa hangi oranda dağıldığı.' })}
+const oranlar = `${bolumBas({ etiket: 'Bölüm 1', ikon: 'fa-chart-pie', baslik: 'Eksik Grupların Tabak Oranları', metin: 'Yemeğin tabağa hangi oranda dağıldığı.' })}
 <div class="bilgi-notu"><i class="fa-solid fa-circle-info" aria-hidden="true"></i><p><b>Kaynaklar yemek bazında oran vermez.</b> TÜBER, Harvard ve MyPlate besin gruplarını ve tabak ilkesini verir. Bu yüzden her malzemeyi bu kaynaklara göre bir bölmeye koyduk, oranı sitedeki tariflerin çiğ malzeme gramlarından hesapladık ve 5'e yuvarladık.</p></div>
 ${tablo(['Grup', 'Sebze', 'Protein', 'Karb', 'Yağ', 'Gerekçe', 'Kaynak', 'Durum'], [
   ['Salata', '%95', '%0', '%0', '%5', 'Mevsim Salatası: %98,5 sebze, %1,5 yağ. Tek tarife dayanıyor.', `Sebze bölmesi: ${bag('Harvard', HARVARD)}`, hesap],
@@ -35,15 +35,15 @@ ${tablo(['Yemek', 'Kalori', 'Protein', 'Yağ', 'Karb', 'Lif', 'Tabak oranı (seb
   ['Somon Izgara, 1 dilim', '353 kcal', '33,1 g', '23,5 g', '0 g', '0 g', '%0 / %95 / %0 / %5'],
 ])}
 <div class="iki-kolon esit">
-<div class="kart"><div class="kart-bas"><h3 class="kart-baslik">Karnıyarık varsayımı ${tahmini}</h3></div><div class="kart-govde yigin sik">
+<div class="kart"><div class="kart-bas"><h3 class="kart-baslik">Karnıyarık Varsayımı ${tahmini}</h3></div><div class="kart-govde yigin sik">
 ${tablo(['Malzeme', 'Çiğ gram', 'USDA FDC'], [['Patlıcan', '200 g', '169228'], ['Dana kıyma, %85 yağsız', '60 g', '171796'], ['Soğan', '30 g', '170000'], ['Domates', '60 g', '170457'], ['Yeşil biber', '20 g', '170427'], ['Domates salçası', '5 g', '170459'], ['Zeytinyağı', '10 g', '171413']])}
 <p class="kart-metin">Fırında pişirme, patlıcan kızartılmıyor. Kızartılırsa yağ ve kalori artar. Toplam 385 g çiğ malzeme; pişmiş 300 g tahminidir. Hesaplanan oran %82 sebze, %16 protein, %3 yağ.</p></div></div>
-<div class="kart"><div class="kart-bas"><h3 class="kart-baslik">Somon Izgara varsayımı ${tahmini}</h3></div><div class="kart-govde yigin sik">
+<div class="kart"><div class="kart-bas"><h3 class="kart-baslik">Somon Izgara Varsayımı ${tahmini}</h3></div><div class="kart-govde yigin sik">
 ${tablo(['Malzeme', 'Gram', 'USDA FDC'], [['Somon, Atlantik çiftlik, pişmiş', '150 g', '175168'], ['Zeytinyağı', '5 g', '171413']])}
 <p class="kart-metin">150 g besin kütüphanemizdeki porsiyondur. Garnitür yok. Hesaplanan oran %97 protein, %3 yağ. Et grubu oranı (%15 sebze, %60 protein, %25 yağ) kullanılmadı, çünkü sade balıkta sebze yok. Bu yüzden tek başına 39 puan alır, yanına salata ve bulgur eklenince 96 olur.</p></div></div>
 </div>`;
 
-const puan = `${bolumBas({ etiket: 'Bölüm 3', ikon: 'fa-calculator', baslik: 'Puan formülü', metin: 'Puanın nasıl hesaplandığı.' })}
+const puan = `${bolumBas({ etiket: 'Bölüm 3', ikon: 'fa-calculator', baslik: 'Puan Formülü', metin: 'Puanın nasıl hesaplandığı.' })}
 <div class="uyari-kutu" role="note"><i class="fa-solid fa-square-root-variable" aria-hidden="true"></i><span><b>Puan = 100 − 0,47 × toplam sapma</b>. Sonuç tam sayıya yuvarlanır, 0'ın altına düşmez.</span></div>
 ${tablo(['Bileşen', 'Etki', 'Değer'], [
   ['Başlangıç', '100 puan', 'Boş olmayan her tabak'],
@@ -60,7 +60,7 @@ ${tablo(['Örnek tabak', 'Sebze', 'Protein', 'Karb', 'Yağ', 'Toplam sapma', 'He
   ['Fırında tavuk + bulgur + mevsim salatası, üçü orta', '%40', '%24,5', '%19,1', '%16,4', '0 + 0 + 0,9 + 6,4 = 7,3', '100 − 0,47 × 7,3 = 96,6', '<b>97</b>'],
 ])}`;
 
-const kaynaklar = `${bolumBas({ etiket: 'Kaynaklar', ikon: 'fa-book-open', baslik: 'Kaynaklar ve sınırlar' })}
+const kaynaklar = `${bolumBas({ etiket: 'Kaynaklar', ikon: 'fa-book-open', baslik: 'Kaynaklar ve Sınırlar' })}
 <ul class="isaretli-liste">
 <li><i class="fa-solid fa-link" aria-hidden="true"></i><span>${bag('Harvard Healthy Eating Plate', HARVARD)}: sebze ve meyve ½, tam tahıl ¼, protein ¼; patates sebze sayılmaz. Sayfadan doğrulandı.</span></li>
 <li><i class="fa-solid fa-link" aria-hidden="true"></i><span>${bag('Türkiye Beslenme Rehberi 2022, Sağlık Bakanlığı sunumu', TUBER)}: et, yumurta ve kurubaklagil aynı grup; süt ayrı grup. Tam rehber metni değil, sunum okundu.</span></li>

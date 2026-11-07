@@ -12,7 +12,7 @@ ${bilgi('fa-circle-info', 'Destek grupları tıbbi tavsiye yeri değildir. Tanı
 <div class="msj-panel-kart kart"><div class="kart-bas"><div><h3 class="kart-baslik"><i class="fa-solid fa-people-group" aria-hidden="true"></i> Gruplar</h3><p id="dgSayi"></p></div></div><div class="kart-govde bosluksuz"><div class="sohbet-kisiler" id="dgListe"></div></div></div>
 <div class="msj-panel-kart kart" id="dgDetay"></div>
 </div>
-${kart({ ikon: 'fa-bell', baslik: 'Grup bildirimleri', form: ' data-ayar-form="grup" data-mesaj="Grup bildirimi tercihin kaydedildi."', bosluksuz: true, govde: `<div class="ayar-liste">${ayarSatir({ baslik: 'Gönderime yorum gelince bildir', metin: 'Uygulama içi bildirim gönderilir; e-posta gönderilmez.', sag: anahtar('yorum', 'Gönderime yorum gelince bildir', true) })}</div>`, alt: dugme('Kaydet', { sinif: 'birincil', tur: 'submit' }) })}
+${kart({ ikon: 'fa-bell', baslik: 'Grup Bildirimleri', form: ' data-ayar-form="grup" data-mesaj="Grup bildirimi tercihin kaydedildi."', bosluksuz: true, govde: `<div class="ayar-liste">${ayarSatir({ baslik: 'Gönderime yorum gelince bildir', metin: 'Uygulama içi bildirim gönderilir; e-posta gönderilmez.', sag: anahtar('yorum', 'Gönderime yorum gelince bildir', true) })}</div>`, alt: dugme('Kaydet', { sinif: 'birincil', tur: 'submit' }) })}
 </div>
 <script type="application/json" id="dgKatalog">${JSON.stringify({ gruplar, kurallar }).replace(/</g, '\\u003c')}</script>`;
 

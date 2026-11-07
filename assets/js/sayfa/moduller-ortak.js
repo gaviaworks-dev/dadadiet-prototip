@@ -270,14 +270,14 @@
       }).join('') + '</dl></div>';
     const mikGor = iki(r.mik);
     const mikYok = r.mik.filter((x) => x.x == null && x.y == null).map((x) => x.s.ad);
-    const tablo = '<div class="kart"><div class="kart-bas"><div><h3 class="kart-baslik"><i class="fa-solid fa-table-list" aria-hidden="true"></i> Besin değerleri</h3><p>' + ({ 100: 'Karşılaştırma 100 g üzerinden.', porsiyon: 'Karşılaştırma birer porsiyon üzerinden; porsiyon gramajları farklı olabilir.', '100kcal': 'Karşılaştırma eşit kalori üzerinden: 100 kcal için gereken miktar.' }[kip]) + '</p></div></div>'
+    const tablo = '<div class="kart"><div class="kart-bas"><div><h3 class="kart-baslik"><i class="fa-solid fa-table-list" aria-hidden="true"></i> Besin Değerleri</h3><p>' + ({ 100: 'Karşılaştırma 100 g üzerinden.', porsiyon: 'Karşılaştırma birer porsiyon üzerinden; porsiyon gramajları farklı olabilir.', '100kcal': 'Karşılaştırma eşit kalori üzerinden: 100 kcal için gereken miktar.' }[kip]) + '</p></div></div>'
       + '<div class="kart-govde bosluksuz"><div class="tablo-kap cerceve-yok"><table class="tablo sabit-ilk"><thead><tr><th scope="col">Öge</th><th class="sag" scope="col">' + adA + '</th><th class="sag" scope="col">' + adB + '</th><th class="sag" scope="col">Önde</th></tr></thead><tbody>'
       + r.ana.map(sat).join('') + grupHtml('Glisemik değerler (tahmini, uzman onayı bekliyor)') + r.gli.map(sat).join('')
-      + (mikGor.length ? grupHtml('Vitamin ve mineraller') + mikGor.map(sat).join('') : '')
+      + (mikGor.length ? grupHtml('Vitamin ve Mineraller') + mikGor.map(sat).join('') : '')
       + '</tbody></table></div></div></div>';
     const nzKart = (x, taraf) => {
       const l = neZaman(a, b, r, taraf);
-      return '<div class="kart"><div class="kart-bas"><h3 class="kart-baslik"><i class="fa-solid fa-lightbulb" aria-hidden="true"></i> ' + kac(M.kisaAd(x)) + ' seç</h3></div><div class="kart-govde">'
+      return '<div class="kart"><div class="kart-bas"><h3 class="kart-baslik"><i class="fa-solid fa-lightbulb" aria-hidden="true"></i> ' + kac(M.kisaAd(x)) + ' Seç</h3></div><div class="kart-govde">'
         + (l.length ? '<ul class="isaretli-liste">' + l.map((t) => '<li><i class="fa-solid fa-check" aria-hidden="true"></i><span>' + kac(t) + '</span></li>').join('') + '</ul>' : '<p class="kart-metin">Bu ikiliyi ayıran belirgin bir kural çıkmadı.</p>') + '</div><div class="kart-alt"><a class="dugme hayalet kucuk" href="' + kok2 + 'akilli-tabak-ve-degisim/?besin=' + x.slug + '"><i class="fa-solid fa-chart-pie" aria-hidden="true"></i> Tabağımda dene</a></div></div>';
     };
     const hazir = M.HAZIR.find((h) => (h.a === a.slug && h.b === b.slug) || (h.a === b.slug && h.b === a.slug));
@@ -286,7 +286,7 @@
     const porsiyonYok = kip === 'porsiyon' ? [a, b].filter((x) => deger(x, 'kcal', 'porsiyon') == null) : kip === '100' ? [a, b].filter((x) => x.kcal == null) : [];
     let notlar = '';
     if (porsiyonYok.length) notlar += '<div class="uyari-kutu"><i class="fa-solid fa-circle-info" aria-hidden="true"></i><span>' + porsiyonYok.map((x) => kac(M.kisaAd(x))).join(' ve ') + ' için ' + (kip === '100' ? '100 g değeri kayıtlı değil, değerleri "1 porsiyon" görünümünde gör.' : 'porsiyon kaydı yok, değerleri "100 g" görünümünde gör.') + '</span></div>';
-    return { serit, notlar, kartlar: '<div class="iki-kolon esit">' + kart(a, 'a') + kart(b, 'b') + '</div>', tablo, secim: '<div class="bolum-bas sik-bas"><div><h2>Hangisini ne zaman tercih etmelisin?</h2><p class="giris-metni">Tablodaki farklardan kurallarla çıkarıldı. Kişisel durumun için diyetisyenine danış.</p></div></div>'
+    return { serit, notlar, kartlar: '<div class="iki-kolon esit">' + kart(a, 'a') + kart(b, 'b') + '</div>', tablo, secim: '<div class="bolum-bas sik-bas"><div><h2>Hangisini Ne Zaman Tercih Etmelisin?</h2><p class="giris-metni">Tablodaki farklardan kurallarla çıkarıldı. Kişisel durumun için diyetisyenine danış.</p></div></div>'
       + '<div class="iki-kolon esit">' + nzKart(a, 'a') + nzKart(b, 'b') + '</div>'
       + '<div class="bilgi-notu"><i class="fa-solid fa-circle-info" aria-hidden="true"></i><div>'
       + '<p><b>Glisemik değerler tahminidir, uzman onayı bekliyor.</b> Rozet ve öneriler de bu tahmine dayanır. Değerler uluslararası glisemik indeks tablolarından alınmıştır ve her besin için kayıtlı değildir; yerel ürün ve pişirme yöntemine göre değişir. Karbonhidratlar kaynaklar arasında tutarlı olsun diye lif dahil gösterilir.</p>'

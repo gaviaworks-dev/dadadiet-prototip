@@ -22,7 +22,7 @@
   }
   function grafikCiz() {
     const ad = { net: 'Net kazanç', gelir: 'Brüt gelir', seans: 'Seans' }[seri];
-    DD.grafik.cizgi($('#kazancGrafik'), { baslik: 'Son 12 ay ' + ad, etiketler: k.aylik.map(ayAdi), seriler: [{ ad, degerler: k.aylik.map((a) => a[seri]) }] });
+    DD.grafik.cizgi($('#kazancGrafik'), { baslik: 'Son 12 Ay ' + ad, etiketler: k.aylik.map(ayAdi), seriler: [{ ad, degerler: k.aylik.map((a) => a[seri]) }] });
     $('#grafikNot').textContent = ad + (seri === 'seans' ? ' adedi' : ', ₺') + '. Son ay ' + DD.bicim.tarih(DD.bugun) + ' tarihine kadar sayıldı.';
   }
   const talepler = () => { if (!k.odeme_talepleri) k.odeme_talepleri = []; return k.odeme_talepleri; };

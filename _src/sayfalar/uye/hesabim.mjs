@@ -8,7 +8,7 @@ const govde = `<div class="yigin baslik-belirgin">
 <div class="iki-kolon" id="gbKolon">
 <div class="yigin">
 <div id="gbGun"></div>
-${kart({ ikon: 'fa-bolt', baslik: 'Hızlı kayıt', metin: 'Bugünün kaydını iki dokunuşta tamamla.', bosluksuz: true, govde: '<div class="ayar-liste" id="gbKayit"></div>' })}
+${kart({ ikon: 'fa-bolt', baslik: 'Hızlı Kayıt', metin: 'Bugünün kaydını iki dokunuşta tamamla.', bosluksuz: true, govde: '<div class="ayar-liste" id="gbKayit"></div>' })}
 </div>
 <div class="yigin">
 <div id="gbRandevu"></div>

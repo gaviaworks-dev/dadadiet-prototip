@@ -167,7 +167,7 @@
     $('protokolSecim').hidden = !acik; $('bilinenDuzen').hidden = acik;
     $('pencereOzet').classList.toggle('dort-kutu', !acik);
     const d = $('duzenDegistir'); d.textContent = acik ? 'Kapat' : 'Değiştir'; d.setAttribute('aria-expanded', String(acik));
-    $('duzenBaslik').textContent = acik ? 'Düzenini değiştir' : 'Senin düzenin';
+    $('duzenBaslik').textContent = acik ? 'Düzenini değiştir' : 'Senin Düzenin';
     $('duzenAlt').textContent = acik ? 'Yaptığın seçim profiline hemen kaydedilir.' : 'Tercihlerinden geldi, yeniden seçmen gerekmiyor.';
   }
   ciz();

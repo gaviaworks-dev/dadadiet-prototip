@@ -32,7 +32,7 @@
   /* Seçili çip tek satırlı süzgeçte görünür alana gelir */
   const ortala = () => { const k = $('#rzSuzgec'), c = k.querySelector('.cip.aktif'); if (c) k.scrollTo({ left: c.offsetLeft - k.offsetLeft - (k.clientWidth - c.offsetWidth) / 2, behavior: 'smooth' }); };
   function kademe() {
-    $('#rzKademe').textContent = 'Şu anki kademen: ' + suanki[0];
+    $('#rzKademe').textContent = 'Şu Anki Kademen: ' + suanki[0];
     $('#rzSonraki').textContent = sonraki ? 'Sıradaki basamak ' + sonraki[0] + ': ' + Math.max(0, sonraki[1] - puan) + ' puan, ' + Math.max(0, sonraki[2] - gun) + ' gün ve ' + Math.max(0, sonraki[3] - hedef) + ' hedef kaldı.' : 'En üst basamaktasın.';
     const oran = sonraki ? Math.min(100, Math.round((puan / sonraki[1]) * 100)) : 100;
     U.bas('#rzKademeOlcer', '<div class="olcer hap" role="img" aria-label="Sıradaki kademeye ilerleme: yüzde ' + oran + '"><span data-oran="' + oran + '"></span></div>');

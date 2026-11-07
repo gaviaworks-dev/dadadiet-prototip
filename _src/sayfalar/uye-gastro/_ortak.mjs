@@ -10,7 +10,7 @@ export const sekmeGit = (metin, id) => `<a href="#${id}" data-sekme-git="${id}">
 export const json = (id, veri) => `<script type="application/json" id="${id}">${JSON.stringify(veri).replace(/</g, '\\u003c')}</script>`;
 
 const temel = ['Günlük temel takip', 'Temel programlar', 'Su takibi', 'Sağlık profili', 'Temel test ve hesaplayıcılar', 'Kaydetme özellikleri'];
-const pro = ['Gelişmiş programlar', 'Kişisel beslenme planı ve PDF çıktısı', 'Gelişmiş menü planlama', 'Sınırsız kayıt geçmişi', 'Sağlık dosyası: belge, tahlil ve veri dışa aktarımı', 'Reklamsız kullanım', 'Öncelikli destek'];
+const pro = ['Gelişmiş programlar', 'Kişisel beslenme planı ve PDF çıktısı', 'Gelişmiş menü planlama', 'Sınırsız kayıt geçmişi', 'Sağlık dosyası: belge, tahlil ve veri dışa aktarımı', 'Reklamsız Kullanım', 'Öncelikli destek'];
 const max = ['Diyetisyen görüşme hakkı', 'Sağlık dosyanı diyetisyeninle paylaşma (açık rızayla)'];
 
 export const kademeler = [

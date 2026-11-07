@@ -52,7 +52,7 @@
   if (!yayinda && !onizleme) { $('profilKapali').hidden = false; $('profilGovde').hidden = true; $('profilEylem').hidden = true; }
 
   $('eceKisa').textContent = P.kisa || 'Kilo yönetimi ve sporcu beslenmesinde, yaşam tarzına uyan sürdürülebilir planlar hazırlıyorum.';
-  $('eceBaslik').querySelector('span').textContent = P.baslik || 'Sürdürülebilir kilo yönetimi ve sporcu beslenmesi';
+  $('eceBaslik').querySelector('span').textContent = P.baslik || 'Sürdürülebilir Kilo Yönetimi ve Sporcu Beslenmesi';
   const metin = P.metin || 'Dört yıldır kilo yönetimi, insülin direnci ve sporcu beslenmesi üzerine çalışıyorum. Danışanlarımla klinikte ve online görüşüyorum. Amacım kısa süreli bir diyet değil, günlük hayatına uyan ve uzun vadede sürdürebileceğin bir beslenme düzeni kurmak.\n\nİlk görüşmede alışkanlıklarını, hedefini ve günlük ritmini birlikte konuşuyoruz. Planı buna göre kuruyor, iki haftada bir gözden geçirip ihtiyacın olan yerde güncelliyoruz.';
   $('eceMetin').innerHTML = metin.split(/\n{2,}/).map((p) => '<p>' + kac(p) + '</p>').join('');
 

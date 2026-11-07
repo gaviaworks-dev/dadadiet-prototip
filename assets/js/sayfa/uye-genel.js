@@ -25,7 +25,7 @@
       const i = U.isaret(k, b), og = U.secilenOgunler(k, b), n = og.filter((o) => i[o.anahtar]).length, s = og.find((o) => !U.ogunDurum(i, o)), t = U.gunToplam();
       const oran = og.length ? Math.round((n / og.length) * 100) : 0, hk = (u.tercihler || {}).kcal || (k.tip === 'plan' ? k.plan.hedef_kcal : 0);
       const ilkSayac = duyarli ? sayac('fa-utensils', 'Öğün', n + ' / ' + og.length) : sayac('fa-fire', 'Hedef <span class="birim">' + DD.bicim.kcal(hk) + '</span>', DD.bicim.kcal(t.kcal));
-      const kart = kartHtml('fa-sun', 'Bugünün özeti', U.kac(k.ad), '<div class="as-eylem"><span class="durum-hapi ' + (n === og.length && n ? 'cozulen' : 'bekleyen') + '">' + n + ' / ' + og.length + ' öğün</span></div>',
+      const kart = kartHtml('fa-sun', 'Bugünün Özeti', U.kac(k.ad), '<div class="as-eylem"><span class="durum-hapi ' + (n === og.length && n ? 'cozulen' : 'bekleyen') + '">' + n + ' / ' + og.length + ' öğün</span></div>',
         '<div class="kart-govde"><div class="olcer hap" role="img" aria-label="Bugünkü öğün uyumu: yüzde ' + oran + '"><span data-oran="' + oran + '"></span></div><div class="sayac-izgara uc">' + ilkSayac + sayac('fa-droplet', 'Su', U.sayi(u.su.bugun_ml) + ' ml') + adimSayac() + '</div></div>' + (s ? '<div class="kart-govde bosluksuz"><div class="kalem-liste">' + U.ogunSatir(s, '') + '</div></div>' : (og.length ? '' : '<div class="kart-govde">' + U.bugunBos(k) + '</div>')),
         bag('Bütün öğünler', 'hesabim/beslenme-planim/#ogun', 'hayalet'));
       U.bas('#gbGun', duyarli ? '<div class="yigin">' + U.uzmanNot() + kart + '</div>' : kart);
@@ -41,12 +41,12 @@
     /* Sıradaki görüşme */
     const r = U.tumRandevular().find((x) => x.tarih >= b && U.rAcik(x));
     const rUzman = r && (U.uzmanlar().find((x) => x.slug === r.uzman) || dy);
-    U.bas('#gbRandevu', r ? kartHtml('fa-calendar-day', 'Sıradaki görüşmen', U.tarih(r.tarih) + ', ' + DD.bicim.saat(r.saat) + ' · ' + U.kac(r.tur) + (rUzman ? '<br>' + U.kac(rUzman.ad) : ''), '<div class="as-eylem">' + U.rHap(r) + '</div>', '', bag('Randevularım', 'hesabim/diyetisyenim/#randevu', 'hayalet'))
-      : dy ? kartHtml('fa-calendar-plus', 'Planlı görüşmen yok', 'Diyetisyeninle yeni bir görüşme ayarla.', '', '', bag('Randevu oluştur', 'hesabim/diyetisyenim/#randevu', 'birincil')) : '');
+    U.bas('#gbRandevu', r ? kartHtml('fa-calendar-day', 'Sıradaki Görüşmen', U.tarih(r.tarih) + ', ' + DD.bicim.saat(r.saat) + ' · ' + U.kac(r.tur) + (rUzman ? '<br>' + U.kac(rUzman.ad) : ''), '<div class="as-eylem">' + U.rHap(r) + '</div>', '', bag('Randevularım', 'hesabim/diyetisyenim/#randevu', 'hayalet'))
+      : dy ? kartHtml('fa-calendar-plus', 'Planlı görüşmen yok', 'Diyetisyeninle yeni bir görüşme ayarla.', '', '', bag('Randevu Oluştur', 'hesabim/diyetisyenim/#randevu', 'birincil')) : '');
 
     /* Diyetisyenin son sözü: otomatik metin üretilmez */
     const m = U.sohbet().mesajlar.filter((x) => x.kimden !== 'danisan').slice(-1)[0];
-    U.bas('#gbMesaj', dy && m ? kartHtml('fa-comments', 'Diyetisyeninden son mesaj', U.kac(dy.ad) + ' · ' + U.tarih(m.zaman) + (u.okunmamis_mesaj ? ' · ' + u.okunmamis_mesaj + ' okunmamış' : ''), '', '<div class="kart-govde"><p class="kart-metin">' + U.kac(m.metin || (m.ek ? m.ek.ad : '')) + '</p></div>', bag('Yanıtla', 'hesabim/diyetisyenim/#mesaj', 'hayalet')) : '');
+    U.bas('#gbMesaj', dy && m ? kartHtml('fa-comments', 'Diyetisyeninden Son Mesaj', U.kac(dy.ad) + ' · ' + U.tarih(m.zaman) + (u.okunmamis_mesaj ? ' · ' + u.okunmamis_mesaj + ' okunmamış' : ''), '', '<div class="kart-govde"><p class="kart-metin">' + U.kac(m.metin || (m.ek ? m.ek.ad : '')) + '</p></div>', bag('Yanıtla', 'hesabim/diyetisyenim/#mesaj', 'hayalet')) : '');
 
     /* Yapılacaklar: en çok üç satır, ilki yukarıda önerildi */
     const kalan = l.slice(1, 4);

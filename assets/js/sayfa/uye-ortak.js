@@ -285,7 +285,7 @@
     const rs = U.randevular();
     const sonuc = rs.find((r) => r.talep_sonuc === 'red' && r.tarih >= b);
     if (sonuc) ekle('fa-calendar-xmark', 'Randevu talebin reddedildi', U.tarih(sonuc.tarih) + ', ' + DD.bicim.saat(sonuc.saat) + ' görüşmen geçerli.', 'Randevuları gör', 'hesabim/diyetisyenim/#randevu');
-    if (u.okunmamis_mesaj) ekle('fa-comments', 'Diyetisyeninden yeni mesaj var', u.okunmamis_mesaj + ' okunmamış mesajın bekliyor.', 'Mesajı aç', 'hesabim/diyetisyenim/#mesaj');
+    if (u.okunmamis_mesaj) ekle('fa-comments', 'Diyetisyeninden Yeni Mesaj Var', u.okunmamis_mesaj + ' okunmamış mesajın bekliyor.', 'Mesajı aç', 'hesabim/diyetisyenim/#mesaj');
     if (!Object.keys(u.tercihler || {}).length) ekle('fa-user-pen', 'Seni biraz tanıyalım', 'Birkaç soruyla planını ve önerilerini sana göre kuralım.', 'Başla', 'hesabim/hos-geldin/');
     if (k) {
       const i = U.isaret(k, b), bekleyen = U.secilenOgunler(k, b).find((o) => !U.ogunDurum(i, o));
@@ -293,7 +293,7 @@
     } else ekle('fa-list-check', 'Kendine bir program seç', 'Sana uygun programı bul, bugünün öğünleri hemen hazır olsun.', 'Program bul', 'programlar/program-bul/');
     if (U.anamnezEksik().length && (dn.anamnez_hatirlatma || U.diyetisyen())) ekle('fa-notes-medical', 'Sağlık öykünü tamamla', U.anamnezEksik().length + ' alan eksik; yarıda bırakabilirsin.', 'Devam et', 'hesabim/saglik-dosyam/#profil');
     const s = (dn.olcumler || []).slice(-1)[0];
-    if (s && !U.yemeDuyarli() && U.gunFarki(s.tarih, b) >= 7) ekle('fa-weight-scale', 'Ölçüm zamanı', 'Son ölçümün ' + U.tarih(s.tarih) + ' tarihli.', 'Ölçüm ekle', 'hesabim/saglik-dosyam/#olcum');
+    if (s && !U.yemeDuyarli() && U.gunFarki(s.tarih, b) >= 7) ekle('fa-weight-scale', 'Ölçüm zamanı', 'Son ölçümün ' + U.tarih(s.tarih) + ' tarihli.', 'Ölçüm Ekle', 'hesabim/saglik-dosyam/#olcum');
     return l;
   };
 

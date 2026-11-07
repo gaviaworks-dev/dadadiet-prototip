@@ -32,7 +32,7 @@ const govde = (d) => `<a class="geri-bag" href="{{kok}}diyetisyen-paneli/danisan
   <div><h1 id="danisanAd">${d.ad ?? 'Danışan'}</h1><p id="danisanAlt"></p></div>
   <div class="eylem-satiri">
     <button class="dugme hayalet" type="button" id="mesajGit"><i class="fa-solid fa-paper-plane" aria-hidden="true"></i> Mesaj gönder</button>
-    <button class="dugme hayalet" type="button" data-randevu-ac data-danisan="${d.id}"><i class="fa-solid fa-calendar-plus" aria-hidden="true"></i> Randevu oluştur</button>
+    <button class="dugme hayalet" type="button" data-randevu-ac data-danisan="${d.id}"><i class="fa-solid fa-calendar-plus" aria-hidden="true"></i> Randevu Oluştur</button>
     <a class="dugme birincil" href="{{kok}}diyetisyen-paneli/planlar/olustur/?danisan=${d.id}"><i class="fa-solid fa-plus" aria-hidden="true"></i> Yeni plan</a>
   </div>
 </div>
@@ -41,11 +41,11 @@ const govde = (d) => `<a class="geri-bag" href="{{kok}}diyetisyen-paneli/danisan
   <div class="sekmeler" role="tablist" aria-label="Danışan bölümleri" id="detaySekme">${sekmeler}</div>
   ${panolar}
 </div>
-${drawer('olcumPanel', 'Ölçüm ekle', olcumForm, 'Ölçümü kaydet')}
-${drawer('hedefPanel', 'Hedefi güncelle', hedefForm, 'Hedefi kaydet')}
-${drawer('degerPanel', 'Değer ekle', degerForm, 'Değeri ekle')}
-${drawer('notPanel', 'Klinik not ekle', notForm, 'Notu kaydet')}
-${drawer('hassasiyetPanel', 'Alerji ya da hassasiyet ekle', hassasiyetForm, 'Ekle')}
+${drawer('olcumPanel', 'Ölçüm Ekle', olcumForm, 'Ölçümü kaydet')}
+${drawer('hedefPanel', 'Hedefi Güncelle', hedefForm, 'Hedefi kaydet')}
+${drawer('degerPanel', 'Değer Ekle', degerForm, 'Değeri ekle')}
+${drawer('notPanel', 'Klinik Not Ekle', notForm, 'Notu kaydet')}
+${drawer('hassasiyetPanel', 'Alerji ya da Hassasiyet Ekle', hassasiyetForm, 'Ekle')}
 ${drawer('raporPanel', 'PDF Rapor', raporForm, '<i class="fa-solid fa-download" aria-hidden="true"></i> PDF indir')}`;
 
 export default ({ veri }) => {

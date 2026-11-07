@@ -6,13 +6,13 @@
   const kapatDugme = '<button class="ikon-dugme" type="button" aria-label="Kapat" data-kapat><i class="fa-solid fa-xmark" aria-hidden="true"></i></button>';
   document.body.insertAdjacentHTML('beforeend', `
 <div class="yan-panel-ortu" id="randevuPanel" hidden><aside class="yan-panel" role="dialog" aria-modal="true" aria-labelledby="rpBaslik">
-  <div class="yan-panel-bas"><h2 id="rpBaslik">Randevu oluştur</h2>${kapatDugme}</div>
+  <div class="yan-panel-bas"><h2 id="rpBaslik">Randevu Oluştur</h2>${kapatDugme}</div>
   <form class="yan-panel-govde" id="rpForm" novalidate>
     <div class="alan" id="rpKipAlan"><div class="segment" id="rpKip" role="group" aria-label="İşlem türü"><button type="button" data-deger="randevu" aria-pressed="true">Randevu</button><button type="button" data-deger="blok" aria-pressed="false">Saat kapat</button></div></div>
     <div class="alan oneri-kap" data-kip="randevu"><label class="alan-etiket" for="rpDanisan">Danışan <span class="zorunlu" aria-hidden="true">*</span></label><input class="alan-girdi" id="rpDanisan" type="text" autocomplete="off" placeholder="Ad yaz ya da listeden seç"><div class="oneri-liste" id="rpOneri" role="group" aria-label="Danışan önerileri" hidden></div></div>
     <div class="alan" data-kip="randevu"><label class="alan-etiket" for="rpPaket">Paket</label><select class="alan-secim" id="rpPaket"></select><p class="alan-yardim" id="rpPaketNot"></p></div>
     <div class="alan-izgara c2">
-      <div class="alan" data-kip="randevu"><span class="alan-etiket" id="rpTurE">Görüşme biçimi</span><div class="segment" id="rpTur" role="group" aria-labelledby="rpTurE"><button type="button" data-deger="online" aria-pressed="true">Online</button><button type="button" data-deger="yüz yüze" aria-pressed="false">Yüz yüze</button></div></div>
+      <div class="alan" data-kip="randevu"><span class="alan-etiket" id="rpTurE">Görüşme Biçimi</span><div class="segment" id="rpTur" role="group" aria-labelledby="rpTurE"><button type="button" data-deger="online" aria-pressed="true">Online</button><button type="button" data-deger="yüz yüze" aria-pressed="false">Yüz yüze</button></div></div>
       <div class="alan"><label class="alan-etiket" for="rpSure">Süre</label><select class="alan-secim" id="rpSure"></select></div>
     </div>
     <div class="alan"><span class="alan-etiket">Tarih <span class="zorunlu" aria-hidden="true">*</span></span><div class="ay-secim" id="rpGunler"></div></div>
@@ -26,7 +26,7 @@
   <div class="yan-panel-ayak"><button class="dugme hayalet" type="button" data-kapat>Vazgeç</button><button class="dugme birincil" type="submit" form="rpForm" id="rpGonder">Randevuyu oluştur</button></div>
 </aside></div>
 <div class="yan-panel-ortu" id="randevuDetay" hidden><aside class="yan-panel" role="dialog" aria-modal="true" aria-labelledby="rdBaslik">
-  <div class="yan-panel-bas"><h2 id="rdBaslik">Randevu detayı</h2>${kapatDugme}</div>
+  <div class="yan-panel-bas"><h2 id="rdBaslik">Randevu Detayı</h2>${kapatDugme}</div>
   <div class="yan-panel-govde" id="rdGovde"></div>
   <div class="yan-panel-ayak yayilan" id="rdAyak"></div>
 </aside></div>`);
@@ -48,7 +48,7 @@
   }
   function kipGoster() {
     const blok = s.kip === 'blok', duzen = !!s.duzenlenen;
-    $('rpBaslik').textContent = duzen ? 'Yeniden planla' : blok ? 'Saat kapat' : 'Randevu oluştur';
+    $('rpBaslik').textContent = duzen ? 'Yeniden planla' : blok ? 'Saat kapat' : 'Randevu Oluştur';
     $('rpGonder').textContent = duzen ? 'Yeni saate al' : blok ? 'Saati kapat' : 'Randevuyu oluştur';
     $('rpKipAlan').hidden = duzen;
     form.querySelectorAll('[data-kip]').forEach((e) => { e.hidden = e.dataset.kip === 'yeni' ? blok || duzen : e.dataset.kip !== s.kip; });

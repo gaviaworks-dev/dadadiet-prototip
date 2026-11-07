@@ -3,7 +3,7 @@
   <div><h1>Danışanlarım</h1><p>Yeni talepler, aktif takipler ve biten ilişkiler tek listede. Her satır o danışanın sıradaki adımını gösterir; satırdaki bağ doğrudan o işi açar. · <b id="baslikSayi"></b> kayıt</p></div>
   <div class="eylem-satiri">
     <button class="dugme hayalet" type="button" id="disaAktar"><i class="fa-solid fa-download" aria-hidden="true"></i> Dışa aktar</button>
-    <button class="dugme birincil" type="button" data-ac="#danisanEkle"><i class="fa-solid fa-user-plus" aria-hidden="true"></i> Danışan ekle</button>
+    <button class="dugme birincil" type="button" data-ac="#danisanEkle"><i class="fa-solid fa-user-plus" aria-hidden="true"></i> Danışan Ekle</button>
   </div>
 </div>
 <div class="sekmeler" role="tablist" aria-label="Danışan durumu" id="danisanSekme">
@@ -65,7 +65,7 @@
       <thead><tr>
         <th class="sec" scope="col"><label><input type="checkbox" aria-label="Görünen tümünü seç"></label></th>
         <th class="sirali" scope="col" data-kolon-tut data-oran="30"><button type="button">Danışan</button></th>
-        <th scope="col" data-kolon-tut data-oran="30">Sıradaki adım</th>
+        <th scope="col" data-kolon-tut data-oran="30">Sıradaki Adım</th>
         <th scope="col" data-kolon-opsiyon="hedef" data-oran="22" hidden>Hedef ve ilerleme</th>
         <th scope="col" data-kolon-opsiyon="paket" data-oran="14" hidden>Paket</th>
         <th class="sirali" scope="col" data-kolon-tut data-oran="14"><button type="button">Durum</button></th>
@@ -94,7 +94,7 @@
 </div>
 <div class="yan-panel-ortu" id="danisanEkle" hidden>
   <aside class="yan-panel" role="dialog" aria-modal="true" aria-labelledby="deBaslik">
-    <div class="yan-panel-bas"><h2 id="deBaslik">Danışan ekle</h2><button class="ikon-dugme" type="button" aria-label="Kapat" data-kapat><i class="fa-solid fa-xmark" aria-hidden="true"></i></button></div>
+    <div class="yan-panel-bas"><h2 id="deBaslik">Danışan Ekle</h2><button class="ikon-dugme" type="button" aria-label="Kapat" data-kapat><i class="fa-solid fa-xmark" aria-hidden="true"></i></button></div>
     <form class="yan-panel-govde" id="danisanEkleForm" novalidate>
       <div class="bilgi-notu"><i class="fa-solid fa-envelope-open-text" aria-hidden="true"></i><p>Kişiye davet gider. Kabul ettiğinde danışan kartı açılır ve veri izinlerini kendisi seçer.</p></div>
       <div class="alan"><label class="alan-etiket" for="deAd">Ad soyad <span class="zorunlu" aria-hidden="true">*</span></label><input class="alan-girdi" id="deAd" type="text" required autocomplete="off"></div>
@@ -107,7 +107,7 @@
 </div>
 <div class="yan-panel-ortu" id="topluMesajPanel" hidden>
   <aside class="yan-panel" role="dialog" aria-modal="true" aria-labelledby="tmBaslik">
-    <div class="yan-panel-bas"><h2 id="tmBaslik">Toplu mesaj</h2><button class="ikon-dugme" type="button" aria-label="Kapat" data-kapat><i class="fa-solid fa-xmark" aria-hidden="true"></i></button></div>
+    <div class="yan-panel-bas"><h2 id="tmBaslik">Toplu Mesaj</h2><button class="ikon-dugme" type="button" aria-label="Kapat" data-kapat><i class="fa-solid fa-xmark" aria-hidden="true"></i></button></div>
     <form class="yan-panel-govde" id="topluMesajForm" novalidate>
       <p class="alan-yardim" id="tmKime"></p>
       <div class="alan"><label class="alan-etiket" for="tmMetin">Mesaj <span class="zorunlu" aria-hidden="true">*</span></label><textarea class="alan-metin" id="tmMetin" rows="6" required></textarea></div>

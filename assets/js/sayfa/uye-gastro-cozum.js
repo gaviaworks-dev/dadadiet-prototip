@@ -34,7 +34,7 @@
     bos.hidden = !!l.length;
     if (!l.length) U.bas(bos, tum.length
       ? U.bos({ ikon: 'fa-filter-circle-xmark', baslik: 'Bu durumda talebin yok', metin: 'Seçtiğin durumda görüntülenecek bir talep bulunmuyor. Başka bir duruma bakabilirsin.', eylem: '<button class="dugme birincil kucuk" type="button" data-durum-sifirla>' + G.i('fa-layer-group') + ' Tüm talepleri göster</button>' })
-      : U.bos({ ikon: 'fa-inbox', baslik: 'Henüz destek talebin yok', metin: 'Bir sorun yaşarsan ya da bir şey sormak istersen ilk talebini buradan açabilirsin.', eylem: '<a class="dugme birincil kucuk" href="#yeni" data-sekme-git="yeni">' + G.i('fa-plus') + ' Yeni destek talebi</a>' }));
+      : U.bos({ ikon: 'fa-inbox', baslik: 'Henüz destek talebin yok', metin: 'Bir sorun yaşarsan ya da bir şey sormak istersen ilk talebini buradan açabilirsin.', eylem: '<a class="dugme birincil kucuk" href="#yeni" data-sekme-git="yeni">' + G.i('fa-plus') + ' Yeni Destek Talebi</a>' }));
     sayfaCiz(s, l.length);
   }
   document.addEventListener('click', (e) => {

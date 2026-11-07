@@ -7,7 +7,7 @@ const filtreler = [['tumu', 'fa-layer-group', 'Tümü'], ['acik', 'fa-inbox', 'A
 
 const taleplerim = `<div class="yigin">
 <div class="sekme-ray"><div class="sekmeler suzgec" role="group" aria-label="Talep durumu" id="tkFiltre">${filtreler.map(([k, i, a], n) => `<button class="sekme${n ? '' : ' aktif'}" type="button" data-durum="${k}">${ikon(i)} ${a} <span class="sekme-sayi" data-tk-say="${k}"></span></button>`).join('')}</div></div>
-${kart({ ikon: 'fa-bolt', baslik: 'Akışta kalan talepler', metin: 'Açık ve yanıt bekleyen taleplerin. Bu kart sayfalanmaz.', bosluksuz: true, id: 'tkOzet', govde: '<div class="ayar-liste" id="tkAkis"></div>' })}
+${kart({ ikon: 'fa-bolt', baslik: 'Akışta Kalan Talepler', metin: 'Açık ve yanıt bekleyen taleplerin. Bu kart sayfalanmaz.', bosluksuz: true, id: 'tkOzet', govde: '<div class="ayar-liste" id="tkAkis"></div>' })}
 ${kart({ ikon: 'fa-inbox', baslik: 'Destek Taleplerim', metin: '<span id="tkSay"></span>', bosluksuz: true, govde: '<div class="ayar-liste" id="tkListe"></div><div id="tkBos" hidden></div>', alt: '<nav class="sayfalama" id="tkSayfa" aria-label="Sayfalar"></nav><p class="sayfalama-not" id="tkSayfaNot"></p>' })}
 </div>`;
 
@@ -22,7 +22,7 @@ const hizliCozum = [
 const akordeon = (l, onEk) => `<div class="akordeon">${l.map(([id, i, b, ...g], n) => `<div class="akordeon-kalem${n ? '' : ' acik'}" id="${id}"><button class="akordeon-bas" type="button" aria-expanded="${!n}"><span class="akordeon-ikon">${ikon(i)}</span> ${b} <i class="fa-solid fa-chevron-down akordeon-ok" aria-hidden="true"></i></button><div class="akordeon-govde"><div class="okuma">${g.map((x) => `<p>${x}</p>`).join('')}</div></div></div>`).join('')}</div>`;
 
 const yeni = `<div class="yigin">
-${kart({ ikon: 'fa-pen', baslik: 'Yeni destek talebi', metin: 'Yıldız (*) ile işaretli alanlar zorunludur. Gönderdiğinde satır <b>Destek Taleplerim</b> sekmesinin en üstüne, <b>Açık talep</b> durumuyla düşer.', form: ' id="tkForm" novalidate', govde: `
+${kart({ ikon: 'fa-pen', baslik: 'Yeni Destek Talebi', metin: 'Yıldız (*) ile işaretli alanlar zorunludur. Gönderdiğinde satır <b>Destek Taleplerim</b> sekmesinin en üstüne, <b>Açık talep</b> durumuyla düşer.', form: ' id="tkForm" novalidate', govde: `
 <div class="alan"><label class="alan-etiket" for="tkKonu">Talebin konusu <span class="zorunlu">*</span></label><select class="alan-secim" id="tkKonu"><option value="">Konu seç</option>${konular.map((k) => `<option>${k}</option>`).join('')}</select><p class="alan-yardim"><span>Konu seçimi talebi yönlendirir; yanlış seçersen destek ekibi taşır. Bazı konular aşağıda ek bir alan açar.</span></p><span class="alan-hata" id="tkKonuHata">${ikon('fa-circle-exclamation')} Bir konu seç.</span></div>
 <div class="alan"><label class="alan-etiket" for="tkBaslik">Başlık <span class="zorunlu">*</span></label><input class="alan-girdi" id="tkBaslik" maxlength="120"><span class="alan-hata" id="tkBaslikHata">${ikon('fa-circle-exclamation')} En az 3 karakter yaz.</span></div>
 <div class="alan"><label class="alan-etiket" for="tkMesaj">Talebin <span class="zorunlu">*</span> <span class="alan-sayac" id="tkMesajSay">0/5000</span></label><textarea class="alan-metin uzun" id="tkMesaj" rows="5" maxlength="5000"></textarea><p class="alan-yardim"><span>Hangi ekranı, hangi tarihi ve hangi cihazı kullandığını yazarsan talep daha hızlı çözülür.</span></p><span class="alan-hata" id="tkMesajHata">${ikon('fa-circle-exclamation')} En az 10 karakter yaz.</span></div>
@@ -31,7 +31,7 @@ ${kart({ ikon: 'fa-pen', baslik: 'Yeni destek talebi', metin: 'Yıldız (*) ile 
 <div class="alan-gonder"><span class="not">Talebini gönderdikten sonra yazışmayı talebin detay sayfasından sürdürebilir, çözüldüyse talebi kapatabilirsin.</span>${dugme('Talebi Gönder', { sinif: 'birincil', ikon: 'fa-paper-plane', tur: 'submit' })}</div>` })}
 <p class="okuma-notu"><b>Konuya göre hızlı çözümler</b>: bir konuya dokun, adımlar açılsın. Her konu, sorun sürerse formu hangi konuyla dolduracağını da söylüyor.</p>
 ${akordeon(hizliCozum)}
-<aside class="ipucu-kap"><div class="kart ipucu"><h2 class="ipucu-bas">${ikon('fa-lightbulb')} Yanıt buralarda da olabilir</h2><p class="ipucu-metin">Aynı konuda açık bir talebin varsa yenisini açma; yazışmayı oradan sürdür. Destek ekibi hafta içi 09.00–18.00 arasında bakıyor.</p><div class="ipucu-baglantilar"><a class="ipucu-baglanti" href="#sss" data-sekme-git="sss">${ikon('fa-circle-question')} Sık Sorulan Sorular ${ikon('fa-arrow-right')}</a><a class="ipucu-baglanti" href="${K}hesabim/odemelerim/#faturalar">${ikon('fa-receipt')} Ödeme ve fatura kayıtların ${ikon('fa-arrow-right')}</a><a class="ipucu-baglanti" href="${K}sayfa/iletisim/">${ikon('fa-envelope')} İletişim kanalları ${ikon('fa-arrow-right')}</a></div></div></aside>
+<aside class="ipucu-kap"><div class="kart ipucu"><h2 class="ipucu-bas">${ikon('fa-lightbulb')} Yanıt Buralarda da Olabilir</h2><p class="ipucu-metin">Aynı konuda açık bir talebin varsa yenisini açma; yazışmayı oradan sürdür. Destek ekibi hafta içi 09.00–18.00 arasında bakıyor.</p><div class="ipucu-baglantilar"><a class="ipucu-baglanti" href="#sss" data-sekme-git="sss">${ikon('fa-circle-question')} Sık Sorulan Sorular ${ikon('fa-arrow-right')}</a><a class="ipucu-baglanti" href="${K}hesabim/odemelerim/#faturalar">${ikon('fa-receipt')} Ödeme ve fatura kayıtların ${ikon('fa-arrow-right')}</a><a class="ipucu-baglanti" href="${K}sayfa/iletisim/">${ikon('fa-envelope')} İletişim kanalları ${ikon('fa-arrow-right')}</a></div></div></aside>
 <div class="bilgi-notu">${ikon('fa-circle-info')}<p>Destek ekibi uygulamayla ilgili konularda yardımcı olur; <b>tıbbi teşhis, beslenme tedavisi ya da diyet önerisi vermez.</b> Alerji, gıda intoleransı, gebelik ya da süregelen bir sağlık durumuyla ilgili sorularını diyetisyenine ya da hekimine ilet.</p></div>
 </div>`;
 
@@ -87,7 +87,7 @@ const sssPano = `<div class="yigin">
 <p class="okuma-notu" id="faqNot" role="status"></p>
 ${sss.map(([, a, l], n) => `<div class="akordeon" data-kat-liste="${n}" data-ad="${a}"${n ? ' hidden' : ''}>${l.map(sssKalem).join('')}</div>`).join('')}
 <div id="faqBos" hidden></div>
-<div class="kapanis"><span class="kapanis-ikon">${ikon('fa-headset')}</span><h3>Cevap bulamadın mı?</h3><p>Ekibimiz hafta içi 09.00–18.00 arasında yanında. Soru, öneri ya da sorun: hangisi olursa olsun bize yaz.</p><div class="cc-btns"><a class="dugme birincil" href="${K}sayfa/iletisim/">${ikon('fa-envelope')} İletişime Geç</a><a class="dugme hayalet" href="#oneri" data-sekme-git="oneri">${ikon('fa-comment-dots')} Görüş Bildir</a></div></div>
+<div class="kapanis"><span class="kapanis-ikon">${ikon('fa-headset')}</span><h3>Cevap Bulamadın mı?</h3><p>Ekibimiz hafta içi 09.00–18.00 arasında yanında. Soru, öneri ya da sorun: hangisi olursa olsun bize yaz.</p><div class="cc-btns"><a class="dugme birincil" href="${K}sayfa/iletisim/">${ikon('fa-envelope')} İletişime Geç</a><a class="dugme hayalet" href="#oneri" data-sekme-git="oneri">${ikon('fa-comment-dots')} Görüş Bildir</a></div></div>
 </div>`;
 
 const oneri = `<div class="yigin">

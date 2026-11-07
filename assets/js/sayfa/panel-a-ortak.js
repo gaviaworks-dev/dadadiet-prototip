@@ -127,7 +127,7 @@
       return taslak ? { oncelik: 6, ikon: 'fa-paper-plane', baslik: 'Taslak planı gönder', metin: taslak.ad, etiket: 'Planı aç', href: PA.yol.plan(taslak.id) } : { oncelik: 6, ikon: 'fa-clipboard-list', baslik: 'Plan oluştur', metin: ilgi + ' gönderilmiş planı yok.', etiket: 'Plan oluştur', href: PA.yol.yeniPlan(id) };
     }
     if (dn.durum === 'yanit-bekliyor') return { oncelik: 7, ikon: 'fa-reply', baslik: ilk + ' yanıtını bekliyor', metin: dn.mesaj_ozeti || 'Son mesajını yanıtla.', etiket: 'Yanıtla', href: PA.yol.sohbet(id) };
-    if (!gelecek && PA.takip(dn) === 'Kontrol gecikti') return { oncelik: 8, ikon: 'fa-clock-rotate-left', baslik: 'Kontrol gecikti', metin: 'Son görüşme ' + PA.tarih(dn.son_gorusme) + ', planlı görüşme yok.', etiket: 'Randevu oluştur', is: 'randevu' };
+    if (!gelecek && PA.takip(dn) === 'Kontrol gecikti') return { oncelik: 8, ikon: 'fa-clock-rotate-left', baslik: 'Kontrol gecikti', metin: 'Son görüşme ' + PA.tarih(dn.son_gorusme) + ', planlı görüşme yok.', etiket: 'Randevu Oluştur', is: 'randevu' };
     const tahlil = (dn.tahliller || []).find(PA.tahlilYeni);
     if (tahlil && iz.tahlil) return { oncelik: 9, ikon: 'fa-vial', baslik: 'Yeni tahlili değerlendir', metin: tahlil.dosya_adi + ' yüklendi.', etiket: 'Tahlili aç', sekme: 'tahlil' };
     const red = dn.izin_cevap || {}, eksik = ['olcum', 'tahlil'].filter((k) => !iz[k] && red[k] !== 'red');
@@ -136,7 +136,7 @@
     const sonTamam = tamam.map((r) => r.tarih).sort().pop();
     const sonNot = (dn.klinik_notlar || []).map((n) => n.tarih).sort().pop();
     if (sonTamam && (!sonNot || sonNot < sonTamam)) return { oncelik: 11, ikon: 'fa-note-sticky', baslik: 'İlerleme notu ekle', metin: PA.ayGun(sonTamam) + ' görüşmesinin notu yok.', etiket: 'Not ekle', is: 'not-ekle' };
-    if (!gelecek) return { oncelik: 12, ikon: 'fa-calendar-plus', baslik: 'Kontrol randevusu oluştur', metin: 'Planlı görüşme yok' + (dn.son_gorusme ? ', son görüşme ' + PA.tarih(dn.son_gorusme) : '') + '.', etiket: 'Randevu oluştur', is: 'randevu' };
+    if (!gelecek) return { oncelik: 12, ikon: 'fa-calendar-plus', baslik: 'Kontrol randevusu oluştur', metin: 'Planlı görüşme yok' + (dn.son_gorusme ? ', son görüşme ' + PA.tarih(dn.son_gorusme) : '') + '.', etiket: 'Randevu Oluştur', is: 'randevu' };
     if (gelecek.tarih === DD.bugun) return { oncelik: 4, ikon: 'fa-video', baslik: 'Bugünkü görüşme', metin: DD.bicim.saat(gelecek.saat) + ' · ' + PA.rTur(gelecek), etiket: 'Görüşmeyi başlat', href: PA.yol.gorusme(gelecek.id) };
     if (eksik.length) return { oncelik: 20, ikon: 'fa-hourglass', baslik: 'İzin yanıtı bekleniyor', metin: ilk + ' izin isteğini görecek.' };
     return { oncelik: 30, ikon: 'fa-circle-check', baslik: 'Takip yolunda', metin: 'Sıradaki görüşme ' + PA.ayGun(gelecek.tarih) + ' ' + DD.bicim.saat(gelecek.saat) + '.' };

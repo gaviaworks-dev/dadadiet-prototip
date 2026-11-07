@@ -209,7 +209,7 @@
 
   /* Üye sayfası: akış modalda açılır */
   if (window.DDU) {
-    document.body.insertAdjacentHTML('beforeend', '<div class="modal-ortu" id="ogunFotoModal" hidden><div class="modal-kutu" role="dialog" aria-modal="true" aria-labelledby="ogunFotoBaslik"><div class="modal-bas"><h2 id="ogunFotoBaslik">Öğün fotoğrafı</h2><button class="kapat-dugme" type="button" data-kapat aria-label="Kapat">' + i('fa-xmark') + '</button></div><div class="modal-govde" data-foto-govde></div><div class="modal-ayak-cubuk" data-foto-ayak></div></div></div>');
+    document.body.insertAdjacentHTML('beforeend', '<div class="modal-ortu" id="ogunFotoModal" hidden><div class="modal-kutu" role="dialog" aria-modal="true" aria-labelledby="ogunFotoBaslik"><div class="modal-bas"><h2 id="ogunFotoBaslik">Öğün Fotoğrafı</h2><button class="kapat-dugme" type="button" data-kapat aria-label="Kapat">' + i('fa-xmark') + '</button></div><div class="modal-govde" data-foto-govde></div><div class="modal-ayak-cubuk" data-foto-ayak></div></div></div>');
     const modal = document.getElementById('ogunFotoModal');
     const akis = bilesen(modal, modal.querySelector('[data-foto-govde]'), modal.querySelector('[data-foto-ayak]'), 'ogunFotoDosya');
     document.addEventListener('click', (e) => {

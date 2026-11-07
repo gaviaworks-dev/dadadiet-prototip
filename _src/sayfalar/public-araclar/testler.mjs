@@ -25,7 +25,7 @@ ${bolum(`<div class="soru-kolon" id="testKok">
 <div class="soru-alt"><button class="soru-geri" id="soruGeri" type="button" disabled>${ikon('fa-arrow-left')} Geri</button><span class="soru-ipucu">${ikon('fa-wand-magic-sparkles')} Seçince otomatik ilerler</span></div></div>
 <div class="sonuc-levha" id="testSonuc" hidden></div>
 </div>`, { ilk: true, sinif: 'ust-orta' })}
-${bolum(`${bolumBas({ etiket: 'Diğer Testler', ikon: 'fa-layer-group', baslik: 'Sıradaki testin hazır', metin: 'Kendini farklı açılardan keşfetmeye devam et.', arac: dugme('Tüm Testler', 'saglik-testleri/', 'hayalet orta notr', 'fa-arrow-right', true) })}<div class="medya-izgara">${benzer.map(testOneriKart).join('')}</div>`)}
+${bolum(`${bolumBas({ etiket: 'Diğer Testler', ikon: 'fa-layer-group', baslik: 'Sıradaki Testin Hazır', metin: 'Kendini farklı açılardan keşfetmeye devam et.', arac: dugme('Tüm Testler', 'saglik-testleri/', 'hayalet orta notr', 'fa-arrow-right', true) })}<div class="medya-izgara">${benzer.map(testOneriKart).join('')}</div>`)}
 </div>${jsonGom('testVeri', d)}`;
 
   return [

@@ -5,7 +5,7 @@ const kisit = [['laktoz', 'Laktoz (süt ve süt ürünleri)'], ['gluten', 'Glute
 
 const govde = `<div class="yigin">
 ${kart({
-    ikon: 'fa-sliders', baslik: 'Bütçe ve kısıtlar', metin: 'Menü bu seçimlere göre kurulur. Değiştirdikten sonra menünü yeniden üret.', form: ' id="hmForm"',
+    ikon: 'fa-sliders', baslik: 'Bütçe ve Kısıtlar', metin: 'Menü bu seçimlere göre kurulur. Değiştirdikten sonra menünü yeniden üret.', form: ' id="hmForm"',
     govde: `<div class="ayar-liste" role="radiogroup" aria-label="Bütçe seviyesi">${butce.map(([d, i, a, m]) => `<label class="ayar-satir secim-satir" for="hmButce-${d}"><span class="as-ikon" aria-hidden="true"><i class="fa-solid ${i}"></i></span><div class="as-metin"><b>${a}</b><span>${m}</span></div><input class="secim-radyo" type="radio" name="butce" id="hmButce-${d}" value="${d}"${d === 'orta' ? ' checked' : ''}></label>`).join('')}</div>
 <div class="alan"><span class="alan-etiket">Kısıtların</span><div class="alan-izgara c2">${kisit.map(([d, a]) => `<label class="onay-kutusu" for="hmKisit-${d}"><input type="checkbox" id="hmKisit-${d}" name="kisit" value="${d}"><span>${a}</span></label>`).join('')}</div><p class="alan-yardim"><span>Seçtiğin kısıtlara giren tarifler menüne girmez. Sağlık Dosyam’daki hassasiyetlerin işaretli gelir.</span></p></div>`,
     alt: dugme('Menümü üret', { sinif: 'birincil', ikon: 'fa-wand-magic-sparkles', tur: 'submit' }),

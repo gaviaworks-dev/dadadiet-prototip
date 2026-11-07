@@ -85,7 +85,7 @@
     ZORUNLU.forEach((id) => isaretle(id, !gecerli(id), $(id).dataset.baslik));
     isaretle('uzmanlik', !uzmanlar().length, 'Uzmanlık alanı');
     isaretle('diplomaDosya', !dosyaVar('diplomaDosya'), 'Diploma belgesi');
-    isaretle('foto', !dosyaVar('foto'), 'Profil fotoğrafı');
+    isaretle('foto', !dosyaVar('foto'), 'Profil Fotoğrafı');
     isaretle('gorusme', !gorusme().length, 'Görüşme türü');
     isaretle('riza', !($('riza1').checked && $('riza2').checked), 'Onaylar');
     const ozet = $('hataOzet');

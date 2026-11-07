@@ -9,7 +9,7 @@
   function ciz() {
     const v = oku();
     $('#pFiyatNot').textContent = v.fiyat && v.seans ? 'Paketin tamamının fiyatı. Seans başına ' + PB.tl(v.fiyat / v.seans) + '.' : 'Paketin tamamının fiyatı.';
-    $('#pOnizleme').innerHTML = '<h3>' + esc(v.ad || 'Paket adı') + '</h3><p>' + esc(v.aciklama || 'Paket içeriği burada görünür.') + '</p>' +
+    $('#pOnizleme').innerHTML = '<h3>' + esc(v.ad || 'Paket Adı') + '</h3><p>' + esc(v.aciklama || 'Paket içeriği burada görünür.') + '</p>' +
       '<p><span class="rozet olumlu">' + TUR[v.tur] + '</span> <span class="rozet pasif">' + (v.seans || 0) + ' seans · ' + v.sure + ' dk</span></p><div class="alt-satir"><b>' + PB.tl(v.fiyat) + '</b></div>';
     const durum = !p ? 'Kaydedilmedi' : p.onay === 'bekliyor' ? 'Onay bekliyor' : p.aktif ? 'Yayında' : 'Yayında değil';
     $('#pDurum').innerHTML = '<div class="deger-satir"><span>Onay durumu</span><b>' + durum + '</b></div>' +

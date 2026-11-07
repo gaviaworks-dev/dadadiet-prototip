@@ -10,13 +10,13 @@ export default ({ veri }) => {
   const D = veri.diyetisyenler.diyetisyenler, sehirler = [...new Set(D.map((d) => d.sehir))];
   const SEHIR = [...sehirler.map((s) => [s, s, '', 'fa-location-dot']), ['farketmez', 'Fark etmez', '', 'fa-map']];
   const harita = (l) => Object.fromEntries(l.map(([d, b]) => [d, b]));
-  const govde = `${adim({ id: 'hedef', baslik: 'Hangi konuda destek arıyorsun?', alt: 'Sana en uygun uzmanlık alanını eşleştirelim.', alanlar: [{ ad: 'hedef', secenekler: HEDEF.map(([b, a, i]) => ({ deger: b, baslik: b, alt: a, ikon: i })) }] })}
-${adim({ id: 'gorusme', baslik: 'Nasıl görüşmek istersin?', alt: 'Yüz yüze seçersen şehrini de soralım.', alanlar: [{ ad: 'gorusme', sinif: 'c3', secenekler: sec(GORUSME) }, { ad: 'sehir', etiket: 'Hangi şehirde?', sinif: 'c3', kosul: 'gorusme=yuz', secenekler: sec(SEHIR) }] })}
-${adim({ id: 'butce', baslik: 'Bütçe beklentin nedir?', alt: 'Ücret bilgisi profillerde yayına girdiğinde eşleştirmeye katılacak.', alanlar: [{ ad: 'butce', sinif: 'c3', secenekler: sec(BUTCE) }] })}`;
+  const govde = `${adim({ id: 'hedef', baslik: 'Hangi Konuda Destek Arıyorsun?', alt: 'Sana en uygun uzmanlık alanını eşleştirelim.', alanlar: [{ ad: 'hedef', secenekler: HEDEF.map(([b, a, i]) => ({ deger: b, baslik: b, alt: a, ikon: i })) }] })}
+${adim({ id: 'gorusme', baslik: 'Nasıl Görüşmek İstersin?', alt: 'Yüz yüze seçersen şehrini de soralım.', alanlar: [{ ad: 'gorusme', sinif: 'c3', secenekler: sec(GORUSME) }, { ad: 'sehir', etiket: 'Hangi Şehirde?', sinif: 'c3', kosul: 'gorusme=yuz', secenekler: sec(SEHIR) }] })}
+${adim({ id: 'butce', baslik: 'Bütçe Beklentin Nedir?', alt: 'Ücret bilgisi profillerde yayına girdiğinde eşleştirmeye katılacak.', alanlar: [{ ad: 'butce', sinif: 'c3', secenekler: sec(BUTCE) }] })}`;
   const sonuc = `<section class="sihirbaz-adim" data-sonuc hidden><div class="bolum-bas"><div><h2 tabindex="-1" id="sonucBaslik"></h2><p class="giris-metni" id="sonucGiris"></p></div></div><div class="cipler sonuc-cipler" id="sonucCipler" role="group" aria-label="Cevapların"></div>
 <div class="kart-izgara c3" id="sonucKartlar"></div>
 <div class="kart" id="sonucBos" hidden><div class="bos-durum kart-ici"><span class="bos-ikon">${ikon('fa-user-doctor')}</span><h3 id="sonucBosBaslik"></h3><p id="sonucBosMetin"></p><a class="dugme birincil" href="${K}diyetisyenler/">Tüm diyetisyenleri gör</a></div></div>
-<h3 class="kart-baslik sihirbaz-alt-baslik" id="sonucYakinBaslik" hidden>${ikon('fa-compass')} Sana yakın seçenekler</h3><div class="kart-izgara c3" id="sonucYakin" hidden></div>
+<h3 class="kart-baslik sihirbaz-alt-baslik" id="sonucYakinBaslik" hidden>${ikon('fa-compass')} Sana Yakın Seçenekler</h3><div class="kart-izgara c3" id="sonucYakin" hidden></div>
 <div class="bolum-eylem"><a class="dugme hayalet" href="${K}diyetisyenler/">Tüm diyetisyenler</a><button class="dugme birincil" type="button" data-bastan>${ikon('fa-rotate-left')} Baştan başla</button></div>
 <p class="alt-not">${ikon('fa-circle-info')}<span>Uzmanların ücret bilgisi henüz yayında olmadığı için bütçen sıralamayı etkilemedi.</span></p></section>`;
   const cipler = [['hedef', 'hedef', Object.fromEntries(HEDEF.map(([b]) => [b, b]))], ['gorusme', 'gorusme', harita(GORUSME)], ['gorusme', 'sehir', harita(SEHIR)], ['butce', 'butce', harita(BUTCE)]];

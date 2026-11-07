@@ -46,7 +46,7 @@
     const l = acikTurler();
     U.bas('#viErisim', l.length
       ? l.map((t) => '<div class="ayar-satir"><span class="as-ikon"><i class="fa-solid ' + t[1] + '" aria-hidden="true"></i></span><div class="as-metin"><b>' + U.kac(dy ? dy.ad : 'Diyetisyenin') + '</b><span>' + t[2] + ' · ' + U.kac(sureler()[t[0]] || 'Ben geri çekene kadar') + '</span></div><span class="as-eylem">' + U.durum('cozulen', 'Açık') + '<button class="dugme hayalet tehlike kucuk" type="button" data-kapat-izin="' + t[0] + '">Geri çek</button></span></div>').join('')
-      : U.bos({ ikon: 'fa-user-shield', baslik: 'Açık erişim yok', metin: 'Diyetisyenin şu an sağlık verilerini göremez.', eylem: '<button class="dugme birincil" type="button" data-ac="#viYeni">Yeni izin ver</button>' }));
+      : U.bos({ ikon: 'fa-user-shield', baslik: 'Açık erişim yok', metin: 'Diyetisyenin şu an sağlık verilerini göremez.', eylem: '<button class="dugme birincil" type="button" data-ac="#viYeni">Yeni İzin Ver</button>' }));
     const sec = $('#viYeniForm').elements.tur;
     const kapali = TUR.filter((t) => !iz[t[0]]);
     sec.innerHTML = (kapali.length ? kapali : TUR).map((t) => '<option value="' + t[0] + '">' + t[2] + '</option>').join('');

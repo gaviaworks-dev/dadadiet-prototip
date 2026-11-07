@@ -5,7 +5,7 @@ const bolumler = [
 `<div class="iki-kolon genis-yan">
   <div class="yigin">
     <div class="kart">
-      <div class="kart-bas"><div><h2 class="kart-baslik"><i class="fa-solid fa-plus" aria-hidden="true"></i> Tabağına yemek ekle</h2><p>Yemeğini ve porsiyonunu seç, tabak bölmelere kendisi dağıtır.</p></div></div>
+      <div class="kart-bas"><div><h2 class="kart-baslik"><i class="fa-solid fa-plus" aria-hidden="true"></i> Tabağına Yemek Ekle</h2><p>Yemeğini ve porsiyonunu seç, tabak bölmelere kendisi dağıtır.</p></div></div>
       <div class="kart-govde">
         <div class="segment ortali-segment" id="eklemeKipi" role="group" aria-label="Ne ekleyeceksin?"><button type="button" data-deger="yemek" aria-pressed="true"><i class="fa-solid fa-utensils" aria-hidden="true"></i> Yemek</button><button type="button" data-deger="besin" aria-pressed="false"><i class="fa-solid fa-carrot" aria-hidden="true"></i> Tek besin</button><button type="button" data-deger="foto" aria-pressed="false"><i class="fa-solid fa-camera" aria-hidden="true"></i> Fotoğraf</button></div>
         <div id="tabakAramaAlani">
@@ -38,10 +38,10 @@ const bolumler = [
     </div>
   </div>
 </div>`,
-`<div class="bolum-bas"><div><span class="ust-etiket"><i class="fa-solid fa-calculator" aria-hidden="true"></i> Özet</span><h2>Tabağın ne kadar dengeli?</h2><p class="giris-metni">Eklediğin miktarların toplamı ve denge skorun.</p></div></div>
+`<div class="bolum-bas"><div><span class="ust-etiket"><i class="fa-solid fa-calculator" aria-hidden="true"></i> Özet</span><h2>Tabağın Ne Kadar Dengeli?</h2><p class="giris-metni">Eklediğin miktarların toplamı ve denge skorun.</p></div></div>
 <div class="iki-kolon esit">
     <div class="kart">
-      <div class="kart-bas"><div><h2 class="kart-baslik"><i class="fa-solid fa-calculator" aria-hidden="true"></i> Tabağının toplamı</h2><p>Eklediğin miktarların toplam besin değeri.</p></div></div>
+      <div class="kart-bas"><div><h2 class="kart-baslik"><i class="fa-solid fa-calculator" aria-hidden="true"></i> Tabağının Toplamı</h2><p>Eklediğin miktarların toplam besin değeri.</p></div></div>
       <div class="kart-govde"><dl class="kunye c5" id="tabakToplam"></dl><p class="kart-metin" id="tabakToplamBos" hidden>Besin ekleyince kalori ve makro toplamın burada görünür.</p><p class="alan-yardim" id="tabakEksik" hidden></p>
         <div class="makro-blok">
           <span class="alan-etiket" id="makroEtiket">Enerjinin makro dağılımı</span>
@@ -60,7 +60,7 @@ const bolumler = [
       </div>
     </div>
 </div>`,
-`<div class="bolum-bas"><div><span class="ust-etiket"><i class="fa-solid fa-right-left" aria-hidden="true"></i> Muadil bulucu</span><h2>Bunun yerine ne yiyebilirim?</h2><p class="giris-metni">Seçtiğin besinin eşdeğerini bul; neyi kazanıp neyi kaybettiğini sayıyla gör.</p></div></div>
+`<div class="bolum-bas"><div><span class="ust-etiket"><i class="fa-solid fa-right-left" aria-hidden="true"></i> Muadil bulucu</span><h2>Bunun Yerine Ne Yiyebilirim?</h2><p class="giris-metni">Seçtiğin besinin eşdeğerini bul; neyi kazanıp neyi kaybettiğini sayıyla gör.</p></div></div>
 <div class="kart" id="muadil">
   <div class="kart-govde">
     <div class="alan-izgara c2">

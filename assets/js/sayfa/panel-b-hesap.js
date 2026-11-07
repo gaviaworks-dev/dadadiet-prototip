@@ -3,7 +3,7 @@
   'use strict';
   const { $, esc } = PB;
   const dyt = PB.demo().diyetisyen;
-  const BILDIRIM = [['randevu', 'Yeni randevu talebi', 'Danışan randevu istediğinde anında haber ver'], ['mesaj', 'Yeni mesaj', 'Danışanlarından gelen mesajlar'], ['yorum', 'Yeni değerlendirme', 'Profilin yorum ya da puan aldığında'], ['ozet', 'Haftalık panel özeti', 'Randevu, danışan ve mesaj istatistikleri']];
+  const BILDIRIM = [['randevu', 'Yeni randevu talebi', 'Danışan randevu istediğinde anında haber ver'], ['mesaj', 'Yeni Mesaj', 'Danışanlarından gelen mesajlar'], ['yorum', 'Yeni değerlendirme', 'Profilin yorum ya da puan aldığında'], ['ozet', 'Haftalık panel özeti', 'Randevu, danışan ve mesaj istatistikleri']];
   const HATIRLAT = [['danisan', 'fa-clock', 'Danışana otomatik hatırlatma', 'Randevudan 24 saat önce danışana e-posta gönderilir'], ['ajanda', 'fa-mobile-screen', 'Bana sabah ajandası', 'Her sabah 08.00\'de günün randevu listesi'], ['sessiz', 'fa-moon', 'Sessiz saatler', '21.00 – 08.00 arası push bildirimi gelmez']];
   const V = { kanal: { randevu: { eposta: true, push: true }, mesaj: { eposta: false, push: true }, yorum: { eposta: true, push: false }, ozet: { eposta: true, push: false } }, hatirlat: { danisan: true, ajanda: true, sessiz: false }, dil: 'Türkçe', iki_adim: true, oturumlar: [{ ad: 'Bu cihaz · Chrome, macOS', zaman: 'Şu an etkin', bu: true }, { ad: 'iPhone · Safari', zaman: 'Dün 21.40' }] };
   const A = Object.assign({}, JSON.parse(JSON.stringify(V)), dyt.ayarlar || {});

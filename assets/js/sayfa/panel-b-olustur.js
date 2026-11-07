@@ -619,7 +619,7 @@
   function sablonCiz() {
     const l = PB.liste('sablonlar').map((s) => ({ id: s.id, ad: s.ad + ' · ' + sayi(s.kcal) + ' kcal', alt: s.aciklama || '', gorsel: PB.sablonGorsel(s), kendi: s.kendi || s.ozel }));
     const grup = (ad, x) => (x.length ? '<p class="alan-yardim"><b>' + ad + '</b></p>' + x.map((s) => secenekHtml(s, 'sablon-sec')).join('') : '');
-    $('#sablonBaslik').textContent = sablonGun == null ? 'Şablondan doldur' : gunAd(sablonGun) + ' gününü doldur';
+    $('#sablonBaslik').textContent = sablonGun == null ? 'Şablondan Doldur' : gunAd(sablonGun) + ' gününü doldur';
     $('#sablonListe').innerHTML = grup('Kendi şablonlarım', l.filter((s) => s.kendi)) + grup('Hazır şablonlar', l.filter((s) => !s.kendi));
   }
   function sablonUygula(s) {
