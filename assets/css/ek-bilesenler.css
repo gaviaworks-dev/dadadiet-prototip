@@ -2989,3 +2989,31 @@ html[data-oturum="1"] .head-bell{display:grid}
 /* Kişi tanıtım metni sola yaslı: Türkçe tireleme yokken iki yana yaslama geniş kelime boşluğu açıyor. */
 .duz-metin p{text-align:left;text-align-last:auto}
 .duz-metin p+p{margin-top:var(--bosluk-12)}
+
+/* ── Revize 7 Kasım · panel ─────────────────────────────────────────── */
+/* Plan seçici: süzgeç satırı ile diyet çipleri arası tek adım, sekme altı daha sıkı */
+.yan-panel.secici .sekmeler{margin-bottom:var(--bosluk-12)}
+.secim-suzgec{display:flex;flex-direction:column;gap:var(--bosluk-8)}
+.secim-suzgec[hidden]{display:none}
+.yetkili .secim-suzgec>.alan-izgara{margin-bottom:0}
+.yetkili .secim-suzgec>.cipler{padding:0;gap:var(--bosluk-8)}
+/* Yemek kaynağı: üç eşit dilim */
+.segment.tam-segment{display:flex;width:100%;margin-bottom:var(--bosluk-12)}
+.segment.tam-segment[hidden]{display:none}
+.segment.tam-segment button{flex:1 1 0;justify-content:center;white-space:nowrap}
+#yeniTarifAlan{display:flex;flex-direction:column;gap:var(--bosluk-12)}
+#yeniTarifAlan[hidden]{display:none}
+.yetkili #yeniTarifAlan .alan-izgara{margin-bottom:0;grid-template-columns:repeat(3,minmax(0,1fr));gap:var(--bosluk-8)}
+.yetkili #yeniTarifAlan .cipler{padding:0;gap:var(--bosluk-8)}
+#yeniTarifAlan .eylem-satiri{justify-content:flex-end}
+.yan-panel.secici .secim-satir>.secim-eylem{grid-column:2;grid-row:2;justify-self:end;display:flex;align-items:center;gap:var(--bosluk-4)}
+.yan-panel.secici .secim-gorsel>i{color:var(--aksan-koyu)}
+/* Öğün düzeni: öğünler yan yana sütun, dar ekranda satır kırar */
+.ogun-duzen{display:grid;grid-template-columns:repeat(auto-fit,minmax(124px,1fr));gap:var(--bosluk-8);margin-top:var(--bosluk-12)}
+.ogun-sutun{display:flex;flex-direction:column;align-items:center;gap:var(--bosluk-8);padding:var(--bosluk-12) var(--bosluk-8);border:1px solid var(--cizgi);border-radius:var(--yuvarlak-md);background:var(--kagit);text-align:center}
+.ogun-sutun b{font-size:var(--rol-aciklama-boyut);color:var(--murekkep)}
+.yetkili .ogun-sutun .alan-girdi{width:100%;min-width:0;padding-inline:var(--bosluk-8);text-align:center}
+.ogun-sutun.kapali{background:var(--zemin)}
+.ogun-sutun.kapali b,.ogun-sutun.kapali .as-ikon{opacity:.55}
+.segment button[aria-pressed="true"] .sekme-sayi{color:inherit;opacity:.8}
+@media(max-width:640px){.ogun-sutun .as-ikon{display:none}.ogun-sutun{padding:var(--bosluk-8)}}
