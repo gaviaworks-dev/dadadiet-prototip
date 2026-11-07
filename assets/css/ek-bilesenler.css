@@ -2692,3 +2692,33 @@ button.metin-bag{padding:0;background:none;border:0;font-size:var(--yazi-12);cur
 .cipler.tek-satir{flex-wrap:nowrap;overflow-x:auto;scroll-snap-type:x proximity;scrollbar-width:none}
 .cipler.tek-satir::-webkit-scrollbar{display:none}
 .cipler.tek-satir>.cip{flex:none;scroll-snap-align:start}
+
+/* Üye: öğün fotoğrafı ve QR */
+/* Kalem satırının fotoğraflı ikonu: .ks-ikon ile aynı kutu, dokununca fotoğraf açılır */
+.ks-foto{flex:none;display:block;width:var(--rol-ikon-kutu);height:var(--rol-ikon-kutu);padding:0;border:0;background:none;border-radius:var(--rol-ikon-kutu-yuvarlak);overflow:hidden;cursor:pointer}
+.ks-foto img{display:block;width:100%;height:100%;object-fit:cover}
+/* Modalda fotoğraf önizlemesi: görsel kırpılmadan sığar */
+.foto-onizleme{display:block;width:100%;aspect-ratio:4/3;object-fit:contain;border-radius:var(--yuvarlak-md);background:var(--zemin)}
+.foto-onizleme+.alan-yardim{margin-top:var(--bosluk-8)}
+/* Dosya bırakma alanı: tıklanır, klavyede odak görünür, sürüklerken belirginleşir */
+.birak-alani{cursor:pointer}
+.birak-alani:focus-within{outline:var(--odak-kalinlik) solid var(--odak-renk);outline-offset:var(--odak-ofset)}
+.birak-alani.uzerinde{outline:var(--odak-kalinlik) solid var(--aksan);outline-offset:var(--odak-ofset)}
+.birak-alani .eylem-satiri{margin-top:var(--bosluk-8)}
+/* QR ekranı: kod, açıklama, durum ve eylem ortalı dizilir */
+.qr-kutu{display:flex;flex-direction:column;align-items:center;gap:var(--bosluk-12);text-align:center}
+.qr-kod{display:block;width:calc(var(--bosluk-64)*3);height:calc(var(--bosluk-64)*3);max-width:100%;background:var(--kagit);color:var(--murekkep);border:var(--cizgi-1) solid var(--cizgi);border-radius:var(--yuvarlak-md)}
+/* Kalem satırı sağ ucu dar ekranda sığmazsa kırılır; denetim kesilmez */
+@media(max-width:640px){.kalem-satiri>.as-eylem{flex-wrap:wrap}}
+
+/* 360 px altı: uzun segment kendi içinde kayar, eylem satırı alta iner */
+@media(max-width:360px){
+  .segment{max-width:100%;overflow-x:auto;scrollbar-width:none}
+  .segment::-webkit-scrollbar{display:none}
+  .segment button{flex:none}
+  .yetkili .eylem-satiri{flex-wrap:wrap}
+}
+.bildirim-suzgec{width:100%;max-width:100%;min-width:0}
+.bildirim-suzgec>.cipler.tek-satir{max-width:100%}
+.demo-gecis{min-width:0;max-width:100%}
+@media(max-width:360px){.yetkili .panel-bas,.yetkili .panel-bas>*{min-width:0;max-width:100%;flex-wrap:wrap}}

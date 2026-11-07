@@ -50,5 +50,5 @@ const sonEk = modal({
 export default () => [uyeSayfa({
   yol: 'hesabim/gunluk-takibim', ad: 'Günlük Takibim',
   giris: 'Öğün, su ve adım kayıtların tek yerde; plana uyduysan tek dokunuş yeter.',
-  grup: 'gt', sekmeler, sonEk, js: ['assets/js/tercih-uyum.js', 'assets/js/his-kaydi.js', 'assets/js/sayfa/uye-gunluk-takibim.js'],
+  grup: 'gt', sekmeler, sonEk, js: ['assets/js/tercih-uyum.js', 'assets/js/his-kaydi.js', 'assets/js/ogun-foto.js', 'assets/js/sayfa/uye-gunluk-takibim.js'],
 })];

@@ -25,6 +25,22 @@
       ciz: () => S.secenekCiz('cinsiyet', c.cinsiyet, { etiket: 'Cinsiyet' }),
       oku(k) { const h = tekHata(k, 'cinsiyet', 'Devam etmek için bir seçim yap.'); if (!h) c.cinsiyet = S.secimOku(k, 'cinsiyet'); return h; } },
     { id: 'yas', bolum: 'Vücut', baslik: 'Kaç yaşındasın?', alt: 'Enerji ihtiyacı yaşa göre değişir. Doğum yılını yaz.', ...sayiAdim('dogum_yili') },
+    { id: 'kvkk', bolum: 'Vücut', baslik: 'Sağlık verilerin sana ait', alt: 'Planını kişiselleştirmek için iznin gerekiyor.', atlanir: true,
+      ciz: () => '<label class="onay-kutusu"><input type="checkbox" id="riza"' + (c.kvkk_riza ? ' checked' : '') + '><span>' + kac(S.RIZA) + '</span></label>'
+        + '<p class="alan-yardim riza-detay"><span>' + kac(S.RIZA_DETAY) + ' <a href="' + DD.kok + 'yasal/kvkk/" target="_blank" rel="noopener">Aydınlatma Metni</a></span></p>'
+        + '<h2 class="kart-baslik adim-ara-baslik">Hassasiyet ya da kronik bir durumun var mı?</h2><p class="kart-metin">Opsiyonel. Varsa önerilerini bunlara göre süzeriz.</p>'
+        + S.secenekCiz('hassasiyet', c.hassasiyet, { etiket: 'Hassasiyet ve kronik durum', coklu: true, sinif: 'c3', kapali: !c.kvkk_riza })
+        + '<p class="alan-yardim" id="rizaYok"' + (c.kvkk_riza ? ' hidden' : '') + '><span>Bu seçimler açık rıza vermeden kapalıdır.</span></p>'
+        + '<div class="uyari-kutu adim-not"><i class="fa-solid fa-triangle-exclamation" aria-hidden="true"></i><span>' + kac(S.HASSASIYET_UYARI) + '</span></div>',
+      kur(k) {
+        $('riza').addEventListener('change', (e) => {
+          const ac = e.target.checked;
+          k.querySelectorAll('[data-alan="hassasiyet"] button').forEach((b) => { b.disabled = !ac; if (!ac) b.setAttribute('aria-pressed', 'false'); });
+          $('rizaYok').hidden = ac;
+        });
+      },
+      oku(k) { c.kvkk_riza = $('riza').checked; c.hassasiyet = c.kvkk_riza ? S.secimOku(k, 'hassasiyet') : []; return null; },
+      atla() { c.kvkk_riza = false; c.hassasiyet = []; } },
     { id: 'boy', bolum: 'Vücut', baslik: 'Boyun kaç?', alt: 'Vücut kitle indeksini ve enerji ihtiyacını hesaplarız.', ...sayiAdim('boy_cm') },
     { id: 'kilo', bolum: 'Vücut', guvenVer: true, baslik: 'Kilon kaç?', alt: 'Bu değer yalnız senin planın için kullanılır.',
       ciz() {
@@ -53,22 +69,6 @@
     { id: 'beslenme', bolum: 'Tercihler', baslik: 'Beslenme tarzın nasıl?', alt: 'Birden fazla seçebilirsin.',
       ciz: () => S.secenekCiz('beslenme_tarzi', c.beslenme_tarzi, { etiket: 'Beslenme tarzı', coklu: true }),
       oku(k) { const v = S.secimOku(k, 'beslenme_tarzi'); if (!v.length) return 'En az bir seçenek işaretle.'; c.beslenme_tarzi = v; return null; } },
-    { id: 'kvkk', bolum: 'Tercihler', baslik: 'Sağlık verilerin sana ait', alt: 'Planını kişiselleştirmek için iznin gerekiyor.', atlanir: true,
-      ciz: () => '<label class="onay-kutusu"><input type="checkbox" id="riza"' + (c.kvkk_riza ? ' checked' : '') + '><span>' + kac(S.RIZA) + '</span></label>'
-        + '<p class="alan-yardim riza-detay"><span>' + kac(S.RIZA_DETAY) + ' <a href="' + DD.kok + 'yasal/kvkk/" target="_blank" rel="noopener">Aydınlatma Metni</a></span></p>'
-        + '<h2 class="kart-baslik adim-ara-baslik">Hassasiyet ya da kronik bir durumun var mı?</h2><p class="kart-metin">Opsiyonel. Varsa önerilerini bunlara göre süzeriz.</p>'
-        + S.secenekCiz('hassasiyet', c.hassasiyet, { etiket: 'Hassasiyet ve kronik durum', coklu: true, sinif: 'c3', kapali: !c.kvkk_riza })
-        + '<p class="alan-yardim" id="rizaYok"' + (c.kvkk_riza ? ' hidden' : '') + '><span>Bu seçimler açık rıza vermeden kapalıdır.</span></p>'
-        + '<div class="uyari-kutu adim-not"><i class="fa-solid fa-triangle-exclamation" aria-hidden="true"></i><span>' + kac(S.HASSASIYET_UYARI) + '</span></div>',
-      kur(k) {
-        $('riza').addEventListener('change', (e) => {
-          const ac = e.target.checked;
-          k.querySelectorAll('[data-alan="hassasiyet"] button').forEach((b) => { b.disabled = !ac; if (!ac) b.setAttribute('aria-pressed', 'false'); });
-          $('rizaYok').hidden = ac;
-        });
-      },
-      oku(k) { c.kvkk_riza = $('riza').checked; c.hassasiyet = c.kvkk_riza ? S.secimOku(k, 'hassasiyet') : []; return null; },
-      atla() { c.kvkk_riza = false; c.hassasiyet = []; } },
     { id: 'ritim', bolum: 'Tercihler', baslik: 'Öğün ritmini seç', alt: 'Opsiyonel. Aralıklı oruç uygulamak istemiyorsan bu adımı geçebilirsin.', atlanir: true,
       ciz() {
         const gebe = S.riskli(c);
@@ -119,7 +119,7 @@
       + notlar.map((n) => '<div class="uyari-kutu adim-not"><i class="fa-solid fa-triangle-exclamation" aria-hidden="true"></i><span>' + kac(n) + '</span></div>').join('') + '</div></div>';
     const yol = r.hafta ? '<div class="kart"><div class="kart-bas"><div><h2 class="kart-baslik"><i class="fa-solid fa-chart-line" aria-hidden="true"></i> Hedefe giden yol</h2><p>Bugünden hedef kilona, yaklaşık ' + r.hafta + ' hafta. Bu süre tahmindir, kesin değildir.</p></div></div><div class="kart-govde"><div id="yolGrafik"></div></div></div>' : '';
     const uzman = '<div class="kart"><div class="kart-govde durum-serit"><div class="durum-serit-metin"><h2 class="kart-baslik">Bir uzmanla ilerlemek ister misin?</h2><p class="kart-metin">Diyetisyenin planını senin için uyarlar, ilerlemeni birlikte izlersiniz.</p></div><a class="dugme birincil" href="' + DD.kok + 'diyetisyen-bul-sihirbazi/"><i class="fa-solid fa-user-doctor" aria-hidden="true"></i> Diyetisyenle eşleş</a></div></div>';
-    return '<h1 id="adimBaslik" tabindex="-1">Planın hazır' + (ad ? ', ' + kac(ad) : '') + '</h1><p>' + (r.riskli ? 'Cevaplarına göre ilk adımını bir uzmanla atmanı öneriyoruz.' : 'Hedefini ve günlük ritmini bu değerlerle kurduk.') + '</p>'
+    return '<h1 id="adimBaslik" tabindex="-1">Planın hazır' + (ad ? ', ' + kac(ad) : '') + '</h1><p>' + (S.yemeDuyarli(c) ? 'Bir uzmanla birlikte ilerlemen önerilir.' : r.riskli ? 'Cevaplarına göre ilk adımını bir uzmanla atmanı öneriyoruz.' : 'Hedefini ve günlük ritmini bu değerlerle kurduk.') + '</p>'
       + '<div class="yigin">' + (r.riskli ? uzmanYolu + uzman : sayilar)
       + '<div class="kart"><div class="kart-bas"><div><h2 class="kart-baslik"><i class="fa-solid fa-clipboard-check" aria-hidden="true"></i> Bunlara göre hazırladık</h2></div></div><div class="kart-govde"><ul class="isaretli-liste">' + madde.map((m) => '<li><i class="fa-solid fa-check" aria-hidden="true"></i><span>' + kac(m) + '</span></li>').join('') + '</ul></div></div>'
       + yol

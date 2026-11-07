@@ -40,11 +40,23 @@
   };
   function hedefCiz() {
     const kap = $('gunlukHedef');
+    U.gizle($('gunlukHedefKart'), U.yemeDuyarli());
+    if (U.yemeDuyarli()) { kap.innerHTML = ''; return; }
     if (!t.kcal) { kap.innerHTML = '<p class="kart-metin">' + (S.riskli(t) ? 'Bu dönemde günlük hedefini diyetisyeninle belirle.' : 'Ölçülerini ve aktiviteni tamamladığında günlük hedefin burada görünür.') + '</p>'; return; }
     kap.innerHTML = '<dl class="kunye iki-sutun"><div><dt>Kalori</dt><dd>' + enerjiYaz(t.kcal) + '</dd></div><div><dt>Protein</dt><dd>' + M.goster(t.protein, 'g', 0) + '</dd></div><div><dt>Karbonhidrat</dt><dd>' + M.goster(t.karb, 'g', 0) + '</dd></div><div><dt>Yağ</dt><dd>' + M.goster(t.yag, 'g', 0) + '</dd></div></dl>';
   }
+  /* Yeme bozukluğu öyküsü seçilince hedef ve enerji satırları kalkar; seçim kaldırılınca geri gelir */
+  function duyarliCiz() {
+    const d = U.yemeDuyarli();
+    U.gizle($('tercihGirisHedef'), d);
+    $('tercihOlcuMetin').textContent = d ? 'Önerilerin bu değerlere göre uyarlanır.' : 'Enerji ihtiyacın bu değerlerle hesaplanır.';
+    U.gizle($('birim-enerji'), d);
+    $('birim-agirlik').querySelector('.as-metin span').textContent = d ? 'Kilonda kullanılır.' : 'Kilon ve hedef kilonda kullanılır.';
+    U.ozet();
+  }
   function ciz() {
-    document.querySelectorAll('[data-kart]').forEach((k) => { k.innerHTML = KART[k.dataset.kart].map(satirHtml).join(''); });
+    document.querySelectorAll('[data-kart]').forEach((k) => { k.innerHTML = k.dataset.kart === 'hedef' && U.yemeDuyarli() ? U.uzmanSatir() : KART[k.dataset.kart].map(satirHtml).join(''); });
+    duyarliCiz();
     const riza = $('rizaAnahtar'); riza.checked = Boolean(t.kvkk_riza);
     const sag = document.querySelector('[data-kart="saglik"]');
     if (!t.kvkk_riza) sag.innerHTML = '<div class="ayar-satir"><span class="as-ikon" aria-hidden="true"><i class="fa-solid fa-lock"></i></span><div class="as-metin"><b>Hassasiyet ve kronik durum</b><span>Onay vermediğin için bu bilgi kullanılmıyor.</span></div></div>';

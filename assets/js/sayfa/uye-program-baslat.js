@@ -29,7 +29,7 @@
   const k = { anahtar: slug, tip: 'program', ad: kayit.ad, program: kayit };
   $('#pbBildirimMetin').innerHTML = zatenVar ? '<b>Bu program zaten planında.</b> Kaldığın yerden devam edebilirsin.' : '<b>Program beslenme planına eklendi.</b> Bugünün öğünlerini aşağıdan işaretleyebilirsin.';
   $('#pbBildirim').hidden = false;
-  U.bas('#pbBas', '<div class="bolum-bas"><div><span class="ust-etiket"><i class="fa-solid fa-seedling" aria-hidden="true"></i> Aktif programın</span><h2>' + U.kac(kayit.ad) + '</h2><p class="giris-metni">' + U.kac(TU.aciklama(kayit.aciklama, { ...p, ...kayit })) + '</p></div></div>');
+  U.bas('#pbBas', '<div class="bolum-bas"><div><span class="ust-etiket"><i class="fa-solid fa-seedling" aria-hidden="true"></i> Aktif programın</span><h2>' + U.kac(kayit.ad) + '</h2><p class="giris-metni">' + U.kac(U.enerjisiz(TU.aciklama(kayit.aciklama, { ...p, ...kayit }))) + '</p></div></div>');
 
   function ciz() {
     const l = U.gunOgunleri(k, b), i = U.isaret(k, b);

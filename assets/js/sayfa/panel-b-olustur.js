@@ -368,7 +368,7 @@
     $('#serbestAlan').hidden = k !== 'serbest';
     $('#katalogAlan').hidden = k === 'serbest';
     if (k === 'serbest') return;
-    $('#sheetAra').placeholder = k === 'tarif' ? 'Tarif ara, örn. çorba' : 'Besin ara, örn. mercimek';
+    $('#sheetAra').placeholder = k === 'tarif' ? 'Yemek ara, örn. çorba' : 'Besin ara, örn. mercimek';
     kategoriCiz(); listeCiz();
   }
   /* Drawer örtüsüz açılır: ızgara görünür kalır, başka hücreye tıklayınca hedef değişir */

@@ -13,7 +13,7 @@ ${kart({ ikon: 'fa-notes-medical', baslik: 'Sağlık öykün', metin: '<span id=
 </div>` },
   { id: 'olcum', ad: 'Ölçümlerim', ikon: 'fa-weight-scale', sayi: 'olcum', govde: `<div class="yigin">
 ${bolumBas({ etiket: 'Ölçümlerin', ikon: 'fa-weight-scale', baslik: 'Vücut ölçümlerin', metin: 'Kilo, bel ve yağ oranı kayıtların. Yeni ölçüm diyetisyen panelinde de görünür.', arac: dugme('Yeni ölçüm ekle', { sinif: 'birincil', ikon: 'fa-plus', ek: ' data-ac="#sdOlcumModal"' }) })}
-<div class="iki-kolon">${kart({ ikon: 'fa-chart-line', baslik: 'Kilo seyri', metin: 'Kesik çizgi hedef kilon.', govde: '<div id="sdGrafik"></div>' })}${kart({ ikon: 'fa-gauge-high', baslik: 'Son ölçümün', metin: '<span id="sdOlcumTarih"></span>', govde: '<div class="yigin sik" id="sdOlcumOzet"></div>' })}</div>
+<div class="iki-kolon">${kart({ ikon: 'fa-chart-line', baslik: 'Kilo seyri', metin: '<span id="sdGrafikNot">Kesik çizgi hedef kilon.</span>', govde: '<div id="sdGrafik"></div>' })}${kart({ ikon: 'fa-gauge-high', baslik: 'Son ölçümün', metin: '<span id="sdOlcumTarih"></span>', govde: '<div class="yigin sik" id="sdOlcumOzet"></div>' })}</div>
 ${kart({ ikon: 'fa-table-list', baslik: 'Ölçüm geçmişin', bosluksuz: true, govde: tablo({ id: 'sdOlcumler', etiket: 'Tarihe göre kilo, BKİ, bel ve yağ oranı', basliklar: ['Tarih', ['Kilo', 'sag'], ['BKİ', 'sag'], ['Bel', 'sag'], ['Yağ oranı', 'sag']] }), alt: dugme('Ölçümleri indir', { ikon: 'fa-download', ek: ' id="sdOlcumIndir"' }) })}
 </div>` },
   { id: 'tahlil', ad: 'Tahlillerim', ikon: 'fa-flask-vial', sayi: 'tahlil', govde: `<div class="yigin">

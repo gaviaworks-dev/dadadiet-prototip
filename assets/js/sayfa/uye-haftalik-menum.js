@@ -8,7 +8,7 @@
   const OGUN = [['kahvaltı', 'Kahvaltı'], ['ara', 'Ara Öğün'], ['öğle', 'Öğle'], ['akşam', 'Akşam']];
   const ESLEME = { laktoz: ['laktoz', 'sut'], gluten: ['gluten'], yumurta: ['yumurta'], kuruyemis: ['kuruyemis'], balik: ['balik', 'kabuklu-deniz'], susam: ['susam'] };
   const durum = () => U.yerel('haftalikMenu', null);
-  const TU = DD.tercihUyum, tk = TU.kisitlar();
+  const TU = DD.tercihUyum, tk = TU.kisitlar(), duyarli = U.yemeDuyarli();
   /* Tarzın zaten kapsadığı kısıt ayrıca sorulmaz */
   const KISIT_ETIKET = { laktoz: 'laktoz', gluten: 'gluten', yumurta: 'yumurta', kuruyemis: 'kuruyemis', balik: 'balik', susam: 'susam' };
   const tarzKapsar = (k) => !!tk.tarzYasak && tk.tarzYasak.has(KISIT_ETIKET[k]);
@@ -41,9 +41,9 @@
   function ciz() {
     const m = durum();
     if (!m) return;
-    const hucre = (s, tip, i) => { const t = gecerli(s, tip, i); return t ? '<td><span class="no">' + U.kac(t.ad) + '<small>' + DD.bicim.kcal(t.kcal) + '</small></span></td>' : '<td>—</td>'; };
+    const hucre = (s, tip, i) => { const t = gecerli(s, tip, i); return t ? '<td><span class="no">' + U.kac(t.ad) + (duyarli ? '' : '<small>' + DD.bicim.kcal(t.kcal) + '</small>') + '</span></td>' : '<td>—</td>'; };
     const toplam = (g, i) => OGUN.reduce((a, [tip]) => a + ((gecerli(g[tip], tip, i) || {}).kcal || 0), 0);
-    U.bas('#hmSonuc', '<div class="kart panel tam-kolon"><div class="kart-bas"><div><h3 class="kart-baslik"><i class="fa-solid fa-calendar-week" aria-hidden="true"></i> Bu haftanın menüsü</h3><p>' + U.kisaTarih(bas) + ' – ' + U.kisaTarih(U.gunEkle(bas, 6)) + (m.kisitlar.length ? ' · ' + m.kisitlar.length + ' kısıt uygulandı' : '') + '</p></div></div><div class="kart-govde bosluksuz"><div class="tablo-kap gomulu" tabindex="0" role="region" aria-label="Haftalık menü"><table class="tablo panel"><caption class="yalniz-okuyucu">Gün gün menü ve enerji</caption><thead><tr><th scope="col">Gün</th>' + OGUN.map((o) => '<th scope="col">' + o[1] + '</th>').join('') + '<th scope="col">Enerji</th></tr></thead><tbody>' + m.gunler.map((g, i) => '<tr><td><span class="no">' + U.gunAdi(U.gunEkle(bas, i)) + '<small>' + U.kisaTarih(U.gunEkle(bas, i)) + '</small></span></td>' + OGUN.map(([tip]) => hucre(g[tip], tip, i)).join('') + '<td class="tutar">' + DD.bicim.kcal(toplam(g, i)) + '</td></tr>').join('') + '</tbody></table></div></div><div class="kart-alt eylem"><button class="dugme hayalet" type="button" id="hmYazdir"><i class="fa-solid fa-print" aria-hidden="true"></i> Menüyü yazdır</button></div></div>');
+    U.bas('#hmSonuc', (duyarli ? '<div class="yigin">' + U.uzmanNot() : '') + '<div class="kart panel tam-kolon"><div class="kart-bas"><div><h3 class="kart-baslik"><i class="fa-solid fa-calendar-week" aria-hidden="true"></i> Bu haftanın menüsü</h3><p>' + U.kisaTarih(bas) + ' – ' + U.kisaTarih(U.gunEkle(bas, 6)) + (m.kisitlar.length ? ' · ' + m.kisitlar.length + ' kısıt uygulandı' : '') + '</p></div></div><div class="kart-govde bosluksuz"><div class="tablo-kap gomulu" tabindex="0" role="region" aria-label="Haftalık menü"><table class="tablo panel"><caption class="yalniz-okuyucu">Gün gün menü' + (duyarli ? '' : ' ve enerji') + '</caption><thead><tr><th scope="col">Gün</th>' + OGUN.map((o) => '<th scope="col">' + o[1] + '</th>').join('') + (duyarli ? '' : '<th scope="col">Enerji</th>') + '</tr></thead><tbody>' + m.gunler.map((g, i) => '<tr><td><span class="no">' + U.gunAdi(U.gunEkle(bas, i)) + '<small>' + U.kisaTarih(U.gunEkle(bas, i)) + '</small></span></td>' + OGUN.map(([tip]) => hucre(g[tip], tip, i)).join('') + (duyarli ? '' : '<td class="tutar">' + DD.bicim.kcal(toplam(g, i)) + '</td>') + '</tr>').join('') + '</tbody></table></div></div><div class="kart-alt eylem"><button class="dugme hayalet" type="button" id="hmYazdir"><i class="fa-solid fa-print" aria-hidden="true"></i> Menüyü yazdır</button></div></div>' + (duyarli ? '</div>' : ''));
   }
 
   /* Sağlık dosyasındaki hassasiyet ve kayıtlı seçim forma gelir */

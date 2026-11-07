@@ -35,13 +35,13 @@ ${kart({
     alt: `<span class="eylem-notu" id="bpOgunNot"></span>${dugme('Diyetisyene not gönder', { ikon: 'fa-pen', ek: ' data-not-ac' })}${dugme('Alternatifler', { ikon: 'fa-right-left', ek: ' data-sekme-git="alternatif"' })}${dugme('Kalan öğünleri işaretle', { sinif: 'birincil', ikon: 'fa-check-double', ek: ' id="bpHepsi"' })}`,
   })}
 ${kart({
-    ikon: 'fa-chart-pie', baslik: 'Günün makro toplamı', metin: 'İşaretlenen öğünlerden hesaplanır. Hedef, günün plan toplamıdır.', bosluksuz: true,
+    ikon: 'fa-chart-pie', baslik: 'Günün makro toplamı', metin: 'İşaretlenen öğünlerden hesaplanır. Hedef, günün plan toplamıdır.', bosluksuz: true, id: 'bpMakroKart',
     govde: '<div class="tablo-kap gomulu" tabindex="0" role="region" aria-label="Günün makro toplamı"><table class="tablo panel"><caption class="yalniz-okuyucu">Alınan ve hedeflenen enerji ile makro besin ögeleri</caption><thead><tr><th scope="col">Besin ögesi</th><th scope="col" class="sag">Alınan</th><th scope="col" class="sag">Hedef</th><th scope="col" class="sag">Kalan</th></tr></thead><tbody id="bpMakro"></tbody></table></div>',
   })}
 </div>`;
 
 const alternatif = `<div class="yigin">
-${kart({ ikon: 'fa-shuffle', baslik: 'Bugünün öğünleri', metin: 'Enerjisi en yakın tarifler. Seçtiğin alternatif bugünün planına yazılır; aynı düğmeye basmak geri alır.', bosluksuz: true, govde: '<div class="kalem-liste" id="bpAlternatif"></div>' })}
+${kart({ ikon: 'fa-shuffle', baslik: 'Bugünün öğünleri', metin: '<span id="bpAltMetin">Enerjisi en yakın tarifler. Seçtiğin alternatif bugünün planına yazılır; aynı düğmeye basmak geri alır.</span>', bosluksuz: true, govde: '<div class="kalem-liste" id="bpAlternatif"></div>' })}
 </div>`;
 
 const gecmis = `<div class="yigin">

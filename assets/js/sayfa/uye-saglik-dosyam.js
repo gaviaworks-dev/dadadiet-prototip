@@ -3,7 +3,7 @@
   'use strict';
   const DD = window.DD, U = window.DDU;
   const $ = (s) => document.querySelector(s);
-  const dn = U.danisan(), b = U.bugun();
+  const dn = U.danisan(), b = U.bugun(), duyarli = U.yemeDuyarli();
   const pf = $('#sdProfilForm');
   const satir = (i, ba, m, sag) => '<div class="ayar-satir"><span class="as-ikon"><i class="fa-solid ' + i + '" aria-hidden="true"></i></span><div class="as-metin"><b>' + U.kac(ba) + '</b><span>' + U.kac(m) + '</span></div>' + (sag ? '<span class="as-eylem">' + sag + '</span>' : '') + '</div>';
   const olcumler = () => dn.olcumler || [];
@@ -34,8 +34,8 @@
     if (!s) return;
     const i = l[0], k1 = (ic, e, d) => '<div class="sayac"><i class="fa-solid ' + ic + '" aria-hidden="true"></i><div><span>' + e + '</span><b>' + d + '</b></div></div>';
     $('#sdOlcumTarih').textContent = U.tarih(s.tarih);
-    U.bas('#sdOlcumOzet', k1('fa-weight-scale', 'Kilo', U.sayi(s.kilo, 1) + ' kg') + k1('fa-calculator', 'BKİ', U.sayi(bki(s.kilo), 1)) + k1('fa-ruler-horizontal', 'Bel', U.sayi(s.bel, 1) + ' cm') + k1('fa-arrow-trend-down', 'Başlangıçtan fark', U.sayi(s.kilo - i.kilo, 1) + ' kg'));
-    DD.grafik.cizgi($('#sdGrafik'), { baslik: 'Kilo seyri', etiketler: l.map((o) => U.noktaliTarih(o.tarih).slice(0, 5)), seriler: [{ ad: 'Kilo', degerler: l.map((o) => o.kilo) }], hedef: dn.hedef_kilo, basamak: 1 });
+    U.bas('#sdOlcumOzet', k1('fa-weight-scale', 'Kilo', U.sayi(s.kilo, 1) + ' kg') + k1('fa-calculator', 'BKİ', U.sayi(bki(s.kilo), 1)) + k1('fa-ruler-horizontal', 'Bel', U.sayi(s.bel, 1) + ' cm') + (duyarli ? '' : k1('fa-arrow-trend-down', 'Başlangıçtan fark', U.sayi(s.kilo - i.kilo, 1) + ' kg')));
+    DD.grafik.cizgi($('#sdGrafik'), { baslik: 'Kilo seyri', etiketler: l.map((o) => U.noktaliTarih(o.tarih).slice(0, 5)), seriler: [{ ad: 'Kilo', degerler: l.map((o) => o.kilo) }], hedef: duyarli ? null : dn.hedef_kilo, basamak: 1 });
     U.bas('#sdOlcumler', l.slice().reverse().map((o) => '<tr><td class="tarih">' + U.noktaliTarih(o.tarih) + '</td><td class="tutar sag">' + U.sayi(o.kilo, 1) + ' kg</td><td class="tutar sag">' + U.sayi(bki(o.kilo), 1) + '</td><td class="tutar sag">' + (o.bel ? U.sayi(o.bel, 1) + ' cm' : '—') + '</td><td class="tutar sag">' + (o.yag_orani ? '%' + U.sayi(o.yag_orani, 1) : '—') + '</td></tr>').join(''));
   }
 
@@ -67,9 +67,9 @@
 
   function hesaplar() {
     const s = olcumler()[olcumler().length - 1], t = (U.uye().tercihler || {});
-    const l = (U.uye().hesaplayici_sonuclari || []).slice().reverse().map((h) => satir('fa-fire', 'Günlük kalori', DD.bicim.kcal(h.hedef || h.kcal || h.tdee || 0) + (h.tarih ? ' · ' + U.tarih(h.tarih) : ''), '<a class="dugme hayalet kucuk" href="' + DD.kok + 'hesaplayicilar/">Yeniden hesapla</a>'));
+    const l = (duyarli ? [] : U.uye().hesaplayici_sonuclari || []).slice().reverse().map((h) => satir('fa-fire', 'Günlük kalori', DD.bicim.kcal(h.hedef || h.kcal || h.tdee || 0) + (h.tarih ? ' · ' + U.tarih(h.tarih) : ''), '<a class="dugme hayalet kucuk" href="' + DD.kok + 'hesaplayicilar/">Yeniden hesapla</a>'));
     if (s) l.push(satir('fa-calculator', 'Beden Kitle İndeksi', U.sayi(bki(s.kilo), 1) + ' · ' + U.tarih(s.tarih), '<a class="dugme hayalet kucuk" href="' + DD.kok + 'hesaplayicilar/">Yeniden hesapla</a>'));
-    if (t.kcal) l.push(satir('fa-fire', 'Günlük enerji hedefi', DD.bicim.kcal(t.kcal) + ' · ' + t.protein + ' g protein, ' + t.karb + ' g karbonhidrat, ' + t.yag + ' g yağ', '<a class="dugme hayalet kucuk" href="' + DD.kok + 'hesaplayicilar/">Yeniden hesapla</a>'));
+    if (t.kcal && !duyarli) l.push(satir('fa-fire', 'Günlük enerji hedefi', DD.bicim.kcal(t.kcal) + ' · ' + t.protein + ' g protein, ' + t.karb + ' g karbonhidrat, ' + t.yag + ' g yağ', '<a class="dugme hayalet kucuk" href="' + DD.kok + 'hesaplayicilar/">Yeniden hesapla</a>'));
     U.bas('#sdHesaplar', l.join('') || U.bos({ ikon: 'fa-calculator', baslik: 'Henüz hesap yok', metin: 'Hesaplayıcıları kullandığında sonuçların burada listelenir.', eylem: U.bag('Hesaplayıcılara git', 'hesaplayicilar/') }));
     const tl = (U.uye().test_sonuclari || []).slice().reverse();
     U.bas('#sdTestler', tl.map((t) => satir('fa-clipboard-check', t.sonuc || t.test, U.tarih(t.tarih) + ' · ' + t.puan + ' puan', '<a class="dugme hayalet kucuk" href="' + DD.kok + 'saglik-testleri/' + t.test + '/">Yeniden çöz</a>')).join('') || U.bos({ ikon: 'fa-clipboard-question', baslik: 'Henüz test çözmedin', metin: 'Bir sağlık testi çözdüğünde sonucun burada saklanır.', eylem: U.bag('Teste başla', 'saglik-testleri/') }));
@@ -77,9 +77,18 @@
 
   function raporlar() {
     const l = U.yerel('gelisimRapor', []).slice().reverse();
-    U.bas('#sdRaporlar', l.map((r) => satir('fa-file-lines', r.ad, U.tarih(r.bas) + ' – ' + U.tarih(r.bit) + ' · ' + r.ozet, '<button class="dugme hayalet kucuk" type="button" data-yazdir>Yazdır</button>')).join('') || U.bos({ ikon: 'fa-chart-column', baslik: 'Henüz rapor yok', metin: 'Yukarıdan bir dönem seçip ilk raporunu oluştur.' }));
+    U.bas('#sdRaporlar', l.map((r) => satir('fa-file-lines', r.ad, U.tarih(r.bas) + ' – ' + U.tarih(r.bit) + ' · ' + (duyarli ? r.ozet.replace(/^.* kg değişim, /, '') : r.ozet), '<button class="dugme hayalet kucuk" type="button" data-yazdir>Yazdır</button>')).join('') || U.bos({ ikon: 'fa-chart-column', baslik: 'Henüz rapor yok', metin: 'Yukarıdan bir dönem seçip ilk raporunu oluştur.' }));
   }
   const ciz = () => { profil(); olcum(); tahlil(); notlar(); belge(); hesaplar(); raporlar(); };
+
+  /* Duyarlı üye: hedef alanları ve kilo farkı görünmez, kayıtlı değerler formda korunur */
+  if (duyarli) {
+    ['hedef_kilo', 'hedef'].forEach((a) => U.gizle(pf.elements[a].closest('.alan'), true));
+    pf.querySelector('.alan-izgara').classList.replace('c3', 'c2');
+    pf.insertAdjacentHTML('afterend', U.uzmanNot());
+    U.gizle($('#sdGrafikNot'), true);
+    $('#sdHesaplar').closest('.kart').insertAdjacentHTML('beforebegin', U.uzmanNot());
+  }
 
   pf.addEventListener('submit', (e) => {
     e.preventDefault();

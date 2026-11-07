@@ -26,6 +26,15 @@
   /* Oturumdaki üye: demo.uye hesap tarafı, demo.danisanlar içindeki d1 panelin gördüğü kayıt */
   U.uye = () => U.d().uye || {};
   U.uyeId = () => U.uye().danisan_id || 'd1';
+  /* Yeme bozukluğu öyküsü: kalori hedefi, kilo hedefi ve kalori sayacı üye alanında görünmez. Sayfalar yalnız buna bakar */
+  U.yemeDuyarli = () => ((U.uye().tercihler || {}).hassasiyet || []).includes('yeme-bozuklugu');
+  U.UZMAN_NOTU = 'Bir uzmanla birlikte ilerlemen önerilir.';
+  U.uzmanNot = () => '<div class="bilgi-notu"><i class="fa-solid fa-user-doctor" aria-hidden="true"></i><p>' + U.UZMAN_NOTU + ' <a href="' + DD.kok + 'diyetisyenler/">Diyetisyenleri gör</a></p></div>';
+  U.uzmanSatir = () => '<div class="ayar-satir"><span class="as-ikon"><i class="fa-solid fa-user-doctor" aria-hidden="true"></i></span><div class="as-metin"><b>' + U.UZMAN_NOTU + '</b></div><div class="as-eylem"><a class="dugme hayalet kucuk" href="' + DD.kok + 'diyetisyenler/">Diyetisyenleri gör</a></div></div>';
+  /* Program açıklamalarında enerji değeri geçebilir: duyarlı üyede o açıklama boş döner */
+  U.enerjisiz = (m) => (U.yemeDuyarli() && /kcal|kalori/i.test(m) ? '' : m);
+  /* Kanon bileşenlerinin display kuralı [hidden]'ı ezer: gizleme iki yoldan yazılır */
+  U.gizle = (e, gizli) => { if (e) { e.hidden = gizli; e.style.display = gizli ? 'none' : ''; } };
   U.danisan = () => (U.d().danisanlar || []).find((x) => x.id === U.uyeId()) || {};
   U.diyetisyen = () => (U.uye().diyetisyen_slug ? U.d().diyetisyen || null : null);
   U.paket = () => (U.d().paketler || []).find((p) => p.id === U.danisan().paket_id) || null;
@@ -274,7 +283,7 @@
     } else ekle('fa-list-check', 'Kendine bir program seç', 'Sana uygun programı bul, bugünün öğünleri hemen hazır olsun.', 'Program bul', 'programlar/program-bul/');
     if (U.anamnezEksik().length && (dn.anamnez_hatirlatma || U.diyetisyen())) ekle('fa-notes-medical', 'Sağlık öykünü tamamla', U.anamnezEksik().length + ' alan eksik; yarıda bırakabilirsin.', 'Devam et', 'hesabim/saglik-dosyam/');
     const s = (dn.olcumler || []).slice(-1)[0];
-    if (s && U.gunFarki(s.tarih, b) >= 7) ekle('fa-weight-scale', 'Ölçüm zamanı', 'Son ölçümün ' + U.tarih(s.tarih) + ' tarihli.', 'Ölçüm ekle', 'hesabim/saglik-dosyam/#olcum');
+    if (s && !U.yemeDuyarli() && U.gunFarki(s.tarih, b) >= 7) ekle('fa-weight-scale', 'Ölçüm zamanı', 'Son ölçümün ' + U.tarih(s.tarih) + ' tarihli.', 'Ölçüm ekle', 'hesabim/saglik-dosyam/#olcum');
     return l;
   };
 
@@ -300,8 +309,15 @@
       if (h) h.hidden = !!g.avatar;
       e.classList.toggle('harf', !g.avatar);
     });
-    yaz('hedef', hk ? U.sayi(hk, hk % 1 ? 1 : 0) + ' kg · ' + U.sayi(Math.abs(kilo - hk), 1) + ' kg kaldı' : 'Hedefini belirle', hk ? 'hesabim/saglik-dosyam/#olcum' : 'hesabim/tercihlerim/');
-    yaz('kalori', hedefKcal ? (kalan >= 0 ? DD.bicim.kcal(kalan) : DD.bicim.kcal(-kalan) + ' fazla') : 'Hedef yok', 'hesabim/gunluk-takibim/#makro');
+    /* Duyarlı üyede hedef hücresi uzman notuna döner, kalori hücresi kalkar; Tercihlerim'den geri alınınca eski haline gelir */
+    const duyarli = U.yemeDuyarli();
+    document.querySelectorAll('[data-ozet="hedef"]').forEach((e) => { e.querySelector('span').textContent = duyarli ? 'Öneri' : 'Hedef'; e.querySelector('i').className = 'fa-solid ' + (duyarli ? 'fa-user-doctor' : 'fa-bullseye'); });
+    document.querySelectorAll('[data-ozet="kalori"]').forEach((e) => U.gizle(e, duyarli));
+    if (duyarli) yaz('hedef', U.UZMAN_NOTU, 'diyetisyenler/');
+    else {
+      yaz('hedef', hk ? U.sayi(hk, hk % 1 ? 1 : 0) + ' kg · ' + U.sayi(Math.abs(kilo - hk), 1) + ' kg kaldı' : 'Hedefini belirle', hk ? 'hesabim/saglik-dosyam/#olcum' : 'hesabim/tercihlerim/');
+      yaz('kalori', hedefKcal ? (kalan >= 0 ? DD.bicim.kcal(kalan) : DD.bicim.kcal(-kalan) + ' fazla') : 'Hedef yok', 'hesabim/gunluk-takibim/#makro');
+    }
     const kisa = (x) => (x.length > 24 ? x.slice(0, 23).trimEnd() + '…' : x);
     yaz('program', k ? kisa(k.ad) : 'Program seç', k ? 'hesabim/beslenme-planim/' : 'programlar/');
     yaz('diyetisyen', dy ? dy.ad : 'Diyetisyen bul', dy ? 'hesabim/diyetisyenim/' : 'diyetisyen-bul-sihirbazi/');

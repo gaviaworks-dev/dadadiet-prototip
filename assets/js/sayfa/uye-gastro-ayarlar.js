@@ -34,6 +34,12 @@
   $('#hsDogum').value = profil.dogum;
   $('#hsBio').value = profil.bio;
   if (profil.hedef) $('#hsHedef').value = profil.hedef;
+  /* Duyarlı üye: beslenme hedefi ve enerji birimi satırları görünmez */
+  if (U.yemeDuyarli()) {
+    U.gizle($('#hsHedef').closest('.alan'), true);
+    $('#hsDogum').closest('.alan').querySelector('.alan-yardim span').textContent = 'Hesaplayıcı önerilerinde kullanılır.';
+    ['enerji', 'enerjiGizle'].forEach((a) => U.gizle(document.querySelector('[name="' + a + '"]').closest('.ayar-satir'), true));
+  }
   const bioSay = () => { $('#hsBioSay').textContent = $('#hsBio').value.length + ' / 160'; };
   const adres = () => { $('#hsAdres').textContent = '@' + $('#hsKullanici').value.trim().replace(/^@/, ''); };
   bioSay(); adres();

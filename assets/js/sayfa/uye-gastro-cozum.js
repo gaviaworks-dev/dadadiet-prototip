@@ -4,6 +4,8 @@
   const DD = window.DD, U = window.DDU, G = window.DDG;
   const $ = (s) => document.querySelector(s);
   const BOY = 10;
+  /* Duyarlı üye: kalori hedefi sorusu listeden çıkar */
+  if (U.yemeDuyarli()) document.querySelectorAll('[data-soru]').forEach((e) => { if (/kalori hedefim/i.test(e.textContent)) e.remove(); });
   let suz = 'tumu', sayfa = 1;
   const satir = (x) => '<a class="ayar-satir" href="' + DD.kok + 'hesabim/cozum-merkezi/talep/?no=' + encodeURIComponent(x.no) + '"><span class="as-ikon">' + G.i(G.TK[x.durum][2]) + '</span><div class="as-metin"><b>' + U.kac(x.baslik) + '</b><span>' + G.i('fa-hashtag') + ' ' + U.kac(x.no) + ' · ' + U.kac(x.konu) + ' · son hareket ' + U.tarih(G.tkSon(x)) + ' · ' + x.mesajlar.length + ' mesaj</span></div><span class="as-eylem">' + G.tkHap(x.durum) + G.i('fa-chevron-right') + '</span></a>';
   function sayfaCiz(n, toplam) {

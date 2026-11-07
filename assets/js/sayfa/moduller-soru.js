@@ -4,9 +4,10 @@
   const M = window.DDM, kac = M.kac;
   const S = (M.soru = {});
 
-  S.KILO_HEDEFI = ['kilo-vermek', 'kas-kazanmak'];
-  /* Bu seçimler kalori sayısı üretmez, uzmana yönlendirir. Set mobille aynı kalsın diye yalnız burada genişler */
-  S.RISKLI = ['gebelik'];
+  S.KILO_HEDEFI = ['kilo-vermek'];
+  /* Bu seçimler kalori sayısı üretmez, uzmana yönlendirir */
+  S.RISKLI = ['gebelik', 'yeme-bozuklugu'];
+  S.yemeDuyarli = (t) => (t.hassasiyet || []).includes('yeme-bozuklugu');
   S.riskli = (t) => (t.hassasiyet || []).some((x) => S.RISKLI.includes(x));
   S.SECENEK = {
     hedef: [
@@ -24,20 +25,20 @@
       { id: 'hizli', ad: 'Hızlı', ikon: 'fa-bolt', alt: 'Haftada ~0,5 kg', kcal: 500, kg: 0.5 },
     ],
     aktivite: [
-      { id: 'hareketsiz', ad: 'Masa başı', ikon: 'fa-couch', alt: 'Az yürüyüş, çoğunlukla oturarak', katsayi: 1.2 },
+      { id: 'hareketsiz', ad: 'Hareketsiz', ikon: 'fa-couch', alt: 'Masa başı, az yürüyüş', katsayi: 1.2 },
       { id: 'hafif', ad: 'Hafif aktif', ikon: 'fa-person-walking', alt: 'Haftada 1-3 gün hareket', katsayi: 1.375 },
       { id: 'orta', ad: 'Orta aktif', ikon: 'fa-person-running', alt: 'Haftada 3-5 gün spor', katsayi: 1.55 },
       { id: 'cok', ad: 'Çok aktif', ikon: 'fa-dumbbell', alt: 'Haftada 6-7 gün spor', katsayi: 1.725 },
     ],
     beslenme_tarzi: [
-      { id: 'standart', ad: 'Standart', ikon: 'fa-utensils', tek: true },
-      { id: 'akdeniz', ad: 'Akdeniz', ikon: 'fa-fish' },
+      { id: 'dengeli', ad: 'Dengeli', ikon: 'fa-utensils', tek: true },
+      { id: 'akdeniz', ad: 'Akdeniz tipi', ikon: 'fa-fish' },
+      { id: 'yuksek-protein', ad: 'Yüksek protein', ikon: 'fa-egg' },
       { id: 'vejetaryen', ad: 'Vejetaryen', ikon: 'fa-carrot' },
       { id: 'vegan', ad: 'Vegan', ikon: 'fa-seedling' },
-      { id: 'ketojenik', ad: 'Ketojenik', ikon: 'fa-bacon' },
       { id: 'glutensiz', ad: 'Glütensiz', ikon: 'fa-wheat-awn-circle-exclamation' },
       { id: 'laktozsuz', ad: 'Laktozsuz', ikon: 'fa-glass-water' },
-      { id: 'yuksek-protein', ad: 'Yüksek protein', ikon: 'fa-egg' },
+      { id: 'ev-yemekleri', ad: 'Pratik ev yemekleri', ikon: 'fa-kitchen-set' },
     ],
     hassasiyet: [
       { id: 'diyabet', ad: 'Diyabet', ikon: 'fa-droplet' },
@@ -47,6 +48,7 @@
       { id: 'kolesterol', ad: 'Yüksek kolesterol', ikon: 'fa-heart' },
       { id: 'pcos', ad: 'PCOS', ikon: 'fa-venus' },
       { id: 'gebelik', ad: 'Gebelik ya da emzirme', ikon: 'fa-baby' },
+      { id: 'yeme-bozuklugu', ad: 'Yeme bozukluğu öyküsü', ikon: 'fa-hand-holding-heart' },
       { id: 'alerji', ad: 'Besin alerjisi', ikon: 'fa-shield-halved' },
       { id: 'yok', ad: 'Yok', ikon: 'fa-circle-check', tek: true },
     ],
@@ -98,7 +100,7 @@
   };
   S.yaz = (alanlar) => { Object.assign(S.tercih(), alanlar); DD.demo.kaydet(); };
 
-  S.kiloHedefli = (t) => S.KILO_HEDEFI.includes(t.hedef);
+  S.kiloHedefli = (t) => S.KILO_HEDEFI.includes(t.hedef) && !S.yemeDuyarli(t);
   S.bul = (alan, id) => (S.SECENEK[alan] || []).find((x) => String(x.id) === String(id)) || null;
   S.etiket = (alan, id) => { if (alan === 'oruc_protokol' && EK_PROTOKOL[id]) return EK_PROTOKOL[id]; const x = S.bul(alan, id); return x ? x.ad : null; };
 
@@ -116,8 +118,7 @@
     const fark = tempo && !riskli ? yon * tempo.kcal : 0;
     const ham = gunluk + fark, hedefKcal = Math.max(EN_AZ, M.yuvarla(ham, 10));
     const tarz = t.beslenme_tarzi || [];
-    const oran = tarz.includes('ketojenik') ? [0.25, 0.08, 0.67]
-      : tarz.includes('yuksek-protein') || ['kas-kazanmak', 'sikilasmak'].includes(t.hedef) ? [0.3, 0.4, 0.3] : [0.27, 0.4, 0.33];
+    const oran = tarz.includes('yuksek-protein') || ['kas-kazanmak', 'sikilasmak'].includes(t.hedef) ? [0.3, 0.4, 0.3] : [0.27, 0.4, 0.33];
     let hedefTarihi = null, hafta = null;
     if (tempo && !riskli && t.hedef_kilo_kg) {
       hafta = Math.round(Math.abs(t.kilo_kg - t.hedef_kilo_kg) / tempo.kg);
@@ -144,6 +145,7 @@
     const oruclu = t.oruc_protokol && t.oruc_protokol !== 'yok';
     const uygun = (p) => {
       if (riskli && (p.hedef.includes('oruc') || p.tercih.includes('aralikli-oruc'))) return false;
+      if (S.yemeDuyarli(t) && p.hedef.includes('kilo')) return false;
       if (tarz.includes('vegan') && !p.tercih.includes('bitkisel') && !p.hedef.includes('vegan')) return false;
       if (tarz.includes('vejetaryen') && !tarz.includes('vegan') && !kesisir(p.tercih, ['vejetaryen', 'bitkisel']) && !p.hedef.includes('vegan')) return false;
       return true;

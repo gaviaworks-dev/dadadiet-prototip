@@ -4,7 +4,7 @@
   const DD = window.DD, U = window.DDU;
   DD.tercihUyum.uyeBagla(U);
   const $ = (s) => document.querySelector(s);
-  const u = U.uye(), b = U.bugun(), dy = U.diyetisyen();
+  const u = U.uye(), b = U.bugun(), dy = U.diyetisyen(), duyarli = U.yemeDuyarli();
   const bag = (metin, yol, sinif) => '<a class="dugme ' + sinif + '" href="' + DD.kok + yol + '">' + metin + '</a>';
   const kartHtml = (ikon, baslik, metin, sag, govde, alt) => '<div class="kart panel tam-kolon"><div class="kart-bas"><div><h3 class="kart-baslik"><i class="fa-solid ' + ikon + '" aria-hidden="true"></i> ' + baslik + '</h3>' + (metin ? '<p>' + metin + '</p>' : '') + '</div>' + (sag || '') + '</div>' + (govde || '') + (alt ? '<div class="kart-alt eylem">' + alt + '</div>' : '') + '</div>';
   const sayac = (i, e, d) => '<div class="sayac"><i class="fa-solid ' + i + '" aria-hidden="true"></i><div><span>' + e + '</span><b>' + d + '</b></div></div>';
@@ -21,9 +21,11 @@
     if (k) {
       const i = U.isaret(k, b), og = U.secilenOgunler(k, b), n = og.filter((o) => i[o.anahtar]).length, s = og.find((o) => !U.ogunDurum(i, o)), t = U.gunToplam();
       const oran = og.length ? Math.round((n / og.length) * 100) : 0, hk = (u.tercihler || {}).kcal || (k.tip === 'plan' ? k.plan.hedef_kcal : 0);
-      U.bas('#gbGun', kartHtml('fa-sun', 'Bugünün özeti', U.kac(k.ad), '<div class="as-eylem"><span class="durum-hapi ' + (n === og.length && n ? 'cozulen' : 'bekleyen') + '">' + n + ' / ' + og.length + ' öğün</span></div>',
-        '<div class="kart-govde"><div class="olcer hap" role="img" aria-label="Bugünkü öğün uyumu: yüzde ' + oran + '"><span data-oran="' + oran + '"></span></div><div class="sayac-izgara uc">' + sayac('fa-fire', 'Hedef <span class="birim">' + DD.bicim.kcal(hk) + '</span>', DD.bicim.kcal(t.kcal)) + sayac('fa-droplet', 'Su', U.sayi(u.su.bugun_ml) + ' ml') + sayac('fa-shoe-prints', 'Adım', U.sayi(u.adim.bugun)) + '</div></div>' + (s ? '<div class="kart-govde bosluksuz"><div class="kalem-liste">' + U.ogunSatir(s, '') + '</div></div>' : (og.length ? '' : '<div class="kart-govde">' + U.bugunBos(k) + '</div>')),
-        bag('Bütün öğünler', 'hesabim/beslenme-planim/#ogun', 'hayalet')));
+      const ilkSayac = duyarli ? sayac('fa-utensils', 'Öğün', n + ' / ' + og.length) : sayac('fa-fire', 'Hedef <span class="birim">' + DD.bicim.kcal(hk) + '</span>', DD.bicim.kcal(t.kcal));
+      const kart = kartHtml('fa-sun', 'Bugünün özeti', U.kac(k.ad), '<div class="as-eylem"><span class="durum-hapi ' + (n === og.length && n ? 'cozulen' : 'bekleyen') + '">' + n + ' / ' + og.length + ' öğün</span></div>',
+        '<div class="kart-govde"><div class="olcer hap" role="img" aria-label="Bugünkü öğün uyumu: yüzde ' + oran + '"><span data-oran="' + oran + '"></span></div><div class="sayac-izgara uc">' + ilkSayac + sayac('fa-droplet', 'Su', U.sayi(u.su.bugun_ml) + ' ml') + sayac('fa-shoe-prints', 'Adım', U.sayi(u.adim.bugun)) + '</div></div>' + (s ? '<div class="kart-govde bosluksuz"><div class="kalem-liste">' + U.ogunSatir(s, '') + '</div></div>' : (og.length ? '' : '<div class="kart-govde">' + U.bugunBos(k) + '</div>')),
+        bag('Bütün öğünler', 'hesabim/beslenme-planim/#ogun', 'hayalet'));
+      U.bas('#gbGun', duyarli ? '<div class="yigin">' + U.uzmanNot() + kart + '</div>' : kart);
     } else U.bas('#gbGun', '');
 
     const su = u.su;
