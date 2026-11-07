@@ -2680,3 +2680,10 @@ body:not(.yetkili) .kart.panel>.kart-alt{padding:var(--rol-kart-alt-dikey) var(-
   .gs-gun{flex:none;align-self:center;width:var(--bosluk-32);text-align:left}
   .gs-deger{flex-direction:row;justify-content:flex-start;gap:var(--bosluk-8);min-height:var(--bosluk-32);padding:var(--bosluk-4) var(--bosluk-12);text-align:left}
 }
+
+/* Akıllı Tabak: porsiyon ölçüsü, gram bağlantısı, yanına ekle */
+.porsiyon-secim button{display:inline-flex;flex-direction:column;justify-content:center;min-height:42px;line-height:1.2}
+.porsiyon-secim small{font-size:var(--yazi-11);font-weight:var(--agirlik-govde);opacity:.75}
+button.metin-bag{padding:0;background:none;border:0;font-size:var(--yazi-12);cursor:pointer;text-align:left}
+.yan-ekle{display:flex;flex-wrap:wrap;align-items:center;gap:var(--bosluk-12);padding:var(--bosluk-16) var(--bosluk-24)}
+.yan-ekle .not{font-size:var(--yazi-13);color:var(--metin-ikincil)}

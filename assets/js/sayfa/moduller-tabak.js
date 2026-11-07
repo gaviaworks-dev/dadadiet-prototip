@@ -4,34 +4,54 @@
   const M = window.DDM, kac = M.kac;
   const $ = (id) => document.getElementById(id);
 
-  /* Referans tabak: gram oranı 50/25/25, sosluk ayrı */
+  /* İdeal tabak: Akıllı Tabak spesifikasyonu v1.2, Akdeniz tipi öğün hedefi */
   const BOLME = {
-    sebze: { ad: 'Sebze', kisa: 'Sebze', hedefOran: 50, ref: 200, renk: 'var(--makro-sebze)', ikon: 'fa-carrot', kural: 'Tabağın yarısı. Meyve de burada sayılır, patates sayılmaz.' },
-    protein: { ad: 'Yağsız protein', kisa: 'Protein', hedefOran: 25, ref: 100, renk: 'var(--makro-protein)', ikon: 'fa-drumstick-bite', kural: 'Tabağın çeyreği. Balık, tavuk, yumurta, baklagil ya da yoğurt.' },
-    karb: { ad: 'Kompleks karbonhidrat', kisa: 'Karbonhidrat', hedefOran: 25, ref: 100, renk: 'var(--makro-karb)', ikon: 'fa-wheat-awn', kural: 'Tabağın çeyreği. Tam tahıl, bulgur ve patates burada.' },
-    yag: { ad: 'Sağlıklı yağ', kisa: 'Sağlıklı yağ', ref: 10, renk: 'var(--makro-yag)', ikon: 'fa-droplet', kural: 'Küçük bir sosluk kadar: 5–15 g zeytinyağı ya da kuruyemiş.' },
+    sebze: { ad: 'Sebze', kisa: 'Sebze', aralik: [40, 50], renk: 'var(--makro-sebze)', ikon: 'fa-carrot', kural: 'Tabağın %40–50’si. Meyve de burada sayılır, patates sayılmaz.' },
+    protein: { ad: 'Yağsız protein', kisa: 'Protein', aralik: [20, 25], renk: 'var(--makro-protein)', ikon: 'fa-drumstick-bite', kural: 'Tabağın %20–25’i. Balık, tavuk, yumurta, baklagil ya da yoğurt.' },
+    karb: { ad: 'Kompleks karbonhidrat', kisa: 'Karbonhidrat', aralik: [20, 25], renk: 'var(--makro-karb)', ikon: 'fa-wheat-awn', kural: 'Tabağın %20–25’i. Tam tahıl, bulgur ve patates burada.' },
+    yag: { ad: 'Sağlıklı yağ', kisa: 'Sağlıklı yağ', aralik: [5, 10], renk: 'var(--makro-yag)', ikon: 'fa-droplet', kural: 'Tabağın %5–10’u: zeytinyağı, kuruyemiş ya da yemeğin kendi yağı.' },
   };
   const bolmesi = (b) => {
     if (b.slug === 'avokado') return 'yag';
     return { sebze: 'sebze', meyve: 'sebze', protein: 'protein', sut: 'protein', karb: 'karb', diger: 'karb', yag: 'yag' }[b.tabak_grubu] || 'karb';
   };
-  /* Yemek tek bölmeye yazılmaz: orta porsiyonun bölmelere gram dağılımı [sebze, protein, karb, yağ].
-     Örnek oranlardır, diyetisyen onayı bekliyor. Sıra, boş aramada önerilen sıradır. */
+  /* Yemek tek bölmeye yazılmaz: kategori dört bölmeye yüzde dağılım [sebze, protein, karb, yağ] taşır.
+     Geçici katsayılar, diyetisyen onayı bekliyor. et, bakliyat, zeytinyagli ve hamur spesifikasyon v1.2'den;
+     salata, yumurta, meze ve meyve spesifikasyonda yok, geçici eklendi.
+     gram orta porsiyon, olcu küçük/orta/büyük el ve kap karşılığıdır. */
+  const KATEGORI = {
+    et: { oran: [15, 60, 0, 25], gram: 200, olcu: ['½ tabak', '1 tabak', '1,5 tabak'] },
+    bakliyat: { oran: [5, 35, 45, 15], gram: 250, olcu: ['½ kase', '1 kase', '1,5 kase'] },
+    zeytinyagli: { oran: [65, 0, 15, 20], gram: 200, olcu: ['½ tabak', '1 tabak', '1,5 tabak'] },
+    hamur: { oran: [0, 10, 70, 20], gram: 150, olcu: ['3 yemek kaşığı', '6 yemek kaşığı', '9 yemek kaşığı'] },
+    salata: { oran: [80, 5, 5, 10], gram: 200, olcu: ['1 küçük kase', '1 kase', '1 büyük kase'] },
+    yumurta: { oran: [35, 50, 0, 15], gram: 150, olcu: ['½ tabak', '1 tabak', '1,5 tabak'] },
+    meze: { oran: [25, 45, 15, 15], gram: 100, olcu: ['2 yemek kaşığı', '4 yemek kaşığı', '6 yemek kaşığı'] },
+    meyve: { oran: [90, 5, 0, 5], gram: 150, olcu: ['½ kase', '1 kase', '1,5 kase'] },
+  };
+  /* Sıra, boş aramada önerilen sıradır. Köfte spesifikasyonun kendi örneğidir */
   const YEMEK = {
-    'firinda-sebzeli-tavuk': [170, 120, 0, 8], 'yesil-mercimek-yemegi': [60, 150, 40, 5], 'mercimek-corbasi': [40, 120, 70, 5], 'domatesli-bulgur-pilavi': [40, 0, 190, 6],
-    'mevsim-salatasi': [170, 0, 0, 4], 'sebzeli-levrek-bugulama': [170, 170, 40, 12], 'imambayildi': [230, 0, 0, 14], 'menemen': [150, 80, 0, 10],
-    'sebzeli-tavuk-sote': [150, 130, 0, 8], 'yogurtlu-tavuk-sis': [40, 170, 0, 8], 'izgara-sebzeli-dana-bonfile': [140, 130, 0, 8], 'karidesli-guvec': [140, 120, 0, 6],
-    'ezogelin-corbasi': [40, 100, 80, 5], 'mercimek-koftesi': [40, 100, 90, 6], 'kisir': [70, 0, 130, 7], 'ton-balikli-salata': [150, 100, 20, 6],
-    'nohut-salatasi': [90, 130, 30, 8], 'zeytinyagli-pirasa': [190, 0, 30, 10], 'firinda-sebze-turlusu': [220, 0, 20, 9], 'izgara-sebzeli-sandvic': [110, 20, 80, 10],
-    'sebzeli-peynirli-omlet': [70, 100, 0, 8], 'ispanakli-omlet': [90, 100, 0, 8], 'cilbir': [0, 170, 0, 15], 'otlu-kaygana': [50, 90, 30, 8],
-    'sebzeli-yumurta-muffin': [70, 90, 0, 6], 'pose-yumurtali-ekmek': [20, 60, 50, 4], 'kahvalti-patatesi': [30, 0, 170, 5], 'overnight-yulaf': [50, 60, 60, 2],
-    'sebze-cubuklu-humus': [100, 70, 40, 8], 'haydari': [10, 110, 0, 10], 'girit-ezmesi': [10, 90, 0, 10], 'naneli-meyve-salatasi': [180, 0, 0, 0],
-    'cilekli-smoothie': [100, 130, 0, 0], 'cilekli-donmus-yogurt': [50, 80, 0, 0], 'firinda-tarcinli-elma': [170, 0, 0, 4], 'tarcinli-firin-armudu': [150, 0, 0, 4],
+    'firinda-sebzeli-tavuk': 'et', 'yesil-mercimek-yemegi': 'bakliyat', 'mercimek-koftesi': { oran: [10, 30, 50, 10], gram: 150, olcu: ['2 sıkım', '1 tabak / 4 sıkım', '1,5 tabak / 6 sıkım'] },
+    'domatesli-bulgur-pilavi': 'hamur', 'mevsim-salatasi': 'salata', 'sebzeli-levrek-bugulama': 'et', 'imambayildi': 'zeytinyagli', 'mercimek-corbasi': 'bakliyat',
+    'menemen': 'yumurta', 'sebzeli-tavuk-sote': 'et', 'yogurtlu-tavuk-sis': 'et', 'izgara-sebzeli-dana-bonfile': 'et', 'karidesli-guvec': 'et', 'ton-balikli-salata': 'et',
+    'ezogelin-corbasi': 'bakliyat', 'nohut-salatasi': 'bakliyat', 'kisir': 'hamur', 'zeytinyagli-pirasa': 'zeytinyagli', 'firinda-sebze-turlusu': 'zeytinyagli',
+    'izgara-sebzeli-sandvic': 'hamur', 'pose-yumurtali-ekmek': 'hamur', 'kahvalti-patatesi': 'hamur', 'overnight-yulaf': 'hamur',
+    'sebzeli-peynirli-omlet': 'yumurta', 'ispanakli-omlet': 'yumurta', 'cilbir': 'yumurta', 'otlu-kaygana': 'yumurta', 'sebzeli-yumurta-muffin': 'yumurta',
+    'sebze-cubuklu-humus': 'meze', 'haydari': 'meze', 'girit-ezmesi': 'meze',
+    'naneli-meyve-salatasi': 'meyve', 'cilekli-smoothie': 'meyve', 'cilekli-donmus-yogurt': 'meyve', 'firinda-tarcinli-elma': 'meyve', 'tarcinli-firin-armudu': 'meyve',
   };
   const BOLME_SIRA = ['sebze', 'protein', 'karb', 'yag'];
-  const PORSIYON = [['Küçük', 0.75], ['Orta', 1], ['Büyük', 1.25]];
-  const dagilim = (b) => (M.tarifMi(b) ? YEMEK[b.slug.slice(6)] : null);
+  const PORSIYON = [['Küçük', 0.5], ['Orta', 1], ['Büyük', 1.5]];
+  const yemekBilgi = (b) => { if (!M.tarifMi(b)) return null; const y = YEMEK[b.slug.slice(6)]; return typeof y === 'string' ? KATEGORI[y] : y || null; };
+  const yakinPorsiyon = (m) => PORSIYON.reduce((e, p) => (Math.abs(p[1] - m) < Math.abs(e[1] - m) ? p : e))[1];
   const yemekler = () => Object.keys(YEMEK).map((s) => M.besin('tarif-' + s)).filter(Boolean).map((b) => ({ ...b, kategori: b.tarif_turu }));
+  /* Ana yemeğin yanına en sık eklenenler, ölçü birimiyle gelir */
+  const YAN = ['kepekli-ekmek', 'beyaz-ekmek', 'zeytinyagi', 'ceviz-ic', 'yogurt-yarim-yagli', 'roka'];
+  const besinKaynak = () => { const yan = YAN.map((s) => M.besin(s)).filter(Boolean), v = new Set(YAN); return yan.concat(M.besinler().filter((b) => !v.has(b.slug))); };
+  const olcuAdi = (b) => (b.porsiyon && b.porsiyon.ad ? b.porsiyon.ad.replace(/^1\s+/, '') : 'porsiyon');
+  /* Eksik bölme için tek dokunuşluk öneri ve tek tıkla değişim */
+  const ONERI = { sebze: ['roka', 75, 'bol yeşillik ve limon', 'Yeşillik ekle'], protein: ['yogurt-yarim-yagli', 120, 'yoğurt', 'Yoğurt ekle'], karb: ['kepekli-ekmek', 50, 'iki dilim kepekli ekmek', 'Ekmek ekle'], yag: ['zeytinyagi', 10, 'iki tatlı kaşığı zeytinyağı', 'Zeytinyağı ekle'] };
+  const TAKAS = { 'pirinc-pismis': 'esmer-pirinc-pismis', 'beyaz-ekmek': 'kepekli-ekmek' };
   const olcusu = (b) => {
     if (M.porsiyonGram(b) == null && b.kcal == null) return { birim: 'porsiyon', adim: 0.5, ilk: 1 };
     const g = M.porsiyonGram(b) || 100;
@@ -40,10 +60,10 @@
   };
 
   const HAZIR = [
-    { ad: 'Tavuklu tabak', kalem: [['firinda-sebzeli-tavuk', 1], ['domatesli-bulgur-pilavi', 0.75], ['mevsim-salatasi', 1]] },
-    { ad: 'Balıklı tabak', kalem: [['sebzeli-levrek-bugulama', 1], ['domatesli-bulgur-pilavi', 0.75], ['mevsim-salatasi', 0.75]] },
-    { ad: 'Ev yemeği', kalem: [['yesil-mercimek-yemegi', 1], ['domatesli-bulgur-pilavi', 0.75], ['mevsim-salatasi', 1]] },
-    { ad: 'Vejetaryen tabak', kalem: [['mercimek-corbasi', 0.75], ['imambayildi', 1], ['kisir', 0.75]] },
+    { ad: 'Tavuklu tabak', kalem: [['firinda-sebzeli-tavuk', 1], ['domatesli-bulgur-pilavi', 1], ['mevsim-salatasi', 1]] },
+    { ad: 'Balıklı tabak', kalem: [['sebzeli-levrek-bugulama', 1], ['domatesli-bulgur-pilavi', 1], ['mevsim-salatasi', 1]] },
+    { ad: 'Ev yemeği', kalem: [['yesil-mercimek-yemegi', 1], ['mevsim-salatasi', 1.5]] },
+    { ad: 'Vejetaryen tabak', kalem: [['imambayildi', 1], ['mercimek-koftesi', 1], ['haydari', 0.5]] },
   ];
   let kalemler = [], hazirNo = 0, seciliBolme = null;
   const yukle = (i) => { hazirNo = i; kalemler = HAZIR[i].kalem.filter((k) => M.besin('tarif-' + k[0])).map((k) => ({ slug: 'tarif-' + k[0], miktar: k[1], birim: 'porsiyon' })); };
@@ -74,26 +94,28 @@
     </svg>`;
   }
 
-  function hesap() {
+  /* Skor: bölme oranlarının ideal aralığa uzaklığı. Spesifikasyon formül vermiyor, katsayı
+     yalnız Mercimek Köftesi orta porsiyon ~72 örneğine göre ayarlandı */
+  const SKOR_KATSAYI = 0.47;
+  function hesap(liste) {
     const gram = { sebze: 0, protein: 0, karb: 0, yag: 0 };
     const top = { kcal: 0, protein: 0, yag: 0, karb: 0, lif: 0 }, eksik = new Set();
-    kalemler.forEach((k) => {
-      const b = M.besin(k.slug);
-      const d = dagilim(b);
-      if (d) BOLME_SIRA.forEach((id, i) => { gram[id] += d[i] * k.miktar; });
+    (liste || kalemler).forEach((k) => {
+      const b = M.besin(k.slug), y = yemekBilgi(b);
+      if (y) BOLME_SIRA.forEach((id, i) => { gram[id] += (y.gram * k.miktar * y.oran[i]) / 100; });
       else gram[bolmesi(b)] += k.miktar;
       Object.keys(top).forEach((a) => {
         const v = M.miktarDeger(b, a, k.miktar, k.birim);
         if (v == null) eksik.add(a); else top[a] += v;
       });
     });
-    const T = gram.sebze + gram.protein + gram.karb;
-    const oran = { sebze: T ? (gram.sebze / T) * 100 : 0, protein: T ? (gram.protein / T) * 100 : 0, karb: T ? (gram.karb / T) * 100 : 0 };
-    const sapma = Math.abs(oran.sebze - 50) + Math.abs(oran.protein - 25) + Math.abs(oran.karb - 25);
-    const bolmeP = T ? 65 * Math.max(0, 1 - sapma / 100) : 0;
-    const y = gram.yag, yagP = y === 0 ? 0 : y < 5 ? (y / 5) * 10 : y <= 15 ? 10 : Math.max(0, 10 * (1 - (y - 15) / 15));
-    const lifP = 25 * Math.min(1, top.lif / 8);
-    return { gram, top, eksik, oran, bolmeP, yagP, lifP, skor: Math.round(bolmeP + yagP + lifP) };
+    const T = BOLME_SIRA.reduce((t, id) => t + gram[id], 0), oran = {};
+    let sapma = 0;
+    BOLME_SIRA.forEach((id) => {
+      const o = T ? (gram[id] / T) * 100 : 0, [alt, ust] = BOLME[id].aralik;
+      oran[id] = o; sapma += o < alt ? alt - o : o > ust ? o - ust : 0;
+    });
+    return { gram, top, eksik, oran, skor: T ? Math.round(Math.max(0, 100 - sapma * SKOR_KATSAYI)) : 0 };
   }
 
   function kalemCiz() {
@@ -105,39 +127,46 @@
     kap.innerHTML = '<div class="ayar-liste">' + kalemler.map((k, i) => {
       const b = M.besin(k.slug), bo = BOLME[bolmesi(b)], o = olcusu(b);
       const kcal = M.miktarDeger(b, 'kcal', k.miktar, k.birim);
-      if (dagilim(b)) return '<div class="ayar-satir sarmali" data-sira="' + i + '"><span class="as-ikon" aria-hidden="true"><i class="fa-solid fa-bowl-food"></i></span>'
-        + '<div class="as-metin"><b>' + kac(b.ad) + '</b><span>' + kac(altMetin(b, k, bo, kcal)) + '</span></div>'
-        + '<div class="as-eylem"><div class="segment kucuk" role="group" aria-label="' + kac(b.ad) + ' porsiyonu">' + PORSIYON.map(([ad, c]) => '<button type="button" data-porsiyon="' + c + '" aria-pressed="' + (k.miktar === c) + '">' + ad + '</button>').join('') + '</div>'
+      const y = yemekBilgi(b), pg = M.porsiyonGram(b);
+      const gramBag = '<button class="metin-bag" type="button" data-gram-ac>' + (k.gram ? 'Porsiyona dön' : 'Gramajı kendim girmek istiyorum') + '</button>';
+      if (y && !k.gram) return '<div class="ayar-satir sarmali" data-sira="' + i + '"><span class="as-ikon" aria-hidden="true"><i class="fa-solid fa-bowl-food"></i></span>'
+        + '<div class="as-metin"><b>' + kac(b.ad) + '</b><span data-kalem-alt="' + i + '">' + kac(altMetin(b, k, bo, kcal)) + '</span>' + gramBag + '</div>'
+        + '<div class="as-eylem"><div class="segment kucuk porsiyon-secim" role="group" aria-label="' + kac(b.ad) + ' porsiyonu">' + PORSIYON.map(([ad, c], n) => '<button type="button" data-porsiyon="' + c + '" aria-pressed="' + (yakinPorsiyon(k.miktar) === c) + '">' + ad + '<small>' + y.olcu[n] + '</small></button>').join('') + '</div>'
         + '<button class="kapat-dugme" type="button" data-sil="' + i + '" aria-label="' + kac(b.ad) + ' kalemini sil"><i class="fa-solid fa-xmark" aria-hidden="true"></i></button></div></div>';
-      const adim = k.birim === 'g' ? o.adim : 0.5;
+      /* Girdi birimi: yemek gramda, besin ölçüsünde (dilim, kaşık, adet) ya da gramda */
+      const olcu = !y && !k.gram && pg;
+      const deger = y ? Math.round(y.gram * k.miktar) : olcu ? M.yuvarla(k.miktar / pg, 0.5) : k.miktar;
+      const birimAd = olcu ? olcuAdi(b) : 'g';
+      const adim = olcu ? 1 : y ? 10 : o.adim;
       return '<div class="ayar-satir sarmali" data-sira="' + i + '"><span class="as-ikon" aria-hidden="true"><i class="fa-solid ' + bo.ikon + '"></i></span>'
-        + '<div class="as-metin"><b>' + kac(b.ad) + '</b><span data-kalem-alt="' + i + '">' + kac(altMetin(b, k, bo, kcal)) + '</span></div>'
-        + '<div class="as-eylem"><div class="adet"><button type="button" data-yon="azalt" aria-label="' + kac(M.kisaAd(b)) + ' miktarını azalt"><i class="fa-solid fa-minus" aria-hidden="true"></i></button><input type="number" min="' + adim + '" step="' + adim + '" value="' + k.miktar + '" aria-label="' + kac(M.kisaAd(b)) + ' miktarı, ' + (k.birim === 'g' ? 'gram' : 'porsiyon') + '"><button type="button" data-yon="artir" aria-label="' + kac(M.kisaAd(b)) + ' miktarını artır"><i class="fa-solid fa-plus" aria-hidden="true"></i></button></div>'
-        + '<span class="adet-birim">' + (k.birim === 'g' ? 'g' : 'porsiyon') + '</span>'
+        + '<div class="as-metin"><b>' + kac(b.ad) + '</b><span data-kalem-alt="' + i + '">' + kac(altMetin(b, k, bo, kcal)) + '</span>' + (pg || y ? gramBag : '') + '</div>'
+        + '<div class="as-eylem"><div class="adet"><button type="button" data-yon="azalt" aria-label="' + kac(M.kisaAd(b)) + ' miktarını azalt"><i class="fa-solid fa-minus" aria-hidden="true"></i></button><input type="number" min="' + adim + '" step="' + adim + '" value="' + deger + '" aria-label="' + kac(M.kisaAd(b)) + ' miktarı, ' + (birimAd === 'g' ? 'gram' : birimAd) + '"><button type="button" data-yon="artir" aria-label="' + kac(M.kisaAd(b)) + ' miktarını artır"><i class="fa-solid fa-plus" aria-hidden="true"></i></button></div>'
+        + '<span class="adet-birim">' + kac(birimAd) + '</span>'
         + '<button class="kapat-dugme" type="button" data-sil="' + i + '" aria-label="' + kac(M.kisaAd(b)) + ' kalemini sil"><i class="fa-solid fa-xmark" aria-hidden="true"></i></button></div></div>';
-    }).join('') + '</div>';
+    }).join('') + '<div class="yan-ekle"><button class="dugme hayalet kucuk" type="button" id="yanEkle"><i class="fa-solid fa-plus" aria-hidden="true"></i> Yanına ekle</button><span class="not">Ekmek, zeytinyağı, ceviz, yoğurt</span></div></div>';
   }
   const altMetin = (b, k, bo, kcal) => {
-    const d = dagilim(b);
-    if (!d) return bo.ad + ' bölmesi · ' + M.goster(kcal, 'kcal', 0);
-    return BOLME_SIRA.map((id, i) => [BOLME[id].kisa, Math.round(d[i] * k.miktar)]).filter((x) => x[1] > 0).map((x) => x[0] + ' ' + x[1] + ' g').concat(M.goster(kcal, 'kcal', 0)).join(' · ');
+    const y = yemekBilgi(b);
+    if (!y) return bo.ad + ' bölmesi · ' + M.sayi(k.miktar, 0) + ' g · ' + M.goster(kcal, 'kcal', 0);
+    return BOLME_SIRA.map((id, i) => [id === 'yag' ? 'Yağ' : BOLME[id].kisa, y.oran[i]]).filter((x) => x[1] > 0).map((x) => x[0] + ' %' + x[1]).concat(M.goster(kcal, 'kcal', 0)).join(' · ');
   };
 
+  const hedefYaz = (id) => '%' + BOLME[id].aralik.join('–');
   function ozetCiz() {
     const h = hesap(), t = h.top;
     /* Bölme dolgusu */
     Object.keys(BOLME).forEach((id) => {
-      const dol = Math.min(1, h.gram[id] / BOLME[id].ref);
+      const dol = Math.min(1, h.oran[id] / BOLME[id].aralik[1]);
       const r = document.querySelector('.tabak-dolgu[data-bolme="' + id + '"]');
       if (r) r.style.transform = 'translateY(' + SINIR[id][1] * (1 - dol) + 'px)';
       const e = document.querySelector('[data-etiket="' + id + '"]');
-      if (e) e.textContent = kalemler.length ? M.sayi(h.gram[id], 0) + ' g' : BOLME[id].hedefOran ? 'hedef %' + BOLME[id].hedefOran : '5–15 g';
+      if (e) e.textContent = kalemler.length ? '%' + M.sayi(h.oran[id], 0) : 'hedef ' + hedefYaz(id);
     });
     /* Bölme listesi */
     const kalemVar = kalemler.length > 0;
     $('bolmeListe').innerHTML = Object.keys(BOLME).map((id) => {
-      const bo = BOLME[id], g = h.gram[id], oran = (g / bo.ref) * 100;
-      const sag = !kalemVar ? 'hedef ' + (bo.hedefOran ? '%' + bo.hedefOran : '5–15 g') : bo.hedefOran ? '%' + M.sayi(h.oran[id], 0) + ' <small>hedef %' + bo.hedefOran + '</small>' : M.sayi(g, 0) + ' g <small>hedef 5–15 g</small>';
+      const bo = BOLME[id], oran = (h.oran[id] / bo.aralik[1]) * 100;
+      const sag = !kalemVar ? 'hedef ' + hedefYaz(id) : '%' + M.sayi(h.oran[id], 0) + ' <small>hedef ' + hedefYaz(id) + '</small>';
       return '<div class="olcum-satir secilir" data-bolme-sec="' + id + '" role="button" tabindex="0" aria-pressed="false"><div class="olcum-bas"><span>' + bo.ad + '</span><b>' + sag + '</b></div><div class="olcer hap renkli" data-bolme="' + id + '"><span data-oran="' + Math.min(100, oran) + '"></span></div><small class="olcum-kural">' + bo.kural + '</small></div>';
     }).join('');
     document.querySelectorAll('#bolmeListe [data-oran]').forEach((e) => e.style.setProperty('--oran', e.dataset.oran));
@@ -164,28 +193,49 @@
     $('skorDeger').textContent = skorMetin; $('skorKisa').textContent = skorMetin;
     const hal = $('skorHalka'); hal.dataset.oran = kalemVar ? h.skor : 0; hal.style.setProperty('--oran', kalemVar ? h.skor : 0);
     const c = skorCumleleri(h);
-    $('skorParcalar').innerHTML = kalemVar ? c.satirlar.map((x) => '<li class="' + (x.iyi ? '' : 'eksi') + '"><i class="fa-solid ' + (x.iyi ? 'fa-plus' : 'fa-minus') + '" aria-hidden="true"></i><span>' + x.metin + '</span></li>').join('') : '<li class="eksi"><i class="fa-solid fa-utensils" aria-hidden="true"></i><span>Besin eklediğinde skorun burada cümleyle açıklanır.</span></li>';
-    $('skorOneri').innerHTML = !kalemVar ? '' : c.oneri ? '<p class="kart-metin">' + c.oneri.metin + '</p><button class="dugme hayalet kucuk" type="button" data-oner="' + c.oneri.bolme + '"><i class="fa-solid fa-plus" aria-hidden="true"></i> ' + c.oneri.dugme + '</button>' : '<p class="kart-metin">Tabağın dengede. Porsiyonunu öğün hedefine göre ayarlayabilirsin.</p>';
+    $('skorParcalar').innerHTML = kalemVar ? c.satirlar.map((x) => '<li class="' + (x.iyi ? '' : 'eksi') + '"><i class="fa-solid ' + (x.iyi ? 'fa-plus' : 'fa-minus') + '" aria-hidden="true"></i><span>' + x.metin + '</span></li>').join('') : '<li class="eksi"><i class="fa-solid fa-utensils" aria-hidden="true"></i><span>Yemek eklediğinde skorun burada cümleyle açıklanır.</span></li>';
+    const metin = c.oneri ? '<p class="kart-metin">' + c.oneri.metin + '</p>' : c.takas ? '' : '<p class="kart-metin">Tabağın dengede. Porsiyonunu öğün hedefine göre ayarlayabilirsin.</p>';
+    const dugme = (c.oneri ? '<button class="dugme hayalet kucuk" type="button" data-oner-ekle="' + c.oneri.ekle + '"><i class="fa-solid fa-plus" aria-hidden="true"></i> ' + c.oneri.dugme + '</button>' : '')
+      + (c.takas ? '<button class="dugme hayalet kucuk" type="button" ' + c.takas.attr + '><i class="fa-solid fa-right-left" aria-hidden="true"></i> ' + c.takas.dugme + '</button>' : '');
+    $('skorOneri').innerHTML = !kalemVar ? '' : (c.takas ? '<p class="kart-metin">' + c.takas.metin + '</p>' : '') + metin + (dugme ? '<div class="eylem-satiri">' + dugme + '</div>' : '');
   }
 
+  /* Ağır bölme: en büyük payı alan kalem bulunur, karşılığı varsa tek tıkla değişir, yoksa muadil bulucu açılır */
+  function agirKalem(id) {
+    let en = null, g = 0;
+    kalemler.forEach((k, i) => { const v = hesap([k]).gram[id]; if (v > g) { g = v; en = i; } });
+    return en;
+  }
+  function takasOneri(h) {
+    const id = h.oran.karb > BOLME.karb.aralik[1] + 5 ? 'karb' : h.oran.yag > BOLME.yag.aralik[1] + 5 ? 'yag' : null;
+    if (!id) return null;
+    const i = agirKalem(id);
+    if (i == null) return null;
+    const b = M.besin(kalemler[i].slug), yeni = TAKAS[b.slug] && M.besin(TAKAS[b.slug]);
+    const metin = (id === 'karb' ? 'Karbonhidrat' : 'Yağ') + ' ağırlığı en çok ' + M.kisaAd(b) + ' kaleminden geliyor.';
+    if (yeni) return { metin, dugme: M.kisaAd(yeni) + ' ile değiştir', attr: 'data-takas="' + i + '"' };
+    return { metin, dugme: 'Muadilini bul', attr: 'data-muadil-ac="' + i + '" data-temel="' + (id === 'karb' ? 'karb' : 'kcal') + '"' };
+  }
   function skorCumleleri(h) {
     const satirlar = [], eksikler = [];
-    ['sebze', 'protein', 'karb'].forEach((id) => {
-      const bo = BOLME[id], fark = Math.round(h.oran[id] - bo.hedefOran);
-      if (Math.abs(fark) <= 5) satirlar.push({ iyi: true, metin: bo.kisa + ' payın iyi' });
-      else satirlar.push({ iyi: false, metin: bo.kisa + ' ' + Math.abs(fark) + ' puan ' + (fark < 0 ? 'eksik' : 'fazla') });
-      if (fark < -5) eksikler.push({ id, fark: -fark });
+    BOLME_SIRA.forEach((id) => {
+      const bo = BOLME[id], o = Math.round(h.oran[id]), [alt, ust] = bo.aralik;
+      if (o >= alt && o <= ust) satirlar.push({ iyi: true, metin: bo.kisa + ' payın iyi' });
+      else satirlar.push({ iyi: false, metin: bo.kisa + ' ' + (o < alt ? alt - o : o - ust) + ' puan ' + (o < alt ? 'eksik' : 'fazla') });
+      if (o < alt) eksikler.push({ id, fark: alt - o });
     });
-    const y = h.gram.yag, yagIyi = y >= 5 && y <= 15;
-    satirlar.push({ iyi: yagIyi, metin: yagIyi ? 'Sağlıklı yağ yeterli' : y === 0 ? 'Sağlıklı yağ yok' : y < 5 ? 'Sağlıklı yağ az' : 'Sağlıklı yağ fazla' });
-    const lif = h.top.lif, lifIyi = lif >= 8;
-    satirlar.push({ iyi: lifIyi, metin: lifIyi ? 'Lif hedefe ulaştı' : 'Lif ' + M.sayi(8 - lif, 0) + ' g eksik' });
     eksikler.sort((a, b) => b.fark - a.fark);
     let oneri = null;
-    if (eksikler.length) { const b = BOLME[eksikler[0].id]; oneri = { bolme: eksikler[0].id, metin: 'En büyük kazanç ' + b.kisa.toLocaleLowerCase('tr-TR') + ' bölmesinde.', dugme: b.kisa + ' ekle' }; }
-    else if (y < 5) oneri = { bolme: 'yag', metin: 'Bir tatlı kaşığı zeytinyağı ya da az kuruyemiş skorunu yükseltir.', dugme: 'Sağlıklı yağ ekle' };
-    else if (!lifIyi) oneri = { bolme: 'sebze', metin: 'Lifli bir sebze ya da baklagil skorunu yükseltir.', dugme: 'Sebze ekle' };
-    return { satirlar, oneri };
+    if (eksikler.length) {
+      const id = eksikler[0].id, [slug, gram, ne, dugme] = ONERI[id], b = BOLME[id];
+      const sonra = hesap(kalemler.concat({ slug, miktar: gram, birim: 'g' })).skor;
+      /* Öneri yalnız skoru gerçekten yükseltiyorsa çıkar */
+      if (sonra > h.skor) {
+        const sonuc = h.skor < 90 && sonra >= 90 ? 'puanını 90 üzerine çıkarabilirsin' : 'puanını ' + sonra + ' civarına çıkarabilirsin';
+        oneri = { ekle: id, dugme, metin: 'Tabağında ' + b.kisa.toLocaleLowerCase('tr-TR') + ' oranı düşük kaldı. Yanına ' + ne + ' ekleyerek ' + sonuc + '.' };
+      }
+    }
+    return { satirlar, oneri, takas: h.skor < 90 ? takasOneri(h) : null };
   }
 
   function bolmeIsaretle() {
@@ -215,11 +265,12 @@
   const yenile = () => { kalemCiz(); ozetCiz(); hazirCiz(); muadilCiz(); };
 
   function ekle(b, miktar, birim) {
-    const o = olcusu(b), bir = birim || o.birim, var_ = kalemler.find((k) => k.slug === b.slug);
-    if (var_ && dagilim(b)) { DD.toast(b.ad + ' zaten tabağında, porsiyonunu satırdan değiştir'); return; }
+    const o = olcusu(b), bir = birim || o.birim, var_ = kalemler.find((k) => k.slug === b.slug), pg = M.porsiyonGram(b);
+    if (var_ && yemekBilgi(b)) { DD.toast(b.ad + ' zaten tabağında, porsiyonunu satırdan değiştir'); return; }
     hazirNo = -1;
-    if (var_ && var_.birim === bir) var_.miktar += miktar || o.ilk;
-    else kalemler.push({ slug: b.slug, miktar: miktar || o.ilk, birim: bir });
+    const ilk = miktar || (bir === 'g' && pg ? pg : o.ilk);
+    if (var_ && var_.birim === bir) var_.miktar += ilk;
+    else kalemler.push({ slug: b.slug, miktar: yemekBilgi(b) ? yakinPorsiyon(ilk) : ilk, birim: bir });
     yenile();
     DD.toast(M.kisaAd(b) + ' tabağına eklendi');
   }
@@ -234,6 +285,22 @@
       document.querySelector('[data-sira="' + i + '"] [data-porsiyon="' + c + '"]').focus();
       return;
     }
+    const ga = e.target.closest('[data-gram-ac]');
+    if (ga) {
+      const k = kalemler[+ga.closest('[data-sira]').dataset.sira];
+      k.gram = !k.gram; if (!k.gram && yemekBilgi(M.besin(k.slug))) k.miktar = yakinPorsiyon(k.miktar);
+      yenile(); return;
+    }
+    if (e.target.closest('#yanEkle')) { seciliBolme = null; kipSec('besin'); $('tabakArama').focus(); return; }
+    const oe = e.target.closest('[data-oner-ekle]');
+    if (oe) { const [slug, gram] = ONERI[oe.dataset.onerEkle]; ekle(M.besin(slug), gram, 'g'); return; }
+    const tk = e.target.closest('[data-takas]');
+    if (tk) {
+      const k = kalemler[+tk.dataset.takas], eski = M.kisaAd(M.besin(k.slug)); k.slug = TAKAS[k.slug]; hazirNo = -1; yenile();
+      DD.toast(eski + ' yerine ' + M.kisaAd(M.besin(k.slug)) + ' geldi'); return;
+    }
+    const ma = e.target.closest('[data-muadil-ac]');
+    if (ma) { muadilAc(M.besin(kalemler[+ma.dataset.muadilAc].slug), ma.dataset.temel); return; }
     const sil = e.target.closest('[data-sil]');
     if (sil) { const b = M.besin(kalemler[+sil.dataset.sil].slug); kalemler.splice(+sil.dataset.sil, 1); hazirNo = -1; yenile(); DD.toast(M.kisaAd(b) + ' tabaktan çıkarıldı'); return; }
     if (e.target.closest('#tabakTemizle')) { kalemler = []; hazirNo = -1; yenile(); return; }
@@ -254,13 +321,13 @@
     if (!satir || e.target.tagName !== 'INPUT') return;
     const i = +satir.dataset.sira, v = parseFloat(e.target.value);
     if (!(v > 0)) return;
-    kalemler[i].miktar = v; hazirNo = -1;
-    const k = kalemler[i], b = M.besin(k.slug);
+    const k = kalemler[i], b = M.besin(k.slug), y = yemekBilgi(b), pg = M.porsiyonGram(b);
+    k.miktar = y ? v / y.gram : !k.gram && pg ? v * pg : v; hazirNo = -1;
     satir.querySelector('[data-kalem-alt]').textContent = altMetin(b, k, BOLME[bolmesi(b)], M.miktarDeger(b, 'kcal', k.miktar, k.birim));
     ozetCiz(); hazirCiz();
   });
   const arama = $('tabakArama');
-  M.oneri(arama, { kaynak: () => (kip === 'yemek' ? yemekler() : M.besinler()), suz: (b) => !seciliBolme || bolmesi(b) === seciliBolme, bosMetin: () => (kip === 'yemek' ? 'Bu adla yemek yok, Tek besin sekmesinden ekleyebilirsin' : 'Bu adla kayıtlı besin yok'), secildi(b) { arama.value = ''; ekle(b); } });
+  M.oneri(arama, { kaynak: () => (kip === 'yemek' ? yemekler() : besinKaynak()), suz: (b) => !seciliBolme || bolmesi(b) === seciliBolme, bosMetin: () => (kip === 'yemek' ? 'Bu adla yemek yok, Tek besin sekmesinden ekleyebilirsin' : 'Bu adla kayıtlı besin yok'), secildi(b) { arama.value = ''; ekle(b); } });
 
   /* ── Muadil bulucu: temel seçilir, temelde eşit, ötekilerde nötr fark ─────── */
   const KEPCE = 0.75; /* 1 kepçe = 3/4 tarif porsiyonu */
@@ -358,6 +425,11 @@
   }
   $('muadilHizli').innerHTML = HIZLI.map((s) => { const b = M.besin(s); return b ? '<button class="cip" type="button" data-slug="' + s + '">' + kac(M.kisaAd(b)) + '</button>' : ''; }).join('');
   const muadilSec = (b) => { muadil.b = b; muadil.adet = 1; $('muadilAdet').value = 1; muadilCiz(); };
+  const muadilAc = (b, temel) => {
+    muadil.temel = temel;
+    document.querySelectorAll('#muadilTemel button').forEach((x) => x.setAttribute('aria-pressed', String(x.dataset.deger === temel)));
+    muadilSec(b); $('muadil').scrollIntoView({ block: 'start' });
+  };
   M.oneri($('muadilArama'), { kaynak: M.tumKayitlar, secildi(b) { $('muadilArama').blur(); muadilSec(b); } });
   $('muadilArama').addEventListener('blur', () => setTimeout(() => { if (muadil.b) $('muadilArama').value = muadil.b.ad; }, 140));
   $('muadilHizli').addEventListener('click', (e) => { const c = e.target.closest('[data-slug]'); if (c) muadilSec(M.besin(c.dataset.slug)); });

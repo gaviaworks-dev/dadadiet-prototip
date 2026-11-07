@@ -10,7 +10,7 @@ const bolumler = [
         <div class="segment" id="eklemeKipi" role="group" aria-label="Ne ekleyeceksin?"><button type="button" data-deger="yemek" aria-pressed="true">Yemek</button><button type="button" data-deger="besin" aria-pressed="false">Tek besin</button></div>
         <div class="alan"><label class="alan-etiket" for="tabakArama" id="tabakAramaEtiket">Yemek ara</label><div class="oneri-kap"><input class="alan-girdi" id="tabakArama" type="search" placeholder="Örneğin mercimek çorbası, sebzeli tavuk"></div><button class="cip aktif bolme-suzgec" id="bolmeSuzgec" type="button" hidden></button></div>
         <div class="cipler" id="hazirTabaklar" role="group" aria-label="Hazır tabaklar"></div>
-        <p class="alan-yardim">Yemeklerin bölme dağılımı örnektir, diyetisyen onayı bekliyor.</p>
+        <p class="alan-yardim">Bölme dağılımları geçici katsayıdır, diyetisyen onayı bekliyor.</p>
       </div>
       <div class="kart-govde bosluksuz" id="tabakKalemler"></div>
       <div class="kart-alt"><span class="not" id="tabakSayac"></span><button class="dugme hayalet tehlike kucuk" id="tabakTemizle" type="button"><i class="fa-solid fa-trash" aria-hidden="true"></i> Tabağı boşalt</button></div>
@@ -42,7 +42,7 @@ const bolumler = [
     </div>
 
     <div class="kart">
-      <div class="kart-bas"><div><h2 class="kart-baslik"><i class="fa-solid fa-gauge-high" aria-hidden="true"></i> Tabak Denge Skoru</h2><p>100 üzerinden; üç parçanın toplamı.</p></div></div>
+      <div class="kart-bas"><div><h2 class="kart-baslik"><i class="fa-solid fa-gauge-high" aria-hidden="true"></i> Tabak Denge Skoru</h2><p>100 üzerinden; bölmelerin ideal tabağa yakınlığı.</p></div></div>
       <div class="kart-govde">
         <div class="skor-yerlesim">
           <div class="halka" id="skorHalka" data-oran="0"><span id="skorDeger">0</span></div>
@@ -65,7 +65,7 @@ const bolumler = [
   <div class="kart-govde" id="muadilSonuc"></div>
   <div class="kart-alt"><span class="not" id="muadilNot"></span></div>
 </div>`,
-`<div class="bilgi-notu"><i class="fa-solid fa-circle-info" aria-hidden="true"></i><div><p><b>Skor nasıl hesaplanır?</b> Sebze, protein ve karbonhidrat bölmelerinin gram oranları %50, %25 ve %25 hedefiyle karşılaştırılır; üç sapmanın toplamı 100 puana ulaşınca bu parça sıfırlanır (<b>65 puan</b>). Sosluktaki sağlıklı yağ 5 ile 15 gram arasındaysa tam puan alır (<b>10 puan</b>). Lif ise öğün başına 8 gram hedefine yakınlıkla ölçülür (<b>25 puan</b>). Oranlar kalori hedefi değil, yaklaşık tabak payıdır. Skor genel bilgi amaçlıdır, tıbbi bir ölçüm değildir.</p></div></div>`,
+`<div class="bilgi-notu"><i class="fa-solid fa-circle-info" aria-hidden="true"></i><div><p><b>Skor nasıl hesaplanır?</b> Eklediğin yemek ve besinlerin bölme oranları ideal tabakla karşılaştırılır: sebze %40–50, protein %20–25, karbonhidrat %20–25, yağ %5–10. Aralık dışındaki her puan skoru düşürür. Skor genel bir yönlendirmedir, kişiye özel beslenme önerisi değildir.</p></div></div>`,
 ];
 
 export default ({ veri }) => [{
