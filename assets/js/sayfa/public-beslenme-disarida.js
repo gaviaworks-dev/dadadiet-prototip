@@ -2,7 +2,7 @@
    Bir seçeneğin sayacı diğer grupların seçimi uygulanmış sonuç sayısıdır, grubun kendi seçimi kendi sayaçlarını daraltmaz. Dar ekranda panel alttan açılır. */
 (function () {
   'use strict';
-  const BOYUT = 12, GORUNUR = 6, ARAMA_ESIGI = 10, ULKE = 'TR';
+  const BOYUT = 24, GORUNUR = 6, ARAMA_ESIGI = 10, ULKE = 'TR';
   const al = (id) => document.getElementById(id);
   const panel = al('dzPanel'), perde = al('dzPerde'), ac = al('dzFiltreAc'), kap = al('dzKartlar'), bos = al('dzBos'), sayac = al('dzSayac');
   const sayfalama = al('dzSayfalama'), goster = al('dzGoster'), filtreSayi = al('dzFiltreSayi'), cipler = al('dzCipler'), ulke = al('dzUlke'), yakin = al('dzYakin');

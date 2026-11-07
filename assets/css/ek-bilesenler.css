@@ -2728,8 +2728,6 @@ button.metin-bag{padding:0;background:none;border:0;font-size:var(--yazi-12);cur
 .mekan-kart-olcum{flex:none;display:inline-flex;align-items:center;gap:var(--bosluk-12)}
 .mekan-kart-puan{display:inline-flex;align-items:center;gap:var(--bosluk-6);font-weight:var(--agirlik-kalin);color:var(--murekkep)}
 .mekan-kart-puan i{font-size:var(--yazi-12);color:var(--durum-bekleyen-metin)}
-.mekan-kart-puan.bos{font-weight:var(--agirlik-govde);color:var(--metin-ikincil)}
-.mekan-kart-puan.bos i{color:var(--metin-ikincil);opacity:.75}
 .mekan-kart-goruntulenme{display:inline-flex;align-items:center;gap:var(--bosluk-6);font-size:var(--yazi-12);color:var(--metin-ikincil)}
 .mekan-kart-goruntulenme i{font-size:var(--yazi-12);color:var(--metin-ikincil)}
 .ornek-etiket{align-self:flex-end;display:inline-flex;align-items:center;margin-top:var(--bosluk-8);padding:var(--bosluk-3) var(--bosluk-8);background:var(--aksan-yikama);border-radius:var(--yuvarlak-hap);font-size:var(--yazi-11);font-weight:var(--agirlik-kalin);color:var(--aksan-koyu)}

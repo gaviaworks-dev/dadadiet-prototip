@@ -29,9 +29,8 @@ ${altGrup('il', 'Şehir', 'Şehir ara', s.iller.map((x, i) => satir('il', x, i))
 }
 
 /* Puanı olmayan mekanda Gourmet'in boş hâli: soluk yıldız ve tire, sahte 0.0 yazılmaz. */
-const puan = (p) => (p == null
-  ? `<span class="mekan-kart-puan bos" role="img" aria-label="Henüz değerlendirme yok">${ikon('fa-star')} <span aria-hidden="true">–</span></span>`
-  : `<span class="mekan-kart-puan">${ikon('fa-star')} ${p.toFixed(1)}</span>`);
+/* Puanı olmayan mekanda yıldız da çıkmaz; yalnız görüntülenme kalır. */
+const puan = (p) => (p == null ? '' : `<span class="mekan-kart-puan">${ikon('fa-star')} ${p.toFixed(1)}</span>`);
 
 function disarida(veri) {
   const d = veri.disarida;
@@ -58,7 +57,7 @@ function disarida(veri) {
 <div class="mekan-izgara izgara-esit-satir" id="dzKartlar">${d.mekan_ornekleri.map(kart).join('')}</div>
 <div class="bos-durum kart-ici" id="dzBos" hidden><span class="bos-ikon">${ikon('fa-location-dot')}</span><h3>Bu filtreyle henüz mekan yok</h3><p>Seçimlerini azaltmayı dene ya da seçili filtreleri temizle.</p><button class="dugme birincil" type="button" id="dzBosTemizle">Seçili Filtreleri Temizle</button></div>
 <nav class="sayfalama" aria-label="Sayfalar" id="dzSayfalama" hidden></nav>
-<p class="alan-yardim"><span>Mekan bilgileri ve görseller Dada Gourmet'ten gelir. Yıldız puanı ve görüntülenme sayısı prototip örneğidir: Dada Gourmet'te 7 Kasım 2026'da görünen değerlerdir, henüz değerlendirme almamış mekanda puan yerine tire görünür. Bu önizlemede Dada Gourmet'teki ${d.sayaclar.mekan} mekandan ${d.mekan_ornekleri.length} tanesi listelenir, süzgeç sayıları bu kartları sayar.</span></p>
+<p class="alan-yardim"><span>Mekan bilgileri ve görseller Dada Gourmet'ten gelir. Görüntülenme sayısı prototip örneğidir: Dada Gourmet'te 7 Kasım 2026'da görünen değerdir. Henüz değerlendirme almamış mekanda puan gösterilmez. Bu önizlemede Dada Gourmet'teki ${d.sayaclar.mekan} mekandan ${d.mekan_ornekleri.length} tanesi listelenir, süzgeç sayıları bu kartları sayar.</span></p>
 <div class="yigin sik"><h2 class="kart-baslik">Dışarıda yemek rehberleri</h2><div class="cipler">${REHBER.map((r) => `<a class="cip" href="${K}${DETAY.rehber}">${r}</a>`).join('')}</div></div>
 ${bilgiNot('Bu sayfa genel bilgilendirme amaçlıdır; <b>tıbbi teşhis veya tedavi yerine geçmez</b>. Alerjin ya da klinik bir durumun varsa siparişten önce mekana danış.', false)}
 </div></div>`, { ilk: true })), { ...A, js: ['disarida'] });
