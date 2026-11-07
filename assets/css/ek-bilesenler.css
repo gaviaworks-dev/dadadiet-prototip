@@ -3304,3 +3304,6 @@ html:has(#pageMain .modal-ortu:not([hidden]),#pageMain .sheet-ortu:not([hidden])
   .kisi-adim>.eylem-satiri{width:100%;justify-content:flex-start}
 }
 .yetkili #yeniTarifAlan .alan-secim{padding-left:var(--bosluk-8)}
+/* Plan seçici: alan satırı ile çipler arasında yalnız 8 px kalır */
+.yetkili .secim-suzgec>.alan-izgara{align-items:start}
+.yetkili .secim-suzgec>.alan-izgara>.alan{min-height:0;height:auto;grid-template-rows:auto auto;align-content:start}
