@@ -17,20 +17,28 @@
   };
   /* Yemek tek bölmeye yazılmaz: kategori dört bölmeye yüzde dağılım [sebze, protein, karb, yağ] taşır.
      Geçici katsayılar, diyetisyen onayı bekliyor. et, bakliyat, zeytinyagli ve hamur spesifikasyon v1.2'den;
-     salata, yumurta, meze ve meyve spesifikasyonda yok, geçici eklendi.
+     salata, yumurta, meze, meyve ve tatli tariflerin malzeme gramlarından hesaplandı (onay/akilli-tabak sayfası).
      gram orta porsiyon, olcu küçük/orta/büyük el ve kap karşılığıdır. */
   const KATEGORI = {
     et: { oran: [15, 60, 0, 25], gram: 200, olcu: ['½ tabak', '1 tabak', '1,5 tabak'] },
     bakliyat: { oran: [5, 35, 45, 15], gram: 250, olcu: ['½ kase', '1 kase', '1,5 kase'] },
     zeytinyagli: { oran: [65, 0, 15, 20], gram: 200, olcu: ['½ tabak', '1 tabak', '1,5 tabak'] },
     hamur: { oran: [0, 10, 70, 20], gram: 150, olcu: ['3 yemek kaşığı', '6 yemek kaşığı', '9 yemek kaşığı'] },
-    salata: { oran: [80, 5, 5, 10], gram: 200, olcu: ['1 küçük kase', '1 kase', '1 büyük kase'] },
-    yumurta: { oran: [35, 50, 0, 15], gram: 150, olcu: ['½ tabak', '1 tabak', '1,5 tabak'] },
-    meze: { oran: [25, 45, 15, 15], gram: 100, olcu: ['2 yemek kaşığı', '4 yemek kaşığı', '6 yemek kaşığı'] },
-    meyve: { oran: [90, 5, 0, 5], gram: 150, olcu: ['½ kase', '1 kase', '1,5 kase'] },
+    salata: { oran: [95, 0, 0, 5], gram: 200, olcu: ['1 küçük kase', '1 kase', '1 büyük kase'] },
+    yumurta: { oran: [45, 50, 0, 5], gram: 150, olcu: ['½ tabak', '1 tabak', '1,5 tabak'] },
+    meze: { oran: [25, 65, 0, 10], gram: 100, olcu: ['2 yemek kaşığı', '4 yemek kaşığı', '6 yemek kaşığı'] },
+    meyve: { oran: [70, 30, 0, 0], gram: 150, olcu: ['½ kase', '1 kase', '1,5 kase'] },
+    tatli: { oran: [75, 20, 0, 5], gram: 150, olcu: ['½ kase', '1 kase', '1,5 kase'] },
   };
+  /* Tarif kataloğunda olmayan iki yemek. Değerler USDA FoodData Central ile tarif varsayımından hesaplandı */
+  const EK_YEMEK = [
+    { slug: 'karniyarik', ad: 'Karnıyarık', tur: 'Sebze Yemeği', deger: { kcal: 298, protein: 14.4, yag: 19.6, karb: 18.8, lif: 7.8 } },
+    { slug: 'somon-izgara', ad: 'Somon Izgara', tur: 'Balık ve Deniz Ürünleri', deger: { kcal: 353, protein: 33.1, yag: 23.5, karb: 0, lif: 0 } },
+  ];
+  EK_YEMEK.forEach((y) => M.yemekKayitlari().push({ slug: 'tarif-' + y.slug, ad: y.ad, kategori: 'Tarif', tarif_turu: y.tur, kategori_kodu: 'tarif', kayit_turu: 'tarif', tabak_grubu: 'sebze', porsiyon: { ad: '1 porsiyon', gram: null }, kcal: null, protein: null, yag: null, karb: null, lif: null, karb_lif_dahil: null, porsiyon_degerleri: y.deger, alerjenler: [], yol: '' }));
   /* Sıra, boş aramada önerilen sıradır. Köfte spesifikasyonun kendi örneğidir */
   const YEMEK = {
+    'karniyarik': { oran: [80, 15, 0, 5], gram: 300, olcu: ['½ patlıcan', '1 patlıcan', '1,5 patlıcan'] }, 'somon-izgara': { oran: [0, 95, 0, 5], gram: 155, olcu: ['½ dilim', '1 dilim', '1,5 dilim'] },
     'firinda-sebzeli-tavuk': 'et', 'yesil-mercimek-yemegi': 'bakliyat', 'mercimek-koftesi': { oran: [10, 30, 50, 10], gram: 150, olcu: ['2 sıkım', '1 tabak / 4 sıkım', '1,5 tabak / 6 sıkım'] },
     'domatesli-bulgur-pilavi': 'hamur', 'mevsim-salatasi': 'salata', 'sebzeli-levrek-bugulama': 'et', 'imambayildi': 'zeytinyagli', 'mercimek-corbasi': 'bakliyat',
     'menemen': 'yumurta', 'sebzeli-tavuk-sote': 'et', 'yogurtlu-tavuk-sis': 'et', 'izgara-sebzeli-dana-bonfile': 'et', 'karidesli-guvec': 'et', 'ton-balikli-salata': 'et',
@@ -38,7 +46,7 @@
     'izgara-sebzeli-sandvic': 'hamur', 'pose-yumurtali-ekmek': 'hamur', 'kahvalti-patatesi': 'hamur', 'overnight-yulaf': 'hamur',
     'sebzeli-peynirli-omlet': 'yumurta', 'ispanakli-omlet': 'yumurta', 'cilbir': 'yumurta', 'otlu-kaygana': 'yumurta', 'sebzeli-yumurta-muffin': 'yumurta',
     'sebze-cubuklu-humus': 'meze', 'haydari': 'meze', 'girit-ezmesi': 'meze',
-    'naneli-meyve-salatasi': 'meyve', 'cilekli-smoothie': 'meyve', 'cilekli-donmus-yogurt': 'meyve', 'firinda-tarcinli-elma': 'meyve', 'tarcinli-firin-armudu': 'meyve',
+    'naneli-meyve-salatasi': 'meyve', 'cilekli-smoothie': 'meyve', 'cilekli-donmus-yogurt': 'tatli', 'firinda-tarcinli-elma': 'tatli', 'tarcinli-firin-armudu': 'tatli',
   };
   const BOLME_SIRA = ['sebze', 'protein', 'karb', 'yag'];
   const PORSIYON = [['Küçük', 0.5], ['Orta', 1], ['Büyük', 1.5]];
@@ -246,7 +254,7 @@
     const c = $('bolmeSuzgec'), g = $('tabakArama');
     c.hidden = !seciliBolme;
     if (seciliBolme) c.innerHTML = kac(BOLME[seciliBolme].kisa) + ' bölmesine ekliyorsun <i class="fa-solid fa-xmark" aria-hidden="true"></i><span class="yalniz-okuyucu"> Süzgeci kaldır</span>';
-    g.placeholder = seciliBolme ? BOLME[seciliBolme].kisa + ' ara' : kip === 'yemek' ? 'Örneğin mercimek çorbası, sebzeli tavuk' : 'Örneğin brokoli, tavuk, bulgur';
+    g.placeholder = seciliBolme ? BOLME[seciliBolme].kisa + ' ara' : kip === 'yemek' ? 'Örneğin karnıyarık, mercimek köftesi, somon ızgara' : 'Örneğin brokoli, tavuk, bulgur';
   }
   /* Yemek ana yol, tek besin ikinci seçenek. Bölme süzgeci besin aramasıyla çalışır */
   let kip = 'yemek';
