@@ -3197,3 +3197,5 @@ html[data-oturum="1"] .head-bell{display:grid}
   .sik-tablo .tablo th:first-child,.sik-tablo .tablo td:first-child{padding-left:var(--bosluk-16)}
   .sik-tablo .tablo th:last-child,.sik-tablo .tablo td:last-child{padding-right:var(--bosluk-16)}
 }
+/* Örtü açıkken #pageMain yığın bağlamını bırakır: aksi hâlde modallar üst menünün altında kalıyordu (kabuk.css .page-main z-index:2) */
+html:has(#pageMain .modal-ortu:not([hidden]),#pageMain .sheet-ortu:not([hidden]),#pageMain .yan-panel-ortu:not([hidden])) .page-main{z-index:auto}
