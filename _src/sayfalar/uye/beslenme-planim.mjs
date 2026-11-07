@@ -19,8 +19,8 @@ const hafta = `<div class="yigin">
 <div id="bpHaftaBas"></div>
 <div class="uyum-yer" data-bp-tercih></div>
 ${kart({
-    ikon: 'fa-calendar-week', baslik: '7 günlük öğün dökümü', metin: 'Bugünün satırı işaretli. Porsiyonlar plan kalemlerinin ölçüsüyle verilir.', bosluksuz: true,
-    govde: '<div class="tablo-kap gomulu" tabindex="0" role="region" aria-label="Haftalık menü"><table class="tablo panel"><caption class="yalniz-okuyucu">Haftanın günlük öğünleri</caption><thead id="bpHaftaBaslik"></thead><tbody id="bpHafta"></tbody></table></div>',
+    ikon: 'fa-calendar-week', baslik: '7 Günlük Öğün Dökümü', metin: 'Bugünün satırı işaretli. Porsiyonlar plan kalemlerinin ölçüsüyle verilir.', bosluksuz: true,
+    govde: '<ol class="hafta-plan" id="bpHafta" aria-label="Haftanın günlük öğünleri"></ol>',
     alt: `${dugme('Menüyü yazdır', { ikon: 'fa-print', ek: ' id="bpYazdir"' })}${dugme('Alışveriş listesi', { sinif: 'birincil', ikon: 'fa-basket-shopping', ek: ' data-ac="#bpAlisveris"' })}`,
   })}
 </div>`;
