@@ -15,8 +15,7 @@ const birimler = [
 ];
 // Saat başı hatırlatmanın sessiz aralığı tam saatlerden seçilir. Değer 23:00, görünen 23.00.
 const saatSecim = (id, etiket) => `<select class="alan-secim" id="${id}" aria-label="${etiket}">${Array.from({ length: 24 }, (_, i) => String(i).padStart(2, '0')).map((s) => `<option value="${s}:00">${s}.00</option>`).join('')}</select>`;
-const suSaatSatirlari = `${ayarSatir({ ikon: 'fa-clock', baslik: 'Saat başı su hatırlatması', metin: 'Gün boyunca her saat başı su içmeni hatırlatır.', sag: anahtar('su_saat_basi', 'Saat başı su hatırlatması', false, ' id="suHatirlatma"') })}
-<div class="ayar-satir sarmali"><span class="as-ikon"><i class="fa-solid fa-moon" aria-hidden="true"></i></span><div class="as-metin"><b>Sessiz saatler</b><span id="suSessizMetin"></span></div><div class="as-eylem saat-aralik">${saatSecim('suSessizBas', 'Sessiz saatlerin başlangıcı')}<span aria-hidden="true">–</span>${saatSecim('suSessizBit', 'Sessiz saatlerin bitişi')}</div></div>`;
+const suSatiri = `<div class="ayar-satir sarmali"><span class="as-ikon"><i class="fa-solid fa-droplet" aria-hidden="true"></i></span><div class="as-metin"><b>Su hatırlatması</b><span id="suSessizMetin"></span></div><div class="as-eylem"><div class="saat-aralik">${saatSecim('suSessizBas', 'Sessiz saatlerin başlangıcı')}<span aria-hidden="true">–</span>${saatSecim('suSessizBit', 'Sessiz saatlerin bitişi')}</div>${anahtar('su_saat_basi', 'Su hatırlatması', false, ' id="suHatirlatma"')}</div></div>`;
 const segment = ([ad, , etiket, , l]) => `<div class="segment" role="group" aria-label="${etiket} birimi" data-birim="${ad}">${l.map(([d, k], i) => `<button type="button" data-deger="${d}" aria-pressed="${i === 0}">${k}</button>`).join('')}</div>`;
 
 const govde = `<div class="yigin">
@@ -31,7 +30,7 @@ ${kart({ ikon: 'fa-gauge-high', baslik: 'Günlük hedefin', metin: 'Bir diyetisy
 ${kart({
     ikon: 'fa-bell', baslik: 'Bildirimler', metin: 'Tüm kanallar Hesap Ayarları içinde.', bosluksuz: true,
     sag: dugme('Tümünü yönet', { sinif: 'hayalet kucuk', href: 'hesabim/ayarlar/#bildirim' }),
-    govde: `<div class="ayar-liste">${bildirimler.map(([ad, ikon, b, m, acik]) => ayarSatir({ ikon, baslik: b, metin: m, sag: anahtar(ad, b, acik, ` data-bildirim="${ad}"`) }) + (ad === 'su_uygulama' ? suSaatSatirlari : '')).join('')}</div>`,
+    govde: `<div class="ayar-liste">${bildirimler.map(([ad, ikon, b, m, acik]) => (ad === 'su_uygulama' ? suSatiri : ayarSatir({ ikon, baslik: b, metin: m, sag: anahtar(ad, b, acik, ` data-bildirim="${ad}"`) }))).join('')}</div>`,
   })}
 ${kart({ ikon: 'fa-ruler', baslik: 'Birimler', metin: 'Değerler bu birimlerle gösterilir.', bosluksuz: true, govde: `<div class="ayar-liste">${birimler.map((b) => ayarSatir({ ikon: b[1], baslik: b[2], metin: b[3], sag: `<div class="as-eylem">${segment(b)}</div>` })).join('')}</div>` })}
 ${kart({

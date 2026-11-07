@@ -64,7 +64,7 @@
     $('suHatirlatma').checked = h.acik;
     bas.value = h.sessiz_bas; bit.value = h.sessiz_bit;
     bas.disabled = bit.disabled = !h.acik;
-    $('suSessizMetin').textContent = DD.bicim.saat(h.sessiz_bas) + '–' + DD.bicim.saat(h.sessiz_bit) + ' arasında hatırlatma gelmez.';
+    $('suSessizMetin').textContent = 'Saat başı hatırlatır; ' + DD.bicim.saat(h.sessiz_bas) + '–' + DD.bicim.saat(h.sessiz_bit) + ' arası sessizdir.';
   }
   function hesapYenile() {
     const r = S.hesapla(t);
@@ -129,7 +129,7 @@
   });
   $('suHatirlatma').addEventListener('change', (e) => {
     hatirlatma().acik = e.target.checked; U.kaydet(); hatirlatmaCiz();
-    DD.toast(e.target.checked ? 'Saat başı su hatırlatması açıldı.' : 'Saat başı su hatırlatması kapatıldı.');
+    DD.toast(e.target.checked ? 'Su hatırlatması açıldı.' : 'Su hatırlatması kapatıldı.');
   });
   [['suSessizBas', 'sessiz_bas'], ['suSessizBit', 'sessiz_bit']].forEach(([id, alan]) => $(id).addEventListener('change', (e) => {
     const h = hatirlatma();
