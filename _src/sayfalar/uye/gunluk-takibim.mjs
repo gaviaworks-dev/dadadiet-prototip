@@ -12,8 +12,8 @@ ${bolumBas({ etiket: 'Bugün', ikon: 'fa-droplet', baslik: 'Su takibin', metin: 
 <div class="iki-kolon esit">${kart({ ikon: 'fa-droplet', baslik: 'Bugünkü su alımın', metin: '<span id="gtSuMetin"></span>', govde: '<div id="gtSu"></div>', alt: dugme('Geri al', { ek: ' id="gtSuGeri" data-su="geri" disabled' }) + dugme('+500 ml', { ek: ' data-su="500"' }) + dugme('1 su bardağı (200 ml)', { sinif: 'birincil', ek: ' id="gtSuBardak" data-su="bardak"' }) })}${kart({ ikon: 'fa-chart-line', baslik: 'Son 7 gün', metin: 'Kesik çizgi günlük hedefin: <span id="gtSuHedef"></span>.', govde: '<div id="gtSuGrafik"></div>' })}</div>
 </div>` },
   { id: 'makro', ad: 'Enerji ve Makro', ikon: 'fa-chart-pie', govde: `<div class="yigin">
-${bolumBas({ etiket: 'Bugün', ikon: 'fa-chart-pie', baslik: 'Enerji ve makro dengen', metin: 'İşaretlediğin öğünler ve eklediğin besinler günlük hedefinle karşılaştırılır.' })}
-${kart({ ikon: 'fa-fire', baslik: 'Günün enerjisi', govde: '<div class="yigin sik" id="gtMakro"></div>' })}
+${bolumBas({ etiket: 'Bugün', ikon: 'fa-chart-pie', baslik: 'Enerji ve Makro Dengen', metin: 'İşaretlediğin öğünler ve eklediğin besinler günlük hedefinle karşılaştırılır.' })}
+${kart({ ikon: 'fa-chart-pie', baslik: 'Enerji ve Makro Dengesi', metin: 'Halka bugünkü enerjinin makrolara dağılımını gösterir; çubuklar hedefe göre ilerlemendir.', govde: '<div class="skor-yerlesim makro-denge" id="gtMakro"></div>' })}
 ${kart({ ikon: 'fa-list', baslik: 'Kalem kalem döküm', bosluksuz: true, govde: tablo({ id: 'gtKalemler', etiket: 'Bugünkü kalemler', basliklar: ['Kalem', ['Öğün', 'dar-kolon'], ['Enerji', 'dar-kolon sag']] }) })}
 </div>` },
   { id: 'adim', ad: 'Adım', ikon: 'fa-person-walking', govde: `<div class="yigin">

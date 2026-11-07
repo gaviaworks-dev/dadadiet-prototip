@@ -2989,3 +2989,22 @@ html[data-oturum="1"] .head-bell{display:grid}
 /* Kişi tanıtım metni sola yaslı: Türkçe tireleme yokken iki yana yaslama geniş kelime boşluğu açıyor. */
 .duz-metin p{text-align:left;text-align-last:auto}
 .duz-metin p+p{margin-top:var(--bosluk-12)}
+
+/* hesabim-b: Günlük Takibim makro halkası, Sağlık Dosyam */
+/* Dilimli halka: .halka ile aynı dil, üç makro payı --dilim-1 ve --dilim-2 birikimli yüzdeleri */
+.halka.dilimli{--dilim-1:0;--dilim-2:0;width:176px;flex:none;background:conic-gradient(var(--makro-protein) 0 calc(var(--dilim-1)*1%),var(--makro-karb) 0 calc(var(--dilim-2)*1%),var(--makro-yag) 0 100%)}
+.halka.dilimli.bos{background:var(--cizgi)}
+.halka.dilimli::before{inset:20px}
+.halka.dilimli>span{display:flex;flex-direction:column;align-items:center;line-height:1.15}
+.halka.dilimli b{font-size:var(--yazi-24);font-weight:var(--agirlik-ekstra)}
+.halka.dilimli small{font-size:var(--yazi-12);font-weight:var(--agirlik-govde);color:var(--metin-ikincil)}
+.makro-denge{gap:var(--bosluk-32)}
+.makro-satir{display:flex;flex-direction:column;gap:var(--bosluk-8)}
+.makro-satir .olcum-bas{align-items:baseline;flex-wrap:wrap}
+.makro-satir .lejant-kalem{font-weight:var(--agirlik-kalin);color:var(--murekkep)}
+.makro-satir .lejant-kalem small{font-weight:var(--agirlik-govde);color:var(--metin-ikincil)}
+.makro-satir.m-enerji{--renk:var(--aksan-koyu)}.lejant-kalem.m-enerji{--lejant-renk:var(--aksan-koyu)}
+.makro-satir.m-protein{--renk:var(--makro-protein)}
+.makro-satir.m-karb{--renk:var(--makro-karb)}
+.makro-satir.m-yag{--renk:var(--makro-yag)}
+.makro-denge>.yigin{width:100%;min-width:0}
