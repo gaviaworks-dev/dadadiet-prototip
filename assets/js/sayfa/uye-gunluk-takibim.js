@@ -17,6 +17,34 @@
   const suHedefMetin = () => U.sayi(u.su.hedef_ml) + ' ml · ' + U.sayi(Math.ceil(u.su.hedef_ml / bardakMl())) + ' bardak';
   const suEkler = () => { const e = U.yerel('suEk', {}); e[b] = e[b] || []; return e[b]; };
   const gunSu = (x) => (x.tarih === b ? u.su.bugun_ml : x.ml);
+  /* Bardak dizisi mobildeki su kartının kuralları: hedef kadar bardak, kısmi bardak kısmi dolar, sıradaki + taşır, hedef aşılınca bardak eklenir */
+  const suBardak = (ml) => Math.ceil(ml / bardakMl());
+  const suSiradaki = (ml) => Math.floor(ml / bardakMl());
+  const suKalan = (s) => (s.bugun_ml >= s.hedef_ml ? 'Hedefe ulaştın' : U.sayi(suBardak(s.hedef_ml - s.bugun_ml)) + ' bardak kaldı');
+  /* Dolu bardak bir bardak geri alır: bugünkü eklemeler sondan düşülür */
+  function suCikar() {
+    const l = suEkler();
+    for (let kalan = bardakMl(); kalan > 0 && l.length;) {
+      const son = l.length - 1;
+      if (l[son] <= kalan) kalan -= l.pop(); else { l[son] -= kalan; kalan = 0; }
+    }
+    u.su.bugun_ml = Math.max(0, u.su.bugun_ml - bardakMl());
+  }
+  /* Bardaklar yerinde güncellenir ki dolum geçişi yalnız değişen bardakta oynasın */
+  function bardakCiz() {
+    const s = u.su, kap = $('#gtSuBardaklar'), sira = suSiradaki(s.bugun_ml), n = Math.max(suBardak(s.hedef_ml), sira + 1);
+    kap.setAttribute('aria-label', U.sayi(suBardak(s.hedef_ml)) + ' bardaklık hedef');
+    while (kap.children.length > n) kap.lastElementChild.remove();
+    while (kap.children.length < n) kap.insertAdjacentHTML('beforeend', '<button class="su-bardak" type="button"><span class="su-bardak-ic"><i></i></span><span class="su-bardak-arti" aria-hidden="true"><i class="fa-solid fa-plus"></i></span></button>');
+    Array.from(kap.children).forEach((d, i) => {
+      const oran = Math.min(1, Math.max(0, (s.bugun_ml - i * bardakMl()) / bardakMl())), dolu = oran >= 1;
+      d.style.setProperty('--oran', oran.toFixed(3));
+      d.style.setProperty('--i', i);
+      d.classList.toggle('siradaki', i === sira);
+      d.dataset.su = dolu ? 'cikar' : 'bardak';
+      d.setAttribute('aria-label', '1 su bardağı ' + (dolu ? 'geri al' : 'ekle'));
+    });
+  }
 
   function ogunCiz() {
     U.bas('#gtBas', '<div class="bolum-bas"><div><span class="ust-etiket"><i class="fa-solid fa-calendar-day" aria-hidden="true"></i> ' + U.kisaTarih(b) + ' ' + U.gunAdi(b) + '</span><h2>Bugün ne yedin</h2><p class="giris-metni">Plandan farklı yediysen artıya basıp besin ekle.</p><div class="bolum-araclar"><a class="dugme hayalet" href="' + DD.kok + 'besin-kutuphanesi/">Besin kütüphanesinde ara</a></div></div></div>');
@@ -44,12 +72,14 @@
   const kisaGun = (x) => U.gunAdi(x).slice(0, 3);
 
   function suCiz() {
-    const s = u.su, oran = Math.round((s.bugun_ml / s.hedef_ml) * 100);
-    $('#gtSuMetin').textContent = U.sayi(s.bugun_ml) + ' ml içtin. Hedefin ' + suHedefMetin() + '.';
+    const s = u.su;
+    $('#gtSuDeger').textContent = U.sayi(s.bugun_ml);
+    $('#gtSuOlcu').textContent = '/ ' + suHedefMetin();
+    $('#gtSuKalan').textContent = suKalan(s);
     $('#gtSuHedef').textContent = suHedefMetin();
     $('#gtSuBardak').textContent = '1 su bardağı (' + U.sayi(bardakMl()) + ' ml)';
     $('#gtSuGeri').disabled = !suEkler().length;
-    U.bas('#gtSu', olcer(oran, 'Su hedefi'));
+    bardakCiz();
     if (s.hafta.length) DD.grafik.cizgi($('#gtSuGrafik'), { baslik: 'Son yedi günün su alımı', etiketler: s.hafta.map((x) => kisaGun(x.tarih)), seriler: [{ ad: 'Su', degerler: s.hafta.map(gunSu) }], hedef: s.hedef_ml });
   }
   function adimCiz() {
@@ -92,10 +122,13 @@
   document.addEventListener('click', (e) => {
     const s = e.target.closest('[data-su]');
     if (s) {
-      const l = suEkler();
+      const l = suEkler(), once = u.su.bugun_ml;
       if (s.dataset.su === 'geri') u.su.bugun_ml = Math.max(0, u.su.bugun_ml - (l.pop() || 0));
+      else if (s.dataset.su === 'cikar') suCikar();
       else { const ml = s.dataset.su === 'bardak' ? bardakMl() : Number(s.dataset.su); l.push(ml); u.su.bugun_ml += ml; }
       U.kaydet(); suCiz(); ozetCiz();
+      /* Bardak dokunuşu mesaj açmaz; geri bildirimi dolum ve sayaçtır */
+      if (!s.classList.contains('su-bardak') && once < u.su.hedef_ml && u.su.bugun_ml >= u.su.hedef_ml) DD.toast('Su hedefine ulaştın.');
       return;
     }
     const a = e.target.closest('[data-besin-ekle]');

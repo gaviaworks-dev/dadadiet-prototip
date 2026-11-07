@@ -3028,3 +3028,78 @@ html[data-oturum="1"] .head-bell{display:grid}
 .bolum-eylem.sayfa-sonu{justify-content:center;margin-top:var(--bosluk-24)}
 @media(max-width:640px){.muadil-ozet .temel-secici{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));width:100%}.temel-secici button{flex-direction:column;align-items:center;gap:var(--bosluk-2);padding:var(--bosluk-8) var(--bosluk-4)}}
 .ornek-etiket.satir-ici{align-self:auto;margin:0 0 0 var(--bosluk-6);vertical-align:middle}
+/* ── hesabim-a · revize 7 Kasım ─────────────────────────────────────────── */
+/* Genel Bakış: kart başlıkları Gastro Hesabım gibi belirgin, ayraç başlığın altında */
+.baslik-belirgin .kart.panel>.kart-bas .kart-baslik{font-size:var(--rol-alt-baslik-boyut);font-weight:var(--agirlik-ekstra);line-height:var(--rol-baslik-satir)}
+.baslik-belirgin .kart.panel>.kart-bas{border-bottom-color:var(--cizgi-vurgu-acik)}
+.baslik-belirgin .ayar-satir .as-metin>b{font-size:var(--yazi-15);font-weight:var(--agirlik-ekstra)}
+
+/* Puan kartları: üç ve dört sütunlu ızgara; dört sütun tablette ikiye, ikisi de telefonda teke iner */
+.puan-izgara.uc{grid-template-columns:repeat(3,minmax(0,1fr))}
+.puan-izgara.dort{grid-template-columns:repeat(4,minmax(0,1fr))}
+.puan-sayi small{font-size:var(--yazi-13);font-weight:var(--agirlik-orta);letter-spacing:normal;color:var(--metin-ikincil)}
+.puan-karti>.olcer{margin-top:var(--bosluk-8)}
+.puan-karti>.puan-alt{margin-top:var(--bosluk-4)}
+@media(max-width:1024px){.puan-izgara.dort{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media(max-width:640px){.puan-izgara.uc,.puan-izgara.dort{grid-template-columns:minmax(0,1fr)}}
+
+/* Fatura defteri: bilgi kutusu ile süzgeç arası tek nefes */
+.kart.panel.odeme>.kart-govde:not(.bosluksuz):has(+.kart-suzgec){padding-bottom:0}
+.kart.panel.odeme>.kart-govde:has(+.kart-suzgec)>.uyari-kutu:last-child{margin-bottom:0}
+.kart.panel.odeme>.kart-govde+.kart-suzgec{padding-top:var(--bosluk-8)}
+@media(max-width:640px){.kimlik-bant~.fit-pane .kart-govde>.kunye.uc-sutun>div:last-child:nth-child(odd){grid-column:1/-1}}
+
+/* His seçimi: yüz üstte ad altta, ortalı tek satır. Sığmayınca kayar (K21) */
+.cipler.his-secim{gap:var(--bosluk-8);padding-block:var(--bosluk-4)}
+.cipler.his-secim>.cip{display:grid;justify-items:center;align-content:center;gap:var(--bosluk-4);min-width:calc(var(--bosluk-48) * 2);height:auto;padding:var(--bosluk-12) var(--bosluk-12);color:var(--murekkep-yumusak);font-size:var(--yazi-13)}
+.cipler.his-secim>.cip i{font-size:var(--yazi-24);color:var(--aksan);transition:transform .2s ease}
+.cipler.his-secim>.cip[aria-pressed="true"]{color:var(--kagit)}
+.cipler.his-secim>.cip[aria-pressed="true"] i{color:var(--kagit);transform:scale(1.12)}
+
+/* Bardaklı su kartı: mobil DD.suKart'ın web boyu. Gövde ve su alanı SVG maskesi, su yüksekliği --oran ile gelir */
+.su-kart{display:grid;gap:var(--bosluk-16)}
+.su-sayi{display:flex;flex-wrap:wrap;align-items:baseline;column-gap:var(--bosluk-8)}
+.su-sayi b{font-size:var(--yazi-32);font-weight:var(--agirlik-ekstra);line-height:var(--satir-baslik);letter-spacing:var(--aralik-sik);color:var(--murekkep)}
+.su-sayi small{font-size:var(--yazi-14);color:var(--metin-ikincil)}
+.su-kalan{margin-top:calc(-1 * var(--bosluk-12));font-size:var(--yazi-13);font-weight:var(--agirlik-kalin);text-align:left;text-align-last:auto;color:var(--durum-acik-metin)}
+.su-bardaklar{display:grid;grid-template-columns:repeat(6,minmax(0,52px));justify-content:space-between;gap:var(--bosluk-12) var(--bosluk-8)}
+.su-bardak{position:relative;display:block;width:100%;aspect-ratio:36/46;padding:0;border:0;background:none;cursor:pointer;transition:transform .15s ease}
+.su-bardak:active{transform:scale(.94)}
+.su-bardak:focus-visible{outline:2px solid var(--aksan);outline-offset:var(--bosluk-4);border-radius:var(--yuvarlak-sm)}
+.su-bardak::before{content:"";position:absolute;inset:0;background:var(--eko-akademi-3);opacity:.45;-webkit-mask:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 36 46'%3E%3Cpath fill='none' stroke='black' stroke-width='2' stroke-linejoin='round' d='M3 2H33L30 41Q29.7 44 26.7 44H9.3Q6.3 44 6 41Z'/%3E%3C/svg%3E") center/100% 100% no-repeat;mask:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 36 46'%3E%3Cpath fill='none' stroke='black' stroke-width='2' stroke-linejoin='round' d='M3 2H33L30 41Q29.7 44 26.7 44H9.3Q6.3 44 6 41Z'/%3E%3C/svg%3E") center/100% 100% no-repeat}
+.su-bardak-ic{position:absolute;inset:0;overflow:hidden;background:var(--durum-acik-zemin);-webkit-mask:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 36 46'%3E%3Cpath d='M6 7H30L27.6 39.5Q27.4 41 25.8 41H10.2Q8.6 41 8.4 39.5Z'/%3E%3C/svg%3E") center/100% 100% no-repeat;mask:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 36 46'%3E%3Cpath d='M6 7H30L27.6 39.5Q27.4 41 25.8 41H10.2Q8.6 41 8.4 39.5Z'/%3E%3C/svg%3E") center/100% 100% no-repeat}
+.su-bardak-ic::after{content:"";position:absolute;inset:0;background:linear-gradient(100deg,transparent 24%,color-mix(in srgb,var(--kagit) 38%,transparent) 30%,color-mix(in srgb,var(--kagit) 38%,transparent) 37%,transparent 43%)}
+.su-bardak-ic i{position:absolute;left:0;right:0;bottom:11%;height:calc(var(--oran) * 74%);background:linear-gradient(var(--eko-akademi-3),color-mix(in srgb,var(--eko-akademi-3) 72%,var(--eko-akademi)));transition:height .45s cubic-bezier(.2,.8,.2,1);animation:su-bardak-dol .6s ease calc(min(var(--i),11) * 40ms) both}
+.su-bardak-arti{position:absolute;right:calc(-1 * var(--bosluk-4));bottom:calc(-1 * var(--bosluk-2));display:none;place-items:center;width:var(--bosluk-20);height:var(--bosluk-20);border-radius:var(--yuvarlak-daire);background:var(--durum-acik-metin);color:var(--kagit);box-shadow:0 0 0 2px var(--kagit);font-size:var(--yazi-11)}
+.su-bardak.siradaki::before{opacity:1}
+.su-bardak.siradaki::after{content:"";position:absolute;inset:calc(-1 * var(--bosluk-4))}
+.su-bardak.siradaki .su-bardak-arti{display:grid}
+@keyframes su-bardak-dol{from{height:0}}
+@media(prefers-reduced-motion:reduce){.su-bardak-ic i{animation:none;transition:none}.su-bardak{transition:none}}
+
+/* Haftalık menü: gün başına bir satır, öğünler kutucuk. Bugün yeşil yıkamayla ayrılır */
+.hafta-plan{list-style:none;display:grid}
+.hafta-gun{display:grid;grid-template-columns:112px minmax(0,1fr);gap:var(--bosluk-16);padding:var(--bosluk-16) var(--bosluk-22);border-top:var(--cizgi-1) solid var(--cizgi)}
+.hafta-gun:first-child{border-top:0}
+.hafta-gun.bugun{background:var(--marka-yikama);box-shadow:inset 3px 0 0 var(--aksan)}
+.hafta-gun-bas{display:flex;flex-direction:column;align-items:flex-start;gap:var(--bosluk-4)}
+.hafta-gun-bas b{font-size:var(--yazi-15);font-weight:var(--agirlik-ekstra);color:var(--murekkep)}
+.hafta-gun-bas small{font-size:var(--yazi-12-5);color:var(--metin-ikincil)}
+.hafta-gun-bas .durum-hapi{margin-top:var(--bosluk-4)}
+.hafta-ogunler{display:grid;grid-template-columns:repeat(var(--ogun-sayi,5),minmax(0,1fr));gap:var(--bosluk-8)}
+.hafta-ogun{display:flex;flex-direction:column;gap:var(--bosluk-8);min-width:0;padding:var(--bosluk-12);border:var(--cizgi-1) solid var(--cizgi);border-radius:var(--yuvarlak-md);background:var(--kagit)}
+.hafta-ogun-ad{display:flex;align-items:center;gap:var(--bosluk-8);font-size:var(--yazi-11-5);font-weight:var(--agirlik-ekstra);letter-spacing:var(--aralik-versal);text-transform:uppercase;color:var(--murekkep-yumusak)}
+.hafta-ogun-ad i{font-size:var(--yazi-13);color:var(--aksan)}
+.hafta-ogun ul{list-style:none;display:grid;gap:var(--bosluk-4)}
+.hafta-ogun li{font-size:var(--yazi-13);line-height:var(--satir-baslik-2);color:var(--murekkep)}
+.hafta-ogun small{display:block;font-size:var(--yazi-12);color:var(--metin-ikincil)}
+.hafta-ogun.bos{background:var(--zemin)}
+@media(max-width:1024px){
+  .hafta-gun{grid-template-columns:minmax(0,1fr)}
+  .hafta-gun-bas{flex-direction:row;flex-wrap:wrap;align-items:center;column-gap:var(--bosluk-8)}
+  .hafta-gun-bas .durum-hapi{margin:0 0 0 auto}
+  .hafta-ogunler{grid-template-columns:repeat(3,minmax(0,1fr))}
+}
+@media(max-width:640px){.hafta-gun{padding:var(--bosluk-16)}.hafta-ogunler{grid-template-columns:minmax(0,1fr)}}
+@media print{.hafta-gun{break-inside:avoid}.hafta-gun.bugun{box-shadow:none}.hafta-ogun{padding:var(--bosluk-8)}}
+.hafta-gun.bugun .durum-hapi{background:var(--kagit)}

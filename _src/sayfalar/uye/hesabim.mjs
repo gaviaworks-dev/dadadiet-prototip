@@ -3,7 +3,7 @@ import { kart, dugme } from '../../parcalar/uye/ust.mjs';
 
 const kisayol = [['fa-calendar-week', 'Haftalık Menüm', 'hesabim/haftalik-menum/'], ['fa-bookmark', 'Kaydedilenler', 'hesabim/kaydedilenler/'], ['fa-people-group', 'Destek Grupları', 'hesabim/destek-gruplari/'], ['fa-bell', 'Bildirimler', 'hesabim/bildirimler/']];
 
-const govde = `<div class="yigin">
+const govde = `<div class="yigin baslik-belirgin">
 <div id="gbSiradaki"></div>
 <div class="iki-kolon" id="gbKolon">
 <div class="yigin">

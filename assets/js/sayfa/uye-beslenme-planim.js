@@ -58,23 +58,27 @@
       : U.bos({ ikon: 'fa-comments', baslik: 'Henüz not göndermedin', metin: 'Planla ilgili sorun ya da değişiklik isteğin varsa buradan ilet.', eylem: '<button class="dugme hayalet" type="button" data-not-ac>Not yaz</button>' }));
   }
 
+  /* Her besin kendi satırında: uzun tek cümle yerine göz gezdirilen liste */
+  const haftaOgun = (o, x) => '<div class="hafta-ogun' + (x ? '' : ' bos') + '"><span class="hafta-ogun-ad"><i class="fa-solid ' + o[3] + '" aria-hidden="true"></i> ' + o[1] + '</span>' + (x ? '<ul>' + x.metin.split(' + ').map((m) => '<li>' + U.kac(m) + '</li>').join('') + '</ul>' + U.veyaSatir(x) : '<small>Bu gün yok</small>') + '</div>';
+
   function haftaCiz() {
     const k = kk();
-    if (!k) { U.bas('#bpHaftaBas', ''); return; }
+    if (!k) { U.bas('#bpHaftaBas', ''); U.bas('#bpHafta', '<li>' + U.bos({ ikon: 'fa-calendar-week', baslik: 'Haftalık menün yok', metin: 'Bir program başlattığında öğünlerin gün gün burada görünür.', eylem: U.bag('Program seç', 'programlar/') }) + '</li>'); return; }
     /* Hafta, programın başladığı günden sayılır */
     const kb = U.kaynakBas(k), bas = U.gunEkle(kb, Math.max(0, Math.floor(U.gunFarki(kb, b) / 7)) * 7);
-    U.bas('#bpHaftaBas', bolumBas('fa-calendar-week', U.kisaTarih(bas) + ' – ' + U.kisaTarih(U.gunEkle(bas, 6)), 'Haftalık menün', 'Gün gün öğünlerin. Değiştirmek için Öğün Alternatifleri sekmesini kullan.', ''));
+    U.bas('#bpHaftaBas', bolumBas('fa-calendar-week', U.kisaTarih(bas) + ' – ' + U.kisaTarih(U.gunEkle(bas, 6)), 'Haftalık Menün', 'Gün gün öğünlerin. Değiştirmek için Öğün Alternatifleri sekmesini kullan.', ''));
     /* Kapatılan öğün o günün kaydında yer almaz; kolon haftanın herhangi bir gününde varsa görünür */
     const haftaGunleri = [0, 1, 2, 3, 4, 5, 6].map((i) => U.gunOgunleri(k, U.gunEkle(bas, i)));
     const tanim = U.ogunTanimi.filter((o) => haftaGunleri.some((g) => g.some((x) => x.anahtar === o[0])));
-    $('#bpHaftaBaslik').innerHTML = '<tr><th scope="col">Gün</th>' + tanim.map((o) => '<th scope="col">' + o[1] + '</th>').join('') + '<th scope="col">Durum</th></tr>';
-    let s = '';
+    const kap = $('#bpHafta');
+    kap.style.setProperty('--ogun-sayi', tanim.length);
+    let h = '';
     for (let i = 0; i < 7; i++) {
       const t = U.gunEkle(bas, i), l = U.secilenOgunler(k, t);
       const hap = t === b ? U.durum('acik', 'Bugün') : t < b ? U.durum('cozulen', 'Geçti') : U.durum('kapali', 'Planlandı');
-      s += '<tr><td><span class="no">' + U.gunAdi(t) + '<small>' + U.kisaTarih(t) + '</small></span></td>' + tanim.map((o) => { const x = l.find((m) => m.anahtar === o[0]); return '<td>' + U.kac(x ? x.metin : '—') + (x ? U.veyaSatir(x) : '') + '</td>'; }).join('') + '<td>' + hap + '</td></tr>';
+      h += '<li class="hafta-gun' + (t === b ? ' bugun' : '') + '"><div class="hafta-gun-bas"><b>' + U.gunAdi(t) + '</b><small>' + U.kisaTarih(t) + '</small>' + hap + '</div><div class="hafta-ogunler">' + tanim.map((o) => haftaOgun(o, l.find((m) => m.anahtar === o[0]))).join('') + '</div></li>';
     }
-    U.bas('#bpHafta', s);
+    U.bas(kap, h);
     /* Alışveriş listesi: hafta boyunca kalem toplamı */
     const top = {};
     for (let i = 0; i < 7; i++) U.secilenOgunler(k, U.gunEkle(bas, i)).forEach((o) => o.kalemler.forEach((x) => { const a = U.kalemAd(x); top[a] = top[a] || { tarif: x.tur === 'tarif', m: 0 }; if (x.slug) top[a].m += Number(x.miktar || x.gram) || 0; top[a].olcu = x.olcu; }));

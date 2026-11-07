@@ -9,7 +9,7 @@ ${kart({ ikon: 'fa-clipboard-list', baslik: 'Günün kaydı', metin: '<span id="
 </div>` },
   { id: 'su', ad: 'Su', ikon: 'fa-droplet', govde: `<div class="yigin">
 ${bolumBas({ etiket: 'Bugün', ikon: 'fa-droplet', baslik: 'Su takibin', metin: 'Her bardağı ekle; haftalık grafiğin buna göre güncellenir.', arac: dugme('Su ihtiyacını hesapla', { href: 'hesaplayicilar/' }) })}
-<div class="iki-kolon esit">${kart({ ikon: 'fa-droplet', baslik: 'Bugünkü su alımın', metin: '<span id="gtSuMetin"></span>', govde: '<div id="gtSu"></div>', alt: dugme('Geri al', { ek: ' id="gtSuGeri" data-su="geri" disabled' }) + dugme('+500 ml', { ek: ' data-su="500"' }) + dugme('1 su bardağı (200 ml)', { sinif: 'birincil', ek: ' id="gtSuBardak" data-su="bardak"' }) })}${kart({ ikon: 'fa-chart-line', baslik: 'Son 7 gün', metin: 'Kesik çizgi günlük hedefin: <span id="gtSuHedef"></span>.', govde: '<div id="gtSuGrafik"></div>' })}</div>
+<div class="iki-kolon esit">${kart({ ikon: 'fa-droplet', baslik: 'Bugünkü Su Alımın', sag: `<div class="as-eylem">${dugme('Kayıtlar', { sinif: 'hayalet kucuk', ek: ' data-sekme-git="ozet"' })}</div>`, govde: '<div class="su-kart"><div class="su-sayi"><b id="gtSuDeger"></b><small id="gtSuOlcu"></small></div><p class="su-kalan" id="gtSuKalan" aria-live="polite"></p><div class="su-bardaklar" id="gtSuBardaklar" role="group"></div></div>', alt: dugme('Geri al', { ek: ' id="gtSuGeri" data-su="geri" disabled' }) + dugme('+500 ml', { ek: ' data-su="500"' }) + dugme('1 su bardağı (200 ml)', { sinif: 'birincil', ek: ' id="gtSuBardak" data-su="bardak"' }) })}${kart({ ikon: 'fa-chart-line', baslik: 'Son 7 gün', metin: 'Kesik çizgi günlük hedefin: <span id="gtSuHedef"></span>.', govde: '<div id="gtSuGrafik"></div>' })}</div>
 </div>` },
   { id: 'makro', ad: 'Enerji ve Makro', ikon: 'fa-chart-pie', govde: `<div class="yigin">
 ${bolumBas({ etiket: 'Bugün', ikon: 'fa-chart-pie', baslik: 'Enerji ve makro dengen', metin: 'İşaretlediğin öğünler ve eklediğin besinler günlük hedefinle karşılaştırılır.' })}
@@ -50,5 +50,5 @@ const sonEk = modal({
 export default () => [uyeSayfa({
   yol: 'hesabim/gunluk-takibim', ad: 'Günlük Takibim',
   giris: 'Öğün, su ve adım kayıtların tek yerde; plana uyduysan tek dokunuş yeter.',
-  grup: 'gt', sekmeler, sonEk, js: ['assets/js/tercih-uyum.js', 'assets/js/his-kaydi.js', 'assets/js/ogun-foto.js', 'assets/js/sayfa/uye-gunluk-takibim.js'],
+  grup: 'gt', sekmeler, sonEk, js: ['assets/js/tercih-uyum.js', 'assets/js/yatay-kaydir.js', 'assets/js/his-kaydi.js', 'assets/js/ogun-foto.js', 'assets/js/sayfa/uye-gunluk-takibim.js'],
 })];
