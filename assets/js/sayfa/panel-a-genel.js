@@ -37,7 +37,7 @@
       kpi('fa-calendar-check', 'Bugünkü randevu', bugun.length, '', 'fa-hourglass-half', kalan + ' görüşme kaldı' + (onay ? ', ' + onay + ' onay' : '')) +
       kpi('fa-user-check', 'Aktif danışan', aktif.length, 'iyi', 'fa-users', d.danisanlar.length + ' kayıtlı danışan') +
       kpi('fa-comments', 'Okunmamış mesaj', okunmamis, okunmamis ? 'kotu' : '', 'fa-clock', eskiMesaj ? 'En eskisi ' + PA.tarih(eskiMesaj) + ' ' + DD.bicim.saat(eskiMesaj.slice(11, 16)) : 'Hepsi okundu') +
-      kpi('fa-star', 'Profil puanı', PA.sayi(d.diyetisyen.puan), 'iyi', 'fa-comment-dots', d.diyetisyen.degerlendirme_sayisi + ' değerlendirme (örnek)');
+      kpi('fa-star', 'Profil puanı', 'Henüz yok', 'notr', 'fa-comment-dots', 'Puanlama yayında değil · prototip örneği');
 
     $('bugunListe').innerHTML = bugun.length ? bugun.map((r) => {
       const dn = PA.danisan(r.danisan_id), durum = PA.rDurum(r);

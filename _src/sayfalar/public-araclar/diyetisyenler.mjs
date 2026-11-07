@@ -57,9 +57,9 @@ ${pano('hakkinda', false, `${bolumBas({ etiket: 'Uzmanlık ve görüşme', ikon:
 
   const d = veri.demo.diyetisyen;
   const ece = `<div class="zebra"><div class="uyari-serit" id="onizlemeSerit" hidden><div class="kap">${ikon('fa-eye')}<p>Önizleme, ziyaretçiler bu sayfayı görmüyor. <a class="baglanti-metin" href="${K}diyetisyen-paneli/profil/">Panele dön</a></p></div></div>${profilUst(d, {
-    giris: '<span id="eceKisa"></span>',
+    giris: '<span id="eceKisa"></span> <span class="ornek-etiket satir-ici">prototip örneği</span>',
     eylem: `<a class="dugme birincil" href="#p-randevu" data-sekme-git="t-randevu">${ikon('fa-calendar-check')} Randevu al</a><div><a class="dugme hayalet" href="${K}hesabim/diyetisyenim/#mesaj">${ikon('fa-paper-plane')} Mesaj</a><button class="dugme hayalet" type="button" data-paylas aria-label="Profili paylaş">${ikon('fa-share-nodes')}</button></div>`,
-    sayaclar: [['fa-briefcase', 'Deneyim', `${d.deneyim_yil} yıl`, 'deneyim'], ['fa-star', `Puan · ${d.degerlendirme_sayisi} değerlendirme`, `${bicim.sayi(d.puan, 1)} / 5`], ['fa-tag', 'Seans ücreti', `${bicim.para(d.fiyat_araligi.min)}–${bicim.sayi(d.fiyat_araligi.max)}`], ['fa-video', 'Görüşme kipi', gorusme(d), 'gorusme']],
+    sayaclar: [['fa-briefcase', 'Deneyim', `${d.deneyim_yil} yıl`, 'deneyim'], ['fa-star', 'Danışan puanı', 'Henüz puan yok'], ['fa-tag', 'Seans ücreti', `${bicim.para(d.fiyat_araligi.min)}–${bicim.sayi(d.fiyat_araligi.max)}`], ['fa-video', 'Görüşme kipi', gorusme(d), 'gorusme']],
   })}
 <section class="bolum" id="profilKapali" hidden><div class="kap"><div class="kart"><div class="bos-durum kart-ici"><span class="bos-ikon">${ikon('fa-user-clock')}</span><h3>Bu profil henüz yayında değil</h3><p>Uzmanın başvurusu inceleniyor. Yayına girdiğinde hizmetleri ve randevu saatleri burada görünür.</p><a class="dugme birincil" href="${K}diyetisyenler/">Tüm diyetisyenleri gör</a></div></div></div></section>
 <div class="modul-govde" id="profilGovde">${sekmeRay([['hakkinda', 'Hakkında', 'fa-user'], ['paket', 'Hizmet Paketleri', 'fa-box-open', 'paketSayi'], ['randevu', 'Randevu', 'fa-calendar-check']])}
