@@ -291,7 +291,7 @@
       const i = U.isaret(k, b), bekleyen = U.secilenOgunler(k, b).find((o) => !U.ogunDurum(i, o));
       if (bekleyen) ekle('fa-utensils', 'Sıradaki öğünün: ' + bekleyen.ad, DD.bicim.saat(bekleyen.saat) + ' · plana uydun mu?', 'Öğünü işaretle', 'hesabim/gunluk-takibim/');
     } else ekle('fa-list-check', 'Kendine bir program seç', 'Sana uygun programı bul, bugünün öğünleri hemen hazır olsun.', 'Program bul', 'programlar/program-bul/');
-    if (U.anamnezEksik().length && (dn.anamnez_hatirlatma || U.diyetisyen())) ekle('fa-notes-medical', 'Sağlık öykünü tamamla', U.anamnezEksik().length + ' alan eksik; yarıda bırakabilirsin.', 'Devam et', 'hesabim/saglik-dosyam/');
+    if (U.anamnezEksik().length && (dn.anamnez_hatirlatma || U.diyetisyen())) ekle('fa-notes-medical', 'Sağlık öykünü tamamla', U.anamnezEksik().length + ' alan eksik; yarıda bırakabilirsin.', 'Devam et', 'hesabim/saglik-dosyam/#profil');
     const s = (dn.olcumler || []).slice(-1)[0];
     if (s && !U.yemeDuyarli() && U.gunFarki(s.tarih, b) >= 7) ekle('fa-weight-scale', 'Ölçüm zamanı', 'Son ölçümün ' + U.tarih(s.tarih) + ' tarihli.', 'Ölçüm ekle', 'hesabim/saglik-dosyam/#olcum');
     return l;
