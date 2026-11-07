@@ -60,7 +60,10 @@ const sonEk = modal({
   id: 'sdBelgeModal', baslik: 'Yeni belge yükle', form: ' id="sdBelgeForm"',
   govde: `${secim({ ad: 'bTur', etiket: 'Belge türü', secenekler: ['Tahlil', 'Reçete', 'Epikriz', 'Diğer'] })}<div class="alan"><label class="alan-etiket" for="bDosya">Dosya <span class="zorunlu">*</span></label><input class="alan-girdi" id="bDosya" type="file" required><p class="alan-yardim"><span>Belge yalnız sende durur; diyetisyenin Veri İzinlerim’den açtığın izinle görür.</span></p></div>`,
   ayak: dugme('Vazgeç', { ek: ' data-kapat' }) + dugme('Yükle', { sinif: 'birincil', tur: 'submit' }),
-});
+}) + modal({
+  id: 'sdOnizleme', baslik: '<span id="sdOnizlemeBaslik">Belge</span>', govde: '<div id="sdOnizlemeGovde"></div>',
+  ayak: `<span id="sdOnizlemeIndir"></span>${dugme('Kapat', { sinif: 'birincil', ek: ' data-kapat' })}`,
+}).replace('class="modal-kutu"', 'class="modal-kutu belge-modal"');
 
 export default () => [uyeSayfa({
   yol: 'hesabim/saglik-dosyam', ad: 'Sağlık Dosyam',

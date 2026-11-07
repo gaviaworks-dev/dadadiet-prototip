@@ -3051,3 +3051,22 @@ html[data-oturum="1"] .head-bell{display:grid}
 .satir-form>.alan{margin:0}
 @media(max-width:768px){.satir-form{grid-template-columns:repeat(2,minmax(0,1fr))}.satir-form>.alan:nth-child(3),.satir-form>.dugme{grid-column:1/-1}}
 .akordeon.tam-genis{max-width:none;margin-inline:0}
+
+/* Belge önizleme penceresi: gerçek dosya ya da etiketli örnek sayfa */
+.modal-kutu.belge-modal{width:min(760px,100%)}
+.belge-modal .modal-bas h2{min-width:0;overflow-wrap:anywhere}
+.belge-modal .modal-govde{background:var(--zemin)}
+.belge-not{display:flex;align-items:center;flex-wrap:wrap;gap:var(--bosluk-8) var(--bosluk-12);margin-bottom:var(--bosluk-16)}
+.belge-not p{margin:0;font-size:var(--yazi-13);color:var(--metin-ikincil)}
+.belge-sayfa{padding:var(--bosluk-32);background:var(--kagit);border:1px solid var(--cizgi);border-radius:var(--yuvarlak-sm);box-shadow:var(--golge-sm)}
+.belge-sayfa-bas{display:flex;align-items:baseline;justify-content:space-between;gap:var(--bosluk-16);padding-bottom:var(--bosluk-12);margin-bottom:var(--bosluk-16);border-bottom:2px solid var(--aksan-koyu)}
+.belge-sayfa-bas h3{margin:0;font-size:var(--yazi-18);font-weight:var(--agirlik-ekstra);color:var(--murekkep)}
+.belge-sayfa-bas span{font-size:var(--yazi-13);color:var(--metin-ikincil);white-space:nowrap}
+.belge-bilgi{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:var(--bosluk-12);margin:0 0 var(--bosluk-16)}
+.belge-bilgi dt{font-size:var(--yazi-12);color:var(--metin-ikincil)}
+.belge-bilgi dd{margin:0;font-size:var(--yazi-14);font-weight:var(--agirlik-kalin);color:var(--murekkep);overflow-wrap:anywhere}
+.belge-gorsel{display:block;max-width:100%;margin-inline:auto;border-radius:var(--yuvarlak-sm)}
+.belge-cerceve{display:block;width:100%;height:64vh;background:var(--kagit);border:1px solid var(--cizgi);border-radius:var(--yuvarlak-sm)}
+@media(max-width:480px){.belge-sayfa{padding:var(--bosluk-16)}.belge-bilgi{grid-template-columns:minmax(0,1fr)}}
+@media(max-width:480px){.belge-sayfa .tablo th,.belge-sayfa .tablo td{padding-inline:var(--bosluk-4);font-size:var(--yazi-12-5)}}
+.iki-kolon.tek .grafik{display:block;max-height:340px;margin-inline:auto}
