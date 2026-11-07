@@ -461,8 +461,8 @@
     const oz = $('muadilOzet'), son = $('muadilSonuc');
     if (!b) { oz.innerHTML = ''; son.innerHTML = ''; return; }
     const kay = { karb: kaynakDeger('karb'), kcal: kaynakDeger('kcal'), protein: kaynakDeger('protein') };
-    oz.innerHTML = '<div class="muadil-ad"><span class="ust-etiket">Referans</span><b>' + M.sayi(muadil.adet) + ' ' + kac(porsiyonAdi(b)) + ' ' + kac(M.kisaAd(b).toLocaleLowerCase('tr-TR')) + '</b>' + (M.porsiyonGram(b) ? '<span>' + M.sayi(kaynakGram(), 0) + ' g</span>' : '') + '</div><dl class="deger-satir">'
-      + DEGER.map(([a, ad, br]) => '<div' + (a === muadil.temel ? ' class="temel"' : '') + '><dt>' + ad + '</dt><dd>' + M.goster(kay[a], br, 0) + '</dd></div>').join('') + '</dl>';
+    oz.innerHTML = '<div class="muadil-ad"><span class="ust-etiket">Referans</span><b>' + M.sayi(muadil.adet) + ' ' + kac(porsiyonAdi(b)) + ' ' + kac(M.kisaAd(b).toLocaleLowerCase('tr-TR')) + '</b>' + (M.porsiyonGram(b) ? '<span>' + M.sayi(kaynakGram(), 0) + ' g</span>' : '') + '</div><div class="deger-satir temel-secici" role="group" aria-label="Eşitleme temeli: değere dokun">'
+      + DEGER.map(([a, ad, br]) => '<button type="button" data-temel-sec="' + a + '" class="' + (a === muadil.temel ? 'temel' : '') + '" aria-pressed="' + (a === muadil.temel) + '"><span>' + ad + '</span><b>' + M.goster(kay[a], br, 0) + '</b></button>').join('') + '</div>';
     const hedef = kay[muadil.temel];
     if (hedef == null || hedef < tm.esik) {
       son.innerHTML = '<div class="bos-durum kart-ici"><span class="bos-ikon"><i class="fa-solid fa-scale-unbalanced" aria-hidden="true"></i></span><h3>' + tm.baslik + '</h3><p>' + tm.metin + '</p><button class="dugme birincil" type="button" data-muadil-sec="tam-bugday-ekmegi">Tam buğday ekmeğiyle dene</button></div>';
@@ -488,17 +488,17 @@
   const muadilSec = (b) => { muadil.b = b; muadil.adet = 1; $('muadilAdet').value = 1; muadilCiz(); };
   const muadilAc = (b, temel) => {
     muadil.temel = temel;
-    document.querySelectorAll('#muadilTemel button').forEach((x) => x.setAttribute('aria-pressed', String(x.dataset.deger === temel)));
     muadilSec(b); $('muadil').scrollIntoView({ block: 'start' });
   };
   M.oneri($('muadilArama'), { kaynak: M.tumKayitlar, secildi(b) { $('muadilArama').blur(); muadilSec(b); } });
   $('muadilArama').addEventListener('blur', () => setTimeout(() => { if (muadil.b) $('muadilArama').value = muadil.b.ad; }, 140));
   $('muadilHizli').addEventListener('click', (e) => { const c = e.target.closest('[data-slug]'); if (c) muadilSec(M.besin(c.dataset.slug)); });
   $('muadilAdet').addEventListener('input', (e) => { const v = parseFloat(e.target.value); if (v > 0) { muadil.adet = v; muadilCiz(); } });
-  $('muadilTemel').addEventListener('dd:secim', (e) => { muadil.temel = e.detail.deger; muadilCiz(); });
   $('muadil').addEventListener('click', (e) => {
+    const ts = e.target.closest('[data-temel-sec]');
+    if (ts) { muadil.temel = ts.dataset.temelSec; muadilCiz(); $('muadilOzet').querySelector('[data-temel-sec="' + muadil.temel + '"]').focus(); return; }
     const s = e.target.closest('[data-muadil-sec]');
-    if (s) { const yeni = M.besin(s.dataset.muadilSec); muadil.temel = 'karb'; document.querySelectorAll('#muadilTemel button').forEach((x) => x.setAttribute('aria-pressed', String(x.dataset.deger === 'karb'))); muadilSec(yeni); return; }
+    if (s) { const yeni = M.besin(s.dataset.muadilSec); muadil.temel = 'karb'; muadilSec(yeni); return; }
     const liste = $('muadilSonuc')._liste;
     const a = e.target.closest('[data-muadil-ekle]');
     if (a) { const m = liste[+a.dataset.muadilEkle]; ekle(M.besin(m.slug), m.miktar, m.birim); return; }

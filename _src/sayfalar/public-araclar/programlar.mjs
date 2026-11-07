@@ -52,10 +52,10 @@ ${bolum(genelNot)}
   const detay = `${bant({ yol: [['Programlar', 'programlar/'], [p.ad]], etiket: p.kategori, etiketIkon: programIkon(p), h1: p.ad, gorsel: 'hero/mega-photo-1540420773420-3366772f4999.jpg', alt: `<span data-uyum-cumle data-tercih="${p.tercih.join(' ')}" data-hedef="${p.hedef.join(' ')}" data-sure="${p.sure_gun}">${kac(p.aciklama)}</span>`, eylem: `<span class="rozet olumlu ikonlu">${ikon('fa-fire')} ${p.enerji}</span><span class="rozet olumlu ikonlu">${ikon('fa-calendar')} ${p.sure}</span>`, sayilar: [[p.ogun_sayisi, 'Öğün'], [p.zorluk, 'Zorluk']] })}
 <div class="bolum-dizi">
 ${bolum(`<div class="sayac-serit ust-bosluksuz"><div class="sayac">${ikon('fa-fire')}<div><span>Günlük enerji</span><b>${p.enerji}</b></div></div><div class="sayac">${ikon('fa-calendar')}<div><span>Süre</span><b>${p.sure}</b></div></div><div class="sayac">${ikon('fa-utensils')}<div><span>Öğün planı</span><b>${p.ogun_sayisi} öğün</b></div></div><div class="sayac">${ikon('fa-signal')}<div><span>Zorluk</span><b>${p.zorluk}</b></div></div></div>
-<div class="bolum-eylem">${dugme('Programa başla', `hesabim/program-baslat/?program=${p.slug}`, 'birincil', 'fa-play')}${dugme('Programlara dön', 'programlar/', 'hayalet')}</div>`, { ilk: true })}
+<div class="bolum-eylem">${dugme('Programa başla', `hesabim/program-baslat/?program=${p.slug}`, 'birincil', 'fa-play')}</div>`, { ilk: true })}
 ${bolum(`${bolumBas({ etiket: 'Örnek akış', ikon: 'fa-calendar-week', baslik: '7 günlük öğün dökümü', metin: 'Gün gün kahvaltı, ara öğün, öğle, ikindi ve akşam yemeği için genel öneriler. Örnek niteliğindedir, uyarlanabilir.' })}<div data-uyum-bilgi="ogun"></div><div class="akordeon">${gunler}</div>`)}
 ${bolum(`${bolumBas({ etiket: 'Benzer programlar', ikon: 'fa-list-check', baslik: 'Akdeniz tipi başka menüler', arac: dugme('Tümünü gör', 'programlar/beslenme-tercihine-gore/?tercih=akdeniz', 'hayalet orta', 'fa-arrow-right', true) })}<div class="kart-izgara c3" data-uyum-yedekli="3">${benzer.map((x, i) => programKart(x, { gizli: i >= 3 })).join('')}</div>`)}
-${bolum(genelNot)}
+${bolum(`${genelNot}<div class="bolum-eylem sayfa-sonu">${dugme('Programlara dön', 'programlar/', 'hayalet', 'fa-arrow-left')}</div>`)}
 </div>`;
 
   const slim = P.map((x) => ({ slug: x.slug, ad: x.ad, aciklama: x.aciklama, kategori: x.kategori, sure: x.sure, sure_gun: x.sure_gun, enerji: x.enerji, zorluk: x.zorluk, ogun_sayisi: x.ogun_sayisi, hedef: x.hedef, yasam: x.yasam, tercih: x.tercih, ihtiyac: x.ihtiyac, gorsel: x.gorsel_dosya }));

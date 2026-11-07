@@ -3006,3 +3006,24 @@ html[data-oturum="1"] .head-bell{display:grid}
   .basa-don{bottom:calc(148px + env(safe-area-inset-bottom,0px) + var(--kenar-engel,0px))}
   .yuzen-dugme{bottom:calc(var(--bosluk-22) + env(safe-area-inset-bottom,0px) + var(--kenar-engel,0px))}
 }
+/* Anasayfa "Yeni araçlar": kart üstünde görsel */
+.sonuc-yuzey.gorselli{position:relative;height:176px;overflow:hidden;padding:0}
+.sonuc-yuzey.gorselli img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
+.sonuc-yuzey.gorselli .sonuc-rozet{position:absolute;top:var(--bosluk-12);left:var(--bosluk-12);z-index:var(--kat-icerik)}
+.sonuc-yuzey.gorselli .sonuc-ikon{position:absolute;right:var(--bosluk-12);bottom:var(--bosluk-12);z-index:var(--kat-icerik);width:40px;height:40px;display:grid;place-items:center;border-radius:var(--yuvarlak-md);background:var(--kagit);box-shadow:var(--golge-sm)}
+.sonuc-yuzey.gorselli .sonuc-ikon i{font-size:var(--yazi-16)}
+.yuzen-dugme{border-color:color-mix(in srgb,var(--kagit) 28%,var(--aksan-koyu))}
+/* Akıllı Tabak: ekleme sekmeleri ikonlu, ortalı */
+.segment.ortali-segment{display:flex;justify-content:center;width:fit-content;max-width:100%;margin-inline:auto}
+.segment.ortali-segment button{display:inline-flex;align-items:center;justify-content:center;gap:var(--bosluk-8)}
+/* Muadil Bulucu: referans değerleri eşitleme temelini seçer */
+.temel-secici{display:flex;gap:var(--bosluk-8)}
+.temel-secici button{display:inline-flex;align-items:baseline;gap:var(--bosluk-8);min-height:44px;padding:var(--bosluk-6) var(--bosluk-14);border:var(--cizgi-1) solid var(--cizgi);border-radius:var(--yuvarlak-md);background:var(--kagit);color:var(--murekkep-yumusak);font:inherit;cursor:pointer;transition:border-color var(--sure) var(--yumusama),background var(--sure) var(--yumusama)}
+.temel-secici button span{font-size:var(--yazi-11);font-weight:var(--agirlik-kalin);letter-spacing:var(--aralik-vurgu);text-transform:uppercase}
+.temel-secici button b{font-size:var(--yazi-15);font-weight:var(--agirlik-kalin);color:var(--murekkep)}
+.temel-secici button:hover{border-color:var(--aksan)}
+.temel-secici button.temel{background:var(--aksan-yikama);border-color:var(--aksan-koyu);color:var(--aksan-koyu)}
+.temel-secici button.temel b{color:var(--aksan-koyu)}
+.temel-secici button:focus-visible{outline:var(--odak-kalinlik) solid var(--odak-renk);outline-offset:var(--odak-ofset)}
+.bolum-eylem.sayfa-sonu{justify-content:center;margin-top:var(--bosluk-24)}
+@media(max-width:640px){.muadil-ozet .temel-secici{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));width:100%}.temel-secici button{flex-direction:column;align-items:center;gap:var(--bosluk-2);padding:var(--bosluk-8) var(--bosluk-4)}}

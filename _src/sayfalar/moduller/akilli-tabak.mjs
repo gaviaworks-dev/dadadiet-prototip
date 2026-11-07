@@ -7,7 +7,7 @@ const bolumler = [
     <div class="kart">
       <div class="kart-bas"><div><h2 class="kart-baslik"><i class="fa-solid fa-plus" aria-hidden="true"></i> Tabağına yemek ekle</h2><p>Yemeğini ve porsiyonunu seç, tabak bölmelere kendisi dağıtır.</p></div></div>
       <div class="kart-govde">
-        <div class="segment" id="eklemeKipi" role="group" aria-label="Ne ekleyeceksin?"><button type="button" data-deger="yemek" aria-pressed="true">Yemek</button><button type="button" data-deger="besin" aria-pressed="false">Tek besin</button><button type="button" data-deger="foto" aria-pressed="false">Fotoğraf</button></div>
+        <div class="segment ortali-segment" id="eklemeKipi" role="group" aria-label="Ne ekleyeceksin?"><button type="button" data-deger="yemek" aria-pressed="true"><i class="fa-solid fa-utensils" aria-hidden="true"></i> Yemek</button><button type="button" data-deger="besin" aria-pressed="false"><i class="fa-solid fa-carrot" aria-hidden="true"></i> Tek besin</button><button type="button" data-deger="foto" aria-pressed="false"><i class="fa-solid fa-camera" aria-hidden="true"></i> Fotoğraf</button></div>
         <div id="tabakAramaAlani">
         <div class="alan"><label class="alan-etiket" for="tabakArama" id="tabakAramaEtiket">Yemek ara</label><div class="oneri-kap"><input class="alan-girdi" id="tabakArama" type="search" placeholder="Örneğin karnıyarık, mercimek köftesi, somon ızgara"></div><button class="cip aktif bolme-suzgec" id="bolmeSuzgec" type="button" hidden></button></div>
         <div class="cipler" id="hazirTabaklar" role="group" aria-label="Hazır tabaklar"></div>
@@ -67,7 +67,7 @@ const bolumler = [
       <div class="alan"><label class="alan-etiket" for="muadilArama">Değiştirmek istediğin besin</label><div class="oneri-kap"><input class="alan-girdi" id="muadilArama" type="search" placeholder="Besin ara"></div></div>
       <div class="alan"><label class="alan-etiket" for="muadilAdet">Miktar</label><div class="saat-satir"><div class="adet"><button type="button" data-yon="azalt" aria-label="Azalt"><i class="fa-solid fa-minus" aria-hidden="true"></i></button><input id="muadilAdet" type="number" min="0.5" step="0.5" value="1"><button type="button" data-yon="artir" aria-label="Artır"><i class="fa-solid fa-plus" aria-hidden="true"></i></button></div><span class="adet-birim" id="muadilBirim"></span></div></div>
     </div>
-    <div class="temel-satir"><div class="alan temel-alani"><span class="alan-etiket" id="temelEtiket">Neye göre eşitlensin?</span><div class="segment" id="muadilTemel" role="group" aria-labelledby="temelEtiket"><button type="button" data-deger="karb" aria-pressed="true">Karbonhidrat</button><button type="button" data-deger="kcal" aria-pressed="false">Kalori</button><button type="button" data-deger="protein" aria-pressed="false">Protein</button></div></div><div class="cipler" id="muadilHizli" role="group" aria-label="Sık değiştirilen besinler"></div></div>
+    <div class="temel-satir"><div class="cipler" id="muadilHizli" role="group" aria-label="Sık değiştirilen besinler"></div></div>
     <div class="muadil-ozet" id="muadilOzet" aria-live="polite"></div>
   </div>
   <div class="kart-govde" id="muadilSonuc"></div>
