@@ -8,7 +8,7 @@
   const VARSAYILAN = {
     baslik: 'Sürdürülebilir kilo yönetimi ve sporcu beslenmesi',
     kisa: 'Kilo yönetimi ve sporcu beslenmesinde, yaşam tarzına uyan sürdürülebilir planlar hazırlıyorum.',
-    metin: 'Klinik ve online danışmanlık deneyimimle kilo yönetimi, insülin direnci ve sporcu beslenmesi alanlarında çalışıyorum.\n\nİlk görüşmede alışkanlıklarını, hedefini ve günlük ritmini konuşuyoruz; planı birlikte kuruyor, iki haftada bir gözden geçiriyoruz.',
+    metin: 'Dört yıldır kilo yönetimi, insülin direnci ve sporcu beslenmesi üzerine çalışıyorum. Danışanlarımla klinikte ve online görüşüyorum. Amacım kısa süreli bir diyet değil, günlük hayatına uyan ve uzun vadede sürdürebileceğin bir beslenme düzeni kurmak.\n\nİlk görüşmede alışkanlıklarını, hedefini ve günlük ritmini birlikte konuşuyoruz. Planı buna göre kuruyor, iki haftada bir gözden geçirip ihtiyacın olan yerde güncelliyoruz.',
     ilce: 'Kadıköy', cinsiyet: 'Kadın', diller: ['Türkçe', 'İngilizce'], dernek: 'Türkiye Diyetisyenler Derneği',
     egitim: [{ kurum: 'Beslenme ve Diyetetik Bölümü', program: 'Lisans' }, { kurum: 'Klinik Beslenme', program: 'Yüksek lisans' }],
     sertifika: 'Sporcu Beslenmesi Eğitimi\nDiyabette Beslenme Tedavisi',

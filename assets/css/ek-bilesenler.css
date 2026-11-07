@@ -401,7 +401,11 @@ a.baglanti-kart .kart-metin,.muadil-kart .kart-metin{text-align:left;text-align-
 .skor-oneri{display:flex;align-items:center;justify-content:space-between;gap:var(--bosluk-12);flex-wrap:wrap}
 .skor-oneri:empty{display:none}
 .skor-oneri .kart-metin{flex:1;min-width:180px;text-align:left;text-align-last:auto}
-.temel-alani{margin-bottom:var(--bosluk-12)}
+.temel-satir{display:flex;align-items:flex-end;gap:var(--bosluk-16);margin-bottom:var(--bosluk-12);overflow-x:auto;scrollbar-width:none}
+.temel-satir::-webkit-scrollbar{display:none}
+.temel-satir>*{flex:none;margin:0}
+.temel-satir>.cipler{flex-wrap:nowrap}
+.temel-satir .cip{flex:none}
 .deger-satir{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:var(--bosluk-8);width:100%}
 .deger-satir>div{display:flex;flex-direction:column;gap:var(--bosluk-4);align-items:flex-start}
 .deger-satir>div.temel dd{color:var(--aksan-koyu)}
@@ -2983,3 +2987,7 @@ html[data-oturum="1"] .head-bell{display:grid}
 @media(max-width:640px){.yetkili .panel-bas{flex-wrap:wrap}.yetkili .panel-bas>:first-child{flex:1 1 220px;max-width:100%}}
 .kart-govde>.segment{max-width:100%;overflow-x:auto;scrollbar-width:none}
 .kart-govde>.segment button{flex:none}
+
+/* Kişi tanıtım metni sola yaslı: Türkçe tireleme yokken iki yana yaslama geniş kelime boşluğu açıyor. */
+.duz-metin p{text-align:left;text-align-last:auto}
+.duz-metin p+p{margin-top:var(--bosluk-12)}
