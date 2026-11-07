@@ -5,6 +5,7 @@
   const kac = (s) => String(s == null ? '' : s).replace(/[&<>"]/g, (m) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[m]));
   const ikon = (x) => '<i class="fa-solid ' + x + '" aria-hidden="true"></i>';
   const tl = (n) => DD.bicim.para(n);
+  const ilkBuyuk = (s) => { const m = String(s == null ? '' : s); return m.charAt(0).toLocaleUpperCase('tr') + m.slice(1); };
 
   document.addEventListener('click', (e) => {
     const p = e.target.closest('[data-paylas]');
@@ -14,10 +15,21 @@
     }
     const g = e.target.closest('[data-sekme-git]');
     if (g) { e.preventDefault(); const t = $(g.dataset.sekmeGit); t.click(); t.scrollIntoView({ block: 'center', behavior: 'smooth' }); }
+    /* Misafir üye alanına düşmez: Mesaj, Paketi seç ve Randevuyu tamamla girişe gider */
+    const uye = e.target.closest('.page-main a[href*="hesabim/"]');
+    if (uye && !DD.oturum.acik()) { e.preventDefault(); location.href = DD.kok + 'giris/'; return; }
     if (DD.oturum.acik() && e.target.closest('[data-randevu],[data-mesaj]')) {
       e.preventDefault();
       DD.toast(e.target.closest('[data-randevu]') ? 'Bu hafta açık saat yok. Uzmanın takvimi açıldığında bildirim alırsın.' : 'Mesajlaşma, uzmanla bir görüşme başlattığında açılır.', 'uyari');
     }
+  });
+
+  /* Dar ekranda kayan şerit: seçilen sekme görünür alana gelir */
+  document.addEventListener('dd:sekme', (e) => {
+    const ray = e.target, t = $(e.detail.id);
+    if (!t || ray.scrollWidth <= ray.clientWidth) return;
+    const a = ray.getBoundingClientRect(), b = t.getBoundingClientRect();
+    ray.scrollBy({ left: b.left - a.left - (a.width - b.width) / 2, behavior: 'smooth' });
   });
 
   if (!$('paketler')) return;
@@ -46,7 +58,7 @@
 
   const paket = d.paketler.filter((p) => p.aktif);
   $('paketSayi').textContent = paket.length;
-  $('paketler').innerHTML = paket.map((p) => '<div class="kart"><div class="kart-bas"><h3 class="kart-baslik">' + ikon('fa-box-open') + ' ' + kac(p.ad) + '</h3><span class="rozet pasif">' + kac(p.tur) + '</span></div><div class="kart-govde"><p class="sonuc-sayi kucuk">' + tl(p.fiyat) + '</p><p class="kart-metin">' + kac(p.aciklama) + '</p><ul class="uzman-meta">' + '<li>' + ikon('fa-comments') + ' ' + p.seans + ' seans</li><li>' + ikon('fa-clock') + ' ' + p.sure + ' dk görüşme</li></ul></div><div class="kart-alt"><a class="dugme birincil tam-en" href="' + DD.kok + 'hesabim/odeme/?paket=' + encodeURIComponent(p.id) + '">Paketi seç</a></div></div>').join('');
+  $('paketler').innerHTML = paket.map((p) => '<div class="kart"><div class="kart-bas"><h3 class="kart-baslik">' + ikon('fa-box-open') + ' ' + kac(p.ad) + '</h3><span class="rozet pasif">' + kac(ilkBuyuk(p.tur)) + '</span></div><div class="kart-govde"><p class="sonuc-sayi kucuk">' + tl(p.fiyat) + '</p><p class="kart-metin">' + kac(p.aciklama) + '</p><ul class="uzman-meta">' + '<li>' + ikon('fa-comments') + ' ' + p.seans + ' seans</li><li>' + ikon('fa-clock') + ' ' + p.sure + ' dk görüşme</li></ul></div><div class="kart-alt"><a class="dugme birincil tam-en" href="' + DD.kok + 'hesabim/odeme/?paket=' + encodeURIComponent(p.id) + '">Paketi seç</a></div></div>').join('');
 
   /* Yaklaşan günler: haftalık müsaitlik + kapalı tarih + dolu randevular. Dolu saat üstü çizili kalır. */
   const GUN = ['Paz', 'Pzt', 'Sal', 'Çar', 'Per', 'Cum', 'Cmt'];

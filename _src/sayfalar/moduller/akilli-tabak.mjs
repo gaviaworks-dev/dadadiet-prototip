@@ -7,10 +7,17 @@ const bolumler = [
     <div class="kart">
       <div class="kart-bas"><div><h2 class="kart-baslik"><i class="fa-solid fa-plus" aria-hidden="true"></i> Tabağına yemek ekle</h2><p>Yemeğini ve porsiyonunu seç, tabak bölmelere kendisi dağıtır.</p></div></div>
       <div class="kart-govde">
-        <div class="segment" id="eklemeKipi" role="group" aria-label="Ne ekleyeceksin?"><button type="button" data-deger="yemek" aria-pressed="true">Yemek</button><button type="button" data-deger="besin" aria-pressed="false">Tek besin</button></div>
+        <div class="segment" id="eklemeKipi" role="group" aria-label="Ne ekleyeceksin?"><button type="button" data-deger="yemek" aria-pressed="true">Yemek</button><button type="button" data-deger="besin" aria-pressed="false">Tek besin</button><button type="button" data-deger="foto" aria-pressed="false">Fotoğraf</button></div>
+        <div id="tabakAramaAlani">
         <div class="alan"><label class="alan-etiket" for="tabakArama" id="tabakAramaEtiket">Yemek ara</label><div class="oneri-kap"><input class="alan-girdi" id="tabakArama" type="search" placeholder="Örneğin karnıyarık, mercimek köftesi, somon ızgara"></div><button class="cip aktif bolme-suzgec" id="bolmeSuzgec" type="button" hidden></button></div>
         <div class="cipler" id="hazirTabaklar" role="group" aria-label="Hazır tabaklar"></div>
-        <p class="alan-yardim">Bölme dağılımları yaklaşık değerlerdir.</p>
+        <p class="alan-yardim">Bölme dağılımları ve el/kap ölçüleri tahminidir.</p>
+        </div>
+        <div class="foto-gomulu" id="tabakFoto" hidden>
+          <p class="alan-yardim"><span class="rozet bekleme">Örnek akış</span> <span>Fotoğraftan yemek tanınmaz. Fotoğraf bu tabağın kaydı olarak saklanır, tabağı yemek seçerek kurarsın.</span></p>
+          <div data-foto-govde></div>
+          <div class="eylem-satiri" data-foto-ayak></div>
+        </div>
       </div>
       <div class="kart-govde bosluksuz" id="tabakKalemler"></div>
       <div class="kart-alt"><span class="not" id="tabakSayac"></span><button class="dugme hayalet tehlike kucuk" id="tabakTemizle" type="button"><i class="fa-solid fa-trash" aria-hidden="true"></i> Tabağı boşalt</button></div>
@@ -22,9 +29,11 @@ const bolumler = [
     <div class="kart">
       <div class="kart-bas"><div><h2 class="kart-baslik"><i class="fa-solid fa-chart-pie" aria-hidden="true"></i> Tabağın</h2></div><div class="skor-kisa"><b id="skorKisa">0</b><span>/ 100</span></div></div>
       <div class="kart-govde">
+        <div class="skor-oneri" id="skorOneri" role="status"></div>
         <div id="tabakCizim"></div>
         <p class="alan-yardim tabak-ipucu"><span>Bir dilime dokun, kuralını gör ve aramayı o bölmeye süz.</span></p>
         <div class="yigin sik" id="bolmeListe"></div>
+        <p class="alan-yardim referans-not"><span><b>İdeal tabak:</b> Akdeniz tipi dengeli öğün hedefi. Sebze %40–50, protein %20–25, karbonhidrat %20–25, yağ %5–10.</span></p>
       </div>
     </div>
   </div>
@@ -46,7 +55,7 @@ const bolumler = [
       <div class="kart-govde">
         <div class="skor-yerlesim">
           <div class="halka" id="skorHalka" data-oran="0"><span id="skorDeger">0</span></div>
-          <div class="yigin sik"><ul class="isaretli-liste" id="skorParcalar"></ul><div class="skor-oneri" id="skorOneri"></div></div>
+          <ul class="isaretli-liste" id="skorParcalar"></ul>
         </div>
       </div>
     </div>
@@ -65,17 +74,17 @@ const bolumler = [
   <div class="kart-govde" id="muadilSonuc"></div>
   <div class="kart-alt"><span class="not" id="muadilNot"></span></div>
 </div>`,
-`<div class="bilgi-notu"><i class="fa-solid fa-circle-info" aria-hidden="true"></i><div><p><b>Skor nasıl hesaplanır?</b> Eklediğin yemek ve besinlerin bölme oranları ideal tabakla karşılaştırılır: sebze %40–50, protein %20–25, karbonhidrat %20–25, yağ %5–10. Aralık dışındaki her puan skoru düşürür. Skor genel bir yönlendirmedir, kişiye özel beslenme önerisi değildir.</p></div></div>`,
+`<div class="bilgi-notu"><i class="fa-solid fa-circle-info" aria-hidden="true"></i><div><p><b>Skor nasıl hesaplanır?</b> Eklediğin yemek ve besinlerin bölme oranları Akdeniz tipi ideal tabakla karşılaştırılır: sebze %40–50, protein %20–25, karbonhidrat %20–25, yağ %5–10. Aralık dışındaki her puan skoru düşürür. Skor genel bir yönlendirmedir, kişiye özel beslenme önerisi değildir.</p></div></div>`,
 ];
 
-export default ({ veri }) => [{
+export default () => [{
   yol: 'akilli-tabak-ve-degisim',
-  meta: { baslik: 'Akıllı Tabak ve Değişim', duzen: 'public', aktif: 'Sağlık Araçları', hero: true, js: [JS, 'assets/js/sayfa/moduller-ortak.js', 'assets/js/sayfa/moduller-tabak.js'] },
+  meta: { baslik: 'Akıllı Tabak ve Değişim', duzen: 'public', aktif: 'Sağlık Araçları', hero: true, js: [JS, 'assets/js/ogun-foto.js', 'assets/js/sayfa/moduller-ortak.js', 'assets/js/sayfa/moduller-tabak.js'] },
   govde: `${bant({
     yol: [['Sağlık Araçları', 'hesaplayicilar/'], ['Akıllı Tabak ve Değişim']], etiket: 'Sağlık araçları', etiketIkon: 'fa-chart-pie',
     h1: 'Akıllı Tabak ve <span class="vurgu">Değişim</span>', gorsel: 'hero/beslenme-reh-hero.jpg',
-    alt: 'Tabağının yarısı sebze, çeyreği yağsız protein, çeyreği kompleks karbonhidrat olsun. Yemek ekledikçe bölmeler dolar, toplamlar ve denge skorun hemen değişir.',
-    sayilar: [[veri.sayaclar.besin, 'besin kütüphanede'], [veri.sayaclar.tarif, 'tarif']],
+    alt: 'Yemeğini ara, porsiyonunu Küçük, Orta ya da Büyük seç. Tabak dört bölmeye kendisi dağılır; 100 üzerinden skorun ve eksik kalan bölme hemen görünür.',
+    sayilar: [['<span data-arama-sayi="yemek"></span>', 'aranabilir yemek ve tarif'], ['<span data-arama-sayi="besin"></span>', 'aranabilir tek besin']],
   })}
 <div class="bolum-dizi">
 ${bolumler.map((h, i) => bolum(h, { ilk: i === 0 })).join('\n')}

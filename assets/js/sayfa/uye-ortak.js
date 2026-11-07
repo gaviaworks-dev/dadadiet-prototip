@@ -20,6 +20,7 @@
     d.planlar = (d.planlar || []).filter((p) => p.danisan_id !== id);
     d.randevular = (d.randevular || []).filter((r) => r.danisan_id !== id);
     d.mesajlar = (d.mesajlar || []).filter((m) => m.danisan_id !== id);
+    d.uzman_iliskileri = [];
     Object.assign(u, { rozetler: [], kaydedilenler: {}, tercihler: {}, diyetisyen_slug: null, okunmamis_mesaj: 0, su: { hedef_ml: 2000, bugun_ml: 0, hafta: [], ortalama_ml: 0 }, adim: { hedef: 8000, bugun: 0, hafta: [], ortalama: 0 } });
     d.uyeYerel = {};
   }
@@ -39,6 +40,15 @@
   U.diyetisyen = () => (U.uye().diyetisyen_slug ? U.d().diyetisyen || null : null);
   U.paket = () => (U.d().paketler || []).find((p) => p.id === U.danisan().paket_id) || null;
   U.randevular = () => (U.d().randevular || []).filter((r) => r.danisan_id === U.uyeId()).sort((a, b) => (a.tarih + a.saat).localeCompare(b.tarih + b.saat));
+  /* Panel diyetisyeni dışındaki aktif ve geçmiş uzmanlar. Randevu ve mesajları kendi kaydında durur, panele karışmaz.
+     Eski saklı durumda alan yoksa başlangıç verisinden kurulur. */
+  U.uzmanlar = () => {
+    const d = U.d();
+    if (!d.uzman_iliskileri) d.uzman_iliskileri = JSON.parse(JSON.stringify(((window.DD_VERI || {}).demo || {}).uzman_iliskileri || []));
+    return d.uzman_iliskileri;
+  };
+  U.aktifUzmanlar = () => U.uzmanlar().filter((k) => k.durum === 'aktif');
+  U.tumRandevular = () => U.uzmanlar().reduce((l, k) => l.concat(k.randevular || []), U.randevular()).sort((a, b) => (a.tarih + a.saat).localeCompare(b.tarih + b.saat));
   /* Randevu durumu: panelle aynı kural, kayıtta dolu kalmış geçmiş randevu tamamlanmış sayılır */
   U.rDurum = (r) => (r.durum === 'dolu' && r.tarih < U.bugun() ? 'tamamlandi' : r.durum);
   U.rAcik = (r) => ['dolu', 'onay-bekliyor'].includes(U.rDurum(r));
@@ -207,7 +217,7 @@
   U.veyaSatir = (o) => (o.veya || []).map((v) => '<small>veya ' + U.kac(v) + '</small>').join('');
   /* Öğün satırı: çip ve anahtar .as-eylem içinde aynı eksende */
   U.ogunDurum = (i, o) => (i[o.anahtar] ? 'uydu' : i[o.anahtar + '_atla'] ? 'atladi' : '');
-  U.ogunSatir = (o, durum) => '<div class="kalem-satiri" data-ogun="' + o.anahtar + '"><span class="ks-ikon"><i class="fa-solid ' + (durum === 'uydu' ? 'fa-check' : o.ikon) + '" aria-hidden="true"></i></span><div class="ks-metin"><b>' + U.kac(o.ad) + ' · ' + DD.bicim.saat(o.saat) + '</b><small>' + U.kac(o.metin) + (o.degisti ? ' (alternatif)' : '') + '</small>' + U.veyaSatir(o) + '</div><div class="as-eylem"><div class="segment" role="group" aria-label="' + U.kac(o.ad) + ' durumu"><button type="button" data-ogun-durum="atladi" data-ogun-kalem="' + o.anahtar + '" aria-pressed="' + (durum === 'atladi') + '">Atladım</button><button type="button" data-ogun-durum="uydu" data-ogun-kalem="' + o.anahtar + '" aria-pressed="' + (durum === 'uydu') + '">Plana uydum</button></div></div></div>';
+  U.ogunSatir = (o, durum) => '<div class="kalem-satiri' + (durum === 'atladi' ? ' atlandi' : '') + '" data-ogun="' + o.anahtar + '"><span class="ks-ikon"><i class="fa-solid ' + (durum === 'uydu' ? 'fa-check' : durum === 'atladi' ? 'fa-xmark' : o.ikon) + '" aria-hidden="true"></i></span><div class="ks-metin"><b>' + U.kac(o.ad) + ' · ' + DD.bicim.saat(o.saat) + '</b><small>' + U.kac(o.metin) + (o.degisti ? ' (alternatif)' : '') + '</small>' + U.veyaSatir(o) + '</div><div class="as-eylem"><div class="segment" role="group" aria-label="' + U.kac(o.ad) + ' durumu"><button class="olumsuz" type="button" data-ogun-durum="atladi" data-ogun-kalem="' + o.anahtar + '" aria-pressed="' + (durum === 'atladi') + '">Atladım</button><button type="button" data-ogun-durum="uydu" data-ogun-kalem="' + o.anahtar + '" aria-pressed="' + (durum === 'uydu') + '">Plana uydum</button></div></div></div>';
   /* Tek dokunuş: gram istemez; aynı seçime tekrar basmak geri alır */
   document.addEventListener('click', (e) => {
     const d = e.target.closest('[data-ogun-durum]');
@@ -320,7 +330,7 @@
     }
     const kisa = (x) => (x.length > 24 ? x.slice(0, 23).trimEnd() + '…' : x);
     yaz('program', k ? kisa(k.ad) : 'Program seç', k ? 'hesabim/beslenme-planim/' : 'programlar/');
-    yaz('diyetisyen', dy ? dy.ad : 'Diyetisyen bul', dy ? 'hesabim/diyetisyenim/' : 'diyetisyen-bul-sihirbazi/');
+    yaz('diyetisyen', dy ? dy.ad + (U.aktifUzmanlar().length ? ' +' + U.aktifUzmanlar().length : '') : 'Diyetisyen bul', dy ? 'hesabim/diyetisyenim/' : 'diyetisyen-bul-sihirbazi/');
   };
 
   /* Sekme: adres parçası ile açılır, [data-sekme-git] aynı sayfada sekme değiştirir */

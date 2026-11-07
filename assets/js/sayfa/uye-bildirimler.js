@@ -1,36 +1,48 @@
-/* Bildirimler: filtre, okundu ve silme; üst menü zili aynı sayıyı okur */
+/* Bildirimler sayfası: süzgeç, gün grupları, okundu, sil ve geri al. Veri ve satır DD.bildirim'den, zil paneliyle aynı kaynak. */
 (function () {
   'use strict';
-  const DD = window.DD, U = window.DDU;
+  const DD = window.DD, B = DD.bildirim;
   const $ = (s) => document.querySelector(s);
-  const TUR = { randevu: ['Randevu', 'fa-calendar-check'], mesaj: ['Mesaj', 'fa-comments'], program: ['Program', 'fa-clipboard-list'], rozet: ['Rozet', 'fa-award'] };
-  const dur = () => U.yerel('bildirimDurum', { okundu: {}, silindi: {} });
-  let suzgec = 'tumu';
-  const satir = (x) => { const t = TUR[x.tur]; return '<div class="bildirim-satir' + (x.okundu ? '' : ' okunmadi') + '" data-id="' + U.kac(x.id) + '"><span class="bs-ikon"><i class="fa-solid ' + t[1] + '" aria-hidden="true"></i></span><span class="bs-metin"><p><b>' + U.kac(x.baslik) + '</b> ' + U.kac(x.metin) + '</p><span class="bs-meta"><span class="tur"><i class="fa-solid ' + t[1] + '" aria-hidden="true"></i> ' + t[0] + '</span> · <span>' + U.tarih(x.tarih) + '</span></span></span><span class="bs-islemler"><a class="bs-islem" href="' + DD.kok + x.yol + '" aria-label="Git" data-git><i class="fa-solid fa-arrow-right" aria-hidden="true"></i></a>' + (x.okundu ? '' : '<button class="bs-islem okundu" type="button" data-op="oku" aria-label="Okundu olarak işaretle"><i class="fa-solid fa-check" aria-hidden="true"></i></button>') + '<button class="bs-islem sil" type="button" data-op="sil" aria-label="Bildirimi sil"><i class="fa-solid fa-trash-can" aria-hidden="true"></i></button></span>' + (x.okundu ? '' : '<span class="bs-benek"></span>') + '</div>'; };
+  let suzgec = 'tumu', silinen = null;
+  const cip = (k, ad, ikon, n) => '<button class="cip' + (suzgec === k ? ' aktif' : '') + '" type="button" data-deger="' + k + '" aria-pressed="' + (suzgec === k) + '">' + (ikon ? '<i class="fa-solid ' + ikon + '" aria-hidden="true"></i> ' : '') + ad + ' <span class="cip-sayi">' + n + '</span></button>';
+  const grup = (ad, a) => (a.length ? '<div class="gun-etiketi">' + ad + '</div><div class="bildirim-liste">' + a.map((x) => B.satir(x, true)).join('') + '</div>' : '');
   function ciz() {
-    const l = U.bildirimler(), n = U.zil();
-    $('#bnOzet').textContent = n ? n + ' okunmamış bildirimin var.' : 'Hepsi okundu.';
+    const l = B.liste(), n = l.filter((x) => !x.okundu).length, rozet = $('#bnRozet');
+    rozet.hidden = !n;
+    rozet.textContent = n + ' okunmamış';
     $('#bnHepsi').disabled = !n;
-    U.bas('#bnSuzgec', '<button class="cip' + (suzgec === 'tumu' ? ' aktif' : '') + '" type="button" data-deger="tumu">Tümü <span class="cip-sayi">' + l.length + '</span></button>' + Object.keys(TUR).map((k) => '<button class="cip' + (suzgec === k ? ' aktif' : '') + '" type="button" data-deger="' + k + '"><i class="fa-solid ' + TUR[k][1] + '" aria-hidden="true"></i> ' + TUR[k][0] + ' <span class="cip-sayi">' + l.filter((x) => x.tur === k).length + '</span></button>').join(''));
-    const g = l.filter((x) => suzgec === 'tumu' || x.tur === suzgec);
-    const yeni = g.filter((x) => U.gunFarki(x.tarih, U.bugun()) <= 7), eski = g.filter((x) => U.gunFarki(x.tarih, U.bugun()) > 7);
-    const grup = (ad, a) => (a.length ? '<span class="gun-etiketi">' + ad + '</span><div class="bildirim-liste">' + a.map(satir).join('') + '</div>' : '');
-    U.bas('#bnListe', g.length ? grup('Bu hafta', yeni) + grup('Daha eski', eski) : '<div class="kart">' + U.bos({ ikon: 'fa-bell-slash', baslik: 'Bildirim yok', metin: 'Bu türde bildirimin bulunmuyor.', eylem: '<a class="dugme hayalet" href="' + DD.kok + 'hesabim/ayarlar/#bildirim">Bildirim ayarları</a>' }) + '</div>');
+    $('#bnSuzgec').innerHTML = cip('tumu', 'Tümü', '', l.length) + Object.keys(B.TUR).map((k) => cip(k, B.TUR[k][0], B.TUR[k][1], l.filter((x) => x.tur === k).length)).join('');
+    const g = l.filter((x) => suzgec === 'tumu' || x.tur === suzgec), fark = (x) => B.gunFarki(x.tarih);
+    $('#bnListe').innerHTML = grup('Bugün', g.filter((x) => fark(x) <= 0)) + grup('Dün', g.filter((x) => fark(x) === 1)) + grup('Daha Eski', g.filter((x) => fark(x) > 1));
+    const bos = $('#bnBos');
+    bos.hidden = !!g.length;
+    if (!g.length) {
+      const hic = !l.length;
+      bos.querySelector('h3').textContent = hic ? 'Henüz bildirimin yok' : 'Bu türde bildirim yok';
+      bos.querySelector('p').textContent = hic ? 'Bir program başlat, diyetisyeninle görüş; hesabın işledikçe burası dolacak.' : 'Süzgeci değiştir ya da "Tümü"ne dönüp akışın tamamına bak.';
+      $('#bnBosEylem').hidden = !hic;
+    }
   }
   document.addEventListener('dd:suzgec', (e) => { if (e.target.id === 'bnSuzgec') { suzgec = e.detail.deger; ciz(); } });
-  document.addEventListener('click', (e) => {
+  document.addEventListener('dd:bildirim', ciz);
+  $('#bnListe').addEventListener('click', (e) => {
     const s = e.target.closest('.bildirim-satir');
     if (!s) return;
     const id = s.dataset.id, op = e.target.closest('[data-op]');
-    if (op) {
-      if (op.dataset.op === 'oku') dur().okundu[id] = true; else dur().silindi[id] = true;
-      U.kaydet(); ciz();
-      if (op.dataset.op === 'sil') DD.toast('Bildirim silindi.', 'uyari');
-    } else if (e.target.closest('[data-git]')) { dur().okundu[id] = true; U.kaydet(); }
+    if (!op) { if (e.target.closest('[data-git]')) B.oku(id); return; }
+    if (op.dataset.op === 'oku') { B.oku(id); return; }
+    silinen = id;
+    B.sil(id);
+    $('#bnGeriMetin').textContent = 'Bildirim silindi.';
+    $('#bnGeri').hidden = false;
+  });
+  $('#bnGeriDugme').addEventListener('click', () => {
+    if (silinen) B.geriAl(silinen);
+    silinen = null;
+    $('#bnGeri').hidden = true;
   });
   $('#bnHepsi').addEventListener('click', () => {
-    U.bildirimler().forEach((x) => { dur().okundu[x.id] = true; });
-    U.kaydet(); ciz();
+    B.hepsiniOku();
     DD.toast('Bütün bildirimler okundu.');
   });
   ciz();

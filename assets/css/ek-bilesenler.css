@@ -24,7 +24,7 @@
 /* ── Sayfa başı (bantsız; üye ve araç sayfaları) ──────────────────────────── */
 .sayfa-bas{display:flex;align-items:flex-end;justify-content:space-between;gap:var(--bosluk-24);flex-wrap:wrap;margin-bottom:var(--bosluk-24)}
 .sayfa-bas h1{font-size:var(--yazi-34);line-height:var(--satir-baslik);letter-spacing:var(--aralik-baslik);color:var(--murekkep)}
-.sayfa-bas p{font-size:var(--yazi-15-5);color:var(--metin-ikincil);margin-top:var(--bosluk-8);max-width:64ch}
+.sayfa-bas p{font-size:var(--yazi-15-5);color:var(--metin-ikincil);margin-top:var(--bosluk-8)}
 .sayfa-bas .eylem-satiri{display:flex;gap:var(--bosluk-8);flex-wrap:wrap}
 @media(max-width:640px){.sayfa-bas h1{font-size:var(--yazi-25)}}
 
@@ -903,7 +903,7 @@ a.baglanti-kart .kart-metin,.muadil-kart .kart-metin{text-align:left;text-align-
 .dikis{background:var(--kagit)}
 .bolum-dizi>.bolum:nth-of-type(even):not(.kendi-zemini){background:var(--zemin)}
 .bolum-dizi>.bolum:nth-of-type(odd):not(.kendi-zemini){background:var(--kagit)}
-.bolum-bas>div:first-child>.giris-metni{max-width:640px}
+.bolum-bas>div:first-child>.giris-metni{max-width:none}
 .bolum-eylem{display:flex;flex-wrap:wrap;justify-content:center;gap:var(--bosluk-12);margin-top:var(--bosluk-32)}
 
 /* Izgara ekleri */
@@ -1589,7 +1589,6 @@ td .sonraki-bag{display:flex}
 .dugme[hidden]{display:none}
 .bant .hero-video-guven{margin-top:var(--bosluk-8)}
 #sihirbaz .bolum-bas{margin-bottom:var(--bosluk-24)}
-#sihirbaz .bolum-bas>div:first-child>.giris-metni{max-width:none}
 #sihirbaz .alan-hata{margin:0}
 [data-sonuc] .kart-izgara{margin-top:var(--bosluk-8)}
 /* Süzgeç sütunu */
@@ -2264,7 +2263,6 @@ body:not(.yetkili) .kart.panel>.kart-alt{padding:var(--rol-kart-alt-dikey) var(-
 
 /* Revize turu: rv-beslenme */
 /* Beslenme modülleri ve mekan listesi. Canlı Diet (.pf-tabs, .puf-card, .food-row, .hub-card) ve Gourmet (.disc-card, .fct) ölçüleri, prototip tokenleriyle. */
-:root{--gourmet-birincil:#742982}
 
 /* Tek satır liste aracı: solda sekme şeridi, ortada arama, sağda sıralama ya da eylem */
 .liste-ust{display:flex;flex-direction:column;gap:var(--bosluk-12);margin-bottom:0}
@@ -2397,19 +2395,9 @@ body:not(.yetkili) .kart.panel>.kart-alt{padding:var(--rol-kart-alt-dikey) var(-
 .mekan-kart-tur{margin:var(--bosluk-16) 0 var(--bosluk-7);font-size:var(--yazi-11);font-weight:var(--agirlik-kalin);letter-spacing:.12em;text-transform:uppercase;color:var(--aksan)}
 .mekan-kart .kart-baslik{display:block;margin-bottom:var(--bosluk-8);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
 .mekan-kart>p{min-height:calc(1.55em * 2);margin:0;font-size:var(--yazi-13-5);line-height:1.55;font-weight:var(--agirlik-govde);color:var(--murekkep-yumusak);text-align:start;display:-webkit-box;-webkit-box-orient:vertical;-webkit-line-clamp:2;overflow:hidden}
-.mekan-kart-ornek{display:flex;flex-direction:column;gap:var(--bosluk-4);margin-top:var(--bosluk-12);padding:var(--bosluk-9) var(--bosluk-12);background:var(--zemin);border-radius:var(--yuvarlak-sm)}
-.mekan-kart-ornek-baslik{font-size:var(--yazi-11);font-weight:var(--agirlik-kalin);color:var(--murekkep-yumusak)}
-.mekan-kart-ornek-baslik i{color:var(--aksan);margin-right:var(--bosluk-3)}
-.mekan-kart-ornek-satir{display:flex;justify-content:space-between;gap:var(--bosluk-8);font-size:var(--yazi-12-5);font-weight:var(--agirlik-govde);color:var(--murekkep)}
-.mekan-kart-ornek-satir[hidden]{display:none}
-.mekan-kart-ornek-satir span{min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
-.mekan-kart-ornek-satir b{flex:none;font-weight:var(--agirlik-kalin);color:var(--aksan-koyu)}
 .mekan-kart-alt{display:flex;align-items:center;margin-top:var(--bosluk-12);padding-top:var(--bosluk-12);border-top:1px solid var(--cizgi);font-size:var(--yazi-12-5);font-weight:var(--agirlik-govde);color:var(--murekkep)}
 .mekan-kart-konum{min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
 .mekan-kart-konum i{margin-right:var(--bosluk-5);font-size:var(--yazi-12);color:var(--aksan)}
-.mekan-kart .dugme{margin-top:var(--bosluk-12)}
-.dugme.gourmet-birincil{background:var(--gourmet-birincil);border-color:var(--gourmet-birincil);color:var(--kagit)}
-.dugme.gourmet-birincil:hover{background:var(--gourmet-birincil);border-color:var(--gourmet-birincil);color:var(--kagit);filter:brightness(.86)}
 
 @media(max-width:1180px){
   .mekan-izgara{grid-template-columns:repeat(2,minmax(0,1fr));gap:var(--bosluk-20)}
@@ -2618,9 +2606,7 @@ body:not(.yetkili) .kart.panel>.kart-alt{padding:var(--rol-kart-alt-dikey) var(-
 /* Izgaradaki bütün satırlar en yüksek kart kadar olur; süzgeç ve sayfa değişse de kartlar eşit kalır. */
 .izgara-esit-satir{grid-auto-rows:1fr}
 /* Sütun düzenli kartta kalan yüksekliği bu alan alır, altındaki öğeler aynı hizada biter. */
-.kart-esnek-alan{flex:1 1 auto}
 /* Satır içi metin kesilmeden alt satıra iner; yanındaki değer ilk satırda kalır. */
-.metin-sarar>span{white-space:normal}
 
 /* Yasin Bey geri bildirimi: rv-his-su */
 /* Pasif açılır seçim: üst anahtar kapalıyken alan okunur kalır, seçilemez. `.dugme[disabled]` ile aynı solukluk. */
@@ -2722,3 +2708,278 @@ button.metin-bag{padding:0;background:none;border:0;font-size:var(--yazi-12);cur
 .bildirim-suzgec>.cipler.tek-satir{max-width:100%}
 .demo-gecis{min-width:0;max-width:100%}
 @media(max-width:360px){.yetkili .panel-bas,.yetkili .panel-bas>*{min-width:0;max-width:100%;flex-wrap:wrap}}
+
+/* rv-disarida: Gourmet mekan süzgecinin eksik parçaları ve mekan kartının puan satırı. Değerler yalnız token. */
+
+/* Kartın tamamı tek bağlantı: başlıktaki bağ kartın üstüne yayılır, iç içe bağlantı yok. */
+.mekan-kart{position:relative}
+.kart-tam-baglanti{color:inherit;text-decoration:none}
+.kart-tam-baglanti::after{content:"";position:absolute;inset:0;z-index:var(--kat-icerik);border-radius:var(--yuvarlak-lg)}
+.kart-tam-baglanti:focus{outline:none}
+.kart-tam-baglanti:focus-visible::after{box-shadow:var(--golge-halka)}
+.mekan-kart:hover .kart-tam-baglanti{color:var(--aksan-koyu)}
+
+/* Kart alt satırı: konum solda, puan ve görüntülenme sağda. */
+.mekan-kart-alt{gap:var(--bosluk-12);justify-content:space-between}
+.mekan-kart-olcum{flex:none;display:inline-flex;align-items:center;gap:var(--bosluk-12)}
+.mekan-kart-puan{display:inline-flex;align-items:center;gap:var(--bosluk-6);font-weight:var(--agirlik-kalin);color:var(--murekkep)}
+.mekan-kart-puan i{font-size:var(--yazi-12);color:var(--durum-bekleyen-metin)}
+.mekan-kart-puan.bos{font-weight:var(--agirlik-govde);color:var(--metin-ikincil)}
+.mekan-kart-puan.bos i{color:var(--metin-ikincil);opacity:.75}
+.mekan-kart-goruntulenme{display:inline-flex;align-items:center;gap:var(--bosluk-6);font-size:var(--yazi-12);color:var(--metin-ikincil)}
+.mekan-kart-goruntulenme i{font-size:var(--yazi-12);color:var(--metin-ikincil)}
+.ornek-etiket{align-self:flex-end;display:inline-flex;align-items:center;margin-top:var(--bosluk-8);padding:var(--bosluk-3) var(--bosluk-8);background:var(--aksan-yikama);border-radius:var(--yuvarlak-hap);font-size:var(--yazi-11);font-weight:var(--agirlik-kalin);color:var(--aksan-koyu)}
+
+/* Süzgeç: masaüstünde panelin tamamı kayar, başlık gövdeyle birlikte gider. */
+.yalniz-dar{display:none}
+@media(min-width:1025px){
+  .filtre-panel{display:block;padding:var(--bosluk-6) var(--bosluk-20) var(--bosluk-14);overflow-y:auto;overscroll-behavior:contain;scrollbar-width:thin}
+  .filtre-bas{padding:var(--bosluk-16) 0 var(--bosluk-12)}
+  .filtre-govde{padding:0;overflow:visible}
+}
+@media(max-width:1024px){
+  .yalniz-dar{display:inline}
+  .yalniz-genis{display:none}
+}
+
+.filtre-satir[hidden],.filtre-grup[hidden],.filtre-daha[hidden],.filtre-ara[hidden],.filtre-bos[hidden]{display:none}
+.filtre-satir.fazla{display:none}
+.filtre-grup.daha-acik>.filtre-grup-govde>.filtre-satir.fazla:not([hidden]){display:flex}
+.filtre-yildiz{margin-right:var(--bosluk-3);font-size:var(--yazi-12);color:var(--durum-bekleyen-metin)}
+.filtre-ek{font-weight:var(--agirlik-govde);color:var(--metin-ikincil)}
+.filtre-daha{display:inline-flex;align-items:center;gap:var(--bosluk-7);padding:var(--bosluk-7) 0 0 var(--bosluk-30);background:none;border:0;font-size:var(--yazi-12-5);font-weight:var(--agirlik-kalin);color:var(--aksan-koyu);cursor:pointer}
+.filtre-daha i{font-size:var(--yazi-10);transition:transform .25s ease}
+.filtre-grup.daha-acik>.filtre-grup-govde>.filtre-daha i{transform:rotate(180deg)}
+
+/* Konum: ülke menüsü, grup içi arama ve Şehir, İlçe, Semt alt grupları. */
+.filtre-ulke{min-height:0;margin:var(--bosluk-2) 0 var(--bosluk-8);padding:var(--bosluk-10) var(--bosluk-36) var(--bosluk-10) var(--bosluk-12);font-size:var(--yazi-13-5)}
+.filtre-alt-grup{border-top:1px solid var(--cizgi);border-bottom:0}
+.filtre-alt-grup>.filtre-grup-bas{padding:var(--bosluk-11) 0;font-size:var(--yazi-13);color:var(--murekkep-yumusak)}
+.filtre-alt-grup:not(.acik)>.filtre-grup-govde{display:none}
+.filtre-alt-grup:not(.acik)>.filtre-grup-bas .filtre-grup-ok{transform:none}
+.filtre-alt-grup>.filtre-grup-govde{padding-bottom:var(--bosluk-9)}
+.filtre-satir.soluk .filtre-ad,.filtre-satir.soluk .filtre-sayi{color:var(--metin-ikincil)}
+.filtre-satir.soluk .filtre-kutu{opacity:.6}
+.filtre-satir.soluk input:checked~.filtre-ad{color:var(--murekkep)}
+.filtre-ara{display:flex;align-items:center;gap:var(--bosluk-12);margin:var(--bosluk-2) 0 var(--bosluk-10);padding:0 var(--bosluk-12);background:var(--zemin);border:1px solid var(--cizgi);border-radius:var(--yuvarlak-md)}
+.filtre-ara:focus-within{border-color:var(--aksan-koyu)}
+.filtre-ara i{font-size:var(--yazi-12);color:var(--metin-ikincil)}
+.filtre-ara input{flex:1;min-width:0;padding:var(--bosluk-9) 0;background:transparent;border:0;outline:none;font-family:inherit;font-size:var(--yazi-13-5);font-weight:var(--agirlik-govde);color:var(--murekkep)}
+.filtre-ara input::placeholder{color:var(--yer-tutucu)}
+.filtre-bos{margin:0;padding:var(--bosluk-4) 0 0 var(--bosluk-30);font-size:var(--yazi-12-5);color:var(--metin-ikincil)}
+.filtre-grup[data-arama]>.filtre-grup-govde>.filtre-satir.fazla:not([hidden]){display:flex}
+.filtre-grup>.filtre-grup-govde>.filtre-satir[data-gizli],.filtre-grup[data-arama]>.filtre-grup-govde>.filtre-satir.fazla[data-gizli]{display:none}
+.filtre-grup[data-arama]>.filtre-grup-govde>.filtre-daha{display:none}
+
+/* Aktif filtre çipleri. */
+.filtre-cipler{display:flex;flex-wrap:wrap;align-items:center;gap:var(--bosluk-9)}
+.filtre-cipler[hidden]{display:none}
+.filtre-cip{display:inline-flex;align-items:center;gap:var(--bosluk-8);padding:var(--bosluk-8) var(--bosluk-12);background:var(--aksan-yikama);border:1px solid var(--aksan-cizgi);border-radius:var(--yuvarlak-sm);font-size:var(--yazi-13);font-weight:var(--agirlik-kalin);color:var(--aksan-koyu);cursor:pointer;transition:background .18s ease,color .18s ease}
+.filtre-cip:hover{background:var(--aksan-koyu);border-color:var(--aksan-koyu);color:var(--kagit)}
+.filtre-cipler-temizle{padding:var(--bosluk-8) var(--bosluk-4);background:none;border:0;font-size:var(--yazi-12-5);font-weight:var(--agirlik-kalin);color:var(--metin-ikincil);text-decoration:underline;text-underline-offset:3px;cursor:pointer}
+.filtre-cipler-temizle:hover{color:var(--aksan-koyu)}
+@media(max-width:640px){
+  .filtre-cipler{gap:var(--bosluk-7)}
+  .filtre-cip{padding:var(--bosluk-7) var(--bosluk-10);font-size:var(--yazi-12)}
+}
+
+/* rv-kabuk: üst bar bildirim zili ve Mentör. Değerler Gastro kaynağından, renk Diet tokenlarından. */
+
+/* ZİL ROZETİ. Kaynak Gastro public/kabuk/zil-sayaci.css: gerçek sayı yazılana kadar gizli, sıfırda yok. */
+html:not([data-zil-sayaci="yazildi"]) .head-bell .hb-badge{visibility:hidden}
+.hb-badge[hidden]{display:none}
+
+/* Gastro ≤640'ta zili alt çubuğa devreder; Diet kabuğunda alt çubuk yok, oturum açıkken zil her genişlikte kalır. */
+html[data-oturum="1"] .head-bell{display:grid}
+
+/* ZİL PANELİ. Yüzey .acilir-yuzey, satır §59 .bildirim-satir; burada yalnız panel ölçüsü. */
+.zil-panel.acilir-yuzey{width:400px;max-width:calc(100vw - var(--bosluk-32));max-height:min(560px,calc(100dvh - 96px));padding:0;display:flex;flex-direction:column;overflow:hidden}
+.zil-panel.acilir-yuzey[hidden]{display:none}
+.zil-panel:focus{outline:0}
+.zil-panel .acilir-bas{flex:none;padding:var(--bosluk-14) var(--bosluk-20);border-bottom:var(--cizgi-1) solid var(--cizgi)}
+.zil-panel .acilir-bas button{letter-spacing:normal;text-transform:none}
+.zil-liste{flex:1 1 auto;min-height:0;overflow-y:auto}
+.zil-liste .bildirim-satir{text-decoration:none}
+.zil-liste .bildirim-satir:focus-visible{outline:var(--odak-kalinlik) solid var(--odak-renk);outline-offset:calc(var(--odak-ofset) * -1)}
+.zil-alt{flex:none;display:flex;align-items:center;justify-content:center;gap:var(--bosluk-8);min-height:44px;padding:var(--bosluk-8) var(--bosluk-20);border-top:var(--cizgi-1) solid var(--cizgi);font-size:var(--yazi-13);font-weight:var(--agirlik-kalin);color:var(--aksan-koyu);text-decoration:none;transition:background var(--sure) var(--yumusama)}
+.zil-alt:hover{background:var(--zemin)}
+.zil-alt:focus-visible{outline:var(--odak-kalinlik) solid var(--odak-renk);outline-offset:calc(var(--odak-ofset) * -1)}
+@media (max-width:640px){
+  .zil-kap{position:static}
+  .zil-panel.acilir-yuzey{position:fixed;top:calc(var(--zil-ust,64px) + var(--bosluk-6));left:var(--bosluk-16);right:var(--bosluk-16);width:auto;min-width:0;max-width:none;max-height:calc(100dvh - var(--zil-ust,64px) - 96px)}
+  /* Kanon §59 şerhindeki 390 kusuru: dokunmatikte işlemler hep görünür, metin sütunu çöküyordu. Metin satırı doldurur, işlemler alt satıra iner. */
+  .bildirim-liste .bs-metin{flex:1 1 calc(100% - 46px - var(--bosluk-11))}
+  .bildirim-liste .bs-islemler{margin-left:auto}
+}
+
+/* BİLDİRİM SATIRI. Kaynak Gastro public/kabuk/bildirim-satir.css: satırın tamamı oku gittiği adrese gider, tik ve sil örtünün üstünde. */
+.bildirim-satir:has(a.bs-islem[href]){position:relative}
+.bildirim-satir a.bs-islem[href]::after{content:"";position:absolute;inset:0}
+.bildirim-satir:has(a.bs-islem[href]) button.bs-islem{position:relative;z-index:1}
+
+/* MENTÖR. Kaynak gastro-mentor dikey/mentor public/kabuk/mentor.css. Kabukta aynı adlı eski .mp-* kuralları olduğu için her kural #dadaMentor ile yazılır. */
+#dadaMentor{
+  --mentor-koyu:var(--koyu-zemin);
+  --mentor-cizgi:color-mix(in srgb,var(--kagit) 16%,transparent);
+  --mentor-yumusak:color-mix(in srgb,var(--kagit) 82%,transparent);
+  --mentor-cam:color-mix(in srgb,var(--mentor-koyu) 40%,transparent);
+  --mentor-yay:cubic-bezier(.16,1,.3,1);
+  --mentor-taban:var(--bosluk-24);
+  --mentor-dip:max(var(--mentor-taban),calc(var(--mentor-engel,0px) + var(--bosluk-12)));
+  position:fixed;left:var(--bosluk-24);right:auto;top:auto;bottom:var(--mentor-dip);
+  width:360px;height:min(72vh,540px,calc(100dvh - var(--mentor-dip) - var(--bosluk-16)));
+  z-index:var(--kat-sohbet-ortu);box-sizing:border-box;overflow:hidden;
+  display:flex;flex-direction:column;justify-content:space-between;text-align:left;
+  border:var(--cizgi-1) solid var(--mentor-cizgi);border-radius:var(--yuvarlak-xl);
+  box-shadow:0 28px 80px color-mix(in srgb,var(--mentor-koyu) 46%,transparent);
+  background:var(--mentor-koyu);
+  transition:width .5s var(--mentor-yay),height .5s var(--mentor-yay),border-radius .5s var(--mentor-yay),transform .45s var(--mentor-yay),opacity .35s var(--yumusama),bottom .25s var(--yumusama);
+  animation:dadaMentorGiris .5s var(--mentor-yay);
+}
+#dadaMentor *,#dadaMentor *::before,#dadaMentor *::after{box-sizing:border-box}
+@keyframes dadaMentorGiris{from{opacity:0;transform:translateY(26px) scale(.965)}to{opacity:1;transform:none}}
+#dadaMentor .mp-media{position:absolute;inset:0;z-index:0;overflow:hidden}
+#dadaMentor .mp-atmos{position:absolute;inset:0;background:radial-gradient(110% 60% at 34% 24%,color-mix(in srgb,var(--marka) 24%,transparent),transparent 58%),var(--mentor-koyu)}
+#dadaMentor .mp-media video{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
+#dadaMentor .mp-fade{position:absolute;inset:0;z-index:1;pointer-events:none;background:linear-gradient(180deg,color-mix(in srgb,var(--mentor-koyu) 5%,transparent) 0%,transparent 30%,color-mix(in srgb,var(--mentor-koyu) 34%,transparent) 54%,color-mix(in srgb,var(--mentor-koyu) 82%,transparent) 78%,color-mix(in srgb,var(--mentor-koyu) 97%,transparent) 100%)}
+#dadaMentor .mp-top{position:relative;z-index:3;display:flex;align-items:center;justify-content:space-between;padding:var(--bosluk-15) var(--bosluk-16);flex:none;transition:opacity .25s var(--yumusama)}
+#dadaMentor .mp-tag{display:inline-flex;align-items:center;gap:var(--bosluk-8);font-weight:300;font-size:var(--yazi-11);letter-spacing:.18em;text-transform:uppercase;color:var(--mentor-yumusak)}
+#dadaMentor .mp-tag i{font-size:var(--yazi-11);color:var(--marka-parlak)}
+#dadaMentor .mp-toggle{width:30px;height:30px;padding:0;border-radius:var(--yuvarlak-daire);border:var(--cizgi-1) solid var(--mentor-cizgi);background:var(--mentor-cam);backdrop-filter:blur(4px);color:var(--mentor-yumusak);display:grid;place-items:center;cursor:pointer;font-size:var(--yazi-12);transition:var(--sure) var(--yumusama)}
+#dadaMentor .mp-toggle:hover{color:var(--kagit);border-color:color-mix(in srgb,var(--kagit) 40%,transparent)}
+#dadaMentor .mp-chat{position:relative;z-index:3;padding:0 var(--bosluk-16) var(--bosluk-17);display:flex;flex-direction:column;gap:var(--bosluk-11);flex:none;min-height:0;justify-content:flex-end;transition:opacity .3s var(--yumusama),transform .3s var(--yumusama)}
+#dadaMentor .mp-id{display:flex;align-items:center;gap:var(--bosluk-11);flex:none}
+#dadaMentor .mp-av{width:38px;height:38px;border-radius:var(--yuvarlak-daire);background:var(--marka);color:var(--kagit);display:grid;place-items:center;font-size:var(--yazi-15);flex:none;box-shadow:0 0 0 4px color-mix(in srgb,var(--marka) 22%,transparent)}
+#dadaMentor .mp-kimlik{display:flex;flex-direction:column;align-items:flex-start;gap:var(--bosluk-5);min-width:0}
+#dadaMentor .nm{font-size:var(--yazi-15-5);color:var(--kagit);line-height:1.1}
+#dadaMentor .nm .bd{font-weight:800}
+#dadaMentor .nm .sf{font-weight:300}
+#dadaMentor .mp-rozetler{display:flex;flex-wrap:wrap;align-items:center;gap:var(--bosluk-6)}
+#dadaMentor .mp-pro{display:inline-flex;align-items:center;gap:var(--bosluk-6);font-size:var(--yazi-11-5);line-height:1;font-weight:var(--agirlik-kalin);color:var(--aksan-koyu);background:var(--aksan-yikama);padding:var(--bosluk-6) var(--bosluk-11);border-radius:var(--yuvarlak-hap);white-space:nowrap}
+#dadaMentor .mp-yakinda{display:inline-flex;align-items:center;font-size:var(--yazi-11-5);line-height:1;font-weight:600;color:var(--mentor-yumusak);border:var(--cizgi-1) solid var(--mentor-cizgi);background:var(--mentor-cam);padding:var(--bosluk-5) var(--bosluk-10);border-radius:var(--yuvarlak-hap);white-space:nowrap}
+#dadaMentor .mp-bubble{flex:none;align-self:flex-start;max-width:94%;background:color-mix(in srgb,var(--mentor-koyu) 86%,transparent);backdrop-filter:blur(7px);border:var(--cizgi-1) solid var(--mentor-cizgi);border-radius:4px 15px 15px 15px;padding:var(--bosluk-12) var(--bosluk-15);font-weight:600;font-size:var(--yazi-15-5);line-height:1.4;color:var(--kagit)}
+#dadaMentor .mp-hint{flex:none;font-size:var(--yazi-12-5);font-weight:500;line-height:1.5;color:color-mix(in srgb,var(--kagit) 72%,transparent);margin:-2px 0 2px;text-align:left}
+#dadaMentor .mp-row{flex:0 0 auto;display:grid;grid-template-columns:1fr;gap:var(--bosluk-8)}
+#dadaMentor .mp-opt{display:inline-flex;align-items:center;justify-content:center;min-width:0;cursor:pointer;white-space:nowrap;text-decoration:none;padding:var(--bosluk-9) var(--bosluk-10);border-radius:var(--yuvarlak-md);font-weight:600;font-size:var(--yazi-12-5);transition:transform .2s var(--yumusama)}
+#dadaMentor .mp-opt.active{background:var(--marka);border:var(--cizgi-1) solid transparent;color:var(--kagit);box-shadow:0 5px 18px color-mix(in srgb,var(--marka) 42%,transparent)}
+#dadaMentor .mp-opt.active:hover{color:var(--kagit);transform:translateY(-1px)}
+#dadaMentor .mp-mini-overlay{display:flex;position:absolute;inset:0;z-index:5;align-items:center;justify-content:flex-start;gap:var(--bosluk-11);margin:0;padding:0 var(--bosluk-22) 0 var(--bosluk-8);width:100%;border:0;background:none;font:inherit;color:inherit;cursor:pointer;opacity:0;pointer-events:none;transition:opacity .3s var(--yumusama)}
+#dadaMentor .mp-mini-overlay .mav{width:40px;height:40px;border-radius:var(--yuvarlak-daire);background:var(--marka);color:var(--kagit);display:grid;place-items:center;font-size:var(--yazi-17);flex:none;box-shadow:0 0 0 3px color-mix(in srgb,var(--marka) 26%,transparent);transform:scale(.55);transition:transform .45s var(--mentor-yay)}
+#dadaMentor .mp-mini-lbl{font-weight:800;font-size:var(--yazi-14-5);letter-spacing:-.01em;color:var(--kagit);white-space:nowrap;opacity:0;transform:translateX(-6px);transition:opacity .3s var(--yumusama) .05s,transform .35s var(--mentor-yay) .05s}
+
+/* Kapalı hâl: ikon ve yazı kartı */
+#dadaMentor[data-state="mini"]{width:148px;height:56px;max-height:56px;border-radius:var(--yuvarlak-lg);cursor:pointer;border-color:color-mix(in srgb,var(--kagit) 9%,transparent);box-shadow:0 14px 38px color-mix(in srgb,var(--mentor-koyu) 46%,transparent)}
+#dadaMentor[data-state="mini"] .mp-media,#dadaMentor[data-state="mini"] .mp-fade{opacity:0}
+#dadaMentor[data-state="mini"] .mp-top,#dadaMentor[data-state="mini"] .mp-chat{position:absolute;left:0;right:0}
+#dadaMentor[data-state="mini"] .mp-chat{bottom:0;opacity:0;pointer-events:none;transform:translateY(6px)}
+#dadaMentor[data-state="mini"] .mp-top{top:0;opacity:0;pointer-events:none}
+#dadaMentor[data-state="mini"] .mp-mini-overlay{position:relative;inset:auto;height:100%;opacity:1;pointer-events:auto}
+#dadaMentor[data-state="mini"] .mp-mini-overlay .mav{transform:scale(1)}
+#dadaMentor[data-state="mini"] .mp-mini-lbl{opacity:1;transform:none}
+#dadaMentor .mp-mini-overlay:focus-visible,#dadaMentor .mp-toggle:focus-visible,#dadaMentor .mp-opt:focus-visible{outline:2px solid var(--kagit);outline-offset:2px}
+#dadaMentor .mp-mini-overlay:focus-visible{outline-offset:-3px;border-radius:var(--yuvarlak-lg)}
+
+/* Footer perdesi açılınca kenara çekilir */
+#dadaMentor.foot-hide{transform:translateY(150%);opacity:0;visibility:hidden;pointer-events:none;transition:transform .45s var(--mentor-yay),opacity .35s var(--yumusama),visibility 0s .35s}
+
+/* Mobil: ikon ağırlıklı kare. Gastro'daki 88px alt çubuğun payı; Diet kabuğunda alt çubuk yok, çıkınca --mentor-engel ölçer. */
+@media (max-width:640px){
+  #dadaMentor{--mentor-taban:calc(var(--bosluk-16) + env(safe-area-inset-bottom,0px));left:var(--bosluk-16);width:calc(100vw - var(--bosluk-32));max-width:360px;height:min(64vh,520px,calc(100dvh - var(--mentor-dip) - var(--bosluk-16)))}
+  #dadaMentor[data-state="mini"]{width:56px;height:56px}
+  #dadaMentor .mp-mini-overlay{justify-content:center;padding:0}
+  #dadaMentor .mp-mini-lbl{display:none}
+}
+@media (prefers-reduced-motion:reduce){
+  #dadaMentor,#dadaMentor .mp-opt,#dadaMentor .mp-toggle,#dadaMentor .mp-mini-overlay .mav,#dadaMentor .mp-mini-lbl{transition-duration:.001ms!important;animation-duration:.001ms!important}
+}
+
+/* Kimlik meta satırı: dıştaki span esnek kutu, içteki metin parçaları satır içi kalır (gap kelimeler arasına girmesin). */
+.kimlik-meta span span{display:inline}
+
+/* Dört sayaçlı şerit: 1024'te 3+1 kırılmaz; dört kolon, dar ekranda 2x2. */
+.sayac-serit.dort-kolon{display:grid;grid-template-columns:repeat(4,minmax(0,1fr))}
+@media(max-width:860px){.sayac-serit.dort-kolon{grid-template-columns:repeat(2,minmax(0,1fr))}}
+
+/* Kart gövdesinin ilk çocuğu olan etiket dizisi: gövde dolgusuna ek üst pay almaz. */
+.kart-govde>.sonuc-etiketler:first-child{margin-top:0}
+
+/* Kart başında etiket ve segment yan yana: dar ekranda da aynı dikey eksende. */
+.kart-bas:has(>.segment){align-items:center}
+
+/* Kalem satırı: ad solda, porsiyon seçici yemek adıyla aynı üst hizada, sil en sağda.
+   Satırlar kabın genişliğine göre dizilir; kap daralınca seçici alta iner. */
+.ayar-liste.porsiyonlu{container-type:inline-size}
+.ayar-satir.porsiyon-satir{display:grid;grid-template-columns:auto minmax(0,1fr) auto auto;align-items:start;gap:var(--bosluk-16)}
+.porsiyon-satir>.kapat-dugme{justify-self:end}
+.segment.porsiyon-secim{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));width:calc(var(--bosluk-64)*5 + var(--bosluk-12))}
+.segment.porsiyon-secim button{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:var(--bosluk-2);min-width:0;min-height:var(--bosluk-48);padding:var(--bosluk-6) var(--bosluk-4);font-size:var(--yazi-13);line-height:var(--satir-sik);white-space:normal}
+.segment.porsiyon-secim small{font-size:var(--yazi-12);font-weight:var(--agirlik-govde);opacity:1;color:var(--metin-ikincil);text-wrap:balance}
+.segment.porsiyon-secim button[aria-pressed="true"] small{color:inherit}
+.miktar-secim{display:flex;align-items:center;justify-content:flex-end;gap:var(--bosluk-8);min-width:0}
+.miktar-secim .adet-birim{min-width:0}
+@container (min-width:860px){
+  .segment.porsiyon-secim{width:calc(var(--bosluk-64)*6 + var(--bosluk-32))}
+}
+@container (max-width:640px){
+  .ayar-satir.porsiyon-satir{grid-template-columns:auto minmax(0,1fr) auto}
+  .porsiyon-satir>.as-ikon{grid-area:1/1}
+  .porsiyon-satir>.as-metin{grid-area:1/2}
+  .porsiyon-satir>.kapat-dugme{grid-area:1/3}
+  .porsiyon-satir>.porsiyon-secim,.porsiyon-satir>.miktar-secim{grid-area:2/2/3/4;width:100%}
+  .porsiyon-satir>.miktar-secim{justify-content:flex-start}
+}
+@container (max-width:480px){
+  .porsiyon-satir>.porsiyon-secim,.porsiyon-satir>.miktar-secim{grid-area:2/1/3/4}
+}
+
+/* Tabak bildirimi: skorun yanında, çizimin üstünde */
+.skor-oneri{margin-bottom:var(--bosluk-16)}
+.skor-oneri>.uyari-kutu,.skor-oneri>.alan-yardim{flex:1 1 100%;margin:0}
+.skor-oneri .uyari-kutu .yigin{flex:1;min-width:0;gap:var(--bosluk-8)}
+.skor-oneri .uyari-kutu .kart-metin{flex:none;min-width:0;margin:0;color:inherit}
+.skor-oneri .eylem-satiri{flex-wrap:wrap}
+.referans-not{margin-top:var(--bosluk-16)}
+
+/* Sayfaya gömülü fotoğraf akışı */
+.foto-gomulu>.alan-yardim{align-items:flex-start;margin:0 0 var(--bosluk-12)}
+.foto-gomulu>.alan-yardim .rozet{flex:none}
+.foto-gomulu .foto-onizleme{max-height:calc(var(--bosluk-64)*5)}
+.foto-gomulu [data-foto-ayak]{flex-wrap:wrap;margin-top:var(--bosluk-12)}
+.foto-gomulu [data-foto-ayak]:empty{display:none}
+
+/* Hesabım kartları: Gastro Hesabım ölçüsü (g-hesabim, 1440 ve 390'da aynı).
+   Üst 18/22, gövde 22, alt 14/22, aralık 14. Kapsam yalnız üye kabuğu. */
+.kimlik-bant~.fit-pane :is(.kart.panel,.kart)>.kart-bas{padding:var(--bosluk-18) var(--bosluk-22);gap:var(--bosluk-14)}
+.kimlik-bant~.fit-pane :is(.kart.panel,.kart)>.kart-govde:not(.bosluksuz){padding:var(--bosluk-22)}
+.kimlik-bant~.fit-pane :is(.kart.panel,.kart)>.kart-alt{padding:var(--bosluk-14) var(--bosluk-22);gap:var(--bosluk-14)}
+
+/* Dış uygulamaya giden sayaç: alanın tamamı bağlantı, bağ metni görünür */
+.sayac-izgara a.sayac.dis-bag{margin:calc(var(--bosluk-8) * -1);padding:var(--bosluk-8);border-radius:var(--yuvarlak-md);color:inherit;text-decoration:none;transition:background var(--sure-cabuk) var(--yumusama)}
+.sayac-izgara a.sayac.dis-bag:hover{background:var(--aksan-yikama-2)}
+.sayac-izgara a.sayac.dis-bag:focus-visible{outline:var(--cizgi-2) solid var(--aksan);outline-offset:var(--cizgi-1)}
+.sayac.dis-bag small{display:inline-flex;align-items:center;gap:var(--bosluk-4);margin-top:var(--bosluk-4);font-size:var(--yazi-12);font-weight:var(--agirlik-kalin);color:var(--aksan-koyu)}
+.sayac.dis-bag small i{all:unset;font:var(--fa-font-solid);font-size:var(--yazi-11)}
+
+/* Olumsuz segment seçimi ve atlanan kalem: yeşil onaydan ayrılır */
+.segment button.olumsuz[aria-pressed="true"]{background:var(--tehlike-yikama);color:var(--tehlike-koyu)}
+.kalem-satiri.atlandi .ks-ikon{background:var(--tehlike-yikama);color:var(--tehlike)}
+
+/* Soluk kart: sona eren kayıt. Metin okunur kalır, düğmeler tam renk */
+.kart.soluk{background:var(--zemin);box-shadow:none}
+.kart.soluk .kart-baslik,.kart.soluk .kart-baslik i{color:var(--metin-ikincil)}
+.kart.soluk .kunye dd{color:var(--murekkep-yumusak)}
+.kart.soluk .kunye{grid-template-columns:repeat(2,minmax(0,1fr))}
+
+/* Yığın içinde yeni bölüm: kart aralığından ayrışır */
+.yigin>.yigin.ayrik{margin-top:var(--bosluk-24)}
+.kart.panel.soluk>.kart-alt.eylem>.eylem-notu{flex:1 1 100%}
+.kart.panel.soluk>.kart-alt.eylem>.eylem-notu+.dugme{margin-left:auto}
+
+/* Üç sütunlu künye dar ekranda iki sütuna iner */
+@media(max-width:640px){.kimlik-bant~.fit-pane .kart-govde>.kunye.uc-sutun{grid-template-columns:repeat(2,minmax(0,1fr))}}
+
+/* Responsive turu: tablette footer üç sütun, panel başlığı dar ekranda alt satıra iner, kart içi segment kartın içinde kayar. */
+@media(min-width:641px) and (max-width:1024px){.foot-grid{grid-template-columns:repeat(3,minmax(0,1fr))}.foot-app{grid-column:1/-1}}
+@media(max-width:640px){.yetkili .panel-bas{flex-wrap:wrap}.yetkili .panel-bas>:first-child{flex:1 1 220px;max-width:100%}}
+.kart-govde>.segment{max-width:100%;overflow-x:auto;scrollbar-width:none}
+.kart-govde>.segment button{flex:none}

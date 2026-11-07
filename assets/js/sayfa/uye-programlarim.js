@@ -48,7 +48,7 @@
     /* His kaydı diyeti sürdüren üye içindir: devam eden program yoksa kart çıkmaz */
     if (devam.length) DD.hisKaydi.bas('#prHis'); else U.bas('#prHis', '');
     U.bas('#prDevam', devam.map(kart).join('') || '<div class="kart panel tam-kolon">' + U.bos({ ikon: 'fa-list-check', baslik: 'Henüz başlattığın program yok', metin: 'Sana uygun programı bul; bugünün öğünleri hemen hazır olsun.', eylem: U.bag('Program bul', 'programlar/program-bul/') }) + '</div>');
-    U.bas('#prTamam', bitti.length ? '<div class="kart panel tam-kolon"><div class="kart-govde bosluksuz"><div class="ayar-liste">' + bitti.map(bittiKart).join('') + '</div></div></div>' : '<div class="kart panel tam-kolon">' + U.bos({ ikon: 'fa-circle-check', baslik: 'Henüz tamamladığın program yok', metin: 'Programını bitirdiğinde uyum oranınla burada arşivlenir.', eylem: U.bag('Devam edenlere dön', 'hesabim/programlarim/', 'hayalet') }) + '</div>');
+    U.bas('#prTamam', bitti.length ? '<div class="kart panel tam-kolon"><div class="kart-bas"><div><h3 class="kart-baslik"><i class="fa-solid fa-circle-check" aria-hidden="true"></i> Tamamladığın programlar</h3></div></div><div class="kart-govde bosluksuz"><div class="ayar-liste">' + bitti.map(bittiKart).join('') + '</div></div></div>' : '<div class="kart panel tam-kolon">' + U.bos({ ikon: 'fa-circle-check', baslik: 'Henüz tamamladığın program yok', metin: 'Programını bitirdiğinde uyum oranınla burada arşivlenir.', eylem: U.bag('Devam edenlere dön', 'hesabim/programlarim/', 'hayalet') }) + '</div>');
     U.sayac('devam', devam.length); U.sayac('tamamlanan', bitti.length);
   }
   document.addEventListener('click', (e) => {

@@ -7,7 +7,7 @@ export default ({ veri }) => {
   };
   const govde = `<div class="yigin">
 <div class="cipler" id="kdSuzgec" role="group" aria-label="İçerik türü" data-suzgec></div>
-${kart({ bosluksuz: true, govde: tablo({ id: 'kdListe', etiket: 'Kaydedilen içerikler', basliklar: ['İçerik', ['Tür', 'dar-kolon'], ['İşlem', 'eylem-kolon']] }) })}
+${kart({ ikon: 'fa-bookmark', baslik: 'Kaydettiklerin', bosluksuz: true, govde: tablo({ id: 'kdListe', etiket: 'Kaydedilen içerikler', basliklar: ['İçerik', ['Tür', 'dar-kolon'], ['İşlem', 'eylem-kolon']] }) })}
 </div>
 <script type="application/json" id="kdKatalog">${JSON.stringify(katalog).replace(/</g, '\\u003c')}</script>`;
   return [uyeSayfa({

@@ -9,6 +9,9 @@
   const kartHtml = (ikon, baslik, metin, sag, govde, alt) => '<div class="kart panel tam-kolon"><div class="kart-bas"><div><h3 class="kart-baslik"><i class="fa-solid ' + ikon + '" aria-hidden="true"></i> ' + baslik + '</h3>' + (metin ? '<p>' + metin + '</p>' : '') + '</div>' + (sag || '') + '</div>' + (govde || '') + (alt ? '<div class="kart-alt eylem">' + alt + '</div>' : '') + '</div>';
   const sayac = (i, e, d) => '<div class="sayac"><i class="fa-solid ' + i + '" aria-hidden="true"></i><div><span>' + e + '</span><b>' + d + '</b></div></div>';
 
+  /* Adım verisi DadaFit'ten gelir: alanın tamamı oraya götürür */
+  const adimSayac = () => '<a class="sayac dis-bag" href="https://dadafit.com.tr" target="_blank" rel="noopener" aria-label="Adım: ' + U.sayi(u.adim.bugun) + '. DadaFit\'te gör, yeni sekmede açılır"><i class="fa-solid fa-shoe-prints" aria-hidden="true"></i><div><span>Adım</span><b>' + U.sayi(u.adim.bugun) + '</b><small>DadaFit\'te gör <i class="fa-solid fa-arrow-up-right-from-square" aria-hidden="true"></i></small></div></a>';
+
   function ciz() {
     const k = U.aktifKaynak(), l = U.yapilacaklar(), ilk = l[0];
     const ad = (u.ad || '').split(' ')[0];
@@ -23,7 +26,7 @@
       const oran = og.length ? Math.round((n / og.length) * 100) : 0, hk = (u.tercihler || {}).kcal || (k.tip === 'plan' ? k.plan.hedef_kcal : 0);
       const ilkSayac = duyarli ? sayac('fa-utensils', 'Öğün', n + ' / ' + og.length) : sayac('fa-fire', 'Hedef <span class="birim">' + DD.bicim.kcal(hk) + '</span>', DD.bicim.kcal(t.kcal));
       const kart = kartHtml('fa-sun', 'Bugünün özeti', U.kac(k.ad), '<div class="as-eylem"><span class="durum-hapi ' + (n === og.length && n ? 'cozulen' : 'bekleyen') + '">' + n + ' / ' + og.length + ' öğün</span></div>',
-        '<div class="kart-govde"><div class="olcer hap" role="img" aria-label="Bugünkü öğün uyumu: yüzde ' + oran + '"><span data-oran="' + oran + '"></span></div><div class="sayac-izgara uc">' + ilkSayac + sayac('fa-droplet', 'Su', U.sayi(u.su.bugun_ml) + ' ml') + sayac('fa-shoe-prints', 'Adım', U.sayi(u.adim.bugun)) + '</div></div>' + (s ? '<div class="kart-govde bosluksuz"><div class="kalem-liste">' + U.ogunSatir(s, '') + '</div></div>' : (og.length ? '' : '<div class="kart-govde">' + U.bugunBos(k) + '</div>')),
+        '<div class="kart-govde"><div class="olcer hap" role="img" aria-label="Bugünkü öğün uyumu: yüzde ' + oran + '"><span data-oran="' + oran + '"></span></div><div class="sayac-izgara uc">' + ilkSayac + sayac('fa-droplet', 'Su', U.sayi(u.su.bugun_ml) + ' ml') + adimSayac() + '</div></div>' + (s ? '<div class="kart-govde bosluksuz"><div class="kalem-liste">' + U.ogunSatir(s, '') + '</div></div>' : (og.length ? '' : '<div class="kart-govde">' + U.bugunBos(k) + '</div>')),
         bag('Bütün öğünler', 'hesabim/beslenme-planim/#ogun', 'hayalet'));
       U.bas('#gbGun', duyarli ? '<div class="yigin">' + U.uzmanNot() + kart + '</div>' : kart);
     } else U.bas('#gbGun', '');
@@ -36,13 +39,14 @@
     ].map((x) => '<div class="ayar-satir"><span class="as-ikon"><i class="fa-solid ' + x[0] + '" aria-hidden="true"></i></span><div class="as-metin"><b>' + x[1] + '</b><span>' + x[2] + '</span></div><span class="as-eylem">' + x[3] + '</span></div>').join(''));
 
     /* Sıradaki görüşme */
-    const r = U.randevular().find((x) => x.tarih >= b && U.rAcik(x));
-    U.bas('#gbRandevu', r ? kartHtml('fa-calendar-day', 'Sıradaki görüşmen', U.tarih(r.tarih) + ', ' + DD.bicim.saat(r.saat) + ' · ' + U.kac(r.tur), '<div class="as-eylem">' + U.rHap(r) + '</div>', '', bag('Randevularım', 'hesabim/diyetisyenim/#randevu', 'hayalet'))
+    const r = U.tumRandevular().find((x) => x.tarih >= b && U.rAcik(x));
+    const rUzman = r && (U.uzmanlar().find((x) => x.slug === r.uzman) || dy);
+    U.bas('#gbRandevu', r ? kartHtml('fa-calendar-day', 'Sıradaki görüşmen', U.tarih(r.tarih) + ', ' + DD.bicim.saat(r.saat) + ' · ' + U.kac(r.tur) + (rUzman ? '<br>' + U.kac(rUzman.ad) : ''), '<div class="as-eylem">' + U.rHap(r) + '</div>', '', bag('Randevularım', 'hesabim/diyetisyenim/#randevu', 'hayalet'))
       : dy ? kartHtml('fa-calendar-plus', 'Planlı görüşmen yok', 'Diyetisyeninle yeni bir görüşme ayarla.', '', '', bag('Randevu oluştur', 'hesabim/diyetisyenim/#randevu', 'birincil')) : '');
 
     /* Diyetisyenin son sözü: otomatik metin üretilmez */
     const m = U.sohbet().mesajlar.filter((x) => x.kimden !== 'danisan').slice(-1)[0];
-    U.bas('#gbMesaj', dy && m ? kartHtml('fa-comments', U.kac(dy.ad), U.tarih(m.zaman) + (u.okunmamis_mesaj ? ' · ' + u.okunmamis_mesaj + ' okunmamış' : ''), '', '<div class="kart-govde"><p class="kart-metin">' + U.kac(m.metin || (m.ek ? m.ek.ad : '')) + '</p></div>', bag('Yanıtla', 'hesabim/diyetisyenim/#mesaj', 'hayalet')) : '');
+    U.bas('#gbMesaj', dy && m ? kartHtml('fa-comments', 'Diyetisyeninden son mesaj', U.kac(dy.ad) + ' · ' + U.tarih(m.zaman) + (u.okunmamis_mesaj ? ' · ' + u.okunmamis_mesaj + ' okunmamış' : ''), '', '<div class="kart-govde"><p class="kart-metin">' + U.kac(m.metin || (m.ek ? m.ek.ad : '')) + '</p></div>', bag('Yanıtla', 'hesabim/diyetisyenim/#mesaj', 'hayalet')) : '');
 
     /* Yapılacaklar: en çok üç satır, ilki yukarıda önerildi */
     const kalan = l.slice(1, 4);

@@ -65,7 +65,7 @@ export function kabukla(s, { istekler }) {
   const fa = `<link rel="stylesheet" href="${K}assets/fontawesome/css/all.min.css">`;
   const js = [
     ...(panel ? ['assets/js/panel/panel.js', 'assets/js/panel/admin-kit.js'] : []),
-    'assets/js/veri.js', 'assets/js/demo.js', 'assets/js/ortak.js',
+    'assets/js/veri.js', 'assets/js/demo.js', 'assets/js/ortak.js', 'assets/js/bildirim-zili.js', 'assets/js/mentor.js',
     ...(panel ? ['assets/js/sayfa/panel-a-ortak.js'] : []),
     ...(m.js ?? []).filter((j) => !(panel && j.endsWith('panel-a-ortak.js'))),
   ].map((j) => `<script src="${K}${j}" defer></script>`).join('\n');

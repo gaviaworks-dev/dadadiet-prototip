@@ -9,7 +9,7 @@ const HEDEF_IKON = { dengeli: 'fa-scale-balanced', detoks: 'fa-leaf', oruc: 'fa-
 
 const kartlar = (P) => P.map((p, i) => programKart(p, { gizli: i >= BOYUT })).join('');
 const liste = ({ P, alan, kume, etiket }) => `<div data-liste${alan ? ` data-alan="${alan}" data-param="${alan}"` : ''} data-boyut="${BOYUT}" data-birim="program">
-${kume ? `<div class="sekme-ray liste-ust"><div class="sekmeler suzgec" role="tablist" aria-label="${etiket}"><button class="sekme aktif" type="button" role="tab" data-deger="" aria-selected="true">${ikon('fa-layer-group')} Tümü <span class="sekme-sayi">${P.length}</span></button>${kume.map((c) => `<button class="sekme" type="button" role="tab" data-deger="${c.slug}" aria-selected="false" tabindex="-1">${c.ikon ? ikon(c.ikon) + ' ' : ''}${c.ad} <span class="sekme-sayi">${c.sayi}</span></button>`).join('')}</div></div>` : ''}
+${kume ? `<div class="sekme-ray liste-ust tam-serit-kap"><div class="sekmeler suzgec tam-serit" role="tablist" aria-label="${etiket}"><button class="sekme aktif" type="button" role="tab" data-deger="" aria-selected="true">${ikon('fa-layer-group')} Tümü <span class="sekme-sayi">${P.length}</span></button>${kume.map((c) => `<button class="sekme" type="button" role="tab" data-deger="${c.slug}" aria-selected="false" tabindex="-1">${c.ikon ? ikon(c.ikon) + ' ' : ''}${c.ad} <span class="sekme-sayi">${c.sayi}</span></button>`).join('')}</div></div>` : ''}
 <div data-uyum-bilgi="liste"></div>
 <div class="kart-izgara c3" data-izgara>${kartlar(P)}</div>
 <nav class="sayfalama" data-sayfalama aria-label="Sayfalama"></nav><p class="sayfalama-not" data-not></p>
