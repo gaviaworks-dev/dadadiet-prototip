@@ -2989,3 +2989,20 @@ html[data-oturum="1"] .head-bell{display:grid}
 /* Kişi tanıtım metni sola yaslı: Türkçe tireleme yokken iki yana yaslama geniş kelime boşluğu açıyor. */
 .duz-metin p{text-align:left;text-align-last:auto}
 .duz-metin p+p{margin-top:var(--bosluk-12)}
+
+/* === Revize 7 Kasım · genel === */
+/* Footer imzası: canlı footer-gastro.css */
+.foot-sign{display:inline-flex;align-items:center;gap:9px;font-weight:var(--agirlik-kalin);color:inherit}
+.foot-sign .gw-code{font-family:ui-monospace,SFMono-Regular,Menlo,monospace;font-weight:var(--agirlik-kalin)}
+.foot-corp{flex-wrap:wrap;row-gap:var(--bosluk-8)}
+/* Sağ alt kalemler dipteki sabit yüzeylerin üstüne çıkar */
+.basa-don{bottom:calc(92px + var(--kenar-engel,0px))}
+.yuzen-dugme{bottom:calc(var(--bosluk-22) + var(--kenar-engel,0px))}
+.yuzen-dugme .sohbet-rozet{position:absolute;top:-6px;right:-6px;min-width:20px;height:20px;padding:0 var(--bosluk-5);display:grid;place-items:center;border-radius:var(--yuvarlak-hap);background:var(--bildirim-sil);color:var(--kagit);font-size:var(--yazi-12);font-weight:var(--agirlik-kalin)}
+.yuzen-dugme .sohbet-rozet[hidden]{display:none}
+.sohbet-cta{display:flex;flex-direction:column;align-items:center;gap:var(--bosluk-12);margin-top:var(--bosluk-16)}
+.sohbet-cta-ikincil{font-size:var(--yazi-13-5);font-weight:var(--agirlik-kalin);color:var(--aksan-koyu);text-decoration:none}
+@media(max-width:640px){
+  .basa-don{bottom:calc(148px + env(safe-area-inset-bottom,0px) + var(--kenar-engel,0px))}
+  .yuzen-dugme{bottom:calc(var(--bosluk-22) + env(safe-area-inset-bottom,0px) + var(--kenar-engel,0px))}
+}
