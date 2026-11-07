@@ -304,7 +304,7 @@
     const varMi = tabaktaki();
     son.innerHTML = '<div class="kart-izgara c3">' + l.map((m, i) => {
       const x = M.besin(m.slug);
-      return '<div class="kart dolgulu muadil-kart"><h3 class="kart-baslik">' + kac(m.etiket) + '</h3><p class="kart-metin">' + (m.tarif ? '<span class="rozet pasif">Tarif</span> <a class="metin-bag" href="' + DD.kok + x.yol.replace(/^\//, '') + '/">Tarifi aç</a>' : kac(m.alt)) + '</p><dl class="deger-satir">'
+      return '<div class="kart dolgulu muadil-kart"><h3 class="kart-baslik">' + kac(m.etiket) + '</h3><p class="kart-metin">' + kac(m.alt) + '</p><dl class="deger-tablo">'
         + DEGER.map(([a, ad, br]) => { const v = M.miktarDeger(x, a, m.miktar, m.birim); return '<div' + (a === muadil.temel ? ' class="temel"' : '') + '><dt>' + ad + '</dt><dd>' + M.goster(v, br, 0) + '</dd>' + farkHapi(a, v, kay[a], br) + '</div>'; }).join('')
         + '</dl><div class="eylem-satiri">' + (varMi ? '<button class="dugme birincil kucuk" type="button" data-muadil-degistir="' + i + '"><i class="fa-solid fa-right-left" aria-hidden="true"></i> Tabağımda değiştir</button>' : '')
         + '<button class="dugme hayalet kucuk" type="button" data-muadil-ekle="' + i + '"><i class="fa-solid fa-plus" aria-hidden="true"></i> Tabağa ekle</button></div></div>';

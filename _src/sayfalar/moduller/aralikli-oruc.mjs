@@ -24,10 +24,10 @@ const bolumler = [
   </div>
 
   <div class="kart kart-dikey">
-    <div class="kart-bas"><div><h2 class="kart-baslik"><i class="fa-solid fa-clock" aria-hidden="true"></i> Zaman çarkın</h2><p>Gece yarısı en üstte; saat yönünde 24 saat.</p></div></div>
+    <div class="kart-bas"><div><h2 class="kart-baslik"><i class="fa-solid fa-clock" aria-hidden="true"></i> Zaman çarkın</h2><p>Yeşil yayı sürükleyerek ilk lokma saatini ayarla.</p></div></div>
     <div class="kart-govde kart-buyur">
       <div class="cark-kap" id="cark"></div>
-      <div class="grafik-lejant ortali-lejant"><span class="lejant-kalem dolu">Yeme penceresi</span><span class="lejant-kalem bos">Oruç</span><span class="lejant-kalem nokta">Şu an</span><span class="lejant-kalem centik">Evre başlangıcı</span></div>
+      <div class="grafik-lejant ortali-lejant"><span class="lejant-kalem dolu">Yeme penceresi</span><span class="lejant-kalem cark-oruc">Oruç</span><span class="lejant-kalem nokta">Şu an</span><span class="lejant-kalem centik">Evre başlangıcı</span></div>
     </div>
     <div class="kart-govde ust-cizgili"><p class="durum-satir su-an" id="suAn"><i class="fa-solid fa-location-crosshairs" aria-hidden="true"></i><span></span></p></div>
   </div>
@@ -35,15 +35,9 @@ const bolumler = [
 `<div class="bolum-bas"><div><span class="ust-etiket"><i class="fa-solid fa-dna" aria-hidden="true"></i> Biyolojik zaman çizelgesi</span><h2>Oruçta vücudunda neler olur?</h2><p class="giris-metni">Saatler son lokmandan itibaren sayılır. Süreler kişiye, öğüne ve hareketine göre değişir, yaklaşık bir çerçeve olarak oku. Evre saatleri uzman onayı bekliyor.</p></div></div>
 <div class="iki-kolon esit">
   <div class="kart"><div class="kart-govde"><div class="zaman-cizelgesi" id="cizelge"></div></div></div>
-  <div class="akordeon">
-    <div class="akordeon-kalem acik">
-      <button class="akordeon-bas" type="button" aria-expanded="true"><span class="akordeon-ikon"><i class="fa-solid fa-droplet" aria-hidden="true"></i></span>Oruçta serbest olanlar<i class="fa-solid fa-chevron-down akordeon-ok" aria-hidden="true"></i></button>
-      <div class="akordeon-govde" id="serbestGovde"><ul class="isaretli-liste akordeon-liste"><li><i class="fa-solid fa-check" aria-hidden="true"></i><span>Su ve sade maden suyu</span></li><li><i class="fa-solid fa-check" aria-hidden="true"></i><span>Sütsüz, şekersiz çay ve kahve</span></li><li><i class="fa-solid fa-check" aria-hidden="true"></i><span>Şekersiz bitki çayları</span></li></ul></div>
-    </div>
-    <div class="akordeon-kalem">
-      <button class="akordeon-bas" type="button" aria-expanded="false"><span class="akordeon-ikon"><i class="fa-solid fa-mug-saucer" aria-hidden="true"></i></span>Orucu bozanlar<i class="fa-solid fa-chevron-down akordeon-ok" aria-hidden="true"></i></button>
-      <div class="akordeon-govde"><ul class="isaretli-liste olumsuz akordeon-liste"><li><i class="fa-solid fa-xmark" aria-hidden="true"></i><span>Süt, krema ya da şeker eklenmiş kahve ve çay</span></li><li><i class="fa-solid fa-xmark" aria-hidden="true"></i><span>Meyve suyu, gazlı içecek ve enerji içeceği</span></li><li><i class="fa-solid fa-xmark" aria-hidden="true"></i><span>Kalori içeren her yiyecek, küçük atıştırmalıklar dahil</span></li><li><i class="fa-solid fa-xmark" aria-hidden="true"></i><span>Alkol</span></li></ul><p>Düzenli ilaçlarını oruç nedeniyle kendi başına atlama ya da saatini değiştirme, hekimine sor.</p></div>
-    </div>
+  <div class="yigin sik esit-yigin">
+    <div class="kart"><div class="kart-bas"><h3 class="kart-baslik"><i class="fa-solid fa-droplet" aria-hidden="true"></i> Oruçta serbest olanlar</h3></div><div class="kart-govde"><ul class="isaretli-liste"><li><i class="fa-solid fa-check" aria-hidden="true"></i><span>Su ve sade maden suyu</span></li><li><i class="fa-solid fa-check" aria-hidden="true"></i><span>Sütsüz, şekersiz çay ve kahve</span></li><li><i class="fa-solid fa-check" aria-hidden="true"></i><span>Şekersiz bitki çayları</span></li></ul></div></div>
+    <div class="kart"><div class="kart-bas"><h3 class="kart-baslik"><i class="fa-solid fa-mug-saucer" aria-hidden="true"></i> Orucu bozanlar</h3></div><div class="kart-govde yigin sik"><ul class="isaretli-liste olumsuz"><li><i class="fa-solid fa-xmark" aria-hidden="true"></i><span>Süt, krema ya da şeker eklenmiş kahve ve çay</span></li><li><i class="fa-solid fa-xmark" aria-hidden="true"></i><span>Meyve suyu, gazlı içecek ve enerji içeceği</span></li><li><i class="fa-solid fa-xmark" aria-hidden="true"></i><span>Kalori içeren her yiyecek, küçük atıştırmalıklar dahil</span></li><li><i class="fa-solid fa-xmark" aria-hidden="true"></i><span>Alkol</span></li></ul><p class="kart-metin">Düzenli ilaçlarını oruç nedeniyle kendi başına atlama ya da saatini değiştirme, hekimine sor.</p></div></div>
   </div>
 </div>`,
 `<div class="bilgi-notu"><i class="fa-solid fa-circle-info" aria-hidden="true"></i><div><p><b>Bu rehber genel bilgi amaçlıdır.</b> Evre saatleri kaynaklar arasında farklılık gösterir ve uzman onayı bekliyor. Aralıklı oruç tıbbi bir tedavi değildir; kişisel durumun için hekimine ve diyetisyenine danış.</p></div></div>`,

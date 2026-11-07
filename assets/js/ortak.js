@@ -205,3 +205,14 @@
     if (tg) { const it = tg.closest('.d-item'); const ac = !it.classList.contains('open'); it.classList.toggle('open', ac); tg.setAttribute('aria-expanded', String(ac)); }
   });
 })();
+
+/* Footer perdesi: yükseklik ölçülür, klavye odağı footera girince sayfa sona iner */
+(function () {
+  const foot = document.querySelector('.footer.orange');
+  if (!foot) return;
+  const uydur = () => document.documentElement.style.setProperty('--perde-boy', foot.offsetHeight + 'px');
+  uydur();
+  window.addEventListener('resize', uydur);
+  if (window.ResizeObserver) new ResizeObserver(uydur).observe(foot);
+  foot.addEventListener('focusin', () => window.scrollTo(0, document.documentElement.scrollHeight));
+})();

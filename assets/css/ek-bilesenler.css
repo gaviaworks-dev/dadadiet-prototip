@@ -193,9 +193,10 @@
   .plan-ekle{display:none}
 }
 
-/* Footer akışta kalır: canlıdaki position:fixed içerik sonunu örtüyordu (programlarim, 343 px) */
-.footer.orange{position:static!important}
-.page-main{margin-bottom:0!important}
+/* Footer perdesi: canlıdaki etki, ama footer akışta kalır (position:fixed içerik sonunu örtüyordu, programlarim 343 px).
+   Yapışkan footer içeriğin arkasında bekler; ekrandan uzunsa üstü görünür kalsın diye ortak.js --perde-boy verir. */
+.footer.orange{position:static}
+@media(min-width:641px){.footer.orange{position:sticky;bottom:min(0px,calc(100vh - var(--perde-boy,0px)));z-index:1}}
 /* Oturum durumu: başlıkta iki kip birlikte basılır, html[data-oturum] seçer */
 html[data-oturum="1"] .oturum-kapali{display:none!important}
 html:not([data-oturum="1"]) .oturum-acik{display:none!important}
@@ -2569,3 +2570,42 @@ body:not(.yetkili) .kart.panel>.kart-alt{padding:var(--rol-kart-alt-dikey) var(-
 .kalem-uyari small{font-size:var(--yazi-12);font-weight:var(--agirlik-orta);white-space:nowrap}
 .kalem-uyari.dikkat{color:inherit;font-weight:inherit}
 .kalem-uyari.dikkat small{color:var(--altin-metin)}
+
+/* Revize 2 */
+/* Liste üstü sekme şeridi ile kartlar arası */
+.sekme-ray.liste-ust{margin:0 0 var(--bosluk-24)}
+.kart-govde:empty{display:none}
+
+/* Değer tablosu: etiket, değer ve fark tek satırda */
+.deger-tablo{display:flex;flex-direction:column;width:100%;margin:0}
+.deger-tablo>div{display:grid;grid-template-columns:minmax(0,1fr) auto 88px;align-items:center;gap:var(--bosluk-12);min-height:44px;padding:var(--bosluk-6) var(--bosluk-10);border-bottom:1px solid var(--cizgi)}
+.deger-tablo>div:last-child{border-bottom:0}
+.deger-tablo>div.temel{background:var(--aksan-yikama);border-bottom-color:transparent;border-radius:var(--yuvarlak-sm)}
+.deger-tablo dt{font-size:var(--yazi-13);font-weight:var(--agirlik-govde);color:var(--metin-ikincil)}
+.deger-tablo dd{margin:0;font-size:var(--yazi-14-5);font-weight:var(--agirlik-kalin);color:var(--murekkep);white-space:nowrap}
+.deger-tablo .temel dt,.deger-tablo .temel dd{color:var(--aksan-koyu)}
+.deger-tablo .rozet{justify-self:end;white-space:nowrap}
+.muadil-kart{gap:var(--bosluk-12);align-items:stretch}
+.muadil-kart .eylem-satiri .dugme{flex:1;justify-content:center}
+.muadil-ozet .deger-satir{display:flex;flex-wrap:wrap;justify-content:flex-end;gap:var(--bosluk-8);width:auto}
+.muadil-ozet .deger-satir>div{flex-direction:row;align-items:baseline;gap:var(--bosluk-8);padding:var(--bosluk-6) var(--bosluk-12)}
+
+/* Zaman çarkı: sürüklenebilir halka */
+.cark-kap svg :is(path,line,circle){cursor:grab;touch-action:none}
+.cark-kap{user-select:none;-webkit-user-select:none}
+.cark-kap.surukleniyor,.cark-kap.surukleniyor svg :is(path,line,circle){cursor:grabbing}
+.cark-tutamac{outline:0}
+.cark-tutamac circle{fill:var(--aksan);stroke:var(--kagit);stroke-width:3;filter:drop-shadow(0 1px 3px rgba(0,0,0,.35))}
+.cark-tutamac path{fill:none;stroke:var(--kagit);stroke-width:1.6;stroke-linecap:round}
+.cark-tutamac:focus-visible circle{stroke:var(--aksan-koyu)}
+.lejant-kalem.cark-oruc{--lejant-renk:var(--cizgi-vurgu)}
+
+/* Eşit yükseklikli yan kartlar */
+.esit-yigin>.kart{flex:1 1 auto}
+
+/* Sürüklerken sol kart uzasa da çark yerinden oynamaz */
+.kart-dikey>.kart-buyur:has(>.cark-kap){justify-content:flex-start}
+@media(max-width:640px){
+  .muadil-ozet .deger-satir{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));width:100%;gap:var(--bosluk-4)}
+  .muadil-ozet .deger-satir>div{flex-direction:column;gap:var(--bosluk-4);padding:var(--bosluk-6) var(--bosluk-8)}
+}

@@ -37,7 +37,7 @@
   const nokta = (d, r) => { const a = (d / 1440) * 2 * Math.PI - Math.PI / 2; return [C + r * Math.cos(a), C + r * Math.sin(a)].map((v) => +v.toFixed(2)); };
   const yay = (b, e, r) => { const s = ((e - b) % 1440 + 1440) % 1440, [x1, y1] = nokta(b, r), [x2, y2] = nokta(e, r); return 'M' + x1 + ' ' + y1 + ' A' + r + ' ' + r + ' 0 ' + (s > 720 ? 1 : 0) + ' 1 ' + x2 + ' ' + y2; };
   function carkCiz(bas, bit, orucSaat) {
-    let s = '<svg class="cizim" viewBox="0 0 360 360" role="img" aria-label="24 saatlik zaman çarkı. Yeme penceresi ' + saat(bas) + ' ile ' + saat(bit) + ' arası, kalan ' + orucSaat + ' saat oruç.">';
+    let s = '<svg class="cizim" viewBox="0 0 360 360" role="group" aria-label="24 saatlik zaman çarkı. Yeme penceresi ' + saat(bas) + ' ile ' + saat(bit) + ' arası, kalan ' + orucSaat + ' saat oruç.">';
     s += '<path d="' + yay(bit, bas, R) + '" fill="none" stroke="var(--cizgi-vurgu)" stroke-width="' + KAL + '"/>';
     s += '<path d="' + yay(bas, bit, R) + '" fill="none" stroke="var(--aksan-koyu)" stroke-width="' + KAL + '"/>';
     for (let h = 0; h < 24; h++) {
@@ -53,10 +53,14 @@
     s += '<path id="carkEvre" class="cark-evre" d="" fill="none" stroke="var(--aksan)" stroke-width="5" stroke-linecap="round"/>';
     const su = simdi(), sn = nokta(su, R);
     s += '<circle class="cark-su-an" cx="' + sn[0] + '" cy="' + sn[1] + '" r="8" fill="var(--kagit)" stroke="var(--aksan-koyu)" stroke-width="3.5"><title>Şu an ' + saat(su) + '</title></circle>';
+    const tn = nokta(bas, R), tv = saat(bas);
+    s += '<g class="cark-tutamac" id="carkTutamac" role="slider" tabindex="0" aria-label="İlk lokma saati" aria-valuemin="0" aria-valuemax="1425" aria-valuenow="' + bas + '" aria-valuetext="' + tv + '"><circle cx="' + tn[0] + '" cy="' + tn[1] + '" r="15"/><path d="M' + (tn[0] - 3.5) + ' ' + (tn[1] - 5) + 'v10M' + tn[0] + ' ' + (tn[1] - 5) + 'v10M' + (tn[0] + 3.5) + ' ' + (tn[1] - 5) + 'v10"/></g>';
     s += '<text class="cark-buyuk" x="' + C + '" y="' + (C - 8) + '" text-anchor="middle">' + saat(bas) + ' – ' + saat(bit) + '</text>';
     s += '<text class="cark-kucuk" x="' + C + '" y="' + (C + 16) + '" text-anchor="middle">yeme penceren</text>';
     s += '<text class="cark-kucuk" x="' + C + '" y="' + (C + 36) + '" text-anchor="middle">' + orucSaat + ' saat oruç</text>';
+    const odakta = document.activeElement && document.activeElement.id === 'carkTutamac';
     $('cark').innerHTML = s + '</svg>';
+    if (odakta) $('carkTutamac').focus();
   }
 
   /* Çark ile çizelgenin ortak "şu an"ı: oruçtaysa kaçıncı saatte olduğu */
@@ -122,6 +126,34 @@
   $('saatCipler').addEventListener('click', (e) => { const c = e.target.closest('[data-saat]'); if (c) { durum.saat = c.dataset.saat; durum.elle = true; ciz(); kaydet(); } });
   $('ilkLokma').addEventListener('change', (e) => { if (e.target.value) { durum.saat = e.target.value; durum.elle = true; ciz(); kaydet(); } });
 
+  /* Çarkta sürükleme: halkadan tutulur, yeme penceresi 15 dakikalık adımlarla döner.
+     Yayın içinden tutulunca tutulan nokta korunur, boş halkaya basınca pencere oraya gelir. */
+  const ADIM = 15, cark = $('cark');
+  const sekle = (d) => { d = ((Math.round(d / ADIM) * ADIM) % 1440 + 1440) % 1440; return String(Math.floor(d / 60)).padStart(2, '0') + ':' + String(d % 60).padStart(2, '0'); };
+  const konum = (e) => {
+    const r = cark.querySelector('svg').getBoundingClientRect(), x = (e.clientX - r.left) / r.width * 360 - C, y = (e.clientY - r.top) / r.height * 360 - C;
+    return { uzak: Math.hypot(x, y), dk: ((Math.atan2(x, -y) / (2 * Math.PI)) * 1440 + 1440) % 1440 };
+  };
+  const saatAyarla = (s) => { if (s === durum.saat) return; durum.saat = s; durum.elle = true; ciz(); };
+  let surukleme = null;
+  cark.addEventListener('pointerdown', (e) => {
+    const k = konum(e);
+    if (Math.abs(k.uzak - R) > KAL / 2 + 10 || e.button) return;
+    const bas = dk(durum.saat), icinde = ((k.dk - bas) % 1440 + 1440) % 1440 < durum.p.yeme * 60;
+    surukleme = { fark: icinde && !e.target.closest('#carkTutamac') ? k.dk - bas : 0 };
+    cark.setPointerCapture(e.pointerId); cark.classList.add('surukleniyor'); e.preventDefault();
+    if (!surukleme.fark) saatAyarla(sekle(k.dk));
+  });
+  cark.addEventListener('pointermove', (e) => { if (surukleme) saatAyarla(sekle(konum(e).dk - surukleme.fark)); });
+  const birak = () => { if (!surukleme) return; surukleme = null; cark.classList.remove('surukleniyor'); kaydet(); };
+  cark.addEventListener('pointerup', birak);
+  cark.addEventListener('pointercancel', birak);
+  cark.addEventListener('keydown', (e) => {
+    const a = { ArrowRight: ADIM, ArrowUp: ADIM, ArrowLeft: -ADIM, ArrowDown: -ADIM, PageUp: 60, PageDown: -60 }[e.key];
+    if (!a || e.target.id !== 'carkTutamac') return;
+    e.preventDefault(); saatAyarla(sekle(dk(durum.saat) + a)); kaydet();
+  });
+
   /* Evre ile çark bağı: üstüne gelince, odakta ve dokununca yay vurgulanır */
   const evre = (e) => { const k = e.target.closest && e.target.closest('[data-evre]'); return k ? +k.dataset.evre : null; };
   const cizelge = $('cizelge');
@@ -146,5 +178,4 @@
     secimGoster(false);
     document.querySelector('.bant-alt').textContent = 'Düzenin tercihlerinden geldi; yeme ve oruç pencereni, oruç sırasında vücudunda neler olduğunu saat saat gör.';
   }
-  const g = $('serbestGovde'); g.style.maxHeight = g.scrollHeight + 'px';
 })();
