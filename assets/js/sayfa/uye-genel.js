@@ -29,7 +29,7 @@
     const su = u.su;
     U.bas('#gbKayit', [
       ['fa-utensils', 'Öğün', k ? 'Plana uyduysan tek dokunuşla işaretle.' : 'Yediklerini günlüğe ekle.', bag('Ekle', 'hesabim/gunluk-takibim/', 'hayalet kucuk')],
-      ['fa-droplet', 'Su', U.sayi(su.bugun_ml) + ' / ' + U.sayi(su.hedef_ml) + ' ml', '<button class="dugme hayalet kucuk" type="button" data-su-ekle="250">+250 ml</button>'],
+      ['fa-droplet', 'Su', U.sayi(su.bugun_ml) + ' / ' + U.sayi(su.hedef_ml) + ' ml · ' + Math.round(su.hedef_ml / su.bardak_ml) + ' bardak', '<button class="dugme hayalet kucuk" type="button" data-su-ekle="' + su.bardak_ml + '">1 su bardağı (' + su.bardak_ml + ' ml)</button>'],
       ['fa-weight-scale', 'Ölçüm', 'Kilo, bel ve yağ oranı.', bag('Ekle', 'hesabim/saglik-dosyam/#olcum', 'hayalet kucuk')],
     ].map((x) => '<div class="ayar-satir"><span class="as-ikon"><i class="fa-solid ' + x[0] + '" aria-hidden="true"></i></span><div class="as-metin"><b>' + x[1] + '</b><span>' + x[2] + '</span></div><span class="as-eylem">' + x[3] + '</span></div>').join(''));
 

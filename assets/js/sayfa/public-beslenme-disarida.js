@@ -14,12 +14,12 @@
 
   const uyum = (y) => !DD.tercihUyum || DD.tercihUyum.uygunMu(y.dataset.uyum);
 
-  /* Kartta üyenin tercihine ve Beslenme seçimine uyan ilk örnek görünür; vegan seçiminde tavuk gösterilmez. */
-  function ornekSec(k, tipler) {
+  /* Kartta üyenin tercihine ve Beslenme seçimine uyan tüm örnekler kalorisiyle görünür; vegan seçiminde tavuk gösterilmez. */
+  function ornekSuz(k, tipler) {
     const satirlar = [...k.querySelectorAll('[data-yemek]')];
-    const uyan = satirlar.find((y) => uyum(y) && (!tipler.length || tipler.some((t) => y.dataset.tip.split(' ').includes(t))));
-    satirlar.forEach((y) => { y.hidden = y !== uyan; });
-    k.querySelector('[data-yemek-yok]').hidden = Boolean(uyan);
+    const uygun = (y) => uyum(y) && (!tipler.length || tipler.some((t) => y.dataset.tip.split(' ').includes(t)));
+    satirlar.forEach((y) => { y.hidden = !uygun(y); });
+    k.querySelector('[data-yemek-yok]').hidden = satirlar.some(uygun);
   }
 
   function ciz(basaDon) {
@@ -37,7 +37,7 @@
     bos.hidden = Boolean(uyan.length);
 
     const beslenme = sec.find((s) => s.alan === 'beslenme').kutular.map((c) => TIP[c.value]);
-    kartlar.forEach((k) => ornekSec(k, beslenme));
+    kartlar.forEach((k) => ornekSuz(k, beslenme));
 
     sec.forEach((s) => {
       const r = s.g.querySelector('.filtre-grup-sayi');

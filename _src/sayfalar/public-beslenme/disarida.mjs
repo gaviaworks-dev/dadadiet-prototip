@@ -14,13 +14,14 @@ const filtreGrup = ([alan, baslik, i], sayilar) => `<div class="filtre-grup acik
 
 function disarida(veri) {
   const d = veri.disarida;
-  const yemek = (ad) => d.yemekler.find((y) => y.ad === ad);
+  /* Kalorisi olmayan yemek kartta gösterilmez; görünen her satır kalorisini taşır. */
+  const yemekler = (adlar) => adlar.map((ad) => d.yemekler.find((y) => y.ad === ad)).filter((y) => y?.kcal != null);
   const kart = (m) => `<article class="mekan-kart" data-mekan data-il="${kac(m.il)}" data-kategori="${kac(m.kategori)}" data-konsept="${kac(m.konsept)}" data-mutfak="${kac(m.mutfak)}" data-fiyat="${m.fiyat}" data-beslenme="${m.beslenme.join('|')}">
 <div class="mekan-kart-gorsel"><img src="${K}${m.gorsel}" alt="${kac(m.ad)} mekanından fotoğraf" loading="lazy"><span class="mekan-kart-fiyat"><b>${m.fiyat}</b>${'₺'.repeat(4 - m.fiyat.length)}</span></div>
 <span class="mekan-kart-tur">${kac(m.kategori)}</span>
 <h3 class="kart-baslik">${kac(m.ad)}</h3>
 <p>${kac(m.ozet)}</p>
-<div class="mekan-kart-ornek"><span class="mekan-kart-ornek-baslik">${ikon('fa-fire')} Tahmini kalori örneği</span>${m.ornek_yemekler.map(yemek).map((y, i) => `<span class="mekan-kart-ornek-satir" data-yemek data-tip="${y.diyet_etiketleri.join(' ')}" data-uyum="${kac([y.ad, ...y.alerjenler.map((a) => ALERJEN_METIN[a])].join(' '))}"${i ? ' hidden' : ''}><span>${kac(y.ad)} · ${kac(y.porsiyon.ad)}</span><b>≈ ${bicim.kcal(y.kcal)}</b></span>`).join('')}<span class="mekan-kart-ornek-satir" data-yemek-yok hidden><span>Seçimine uygun örnek yok, menüyü mekana sor.</span></span></div>
+<div class="mekan-kart-ornek kart-esnek-alan"><span class="mekan-kart-ornek-baslik">${ikon('fa-fire')} Tahmini kalori</span>${yemekler(m.ornek_yemekler).map((y) => `<span class="mekan-kart-ornek-satir metin-sarar" data-yemek data-tip="${y.diyet_etiketleri.join(' ')}" data-uyum="${kac([y.ad, ...y.alerjenler.map((a) => ALERJEN_METIN[a])].join(' '))}"><span>${kac(y.ad)}, <span>${kac(y.porsiyon.ad)}</span></span><b>≈ ${bicim.kcal(y.kcal)}</b></span>`).join('')}<span class="mekan-kart-ornek-satir metin-sarar" data-yemek-yok hidden><span>Seçimine uygun örnek yok, menüyü mekana sor.</span></span></div>
 <div class="mekan-kart-alt"><span class="mekan-kart-konum">${ikon('fa-location-dot')} ${kac(m.ilce)} / ${kac(m.il)}</span></div>
 <a class="dugme gourmet-birincil kucuk tam-en" href="https://dadagourmet.com/mekan/${m.slug}" target="_blank" rel="noopener">Dada Gourmet'te gör ${ikon('fa-arrow-up-right-from-square')}</a>
 </article>`;
@@ -30,10 +31,10 @@ function disarida(veri) {
 <div class="filtre-ayak"><button class="dugme birincil tam-en" type="button" data-filtre-kapat id="dzGoster"></button></div>
 </aside><div class="filtre-perde" id="dzPerde" data-filtre-kapat hidden></div>`;
   return sayfa('disarida-ne-yesem', 'Dışarıda Ne Yesem?',
-    bant({ yol: [['Beslenme', 'besin-rehberi/'], ['Dışarıda Ne Yesem?']], etiket: 'RESTORAN VE MENÜ NAVİGATÖRÜ', etiketIkon: 'fa-location-dot', h1: 'Dışarıda ne yesem?', alt: 'Dada Gourmet mekanlarını gör; her mekanın mutfağında sık bulunan bir seçimin tahmini kalorisini incele.', gorsel: 'assets/img/program/olculu-porsiyon-programi.jpg', sayilar: [[d.sayaclar.mekan, 'Dada Gourmet mekanı'], [d.sayaclar.sehir, 'şehirde mekan'], [d.sayaclar.mutfak, 'mutfak türü']] })
+    bant({ yol: [['Beslenme', 'besin-rehberi/'], ['Dışarıda Ne Yesem?']], etiket: 'RESTORAN VE MENÜ NAVİGATÖRÜ', etiketIkon: 'fa-location-dot', h1: 'Dışarıda ne yesem?', alt: 'Dada Gourmet mekanlarını gör; her mekanın mutfağında sık bulunan seçimlerin tahmini kalorisini incele.', gorsel: 'assets/img/program/olculu-porsiyon-programi.jpg', sayilar: [[d.sayaclar.mekan, 'Dada Gourmet mekanı'], [d.sayaclar.sehir, 'şehirde mekan'], [d.sayaclar.mutfak, 'mutfak türü']] })
     + dizi(bolum(`<div class="mekan-yerlesim">${panel}
 <div class="yigin" id="dzListe"><div class="mekan-ust"><p class="mekan-ozet" id="dzSayac" role="status"></p><button class="dugme birincil kucuk filtre-ac" type="button" id="dzFiltreAc" aria-controls="dzPanel" aria-expanded="false">${ikon('fa-sliders')} Filtrele <span class="filtre-ac-sayi" id="dzFiltreSayi" hidden>0</span></button></div>
-<div class="mekan-izgara" id="dzKartlar" data-toplam="${d.sayaclar.mekan}">${d.mekan_ornekleri.map(kart).join('')}</div>
+<div class="mekan-izgara izgara-esit-satir" id="dzKartlar" data-toplam="${d.sayaclar.mekan}">${d.mekan_ornekleri.map(kart).join('')}</div>
 <div class="bos-durum kart-ici" id="dzBos" hidden><span class="bos-ikon">${ikon('fa-location-dot')}</span><h3>Bu süzgeçlere uyan mekan yok</h3><p>Bir süzgeci kaldır ya da başka bir şehir seç.</p><button class="dugme birincil" type="button" id="dzBosTemizle">Süzgeçleri temizle</button></div>
 <nav class="sayfalama" aria-label="Sayfalar" id="dzSayfalama" hidden></nav>
 <p class="alan-yardim"><span>Mekan bilgileri ve görseller Dada Gourmet'ten gelir. Menüler henüz yayımlanmadığı için kalori örnekleri o mutfakta sık bulunan yemeklerdir, değerleri tahminidir (kaynak: Dada Diet besin veritabanı). Sayılar Dada Gourmet'teki tüm mekanları gösterir, bu önizlemede örnek kartlar listelenir.</span></p>

@@ -11,6 +11,11 @@
   const ogunAd = (a) => (U.ogunTanimi.find((o) => o[0] === a) || [])[1] || a;
 
   const toplam = () => U.gunToplam();
+  /* Su: bardak ölçüsü kayıttan gelir; Geri al bugünkü son eklemeyi söker */
+  const bardakMl = () => u.su.bardak_ml || 200;
+  const suHedefMetin = () => U.sayi(u.su.hedef_ml) + ' ml · ' + U.sayi(Math.ceil(u.su.hedef_ml / bardakMl())) + ' bardak';
+  const suEkler = () => { const e = U.yerel('suEk', {}); e[b] = e[b] || []; return e[b]; };
+  const gunSu = (x) => (x.tarih === b ? u.su.bugun_ml : x.ml);
 
   function ogunCiz() {
     U.bas('#gtBas', '<div class="bolum-bas"><div><span class="ust-etiket"><i class="fa-solid fa-calendar-day" aria-hidden="true"></i> ' + U.kisaTarih(b) + ' ' + U.gunAdi(b) + '</span><h2>Bugün ne yedin</h2><p class="giris-metni">Plandan farklı yediysen artıya basıp besin ekle.</p><div class="bolum-araclar"><a class="dugme hayalet" href="' + DD.kok + 'besin-kutuphanesi/">Besin kütüphanesinde ara</a></div></div></div>');
@@ -38,9 +43,12 @@
 
   function suCiz() {
     const s = u.su, oran = Math.round((s.bugun_ml / s.hedef_ml) * 100);
-    $('#gtSuMetin').textContent = U.sayi(s.bugun_ml) + ' ml / ' + U.sayi(s.hedef_ml) + ' ml hedef';
+    $('#gtSuMetin').textContent = U.sayi(s.bugun_ml) + ' ml içtin. Hedefin ' + suHedefMetin() + '.';
+    $('#gtSuHedef').textContent = suHedefMetin();
+    $('#gtSuBardak').textContent = '1 su bardağı (' + U.sayi(bardakMl()) + ' ml)';
+    $('#gtSuGeri').disabled = !suEkler().length;
     U.bas('#gtSu', olcer(oran, 'Su hedefi'));
-    if (s.hafta.length) DD.grafik.cizgi($('#gtSuGrafik'), { baslik: 'Son yedi günün su alımı', etiketler: s.hafta.map((x) => kisaGun(x.tarih)), seriler: [{ ad: 'Su', degerler: s.hafta.map((x) => x.tarih === b ? s.bugun_ml : x.ml) }], hedef: s.hedef_ml });
+    if (s.hafta.length) DD.grafik.cizgi($('#gtSuGrafik'), { baslik: 'Son yedi günün su alımı', etiketler: s.hafta.map((x) => kisaGun(x.tarih)), seriler: [{ ad: 'Su', degerler: s.hafta.map(gunSu) }], hedef: s.hedef_ml });
   }
   function adimCiz() {
     const a = u.adim, oran = Math.round((a.bugun / a.hedef) * 100);
@@ -63,22 +71,27 @@
   function ozetCiz() {
     const s = u.su, a = u.adim;
     const k1 = (i, e, d) => '<div class="sayac"><i class="fa-solid ' + i + '" aria-hidden="true"></i><div><span>' + e + '</span><b>' + d + '</b></div></div>';
-    const hedefGun = s.hafta.filter((x) => x.ml >= s.hedef_ml).length;
+    const hedefGun = s.hafta.filter((x) => gunSu(x) >= s.hedef_ml).length;
     U.bas('#gtOrtalama', k1('fa-droplet', 'Su ortalaması', U.sayi(s.ortalama_ml) + ' ml') + k1('fa-shoe-prints', 'Adım ortalaması', U.sayi(a.ortalama)) + k1('fa-bullseye', 'Su hedefi tutan gün', hedefGun + ' / 7') + k1('fa-percent', 'Program uyumu', '%' + U.uyum(k).oran));
-    U.bas('#gtHafta', s.hafta.slice().reverse().map((x, i) => {
-      const y = a.hafta.slice().reverse()[i] || {}, ok = x.ml >= s.hedef_ml;
-      return '<tr><td><span class="no">' + U.gunAdi(x.tarih) + '<small>' + U.kisaTarih(x.tarih) + '</small></span></td><td class="tutar sag">' + U.sayi(x.ml) + ' ml</td><td class="tutar sag">' + U.sayi(y.adim) + '</td><td>' + (ok ? U.durum('cozulen', 'Tuttu') : U.durum('bekleyen', 'Altında')) + '</td></tr>';
+    /* Yeni üyede hafta boştur; bugünün satırı yine çıkar ki his kaydı görünsün */
+    const gunler = s.hafta.length ? s.hafta : [{ tarih: b, ml: s.bugun_ml }];
+    U.bas('#gtHafta', gunler.slice().reverse().map((x) => {
+      const y = a.hafta.find((z) => z.tarih === x.tarih) || {}, ml = gunSu(x), adim = x.tarih === b ? a.bugun : y.adim, his = DD.hisKaydi.kayit(x.tarih);
+      return '<tr><td><span class="no">' + U.gunAdi(x.tarih) + '<small>' + U.kisaTarih(x.tarih) + '</small></span></td>' + (his ? '<td>' + DD.hisKaydi.hap(his) + '</td>' : '<td class="bos-hucre">Kayıt yok</td>') + '<td class="tutar sag">' + U.sayi(ml) + ' ml</td><td class="tutar sag">' + U.sayi(adim) + '</td><td>' + (ml >= s.hedef_ml ? U.durum('cozulen', 'Tuttu') : U.durum('bekleyen', 'Altında')) + '</td></tr>';
     }).join(''));
   }
-  const ciz = () => { ogunCiz(); suCiz(); adimCiz(); makroCiz(); notCiz(); ozetCiz(); };
+  const ciz = () => { DD.hisKaydi.bas('#gtHis'); ogunCiz(); suCiz(); adimCiz(); makroCiz(); notCiz(); ozetCiz(); };
 
   /* Öğün işareti */
   document.addEventListener('dd:ogun', () => { ogunCiz(); makroCiz(); ozetCiz(); });
+  document.addEventListener('dd:his', ozetCiz);
   /* Su */
   document.addEventListener('click', (e) => {
     const s = e.target.closest('[data-su]');
     if (s) {
-      u.su.bugun_ml = Math.max(0, u.su.bugun_ml + Number(s.dataset.su));
+      const l = suEkler();
+      if (s.dataset.su === 'geri') u.su.bugun_ml = Math.max(0, u.su.bugun_ml - (l.pop() || 0));
+      else { const ml = s.dataset.su === 'bardak' ? bardakMl() : Number(s.dataset.su); l.push(ml); u.su.bugun_ml += ml; }
       U.kaydet(); suCiz(); ozetCiz();
       return;
     }

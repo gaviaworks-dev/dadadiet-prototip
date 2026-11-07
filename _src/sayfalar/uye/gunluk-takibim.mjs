@@ -2,13 +2,14 @@ import { uyeSayfa, bolumBas, kart, dugme, modal, tablo, alan, secim } from '../.
 
 const sekmeler = [
   { id: 'ogun', ad: 'Bugün', ikon: 'fa-utensils', govde: `<div class="yigin">
+<div id="gtHis"></div>
 <div id="gtBas"></div>
 <div class="uyum-yer" id="gtTercih"></div>
 ${kart({ ikon: 'fa-clipboard-list', baslik: 'Günün kaydı', metin: '<span id="gtOzet"></span>', sag: '<div class="as-eylem"><span class="durum-hapi cozulen" id="gtKcal"></span></div>', bosluksuz: true, govde: '<div class="kalem-liste" id="gtOgunler"></div>', alt: `<span class="eylem-notu" id="gtPaylasNot"></span>${dugme('Günü diyetisyenimle paylaş', { ikon: 'fa-share-nodes', ek: ' id="gtPaylas"' })}` })}
 </div>` },
   { id: 'su', ad: 'Su', ikon: 'fa-droplet', govde: `<div class="yigin">
-${bolumBas({ etiket: 'Bugün', ikon: 'fa-droplet', baslik: 'Su takibin', metin: 'Her bardağı işaretle; haftalık grafiğin buna göre güncellenir.', arac: dugme('Su ihtiyacını hesapla', { href: 'hesaplayicilar/' }) })}
-<div class="iki-kolon esit">${kart({ ikon: 'fa-droplet', baslik: 'Bugünkü su alımın', metin: '<span id="gtSuMetin"></span>', govde: '<div id="gtSu"></div>', alt: dugme('Geri al', { ek: ' data-su="-250"' }) + dugme('200 ml', { ek: ' data-su="200"' }) + dugme('250 ml', { ek: ' data-su="250"' }) + dugme('500 ml', { sinif: 'birincil', ek: ' data-su="500"' }) })}${kart({ ikon: 'fa-chart-line', baslik: 'Son 7 gün', metin: 'Kesik çizgi günlük hedefin.', govde: '<div id="gtSuGrafik"></div>' })}</div>
+${bolumBas({ etiket: 'Bugün', ikon: 'fa-droplet', baslik: 'Su takibin', metin: 'Her bardağı ekle; haftalık grafiğin buna göre güncellenir.', arac: dugme('Su ihtiyacını hesapla', { href: 'hesaplayicilar/' }) })}
+<div class="iki-kolon esit">${kart({ ikon: 'fa-droplet', baslik: 'Bugünkü su alımın', metin: '<span id="gtSuMetin"></span>', govde: '<div id="gtSu"></div>', alt: dugme('Geri al', { ek: ' id="gtSuGeri" data-su="geri" disabled' }) + dugme('+500 ml', { ek: ' data-su="500"' }) + dugme('1 su bardağı (200 ml)', { sinif: 'birincil', ek: ' id="gtSuBardak" data-su="bardak"' }) })}${kart({ ikon: 'fa-chart-line', baslik: 'Son 7 gün', metin: 'Kesik çizgi günlük hedefin: <span id="gtSuHedef"></span>.', govde: '<div id="gtSuGrafik"></div>' })}</div>
 </div>` },
   { id: 'makro', ad: 'Enerji ve Makro', ikon: 'fa-chart-pie', govde: `<div class="yigin">
 ${bolumBas({ etiket: 'Bugün', ikon: 'fa-chart-pie', baslik: 'Enerji ve makro dengen', metin: 'İşaretlediğin öğünler ve eklediğin besinler günlük hedefinle karşılaştırılır.' })}
@@ -29,9 +30,9 @@ ${kart({
 ${kart({ ikon: 'fa-clock-rotate-left', baslik: 'Önceki notların', bosluksuz: true, govde: '<div class="ayar-liste" id="gtNotlar"></div>' })}
 </div>` },
   { id: 'ozet', ad: 'Hafta', ikon: 'fa-calendar-week', govde: `<div class="yigin">
-${bolumBas({ etiket: 'Son 7 gün', ikon: 'fa-calendar-week', baslik: 'Haftalık özetin', metin: 'Su ve adım ortalamaların, gün gün kayıtların.' })}
+${bolumBas({ etiket: 'Son 7 gün', ikon: 'fa-calendar-week', baslik: 'Haftalık özetin', metin: 'Su ve adım ortalamaların, gün gün kayıtların ve hissin.' })}
 ${kart({ ikon: 'fa-gauge-high', baslik: 'Haftanın ortalamaları', govde: '<div class="sayac-izgara" id="gtOrtalama"></div>' })}
-${kart({ ikon: 'fa-table-list', baslik: 'Gün gün döküm', bosluksuz: true, govde: tablo({ id: 'gtHafta', etiket: 'Son yedi günün su ve adım kayıtları', basliklar: ['Gün', ['Su', 'dar-kolon sag'], ['Adım', 'dar-kolon sag'], ['Hedef', 'dar-kolon']] }) })}
+${kart({ ikon: 'fa-table-list', baslik: 'Gün gün döküm', bosluksuz: true, govde: tablo({ id: 'gtHafta', etiket: 'Son yedi günün su, adım ve his kayıtları', basliklar: ['Gün', ['His', 'dar-kolon'], ['Su', 'dar-kolon sag'], ['Adım', 'dar-kolon sag'], ['Hedef', 'dar-kolon']] }) })}
 </div>` },
 ];
 
@@ -49,5 +50,5 @@ const sonEk = modal({
 export default () => [uyeSayfa({
   yol: 'hesabim/gunluk-takibim', ad: 'Günlük Takibim',
   giris: 'Öğün, su ve adım kayıtların tek yerde; plana uyduysan tek dokunuş yeter.',
-  grup: 'gt', sekmeler, sonEk, js: ['assets/js/tercih-uyum.js', 'assets/js/sayfa/uye-gunluk-takibim.js'],
+  grup: 'gt', sekmeler, sonEk, js: ['assets/js/tercih-uyum.js', 'assets/js/his-kaydi.js', 'assets/js/sayfa/uye-gunluk-takibim.js'],
 })];

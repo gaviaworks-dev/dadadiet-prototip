@@ -11,7 +11,7 @@ export const anaMenu = [
     { ad: 'Besin Karşılaştır', alt: 'İki besini yan yana gör', href: 'besin-karsilastir/', ikon: 'fa-scale-balanced' },
     { ad: 'Kaç Kalori?', alt: 'Porsiyon karşılıkları', href: 'kac-kalori/', ikon: 'fa-fire' },
     { ad: 'Besin Rehberi', alt: 'Dengeli tabak, öğün, porsiyon', href: 'besin-rehberi/', ikon: 'fa-book-open' },
-    { ad: 'Beslenme İpuçları & Püf Noktaları', alt: '159 ipucu, 277 püf noktası', href: 'ipuclari-ve-puf-noktalari/', ikon: 'fa-lightbulb' },
+    { ad: 'İpuçları & Püf Noktaları', alt: '159 ipucu, 277 püf noktası', href: 'ipuclari-ve-puf-noktalari/', ikon: 'fa-lightbulb' },
     { ad: 'Dışarıda Ne Yesem?', alt: 'Mekanlarda tahmini kalori', href: 'disarida-ne-yesem/', ikon: 'fa-location-dot' },
   ], vitrin: { etiket: 'Rehber', baslik: 'Dengeli bir tabak nasıl kurulur?', href: 'besin-rehberi/', gorsel: 'assets/img/hero/mega-photo-1467453678174-768ec283a940.avif' } },
   { ad: 'Programlar', href: 'programlar/', ikon: 'fa-list-check', kalemler: [

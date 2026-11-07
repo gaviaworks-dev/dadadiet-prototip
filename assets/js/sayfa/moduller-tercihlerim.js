@@ -55,6 +55,16 @@
     });
     const b = ayar().bildirim || {};
     document.querySelectorAll('[data-bildirim]').forEach((g) => { if (g.dataset.bildirim in b) g.checked = Boolean(b[g.dataset.bildirim]); });
+    hatirlatmaCiz();
+  }
+  /* Su hatırlatması: uye.su.hatirlatma. Anahtar kapalıyken sessiz saatler pasiftir */
+  const hatirlatma = () => { const s = U.uye().su; s.hatirlatma = s.hatirlatma || { acik: false, sessiz_bas: '23:00', sessiz_bit: '08:00' }; return s.hatirlatma; };
+  function hatirlatmaCiz() {
+    const h = hatirlatma(), bas = $('suSessizBas'), bit = $('suSessizBit');
+    $('suHatirlatma').checked = h.acik;
+    bas.value = h.sessiz_bas; bit.value = h.sessiz_bit;
+    bas.disabled = bit.disabled = !h.acik;
+    $('suSessizMetin').textContent = DD.bicim.saat(h.sessiz_bas) + '–' + DD.bicim.saat(h.sessiz_bit) + ' arasında hatırlatma gelmez.';
   }
   function hesapYenile() {
     const r = S.hesapla(t);
@@ -117,6 +127,16 @@
     const a = ayar(); a.bildirim = a.bildirim || {}; a.bildirim[b.dataset.bildirim] = b.checked; U.kaydet();
     DD.toast('Bildirim tercihin kaydedildi.');
   });
+  $('suHatirlatma').addEventListener('change', (e) => {
+    hatirlatma().acik = e.target.checked; U.kaydet(); hatirlatmaCiz();
+    DD.toast(e.target.checked ? 'Saat başı su hatırlatması açıldı.' : 'Saat başı su hatırlatması kapatıldı.');
+  });
+  [['suSessizBas', 'sessiz_bas'], ['suSessizBit', 'sessiz_bit']].forEach(([id, alan]) => $(id).addEventListener('change', (e) => {
+    const h = hatirlatma();
+    if (e.target.value === h[alan === 'sessiz_bas' ? 'sessiz_bit' : 'sessiz_bas']) { hatirlatmaCiz(); DD.toast('Başlangıç ve bitiş saati aynı olamaz.', 'hata'); return; }
+    h[alan] = e.target.value; U.kaydet(); hatirlatmaCiz();
+    DD.toast('Sessiz saatlerin kaydedildi.');
+  }));
   document.addEventListener('dd:secim', (e) => {
     const g = e.target.closest && e.target.closest('[data-birim]');
     if (!g) return;

@@ -65,5 +65,5 @@ const sonEk = modal({
 export default () => [uyeSayfa({
   yol: 'hesabim/saglik-dosyam', ad: 'Sağlık Dosyam',
   giris: 'Sağlık profilin, ölçümlerin, tahlillerin, belgelerin ve gelişim raporların tek ve güvenli alanda.',
-  grup: 'sd', sekmeler, sonEk, js: ['assets/js/sayfa/uye-saglik-dosyam.js'],
+  grup: 'sd', sekmeler, sonEk, js: ['assets/js/tahlil-deger.js', 'assets/js/sayfa/uye-saglik-dosyam.js'],
 })];

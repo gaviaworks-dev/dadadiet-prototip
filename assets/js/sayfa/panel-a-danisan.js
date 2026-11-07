@@ -81,6 +81,23 @@
     const aktif = adimlar.findIndex((a) => !a[1]);
     return `<ol class="adim-serit" aria-label="İlk görüşme adımları">${adimlar.map(([a, bitti], i) => `<li class="${bitti ? 'acik bitti' : i === aktif ? 'acik' : ''}"><span>${bitti ? '<i class="fa-solid fa-check" aria-hidden="true"></i>' : i + 1}</span>${a}</li>`).join('')}</ol>`;
   }
+  /* Son 7 gün his çizgisi. Üyenin günlük kaydı olduğu için günlük takip iznine bağlı */
+  const HIS = { iyi: ['İyi', 'olumlu'], normal: ['Normal', 'notr'], yorgun: ['Yorgun', 'uyari'], bitkin: ['Bitkin', 'uyari'], halsiz: ['Halsiz', 'uyari'], 'bas-donmesi': ['Baş dönmesi', 'belirgin'], carpinti: ['Çarpıntı', 'belirgin'] };
+  const HIS_IKON = { olumlu: 'fa-face-smile', notr: 'fa-face-meh', uyari: 'fa-triangle-exclamation', belirgin: 'fa-circle-exclamation' };
+  function hisKart() {
+    const bas = (alt) => kartBas('fa-face-smile', 'His çizgisi', '', alt);
+    if (!dn.izinler.gunluk) return `<div class="kart panel">${bas('Günlük takip izni yok')}</div>`;
+    const gunler = Array.from({ length: 7 }, (_, n) => PA.ekle(DD.bugun, n - 6));
+    const kayit = (g) => (dn.his_kayitlari || []).filter((x) => x.tarih === g).pop();
+    const dolu = gunler.filter(kayit).length;
+    if (!dolu) return `<div class="kart panel">${bas(`${h(ilgi)} son 7 günde his kaydı yok`)}</div>`;
+    const gun = (g) => {
+      const k = kayit(g), [ad, ton] = k ? HIS[k.his] || [k.his, 'notr'] : [];
+      const deger = k ? `<i class="fa-solid ${HIS_IKON[ton]}" aria-hidden="true"></i>${h(ad)}` : '<span aria-hidden="true">—</span><span class="yalniz-okuyucu">Kayıt yok</span>';
+      return `<li class="${k ? ton : 'bos'}"${g === DD.bugun ? ' aria-current="date"' : ''}><span class="gs-gun">${PA.gunKisa(g)}<span class="yalniz-okuyucu">, ${PA.tarih(g)}</span></span><span class="gs-deger">${deger}</span></li>`;
+    };
+    return `<div class="kart panel">${bas(`Son 7 gün, ${dolu} kayıt`)}<div class="kart-govde"><div class="gun-seri-kap"><ol class="gun-seri" aria-label="Son 7 günün his kayıtları">${gunler.map(gun).join('')}</ol></div></div></div>`;
+  }
   function ozetCiz() {
     const i = PA.ilerleme(dn), rs = PA.d().randevular.filter((r) => r.danisan_id === id).sort((a, b) => (b.tarih + b.saat).localeCompare(a.tarih + a.saat));
     const say = (d) => rs.filter((r) => PA.rDurum(r) === d).length;
@@ -91,6 +108,7 @@
 <div class="kart-izgara c4">${i
     ? kpi('fa-flag', 'Başlangıç', PA.sayi(i.bas) + ' kg', PA.tarih(dn.olcumler[0].tarih)) + kpi('fa-arrow-trend-down', 'Değişim', PA.kgMetin(i.degisim), i.hafta + '. hafta') + kpi('fa-chart-line', 'İlerleme', '%' + i.yuzde, h(PA.takip(dn))) + kpi('fa-calendar-check', 'Tamamlanan', say('tamamlandi'), 'görüşme')
     : kpi('fa-lock', 'Ölçüm', '—', 'İzin yok') + kpi('fa-bullseye', 'Hedef', PA.sayi(dn.hedef_kilo) + ' kg', h(PA.takip(dn))) + kpi('fa-calendar-check', 'Tamamlanan', say('tamamlandi'), 'görüşme') + kpi('fa-ticket', 'Kalan seans', PA.kalanSeans(dn) ?? '—', 'paket hakkı')}</div>
+${hisKart()}
 ${randevuKart(rs)}
 <div class="kart-izgara c2">${paketKart()}${odemeKart()}</div>
 <div class="kart panel">${kartBas('fa-heart-pulse', 'Sağlık özeti')}<div class="kart-govde">${kunye([['Hedef', h(dn.hedef)], ['Hassasiyet', acik ? (dn.hassasiyetler.length ? h(dn.hassasiyetler.join(', ')) : 'Yok') : 'İzin yok'], ['Kronik durum', acik ? (dn.kronik.length ? h(dn.kronik.join(', ')) : 'Yok') : 'İzin yok']])}</div></div>
@@ -155,7 +173,6 @@ ${randevuKart(rs)}
   });
 
   /* ── Kan tahlilleri ─────────────────────────────────────────────── */
-  const refDisi = (d) => (d.ref_alt != null && d.sonuc < d.ref_alt ? 'dusuk' : d.ref_ust != null && d.sonuc > d.ref_ust ? 'yuksek' : null);
   function tahlilCiz() {
     if (!dn.izinler.tahlil) { $('p-tahlil').innerHTML = kilit('tahlil'); return; }
     const l = [...dn.tahliller].sort((a, b) => b.tarih.localeCompare(a.tarih));
@@ -164,14 +181,9 @@ ${randevuKart(rs)}
     const t = l.find((x) => x.dosya_adi === v.tahlil) || l[0];
     v.tahlil = t.dosya_adi;
     const onceki = l[l.indexOf(t) + 1];
-    const satir = (d) => {
-      const r = refDisi(d), e = onceki && onceki.degerler.find((x) => x.ad === d.ad);
-      const ref = d.ref_alt != null || d.ref_ust != null ? `${DD.bicim.sayi(d.ref_alt, 2)}–${DD.bicim.sayi(d.ref_ust, 2)}` : '—';
-      return `<tr${r ? ' class="referans-disi"' : ''}><td data-etiket="Parametre"><b>${h(d.ad)}</b></td><td class="num" data-etiket="Sonuç"><span>${r ? `<span class="deger-yon"><i class="fa-solid fa-arrow-${r === 'dusuk' ? 'down' : 'up'}" aria-hidden="true"></i> ${PA.sayi(d.sonuc, 2)}</span>` : PA.sayi(d.sonuc, 2)} ${h(d.birim || '')}</span></td><td class="num" data-etiket="Referans">${ref}</td><td class="num" data-etiket="Önceki">${e ? PA.sayi(e.sonuc, 2) : '—'}</td><td data-etiket="Durum">${r ? PA.hap(r === 'dusuk' ? 'Düşük' : 'Yüksek', 'bekleyen') : PA.hap('Normal', 'cozulen')}</td></tr>`;
-    };
-    const disi = t.degerler.filter(refDisi).length;
+    const disi = t.degerler.filter(DD.tahlilDeger.disi).length;
     const incele = PA.tahlilYeni(t) ? `<button class="dugme hayalet kucuk" type="button" data-is="tahlil-incelendi"><i class="fa-solid fa-check" aria-hidden="true"></i> İncelendi</button>` : '';
-    $('p-tahlil').innerHTML = `<div class="yigin"><div class="kart panel">${kartBas('fa-table-list', PA.tarih(t.tarih) + ' sonuçları', `<div class="eylem-satiri">${incele}<button class="dugme hayalet kucuk" type="button" data-is="deger-ekle"><i class="fa-solid fa-plus" aria-hidden="true"></i> Değer ekle</button></div>`, t.degerler.length ? t.degerler.length + ' değer, ' + disi + ' tanesi referans dışında' : h(t.dosya_adi))}<div class="kart-govde bosluksuz">${t.degerler.length ? `<div class="tablo-kap gomulu"><table class="tablo panel sabit-sutun etiketli-yigin"><caption class="yalniz-okuyucu">Tahlil değerleri</caption><thead><tr><th scope="col" data-oran="30">Parametre</th><th class="num" scope="col" data-oran="22">Sonuç</th><th class="num" scope="col" data-oran="18">Referans</th><th class="num" scope="col" data-oran="14">Önceki</th><th scope="col" data-oran="16">Durum</th></tr></thead><tbody>${t.degerler.map(satir).join('')}</tbody></table></div>` : `<div class="kart-govde">${bos('fa-keyboard', 'Değer girilmedi', 'Dosya listede. Değerleri elle ekleyerek tabloya işleyebilirsin.')}</div>`}</div></div>
+    $('p-tahlil').innerHTML = `<div class="yigin"><div class="kart panel">${kartBas('fa-table-list', PA.tarih(t.tarih) + ' sonuçları', `<div class="eylem-satiri">${incele}<button class="dugme hayalet kucuk" type="button" data-is="deger-ekle"><i class="fa-solid fa-plus" aria-hidden="true"></i> Değer ekle</button></div>`, t.degerler.length ? t.degerler.length + ' değer, ' + disi + ' tanesi referans dışında' : h(t.dosya_adi))}<div class="kart-govde bosluksuz${t.degerler.length ? ' tam-kenar' : ''}">${t.degerler.length ? DD.tahlilDeger.liste(t.degerler, { onceki: onceki && onceki.degerler }) : `<div class="kart-govde">${bos('fa-keyboard', 'Değer girilmedi', 'Dosya listede. Değerleri elle ekleyerek tabloya işleyebilirsin.')}</div>`}</div></div>
 <div class="kart panel">${kartBas('fa-file-medical', 'Yüklenen tahliller', dugmeler)}<div class="kart-govde"><div class="ayar-liste">${l.map((x) => `<button class="ayar-satir" type="button" data-tahlil="${h(x.dosya_adi)}"><span class="as-ikon"><i class="fa-solid fa-file-pdf" aria-hidden="true"></i></span><span class="as-metin"><b>${PA.tarih(x.tarih)}</b><span>${h(x.dosya_adi)}</span></span>${x === t ? '<span class="rozet olumlu">Açık</span>' : '<i class="fa-solid fa-chevron-right as-ok" aria-hidden="true"></i>'}</button>`).join('')}</div></div></div></div>`;
     PA.oranTablo($('p-tahlil'));
   }

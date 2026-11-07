@@ -2613,3 +2613,70 @@ body:not(.yetkili) .kart.panel>.kart-alt{padding:var(--rol-kart-alt-dikey) var(-
 /* Akıllı Tabak: yemek ve porsiyon seçimi */
 .segment.kucuk button{min-height:30px;padding:0 var(--bosluk-10);font-size:var(--yazi-12)}
 #eklemeKipi{margin-bottom:var(--bosluk-16)}
+
+/* Yasin Bey geri bildirimi: rv-disarida */
+/* Izgaradaki bütün satırlar en yüksek kart kadar olur; süzgeç ve sayfa değişse de kartlar eşit kalır. */
+.izgara-esit-satir{grid-auto-rows:1fr}
+/* Sütun düzenli kartta kalan yüksekliği bu alan alır, altındaki öğeler aynı hizada biter. */
+.kart-esnek-alan{flex:1 1 auto}
+/* Satır içi metin kesilmeden alt satıra iner; yanındaki değer ilk satırda kalır. */
+.metin-sarar>span{white-space:normal}
+
+/* Yasin Bey geri bildirimi: rv-his-su */
+/* Pasif açılır seçim: üst anahtar kapalıyken alan okunur kalır, seçilemez. `.dugme[disabled]` ile aynı solukluk. */
+.alan-secim:disabled{opacity:.45;cursor:not-allowed}
+/* Başlangıç ve bitiş seçimi yan yana: dar ekranda `.ayar-satir .alan-secim` %100 olduğundan ikisi satırı eşit paylaşır, taşmaz. */
+.saat-aralik{display:flex;align-items:center;gap:var(--bosluk-8)}
+.saat-aralik .alan-secim{flex:1 1 0;width:auto;min-width:0}
+
+/* Yasin Bey geri bildirimi: rv-tahlil */
+/* Referans listesi: değer, referans aralığı, konum çubuğu ve durum tek satırda.
+   Kap genişliğine göre iki satıra iner; panel ve üye aynı kuralları kullanır. */
+.referans-liste{container-type:inline-size;margin:0;padding:0;list-style:none}
+/* Panelde kart başlığının altındaki pay liste kenara yaslanınca kalkar */
+.yetkili .kart.panel>.kart-bas+.kart-govde:has(>.referans-liste){padding-top:0}
+.referans-satir{display:grid;grid-template-columns:minmax(0,3fr) minmax(0,2fr) minmax(0,3fr) 96px;grid-template-areas:"ad deger cubuk durum";align-items:center;gap:var(--bosluk-8) var(--bosluk-24);padding:var(--bosluk-12) var(--bosluk-24);border-bottom:var(--cizgi-1) solid var(--cizgi)}
+.referans-satir:last-child{border-bottom:0}
+.referans-satir.disi{background:var(--uyari-yikama);box-shadow:inset 3px 0 0 var(--uyari)}
+.rs-ad,.rs-deger{display:flex;flex-direction:column;gap:2px;min-width:0}
+.rs-ad{grid-area:ad}
+.rs-deger{grid-area:deger;align-items:flex-end;text-align:right}
+.rs-ad b,.rs-deger b{font-size:var(--yazi-14);font-weight:var(--agirlik-kalin);color:var(--murekkep);overflow-wrap:anywhere}
+.rs-ad small,.rs-deger small{font-size:var(--yazi-12);font-weight:var(--agirlik-govde);color:var(--murekkep-yumusak)}
+.rs-durum{grid-area:durum;justify-self:end;white-space:nowrap}
+
+/* Konum çubuğu: imleç kenarlarda yarı çapı kadar içeride kalır, taşmaz */
+.referans-cubuk{--imlec:var(--bosluk-12);grid-area:cubuk;position:relative;height:var(--bosluk-16);min-width:0}
+.referans-cubuk::before,.rc-normal{content:"";position:absolute;top:50%;height:var(--bosluk-6);transform:translateY(-50%)}
+.referans-cubuk::before{left:0;right:0;border-radius:var(--yuvarlak-hap);background:var(--olcer-zemin)}
+.rc-normal{left:25%;right:25%;background:var(--aksan-cizgi)}
+.referans-cubuk[data-sinir="ust"] .rc-normal{left:0;border-radius:var(--yuvarlak-hap) 0 0 var(--yuvarlak-hap)}
+.referans-cubuk[data-sinir="alt"] .rc-normal{right:0;border-radius:0 var(--yuvarlak-hap) var(--yuvarlak-hap) 0}
+.rc-sinir{position:absolute;top:0;bottom:0;left:25%;width:2px;margin-left:-1px;background:var(--murekkep-yumusak)}
+.rc-sinir.ust{left:75%}
+.rc-imlec{position:absolute;top:50%;left:clamp(calc(var(--imlec) / 2),calc(var(--oran,50) * 1%),calc(100% - var(--imlec) / 2));width:var(--imlec);height:var(--imlec);border:2px solid var(--kagit);border-radius:50%;background:var(--aksan-koyu);box-shadow:0 0 0 1px var(--aksan-koyu);transform:translate(-50%,-50%)}
+.referans-satir.disi .rc-imlec{background:var(--uyari);box-shadow:0 0 0 1px var(--uyari)}
+
+@container (max-width:560px){
+  .referans-satir{grid-template-columns:minmax(0,1fr) auto;grid-template-areas:"ad deger" "cubuk durum";column-gap:var(--bosluk-16)}
+}
+
+/* Gün serisi: yedi gün yan yana, dar kapta gün başına bir satır */
+.gun-seri-kap{container-type:inline-size}
+.gun-seri{display:grid;grid-template-columns:repeat(7,minmax(0,1fr));gap:var(--bosluk-8);margin:0;padding:0;list-style:none}
+.gun-seri>li{display:flex;flex-direction:column;gap:var(--bosluk-6);min-width:0}
+.gs-gun{font-size:var(--yazi-12);font-weight:var(--agirlik-kalin);color:var(--murekkep-yumusak);text-align:center}
+.gun-seri>li[aria-current] .gs-gun{color:var(--aksan-koyu)}
+.gs-deger{display:flex;flex:1;flex-direction:column;align-items:center;justify-content:center;gap:var(--bosluk-4);min-height:64px;padding:var(--bosluk-8) var(--bosluk-4);border:var(--cizgi-1) solid var(--cizgi);border-radius:var(--yuvarlak-sm);background:var(--zemin);color:var(--murekkep);font-size:var(--yazi-12);font-weight:var(--agirlik-kalin);line-height:var(--satir-sik);text-align:center}
+.gs-deger i{margin:0;font-size:var(--yazi-14)}
+.gun-seri>li.olumlu .gs-deger{border-color:var(--aksan-cizgi);background:var(--aksan-yikama);color:var(--aksan-koyu)}
+.gun-seri>li.uyari .gs-deger{border-color:var(--uyari-cizgi);background:var(--uyari-yikama);color:var(--uyari)}
+.gun-seri>li.belirgin .gs-deger{border-color:var(--tehlike);background:var(--tehlike);color:var(--kagit)}
+.gun-seri>li.bos .gs-deger{border-style:dashed;border-color:var(--cizgi-vurgu);background:none;color:var(--metin-ikincil)}
+
+@container (max-width:480px){
+  .gun-seri{grid-template-columns:minmax(0,1fr);gap:var(--bosluk-6)}
+  .gun-seri>li{flex-direction:row;align-items:stretch;gap:var(--bosluk-12)}
+  .gs-gun{flex:none;align-self:center;width:var(--bosluk-32);text-align:left}
+  .gs-deger{flex-direction:row;justify-content:flex-start;gap:var(--bosluk-8);min-height:var(--bosluk-32);padding:var(--bosluk-4) var(--bosluk-12);text-align:left}
+}
