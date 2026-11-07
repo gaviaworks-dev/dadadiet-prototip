@@ -3045,6 +3045,7 @@ html[data-oturum="1"] .head-bell{display:grid}
 .tahlil-eski{display:flex;flex-direction:column;gap:var(--bosluk-12);padding:0 var(--bosluk-16) var(--bosluk-16)}
 .tahlil-eski>.as-eylem{justify-content:flex-start}
 .kart-bas>.as-eylem .rozet{white-space:nowrap}
+.kart-bas>.as-eylem:has(.rozet){flex-wrap:wrap;max-width:100%;min-width:0}
 
 /* Tek satır form: alanlar ve gönder düğmesi aynı hizada */
 .satir-form{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr) minmax(0,3fr) auto;gap:var(--bosluk-16);align-items:end}
@@ -3070,3 +3071,13 @@ html[data-oturum="1"] .head-bell{display:grid}
 @media(max-width:480px){.belge-sayfa{padding:var(--bosluk-16)}.belge-bilgi{grid-template-columns:minmax(0,1fr)}}
 @media(max-width:480px){.belge-sayfa .tablo th,.belge-sayfa .tablo td{padding-inline:var(--bosluk-4);font-size:var(--yazi-12-5)}}
 .iki-kolon.tek .grafik{display:block;max-height:340px;margin-inline:auto}
+
+/* Dar ekranda eksen yazıları okunur kalsın diye çizgi grafik yatay kayar, ölçüm tablosu beş sütunu sığdırır */
+@media(max-width:640px){
+  .grafik-kaydir{overflow-x:auto;scrollbar-width:none;direction:rtl} /* sağdan başlar: en yeni ölçüm görünür */
+  .grafik-kaydir .grafik{min-width:560px;direction:ltr}
+  .sik-tablo .tablo{min-width:0;width:100%}
+  .sik-tablo .tablo th,.sik-tablo .tablo td{padding-inline:var(--bosluk-4);font-size:var(--yazi-12);white-space:nowrap}
+  .sik-tablo .tablo th:first-child,.sik-tablo .tablo td:first-child{padding-left:var(--bosluk-16)}
+  .sik-tablo .tablo th:last-child,.sik-tablo .tablo td:last-child{padding-right:var(--bosluk-16)}
+}
