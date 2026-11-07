@@ -12,7 +12,7 @@
     <div class="alan oneri-kap" data-kip="randevu"><label class="alan-etiket" for="rpDanisan">Danışan <span class="zorunlu" aria-hidden="true">*</span></label><input class="alan-girdi" id="rpDanisan" type="text" autocomplete="off" placeholder="Ad yaz ya da listeden seç"><div class="oneri-liste" id="rpOneri" role="group" aria-label="Danışan önerileri" hidden></div></div>
     <div class="alan" data-kip="randevu"><label class="alan-etiket" for="rpPaket">Paket</label><select class="alan-secim" id="rpPaket"></select><p class="alan-yardim" id="rpPaketNot"></p></div>
     <div class="alan-izgara c2">
-      <div class="alan" data-kip="randevu"><span class="alan-etiket" id="rpTurE">Görüşme Biçimi</span><div class="segment" id="rpTur" role="group" aria-labelledby="rpTurE"><button type="button" data-deger="online" aria-pressed="true">Online</button><button type="button" data-deger="yüz yüze" aria-pressed="false">Yüz yüze</button></div></div>
+      <div class="alan" data-kip="randevu"><span class="alan-etiket" id="rpTurE">Görüşme biçimi</span><div class="segment" id="rpTur" role="group" aria-labelledby="rpTurE"><button type="button" data-deger="online" aria-pressed="true">Online</button><button type="button" data-deger="yüz yüze" aria-pressed="false">Yüz yüze</button></div></div>
       <div class="alan"><label class="alan-etiket" for="rpSure">Süre</label><select class="alan-secim" id="rpSure"></select></div>
     </div>
     <div class="alan"><span class="alan-etiket">Tarih <span class="zorunlu" aria-hidden="true">*</span></span><div class="ay-secim" id="rpGunler"></div></div>

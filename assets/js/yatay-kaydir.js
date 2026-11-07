@@ -11,10 +11,10 @@
   document.addEventListener('pointermove', (e) => {
     if (!kap) return;
     const d = e.clientX - x0;
-    if (Math.abs(d) > 5) kaydi = true;
+    if (Math.abs(d) > 5 && !kaydi) { kaydi = true; kap.style.scrollSnapType = 'none'; }
     if (kaydi) kap.scrollLeft = s0 - d;
   });
-  document.addEventListener('pointerup', () => { kap = null; });
+  document.addEventListener('pointerup', () => { if (kap) kap.style.scrollSnapType = ''; kap = null; });
   /* Sürükleme bitince çip seçilmez */
   document.addEventListener('click', (e) => {
     if (kaydi && e.target.closest && e.target.closest(SEC)) { e.preventDefault(); e.stopPropagation(); }

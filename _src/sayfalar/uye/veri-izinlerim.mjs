@@ -11,12 +11,12 @@ ${kart({
 ${kart({
     ikon: 'fa-sliders', baslik: 'Veri Türü İzinleri', metin: 'Her tür ayrı açılır; değişiklik anında kaydedilir ve diyetisyen paneline yansır.', bosluksuz: true,
     govde: '<div class="ayar-liste" id="viTurler"></div>',
-    alt: dugme('Bütün İzinleri Geri Çek', { sinif: 'hayalet tehlike', ikon: 'fa-ban', ek: ' data-ac="#viGeriCek"' }),
+    alt: dugme('Bütün izinleri geri çek', { sinif: 'hayalet tehlike', ikon: 'fa-ban', ek: ' data-ac="#viGeriCek"' }),
   })}
 </div>`;
 
 const erisim = `<div class="yigin">
-${bolumBas({ etiket: 'Yürürlükte', ikon: 'fa-user-doctor', baslik: 'Diyetisyen Erişimleri', metin: 'Verilerine şu an kimin, hangi kapsamda ve ne kadar süreyle eriştiği.', arac: dugme('Yeni İzin Ver', { sinif: 'birincil', ikon: 'fa-plus', ek: ' data-ac="#viYeni"' }) })}
+${bolumBas({ etiket: 'Yürürlükte', ikon: 'fa-user-doctor', baslik: 'Diyetisyen Erişimleri', metin: 'Verilerine şu an kimin, hangi kapsamda ve ne kadar süreyle eriştiği.', arac: dugme('Yeni izin ver', { sinif: 'birincil', ikon: 'fa-plus', ek: ' data-ac="#viYeni"' }) })}
 ${kart({ ikon: 'fa-user-check', baslik: 'Yürürlükteki Erişimler', bosluksuz: true, govde: '<div class="ayar-liste" id="viErisim"></div>' })}
 </div>`;
 
@@ -37,7 +37,7 @@ ${kart({ ikon: 'fa-clock-rotate-left', baslik: 'Kapanmış İzin Kaydı', bosluk
 </div>`;
 
 const gecmis = `<div class="yigin">
-${bolumBas({ etiket: 'Erişim Kaydı', ikon: 'fa-clock-rotate-left', baslik: 'Erişim Geçmişin', metin: 'Verilerine yapılan her erişim ve senin izin hareketlerin burada kayıtlıdır.' })}
+${bolumBas({ etiket: 'Erişim kaydı', ikon: 'fa-clock-rotate-left', baslik: 'Erişim Geçmişin', metin: 'Verilerine yapılan her erişim ve senin izin hareketlerin burada kayıtlıdır.' })}
 ${kart({ ikon: 'fa-eye', baslik: 'Erişim Kaydı', metin: 'Kim, ne zaman, hangi veriye erişti.', bosluksuz: true, govde: tablo({ id: 'viKayit', etiket: 'Veri erişim kaydı', basliklar: [['Tarih', 'dar-kolon'], ['Erişen', 'dar-kolon'], 'Veri türü', ['İşlem', 'dar-kolon']] }) })}
 ${kart({ ikon: 'fa-sliders', baslik: 'Senin İzin Hareketlerin', bosluksuz: true, govde: tablo({ id: 'viHareket', etiket: 'İzin hareketleri', basliklar: [['Tarih', 'dar-kolon'], ['Hareket', 'sol']] }) })}
 ${kart({

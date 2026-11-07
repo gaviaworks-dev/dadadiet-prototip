@@ -48,7 +48,7 @@
 
   function ogunCiz() {
     U.bas('#gtBas', '<div class="bolum-bas"><div><span class="ust-etiket"><i class="fa-solid fa-calendar-day" aria-hidden="true"></i> ' + U.kisaTarih(b) + ' ' + U.gunAdi(b) + '</span><h2>Bugün Ne Yedin</h2><p class="giris-metni">Plandan farklı yediysen artıya basıp besin ekle.</p><div class="bolum-araclar"><a class="dugme hayalet" href="' + DD.kok + 'besin-kutuphanesi/">Besin kütüphanesinde ara</a></div></div></div>');
-    if (!k) { U.bas('#gtOgunler', U.bos({ ikon: 'fa-utensils', baslik: 'Bugün için planın yok', metin: 'Program seçtiğinde öğünlerin burada açılır; besinlerini yine de ekleyebilirsin.', eylem: '<a class="dugme birincil" href="' + DD.kok + 'programlar/program-bul/">Program bul</a><button class="dugme hayalet" type="button" data-besin-ekle="kahvalti">Besin Ekle</button>' })); $('#gtOzet').textContent = ekler().length + ' kalem kayıtlı.'; $('#gtKcal').textContent = kcalMetin(toplam().kcal); $('#gtPaylas').hidden = true; return; }
+    if (!k) { U.bas('#gtOgunler', U.bos({ ikon: 'fa-utensils', baslik: 'Bugün için planın yok', metin: 'Program seçtiğinde öğünlerin burada açılır; besinlerini yine de ekleyebilirsin.', eylem: '<a class="dugme birincil" href="' + DD.kok + 'programlar/program-bul/">Program bul</a><button class="dugme hayalet" type="button" data-besin-ekle="kahvalti">Besin ekle</button>' })); $('#gtOzet').textContent = ekler().length + ' kalem kayıtlı.'; $('#gtKcal').textContent = kcalMetin(toplam().kcal); $('#gtPaylas').hidden = true; return; }
     const i = U.isaret(k, b), e = ekler();
     U.bas('#gtTercih', k.tip === 'plan' ? TU.planUyariHtml(U, k.plan) : TU.bilgiHtml(TU.ogunOzeti(ogunler())));
     if (!ogunler().length) U.bas('#gtOgunler', U.bugunBos(k));

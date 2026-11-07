@@ -18,7 +18,7 @@ ${kart({ ikon: 'fa-list', baslik: 'Kalem Kalem Döküm', bosluksuz: true, govde:
 </div>` },
   { id: 'adim', ad: 'Adım', ikon: 'fa-person-walking', govde: `<div class="yigin">
 ${bolumBas({ etiket: 'Bugün', ikon: 'fa-person-walking', baslik: 'Adım ve Hareketin', metin: 'Günlük adım hedefin ve son 7 günün.' })}
-<div class="iki-kolon esit">${kart({ ikon: 'fa-shoe-prints', baslik: 'Bugünkü Adımların', metin: '<span id="gtAdimMetin"></span>', govde: '<div id="gtAdim"></div>', alt: dugme('Adım Ekle', { sinif: 'birincil', ikon: 'fa-plus', ek: ' data-ac="#gtAdimModal"' }) })}${kart({ ikon: 'fa-chart-line', baslik: 'Son 7 Gün', metin: 'Kesik çizgi günlük hedefin.', govde: '<div id="gtAdimGrafik"></div>' })}</div>
+<div class="iki-kolon esit">${kart({ ikon: 'fa-shoe-prints', baslik: 'Bugünkü Adımların', metin: '<span id="gtAdimMetin"></span>', govde: '<div id="gtAdim"></div>', alt: dugme('Adım ekle', { sinif: 'birincil', ikon: 'fa-plus', ek: ' data-ac="#gtAdimModal"' }) })}${kart({ ikon: 'fa-chart-line', baslik: 'Son 7 Gün', metin: 'Kesik çizgi günlük hedefin.', govde: '<div id="gtAdimGrafik"></div>' })}</div>
 </div>` },
   { id: 'not', ad: 'Notlar', ikon: 'fa-note-sticky', govde: `<div class="yigin">
 ${bolumBas({ etiket: 'Kendine not', ikon: 'fa-note-sticky', baslik: 'Notların', metin: 'Gününe dair kısa notlar. İstersen diyetisyeninle paylaşırsın.' })}
@@ -30,7 +30,7 @@ ${kart({
 ${kart({ ikon: 'fa-clock-rotate-left', baslik: 'Önceki Notların', bosluksuz: true, govde: '<div class="ayar-liste" id="gtNotlar"></div>' })}
 </div>` },
   { id: 'ozet', ad: 'Hafta', ikon: 'fa-calendar-week', govde: `<div class="yigin">
-${bolumBas({ etiket: 'Son 7 Gün', ikon: 'fa-calendar-week', baslik: 'Haftalık Özetin', metin: 'Su ve adım ortalamaların, gün gün kayıtların ve hissin.' })}
+${bolumBas({ etiket: 'Son 7 gün', ikon: 'fa-calendar-week', baslik: 'Haftalık Özetin', metin: 'Su ve adım ortalamaların, gün gün kayıtların ve hissin.' })}
 ${kart({ ikon: 'fa-gauge-high', baslik: 'Haftanın Ortalamaları', govde: '<div class="sayac-izgara" id="gtOrtalama"></div>' })}
 ${kart({ ikon: 'fa-table-list', baslik: 'Gün Gün Döküm', bosluksuz: true, govde: tablo({ id: 'gtHafta', etiket: 'Son yedi günün su, adım ve his kayıtları', basliklar: ['Gün', ['His', 'dar-kolon'], ['Su', 'dar-kolon sag'], ['Adım', 'dar-kolon sag'], ['Hedef', 'dar-kolon']] }) })}
 </div>` },

@@ -17,16 +17,16 @@ ${bolumBas({ etiket: 'Sona erenler', ikon: 'fa-clock-rotate-left', baslik: 'Geç
 </div>` },
   { id: 'hizmet', ad: 'Hizmetlerim', ikon: 'fa-box-open', govde: `<div class="yigin">
 ${bolumBas({ etiket: 'Paketin', ikon: 'fa-box-open', baslik: 'Aldığın Hizmetler', metin: 'Diyetisyenlerinle yürüttüğün paketler ve kapsamı.', arac: dugme('Ödemelerime git', { href: 'hesabim/odemelerim/#hizmet' }) })}
-${kart({ ikon: 'fa-receipt', baslik: 'Hizmet Dökümü', bosluksuz: true, govde: tablo({ id: 'dyHizmet', etiket: 'Aldığın Hizmetler', basliklar: ['Hizmet', ['Tür', 'dar-kolon'], ['Seans', 'dar-kolon sag'], ['Tutar', 'dar-kolon sag']] }) })}
+${kart({ ikon: 'fa-receipt', baslik: 'Hizmet Dökümü', bosluksuz: true, govde: tablo({ id: 'dyHizmet', etiket: 'Aldığın hizmetler', basliklar: ['Hizmet', ['Tür', 'dar-kolon'], ['Seans', 'dar-kolon sag'], ['Tutar', 'dar-kolon sag']] }) })}
 </div>` },
   { id: 'randevu', ad: 'Randevularım', ikon: 'fa-calendar-check', sayi: 'randevu', govde: `<div class="yigin">
-${bolumBas({ etiket: 'Randevuların', ikon: 'fa-calendar-check', baslik: 'Randevuların', metin: 'Sıradaki görüşmen ve bütün randevuların. İptal ve saat değişikliği talepleri diyetisyen onayına gider.', arac: dugme('Randevu Oluştur', { sinif: 'birincil', ikon: 'fa-calendar-plus', ek: ' data-ac="#dyRandevu"' }) })}
+${bolumBas({ etiket: 'Randevuların', ikon: 'fa-calendar-check', baslik: 'Randevuların', metin: 'Sıradaki görüşmen ve bütün randevuların. İptal ve saat değişikliği talepleri diyetisyen onayına gider.', arac: dugme('Randevu oluştur', { sinif: 'birincil', ikon: 'fa-calendar-plus', ek: ' data-ac="#dyRandevu"' }) })}
 <div id="dySiradaki"></div>
 ${kart({ ikon: 'fa-list', baslik: 'Bütün Randevuların', bosluksuz: true, govde: tablo({ id: 'dyRandevular', etiket: 'Bütün randevular', basliklar: [['Tarih', 'dar-kolon'], ['Saat', 'dar-kolon'], 'Görüşme', ['Durum', 'dar-kolon'], ['İşlem', 'eylem-kolon']] }) })}
 </div>` },
   { id: 'gorusme', ad: 'Görüşmelerim', ikon: 'fa-clock-rotate-left', govde: `<div class="yigin">
 ${bolumBas({ etiket: 'Tamamlananlar', ikon: 'fa-clock-rotate-left', baslik: 'Görüşme Geçmişin', metin: 'Tamamlanan görüşmelerin ve diyetisyenlerinin kısa notu.' })}
-${kart({ ikon: 'fa-clipboard-check', baslik: 'Tamamlanan Görüşmeler', bosluksuz: true, govde: tablo({ id: 'dyGorusme', etiket: 'Tamamlanan Görüşmeler', basliklar: [['Tarih', 'dar-kolon'], ['Durum', 'dar-kolon'], ['Görüşme notu', 'sol']] }) })}
+${kart({ ikon: 'fa-clipboard-check', baslik: 'Tamamlanan Görüşmeler', bosluksuz: true, govde: tablo({ id: 'dyGorusme', etiket: 'Tamamlanan görüşmeler', basliklar: [['Tarih', 'dar-kolon'], ['Durum', 'dar-kolon'], ['Görüşme notu', 'sol']] }) })}
 </div>` },
   { id: 'mesaj', ad: 'Mesajlarım', ikon: 'fa-comments', sayi: 'mesaj', govde: `<div class="yigin">
 ${bolumBas({ etiket: 'Yazışmaların', ikon: 'fa-comments', baslik: 'Mesajların', metin: 'Her diyetisyenle ayrı yazışman. Geçmiş diyetisyenlerinle olan mesajlar yalnız okunur.' })}
@@ -37,14 +37,14 @@ ${bolumBas({ etiket: 'Sana bırakılanlar', ikon: 'fa-note-sticky', baslik: 'Diy
 ${kart({ ikon: 'fa-comment-medical', baslik: 'Paylaşılan Notlar', bosluksuz: true, govde: '<div class="ayar-liste" id="dyNotlar"></div>' })}
 </div>` },
   { id: 'dosya', ad: 'Dosyalar', ikon: 'fa-folder-open', govde: `<div class="yigin">
-${bolumBas({ etiket: 'Dosya kutusu', ikon: 'fa-folder-open', baslik: 'Dosyaların', metin: 'Diyetisyenlerinin gönderdikleri ve senin paylaştıkların.', arac: dugme('Dosya Paylaş', { sinif: 'birincil', ikon: 'fa-upload', ek: ' data-ac="#dyDosya"' }) })}
+${bolumBas({ etiket: 'Dosya kutusu', ikon: 'fa-folder-open', baslik: 'Dosyaların', metin: 'Diyetisyenlerinin gönderdikleri ve senin paylaştıkların.', arac: dugme('Dosya paylaş', { sinif: 'birincil', ikon: 'fa-upload', ek: ' data-ac="#dyDosya"' }) })}
 ${kart({ ikon: 'fa-inbox', baslik: 'Diyetisyenlerinden Gelen Dosyalar', bosluksuz: true, govde: '<div class="ayar-liste" id="dyGelen"></div>' })}
 ${kart({ ikon: 'fa-paper-plane', baslik: 'Senin Paylaştıkların', bosluksuz: true, govde: '<div class="ayar-liste" id="dyGiden"></div>' })}
 </div>` },
   { id: 'hak', ad: 'Haklarım', ikon: 'fa-ticket', govde: `<div class="yigin">
-${bolumBas({ etiket: 'Görüşme Hakların', ikon: 'fa-ticket', baslik: 'Kalan Görüşme Hakların', metin: 'Aktif paketlerindeki seans hakların ve kullanım geçmişin.' })}
+${bolumBas({ etiket: 'Görüşme hakların', ikon: 'fa-ticket', baslik: 'Kalan Görüşme Hakların', metin: 'Aktif paketlerindeki seans hakların ve kullanım geçmişin.' })}
 ${kart({ ikon: 'fa-ticket', baslik: 'Görüşme Hakların', govde: '<div id="dyHak"></div>', alt: dugme('Hakkı kullan, randevu oluştur', { sinif: 'birincil', ek: ' data-ac="#dyRandevu"' }) })}
-${kart({ ikon: 'fa-timeline', baslik: 'Hak Kullanım Geçmişi', bosluksuz: true, govde: tablo({ id: 'dyHakGecmis', etiket: 'Hak Kullanım Geçmişi', basliklar: [['Tarih', 'dar-kolon'], 'Görüşme', ['Hak', 'dar-kolon']] }) })}
+${kart({ ikon: 'fa-timeline', baslik: 'Hak Kullanım Geçmişi', bosluksuz: true, govde: tablo({ id: 'dyHakGecmis', etiket: 'Hak kullanım geçmişi', basliklar: [['Tarih', 'dar-kolon'], 'Görüşme', ['Hak', 'dar-kolon']] }) })}
 </div>` },
 ];
 

@@ -36,7 +36,7 @@ ${kart({ ikon: 'fa-ruler', baslik: 'Birimler', metin: 'Değerler bu birimlerle g
 ${kart({
     ikon: 'fa-rotate-left', baslik: 'Tercihlerimi Sıfırla', metin: 'Boy ve kilo dışındaki bütün cevapların silinir.', sinif: 'tehlike-kart',
     govde: `<label class="onay-kutusu"><input type="checkbox" id="sifirlaOnay"><span>Tercihlerimin sıfırlanacağını anladım.</span></label>`,
-    alt: dugme('Tercihlerimi Sıfırla', { sinif: 'tehlike', ikon: 'fa-rotate-left', ek: ' id="sifirla" disabled' }),
+    alt: dugme('Tercihlerimi sıfırla', { sinif: 'tehlike', ikon: 'fa-rotate-left', ek: ' id="sifirla" disabled' }),
   })}
 </div>`;
 

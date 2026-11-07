@@ -78,7 +78,7 @@
     $('#sdGrafikBaslik').textContent = m.ad + ' Seyri';
     $('#sdGrafikNot').textContent = hedefli ? g.length + ' ölçüm. Kesik çizgi hedef kilon.' : g.length + ' ölçüm';
     document.querySelectorAll('[data-metrik]').forEach((e) => e.setAttribute('aria-pressed', String(e.dataset.metrik === metrik)));
-    if (!g.length) { U.bas('#sdGrafik', U.bos({ ikon: 'fa-chart-line', baslik: 'Henüz ölçüm yok', metin: 'İlk ölçümünü eklediğinde grafiğin burada oluşur.', eylem: '<button class="dugme birincil" type="button" data-ac="#sdOlcumModal">Ölçüm Ekle</button>' })); return; }
+    if (!g.length) { U.bas('#sdGrafik', U.bos({ ikon: 'fa-chart-line', baslik: 'Henüz ölçüm yok', metin: 'İlk ölçümünü eklediğinde grafiğin burada oluşur.', eylem: '<button class="dugme birincil" type="button" data-ac="#sdOlcumModal">Ölçüm ekle</button>' })); return; }
     DD.grafik.cizgi($('#sdGrafik'), { baslik: m.ad + ' seyri', etiketler: g.map((o) => U.noktaliTarih(o.tarih).slice(0, 5)), seriler: [{ ad: m.ad, degerler: g.map(m.oku) }], hedef: hedefli ? dn.hedef_kilo : null, basamak: 1 });
   }
 

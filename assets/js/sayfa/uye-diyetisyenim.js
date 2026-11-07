@@ -37,7 +37,7 @@
   const eylemler = (r, kucuk) => {
     const k = kucuk ? ' kucuk' : '';
     if (bekleyenTalep(r)) return '<button class="dugme hayalet' + k + '" type="button" data-talep-geri="' + r.id + '">Talebi geri al</button>';
-    return '<button class="dugme hayalet tehlike' + k + '" type="button" data-iptal="' + r.id + '">İptal talebi</button><button class="dugme ' + (kucuk ? 'hayalet' : 'birincil') + k + '" type="button" data-ertele="' + r.id + '">Saat Değişikliği Talebi</button>';
+    return '<button class="dugme hayalet tehlike' + k + '" type="button" data-iptal="' + r.id + '">İptal talebi</button><button class="dugme ' + (kucuk ? 'hayalet' : 'birincil') + k + '" type="button" data-ertele="' + r.id + '">Saat değişikliği talebi</button>';
   };
   const satirKur = (i, baslik, metin, sag) => '<div class="ayar-satir"><span class="as-ikon"><i class="fa-solid ' + i + '" aria-hidden="true"></i></span><div class="as-metin"><b>' + U.kac(baslik) + '</b><span>' + U.kac(metin) + '</span></div>' + (sag ? '<span class="as-eylem">' + sag + '</span>' : '') + '</div>';
 
@@ -48,7 +48,7 @@
     const y = yaklasan().find((r) => sahip(r).slug === k.slug);
     return '<div class="kart panel tam-kolon">' + kartBas('fa-id-card', k, '<span class="durum-hapi cozulen">Doğrulanmış</span>')
       + '<div class="kart-govde">' + kunyeHtml([['Unvan', k.unvan], ['Paket', k.paket ? k.paket.ad : 'Paket yok'], ['Sıradaki görüşme', y ? U.tarih(y.tarih) + ', ' + DD.bicim.saat(y.saat) : 'Planlı görüşme yok']], 'uc-sutun') + '</div>'
-      + '<div class="kart-alt eylem">' + profilBag(k, 'Profili gör') + '<button class="dugme hayalet" type="button" data-sohbet-git="' + k.slug + '"><i class="fa-solid fa-paper-plane" aria-hidden="true"></i> Mesaj gönder</button><button class="dugme birincil" type="button" data-randevu-al="' + k.slug + '"><i class="fa-solid fa-calendar-plus" aria-hidden="true"></i> Randevu Oluştur</button></div></div>';
+      + '<div class="kart-alt eylem">' + profilBag(k, 'Profili gör') + '<button class="dugme hayalet" type="button" data-sohbet-git="' + k.slug + '"><i class="fa-solid fa-paper-plane" aria-hidden="true"></i> Mesaj gönder</button><button class="dugme birincil" type="button" data-randevu-al="' + k.slug + '"><i class="fa-solid fa-calendar-plus" aria-hidden="true"></i> Randevu oluştur</button></div></div>';
   };
   /* Geçmiş kart: yeni talep varsa düğme geri alma olur */
   const gecmisKart = (k) => {
@@ -141,7 +141,7 @@
     U.bas('#dyGelen', gelen.join('') || U.bos({ ikon: 'fa-inbox', baslik: 'Henüz dosya yok', metin: 'Diyetisyenin dosya gönderdiğinde burada listelenir.' }));
     const l = (dn.tahliller || []).map((t) => satirKur('fa-file-pdf', t.dosya_adi, U.tarih(t.tarih) + ' · Tahlil'))
       .concat(U.yerel('paylasilanDosya', []).map((d) => satirKur('fa-file-arrow-up', d.ad, U.tarih(d.tarih) + ' · Sen paylaştın')));
-    U.bas('#dyGiden', l.join('') || U.bos({ ikon: 'fa-folder-open', baslik: 'Henüz paylaşmadın', metin: 'Tahlil ya da belge paylaşabilirsin.', eylem: '<button class="dugme hayalet" type="button" data-ac="#dyDosya">Dosya Paylaş</button>' }));
+    U.bas('#dyGiden', l.join('') || U.bos({ ikon: 'fa-folder-open', baslik: 'Henüz paylaşmadın', metin: 'Tahlil ya da belge paylaşabilirsin.', eylem: '<button class="dugme hayalet" type="button" data-ac="#dyDosya">Dosya paylaş</button>' }));
   }
 
   function hak() {
