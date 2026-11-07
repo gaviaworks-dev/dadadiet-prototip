@@ -4,11 +4,12 @@
   'use strict';
   const DD = window.DD, PA = window.PA, h = PA.h;
   const $ = (id) => document.getElementById(id);
-  const v = { sekme: 'tumu', gorunum: 'tablo', kolon: {} };
+  const v = { sekme: 'tumu', gorunum: 'tablo', kolon: {}, sayfa: Math.max(1, Number(PA.parametre('sayfa')) || 1), boyut: 8 };
+  const BOYUTLAR = [8, 12, 24];
   const SEKME_SUZ = { tumu: () => true, talep: (x) => x.durum === 'talep', aktif: (x) => x.durum === 'aktif', yanit: (x) => x.durum === 'yanit-bekliyor', bitti: (x) => ['bitti', 'reddedildi'].includes(x.durum) };
   const ARA_YER = { tumu: 'Ad, e-posta ya da hedef ara', talep: 'Talep eden kişiyi ara', aktif: 'Aktif danışan ara', yanit: 'Yanıt bekleyen danışan ara', bitti: 'Biten danışan ara' };
 
-  const eposta = (x) => x.eposta || x.ad.toLocaleLowerCase('tr').replace(/\s+/g, '.').replace(/ı/g, 'i').replace(/ş/g, 's').replace(/ğ/g, 'g').replace(/ü/g, 'u').replace(/ö/g, 'o').replace(/ç/g, 'c') + '@ornek.test';
+  const eposta = PA.eposta;
   /* Davetler kart açılana kadar ayrı tutulur; listede aynı satır biçiminde görünür */
   const kayitlar = () => PA.danisanlar().concat(PA.davetler().map((x) => Object.assign({ davet: true, durum: 'davet', izinler: {}, olcumler: [], son_gorusme: null }, x)));
   const suzgecDeger = (id) => { const t = document.querySelector('[aria-controls="' + id + '"]'); const d = t && t.getAttribute('data-deger'); return d && d !== 'hepsi' ? d : ''; };
@@ -53,11 +54,49 @@
   };
   const sonGorusme = (x) => (x.son_gorusme ? `<b>${PA.tarih(x.son_gorusme)}</b><small>${PA.gunFarki(x.son_gorusme, DD.bugun)} gün önce</small>` : '<b>—</b><small>Henüz yok</small>');
 
+  /* Sıralama tüm süzülmüş liste üstünde yapılır: sayfalar arası sıra kopmaz */
+  const SIRA_ANAHTAR = { Danışan: (x) => x.ad, Durum: (x) => (PA.durumlar[x.durum] || [x.durum])[0], 'Son görüşme': (x) => x.son_gorusme || '' };
+  function sirala(l) {
+    const th = document.querySelector('#tabloKap th[aria-sort]');
+    const anahtar = th && SIRA_ANAHTAR[th.textContent.trim()];
+    if (!anahtar) return l;
+    const yon = th.getAttribute('aria-sort') === 'ascending' ? 1 : -1;
+    return [...l].sort((a, b) => anahtar(a).localeCompare(anahtar(b), 'tr') * yon);
+  }
+  /* Uzun listede uçlar ve etkin sayfanın komşuları kalır, aradakiler üç noktaya iner */
+  function sayfaNolari(toplam, aktif) {
+    const n = [...new Set([1, aktif - 1, aktif, aktif + 1, toplam])].filter((x) => x >= 1 && x <= toplam).sort((a, b) => a - b);
+    return n.flatMap((x, i) => (i && x - n[i - 1] > 1 ? ['…', x] : [x]));
+  }
+  function sayfalamaCiz(toplam, ilk, son) {
+    const kap = $('danisanSayfa'), sayfaSay = Math.ceil(toplam / v.boyut);
+    kap.hidden = toplam <= BOYUTLAR[0];
+    if (kap.hidden) return;
+    const ok = (yon, ikon, ad, kapali) => `<button class="sayfa-dugme sade ok" type="button" data-sayfa="${yon}" aria-label="${ad}"${kapali ? ' disabled' : ''}><i class="fa-solid ${ikon}" aria-hidden="true"></i></button>`;
+    $('sayfaBilgi').innerHTML = `<b>${toplam}</b> danışandan <b>${ilk}–${son}</b> arası`;
+    $('sayfaDugmeler').innerHTML = ok(v.sayfa - 1, 'fa-chevron-left', 'Önceki sayfa', v.sayfa === 1) +
+      sayfaNolari(sayfaSay, v.sayfa).map((n) => (n === '…' ? '<span class="sayfa-nokta" aria-hidden="true">…</span>' : `<button class="sayfa-dugme sade${n === v.sayfa ? ' aktif' : ''}" type="button" data-sayfa="${n}" aria-label="Sayfa ${n}"${n === v.sayfa ? ' aria-current="page"' : ''}>${n}</button>`)).join('') +
+      ok(v.sayfa + 1, 'fa-chevron-right', 'Sonraki sayfa', v.sayfa === sayfaSay);
+  }
+  function sayfaGit(n) {
+    v.sayfa = n;
+    const u = new URL(location.href);
+    if (n === 1) u.searchParams.delete('sayfa'); else u.searchParams.set('sayfa', n);
+    history.replaceState(null, '', u);
+    ciz();
+    const ust = $('liste').getBoundingClientRect().top;
+    if (ust < 0) window.scrollBy({ top: ust - 80, behavior: 'smooth' });
+  }
+  /* Süzgeç, arama ya da sekme değişince liste ilk sayfadan başlar */
+  const basaDon = () => { if (v.sayfa !== 1) sayfaGit(1); else ciz(); };
+
   function ciz() {
-    const l = suzulmus(), hepsi = kayitlar();
+    const tum = sirala(suzulmus()), hepsi = kayitlar();
+    v.sayfa = Math.min(v.sayfa, Math.max(1, Math.ceil(tum.length / v.boyut)));
+    const ilk = (v.sayfa - 1) * v.boyut, l = tum.slice(ilk, ilk + v.boyut);
     const sayilar = { tumu: hepsi.length, talep: hepsi.filter(SEKME_SUZ.talep).length, aktif: hepsi.filter(SEKME_SUZ.aktif).length, yanit: hepsi.filter(SEKME_SUZ.yanit).length, bitti: hepsi.filter(SEKME_SUZ.bitti).length };
     Object.keys(sayilar).forEach((k) => { document.querySelector('[data-sayi="' + k + '"]').textContent = sayilar[k]; });
-    $('gorunenSayi').textContent = l.length;
+    $('gorunenSayi').textContent = tum.length;
     $('toplamSayi').textContent = sayilar[v.sekme];
     $('baslikSayi').textContent = sayilar.tumu;
     $('ara').placeholder = ARA_YER[v.sekme];
@@ -68,22 +107,16 @@
     }).join('');
     PA.oranlar($('liste'));
     const bos = !l.length;
+    sayfalamaCiz(tum.length, ilk + 1, ilk + l.length);
     $('listeBos').hidden = !bos;
     $('tabloKap').hidden = bos || v.gorunum !== 'tablo';
     $('danisanKartlar').hidden = bos || v.gorunum !== 'kart';
     /* Kit tabloyu gizlemiş olabilir: boş durum dışında geri açılır */
     const tablo = $('danisanTablo').closest('table');
     if (tablo) tablo.hidden = false;
-    const secili = document.querySelector('th[aria-sort]');
-    if (secili) siralamayiKoru(secili);
     if (window.DM_SECIM_TAZELE) window.DM_SECIM_TAZELE(tablo);
     if (bos || v.gorunum !== 'tablo') $('toplu').hidden = true;
     PA.sekmeSabitle($('danisanSekme'));
-  }
-  function siralamayiKoru(th) {
-    const i = [...th.parentElement.children].indexOf(th), yon = th.getAttribute('aria-sort') === 'ascending' ? 1 : -1;
-    const g = $('danisanTablo');
-    [...g.rows].sort((a, b) => a.children[i].textContent.trim().localeCompare(b.children[i].textContent.trim(), 'tr', { numeric: true }) * yon).forEach((tr) => g.appendChild(tr));
   }
   function sekmeSec(ad) {
     v.sekme = ad;
@@ -91,7 +124,7 @@
     if (ad === 'tumu') u.searchParams.delete('sekme'); else u.searchParams.set('sekme', ad);
     history.replaceState(null, '', u);
     $('liste').setAttribute('aria-labelledby', 's-' + ad);
-    ciz();
+    basaDon();
   }
   const seciliIdler = () => [...document.querySelectorAll('#danisanTablo tr')].filter((tr) => tr.querySelector('input:checked')).map((tr) => tr.dataset.id);
   const seciliDanisanlar = () => seciliIdler().map(PA.danisan).filter(Boolean);
@@ -118,10 +151,14 @@
   }));
   $('danisanSekme').addEventListener('click', (e) => { const t = e.target.closest('[data-sekme]'); if (t) sekmeSec(t.dataset.sekme); });
   $('danisanSekme').addEventListener('keydown', (e) => { if (['ArrowLeft', 'ArrowRight', 'Home', 'End'].includes(e.key)) setTimeout(() => sekmeSec(document.activeElement.dataset.sekme), 0); });
-  $('ara').addEventListener('input', ciz);
+  $('ara').addEventListener('input', basaDon);
+  $('sayfaBoyut').addEventListener('change', (e) => { v.boyut = Number(e.target.value); basaDon(); });
+  $('danisanSayfa').addEventListener('click', (e) => { const b = e.target.closest('[data-sayfa]'); if (b && !b.disabled) sayfaGit(Number(b.dataset.sayfa)); });
+  /* Kit başlığın durumunu değiştirdikten sonra liste baştan dizilir */
+  document.querySelector('#tabloKap thead').addEventListener('click', (e) => { if (e.target.closest('th.sirali')) setTimeout(ciz, 0); });
   $('listeGorunum').addEventListener('dd:secim', (e) => { v.gorunum = e.detail.deger; ciz(); });
   document.addEventListener('click', (e) => {
-    if (e.target.closest('.suzgec-cubuk .acilir-yuzey [data-deger]') || e.target.closest('[data-eylem="suzgec-temizle"]')) setTimeout(ciz, 0);
+    if (e.target.closest('.suzgec-cubuk .acilir-yuzey [data-deger]') || e.target.closest('[data-eylem="suzgec-temizle"]')) setTimeout(basaDon, 0);
     const rd = e.target.closest('[data-randevu]');
     if (rd) { PA.randevuDetay(rd.dataset.randevu); return; }
     const sil = e.target.closest('[data-davet-sil]');
@@ -133,7 +170,7 @@
       });
     }
   });
-  $('disaAktar').addEventListener('click', () => { const l = suzulmus(); PA.csvIndir('danisanlar.csv', csvSatirlari(l)); DD.toast(l.length + ' danışan dışa aktarıldı.'); });
+  $('disaAktar').addEventListener('click', () => { const l = sirala(suzulmus()); PA.csvIndir('danisanlar.csv', csvSatirlari(l)); DD.toast(l.length + ' danışan dışa aktarıldı.'); });
   $('topluAktar').addEventListener('click', () => { const l = seciliIdler().map((id) => kayitlar().find((x) => x.id === id)); PA.csvIndir('secili-danisanlar.csv', csvSatirlari(l)); DD.toast(l.length + ' danışan dışa aktarıldı.'); });
   $('topluMesaj').addEventListener('click', () => {
     const l = seciliDanisanlar();

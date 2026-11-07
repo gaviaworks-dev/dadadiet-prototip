@@ -3199,3 +3199,108 @@ html[data-oturum="1"] .head-bell{display:grid}
 }
 /* Örtü açıkken #pageMain yığın bağlamını bırakır: aksi hâlde modallar üst menünün altında kalıyordu (kabuk.css .page-main z-index:2) */
 html:has(#pageMain .modal-ortu:not([hidden]),#pageMain .sheet-ortu:not([hidden]),#pageMain .yan-panel-ortu:not([hidden])) .page-main{z-index:auto}
+/* ── Revize 7 Kasım · panel ─────────────────────────────────────────── */
+/* Plan seçici: süzgeç satırı ile diyet çipleri arası tek adım, sekme altı daha sıkı */
+.yan-panel.secici .sekmeler{margin-bottom:var(--bosluk-12)}
+.secim-suzgec{display:flex;flex-direction:column;gap:var(--bosluk-8)}
+.secim-suzgec[hidden]{display:none}
+.yetkili .secim-suzgec>.alan-izgara{margin-bottom:0}
+.yetkili .secim-suzgec>.cipler{padding:0;gap:var(--bosluk-8)}
+/* Yemek kaynağı: üç eşit dilim */
+.segment.tam-segment{display:flex;width:100%;margin-bottom:var(--bosluk-12)}
+.segment.tam-segment[hidden]{display:none}
+.segment.tam-segment button{flex:1 1 0;justify-content:center;white-space:nowrap}
+#yeniTarifAlan{display:flex;flex-direction:column;gap:var(--bosluk-12)}
+#yeniTarifAlan[hidden]{display:none}
+.yetkili #yeniTarifAlan .alan-izgara{margin-bottom:0;grid-template-columns:repeat(3,minmax(0,1fr));gap:var(--bosluk-8)}
+.yetkili #yeniTarifAlan .cipler{padding:0;gap:var(--bosluk-8)}
+#yeniTarifAlan .eylem-satiri{justify-content:flex-end}
+.yan-panel.secici .secim-satir>.secim-eylem{grid-column:2;grid-row:2;justify-self:end;display:flex;align-items:center;gap:var(--bosluk-4)}
+.yan-panel.secici .secim-gorsel>i{color:var(--aksan-koyu)}
+/* Öğün düzeni: öğünler yan yana sütun, dar ekranda satır kırar */
+.ogun-duzen{display:grid;grid-template-columns:repeat(auto-fit,minmax(124px,1fr));gap:var(--bosluk-8);margin-top:var(--bosluk-12)}
+.ogun-sutun{display:flex;flex-direction:column;align-items:center;gap:var(--bosluk-8);padding:var(--bosluk-12) var(--bosluk-8);border:1px solid var(--cizgi);border-radius:var(--yuvarlak-md);background:var(--kagit);text-align:center}
+.ogun-sutun b{font-size:var(--rol-aciklama-boyut);color:var(--murekkep)}
+.yetkili .ogun-sutun .alan-girdi{width:100%;min-width:0;padding-inline:var(--bosluk-8);text-align:center}
+.ogun-sutun.kapali{background:var(--zemin)}
+.ogun-sutun.kapali b,.ogun-sutun.kapali .as-ikon{opacity:.55}
+.segment button[aria-pressed="true"] .sekme-sayi{color:inherit;opacity:.8}
+@media(max-width:640px){.ogun-sutun .as-ikon{display:none}.ogun-sutun{padding:var(--bosluk-8)}}
+/* Liste ayağı: solda kayıt aralığı, sağda sayfa boyu ve numaralar */
+.sayfalama.kart-ayagi[hidden]{display:none}
+.yetkili .sayfalama-sag{display:flex;align-items:center;flex-wrap:wrap;gap:var(--bosluk-16)}
+.sayfa-boyut{display:inline-flex;align-items:center;gap:var(--bosluk-8);font-size:var(--yazi-12-5);font-weight:var(--agirlik-govde);color:var(--metin-ikincil)}
+.yetkili .sayfa-boyut .alan-secim{width:auto;min-width:72px;height:36px;min-height:36px;padding-block:0;padding-left:var(--bosluk-12);font-size:var(--yazi-13);margin:0}
+.yetkili .sayfalama.kart-ayagi .sayfa-dugme{min-width:36px;height:36px;padding:0 var(--bosluk-8);border-radius:var(--yuvarlak-sm);font-size:var(--yazi-13)}
+@media(max-width:640px){
+  .yetkili .sayfalama.kart-ayagi .sayfa-dugme{min-width:44px;height:44px}
+  .yetkili .sayfalama-sag{justify-content:center;width:100%}
+}
+/* Kişi kartı: kimlik, dört gösterge, sıradaki adım tek kartta */
+.kunye-yer{margin-bottom:var(--bosluk-24)}
+.yetkili .kisi-serit{padding:0;overflow:hidden}
+.kisi-serit-bas{display:flex;align-items:center;gap:var(--bosluk-16);padding:var(--bosluk-20) var(--bosluk-24)}
+.yetkili .kisi-serit-bas>.kisi-avatar{width:64px;height:64px;flex:none;font-size:var(--yazi-20)}
+.kisi-serit-kimlik{flex:1 1 auto;min-width:0}
+.kisi-serit-ad{display:flex;align-items:center;flex-wrap:wrap;gap:var(--bosluk-8)}
+.yetkili .kisi-serit-ad h2{margin:0;font-size:var(--yazi-18);font-weight:var(--agirlik-ekstra);color:var(--murekkep)}
+.yetkili .kisi-serit-kimlik p{margin:var(--bosluk-4) 0 0;font-size:var(--yazi-13);color:var(--metin-ikincil);overflow-wrap:anywhere}
+.kisi-serit-bas>.eylem-satiri{flex:none;flex-wrap:wrap;justify-content:flex-end}
+.kisi-olcu-izgara{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));border-top:1px solid var(--cizgi)}
+.kisi-olcu{display:flex;flex-direction:column;align-items:flex-start;gap:var(--bosluk-4);min-width:0;padding:var(--bosluk-16) var(--bosluk-24);border:0;border-left:1px solid var(--cizgi);background:none;text-align:left;font:inherit}
+.kisi-olcu:first-child{border-left:0}
+.yetkili .kisi-olcu.tiklanir{display:flex;gap:var(--bosluk-4);cursor:pointer;border-radius:0}
+.kisi-olcu.tiklanir:hover{background:var(--zemin)}
+.kisi-olcu-etiket{display:inline-flex;align-items:center;gap:var(--bosluk-8);font-size:var(--yazi-11-5,12px);font-weight:var(--agirlik-kalin);color:var(--metin-ikincil)}
+.kisi-olcu-etiket i{color:var(--aksan-koyu)}
+.kisi-olcu>b{font-size:var(--yazi-18);font-weight:var(--agirlik-ekstra);color:var(--murekkep)}
+.kisi-olcu>small{font-size:var(--yazi-12);color:var(--metin-ikincil)}
+.kisi-olcu>.olcer{width:100%;margin-top:var(--bosluk-4)}
+.kisi-adim{display:flex;align-items:center;gap:var(--bosluk-12);padding:var(--bosluk-12) var(--bosluk-24);border-top:1px solid var(--cizgi);background:var(--aksan-yikama)}
+.yetkili .kisi-adim .as-ikon{flex:none;background:var(--kagit)}
+.kisi-adim-metin{flex:1 1 auto;min-width:0;display:grid;grid-template-columns:auto minmax(0,1fr);column-gap:var(--bosluk-12);align-items:baseline}
+.kisi-adim-metin span{grid-column:1/-1;font-size:var(--yazi-12);font-weight:var(--agirlik-kalin);color:var(--aksan-koyu)}
+.kisi-adim-metin b{font-size:var(--yazi-14);color:var(--murekkep)}
+.yetkili .kisi-adim-metin p{margin:0;font-size:var(--yazi-13);color:var(--murekkep-yumusak)}
+.kisi-adim>.eylem-satiri{flex:none;flex-wrap:wrap;justify-content:flex-end}
+/* İki sütunlu özet: akış solda, kısa künye sağda */
+.iki-sutun-pano{display:grid;grid-template-columns:minmax(0,1fr) 340px;gap:var(--bosluk-24);align-items:start}
+.yetkili .iki-sutun-pano .kart-bas{min-height:0}
+.mini-liste{display:flex;flex-direction:column}
+.mini-satir{display:flex;align-items:flex-start;justify-content:space-between;gap:var(--bosluk-12);padding:var(--bosluk-12) 0;border-top:1px solid var(--cizgi)}
+.mini-satir:first-child{padding-top:0;border-top:0}
+.mini-satir:last-child{padding-bottom:0}
+.mini-satir>span:first-child{display:flex;flex-direction:column;gap:2px;min-width:0}
+.mini-satir b{font-size:var(--yazi-14);font-weight:var(--agirlik-kalin);color:var(--murekkep)}
+.mini-satir small{font-size:var(--yazi-13);line-height:1.5;color:var(--metin-ikincil)}
+.kisa-baslik{display:flex;flex-direction:column;gap:2px}
+.kisa-baslik b{font-size:var(--yazi-14);font-weight:var(--agirlik-kalin);color:var(--murekkep)}
+.kisa-baslik small{font-size:var(--yazi-13);line-height:1.5;color:var(--metin-ikincil)}
+.kisa-olcer{display:flex;flex-direction:column;gap:var(--bosluk-8)}
+.kisa-olcer .deger-satir+.olcer{margin-top:0}
+.kisa-kalem{display:flex;flex-direction:column;gap:var(--bosluk-4)}
+.kisa-kalem>span{font-size:var(--yazi-12);font-weight:var(--agirlik-kalin);color:var(--metin-ikincil)}
+.kisa-kalem>div{font-size:var(--yazi-13);font-weight:var(--agirlik-kalin);color:var(--murekkep)}
+.rozet-sira{display:flex;flex-wrap:wrap;gap:var(--bosluk-4)}
+.yetkili .bos-satir{margin:0;font-size:var(--yazi-13);color:var(--metin-ikincil)}
+.kart-govde>.segment+.bos-satir{margin-top:var(--bosluk-12)}
+@media(max-width:1180px){
+  .iki-sutun-pano{grid-template-columns:minmax(0,1fr)}
+  .iki-sutun-pano>aside{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:var(--bosluk-16);align-items:start}
+  .yetkili .iki-sutun-pano>aside>*{margin-top:0}
+}
+@media(max-width:1100px){
+  .kisi-olcu-izgara{grid-template-columns:repeat(2,minmax(0,1fr))}
+  .kisi-olcu:nth-child(odd){border-left:0}
+  .kisi-olcu:nth-child(n+3){border-top:1px solid var(--cizgi)}
+}
+@media(max-width:760px){
+  .kisi-serit-bas{flex-wrap:wrap;padding:var(--bosluk-16)}
+  .kisi-serit-kimlik{flex-basis:calc(100% - 80px)}
+  .kisi-serit-bas>.eylem-satiri{width:100%;justify-content:flex-start}
+  .kisi-olcu{padding:var(--bosluk-12) var(--bosluk-16)}
+  .kisi-adim{flex-wrap:wrap;padding:var(--bosluk-12) var(--bosluk-16)}
+  .kisi-adim-metin{flex-basis:calc(100% - 56px);grid-template-columns:minmax(0,1fr)}
+  .kisi-adim>.eylem-satiri{width:100%;justify-content:flex-start}
+}
+.yetkili #yeniTarifAlan .alan-secim{padding-left:var(--bosluk-8)}

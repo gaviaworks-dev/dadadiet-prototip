@@ -5,7 +5,7 @@
   const { $, $$, esc, sayi } = PB;
   const dar = window.matchMedia('(max-width:1199px)');
   let S, kirli = false, secGun = 0, hedefHucre = null, acikKalem = null, menuKalem = null, menuGun = null, acikMenu = null;
-  let kaynak = 'tarif', arama = '', mikroSuzgec = null, altHedef = null, degistirHedef = null;
+  let kaynak = 'tarif', tarifKaynak = 'gastro', duzenTarif = null, arama = '', mikroSuzgec = null, altHedef = null, degistirHedef = null;
   let gorunum = 'hafta', analizKapsam = 'hafta', analizOge = 'kcal', bosBasladi = false, kopyaKalem = null, sablonGun = null, onizGun = 0;
 
   /* ── Durum ─────────────────────────────────────────────────────────── */
@@ -16,7 +16,9 @@
   const kopya = (o) => JSON.parse(JSON.stringify(o));
   /* Serbest kalem slug taşımaz: ad, olcu ve değerler kalemin kendisindedir */
   const kalemSade = (k) => {
-    const y = k.tur === 'serbest' ? { tur: 'serbest', ad: k.ad, olcu: k.olcu, miktar: 1, kcal: k.kcal || 0, protein: k.protein || 0, yag: k.yag || 0, karb: k.karb || 0 } : { tur: k.tur, slug: k.slug, miktar: k.miktar };
+    const y = k.tur === 'serbest' ? { tur: 'serbest', ad: k.ad, olcu: k.olcu, miktar: k.miktar || 1, kcal: k.kcal || 0, protein: k.protein || 0, yag: k.yag || 0, karb: k.karb || 0 } : { tur: k.tur, slug: k.slug, miktar: k.miktar };
+    /* Kayıtlı tarifin plandaki kopyası: tarif sonradan değişse de gönderilen plan aynı kalır */
+    if (k.baz) ['tarif_id', 'baz', 'lif', 'alerjenler', 'malzemeler'].forEach((a) => { if (k[a] != null) y[a] = k[a]; });
     if (k.alternatif) y.alternatif = kalemSade(k.alternatif);
     return y;
   };
@@ -58,7 +60,7 @@
   const uyariOf = (k) => PB.kalemUyariK(k, danisan()).concat(k.alternatif ? PB.kalemUyariK(k.alternatif, danisan()) : []);
   const gorselHtml = (k, sinif) => {
     const g = k.tur === 'serbest' ? '' : PB.gorsel(k.tur, k.slug), c = k.tur === 'besin' ? PB.katalog(k) : null;
-    return '<span class="' + sinif + '">' + (g ? '<img src="' + g + '" alt="" loading="lazy">' : '<i class="fa-solid ' + (k.tur === 'serbest' ? 'fa-pen' : c ? PB.besinIkon(c) : 'fa-bowl-food') + '" aria-hidden="true"></i>') + '</span>';
+    return '<span class="' + sinif + '">' + (g ? '<img src="' + g + '" alt="" loading="lazy">' : '<i class="fa-solid ' + (k.baz ? 'fa-bookmark' : k.tur === 'serbest' ? 'fa-pen' : c ? PB.besinIkon(c) : 'fa-bowl-food') + '" aria-hidden="true"></i>') + '</span>';
   };
 
   /* ── Hafta ızgarası ────────────────────────────────────────────────── */
@@ -350,8 +352,29 @@
       '<span class="adet"><button type="button" data-yon="azalt" aria-label="Azalt"><i class="fa-solid fa-minus" aria-hidden="true"></i></button><input type="number" min="' + PB.adim(tur) + '" step="' + PB.adim(tur) + '" value="' + m + '" aria-label="' + esc(c.ad) + ' miktarı, ' + (tur === 'tarif' ? 'porsiyon' : 'gram') + '"><button type="button" data-yon="artir" aria-label="Artır"><i class="fa-solid fa-plus" aria-hidden="true"></i></button></span>' +
       '<button class="dugme hayalet kucuk" type="button" data-plan="ekle" data-slug="' + c.slug + '">' + (degistirHedef ? 'Seç' : altHedef ? 'Alternatif yap' : 'Ekle') + '</button></div>';
   }
+  const tarifMeta = (t, m) => sayi(t.kcal * m) + ' kcal · P ' + sayi(t.protein * m) + ' · K ' + sayi(t.karb * m) + ' · Y ' + sayi(t.yag * m) + ' g';
+  function kayitliSatir(t) {
+    const uy = PB.kalemUyariK(PB.tarifKalemi(t, 1), danisan());
+    return '<div class="secim-satir" data-tarif="' + esc(t.id) + '"><span class="secim-gorsel"><i class="fa-solid fa-bookmark" aria-hidden="true"></i></span>' +
+      '<span class="secim-metin"><b>' + esc(t.ad) + '</b><small data-rol="meta">' + tarifMeta(t, 1) + '</small>' +
+      (uy.length || t.ornek ? '<span class="secim-etiketler">' + (t.ornek ? '<span class="rozet pasif">Prototip örneği</span>' : '') + uy.map((h) => '<span class="rozet bekleme"><i class="fa-solid fa-triangle-exclamation" aria-hidden="true"></i> ' + esc(PB.hassasiyetAd(h)) + '</span>').join('') + '</span>' : '') + '</span>' +
+      '<span class="adet"><button type="button" data-yon="azalt" aria-label="Azalt"><i class="fa-solid fa-minus" aria-hidden="true"></i></button><input type="number" min="0.5" step="0.5" value="1" aria-label="' + esc(t.ad) + ' miktarı, porsiyon"><button type="button" data-yon="artir" aria-label="Artır"><i class="fa-solid fa-plus" aria-hidden="true"></i></button></span>' +
+      '<span class="secim-eylem"><button class="ikon-dugme" type="button" data-plan="tarif-duzenle" data-id="' + esc(t.id) + '" aria-label="' + esc(t.ad) + ' tarifini düzenle"><i class="fa-solid fa-pen" aria-hidden="true"></i></button>' +
+      '<button class="ikon-dugme yikici" type="button" data-plan="tarif-sil" data-id="' + esc(t.id) + '" aria-label="' + esc(t.ad) + ' tarifini sil"><i class="fa-solid fa-trash-can" aria-hidden="true"></i></button>' +
+      '<button class="dugme hayalet kucuk" type="button" data-plan="tarif-ekle" data-id="' + esc(t.id) + '">' + (degistirHedef ? 'Seç' : altHedef ? 'Alternatif yap' : 'Ekle') + '</button></span></div>';
+  }
+  function kayitliCiz() {
+    const q = PB.kucuk(arama), hepsi = PB.tariflerim(), l = hepsi.filter((t) => PB.kucuk(t.ad).includes(q));
+    const uygunsuz = (t) => (PB.kalemUyariK(PB.tarifKalemi(t, 1), danisan()).length ? 1 : 0);
+    l.sort((a, b) => uygunsuz(a) - uygunsuz(b) || a.ad.localeCompare(b.ad, 'tr'));
+    $('#sheetBos').hidden = true;
+    $('#sheetListe').innerHTML = l.length ? l.map(kayitliSatir).join('') :
+      '<div class="bos-durum kart-ici"><span class="bos-ikon"><i class="fa-solid fa-bookmark" aria-hidden="true"></i></span><h3>' + (hepsi.length ? 'Bu aramayla tarif yok' : 'Kayıtlı tarifin yok') + '</h3><p>Yeni tarif girdiğinde burada kalır, başka planlarda da kullanırsın.</p><button class="dugme hayalet" type="button" data-plan="tarif-yeni">Yeni tarif gir</button></div>';
+  }
   function listeCiz() {
     if (kaynak === 'serbest') return;
+    if (kaynak === 'tarif' && tarifKaynak === 'yeni') return;
+    if (kaynak === 'tarif' && tarifKaynak === 'kayitli') { kayitliCiz(); return; }
     const { uygun, uygunsuz } = kaynakListe();
     $('#sheetBos').hidden = uygun.length + uygunsuz.length > 0;
     $('#sheetListe').innerHTML = uygun.map(satirHtml).join('') + (uygunsuz.length ? '<div class="secim-ayrac">Danışanın hassasiyetiyle çakışanlar</div>' + uygunsuz.map(satirHtml).join('') : '');
@@ -365,11 +388,81 @@
   function kaynakSec(k) {
     kaynak = k;
     $$('#seciciPanel [role=tab]').forEach((t) => { const b = t.dataset.kaynak === k; t.classList.toggle('aktif', b); t.setAttribute('aria-selected', b); t.tabIndex = b ? 0 : -1; });
+    const tarif = k === 'tarif', yeni = tarif && tarifKaynak === 'yeni';
+    $('#tarifKaynak').hidden = !tarif;
+    $$('#tarifKaynak button').forEach((b) => b.setAttribute('aria-pressed', String(b.dataset.deger === tarifKaynak)));
+    $('#tarifSayi').textContent = PB.tariflerim().length;
+    $('#yeniTarifAlan').hidden = !yeni;
     $('#serbestAlan').hidden = k !== 'serbest';
-    $('#katalogAlan').hidden = k === 'serbest';
-    if (k === 'serbest') return;
-    $('#sheetAra').placeholder = k === 'tarif' ? 'Yemek ara, örn. çorba' : 'Besin ara, örn. mercimek';
+    $('#katalogAlan').hidden = k === 'serbest' || yeni;
+    if (k === 'serbest' || yeni) return;
+    const kayitli = tarif && tarifKaynak === 'kayitli';
+    $('#suzgecAlan').hidden = kayitli;
+    $('#sheetAra').placeholder = kayitli ? 'Kayıtlı tariflerinde ara' : tarif ? 'Yemek ara, örn. çorba' : 'Besin ara, örn. mercimek';
     kategoriCiz(); listeCiz();
+  }
+  /* Üç kaynak: Dada Gastro kataloğu, yeni tarif formu, diyetisyenin kayıtlı tarifleri */
+  function tarifKaynakSec(d) {
+    tarifKaynak = d;
+    if (d !== 'yeni') tarifFormTemizle();
+    kaynakSec('tarif');
+    if (d === 'yeni') $('#ytAd').focus(); else $('#sheetAra').focus();
+  }
+  const SAYI_ALANI = { kcal: '#ytKcal', protein: '#ytP', karb: '#ytK', yag: '#ytY', lif: '#ytLif' };
+  function tarifFormTemizle() {
+    duzenTarif = null;
+    $('#yeniTarifAlan').reset();
+    $$('#ytAlerjen .cip').forEach((c) => { c.classList.remove('aktif'); c.setAttribute('aria-pressed', 'false'); });
+    $('#ytVazgec').hidden = true;
+    $('#ytKaydet').innerHTML = '<i class="fa-solid fa-plus" aria-hidden="true"></i> Plana ekle ve kaydet';
+    if (hedefHucre) $('#ytOgun').value = OGUN_TIP[hedefHucre.o];
+  }
+  function tarifDuzenle(id) {
+    const t = PB.tariflerim().find((x) => x.id === id);
+    if (!t) return;
+    tarifKaynak = 'yeni'; kaynakSec('tarif');
+    duzenTarif = id;
+    $('#ytAd').value = t.ad; $('#ytOgun').value = t.ogun; $('#ytMalzeme').value = (t.malzemeler || []).join('\n'); $('#ytAdim').value = t.hazirlanis || '';
+    Object.keys(SAYI_ALANI).forEach((a) => { $(SAYI_ALANI[a]).value = t[a] || ''; });
+    $$('#ytAlerjen .cip').forEach((c) => { const a = (t.alerjenler || []).includes(c.dataset.deger); c.classList.toggle('aktif', a); c.setAttribute('aria-pressed', String(a)); });
+    $('#ytVazgec').hidden = false;
+    $('#ytKaydet').textContent = 'Değişiklikleri kaydet';
+    $('#ytAd').focus();
+  }
+  function tarifKaydet() {
+    if (!PB.formGecerli($('#yeniTarifAlan'))) return;
+    const say = (s) => parseFloat($(s).value) || 0, t = {
+      ad: $('#ytAd').value.trim(), ogun: $('#ytOgun').value, malzemeler: $('#ytMalzeme').value.split('\n').map((x) => x.trim()).filter(Boolean),
+      hazirlanis: $('#ytAdim').value.trim(), alerjenler: $$('#ytAlerjen .cip.aktif').map((c) => c.dataset.deger), tarih: DD.bugun,
+    };
+    Object.keys(SAYI_ALANI).forEach((a) => { t[a] = say(SAYI_ALANI[a]); });
+    const l = PB.tariflerim();
+    if (duzenTarif) {
+      Object.assign(l.find((x) => x.id === duzenTarif), t);
+      PB.kaydet(); tarifKaynakSec('kayitli');
+      DD.toast('Tarif güncellendi. Plandaki kopyalar değişmez.');
+      return;
+    }
+    t.id = PB.yeniId('tf');
+    l.unshift(t);
+    PB.kaydet();
+    const y = PB.tarifKalemi(t, 1), yerlesti = kalemYerlestir(y);
+    if (!yerlesti) {
+      S.gunler[hedefHucre.g].ogunler[hedefHucre.o].push(y);
+      degisti(); sheetOzet();
+    }
+    const uy = PB.kalemUyariK(y, danisan());
+    tarifKaynak = 'kayitli'; tarifFormTemizle();
+    if (!yerlesti) kaynakSec('tarif');
+    DD.toast(uy.length ? PB.hassasiyetAd(uy[0]) + ': tarif eklendi, uyarı listesine düştü.' : '“' + t.ad + '” öğüne eklendi, Tariflerim listesine kaydedildi.', uy.length ? 'uyari' : undefined);
+  }
+  function tarifSil(id) {
+    const l = PB.tariflerim(), i = l.findIndex((x) => x.id === id);
+    if (i < 0) return;
+    window.DM_ONAY('Tarif silinsin mi?', '“' + l[i].ad + '” Tariflerim listesinden kalkar. Plana eklenmiş kopyalar yerinde kalır.', 'Sil', (ok) => {
+      if (!ok) return;
+      l.splice(i, 1); PB.kaydet(); kaynakSec('tarif'); DD.toast('Tarif silindi.');
+    });
   }
   /* Drawer örtüsüz açılır: ızgara görünür kalır, başka hücreye tıklayınca hedef değişir */
   function seciciAc(g, o, mikro) {
@@ -381,6 +474,8 @@
     $('#suzOgun').value = OGUN_TIP[o]; $('#suzKcal').value = ''; $('#suzKategori').value = '';
     if (mikro) $('#suzOgun').value = '';
     $$('#suzDiyet .cip').forEach((c) => { c.classList.remove('aktif'); c.setAttribute('aria-pressed', 'false'); });
+    if (tarifKaynak === 'yeni') tarifKaynak = 'gastro';
+    tarifFormTemizle();
     kaynakSec(mikro ? 'besin' : kaynak === 'serbest' ? 'tarif' : kaynak);
     sheetOzet();
     $('#seciciPanel').hidden = false;
@@ -405,16 +500,16 @@
 
   /* ── Kalem penceresi ───────────────────────────────────────────────── */
   function kalemCiz() {
-    const { g, o, k: ki } = acikKalem, k = S.gunler[g].ogunler[o][ki], serbest = k.tur === 'serbest', c = serbest ? null : PB.katalog(k), d = PB.kalemDeger(k), uy = PB.kalemUyariK(k, danisan());
+    const { g, o, k: ki } = acikKalem, k = S.gunler[g].ogunler[o][ki], serbest = k.tur === 'serbest' && !k.baz, c = k.tur === 'serbest' ? null : PB.katalog(k), d = PB.kalemDeger(k), uy = PB.kalemUyariK(k, danisan());
     $('#kalemBaslik').textContent = PB.kalemAd(k);
     const notlar = uy.map((h) => '<div class="uyari-kutu uyari"><i class="fa-solid fa-triangle-exclamation" aria-hidden="true"></i><span><b>' + esc(PB.hassasiyetAd(h)) + '.</b> ' + esc((c && c.alerjen_notu) || 'Bu kalem danışanın hassasiyetiyle eşleşiyor.') + '</span></div>').join('');
-    const gorsel = serbest ? '' : PB.gorsel(k.tur, k.slug), sirala = '<div class="eylem-satiri"><button class="dugme hayalet kucuk" type="button" data-plan="kalem-tasi" data-yon="-1"' + (ki ? '' : ' disabled') + '><i class="fa-solid fa-arrow-up" aria-hidden="true"></i> Yukarı</button><button class="dugme hayalet kucuk" type="button" data-plan="kalem-tasi" data-yon="1"' + (ki < S.gunler[g].ogunler[o].length - 1 ? '' : ' disabled') + '><i class="fa-solid fa-arrow-down" aria-hidden="true"></i> Aşağı</button></div>';
+    const gorsel = k.tur === 'serbest' ? '' : PB.gorsel(k.tur, k.slug), sirala = '<div class="eylem-satiri"><button class="dugme hayalet kucuk" type="button" data-plan="kalem-tasi" data-yon="-1"' + (ki ? '' : ' disabled') + '><i class="fa-solid fa-arrow-up" aria-hidden="true"></i> Yukarı</button><button class="dugme hayalet kucuk" type="button" data-plan="kalem-tasi" data-yon="1"' + (ki < S.gunler[g].ogunler[o].length - 1 ? '' : ' disabled') + '><i class="fa-solid fa-arrow-down" aria-hidden="true"></i> Aşağı</button></div>';
     if (serbest && !$('#kalemSerbest')) {
       const alan = (ad, et, tip) => '<div class="alan"><label class="alan-etiket" for="ks' + ad + '">' + et + '</label><input class="alan-girdi" id="ks' + ad + '" type="' + tip + '" min="0" data-serbest="' + ad + '" value="' + esc(k[ad]) + '"></div>';
       $('#kalemGovde').innerHTML = '<div id="kalemSerbest"><div class="alan-izgara c2">' + alan('ad', 'Kalem adı', 'text') + alan('olcu', 'Ölçü', 'text') + alan('kcal', 'Enerji (kcal)', 'number') + alan('protein', 'Protein (g)', 'number') + alan('karb', 'Karbonhidrat (g)', 'number') + alan('yag', 'Yağ (g)', 'number') + '</div></div><div id="kalemSira"></div><div id="kalemAlt"></div><div id="kalemNot"></div>';
     } else if (!serbest && !$('#kalemMiktar')) {
-      $('#kalemGovde').innerHTML = (gorsel ? '<span class="gorsel-bant kisa"><img src="' + gorsel + '" alt=""></span>' : '') + '<div class="alan"><label class="alan-etiket" for="kalemMiktar">Miktar <span class="istege-bagli">' + (k.tur === 'tarif' ? 'porsiyon' : 'gram') + '</span></label>' +
-        '<span class="adet"><button type="button" data-yon="azalt" aria-label="Azalt"><i class="fa-solid fa-minus" aria-hidden="true"></i></button><input id="kalemMiktar" type="number" min="' + PB.adim(k.tur) + '" step="' + PB.adim(k.tur) + '" value="' + k.miktar + '"><button type="button" data-yon="artir" aria-label="Artır"><i class="fa-solid fa-plus" aria-hidden="true"></i></button></span>' +
+      $('#kalemGovde').innerHTML = (gorsel ? '<span class="gorsel-bant kisa"><img src="' + gorsel + '" alt=""></span>' : '') + '<div class="alan"><label class="alan-etiket" for="kalemMiktar">Miktar <span class="istege-bagli">' + (k.tur === 'besin' ? 'gram' : 'porsiyon') + '</span></label>' +
+        '<span class="adet"><button type="button" data-yon="azalt" aria-label="Azalt"><i class="fa-solid fa-minus" aria-hidden="true"></i></button><input id="kalemMiktar" type="number" min="' + PB.adim(k.baz ? 'tarif' : k.tur) + '" step="' + PB.adim(k.baz ? 'tarif' : k.tur) + '" value="' + k.miktar + '"><button type="button" data-yon="artir" aria-label="Artır"><i class="fa-solid fa-plus" aria-hidden="true"></i></button></span>' +
         (k.tur === 'besin' && c && c.porsiyon ? '<p class="alan-yardim"><i class="fa-solid fa-circle-info" aria-hidden="true"></i><span>' + esc(c.porsiyon.ad) + ' = ' + sayi(c.porsiyon.gram) + ' g</span></p>' : '') + '</div><div class="deger-liste" id="kalemDeger"></div><div id="kalemSira"></div><div id="kalemAlt"></div><div id="kalemNot"></div>';
     }
     $('#kalemSira').innerHTML = sirala;
@@ -552,9 +647,9 @@
   }
   function ogunCiz() {
     $('#ogunListe').innerHTML = S.ogun_duzeni.map((o, i) =>
-      '<div class="ayar-satir"><span class="as-ikon"><i class="fa-solid ' + o.ikon + '" aria-hidden="true"></i></span><span class="as-metin"><b>' + esc(o.ad) + '</b></span>' +
-      '<span class="as-eylem"><input class="alan-girdi" type="time" value="' + esc(o.saat) + '" data-ogun-saat="' + i + '" aria-label="' + esc(o.ad) + ' saati">' +
-      '<label class="anahtar"><input type="checkbox" data-ogun-acik="' + i + '"' + (o.acik ? ' checked' : '') + ' aria-label="' + esc(o.ad) + ' açık"><span class="anahtar-ray"></span></label></span></div>').join('');
+      '<div class="ogun-sutun' + (o.acik ? '' : ' kapali') + '"><span class="as-ikon"><i class="fa-solid ' + o.ikon + '" aria-hidden="true"></i></span><b>' + esc(o.ad) + '</b>' +
+      '<input class="alan-girdi" type="time" value="' + esc(o.saat) + '" data-ogun-saat="' + i + '" aria-label="' + esc(o.ad) + ' saati">' +
+      '<label class="anahtar"><input type="checkbox" data-ogun-acik="' + i + '"' + (o.acik ? ' checked' : '') + ' aria-label="' + esc(o.ad) + ' açık"><span class="anahtar-ray"></span></label></div>').join('');
   }
 
   /* ── Önizleme: danışanın Beslenme Planım'da göreceği metin ─────────── */
@@ -594,8 +689,8 @@
       e.gram += gram || 0; if (metin) e.metin.add(metin); h.set(anahtar, e);
     };
     S.gunler.forEach((g) => gunKalemleri(g).forEach((k) => {
-      if (k.tur === 'serbest') { ekle(k.ad, 0, k.olcu); return; }
-      const c = PB.katalog(k);
+      if (k.tur === 'serbest' && !(k.malzemeler || []).length) { ekle(k.ad, 0, k.olcu); return; }
+      const c = k.tur === 'serbest' ? { malzemeler: k.malzemeler, porsiyon: 1 } : PB.katalog(k);
       if (!c) return;
       if (k.tur === 'besin') { ekle(c.ad, k.miktar); return; }
       const oran = k.miktar / (c.porsiyon || 1);
@@ -704,6 +799,8 @@
     if (makroCip) { const [p, k, y] = makroCip.dataset.deger.split(',').map(Number); S.makro = { p, k, y }; makroDoldur(); degisti(); return; }
     const diyet = e.target.closest('#suzDiyet .cip');
     if (diyet) { diyet.classList.toggle('aktif'); diyet.setAttribute('aria-pressed', diyet.classList.contains('aktif')); listeCiz(); return; }
+    const alerjen = e.target.closest('#ytAlerjen .cip');
+    if (alerjen) { const a = alerjen.classList.toggle('aktif'); alerjen.setAttribute('aria-pressed', String(a)); return; }
     const kay = e.target.closest('#seciciPanel [data-kaynak]');
     if (kay) { mikroSuzgec = null; $('#suzKategori').value = ''; kaynakSec(kay.dataset.kaynak); return; }
     if (!c) return;
@@ -751,6 +848,23 @@
         c.textContent = 'Eklendi'; setTimeout(() => { if (c.isConnected) c.textContent = 'Ekle'; }, 1200);
         break;
       }
+      case 'tarif-ekle': {
+        const t = PB.tariflerim().find((x) => x.id === c.dataset.id), m = parseFloat(c.closest('.secim-satir').querySelector('input').value);
+        if (!t) return;
+        if (!(m > 0)) { DD.toast('Miktar sıfırdan büyük olmalı.', 'uyari'); return; }
+        const y = PB.tarifKalemi(t, m);
+        if (kalemYerlestir(y)) return;
+        S.gunler[hedefHucre.g].ogunler[hedefHucre.o].push(y);
+        degisti(); sheetOzet();
+        const uy = PB.kalemUyariK(y, danisan());
+        if (uy.length) DD.toast(PB.hassasiyetAd(uy[0]) + ': kalem eklendi, uyarı listesine düştü.', 'uyari');
+        c.textContent = 'Eklendi'; setTimeout(() => { if (c.isConnected) c.textContent = 'Ekle'; }, 1200);
+        break;
+      }
+      case 'tarif-yeni': tarifKaynakSec('yeni'); break;
+      case 'tarif-duzenle': tarifDuzenle(c.dataset.id); break;
+      case 'tarif-sil': tarifSil(c.dataset.id); break;
+      case 'tarif-vazgec': tarifKaynakSec('kayitli'); break;
       case 'kalem-ac': kalemAc(g, o, k); break;
       case 'kart-menu': menuKalem = { g, o, k }; if (acikMenu && acikMenu.btn === c) menuKapat(); else menuAc('#kartMenu', c); break;
       case 'gun-menu': menuGun = g; if (acikMenu && acikMenu.btn === c) menuKapat(); else menuAc('#gunMenu', c); break;
@@ -826,9 +940,11 @@
       case 'gonder': gonder(); break;
     }
   });
+  $('#yeniTarifAlan').addEventListener('submit', (e) => { e.preventDefault(); tarifKaydet(); });
   document.addEventListener('dd:secim', function (e) {
     if (e.target.id === 'planGorunum') gorunumSec(e.detail.deger);
     if (e.target.id === 'kopyaTur') kopyaTurSec(e.detail.deger);
+    if (e.target.id === 'tarifKaynak') tarifKaynakSec(e.detail.deger);
     if (e.target.id === 'analizOge') { analizOge = e.detail.deger; analizCiz(); }
   });
   /* Drawer kapanınca değiştirme ve alternatif modu düşer, odak hücreye döner */
@@ -845,11 +961,12 @@
     if (t.id === 'sheetAra') { arama = t.value.trim(); listeCiz(); return; }
     if (t.id === 'kalemMiktar') {
       const v = parseFloat(t.value);
-      if (v > 0) { const a = acikKalem; S.gunler[a.g].ogunler[a.o][a.k].miktar = v; degisti(); kalemCiz(); }
+      if (v > 0) { const a = acikKalem, y = S.gunler[a.g].ogunler[a.o][a.k]; if (y.baz) Object.assign(y, PB.tarifOlcekle(y, v)); else y.miktar = v; degisti(); kalemCiz(); }
       return;
     }
     const satir = t.closest && t.closest('.secim-satir');
     if (satir && t.type === 'number') {
+      if (satir.dataset.tarif) { satir.querySelector('[data-rol=meta]').innerHTML = tarifMeta(PB.tariflerim().find((x) => x.id === satir.dataset.tarif), parseFloat(t.value) || 0); return; }
       const c = PB.katalog({ tur: kaynak, slug: satir.dataset.slug });
       satir.querySelector('[data-rol=meta]').innerHTML = satirMeta(kaynak, c, parseFloat(t.value) || 0);
       return;
@@ -874,7 +991,7 @@
     if (t.id === 'kopyaPlan') kopyaKaynakCiz(+$('#kopyaKaynak').value);
     if (t.id === 'analizKapsam') { analizKapsam = t.value; analizCiz(); }
     if (['suzOgun', 'suzKcal', 'suzKategori'].includes(t.id)) listeCiz();
-    if (t.dataset.ogunAcik != null) { S.ogun_duzeni[+t.dataset.ogunAcik].acik = t.checked; degisti(); }
+    if (t.dataset.ogunAcik != null) { S.ogun_duzeni[+t.dataset.ogunAcik].acik = t.checked; t.closest('.ogun-sutun').classList.toggle('kapali', !t.checked); degisti(); }
     if (t.id === 'gonderOnayKutu') $('#gonderOnay').disabled = !t.checked;
   });
 

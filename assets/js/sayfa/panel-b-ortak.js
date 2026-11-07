@@ -55,6 +55,21 @@
     const l = [...new Set((s.gunler || []).flatMap((g) => Object.values(g.ogunler).flat()).filter((x) => x.tur === 'tarif').map((x) => x.slug))];
     return l.length ? PB.gorsel('tarif', l[[...s.ad].reduce((a, c) => a + c.charCodeAt(0), 0) % l.length]) : '';
   };
+  /* Diyetisyenin kayıtlı tarifleri. Eski tarayıcı durumunda alan yoksa demo verisinden başlar */
+  PB.tariflerim = () => {
+    const d = PB.demo();
+    if (!Array.isArray(d.tariflerim)) d.tariflerim = JSON.parse(JSON.stringify((V.demo && V.demo.tariflerim) || []));
+    return d.tariflerim;
+  };
+  /* Kayıtlı tarif plana serbest kalem olarak geçer: üye tarafı bu biçimi zaten okur, değerler kalemin kendisindedir */
+  PB.tarifOlcekle = (k, m) => {
+    const b = k.baz, r = (v) => Math.round(v * m * 10) / 10;
+    return { miktar: m, olcu: PB.sayi(m, 1) + ' porsiyon', kcal: r(b.kcal), protein: r(b.protein), karb: r(b.karb), yag: r(b.yag), lif: r(b.lif) };
+  };
+  PB.tarifKalemi = (t, m) => {
+    const baz = { kcal: t.kcal || 0, protein: t.protein || 0, karb: t.karb || 0, yag: t.yag || 0, lif: t.lif || 0 };
+    return Object.assign({ tur: 'serbest', ad: t.ad, tarif_id: t.id, baz, alerjenler: t.alerjenler || [], malzemeler: t.malzemeler || [] }, PB.tarifOlcekle({ baz }, m));
+  };
   PB.kalemAd = (k) => { if (k.ad) return k.ad; const c = PB.katalog(k); return c ? c.ad : k.slug; };
   /* Kalem miktarı demo sözleşmesiyle aynı: besin gram, tarif porsiyon. Besin değeri 100 g başınadır. */
   PB.besinSec = () => PB.besinler.filter((b) => b.kcal != null);
@@ -114,8 +129,9 @@
   };
   PB.kalemUyariK = (k, danisan) => {
     if (k.tur !== 'serbest') return PB.kalemUyari(k.tur, k.slug, danisan);
-    const metin = PB.kucuk(k.ad), kelime = metin.split(/[\s,]+/);
-    return ((danisan && danisan.hassasiyetler) || []).filter((h) => (SERBEST_ANAHTAR[h] || []).some((a) => (a.includes(' ') ? metin.includes(a) : a.length < 3 ? kelime.includes(a) : kelime.some((w) => w.startsWith(a)))));
+    /* Kayıtlı tarifte malzemeler de taranır, diyetisyenin işaretlediği etiket doğrudan sayılır */
+    const metin = PB.kucuk([k.ad].concat(k.malzemeler || []).join(' ')), kelime = metin.split(/[\s,()]+/);
+    return ((danisan && danisan.hassasiyetler) || []).filter((h) => (k.alerjenler || []).includes(h) || (SERBEST_ANAHTAR[h] || []).some((a) => (a.includes(' ') ? metin.includes(a) : a.length < 3 ? kelime.includes(a) : kelime.some((w) => w.startsWith(a)))));
   };
 
   /* Tahlil kuralı: her testin son sonucu referans aralığıyla karşılaştırılır, kalem işaretlemez, öneri notu üretir */
