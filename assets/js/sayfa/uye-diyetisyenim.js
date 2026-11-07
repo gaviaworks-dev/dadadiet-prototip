@@ -44,11 +44,10 @@
   const kunyeHtml = (l, sinif) => '<dl class="kunye' + (sinif ? ' ' + sinif : '') + '">' + l.map((x) => '<div><dt>' + x[0] + '</dt><dd>' + U.kac(x[1]) + '</dd></div>').join('') + '</dl>';
   const kartBas = (ikon, k, sag) => '<div class="kart-bas"><div><h3 class="kart-baslik"><i class="fa-solid ' + ikon + '" aria-hidden="true"></i> ' + U.kac(k.ad) + '</h3><p>' + U.kac((k.uzmanlik || []).join(' · ')) + '</p></div><div class="as-eylem">' + sag + '</div></div>';
   const profilBag = (k, metin) => '<a class="dugme hayalet" href="' + DD.kok + k.profil + '">' + metin + '</a>';
-  const kip = (k) => [k.online && 'Online', k.yuz_yuze && 'Yüz yüze'].filter(Boolean).join(' ve ');
   const aktifKart = (k) => {
     const y = yaklasan().find((r) => sahip(r).slug === k.slug);
     return '<div class="kart panel tam-kolon">' + kartBas('fa-id-card', k, '<span class="durum-hapi cozulen">Doğrulanmış</span>')
-      + '<div class="kart-govde">' + kunyeHtml([['Unvan', k.unvan], ['Deneyim', k.deneyim_yil + ' yıl'], ['Görüşme kipi', kip(k)], ['Şehir', k.sehir], ['Paket', k.paket ? k.paket.ad : 'Paket yok'], ['Sıradaki görüşme', y ? U.tarih(y.tarih) + ', ' + DD.bicim.saat(y.saat) : 'Planlı görüşme yok']], 'uc-sutun') + '</div>'
+      + '<div class="kart-govde">' + kunyeHtml([['Unvan', k.unvan], ['Paket', k.paket ? k.paket.ad : 'Paket yok'], ['Sıradaki görüşme', y ? U.tarih(y.tarih) + ', ' + DD.bicim.saat(y.saat) : 'Planlı görüşme yok']], 'uc-sutun') + '</div>'
       + '<div class="kart-alt eylem">' + profilBag(k, 'Profili gör') + '<button class="dugme hayalet" type="button" data-sohbet-git="' + k.slug + '"><i class="fa-solid fa-paper-plane" aria-hidden="true"></i> Mesaj gönder</button><button class="dugme birincil" type="button" data-randevu-al="' + k.slug + '"><i class="fa-solid fa-calendar-plus" aria-hidden="true"></i> Randevu oluştur</button></div></div>';
   };
   /* Geçmiş kart: yeni talep varsa düğme geri alma olur */
@@ -56,7 +55,7 @@
     const talep = k.randevular.find((r) => r.tarih >= b && U.rAcik(r));
     const gorusme = k.randevular.filter(gecen).length;
     return '<div class="kart panel soluk">' + kartBas('fa-user-clock', k, U.durum('kapali', 'Sona erdi'))
-      + '<div class="kart-govde">' + kunyeHtml([['Çalışma tarihi', aralik(k)], ['Görüşme', gorusme + ' görüşme']]) + '</div>'
+      + '<div class="kart-govde">' + kunyeHtml([['Çalışma tarihi', aralik(k)], ['Görüşme sayısı', String(gorusme)]]) + '</div>'
       + '<div class="kart-alt eylem">' + (talep ? '<span class="eylem-notu">Randevu talebin ' + U.tarih(talep.tarih) + ', ' + DD.bicim.saat(talep.saat) + ' için onay bekliyor.</span>' : '')
       + '<button class="dugme hayalet" type="button" data-sohbet-git="' + k.slug + '">Geçmiş mesajlar</button>' + profilBag(k, 'Profili gör')
       + (talep ? '<button class="dugme hayalet" type="button" data-randevu-geri="' + talep.id + '">Talebi geri al</button>' : '<button class="dugme birincil" type="button" data-randevu-al="' + k.slug + '"><i class="fa-solid fa-calendar-plus" aria-hidden="true"></i> Tekrar randevu al</button>') + '</div></div>';

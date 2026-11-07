@@ -2989,3 +2989,24 @@ html[data-oturum="1"] .head-bell{display:grid}
 /* Kişi tanıtım metni sola yaslı: Türkçe tireleme yokken iki yana yaslama geniş kelime boşluğu açıyor. */
 .duz-metin p{text-align:left;text-align-last:auto}
 .duz-metin p+p{margin-top:var(--bosluk-12)}
+
+/* ── hesabim-a · revize 7 Kasım ─────────────────────────────────────────── */
+/* Genel Bakış: kart başlıkları Gastro Hesabım gibi belirgin, ayraç başlığın altında */
+.baslik-belirgin .kart.panel>.kart-bas .kart-baslik{font-size:var(--rol-alt-baslik-boyut);font-weight:var(--agirlik-ekstra);line-height:var(--rol-baslik-satir)}
+.baslik-belirgin .kart.panel>.kart-bas{border-bottom-color:var(--cizgi-vurgu-acik)}
+.baslik-belirgin .ayar-satir .as-metin>b{font-size:var(--yazi-15);font-weight:var(--agirlik-ekstra)}
+
+/* Puan kartları: üç ve dört sütunlu ızgara; dört sütun tablette ikiye, ikisi de telefonda teke iner */
+.puan-izgara.uc{grid-template-columns:repeat(3,minmax(0,1fr))}
+.puan-izgara.dort{grid-template-columns:repeat(4,minmax(0,1fr))}
+.puan-sayi small{font-size:var(--yazi-13);font-weight:var(--agirlik-orta);letter-spacing:normal;color:var(--metin-ikincil)}
+.puan-karti>.olcer{margin-top:var(--bosluk-8)}
+.puan-karti>.puan-alt{margin-top:var(--bosluk-4)}
+@media(max-width:1024px){.puan-izgara.dort{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media(max-width:640px){.puan-izgara.uc,.puan-izgara.dort{grid-template-columns:minmax(0,1fr)}}
+
+/* Fatura defteri: bilgi kutusu ile süzgeç arası tek nefes */
+.kart.panel.odeme>.kart-govde:not(.bosluksuz):has(+.kart-suzgec){padding-bottom:0}
+.kart.panel.odeme>.kart-govde:has(+.kart-suzgec)>.uyari-kutu:last-child{margin-bottom:0}
+.kart.panel.odeme>.kart-govde+.kart-suzgec{padding-top:var(--bosluk-8)}
+@media(max-width:640px){.kimlik-bant~.fit-pane .kart-govde>.kunye.uc-sutun>div:last-child:nth-child(odd){grid-column:1/-1}}

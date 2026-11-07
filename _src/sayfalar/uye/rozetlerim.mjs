@@ -5,7 +5,7 @@ const sekmeler = [
   { id: 'koleksiyon', ad: 'Koleksiyon', ikon: 'fa-medal', govde: `<div class="yigin">
 ${bolumBas({ etiket: 'Kazandıkların', ikon: 'fa-medal', baslik: 'Rozet koleksiyonun', metin: 'Her rozet tek bir ölçülebilir kayıttan doğar. Kazandığın rozet geri alınmaz.' })}
 <div class="puan-izgara" id="rzOzet"></div>
-<div class="cipler" id="rzSuzgec" role="group" aria-label="Rozet ailesi" data-suzgec></div>
+<div class="cipler tek-satir" id="rzSuzgec" role="group" aria-label="Rozet ailesi" data-suzgec></div>
 <div id="rzAileler"></div>
 </div>` },
   { id: 'kademe', ad: 'Kademem', ikon: 'fa-stairs', govde: `<div class="yigin">
@@ -15,8 +15,8 @@ ${kart({ ikon: 'fa-list-ol', baslik: 'Nereden nereye', bosluksuz: true, govde: '
 </div>` },
   { id: 'puan', ad: 'Puan Defteri', ikon: 'fa-star', govde: `<div class="yigin">
 ${bolumBas({ etiket: 'Puan', ikon: 'fa-star', baslik: 'Puanın nereden geliyor?', metin: 'Puan ayrı bir sayaç değil: kazandığın rozetlerin puanlarının toplamı.' })}
-${kart({ ikon: 'fa-layer-group', baslik: 'Hangi aileden ne kadar', bosluksuz: true, govde: '<div class="ayar-liste" id="rzPuanAile"></div>' })}
-${kart({ ikon: 'fa-timeline', baslik: 'Ne zaman ne kazandın', bosluksuz: true, govde: '<div class="ayar-liste" id="rzPuanGecmis"></div>' })}
+${kart({ ikon: 'fa-layer-group', baslik: 'Hangi Aileden Ne Kadar', govde: '<div class="puan-izgara uc" id="rzPuanAile"></div>' })}
+${kart({ ikon: 'fa-timeline', baslik: 'Ne Zaman Ne Kazandın', govde: '<div class="puan-izgara dort" id="rzPuanGecmis"></div>' })}
 </div>` },
   { id: 'liderlik', ad: 'Liderlik', ikon: 'fa-ranking-star', govde: `<div class="yigin">
 ${bolumBas({ etiket: 'Liderlik', ikon: 'fa-ranking-star', baslik: 'Tek tablo, herkes aynı yerde', metin: 'Tabloda yalnız adını göstermeyi seçenler var. Görünürlüğünü Hesap Ayarları’ndan yönetirsin.' })}
@@ -32,7 +32,7 @@ export default () => {
   const p = uyeSayfa({
     yol: 'hesabim/rozetlerim', ad: 'Rozetlerim',
     giris: 'Kazandığın rozetler, topladığın puan, merdivendeki kademen ve sıran.',
-    grup: 'rz', sekmeler, js: ['assets/js/sayfa/uye-rozetlerim.js'],
+    grup: 'rz', sekmeler, js: ['assets/js/yatay-kaydir.js', 'assets/js/sayfa/uye-rozetlerim.js'],
     sonEk: `<script type="application/json" id="rzKatalog">${JSON.stringify({ aileler, kademeler }).replace(/</g, '\\u003c')}</script>`,
   });
   return [p];

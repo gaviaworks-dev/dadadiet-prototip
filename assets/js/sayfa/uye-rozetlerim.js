@@ -29,6 +29,8 @@
     const listele = (a) => (suzgec === 'kazanilan' ? a.rozetler.filter((r) => kazanilan[r.ad]) : a.rozetler);
     U.bas('#rzAileler', secili.map((a) => '<div class="rozet-ailesi"><div class="rozet-aile-bas"><h3><i class="fa-solid ' + a.ikon + '" aria-hidden="true"></i> ' + U.kac(a.ad) + '</h3><span class="rozet-aile-sayi">' + sayi(a) + ' / ' + a.rozetler.length + '</span></div><p class="rozet-aile-not">' + U.kac(a.not) + '</p><div class="rozet-izgara">' + listele(a).map(kart).join('') + '</div></div>').join('') || U.bos({ ikon: 'fa-medal', baslik: 'Henüz rozetin yok', metin: 'İlk öğününü işaretlediğinde koleksiyonun başlar.', eylem: U.bag('Günlük takibe git', 'hesabim/gunluk-takibim/') }));
   }
+  /* Seçili çip tek satırlı süzgeçte görünür alana gelir */
+  const ortala = () => { const k = $('#rzSuzgec'), c = k.querySelector('.cip.aktif'); if (c) k.scrollTo({ left: c.offsetLeft - k.offsetLeft - (k.clientWidth - c.offsetWidth) / 2, behavior: 'smooth' }); };
   function kademe() {
     $('#rzKademe').textContent = 'Şu anki kademen: ' + suanki[0];
     $('#rzSonraki').textContent = sonraki ? 'Sıradaki basamak ' + sonraki[0] + ': ' + Math.max(0, sonraki[1] - puan) + ' puan, ' + Math.max(0, sonraki[2] - gun) + ' gün ve ' + Math.max(0, sonraki[3] - hedef) + ' hedef kaldı.' : 'En üst basamaktasın.';
@@ -37,8 +39,14 @@
     U.bas('#rzMerdiven', kademeler.map((k) => '<div class="ayar-satir"><span class="as-ikon"><i class="fa-solid ' + (k === suanki ? 'fa-location-dot' : kademeler.indexOf(k) < kademeler.indexOf(suanki) ? 'fa-check' : 'fa-lock') + '" aria-hidden="true"></i></span><div class="as-metin"><b>' + k[0] + '</b><span>' + U.sayi(k[1]) + ' puan · ' + k[2] + ' gün · ' + k[3] + ' hedef</span></div>' + (k === suanki ? '<span class="as-eylem">' + U.durum('cozulen', 'Buradasın') + '</span>' : '') + '</div>').join(''));
   }
   function defter() {
-    U.bas('#rzPuanAile', aileler.map((a) => { const t = a.rozetler.filter((r) => kazanilan[r.ad]).reduce((s, r) => s + r.puan, 0), m = a.rozetler.reduce((s, r) => s + r.puan, 0); return '<div class="ayar-satir"><span class="as-ikon"><i class="fa-solid ' + a.ikon + '" aria-hidden="true"></i></span><div class="as-metin"><b>' + U.kac(a.ad) + '</b><span>' + a.rozetler.filter((r) => kazanilan[r.ad]).length + ' / ' + a.rozetler.length + ' rozet · ailenin tamamı ' + U.sayi(m) + ' puan</span></div><span class="as-eylem"><b>' + t + '</b></span></div>'; }).join(''));
-    U.bas('#rzPuanGecmis', (u.rozetler || []).slice().sort((a, b) => b.tarih.localeCompare(a.tarih)).map((r) => { const c = hepsi.find((x) => x.ad === r.ad); return '<div class="ayar-satir"><span class="as-ikon"><i class="' + U.kac(r.ikon) + '" aria-hidden="true"></i></span><div class="as-metin"><b>' + U.kac(r.ad) + '</b><span>' + U.tarih(r.tarih) + ' · ' + U.kac(r.aciklama) + '</span></div><span class="as-eylem">' + U.durum('cozulen', '+' + (c ? c.puan : 0) + ' puan') + '</span></div>'; }).join(''));
+    U.bas('#rzPuanAile', aileler.map((a) => {
+      const l = a.rozetler.filter((r) => kazanilan[r.ad]), t = l.reduce((s, r) => s + r.puan, 0), m = a.rozetler.reduce((s, r) => s + r.puan, 0), oran = m ? Math.round((t / m) * 100) : 0;
+      return '<div class="puan-karti"><span class="puan-bas"><i class="fa-solid ' + a.ikon + '" aria-hidden="true"></i> ' + U.kac(a.ad) + '</span><b class="puan-sayi">' + U.sayi(t) + '<small> / ' + U.sayi(m) + ' puan</small></b><div class="olcer hap" role="img" aria-label="' + U.kac(a.ad) + ' ailesi: yüzde ' + oran + '"><span data-oran="' + oran + '"></span></div><span class="puan-alt">' + l.length + ' / ' + a.rozetler.length + ' rozet</span></div>';
+    }).join(''));
+    const liste = (u.rozetler || []).slice().sort((a, b) => b.tarih.localeCompare(a.tarih));
+    const gecmis = $('#rzPuanGecmis');
+    gecmis.classList.toggle('puan-izgara', !!liste.length);
+    U.bas(gecmis, liste.map((r) => { const c = hepsi.find((x) => x.ad === r.ad); return '<div class="puan-karti"><span class="puan-bas"><i class="' + U.kac(r.ikon) + '" aria-hidden="true"></i> ' + U.kac(r.ad) + '</span><b class="puan-sayi">+' + (c ? c.puan : 0) + '<small> puan</small></b><span class="puan-alt">' + U.tarih(r.tarih) + '</span><span class="puan-alt">' + U.kac(r.aciklama) + '</span></div>'; }).join('') || U.bos({ ikon: 'fa-star', baslik: 'Henüz puanın yok', metin: 'İlk rozetini kazandığında burada görünür.' }));
   }
   function liderlik() {
     const ayar = (U.yerel('ayarlar', {}).gorunurluk || {});
@@ -49,7 +57,7 @@
       : U.bos({ ikon: 'fa-eye-slash', baslik: 'Adın tabloda görünmüyor', metin: 'Sıralamaya katılmak için görünürlüğünü aç.', eylem: U.bag('Hesap Ayarları', 'hesabim/ayarlar/') }));
     U.bas('#rzMeydan', U.bos({ ikon: 'fa-trophy', baslik: 'Şu an açık meydan okuma yok', metin: 'Yeni meydan okumalar açıldığında burada görünür.', eylem: U.bag('Günlük takibe dön', 'hesabim/gunluk-takibim/', 'hayalet') }));
   }
-  document.addEventListener('dd:suzgec', (e) => { if (e.target.id === 'rzSuzgec') { suzgec = e.detail.deger; koleksiyon(); } });
+  document.addEventListener('dd:suzgec', (e) => { if (e.target.id === 'rzSuzgec') { suzgec = e.detail.deger; koleksiyon(); ortala(); } });
   document.addEventListener('click', (e) => {
     const r = e.target.closest('.rozet-karti');
     if (!r) return;
