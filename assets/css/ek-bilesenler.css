@@ -3368,7 +3368,7 @@ html:has(#pageMain .modal-ortu:not([hidden]),#pageMain .sheet-ortu:not([hidden])
 .tahlil-eski>.referans-kaynak{margin-top:var(--bosluk-12)}
 
 /* Ayar satırının altında açıklama paragrafı (hatırlatma ayarının ne yaptığı) */
-.ayar-aciklama{margin:0;padding:0 var(--bosluk-24) var(--bosluk-16);font-size:var(--yazi-12);line-height:var(--satir-sik);color:var(--murekkep-yumusak)}
+.ayar-aciklama{margin:0;text-align:left;padding:0 var(--bosluk-24) var(--bosluk-16);font-size:var(--yazi-12);line-height:var(--satir-sik);color:var(--murekkep-yumusak)}
 /* Varsayılan referans tablosu satırındaki kaynak ve tarih */
 .as-metin .referans-kaynak-satir{display:block;margin-top:var(--bosluk-4);font-size:var(--yazi-12);color:var(--murekkep-yumusak)}
 .kart-govde>.belge-not:only-child{margin-bottom:0}

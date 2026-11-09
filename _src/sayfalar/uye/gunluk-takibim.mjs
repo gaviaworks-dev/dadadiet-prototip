@@ -1,4 +1,7 @@
-import { uyeSayfa, bolumBas, kart, dugme, modal, tablo, alan, secim } from '../../parcalar/uye/ust.mjs';
+import { uyeSayfa, bolumBas, kart, dugme, modal, tablo, alan, secim, anahtar } from '../../parcalar/uye/ust.mjs';
+
+// Sessiz saat seçicisi Tercihlerim'deki ile aynı: tam saatler, değer 23:00, görünen 23.00
+const saatSecim = (id, etiket) => `<select class="alan-secim" id="${id}" aria-label="${etiket}">${Array.from({ length: 24 }, (_, i) => String(i).padStart(2, '0')).map((x) => `<option value="${x}:00">${x}.00</option>`).join('')}</select>`;
 
 const sekmeler = [
   { id: 'ogun', ad: 'Bugün', ikon: 'fa-utensils', govde: `<div class="yigin">
@@ -10,6 +13,7 @@ ${kart({ ikon: 'fa-clipboard-list', baslik: 'Günün Kaydı', metin: '<span id="
   { id: 'su', ad: 'Su', ikon: 'fa-droplet', govde: `<div class="yigin">
 ${bolumBas({ etiket: 'Bugün', ikon: 'fa-droplet', baslik: 'Su Takibin', metin: 'Her bardağı ekle; haftalık grafiğin buna göre güncellenir.', arac: dugme('Su ihtiyacını hesapla', { href: 'hesaplayicilar/' }) })}
 <div class="iki-kolon esit">${kart({ ikon: 'fa-droplet', baslik: 'Bugünkü Su Alımın', sag: `<div class="as-eylem">${dugme('Kayıtlar', { sinif: 'hayalet kucuk', ek: ' data-sekme-git="ozet"' })}</div>`, govde: '<div class="su-kart"><div class="su-sayi"><b id="gtSuDeger"></b><small id="gtSuOlcu"></small></div><p class="su-kalan" id="gtSuKalan" aria-live="polite"></p><div class="su-bardaklar" id="gtSuBardaklar" role="group"></div></div>', alt: dugme('Geri al', { ek: ' id="gtSuGeri" data-su="geri" disabled' }) + dugme('+500 ml', { ek: ' data-su="500"' }) + dugme('1 su bardağı (200 ml)', { sinif: 'birincil', ek: ' id="gtSuBardak" data-su="bardak"' }) })}${kart({ ikon: 'fa-chart-line', baslik: 'Son 7 Gün', metin: 'Kesik çizgi günlük hedefin: <span id="gtSuHedef"></span>.', govde: '<div id="gtSuGrafik"></div>' })}</div>
+${kart({ ikon: 'fa-bell', baslik: 'Su Hatırlatması', metin: 'Aynı ayar Tercihlerim’de de durur; birini değiştirince öteki de değişir.', bosluksuz: true, govde: `<div class="ayar-satir sarmali"><span class="as-ikon"><i class="fa-solid fa-clock" aria-hidden="true"></i></span><div class="as-metin"><b>Saat başı hatırlat</b><span id="gtHatirlatMetin" aria-live="polite"></span></div><div class="as-eylem"><div class="saat-aralik">${saatSecim('gtSessizBas', 'Sessiz saatlerin başlangıcı')}<span aria-hidden="true">–</span>${saatSecim('gtSessizBit', 'Sessiz saatlerin bitişi')}</div>${anahtar('gt_su_hatirlatma', 'Saat başı su hatırlatması', false, ' id="gtHatirlatma"')}</div></div><p class="ayar-aciklama"><b>Prototip:</b> bu sayfa bildirim göndermez; ayarın bu tarayıcıda kaydedilir. Uygulamada sessiz saatler dışında, günlük hedefine ulaşana kadar saat başı bildirim gelir.</p>` })}
 </div>` },
   { id: 'makro', ad: 'Enerji ve Makro', ikon: 'fa-chart-pie', govde: `<div class="yigin">
 ${bolumBas({ etiket: 'Bugün', ikon: 'fa-chart-pie', baslik: 'Enerji ve Makro Dengen', metin: 'İşaretlediğin öğünler ve eklediğin besinler günlük hedefinle karşılaştırılır.' })}

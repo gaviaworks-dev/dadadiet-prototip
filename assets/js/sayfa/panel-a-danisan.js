@@ -122,8 +122,8 @@
     };
     const say = (ton) => gunler.filter((g) => { const k = kayit(g); return k && (HIS[k.his] || [])[1] === ton; }).length;
     const net = say('belirgin'), sakin = say('uyari');
-    const uyari = net ? `<div class="uyari-kutu hata" role="alert"><i class="fa-solid fa-triangle-exclamation" aria-hidden="true"></i><span><b>${net} gün baş dönmesi ya da çarpıntı.</b> ${h(ilk)} kendi ekranında "Diyete devam etme, bir hekime başvur." uyarısını gördü.</span></div>`
-      : sakin ? `<div class="uyari-kutu"><i class="fa-solid fa-circle-info" aria-hidden="true"></i><span><b>${sakin} gün yorgun, bitkin ya da halsiz.</b> ${h(ilk)} kendi ekranında diyete ara verip diyetisyenine ya da hekimine danışma önerisini gördü.</span></div>` : '';
+    const uyari = net ? `<div class="uyari-kutu hata" role="alert"><i class="fa-solid fa-triangle-exclamation" aria-hidden="true"></i><span><b>${net} gün baş dönmesi ya da çarpıntı.</b> Danışan ekranında "Diyete devam etme, bir hekime başvur." uyarısı gösterildi.</span></div>`
+      : sakin ? `<div class="uyari-kutu"><i class="fa-solid fa-circle-info" aria-hidden="true"></i><span><b>${sakin} gün yorgun, bitkin ya da halsiz.</b> Danışan ekranında "Diyete ara ver; diyetisyenine ya da hekimine danış." uyarısı gösterildi.</span></div>` : '';
     return `<div class="kart panel">${bas(`Son 7 gün, ${dolu} kayıt`)}<div class="kart-govde"><div class="yigin sik"><div class="gun-seri-kap"><ol class="gun-seri" aria-label="Son 7 günün his kayıtları">${gunler.map(gun).join('')}</ol></div>${uyari}</div></div></div>`;
   }
   function ozetCiz() {
