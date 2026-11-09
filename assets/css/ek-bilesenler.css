@@ -3601,4 +3601,13 @@ a.rk-gunun-sponsoru.rk-slot{max-width:100%;height:auto;min-height:38px;padding-b
 .kart-govde>.rk-rectangle{max-width:360px}
 /* Liste ızgarasında tam satır şerit (TL-T1, KT-T1; canlı .rk-liste-sira) */
 .kart-izgara>.rk-liste-sira{grid-column:1/-1;min-width:0}
+/* Marka imzası (seçki ve marka profili kartları, canlı .r-author marka satırı): amblem + marka adı */
+.marka-imza{display:inline-flex;align-items:center;gap:var(--bosluk-6);min-width:0;max-width:100%;font-size:var(--yazi-12-5);font-weight:var(--agirlik-kalin);color:var(--murekkep)}
+.marka-imza img{flex:none;width:24px;height:24px;border-radius:var(--yuvarlak-daire);background:var(--rk-marka,var(--aksan-koyu))}
+/* Marka kimliği (seçki bandı): logo beyaz yüzeyde + Sponsorlu rozeti */
+.marka-kimlik{display:inline-flex;align-items:center;gap:var(--bosluk-8)}
+.marka-kimlik img{display:block;height:40px;width:auto;max-width:184px;padding:var(--bosluk-6) var(--bosluk-12);background:var(--kagit);border-radius:var(--yuvarlak-md);object-fit:contain}
+/* Marka profili: avatar yerine amblem */
+.kimlik-avatar.marka-avatar{display:grid;place-items:center;overflow:hidden;background:var(--rk-marka,var(--aksan-koyu))}
+.kimlik-avatar.marka-avatar img{width:100%;height:100%;object-fit:contain}
 /* tarif-son */

@@ -3494,10 +3494,10 @@
    "kademe": "1",
    "katalog": "marka-profil.sayfa",
    "aciklama": "Marka profili /markalar/{m} · sayfa sponsorluğu",
-   "yol": null,
-   "bolum": "",
-   "durum": "yok",
-   "gerekce": "Marka profili sayfası (/markalar/{marka}) prototipte yok; canlıda da misafire kapalı",
+   "yol": "markalar/ornek-glutensiz",
+   "bolum": "sayfanın tamamı: kapak, amblem, tanıtım, sayaçlar ve Tarifler sekmesi (örnek sayfa, kurgu marka)",
+   "durum": "yerlesik",
+   "gerekce": "",
    "sekme": "marka"
   },
   {
@@ -3519,10 +3519,10 @@
    "kademe": "1",
    "katalog": "marka-profil.takip",
    "aciklama": "Marka profili /markalar/{m} · marka takip düğmesi",
-   "yol": null,
-   "bolum": "",
-   "durum": "yok",
-   "gerekce": "Marka profili sayfası (/markalar/{marka}) prototipte yok; canlıda da misafire kapalı",
+   "yol": "markalar/ornek-glutensiz",
+   "bolum": "kimlik kartında \"Takip Et\" düğmesi; misafir giriş sayfasına gider, üyede demo takip",
+   "durum": "yerlesik",
+   "gerekce": "",
    "sekme": "marka"
   },
   {
@@ -3544,10 +3544,10 @@
    "kademe": "1",
    "katalog": "secki.sayfa",
    "aciklama": "Seçki /tarifler/seckiler/{s} · Sağlıklı Tarifler marka seçkisi",
-   "yol": null,
-   "bolum": "",
-   "durum": "yok",
-   "gerekce": "Seçki sayfası bir tarif listesidir; Sağlıklı Tarifler prototipten kaldırıldı (K13.2)",
+   "yol": "tarifler/seckiler/ornek-glutensiz-ile-glutensiz-sofralar",
+   "bolum": "sayfanın tamamı: marka renginde bant, marka kimliği ve marka imzalı tarif listesi (örnek sayfa, kurgu marka)",
+   "durum": "yerlesik",
+   "gerekce": "",
    "sekme": "marka"
   },
   {

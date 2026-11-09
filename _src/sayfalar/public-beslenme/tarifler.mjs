@@ -21,15 +21,15 @@ export const REKLAM_KATEGORI = 'kahvaltilik';
 const etiketler = (t) => ETIKET.filter(([ad]) => t.etiketler.includes(ad));
 const bant_ = (a, l) => (l.find(([, , f]) => f(a)) || [''])[0];
 
-function birlestir(veri) {
+export function birlestir(veri) {
   const D = veri['tarif-detay'].tarifler;
   return veri.tarifler.tarifler.map((t) => ({ ...t, d: D[t.slug] })).filter((t) => t.d);
 }
 const kategoriler = (t) => [t.d.kategori, ...t.d.kategoriler.filter((k) => k.slug !== t.d.kategori.slug)];
 
-const tarifKart = (t) => gorselKart({
+export const tarifKart = (t, imza = '') => gorselKart({
   href: `tarif/${t.slug}/`, gorsel: icerik(t.gorsel_dosya), rozet: kac(t.d.kategori.ad), altRozet: bicim.kcal(t.kcal), baslik: kac(t.ad), metin: kac(t.ozet),
-  etiketler: etiketler(t).map(([ad, , i]) => `<span class="rozet olumlu ikonlu">${ikon(i)} ${ad}</span>`).join(''),
+  etiketler: imza + etiketler(t).map(([ad, , i]) => `<span class="rozet olumlu ikonlu">${ikon(i)} ${ad}</span>`).join(''),
   not: `${t.sure} dk · ${t.zorluk} · ${t.porsiyon} kişilik`, git: 'Tarife Git', sinif: 'buyuk',
   veri: ` data-kart data-kategori="${kategoriler(t).map((k) => k.slug).join('|')}" data-ogun="${t.ogunler.join('|')}" data-etiket="${etiketler(t).map(([, s]) => s).join('|')}" data-zorluk="${t.zorluk.toLocaleLowerCase('tr')}" data-sure="${bant_(t.sure, SURE)}" data-kalori="${bant_(t.kcal, KALORI)}" data-ara="${araMetni(t.ad, t.d.kategori.ad, t.ozet, t.malzemeler.join(' '))}"`,
 });
@@ -38,7 +38,7 @@ const secim = (id, etiket, alan, tumu, kalemler) => `<div class="alan"><label cl
 const say = (l, f) => l.filter(f).length;
 
 /* Liste gövdesi: canlı dizin-govde sırası. on: reklam öneki (TL ya da KT) */
-function dizin(l, on, { kategoriCip = true, tumuSayi } = {}) {
+export function dizin(l, on, { kategoriCip = true, tumuSayi, imza = '', not } = {}) {
   const kats = new Map();
   l.forEach((t) => kategoriler(t).forEach((k) => kats.set(k.slug, { ...k, sayi: (kats.get(k.slug)?.sayi || 0) + 1 })));
   const katCip = [...kats.values()].sort((a, b) => b.sayi - a.sayi || a.ad.localeCompare(b.ad, 'tr'));
@@ -53,9 +53,9 @@ ${secim(`${id}Kalori`, 'Kalori (porsiyon)', 'kalori', 'Tüm kaloriler', KALORI.m
 </div>${r(`${on}-FILTER`, { tur: 'filtre' })}
 ${kategoriCip ? `<div class="tarif-tema">${cipler('kategori', 'Tarif kategorisi', [{ ad: 'Tümü', deger: '', sayi: tumuSayi ?? l.length }, ...katCip.map((k) => ({ ad: k.ad, deger: k.slug, sayi: k.sayi }))])}${on === 'TL' ? rk('TL-THEME', { tur: 'tema', hedef: '.tarif-tema .cipler', sira: 2 }) : ''}</div>` : ''}`;
   const ara = (n, kod, o) => (l.length >= n ? r(kod, o) : '');
-  const kartlar = l.map(tarifKart).join('') + r(`${on}-M1`, { tur: 'sonuc', sira: 2 }) + ara(7, `${on}-M2`, { tur: 'sonuc', sira: 9 }) + ara(10, `${on}-T1`, { tur: 'liste-sira', sira: 13 });
+  const kartlar = l.map((t) => tarifKart(t, imza)).join('') + r(`${on}-M1`, { tur: 'sonuc', sira: 2 }) + ara(7, `${on}-M2`, { tur: 'sonuc', sira: 9 }) + ara(10, `${on}-T1`, { tur: 'liste-sira', sira: 13 });
   const kopru = on === 'TL' ? rk('TL-BRIDGE', { tur: 'sar', kap: false }) + rk('tarif-liste.dolap-koprusu', { tur: 'sar', kap: false }) : '';
-  return liste({ toplam: tumuSayi ?? l.length, birim: 'tariften', ust, ustNot: kopru, kartlar, bosMetin: 'Bu süzgeçlere uyan tarif yok. Bir süzgeci kaldırmayı dene.', altNot: `${r(`${on}-B1`, { tur: 'sar', kap: false })}<p class="alan-yardim"><span>${ORNEK_NOT(tumuSayi ?? l.length)}</span></p>` });
+  return liste({ toplam: tumuSayi ?? l.length, birim: 'tariften', ust, ustNot: kopru, kartlar, bosMetin: 'Bu süzgeçlere uyan tarif yok. Bir süzgeci kaldırmayı dene.', altNot: `${r(`${on}-B1`, { tur: 'sar', kap: false })}<p class="alan-yardim"><span>${not ?? ORNEK_NOT(tumuSayi ?? l.length)}</span></p>` });
 }
 
 function tarifler(veri, l) {
@@ -121,7 +121,7 @@ ${rk('TD-CART')}
 ${kunyeKart('Tarif Künyesi', [['Hazırlık + Pişirme', `${t.hazirlik_dk} dk + ${t.pisirme_dk} dk`], ['Zorluk', t.zorluk], ['Kategori', kategoriler(t).map((k) => `<a href="${K}tarifler/kategori/${k.slug}/">${kac(k.ad)}</a>`).join(', ')], ['Beslenme etiketleri', etiketler(t).map(([a]) => a).join(', ') || 'Yok'], ['Yayın', `${kac(d.yayin || '')} · editör onayıyla`]], `${paylas}<button class="dugme hayalet kucuk tam-en" type="button" disabled>${ikon('fa-calendar-plus')} Programına ekle · Yakında</button>`)}
 ${rk('TD-BYLINE')}${rk('TD-SB1')}${rk('TD-SB2')}
 </aside>`;
-  const benzer = benzerler(t, l).map(tarifKart).join('') + rk('TD-SIM', { tur: 'sonuc', sira: 3 });
+  const benzer = benzerler(t, l).map((x) => tarifKart(x)).join('') + rk('TD-SIM', { tur: 'sonuc', sira: 3 });
   const prog = d.programlar.filter((p) => P.has(p.slug)).map((p) => gorselKart({ href: DETAY.program, gorsel: `${K}assets/img/program/${p.slug}.webp`, rozet: 'Program', rozetIkon: 'fa-list-check', baslik: kac(P.get(p.slug).ad), metin: kac(P.get(p.slug).sure || ''), git: 'Programı İncele' })).join('');
   return sayfa(`tarif/${t.slug}`, t.ad,
     bant({ yol: [['Tarifler', 'tarifler/'], [kac(d.kategori.ad), `tarifler/kategori/${d.kategori.slug}/`], [kac(t.ad)]], etiket: kac(d.kategori.ad).toLocaleUpperCase('tr'), etiketIkon: 'fa-bowl-food', h1: kac(t.ad), alt: kac(t.ozet), gorsel: `assets/img/icerik/${t.gorsel_dosya}`, sayilar: [[bicim.kcal(t.kcal), 'porsiyon başı'], [`${t.sure} dk`, 'toplam süre'], [`${t.porsiyon} kişilik`, 'porsiyon']], eylem: `${etiketler(t).map(([a, , i]) => `<span class="rozet olumlu ikonlu">${ikon(i)} ${a}</span>`).join('')}${gastroUst}` })
