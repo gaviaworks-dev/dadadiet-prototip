@@ -16,6 +16,25 @@
   /* Yüklenen dosyanın kendisi yalnız bu oturumda bellekte durur; kayda ad, tür ve tarih yazılır */
   const dosyalar = new Map();
   const dosyaAnahtar = (ad, tarih) => ad + '|' + tarih;
+  /* Yüklenen dosya bu tarayıcının IndexedDB'sinde saklanır; yenilemeden sonra önizleme ve indirme çalışır.
+     Depo açılamazsa (gizli pencere, engelli site verisi) dosya yalnız bu oturumda kalır. */
+  const kasa = (() => {
+    let db;
+    const ac = () => db || (db = new Promise((ok, red) => {
+      try { const r = indexedDB.open('dd-saglik-belgeleri', 1); r.onupgradeneeded = () => r.result.createObjectStore('dosya'); r.onsuccess = () => ok(r.result); r.onerror = () => red(r.error); } catch (h) { red(h); }
+    }));
+    const is = (kip, f) => ac().then((v) => new Promise((ok, red) => { const t = v.transaction('dosya', kip); const s = f(t.objectStore('dosya')); t.oncomplete = () => ok(s && s.result); t.onerror = () => red(t.error); }));
+    return {
+      koy: (k, d) => is('readwrite', (s) => s.put({ dosya: d, tip: d.type }, k)).catch(() => false),
+      sil: (k) => is('readwrite', (s) => s.delete(k)).catch(() => false),
+      yukle: () => ac().then((v) => new Promise((ok) => {
+        const r = v.transaction('dosya').objectStore('dosya').openCursor();
+        r.onsuccess = () => { const c = r.result; if (!c) { ok(); return; } if (!dosyalar.has(c.key)) dosyalar.set(c.key, { url: URL.createObjectURL(c.value.dosya), tip: c.value.tip }); c.continue(); };
+        r.onerror = () => ok();
+      })).catch(() => {}),
+    };
+  })();
+  kasa.yukle();
   const tahlilListe = () => (dn.tahliller || []).slice().reverse();
   /* Yeni yüklenen belgenin değerleri henüz okunmamış olabilir; özet değer taşıyan son tahlile bakar */
   const degerli = () => tahlilListe().filter((t) => (t.degerler || []).length);
@@ -245,6 +264,7 @@
     const d = $('#bDosya').files[0], tur = e.target.elements.bTur.value;
     if (!d) return;
     dosyalar.set(dosyaAnahtar(d.name, b), { url: URL.createObjectURL(d), tip: d.type });
+    kasa.koy(dosyaAnahtar(d.name, b), d);
     if (tur === 'Tahlil') { dn.tahliller = dn.tahliller || []; dn.tahliller.push({ tarih: b, dosya_adi: d.name, degerler: [], yukleyen: 'uye' }); delete dn.tahlil_istegi; } else belgeler().push({ ad: d.name, tur, tarih: b });
     U.kaydet(); e.target.reset(); DD.kapat($('#sdBelgeModal')); ciz();
     DD.toast(tur === 'Tahlil' && !(dn.izinler || {}).tahlil ? 'Tahlilin yüklendi. Diyetisyenin görebilmesi için izin ver.' : 'Belgen yüklendi.');
@@ -256,7 +276,7 @@
     const ot = e.target.closest('[data-onizle-tahlil]');
     if (ot) { const t = (dn.tahliller || []).find((x) => x.dosya_adi === ot.dataset.onizleTahlil); if (t) onizle({ ad: t.dosya_adi, tur: 'Tahlil', tarih: t.tarih }); return; }
     const s = e.target.closest('[data-belge-sil]');
-    if (s) { belgeler().splice(Number(s.dataset.belgeSil), 1); U.kaydet(); belge(); ozet(); DD.toast('Belge kaldırıldı.', 'uyari'); return; }
+    if (s) { const x = belgeler().splice(Number(s.dataset.belgeSil), 1)[0]; if (x) { const k = dosyaAnahtar(x.ad, x.tarih); kasa.sil(k); dosyalar.delete(k); } U.kaydet(); belge(); ozet(); DD.toast('Belge kaldırıldı.', 'uyari'); return; }
     const yz = e.target.closest('[data-yazdir]');
     if (yz) { DD.yazdir(yz.closest('.ayar-satir'), 'Gelişim Raporu'); return; }
     const m = e.target.closest('[data-metrik]');
