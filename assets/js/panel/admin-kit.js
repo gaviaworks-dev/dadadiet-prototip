@@ -3510,7 +3510,8 @@
   /* Gastro, 2026-09-28 (Beyar onayıyla kanonda bilinçli istisna; aynı satır ~/Revenge/kanon
      kaynağına da eklenmeli): sekme · sıralama · sayfa · dil parametreleri süzgeç DEĞİLDİR.
      `?sekme=es_anlamli` satır metninde aranıp dolu listede "eşleşen kayıt yok" diyordu. */
-  var SUZGEC_DISI = ['id', 'kas', 'c', 'slug', 'h', 'test', 'kod', 'kayit', 'sekme', 'sirala', 'yon', 'sayfa', 'dil'];
+  /* `bayrak`: prototip özellik bayrağı (assets/js/bayrak.js, ?bayrak=ad|hepsi), süzgeç değildir. */
+  var SUZGEC_DISI = ['id', 'kas', 'c', 'slug', 'h', 'test', 'kod', 'kayit', 'sekme', 'sirala', 'yon', 'sayfa', 'dil', 'bayrak'];
 
   function adrestenSuzgec() {
     var cubuk = document.querySelector('.suzgec-cubuk');
