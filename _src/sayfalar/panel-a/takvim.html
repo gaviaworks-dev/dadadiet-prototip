@@ -1,4 +1,4 @@
-<!--{"baslik":"Takvim & Randevular","yol":"diyetisyen-paneli/takvim","duzen":"panel","aktif":"takvim","js":["assets/js/sayfa/panel-a-ortak.js","assets/js/sayfa/panel-b-durum.js","assets/js/sayfa/panel-a-randevu.js","assets/js/sayfa/panel-a-takvim.js"]}-->
+<!--{"baslik":"Takvim & Randevular","yol":"diyetisyen-paneli/takvim","duzen":"panel","aktif":"takvim","js":["assets/js/bayrak.js","assets/js/sayfa/panel-a-ortak.js","assets/js/sayfa/panel-b-durum.js","assets/js/sayfa/panel-a-randevu.js","assets/js/sayfa/panel-a-takvim.js"]}-->
 <div class="panel-bas">
   <div><h1>Takvim &amp; Randevular</h1><p id="takvimOzet"></p></div>
   <div class="eylem-satiri">
@@ -6,7 +6,7 @@
     <button class="dugme birincil" type="button" data-randevu-ac><i class="fa-solid fa-plus" aria-hidden="true"></i> Randevu oluştur</button>
   </div>
 </div>
-<div class="uyari-kutu uyari" id="sonucUyari" hidden></div>
+<div class="uyari-kutu uyari" id="sonucUyari" data-bayrak="randevu-sonuc-bekliyor" hidden></div>
 <div class="kart panel" id="kuyrukKart" hidden>
   <div class="kart-bas"><div><h2 class="kart-baslik"><i class="fa-solid fa-inbox" aria-hidden="true"></i> Onay ve Talepler</h2><p id="kuyrukSayi"></p></div><button class="dugme hayalet kucuk" type="button" id="kuyrukTum" hidden></button></div>
   <div class="kart-govde"><div class="ayar-liste sarar" id="kuyrukListe"></div></div>
@@ -27,7 +27,7 @@
   <div class="takvim-kap"><div class="takvim-izgara" id="takvimIzgara"></div></div>
   <div class="takvim-lejant" aria-label="Durum lejantı">
     <span class="lejant-kalem dolu">Dolu</span>
-    <span class="lejant-kalem sonuc-bekliyor">Sonuç bekliyor</span>
+    <span class="lejant-kalem sonuc-bekliyor" data-bayrak="randevu-sonuc-bekliyor">Sonuç bekliyor</span>
     <span class="lejant-kalem onay-bekliyor">Onay bekliyor</span>
     <span class="lejant-kalem talepli">Talep var</span>
     <span class="lejant-kalem tamamlandi">Tamamlandı</span>

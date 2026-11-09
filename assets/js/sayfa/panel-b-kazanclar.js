@@ -32,7 +32,7 @@
   const talepler = () => { if (!k.odeme_talepleri) k.odeme_talepleri = []; return k.odeme_talepleri; };
   function bekleyenCiz() {
     const b = k.bekleyen_odeme, son = talepler()[0], sira = son ? ASAMA.findIndex((a) => a[0] === son.durum) : -1, acikTalep = son && son.durum !== 'odendi';
-    const sonucsuz = PB.liste('randevular').filter((r) => r.durum === 'sonuc-bekliyor').length;
+    const sonucsuz = PB.liste('randevular').filter((r) => (window.PA ? PA.rDurum(r) : r.durum) === 'sonuc-bekliyor').length;
     const iadeNet = k.son_islemler.filter((x) => x.durum === 'iade' && x.tarih >= PB.gunEkle(DD.bugun, -30)).reduce((t, x) => t + x.net, 0);
     $('#bekleyenGovde').innerHTML = '<div class="yigin sik"><div class="deger-liste">' +
       '<div class="deger-satir"><span>Bekleyen net</span><b>' + tl(b.tutar) + '</b></div>' +

@@ -65,6 +65,9 @@
     aktif: ['Aktif', 'cozulen'], 'yanit-bekliyor': ['Yanıt bekliyor', 'bekleyen'], talep: ['Yeni talep', 'acik'],
     bitti: ['Bitti', 'kapali'], reddedildi: ['Reddedildi', 'kapali'], davet: ['Davet gönderildi', 'acik'],
   };
+  /* Özellik bayrağı (assets/js/bayrak.js, _src/veri/bayraklar.json): yüklenmemişse kapalı. bayrakOz JS ile basılan öğeye öznitelik verir */
+  PA.bayrak = (ad) => !!(window.DD_BAYRAK && window.DD_BAYRAK.acik(ad));
+  PA.bayrakOz = (ad) => ' data-bayrak="' + ad + '"' + (PA.bayrak(ad) ? ' data-bayrak-acik' : '');
   PA.hap = (etiket, sinif) => '<span class="durum-hapi ' + sinif + '">' + PA.h(etiket) + '</span>';
   PA.danisanHap = (dn) => { const [e, s] = PA.durumlar[dn.durum] || [dn.durum, 'kapali']; return PA.hap(e, s); };
   PA.avatar = (ad) => '<span class="kisi-avatar" aria-hidden="true">' + PA.h(PA.harf(ad)) + '</span>';
@@ -194,8 +197,12 @@
     dolu: ['Planlandı', 'acik'], 'sonuc-bekliyor': ['Sonuç bekliyor', 'bekleyen'], tamamlandi: ['Tamamlandı', 'cozulen'],
     gelmedi: ['Gelmedi', 'hata'], iptal: ['İptal', 'kapali'], 'onay-bekliyor': ['Onay bekliyor', 'bekleyen'],
   };
-  /* Kayıtta `dolu` kalmış geçmiş randevu tamamlanmış sayılır; açıkça sonuç bekleyen ayrıdır */
-  PA.rDurum = (r) => (r.durum === 'dolu' && PA.rGecti(r) ? 'tamamlandi' : r.durum);
+  /* Kayıtta `dolu` kalmış geçmiş randevu tamamlanmış sayılır; açıkça sonuç bekleyen ayrıdır.
+     "Sonuç bekliyor" bayrakla kapalıyken (randevu-sonuc-bekliyor, pb-2) o kayıt da `dolu` gibi okunur. */
+  PA.rDurum = (r) => {
+    const d = r.durum === 'sonuc-bekliyor' && !PA.bayrak('randevu-sonuc-bekliyor') ? 'dolu' : r.durum;
+    return d === 'dolu' && PA.rGecti(r) ? 'tamamlandi' : d;
+  };
   const rKalem = (r) => R_ETIKET[PA.rDurum(r)] || R_ETIKET.dolu;
   PA.rEtiket = (r) => rKalem(r)[0];
   PA.rHap = (r) => { const [e, s] = rKalem(r); return PA.hap(e, s); };
@@ -313,7 +320,7 @@
     (d.danisanlar || []).filter((x) => x.durum === 'talep').forEach((x) => l.push({ id: 'n-' + x.id, tur: 'Danışan', ikon: 'fa-user-plus', baslik: x.ad + ' seninle çalışmak istiyor', metin: (x.talep_bilgi || {}).mesaj || 'Yeni danışan talebi.', zaman: ((x.talep_bilgi || {}).tarih || DD.bugun) + 'T08:40', git: PA.yol.danisan(x.id) }));
     (d.danisanlar || []).filter((x) => x.durum === 'yanit-bekliyor').forEach((x) => l.push({ id: 'y-' + x.id, tur: 'Danışan', ikon: 'fa-user-clock', baslik: x.ad + ' yanıtını bekliyor', metin: x.mesaj_ozeti || 'Danışanın senden yanıt bekliyor.', zaman: x.son_gorusme + 'T09:00', git: PA.yol.danisan(x.id) }));
     d.randevular.forEach((r) => {
-      if (r.durum === 'sonuc-bekliyor') l.push({ id: 's-' + r.id, tur: 'Randevu', ikon: 'fa-hourglass-half', baslik: ad(r.danisan_id) + ' görüşmesinin sonucu bekleniyor', metin: PA.tarih(r.tarih) + ' ' + DD.bicim.saat(r.saat) + ' görüşmesini Tamamlandı ya da Gelmedi olarak işaretle.', zaman: r.tarih + 'T' + r.saat, git: PA.yol.takvim + '?randevu=' + r.id });
+      if (PA.rDurum(r) === 'sonuc-bekliyor') l.push({ id: 's-' + r.id, tur: 'Randevu', ikon: 'fa-hourglass-half', baslik: ad(r.danisan_id) + ' görüşmesinin sonucu bekleniyor', metin: PA.tarih(r.tarih) + ' ' + DD.bicim.saat(r.saat) + ' görüşmesini Tamamlandı ya da Gelmedi olarak işaretle.', zaman: r.tarih + 'T' + r.saat, git: PA.yol.takvim + '?randevu=' + r.id });
       if (r.durum === 'iptal' && PA.gunFarki(r.tarih, DD.bugun) < 7 && !r.iptal_eden) l.push({ id: 'i-' + r.id, tur: 'Randevu', ikon: 'fa-calendar-xmark', baslik: ad(r.danisan_id) + ' randevuyu iptal etti', metin: PA.tarih(r.tarih) + ' ' + DD.bicim.saat(r.saat) + ' görüşmesi iptal edildi, saat yeniden açıldı.', zaman: (r.tarih > DD.bugun ? DD.bugun : r.tarih) + 'T08:00', git: PA.yol.takvim + '?randevu=' + r.id });
     });
     PA.bekleyenler().forEach((r) => {
