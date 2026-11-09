@@ -62,7 +62,8 @@
   PA.para = (n) => DD.bicim.para(n);
   PA.davetler = () => PA.d().davetler || (PA.d().davetler = []);
   PA.durumlar = {
-    aktif: ['Aktif', 'cozulen'], 'yanit-bekliyor': ['Yanıt bekliyor', 'bekleyen'], talep: ['Yeni talep', 'acik'],
+    /* Canlı ilişki durumları (pc-9): talep "Yanıt bekliyor"; mesajı yanıt bekleyen danışan etkin ilişkidir, Aktif görünür */
+    aktif: ['Aktif', 'cozulen'], 'yanit-bekliyor': ['Aktif', 'cozulen'], talep: ['Yanıt bekliyor', 'bekleyen'],
     bitti: ['Bitti', 'kapali'], reddedildi: ['Reddedildi', 'kapali'], davet: ['Davet gönderildi', 'acik'],
   };
   /* Özellik bayrağı (assets/js/bayrak.js, _src/veri/bayraklar.json): yüklenmemişse kapalı. bayrakOz JS ile basılan öğeye öznitelik verir */
@@ -348,7 +349,7 @@
   PA.kabukTazele = () => {
     rozet('diyetisyen-paneli/takvim/', PA.rBugun().length);
     rozet('diyetisyen-paneli/mesajlar/', PA.okunmamis());
-    rozet('diyetisyen-paneli/danisanlar/', PA.danisanlar().filter((x) => ['yanit-bekliyor', 'talep'].includes(x.durum)).length);
+    rozet('diyetisyen-paneli/danisanlar/', PA.danisanlar().filter((x) => x.durum === 'talep').length);
     const n = PA.bildirimler().filter((b) => !b.okundu).length;
     const zil = document.querySelector('.panel-ust-sag a.panel-ust-dugme');
     if (zil) {

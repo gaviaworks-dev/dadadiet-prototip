@@ -6,8 +6,11 @@
   const $ = (id) => document.getElementById(id);
   const v = { sekme: 'tumu', gorunum: 'tablo', kolon: {}, sayfa: Math.max(1, Number(PA.parametre('sayfa')) || 1), boyut: 8 };
   const BOYUTLAR = [8, 12, 24];
-  const SEKME_SUZ = { tumu: () => true, talep: (x) => x.durum === 'talep', aktif: (x) => x.durum === 'aktif', yanit: (x) => x.durum === 'yanit-bekliyor', bitti: (x) => ['bitti', 'reddedildi'].includes(x.durum) };
-  const ARA_YER = { tumu: 'Ad, e-posta ya da hedef ara', talep: 'Talep eden kişiyi ara', aktif: 'Aktif danışan ara', yanit: 'Yanıt bekleyen danışan ara', bitti: 'Biten danışan ara' };
+  /* Sekmeler canlı Danışanlarım ile aynı anlamda (pc-9, ES-DP-11/13): "Yanıt bekliyor" diyetisyenin yanıtını bekleyen ilişki talebidir.
+     Mesajı yanıt bekleyen danışan etkin ilişkidir, Aktif'te durur; eski ?sekme=yanit bağı Aktif'i açar. */
+  const ESKI_SEKME = { yanit: 'aktif' };
+  const SEKME_SUZ = { tumu: () => true, talep: (x) => x.durum === 'talep', aktif: (x) => ['aktif', 'yanit-bekliyor'].includes(x.durum), bitti: (x) => ['bitti', 'reddedildi'].includes(x.durum) };
+  const ARA_YER = { tumu: 'Ad, e-posta ya da hedef ara', talep: 'Talep eden kişiyi ara', aktif: 'Aktif danışan ara', bitti: 'Biten danışan ara' };
 
   const eposta = PA.eposta;
   /* Bayraklar (pb-4): danışan ekleme (davet) ve toplu işlem kapalıyken davet satırı ve seçim kolonu basılmaz */
@@ -96,7 +99,7 @@
     const tum = sirala(suzulmus()), hepsi = kayitlar();
     v.sayfa = Math.min(v.sayfa, Math.max(1, Math.ceil(tum.length / v.boyut)));
     const ilk = (v.sayfa - 1) * v.boyut, l = tum.slice(ilk, ilk + v.boyut);
-    const sayilar = { tumu: hepsi.length, talep: hepsi.filter(SEKME_SUZ.talep).length, aktif: hepsi.filter(SEKME_SUZ.aktif).length, yanit: hepsi.filter(SEKME_SUZ.yanit).length, bitti: hepsi.filter(SEKME_SUZ.bitti).length };
+    const sayilar = { tumu: hepsi.length, talep: hepsi.filter(SEKME_SUZ.talep).length, aktif: hepsi.filter(SEKME_SUZ.aktif).length, bitti: hepsi.filter(SEKME_SUZ.bitti).length };
     Object.keys(sayilar).forEach((k) => { document.querySelector('[data-sayi="' + k + '"]').textContent = sayilar[k]; });
     $('gorunenSayi').textContent = tum.length;
     $('toplamSayi').textContent = sayilar[v.sekme];
@@ -213,6 +216,6 @@
   function sekmeSecDisaridan(ad) { const t = $('s-' + ad); if (t) t.click(); }
   document.addEventListener('pa:degisti', ciz);
 
-  const ilk = PA.parametre('sekme');
+  const ilk = ESKI_SEKME[PA.parametre('sekme')] || PA.parametre('sekme');
   if (ilk && SEKME_SUZ[ilk]) sekmeSecDisaridan(ilk); else ciz();
 })();
