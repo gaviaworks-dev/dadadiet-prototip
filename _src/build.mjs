@@ -93,6 +93,16 @@ async function reklamBolumu(liste) {
 <div class="akordeon tablolu">${sayfalar}${kalem('Üye sayfaları', 'kanca bekliyor', uye, 'durum', 'fa-user')}${kalem('Prototipte yüzeyi olmayan alanlar', 'gerekçeli', yok, 'durum', 'fa-ban')}</div></div></div>`;
 }
 
+// Eski canlı adresleri (K1.7 slug değişiklikleri; doküman kıyası a-40, d-1): statik sitede 301 yerine meta yenileme + canonical.
+// Yeni sayfa zaten bu yolda üretildiyse yönlendirme yazılmaz. Laravel karşılığı tasks/yonlendirme.md.
+const YONLENDIRME = [['testler', 'saglik-testleri/'], ['beslenme', 'besin-rehberi/'], ['programini-bul', 'programlar/program-bul/'], ['diyetisyen-bul', 'diyetisyen-bul-sihirbazi/'], ['sayfa/diyetisyen-ol', 'diyetisyen-ol/'], ['sureye-gore', 'programlar/sureye-gore/'], ['ipuclari', 'ipuclari-ve-puf-noktalari/?tur=ipucu'], ['puflar', 'ipuclari-ve-puf-noktalari/?tur=puf']];
+if (!alan) for (const [eski, yeni] of YONLENDIRME) {
+  if (gorulen.has(eski)) continue;
+  const kok = '../'.repeat(eski.split('/').length);
+  fs.mkdirSync(path.join(KOK, eski), { recursive: true });
+  fs.writeFileSync(path.join(KOK, eski, 'index.html'), `<!doctype html>\n<html lang="tr">\n<head>\n<meta charset="utf-8">\n<meta name="viewport" content="width=device-width, initial-scale=1">\n<meta name="robots" content="noindex">\n<title>Sayfa taşındı · Dada Diet</title>\n<link rel="canonical" href="${kok}${yeni}">\n<meta http-equiv="refresh" content="0; url=${kok}${yeni}">\n</head>\n<body>\n<p>Bu sayfa taşındı: <a href="${kok}${yeni}">yeni adrese git</a>.</p>\n<script>location.replace(${JSON.stringify(kok + yeni)} + location.hash)</script>\n</body>\n</html>\n`);
+}
+
 // Ekran haritası: onay turu için tüm sayfaların gezilebilir listesi
 if (!alan) {
   const gruplar = [['Public', (u) => !u.yol.startsWith('hesabim') && !u.yol.startsWith('diyetisyen-paneli')], ['Üye hesabı', (u) => u.yol.startsWith('hesabim')], ['Diyetisyen paneli', (u) => u.yol.startsWith('diyetisyen-paneli')]];
