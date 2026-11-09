@@ -3364,3 +3364,5 @@ html:has(#pageMain .modal-ortu:not([hidden]),#pageMain .sheet-ortu:not([hidden])
 @media(max-width:640px){.head-actions .icon-btn.ikon-dugme{width:40px;height:40px;font-size:15px}}
 /* Çerez bandı açıkken sol alttaki Mentör de bandın üstünde durur (sağdakiler --kenar-engel ile zaten kalkıyor) */
 body.cerez-acik #dadaMentor{--mentor-dip:max(var(--mentor-taban),calc(var(--mentor-engel,0px) + var(--bosluk-12)),calc(var(--kenar-engel,0px) + var(--bosluk-12)))}
+/* Tam ekran düzende (Hoş geldin sihirbazı) footer yalnız genel bilgi uyarısını taşır */
+.footer.tam-uyari{position:static;padding:0;margin:0;min-height:0}
