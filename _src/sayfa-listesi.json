@@ -245,6 +245,36 @@
   "duzen": "public"
  },
  {
+  "yol": "diyetisyen/dyt-gizem-celik",
+  "baslik": "Dyt. Gizem Çelik",
+  "duzen": "public"
+ },
+ {
+  "yol": "diyetisyen/dyt-kerem-polat",
+  "baslik": "Dyt. Kerem Polat",
+  "duzen": "public"
+ },
+ {
+  "yol": "diyetisyen/dyt-mert-aydin",
+  "baslik": "Dyt. Mert Aydın",
+  "duzen": "public"
+ },
+ {
+  "yol": "diyetisyen/uzm-dyt-ayca-yildiz",
+  "baslik": "Uzm. Dyt. Ayça Yıldız",
+  "duzen": "public"
+ },
+ {
+  "yol": "diyetisyen/uzm-dyt-deniz-aksoy",
+  "baslik": "Uzm. Dyt. Deniz Aksoy",
+  "duzen": "public"
+ },
+ {
+  "yol": "diyetisyen/uzm-dyt-selin-korkmaz",
+  "baslik": "Uzm. Dyt. Selin Korkmaz",
+  "duzen": "public"
+ },
+ {
   "yol": "diyetisyenler",
   "baslik": "Diyetisyenler",
   "duzen": "public"
