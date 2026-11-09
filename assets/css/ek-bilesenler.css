@@ -3611,3 +3611,8 @@ a.rk-gunun-sponsoru.rk-slot{max-width:100%;height:auto;min-height:38px;padding-b
   #cookieBanner .cookie-actions{width:100%}
   #cookieBanner .cookie-actions button{flex:1}
 }
+
+/* ── uydur: özellik bayrakları (9 Kasım Tur 3, T1 GİZLE). Kapalı bayraklı öğe basılmaz; ?bayrak=ad ile bayrak.js data-bayrak-acik ekler.
+   Tek genel kural; iki kolonlu düzende kolonlardan biri bayrakla kapanınca kalan kart tek kolona yayılır. */
+[data-bayrak]:not([data-bayrak-acik]){display:none!important}
+.iki-kolon:has(>[data-bayrak]:not([data-bayrak-acik])){grid-template-columns:minmax(0,1fr)}
