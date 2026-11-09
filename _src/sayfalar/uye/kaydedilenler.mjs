@@ -1,4 +1,5 @@
 import { uyeSayfa, kart, tablo } from '../../parcalar/uye/ust.mjs';
+import { reklamYeri as rk } from '../../parcalar/reklam.mjs';
 
 export default ({ veri }) => {
   const katalog = {
@@ -8,7 +9,7 @@ export default ({ veri }) => {
     // Bana Uygun Olanı Bul önerisi: slug sihirbazdaki amaç; ad ve yol sihirbazın birincil rotasıyla aynı
     yonlendirmeler: { bilgi: ['Besin Rehberi önerisi', 'besin-rehberi/'], hesap: ['Günlük Kalori İhtiyacı önerisi', 'hesaplayici/gunluk-kalori/'], program: ['Program Bul önerisi', 'programlar/program-bul/'], uzman: ['Diyetisyen Bul önerisi', 'diyetisyen-bul-sihirbazi/'] },
   };
-  const govde = `<div class="yigin">
+  const govde = `<div class="yigin">${rk('DF-B1', { tur: 'bant', konum: 'alt' })}
 <div class="cipler" id="kdSuzgec" role="group" aria-label="İçerik türü" data-suzgec></div>
 ${kart({ ikon: 'fa-bookmark', baslik: 'Kaydettiklerin', bosluksuz: true, govde: tablo({ id: 'kdListe', etiket: 'Kaydedilen içerikler', basliklar: ['İçerik', ['Tür', 'dar-kolon'], ['Kaydedildi', 'dar-kolon'], ['İşlem', 'eylem-kolon']] }) })}
 </div>

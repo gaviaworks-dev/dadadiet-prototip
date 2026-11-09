@@ -371,7 +371,7 @@
    "aciklama": "Sağlıklı Tarif detayı · mağaza paneli",
    "yol": "hesabim/beslenme-planim",
    "bolum": "#bpAlisveris modal gövdesinin altı · paket adı \"Alışveriş listesi · Market panosu\" (K21.4)",
-   "durum": "uye",
+   "durum": "yerlesik",
    "gerekce": "",
    "sekme": "alisveris"
   },
@@ -1321,7 +1321,7 @@
    "aciklama": "Haftalık menüm · alışveriş listesi kenar partner kutusu 1",
    "yol": "hesabim/beslenme-planim",
    "bolum": "#bpAlisveris \"Haftanın Alışveriş Listesi\" modalında partner kutusu 1 (prototipte haftalik-menum liste içermiyor)",
-   "durum": "uye",
+   "durum": "yerlesik",
    "gerekce": "",
    "sekme": "alisveris"
   },
@@ -1346,7 +1346,7 @@
    "aciklama": "Haftalık menüm · alışveriş listesi kenar partner kutusu 2",
    "yol": "hesabim/beslenme-planim",
    "bolum": "#bpAlisveris \"Haftanın Alışveriş Listesi\" modalında partner kutusu 2 (prototipte haftalik-menum liste içermiyor)",
-   "durum": "uye",
+   "durum": "yerlesik",
    "gerekce": "",
    "sekme": "alisveris"
   },
@@ -1371,7 +1371,7 @@
    "aciklama": "Haftalık menüm · alışveriş listesi kenar partner kutusu 3",
    "yol": "hesabim/beslenme-planim",
    "bolum": "#bpAlisveris \"Haftanın Alışveriş Listesi\" modalında partner kutusu 3 (prototipte haftalik-menum liste içermiyor)",
-   "durum": "uye",
+   "durum": "yerlesik",
    "gerekce": "",
    "sekme": "alisveris"
   },
@@ -1421,7 +1421,7 @@
    "aciklama": "Haftalık menüm · alışveriş listesi kenar partner kutusu 4",
    "yol": "hesabim/beslenme-planim",
    "bolum": "#bpAlisveris \"Haftanın Alışveriş Listesi\" modalında partner kutusu 4 (prototipte haftalik-menum liste içermiyor)",
-   "durum": "uye",
+   "durum": "yerlesik",
    "gerekce": "",
    "sekme": "alisveris"
   },
@@ -1646,7 +1646,7 @@
    "aciklama": "Sağlıklı Tarif detayı · \"alışveriş listesine ekle\" sonrası partner düğmesi",
    "yol": "hesabim/beslenme-planim",
    "bolum": "\"Alışveriş listesi\" düğmesinin yanında partner düğmesi · paket adı \"Alışveriş listesi · Listeye ekleme partneri\" (K21.4)",
-   "durum": "uye",
+   "durum": "yerlesik",
    "gerekce": "",
    "sekme": "alisveris"
   },
@@ -2321,7 +2321,7 @@
    "aciklama": "Haftalık menüm · üst şerit",
    "yol": "hesabim/haftalik-menum",
    "bolum": "bant altı ilk bölümün üstü (üst şerit)",
-   "durum": "uye",
+   "durum": "yerlesik",
    "gerekce": "",
    "sekme": "hesap"
   },
@@ -2346,7 +2346,7 @@
    "aciklama": "Kaydedilenler (Hesabım) · üst şerit",
    "yol": "hesabim/kaydedilenler",
    "bolum": "bant altı ilk bölümün üstü (üst şerit)",
-   "durum": "uye",
+   "durum": "yerlesik",
    "gerekce": "",
    "sekme": "hesap"
   },
@@ -3396,7 +3396,7 @@
    "aciklama": "Sağlıklı Tarif detayı · \"Sipariş et\" bölümü 1. kanal",
    "yol": "hesabim/beslenme-planim",
    "bolum": "#bpAlisveris modalında 1. kanal satırı · paket adı \"Alışveriş listesi · Sipariş et 1\" (K21.4)",
-   "durum": "uye",
+   "durum": "yerlesik",
    "gerekce": "",
    "sekme": "alisveris"
   },
@@ -3471,7 +3471,7 @@
    "aciklama": "Sağlıklı Tarif detayı · \"Sipariş et\" bölümü 2. kanal",
    "yol": "hesabim/beslenme-planim",
    "bolum": "#bpAlisveris modalında 2. kanal satırı · paket adı \"Alışveriş listesi · Sipariş et 2\" (K21.4)",
-   "durum": "uye",
+   "durum": "yerlesik",
    "gerekce": "",
    "sekme": "alisveris"
   },
@@ -3721,7 +3721,7 @@
    "aciklama": "Sağlık dosyası · tahlil sonucu sonrası (klinik koridoru)",
    "yol": "hesabim/saglik-dosyam",
    "bolum": "\"Tahlil ve Raporların\" bölümünün ardı, dar koridor",
-   "durum": "uye",
+   "durum": "yerlesik",
    "gerekce": "",
    "sekme": "hesap"
   }

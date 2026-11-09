@@ -1,4 +1,5 @@
 import { uyeSayfa, bolumBas, kart, dugme, modal, tablo, alan, secim, bilgi } from '../../parcalar/uye/ust.mjs';
+import { reklamYeri as rk } from '../../parcalar/reklam.mjs';
 
 // Hedef seçenekleri Tercihlerim ve Hoş geldin sorularıyla aynı (assets/js/sayfa/moduller-soru.js SECENEK.hedef); biri değişirse öteki de değişir
 const HEDEFLER = [['kilo-vermek', 'Kilo vermek'], ['formu-korumak', 'Formumu korumak'], ['kas-kazanmak', 'Kas kazanmak'], ['sikilasmak', 'Sıkılaşmak'], ['oruc-aliskanligi', 'Aralıklı oruç alışkanlığı'], ['saglikli-yasam', 'Sağlıklı yaşam']];
@@ -32,6 +33,7 @@ ${kart({ ikon: 'fa-table-list', sinif: 'sik-tablo', baslik: 'Ölçüm Geçmişin
 </div>` },
   { id: 'tahlil', ad: 'Tahlillerim', ikon: 'fa-flask-vial', sayi: 'tahlil', govde: `<div class="yigin">
 ${bolumBas({ etiket: 'Tahlillerin', ikon: 'fa-flask-vial', baslik: 'Tahlil ve Raporların', metin: 'Yüklediğin tahlillerin değerleri referans aralığıyla karşılaştırılır. Yorum için diyetisyenine ya da hekimine danış.', arac: dugme('Yeni belge yükle', { sinif: 'birincil', ikon: 'fa-upload', ek: ' data-ac="#sdBelgeModal"' }) })}
+${rk('KL-TAHLIL', { tur: 'sar', kap: false })}
 <div id="sdTahlilIstek"></div>
 <div id="sdTahlilRiza"></div>
 <div id="sdIzinNot"></div>
