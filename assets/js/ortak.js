@@ -237,7 +237,7 @@
 (function () {
   const foot = document.querySelector('.footer.orange');
   if (!foot) return;
-  const uydur = () => document.documentElement.style.setProperty('--perde-boy', foot.offsetHeight + 'px');
+  const uydur = () => { document.documentElement.style.setProperty('--perde-boy', foot.offsetHeight + 'px'); document.documentElement.classList.add('perde-hazir'); };
   uydur();
   window.addEventListener('resize', uydur);
   if (window.ResizeObserver) new ResizeObserver(uydur).observe(foot);

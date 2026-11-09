@@ -196,7 +196,10 @@
 /* Footer perdesi: canlıdaki etki, ama footer akışta kalır (position:fixed içerik sonunu örtüyordu, programlarim 343 px).
    Yapışkan footer içeriğin arkasında bekler; ekrandan uzunsa üstü görünür kalsın diye ortak.js --perde-boy verir. */
 .footer.orange{position:static}
-@media(min-width:641px){.footer.orange{position:sticky;bottom:min(0px,calc(100vh - var(--perde-boy,0px)));z-index:1}}
+/* 9 Kasım T7: perde yalnız yükseklik ölçüldükten sonra açılır (html.perde-hazir, ortak.js); ölçüsüz ilk boyamada footer akışta durur,
+   bant zıplamaz. İçerik katmanı bir örtü yüzünden düşerse (html:has kuralı) footer içeriğin önüne geçmesin diye akışa döner. */
+@media(min-width:641px){html.perde-hazir .footer.orange{position:sticky;bottom:min(0px,calc(100vh - var(--perde-boy,0px)));z-index:1}}
+html:has(#pageMain .modal-ortu:not([hidden]),#pageMain .sheet-ortu:not([hidden]),#pageMain .yan-panel-ortu:not([hidden])) .footer.orange{position:static}
 /* Oturum durumu: başlıkta iki kip birlikte basılır, html[data-oturum] seçer */
 html[data-oturum="1"] .oturum-kapali{display:none!important}
 html:not([data-oturum="1"]) .oturum-acik{display:none!important}

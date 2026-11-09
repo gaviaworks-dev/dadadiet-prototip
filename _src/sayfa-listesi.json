@@ -420,6 +420,11 @@
   "duzen": "public"
  },
  {
+  "yol": "markalar/ornek-glutensiz",
+  "baslik": "Örnek Glütensiz Gıda · Marka Profili",
+  "duzen": "public"
+ },
+ {
   "yol": "onay/akilli-tabak",
   "baslik": "Akıllı Tabak Hesap Notları",
   "duzen": "public"
@@ -537,6 +542,296 @@
  {
   "yol": "sifremi-unuttum",
   "baslik": "Şifremi Unuttum",
+  "duzen": "public"
+ },
+ {
+  "yol": "tarif/cilbir",
+  "baslik": "Çılbır",
+  "duzen": "public"
+ },
+ {
+  "yol": "tarif/cilekli-donmus-yogurt",
+  "baslik": "Çilekli Donmuş Yoğurt",
+  "duzen": "public"
+ },
+ {
+  "yol": "tarif/cilekli-smoothie",
+  "baslik": "Çilekli Smoothie",
+  "duzen": "public"
+ },
+ {
+  "yol": "tarif/domatesli-bulgur-pilavi",
+  "baslik": "Domatesli Bulgur Pilavı",
+  "duzen": "public"
+ },
+ {
+  "yol": "tarif/ezogelin-corbasi",
+  "baslik": "Ezogelin Çorbası",
+  "duzen": "public"
+ },
+ {
+  "yol": "tarif/firinda-sebze-turlusu",
+  "baslik": "Fırında Sebze Türlüsü",
+  "duzen": "public"
+ },
+ {
+  "yol": "tarif/firinda-sebzeli-tavuk",
+  "baslik": "Fırında Sebzeli Tavuk",
+  "duzen": "public"
+ },
+ {
+  "yol": "tarif/firinda-tarcinli-elma",
+  "baslik": "Fırında Tarçınlı Elma",
+  "duzen": "public"
+ },
+ {
+  "yol": "tarif/girit-ezmesi",
+  "baslik": "Girit Ezmesi",
+  "duzen": "public"
+ },
+ {
+  "yol": "tarif/haydari",
+  "baslik": "Haydari",
+  "duzen": "public"
+ },
+ {
+  "yol": "tarif/imambayildi",
+  "baslik": "İmambayıldı",
+  "duzen": "public"
+ },
+ {
+  "yol": "tarif/ispanakli-omlet",
+  "baslik": "Ispanaklı Omlet",
+  "duzen": "public"
+ },
+ {
+  "yol": "tarif/izgara-sebzeli-dana-bonfile",
+  "baslik": "Izgara Sebzeli Dana Bonfile",
+  "duzen": "public"
+ },
+ {
+  "yol": "tarif/izgara-sebzeli-sandvic",
+  "baslik": "Izgara Sebzeli Sandviç",
+  "duzen": "public"
+ },
+ {
+  "yol": "tarif/kahvalti-patatesi",
+  "baslik": "Kahvaltı Patatesi",
+  "duzen": "public"
+ },
+ {
+  "yol": "tarif/karidesli-guvec",
+  "baslik": "Karidesli Güveç",
+  "duzen": "public"
+ },
+ {
+  "yol": "tarif/kisir",
+  "baslik": "Kısır",
+  "duzen": "public"
+ },
+ {
+  "yol": "tarif/menemen",
+  "baslik": "Menemen",
+  "duzen": "public"
+ },
+ {
+  "yol": "tarif/mercimek-corbasi",
+  "baslik": "Mercimek Çorbası",
+  "duzen": "public"
+ },
+ {
+  "yol": "tarif/mercimek-koftesi",
+  "baslik": "Mercimek Köftesi",
+  "duzen": "public"
+ },
+ {
+  "yol": "tarif/mevsim-salatasi",
+  "baslik": "Mevsim Salatası",
+  "duzen": "public"
+ },
+ {
+  "yol": "tarif/naneli-meyve-salatasi",
+  "baslik": "Naneli Meyve Salatası",
+  "duzen": "public"
+ },
+ {
+  "yol": "tarif/nohut-salatasi",
+  "baslik": "Nohut Salatası",
+  "duzen": "public"
+ },
+ {
+  "yol": "tarif/otlu-kaygana",
+  "baslik": "Otlu Kaygana",
+  "duzen": "public"
+ },
+ {
+  "yol": "tarif/overnight-yulaf",
+  "baslik": "Overnight Yulaf",
+  "duzen": "public"
+ },
+ {
+  "yol": "tarif/pose-yumurtali-ekmek",
+  "baslik": "Poşe Yumurtalı Ekmek",
+  "duzen": "public"
+ },
+ {
+  "yol": "tarif/sebze-cubuklu-humus",
+  "baslik": "Sebze Çubuklu Humus",
+  "duzen": "public"
+ },
+ {
+  "yol": "tarif/sebzeli-levrek-bugulama",
+  "baslik": "Sebzeli Levrek Buğulama",
+  "duzen": "public"
+ },
+ {
+  "yol": "tarif/sebzeli-peynirli-omlet",
+  "baslik": "Sebzeli Peynirli Omlet",
+  "duzen": "public"
+ },
+ {
+  "yol": "tarif/sebzeli-tavuk-sote",
+  "baslik": "Sebzeli Tavuk Sote",
+  "duzen": "public"
+ },
+ {
+  "yol": "tarif/sebzeli-yumurta-muffin",
+  "baslik": "Sebzeli Yumurta Muffin",
+  "duzen": "public"
+ },
+ {
+  "yol": "tarif/tarcinli-firin-armudu",
+  "baslik": "Tarçınlı Fırın Armudu",
+  "duzen": "public"
+ },
+ {
+  "yol": "tarif/ton-balikli-salata",
+  "baslik": "Ton Balıklı Salata",
+  "duzen": "public"
+ },
+ {
+  "yol": "tarif/yesil-mercimek-yemegi",
+  "baslik": "Yeşil Mercimek Yemeği",
+  "duzen": "public"
+ },
+ {
+  "yol": "tarif/yogurtlu-tavuk-sis",
+  "baslik": "Yoğurtlu Tavuk Şiş",
+  "duzen": "public"
+ },
+ {
+  "yol": "tarif/zeytinyagli-pirasa",
+  "baslik": "Zeytinyağlı Pırasa",
+  "duzen": "public"
+ },
+ {
+  "yol": "tarifler",
+  "baslik": "Sağlıklı Tarifler",
+  "duzen": "public"
+ },
+ {
+  "yol": "tarifler/kategori/ana-yemek",
+  "baslik": "Ana Yemek Tarifleri",
+  "duzen": "public"
+ },
+ {
+  "yol": "tarifler/kategori/atistirmalik",
+  "baslik": "Atıştırmalık Tarifleri",
+  "duzen": "public"
+ },
+ {
+  "yol": "tarifler/kategori/bakliyat",
+  "baslik": "Bakliyat Tarifleri",
+  "duzen": "public"
+ },
+ {
+  "yol": "tarifler/kategori/balik-ve-deniz-urunleri",
+  "baslik": "Balık ve Deniz Ürünleri Tarifleri",
+  "duzen": "public"
+ },
+ {
+  "yol": "tarifler/kategori/corba",
+  "baslik": "Çorba Tarifleri",
+  "duzen": "public"
+ },
+ {
+  "yol": "tarifler/kategori/dondurma-ve-soguk-tatlilar",
+  "baslik": "Dondurma ve Soğuk Tatlılar Tarifleri",
+  "duzen": "public"
+ },
+ {
+  "yol": "tarifler/kategori/icecek",
+  "baslik": "İçecek Tarifleri",
+  "duzen": "public"
+ },
+ {
+  "yol": "tarifler/kategori/kahvaltilik",
+  "baslik": "Kahvaltılık Tarifleri",
+  "duzen": "public"
+ },
+ {
+  "yol": "tarifler/kategori/kirmizi-et",
+  "baslik": "Kırmızı Et Tarifleri",
+  "duzen": "public"
+ },
+ {
+  "yol": "tarifler/kategori/kofte-ve-kebap",
+  "baslik": "Köfte ve Kebap Tarifleri",
+  "duzen": "public"
+ },
+ {
+  "yol": "tarifler/kategori/meyve-tarifleri",
+  "baslik": "Meyve Tarifleri Tarifleri",
+  "duzen": "public"
+ },
+ {
+  "yol": "tarifler/kategori/meze",
+  "baslik": "Meze Tarifleri",
+  "duzen": "public"
+ },
+ {
+  "yol": "tarifler/kategori/pilav",
+  "baslik": "Pilav Tarifleri",
+  "duzen": "public"
+ },
+ {
+  "yol": "tarifler/kategori/salata",
+  "baslik": "Salata Tarifleri",
+  "duzen": "public"
+ },
+ {
+  "yol": "tarifler/kategori/sandvic-burger-ve-durum",
+  "baslik": "Sandviç, Burger ve Dürüm Tarifleri",
+  "duzen": "public"
+ },
+ {
+  "yol": "tarifler/kategori/sebze",
+  "baslik": "Sebze Tarifleri",
+  "duzen": "public"
+ },
+ {
+  "yol": "tarifler/kategori/tatli",
+  "baslik": "Tatlı Tarifleri",
+  "duzen": "public"
+ },
+ {
+  "yol": "tarifler/kategori/tavuk-ve-hindi",
+  "baslik": "Tavuk ve Hindi Tarifleri",
+  "duzen": "public"
+ },
+ {
+  "yol": "tarifler/kategori/yumurta-tarifleri",
+  "baslik": "Yumurta Tarifleri Tarifleri",
+  "duzen": "public"
+ },
+ {
+  "yol": "tarifler/kategori/zeytinyaglilar",
+  "baslik": "Zeytinyağlılar Tarifleri",
+  "duzen": "public"
+ },
+ {
+  "yol": "tarifler/seckiler/ornek-glutensiz-ile-glutensiz-sofralar",
+  "baslik": "Örnek Glütensiz Gıda ile Glütensiz Sofralar",
   "duzen": "public"
  },
  {

@@ -7,6 +7,17 @@ import path from 'node:path';
 import { fileURLToPath, pathToFileURL } from 'node:url';
 
 const KOK = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
+import crypto from 'node:crypto';
+/* Önbellek sürümü (9 Kasım T7): Pages eski CSS/JS'i yeni HTML'le birleştirmesin diye her assets/*.css|js bağlantısına içerik özeti eklenir.
+   Özet derlemenin sonunda, veri.js de yazıldıktan sonra basılır. */
+const yazilanHtml = [];
+const htmlYaz = (yol, html) => { fs.writeFileSync(yol, html); yazilanHtml.push(yol); };
+const ozetler = new Map();
+const ozet = (goreli) => {
+  if (!ozetler.has(goreli)) { const f = path.join(KOK, goreli); ozetler.set(goreli, fs.existsSync(f) ? crypto.createHash('md5').update(fs.readFileSync(f)).digest('hex').slice(0, 8) : ''); }
+  return ozetler.get(goreli);
+};
+const surumle = (html) => html.replace(/(href|src)="((?:\.\.\/)*|\.\/|\/dadadiet-prototip\/)(assets\/[^"?#]+\.(?:css|js))"/g, (t, a, onek, goreli) => { const v = ozet(goreli); return v ? `${a}="${onek}${goreli}?v=${v}"` : t; });
 const SRC = path.join(KOK, '_src');
 const oku = (p) => fs.readFileSync(p, 'utf8');
 
@@ -67,9 +78,9 @@ for (const s of sayfalar) {
   const html = parcalariAc(kabukla(s, { veri, istekler: fs.readdirSync(path.join(SRC, 'istek')).filter((x) => x.endsWith('.css')) })).replaceAll('{{kok}}', kok);
   const hedef = path.join(KOK, s.yol, 'index.html');
   fs.mkdirSync(path.dirname(hedef), { recursive: true });
-  fs.writeFileSync(hedef, html);
+  htmlYaz(hedef, html);
   // GitHub Pages her eksik yolda kök 404.html'i sunar: bağlantılar mutlak kökle yazılır
-  if (s.yol === '404') fs.writeFileSync(path.join(KOK, '404.html'), parcalariAc(kabukla(s, { veri, istekler: fs.readdirSync(path.join(SRC, 'istek')).filter((x) => x.endsWith('.css')) })).replaceAll('{{kok}}', '/dadadiet-prototip/'));
+  if (s.yol === '404') htmlYaz(path.join(KOK, '404.html'), parcalariAc(kabukla(s, { veri, istekler: fs.readdirSync(path.join(SRC, 'istek')).filter((x) => x.endsWith('.css')) })).replaceAll('{{kok}}', '/dadadiet-prototip/'));
   uretilen.push({ yol: s.yol, baslik: s.meta?.baslik ?? '', duzen: s.meta?.duzen ?? 'public' });
 }
 /* Ekran haritasında "Reklam alanları": canlı reklam kataloğunun (146 alan) prototip yerleşimi, sayfa başına. Her yerleşik alan
@@ -113,7 +124,7 @@ if (!alan) {
   const govde = `<div class="modul-govde"><section class="bolum"><div class="kap"><div class="sayfa-bas"><div><h1>Ekran haritası</h1><p>Prototipteki ${liste.length} ekranın tamamı ve tıklanarak gezilen akışlar.</p></div><div class="eylem-satiri"><button class="dugme hayalet" type="button" data-demo-sifirla><i class="fa-solid fa-rotate-left" aria-hidden="true"></i> Demoyu sıfırla</button></div></div><div class="yigin">${akisHtml}${gruplar.map(([ad, f]) => { const l = liste.filter(f); return `<div class="kart"><div class="kart-bas"><h3 class="kart-baslik">${ad} <span class="sekme-sayi">${l.length}</span></h3></div><div class="kart-govde"><ul class="ekran-liste">${l.map((u) => `<li><a href="{{kok}}${u.yol ? u.yol + '/' : ''}"><b>${u.baslik || 'Ana sayfa'}</b><small>/${u.yol}</small></a></li>`).join('')}</ul></div></div>`; }).join('')}${reklamHtml}</div></div></section></div>`;
   const s = { yol: 'ekranlar', meta: { baslik: 'Ekran haritası', js: ['assets/js/reklam/ekranlar.js'] }, govde };
   fs.mkdirSync(path.join(KOK, 'ekranlar'), { recursive: true });
-  fs.writeFileSync(path.join(KOK, 'ekranlar/index.html'), parcalariAc(kabukla(s, { veri, istekler: fs.readdirSync(path.join(SRC, 'istek')).filter((x) => x.endsWith('.css')) })).replaceAll('{{kok}}', '../'));
+  htmlYaz(path.join(KOK, 'ekranlar/index.html'), parcalariAc(kabukla(s, { veri, istekler: fs.readdirSync(path.join(SRC, 'istek')).filter((x) => x.endsWith('.css')) })).replaceAll('{{kok}}', '../'));
 }
 
 // İstemci verisi: modüllerin okuduğu katalog + ortak demo (tek kaynak _src/veri)
@@ -121,6 +132,7 @@ const istemci = {};
 for (const a of ['besinler', 'tarifler', 'demo']) if (veri[a]) istemci[a] = veri[a];
 fs.mkdirSync(path.join(KOK, 'assets/js'), { recursive: true });
 fs.writeFileSync(path.join(KOK, 'assets/js/veri.js'), 'window.DD_VERI=' + JSON.stringify(istemci) + ';\n');
+for (const y of yazilanHtml) fs.writeFileSync(y, surumle(fs.readFileSync(y, 'utf8')));
 if (!alan) fs.writeFileSync(path.join(SRC, 'sayfa-listesi.json'), JSON.stringify(uretilen.sort((a, b) => a.yol.localeCompare(b.yol, 'tr')), null, 1));
 console.log(uretilen.length + ' sayfa üretildi');
 if (hatalar.length) { console.error('HATALAR:\n' + hatalar.join('\n')); process.exitCode = 1; }
