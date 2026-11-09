@@ -21,7 +21,7 @@
     d.randevular = (d.randevular || []).filter((r) => r.danisan_id !== id);
     d.mesajlar = (d.mesajlar || []).filter((m) => m.danisan_id !== id);
     d.uzman_iliskileri = [];
-    Object.assign(u, { rozetler: [], kaydedilenler: {}, tercihler: {}, diyetisyen_slug: null, okunmamis_mesaj: 0, su: { hedef_ml: 2000, bugun_ml: 0, hafta: [], ortalama_ml: 0 }, adim: { hedef: 8000, bugun: 0, hafta: [], ortalama: 0 } });
+    Object.assign(u, { rozetler: [], kaydedilenler: {}, kaydedilenler_tarih: {}, test_sonuclari: [], hesaplayici_sonuclari: [], tercihler: {}, diyetisyen_slug: null, okunmamis_mesaj: 0, su: { hedef_ml: 2000, bugun_ml: 0, hafta: [], ortalama_ml: 0 }, adim: { hedef: 8000, bugun: 0, hafta: [], ortalama: 0 } });
     d.uyeYerel = {};
   }
   /* Oturumdaki üye: demo.uye hesap tarafı, demo.danisanlar içindeki d1 panelin gördüğü kayıt */
@@ -299,6 +299,44 @@
     const top = (a) => l.reduce((s, x) => s + (Number(x[a]) || 0), 0);
     return { l, kcal: top('kcal'), protein: top('protein'), karb: top('karb'), yag: top('yag') };
   };
+
+  /* Sağlık verisi açık rızası (ES-HS-44, 45): kapsam başına ver, geri al, sil. Veri İzinlerim › Sağlık Verisi Rızası yönetir.
+     Rıza diyetisyene paylaşım izninden ayrıdır: verinin Dada Diet'te işlenmesine izindir. Demo üyesi kayıt olurken vermiş sayılır
+     (tarih: üyelik günü, kabuktaki "Üyelik" tarihiyle aynı kaynak); ?bos=1 yeni üyede hiçbiri verilmemiştir */
+  U.RIZA = [
+    ['profil', 'fa-notes-medical', 'Sağlık profili', 'Alerji ve hassasiyetlerin, ilaçların, kronik rahatsızlıkların ve sağlık öykün.'],
+    ['tahlil', 'fa-flask-vial', 'Tahlil ve sağlık belgeleri', 'Yüklediğin tahliller, okunan değerler, reçete ve belgelerin.'],
+    ['his', 'fa-heart-pulse', 'His kaydı', 'Günlük his kaydın ve ona bağlı güvenlik uyarıları.'],
+    ['grup', 'fa-people-group', 'Sağlık destek grupları', 'Sağlık durumunu belli eden gruplara üyeliğin ve gönderilerin.'],
+  ];
+  U.rizaAd = (k) => (U.RIZA.find((x) => x[0] === k) || [])[2] || k;
+  U.riza = function () {
+    const d = U.d();
+    d.uyeYerel = d.uyeYerel || {};
+    if (!d.uyeYerel.saglikRiza) {
+      const t = ((U.danisan().olcumler || [])[0] || {}).tarih || U.bugun();
+      d.uyeYerel.saglikRiza = {};
+      if (!U.bosKip) U.RIZA.forEach(([k]) => { d.uyeYerel.saglikRiza[k] = { durum: 'verildi', tarih: t }; });
+    }
+    return d.uyeYerel.saglikRiza;
+  };
+  U.rizaVar = (k) => (U.riza()[k] || {}).durum === 'verildi';
+  U.rizaVer = function (k, ver) {
+    U.riza()[k] = { durum: ver ? 'verildi' : 'geri', tarih: U.bugun() };
+    U.yerel('izinHareket', []).push({ tarih: U.bugun(), metin: 'Sağlık verisi rızası: ' + U.rizaAd(k) + (ver ? ' için açık rıza verildi.' : ' için rıza geri alındı.') });
+  };
+  /* Formlarda rıza kutusu: işaretlenmeden kayıt yapılmaz; [data-riza-onay] sayfa betiği okur */
+  U.rizaKutu = (k) => '<label class="onay-kutusu"><input type="checkbox" data-riza-onay="' + k + '"><span><a href="' + DD.kok + 'yasal/saglik-verisi/" target="_blank" rel="noopener">Sağlık Verisi Politikası</a>’nı okudum; <b>' + U.rizaAd(k).toLocaleLowerCase('tr') + '</b> verimin işlenmesine açık rıza veriyorum.</span></label>';
+  /* Rıza yoksa ilgili kartın yerine çıkan kart; düğme rızayı verir ve dd:riza olayını yayar */
+  U.rizaKart = (k, metin) => '<div class="kart panel tam-kolon"><div class="kart-bas"><div><h3 class="kart-baslik"><i class="fa-solid fa-user-shield" aria-hidden="true"></i> Açık Rızan Gerekiyor</h3><p>' + metin + '</p></div></div><div class="kart-govde"><p class="alan-yardim"><span><b>' + U.rizaAd(k) + ':</b> ' + (U.RIZA.find((x) => x[0] === k) || [])[3] + ' Rızanı istediğin an Veri İzinlerim’den geri alabilirsin.</span></p></div><div class="kart-alt eylem"><a class="dugme hayalet" href="' + DD.kok + 'hesabim/veri-izinlerim/#riza">Rızalarımı yönet</a><a class="dugme hayalet" href="' + DD.kok + 'yasal/saglik-verisi/">Sağlık Verisi Politikası</a><button class="dugme birincil" type="button" data-riza-ver="' + k + '">Açık rıza veriyorum</button></div></div>';
+  document.addEventListener('click', (e) => {
+    const r = e.target.closest('[data-riza-ver]');
+    if (!r) return;
+    U.rizaVer(r.dataset.rizaVer, true);
+    U.kaydet();
+    DD.toast(U.rizaAd(r.dataset.rizaVer) + ' için açık rızan kaydedildi.');
+    document.dispatchEvent(new CustomEvent('dd:riza', { detail: { kapsam: r.dataset.rizaVer } }));
+  });
 
   /* Anamnez duvar değil görevdir: eksik alanlar sayılır, form yarıda bırakılabilir */
   U.ANAMNEZ = [['meslek', 'Meslek'], ['sikayet', 'Şikâyet'], ['uyku', 'Uyku'], ['su', 'Su'], ['hareket', 'Hareket'], ['aile_oykusu', 'Aile öyküsü'], ['aliskanliklar', 'Alışkanlıklar']];

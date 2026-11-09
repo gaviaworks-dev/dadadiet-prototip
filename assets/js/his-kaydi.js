@@ -34,7 +34,11 @@
     if (s && k.scrollWidth > k.clientWidth) k.scrollLeft = s.offsetLeft - k.offsetLeft - (k.clientWidth - s.offsetWidth) / 2;
   }
 
+  let sonHedef = null;
   function bas(hedef) {
+    sonHedef = hedef;
+    /* His kaydı sağlık verisidir: açık rıza yoksa kart yerine rıza kartı (Veri İzinlerim › Sağlık Verisi Rızası) */
+    if (U.rizaVar && !U.rizaVar('his')) { U.bas(hedef, U.rizaKart('his', 'Kendini nasıl hissettiğini kaydetmek için his kaydına açık rıza vermen gerekiyor.')); return; }
     const his = kayit(U.bugun());
     const kok = U.bas(hedef, '<div class="kart panel tam-kolon" data-his-kart><div class="kart-bas"><div><h3 class="kart-baslik"><i class="fa-solid fa-heart-pulse" aria-hidden="true"></i> Kendini Nasıl Hissediyorsun?</h3><p>Bugün için tek dokunuş yeter; gün içinde değişirse yeniden seçebilirsin.</p></div></div><div class="kart-govde"><div class="yigin sik"><div class="cipler ortali tek-satir his-secim" data-tek-secim data-his-secim role="group" aria-label="Bugün kendini nasıl hissediyorsun">'
       + SECENEK.map((x) => '<button class="cip" type="button" data-deger="' + x[0] + '" aria-pressed="' + (x[0] === his) + '"><span class="his-emoji" aria-hidden="true">' + x[3] + '</span><span>' + x[1] + '</span></button>').join('')
@@ -61,6 +65,8 @@
     uyariCiz(kok);
     kok.querySelector('[data-his-secim] [aria-pressed="true"]').focus();
   });
+
+  document.addEventListener('dd:riza', (e) => { if (e.detail.kapsam === 'his' && sonHedef) bas(sonHedef); });
 
   DD.hisKaydi = {
     bas, kayit, etiket,
