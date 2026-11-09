@@ -3630,3 +3630,7 @@ body:has(.cookie-banner.show),body.cerez-acik{padding-bottom:var(--cerez-boy,0px
 .ikon-dugme[data-ipucu-alt]::after{bottom:auto;top:calc(100% + var(--bosluk-6))}
 @media (hover:none){:is(.ikon-dugme,button.bs-islem)[data-ipucu]:hover::after{opacity:0;visibility:hidden}}
 .head-actions .ikon-dugme[data-ipucu]::after{bottom:auto;top:calc(100% + var(--bosluk-6))}
+
+/* ── sr-gastro (Sayfa Revizesi 1: Rz1, N1) ── */
+/* Rozet kartı ilerleme çubuğu: satır içi stil yerine --oran (Gastro .rozet-cubuk span width) */
+.rozet-cubuk>span[data-oran]{width:calc(var(--oran,0)*1%)}
