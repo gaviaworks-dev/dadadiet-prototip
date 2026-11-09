@@ -9,6 +9,7 @@ const sekmeler = [
 <div id="gtBas"></div>
 <div class="uyum-yer" id="gtTercih"></div>
 ${kart({ ikon: 'fa-clipboard-list', baslik: 'Günün Kaydı', metin: '<span id="gtOzet"></span>', sag: '<div class="as-eylem"><span class="durum-hapi cozulen" id="gtKcal"></span></div>', bosluksuz: true, govde: '<div class="kalem-liste" id="gtOgunler"></div>', alt: `<span class="eylem-notu" id="gtPaylasNot"></span>${dugme('Günü diyetisyenimle paylaş', { ikon: 'fa-share-nodes', ek: ' id="gtPaylas"' })}` })}
+${kart({ ikon: 'fa-list-check', baslik: 'Eklediğin Kalemler', metin: 'Plandan ayrı eklediklerin. Miktarı düzeltebilir ya da silebilirsin.', id: 'gtEkKart', bosluksuz: true, govde: '<div class="ayar-liste" id="gtEkler"></div>', alt: dugme('Öğüne ekle', { sinif: 'birincil', ikon: 'fa-plus', ek: ' data-besin-ekle="ogle"' }) })}
 </div>` },
   { id: 'su', ad: 'Su Takibim', ikon: 'fa-droplet', govde: `<div class="yigin">
 ${bolumBas({ etiket: 'Bugün', ikon: 'fa-droplet', baslik: 'Su Takibin', metin: 'Her bardağı ekle; haftalık grafiğin buna göre güncellenir.', arac: dugme('Su ihtiyacını hesapla', { href: 'hesaplayicilar/' }) })}
@@ -18,6 +19,7 @@ ${kart({ ikon: 'fa-bell', baslik: 'Su Hatırlatması', metin: 'Aynı ayar Tercih
   { id: 'makro', ad: 'Enerji ve Makro Takibim', ikon: 'fa-chart-pie', govde: `<div class="yigin">
 ${bolumBas({ etiket: 'Bugün', ikon: 'fa-chart-pie', baslik: 'Enerji ve Makro Dengen', metin: 'İşaretlediğin öğünler ve eklediğin besinler günlük hedefinle karşılaştırılır.' })}
 ${kart({ ikon: 'fa-chart-pie', baslik: 'Enerji ve Makro Dengesi', metin: 'Halka bugünkü enerjinin makrolara dağılımını gösterir; çubuklar hedefe göre ilerlemendir.', govde: '<div class="skor-yerlesim makro-denge" id="gtMakro"></div>' })}
+<div id="gtProtein"></div>
 ${kart({ ikon: 'fa-list', baslik: 'Kalem Kalem Döküm', bosluksuz: true, govde: tablo({ id: 'gtKalemler', etiket: 'Bugünkü kalemler', basliklar: ['Kalem', ['Öğün', 'dar-kolon'], ['Enerji', 'dar-kolon sag'], ['Protein', 'dar-kolon sag'], ['Yağ', 'dar-kolon sag'], ['Karb.', 'dar-kolon sag']] }) })}
 </div>` },
   { id: 'adim', ad: 'Adım ve Hareket Bilgilerim', ikon: 'fa-person-walking', govde: `<div class="yigin">
@@ -41,12 +43,23 @@ ${kart({ ikon: 'fa-table-list', baslik: 'Gün Gün Döküm', bosluksuz: true, go
 ];
 
 const sonEk = modal({
-  id: 'gtBesinModal', baslik: 'Besin Ekle', form: ' id="gtBesinForm"',
-  govde: `<div class="alan oneri-kap"><label class="alan-etiket" for="gtBesin">Besin <span class="zorunlu">*</span></label><input class="alan-girdi" id="gtBesin" autocomplete="off" required placeholder="Besin adı yaz"><div class="oneri-liste" id="gtOneri" hidden></div></div>
-<div class="alan-izgara c2"><div class="alan"><label class="alan-etiket" for="gtOgunSec">Öğün</label><select class="alan-secim" id="gtOgunSec"></select></div>${alan({ ad: 'gtGram', etiket: 'Miktar', tur: 'number', deger: '100', ek: ' min="1" max="2000"', zorunlu: true })}</div>
+  id: 'gtBesinModal', baslik: 'Öğüne Ekle', form: ' id="gtBesinForm"',
+  govde: `<div class="alan"><label class="alan-etiket" for="gtOgunSec">Öğün</label><select class="alan-secim" id="gtOgunSec"></select></div>
+<div id="gtKisayol"></div>
+<div class="alan"><span class="alan-etiket" id="gtKipEt">Nasıl ekleyeceksin</span><div class="segment" role="group" aria-labelledby="gtKipEt" id="gtKip"><button type="button" data-deger="liste" aria-pressed="true">Besin ara</button><button type="button" data-deger="hizli" aria-pressed="false">Hızlı ekle</button></div></div>
+<div id="gtListeAlan"><div class="alan oneri-kap"><label class="alan-etiket" for="gtBesin">Besin <span class="zorunlu">*</span></label><input class="alan-girdi" id="gtBesin" autocomplete="off" required placeholder="Besin adı yaz"><div class="oneri-liste" id="gtOneri" hidden></div></div>
+${alan({ ad: 'gtGram', etiket: 'Miktar', tur: 'number', deger: '100', ek: ' min="1" max="2000"', zorunlu: true })}
 <div class="alan"><label class="onay-kutusu" for="gtElle"><input type="checkbox" id="gtElle"><span>Listede yok, değerleri elle gireceğim</span></label></div>
-<div id="gtElleAlan" hidden>${secim({ ad: 'gtBirim', etiket: 'Birim', secenekler: ['gram (g)', 'porsiyon', 'adet', 'mililitre (ml)', 'kâse'] })}<div class="alan-izgara c2">${alan({ ad: 'gtElleKcal', etiket: 'Enerji (kcal)', tur: 'number', ek: ' min="0" max="5000"', istege: true })}${alan({ ad: 'gtElleProtein', etiket: 'Protein (g)', tur: 'number', ek: ' min="0" max="500" step="0.1"', istege: true })}${alan({ ad: 'gtElleYag', etiket: 'Yağ (g)', tur: 'number', ek: ' min="0" max="500" step="0.1"', istege: true })}${alan({ ad: 'gtElleKarb', etiket: 'Karbonhidrat (g)', tur: 'number', ek: ' min="0" max="500" step="0.1"', istege: true })}</div><p class="alan-yardim"><span>Enerji ve makro değerlerini girmezsen kalem günlüğe yazılır ama toplama eklenmez.</span></p></div>`,
+<div id="gtElleAlan" hidden>${secim({ ad: 'gtBirim', etiket: 'Birim', secenekler: ['gram (g)', 'porsiyon', 'adet', 'mililitre (ml)', 'kâse'] })}<div class="alan-izgara c2">${alan({ ad: 'gtElleKcal', etiket: 'Enerji (kcal)', tur: 'number', ek: ' min="0" max="5000"', istege: true })}${alan({ ad: 'gtElleProtein', etiket: 'Protein (g)', tur: 'number', ek: ' min="0" max="500" step="0.1"', istege: true })}${alan({ ad: 'gtElleYag', etiket: 'Yağ (g)', tur: 'number', ek: ' min="0" max="500" step="0.1"', istege: true })}${alan({ ad: 'gtElleKarb', etiket: 'Karbonhidrat (g)', tur: 'number', ek: ' min="0" max="500" step="0.1"', istege: true })}</div><p class="alan-yardim"><span>Enerji ve makro değerlerini girmezsen kalem günlüğe yazılır ama toplama eklenmez.</span></p></div></div>
+<div id="gtHizliAlan" hidden>${alan({ ad: 'gtHizliKcal', etiket: 'Enerji (kcal)', tur: 'number', ek: ' min="1" max="5000" inputmode="numeric"', zorunlu: true })}${alan({ ad: 'gtHizliAd', etiket: 'Ne yedin', istege: true, ek: ' placeholder="Örneğin iş yerinde öğle yemeği"' })}<p class="alan-yardim"><span>Yalnız enerji toplama eklenir; protein, yağ ve karbonhidrat boş kalır.</span></p></div>`,
   ayak: dugme('Vazgeç', { ek: ' data-kapat' }) + dugme('Ekle', { sinif: 'birincil', tur: 'submit' }),
+}) + modal({
+  id: 'gtDuzeltModal', baslik: 'Kalemi Düzelt', form: ' id="gtDuzeltForm"',
+  govde: `<p class="alan-yardim"><span id="gtDuzeltAd"></span></p>
+<div id="gtDuzeltMiktarAlan">${alan({ ad: 'gtDuzeltMiktar', etiket: 'Miktar', tur: 'number', ek: ' min="0.1" max="2000" step="0.1"', zorunlu: true })}</div>
+<div id="gtDuzeltSerbestAlan">${alan({ ad: 'gtDuzeltAdGir', etiket: 'Ad ve miktar' })}${alan({ ad: 'gtDuzeltKcal', etiket: 'Enerji (kcal)', tur: 'number', ek: ' min="0" max="5000"' })}</div>
+${secim({ ad: 'gtDuzeltOgun', etiket: 'Öğün', secenekler: [] })}`,
+  ayak: dugme('Vazgeç', { ek: ' data-kapat' }) + dugme('Kaydet', { sinif: 'birincil', tur: 'submit' }),
 }) + modal({
   id: 'gtAdimModal', baslik: 'Adım Ekle', form: ' id="gtAdimForm"',
   govde: alan({ ad: 'gtAdimSayi', etiket: 'Adım sayısı', tur: 'number', deger: '1000', ek: ' min="1" max="50000"', zorunlu: true }),

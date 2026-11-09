@@ -9,6 +9,23 @@
   const ekler = () => { const e = U.yerel('gunlukEk', {}); e[b] = e[b] || []; return e[b]; };
   const ogunler = () => U.secilenOgunler(k, b);
   const ogunAd = (a) => (U.ogunTanimi.find((o) => o[0] === a) || [])[1] || a;
+  const dun = U.gunEkle(b, -1);
+  const gunEk = (t) => (U.yerel('gunlukEk', {})[t]) || [];
+  /* Kalemin nereden geldiği: Akıllı Tabak (dk-public yazar, kaynak 'akilli-tabak'), Dada Gastro "Pişirdim" (örnek kayıt), hızlı ekleme, dünden ya da favoriden kopya */
+  const KAYNAK = { 'akilli-tabak': ['Akıllı Tabak', 'fa-plate-wheat'], gastro: ['Dada Gastro · Pişirdim', 'fa-kitchen-set'], hizli: ['Hızlı ekleme', 'fa-bolt'], dun: ['Dünden kopyalandı', 'fa-copy'], favori: ['Favori öğünden', 'fa-star'] };
+  /* Başlangıç verisindeki örnek kalemler (id'li) önceki tarayıcı durumuna bir kez katılır; aynı id iki kez yazılmaz */
+  (function tohum() {
+    if (U.bosKip) return;
+    const ilk = ((((window.DD_VERI || {}).demo || {}).uyeYerel || {}).gunlukEk) || {}, e = U.yerel('gunlukEk', {}), bayrak = U.yerel('gunlukEkTohum', {});
+    let degisti = false;
+    Object.keys(ilk).forEach((t) => ilk[t].forEach((x) => {
+      if (!x.id || bayrak[x.id]) return;
+      bayrak[x.id] = true; degisti = true;
+      e[t] = e[t] || [];
+      if (!e[t].some((y) => y.id === x.id)) e[t].push(JSON.parse(JSON.stringify(x)));
+    }));
+    if (degisti) DD.demo.kaydet();
+  })();
 
   const toplam = () => U.gunToplam();
   const kcalMetin = (v) => (duyarli ? '' : DD.bicim.kcal(v));
@@ -151,10 +168,59 @@
       return '<tr><td><span class="no">' + U.gunAdi(x.tarih) + '<small>' + U.kisaTarih(x.tarih) + '</small></span></td>' + (duyarli ? '' : '<td class="tutar sag">' + (o.n || o.ek ? DD.bicim.kcal(o.kcal) : '—') + '</td>') + '<td><span class="no">' + o.n + ' / ' + o.top + '</span> ' + uyum + '</td>' + (his ? '<td>' + DD.hisKaydi.hap(his) + '</td>' : '<td class="bos-hucre">Kayıt yok</td>') + '<td class="tutar sag">' + U.sayi(ml) + ' ml</td><td class="tutar sag">' + U.sayi(adim) + '</td><td>' + (ml >= s.hedef_ml ? U.durum('cozulen', 'Tuttu') : U.durum('bekleyen', 'Altında')) + '</td></tr>';
     }).join(''));
   }
-  const ciz = () => { DD.hisKaydi.bas('#gtHis'); ogunCiz(); suCiz(); adimCiz(); makroCiz(); notCiz(); ozetCiz(); };
+  /* Eklenen kalemler: kaynak rozeti, Düzelt ve Sil */
+  function ekCiz() {
+    const e = ekler(), gastro = e.some((x) => x.kaynak === 'gastro');
+    U.bas('#gtEkler', (e.length ? e.map((x, n) => {
+      const kn = KAYNAK[x.kaynak];
+      return '<div class="ayar-satir sarmali"><span class="as-ikon"><i class="fa-solid ' + (kn ? kn[1] : 'fa-plus') + '" aria-hidden="true"></i></span><div class="as-metin"><b>' + U.kac(U.kalemMetin(x)) + '</b><span>' + ogunAd(x.ogun) + (duyarli ? '' : ' · ' + (x.kcal ? DD.bicim.kcal(Math.round(x.kcal)) : 'enerji girilmedi')) + '</span></div><div class="as-eylem">' + (kn ? U.durum('acik', kn[0]) : '') + (x.ornek ? U.durum('kapali', 'Prototip örneği') : '') + '<button class="dugme hayalet kucuk" type="button" data-ek-duzelt="' + n + '">Düzelt</button><button class="dugme hayalet kucuk" type="button" data-ek-sil="' + n + '" aria-label="' + U.kac(U.kalemAd(x)) + ' kalemini sil"><i class="fa-solid fa-trash" aria-hidden="true"></i></button></div></div>';
+    }).join('') : U.bos({ ikon: 'fa-plus', baslik: 'İlk öğününü ekle', metin: 'Plandan farklı yediğin her şeyi buraya ekle; Akıllı Tabak’tan ya da yalnız kaloriyle de ekleyebilirsin.' }))
+      + (gastro ? '<div class="bilgi-notu"><i class="fa-solid fa-kitchen-set" aria-hidden="true"></i><p><b>Dada Gastro:</b> tarif sayfasında “Pişirdim” dediğin yemek günlüğüne kendiliğinden düşer. Buradaki kayıt prototip örneğidir; iki hesabın bağlanması canlıda yapılır.</p></div>' : ''));
+  }
+  /* Öğün penceresinin kısayolları: dünü kopyala, Akıllı Tabak, favori öğünler, sık eklenenler */
+  const favoriler = () => U.yerel('favoriOgunler', []);
+  function sikEklenenler() {
+    const l = [], gor = {};
+    const ekle = (slug) => { const x = U.besin(slug); if (x && !gor[slug] && l.length < 10) { gor[slug] = true; l.push(x); } };
+    ((u.kaydedilenler || {}).besinler || []).forEach(ekle);
+    const e = U.yerel('gunlukEk', {});
+    Object.keys(e).sort().reverse().forEach((t) => e[t].slice().reverse().forEach((x) => { if (x.tur === 'besin' && x.slug) ekle(x.slug); }));
+    return l;
+  }
+  function kisayolCiz() {
+    const og = $('#gtOgunSec').value, d = gunEk(dun).filter((x) => x.ogun === og), bugunEk = ekler().filter((x) => x.ogun === og), fav = favoriler(), sik = sikEklenenler();
+    const tabak = DD.kok + 'akilli-tabak-ve-degisim/?ogun=' + og + '&donus=hesabim/gunluk-takibim/';
+    U.bas('#gtKisayol', '<div class="alan"><span class="alan-etiket">Kısayollar</span><div class="cipler"><button class="cip" type="button" data-gt-dun' + (d.length ? '' : ' disabled') + '><i class="fa-solid fa-copy" aria-hidden="true"></i> ' + (d.length ? 'Dünü kopyala (' + d.length + ' kalem)' : 'Dün bu öğüne kayıt yok') + '</button><a class="cip" href="' + tabak + '"><i class="fa-solid fa-plate-wheat" aria-hidden="true"></i> Akıllı Tabak’tan ekle</a>' + (bugunEk.length ? '<button class="cip" type="button" data-gt-fav-kaydet><i class="fa-solid fa-star" aria-hidden="true"></i> Bugünkü ' + U.kac(ogunAd(og).toLocaleLowerCase('tr')) + ' favorim olsun</button>' : '') + '</div></div>'
+      + (fav.length ? '<div class="alan"><span class="alan-etiket">Favori öğünlerin</span><div class="cipler">' + fav.map((f, n) => '<button class="cip" type="button" data-gt-fav="' + n + '" title="' + U.kac(f.kalemler.map(U.kalemMetin).join(', ')) + '"><i class="fa-solid fa-star" aria-hidden="true"></i> ' + U.kac(f.ad) + '</button>').join('') + '</div></div>' : '')
+      + (sik.length ? '<div class="alan"><span class="alan-etiket">Kaydettiklerin ve son eklediklerin</span><div class="cipler">' + sik.map((x) => '<button class="cip" type="button" data-besin-sec="' + x.slug + '" data-ad="' + U.kac(x.ad) + '">' + U.kac(x.ad) + '</button>').join('') + '</div></div>' : ''));
+  }
+  /* Kip: Besin ara ya da Hızlı ekle (yalnız kalori) */
+  function kipKur(kip) {
+    const hizli = kip === 'hizli';
+    $('#gtKip').querySelectorAll('button').forEach((x) => x.setAttribute('aria-pressed', String(x.dataset.deger === kip)));
+    U.gizle($('#gtListeAlan'), hizli); U.gizle($('#gtHizliAlan'), !hizli);
+    $('#gtBesin').required = $('#gtGram').required = !hizli;
+    $('#gtHizliKcal').required = hizli;
+  }
+  function pencereAc(og) {
+    $('#gtOgunSec').value = og; kipKur('liste'); kisayolCiz(); DD.ac('#gtBesinModal');
+  }
+  /* Protein önerisi: protein hedefin %70'inin altındaysa kütüphanedeki porsiyon değerleriyle üç dört seçenek */
+  const PROTEIN_ADAY = ['yogurt-yarim-yagli', 'yumurta-haslanmis', 'mercimek-haslanmis', 'nohut-haslanmis', 'beyaz-peynir-yarim-yagli', 'tavuk-gogsu-izgara'];
+  function proteinCiz() {
+    const kap = $('#gtProtein');
+    if (!kap) return;
+    const hedef = Number(t.protein) || 0, tm = toplam(), oran = hedef ? Math.round((tm.protein / hedef) * 100) : 100;
+    if (!hedef || oran >= 70) { kap.innerHTML = ''; return; }
+    const tarz = t.beslenme_tarzi || '', bitkisel = tarz === 'vegan' ? ['mercimek-haslanmis', 'nohut-haslanmis'] : null;
+    const l = (bitkisel || PROTEIN_ADAY.filter((x) => !(tarz === 'vejetaryen' && x === 'tavuk-gogsu-izgara'))).map(U.besin).filter(Boolean).slice(0, 4);
+    const satir = (x) => { const g = (x.porsiyon && x.porsiyon.gram) || 100, pr = (x.protein * g) / 100; return '<div class="ayar-satir sarmali"><span class="as-ikon"><i class="fa-solid fa-egg" aria-hidden="true"></i></span><div class="as-metin"><b>' + U.kac(x.ad) + '</b><span>' + U.kac((x.porsiyon && x.porsiyon.ad) || '100 g') + ' (' + U.sayi(g) + ' g): ' + U.sayi(pr, 1) + ' g protein, ' + DD.bicim.kcal(Math.round((x.kcal * g) / 100)) + '</span></div><div class="as-eylem"><button class="dugme hayalet kucuk" type="button" data-protein-ekle="' + x.slug + '" data-gram="' + g + '">Öğüne ekle</button></div></div>'; };
+    kap.innerHTML = '<div class="kart panel tam-kolon"><div class="kart-bas"><div><h3 class="kart-baslik"><i class="fa-solid fa-dumbbell" aria-hidden="true"></i> Proteinin Eksik Kalıyor</h3><p>Bugün ' + U.sayi(tm.protein, 1) + ' / ' + U.sayi(hedef) + ' g protein aldın (%' + oran + '). Kalan öğünlerinde şunlardan biri açığı kapatmana yardım eder.</p></div></div><div class="kart-govde bosluksuz"><div class="ayar-liste">' + l.map(satir).join('') + '</div></div><div class="kart-alt eylem"><span class="eylem-notu">Değerler Besin Kütüphanesi’nden, porsiyon başına.</span><a class="dugme hayalet" href="' + DD.kok + 'besin-kutuphanesi/">Besin kütüphanesi</a></div></div>';
+  }
+  const ciz = () => { DD.hisKaydi.bas('#gtHis'); ogunCiz(); ekCiz(); suCiz(); adimCiz(); makroCiz(); proteinCiz(); notCiz(); ozetCiz(); };
 
   /* Öğün işareti */
-  document.addEventListener('dd:ogun', () => { ogunCiz(); makroCiz(); ozetCiz(); });
+  document.addEventListener('dd:ogun', () => { ogunCiz(); makroCiz(); proteinCiz(); ozetCiz(); });
   document.addEventListener('dd:ogun-foto', ogunCiz);
   document.addEventListener('dd:his', ozetCiz);
   /* Su */
@@ -171,11 +237,86 @@
       return;
     }
     const a = e.target.closest('[data-besin-ekle]');
-    if (a) { $('#gtOgunSec').value = a.dataset.besinEkle; DD.ac('#gtBesinModal'); return; }
+    if (a) { pencereAc(a.dataset.besinEkle); return; }
     const o = e.target.closest('[data-besin-sec]');
-    if (o) { secilen = o.dataset.besinSec; $('#gtBesin').value = o.dataset.ad; $('#gtOneri').hidden = true; }
+    if (o) { kipKur('liste'); secilen = o.dataset.besinSec; $('#gtBesin').value = o.dataset.ad; $('#gtOneri').hidden = true; return; }
+    const pe = e.target.closest('[data-protein-ekle]');
+    if (pe) { const x = U.besin(pe.dataset.proteinEkle); pencereAc(siradakiOgun()); secilen = x.slug; $('#gtBesin').value = x.ad; $('#gtGram').value = pe.dataset.gram; return; }
+    if (e.target.closest('[data-gt-dun]')) {
+      const og = $('#gtOgunSec').value, l = gunEk(dun).filter((x) => x.ogun === og);
+      l.forEach((x) => { const y = JSON.parse(JSON.stringify(x)); delete y.id; delete y.ornek; y.kaynak = 'dun'; ekler().push(y); });
+      U.kaydet(); DD.kapat($('#gtBesinModal')); ciz();
+      DD.toast('Dünkü ' + ogunAd(og).toLocaleLowerCase('tr') + ' kalemlerin (' + l.length + ') bugüne kopyalandı.');
+      return;
+    }
+    if (e.target.closest('[data-gt-fav-kaydet]')) {
+      const og = $('#gtOgunSec').value, l = ekler().filter((x) => x.ogun === og).map((x) => { const y = JSON.parse(JSON.stringify(x)); delete y.id; delete y.ornek; delete y.ogun; return y; });
+      const ad = ogunAd(og) + ' · ' + l.map(U.kalemAd).slice(0, 2).join(', ') + (l.length > 2 ? ' +' + (l.length - 2) : '');
+      favoriler().push({ ad, kalemler: l }); U.kaydet(); kisayolCiz();
+      DD.toast('“' + ad + '” favori öğünlerine eklendi.');
+      return;
+    }
+    const fv = e.target.closest('[data-gt-fav]');
+    if (fv) {
+      const f = favoriler()[Number(fv.dataset.gtFav)], og = $('#gtOgunSec').value;
+      f.kalemler.forEach((x) => ekler().push(Object.assign(JSON.parse(JSON.stringify(x)), { ogun: og, kaynak: 'favori' })));
+      U.kaydet(); DD.kapat($('#gtBesinModal')); ciz();
+      DD.toast(f.ad + ' bugünkü ' + ogunAd(og).toLocaleLowerCase('tr') + ' öğününe eklendi.');
+      return;
+    }
+    const sl = e.target.closest('[data-ek-sil]');
+    if (sl) { const x = ekler().splice(Number(sl.dataset.ekSil), 1)[0]; U.kaydet(); ciz(); DD.toast(U.kalemAd(x) + ' günlüğünden çıkarıldı.'); return; }
+    const dz = e.target.closest('[data-ek-duzelt]');
+    if (dz) duzeltAc(Number(dz.dataset.ekDuzelt));
   });
   $('#gtElle').addEventListener('change', (e) => U.gizle($('#gtElleAlan'), !e.target.checked));
+  $('#gtKip').addEventListener('dd:secim', (e) => kipKur(e.detail.deger));
+  $('#gtOgunSec').addEventListener('change', kisayolCiz);
+  /* Duyarlı üye kalori yazmaz: Hızlı ekle seçeneği kalkar */
+  if (duyarli) U.gizle($('#gtKip').closest('.alan'), true);
+  kipKur('liste');
+  /* Saate göre sıradaki öğün: öneri kartından açılan pencere bunu seçer */
+  const siradakiOgun = () => { const s = new Date().getHours() * 60 + new Date().getMinutes(); const o = U.ogunTanimi.find((x) => { const p = x[2].split(':'); return p[0] * 60 + Number(p[1]) >= s; }); return o ? o[0] : 'aksam'; };
+  /* Düzelt: miktarı olan kalemde değerler oranla ölçeklenir; serbest ve hızlı kalemde ad ile enerji düzeltilir */
+  let duzeltNo = -1;
+  const birimAd = (x) => (x.tur === 'tarif' && x.kaynak !== 'akilli-tabak' ? 'porsiyon' : 'g');
+  const miktarli = (x) => x.miktar > 0 && x.tur !== 'serbest';
+  function duzeltAc(n) {
+    const x = ekler()[n], m = miktarli(x);
+    duzeltNo = n;
+    $('#gtDuzeltAd').textContent = U.kalemMetin(x) + ' · ' + ogunAd(x.ogun);
+    U.gizle($('#gtDuzeltMiktarAlan'), !m); U.gizle($('#gtDuzeltSerbestAlan'), m);
+    $('#gtDuzeltMiktar').required = m;
+    $('#gtDuzeltMiktar').value = x.miktar || '';
+    $('label[for="gtDuzeltMiktar"]').firstChild.textContent = 'Miktar (' + birimAd(x) + ') ';
+    $('#gtDuzeltAdGir').value = x.ad || '';
+    $('#gtDuzeltKcal').value = x.kcal ? Math.round(x.kcal) : '';
+    U.gizle($('#gtDuzeltKcal').closest('.alan'), duyarli);
+    $('#gtDuzeltOgun').innerHTML = $('#gtOgunSec').innerHTML;
+    $('#gtDuzeltOgun').value = x.ogun;
+    DD.ac('#gtDuzeltModal');
+  }
+  $('#gtDuzeltForm').addEventListener('submit', (e) => {
+    e.preventDefault();
+    const x = ekler()[duzeltNo];
+    if (!x) return;
+    if (miktarli(x)) {
+      const yeni = Number($('#gtDuzeltMiktar').value);
+      if (!(yeni > 0)) { DD.toast('Miktarı yaz.', 'hata'); return; }
+      const o = yeni / x.miktar;
+      ['kcal', 'protein', 'yag', 'karb'].forEach((a) => { if (x[a] != null) x[a] = (Number(x[a]) || 0) * o; });
+      x.miktar = yeni;
+      if (x.olcu) x.olcu = U.sayi(yeni, yeni % 1 ? 1 : 0) + ' ' + birimAd(x);
+    } else {
+      const ad = $('#gtDuzeltAdGir').value.trim();
+      if (!ad) { DD.toast('Kalemin adını yaz.', 'hata'); return; }
+      x.ad = ad;
+      if (!duyarli) x.kcal = Number($('#gtDuzeltKcal').value) || 0;
+    }
+    x.ogun = $('#gtDuzeltOgun').value;
+    U.kaydet(); DD.kapat($('#gtDuzeltModal')); ciz();
+    DD.toast('Kalem düzeltildi.');
+  });
   $('#gtOgunSec').innerHTML = U.ogunTanimi.map((o) => '<option value="' + o[0] + '">' + o[1] + '</option>').join('');
 
   /* Besin arama: kütüphane verisinden */
@@ -190,6 +331,14 @@
   });
   $('#gtBesinForm').addEventListener('submit', (e) => {
     e.preventDefault();
+    if ($('#gtKip [aria-pressed="true"]').dataset.deger === 'hizli') {
+      const kcal = Number($('#gtHizliKcal').value), og = $('#gtOgunSec').value;
+      if (!(kcal > 0)) { DD.toast('Enerjiyi kcal olarak yaz.', 'hata'); return; }
+      ekler().push({ tur: 'serbest', ad: $('#gtHizliAd').value.trim() || 'Hızlı ekleme', ogun: og, kcal, kaynak: 'hizli' });
+      U.kaydet(); e.target.reset(); DD.kapat($('#gtBesinModal')); ciz();
+      DD.toast(DD.bicim.kcal(kcal) + ' bugünkü ' + ogunAd(og).toLocaleLowerCase('tr') + ' öğününe eklendi.');
+      return;
+    }
     const x = liste.find((y) => y.slug === secilen) || liste.find((y) => y.ad.toLocaleLowerCase('tr') === $('#gtBesin').value.toLocaleLowerCase('tr').trim());
     /* Listede olmayan besin: ad, birim ve elle girilen değerlerle serbest kalem */
     if (!x && $('#gtElle').checked) {
@@ -238,4 +387,10 @@
     $('#gtHafta').closest('table').querySelector('th:nth-child(2)').remove();
   }
   ciz();
+  /* Akıllı Tabak'tan dönüş: ?tabak=1 */
+  if (new URLSearchParams(location.search).has('tabak')) {
+    const n = ekler().filter((x) => x.kaynak === 'akilli-tabak').length;
+    if (n) DD.toast('Akıllı Tabak’taki tabağın günlüğüne eklendi.'); else DD.toast('Akıllı Tabak’tan kalem gelmedi.', 'uyari');
+    history.replaceState(null, '', location.pathname + location.hash);
+  }
 })();
