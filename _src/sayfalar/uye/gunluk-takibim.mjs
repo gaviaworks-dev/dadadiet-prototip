@@ -20,7 +20,7 @@ ${kart({ ikon: 'fa-bell', baslik: 'Su Hatırlatması', metin: 'Aynı ayar Tercih
 ${bolumBas({ etiket: 'Bugün', ikon: 'fa-chart-pie', baslik: 'Enerji ve Makro Dengen', metin: 'İşaretlediğin öğünler ve eklediğin besinler günlük hedefinle karşılaştırılır.' })}
 ${kart({ ikon: 'fa-chart-pie', baslik: 'Enerji ve Makro Dengesi', metin: 'Halka bugünkü enerjinin makrolara dağılımını gösterir; çubuklar hedefe göre ilerlemendir.', govde: '<div class="skor-yerlesim makro-denge" id="gtMakro"></div>' })}
 <div id="gtProtein"></div>
-${kart({ ikon: 'fa-list', baslik: 'Kalem Kalem Döküm', bosluksuz: true, govde: tablo({ id: 'gtKalemler', etiket: 'Bugünkü kalemler', basliklar: ['Kalem', ['Öğün', 'dar-kolon'], ['Enerji', 'dar-kolon sag'], ['Protein', 'dar-kolon sag'], ['Yağ', 'dar-kolon sag'], ['Karb.', 'dar-kolon sag']] }) })}
+${kart({ ikon: 'fa-list', baslik: 'Kalem Kalem Döküm', bosluksuz: true, govde: tablo({ id: 'gtKalemler', etiket: 'Bugünkü kalemler', basliklar: ['Kalem', ['Öğün', 'dar-kolon'], ['Enerji', 'kisa-kolon sag'], ['Protein', 'kisa-kolon sag'], ['Yağ', 'kisa-kolon sag'], ['Karb.', 'kisa-kolon sag']] }) })}
 </div>` },
   { id: 'adim', ad: 'Adım ve Hareket Bilgilerim', ikon: 'fa-person-walking', govde: `<div class="yigin">
 ${bolumBas({ etiket: 'Bugün', ikon: 'fa-person-walking', baslik: 'Adım ve Hareketin', metin: 'Günlük adım hedefin ve son 7 günün.' })}
@@ -38,7 +38,7 @@ ${kart({ ikon: 'fa-clock-rotate-left', baslik: 'Önceki Notların', bosluksuz: t
   { id: 'ozet', ad: 'Haftalık Özetim', ikon: 'fa-calendar-week', govde: `<div class="yigin">
 ${bolumBas({ etiket: 'Son 7 gün', ikon: 'fa-calendar-week', baslik: 'Haftalık Özetin', metin: 'Enerji, öğün, su ve adım ortalamaların; gün gün kayıtların ve hissin.' })}
 ${kart({ ikon: 'fa-gauge-high', baslik: 'Haftanın Ortalamaları', govde: '<div class="sayac-izgara" id="gtOrtalama"></div>' })}
-${kart({ ikon: 'fa-table-list', baslik: 'Gün Gün Döküm', bosluksuz: true, govde: tablo({ id: 'gtHafta', etiket: 'Son yedi günün enerji, öğün, su, adım ve his kayıtları', basliklar: ['Gün', ['Enerji', 'dar-kolon sag'], ['Öğün ve uyum', 'dar-kolon'], ['His', 'dar-kolon'], ['Su', 'dar-kolon sag'], ['Adım', 'dar-kolon sag'], ['Hedef', 'dar-kolon']] }) })}
+${kart({ ikon: 'fa-table-list', baslik: 'Gün Gün Döküm', bosluksuz: true, govde: tablo({ id: 'gtHafta', etiket: 'Son yedi günün enerji, öğün, su, adım ve his kayıtları', basliklar: ['Gün', ['Enerji', 'kisa-kolon sag'], ['Öğün ve uyum', 'dar-kolon'], ['His', 'dar-kolon'], ['Su', 'kisa-kolon sag'], ['Adım', 'kisa-kolon sag'], ['Hedef', 'kisa-kolon']] }) })}
 </div>` },
 ];
 

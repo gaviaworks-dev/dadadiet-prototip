@@ -27,6 +27,7 @@ ${kart({ ikon: 'fa-timeline', baslik: 'Randevu İstek ve Hareketlerin', metin: '
 </div>` },
   { id: 'gorusme', ad: 'Görüşme Geçmişim', ikon: 'fa-clock-rotate-left', govde: `<div class="yigin">
 ${bolumBas({ etiket: 'Tamamlananlar', ikon: 'fa-clock-rotate-left', baslik: 'Görüşme Geçmişin', metin: 'Tamamlanan görüşmelerin ve diyetisyenlerinin kısa notu.' })}
+<div class="iki-kolon esit esit-boy" id="dyGorusmeSon"></div>
 ${kart({ ikon: 'fa-clipboard-check', baslik: 'Tamamlanan Görüşmeler', bosluksuz: true, govde: tablo({ id: 'dyGorusme', etiket: 'Tamamlanan görüşmeler', basliklar: [['Tarih', 'dar-kolon'], ['Durum', 'dar-kolon'], ['Görüşme notu', 'sol']] }) })}
 </div>` },
   { id: 'mesaj', ad: 'Mesajlarım', ikon: 'fa-comments', sayi: 'mesaj', govde: `<div class="yigin">
@@ -35,11 +36,12 @@ ${bolumBas({ etiket: 'Yazışmaların', ikon: 'fa-comments', baslik: 'Mesajları
 </div>` },
   { id: 'not', ad: 'Diyetisyen Notları', ikon: 'fa-note-sticky', govde: `<div class="yigin">
 ${bolumBas({ etiket: 'Sana bırakılanlar', ikon: 'fa-note-sticky', baslik: 'Diyetisyen Notları', metin: 'Planına ve görüşmelerine eklenen, seninle paylaşılan notlar.' })}
-${kart({ ikon: 'fa-comment-medical', baslik: 'Paylaşılan Notlar', bosluksuz: true, govde: '<div class="ayar-liste" id="dyNotlar"></div>' })}
+<div id="dyNotSabit"></div>
+${kart({ ikon: 'fa-clock-rotate-left', baslik: 'Önceki Notlar', metin: '<span id="dyNotSayi"></span>', govde: '<div class="akordeon" id="dyNotlar"></div>' })}
 </div>` },
   { id: 'dosya', ad: 'Diyetisyenden Gelen Dosyalar', ikon: 'fa-folder-open', govde: `<div class="yigin">
 ${bolumBas({ etiket: 'Dosya kutusu', ikon: 'fa-folder-open', baslik: 'Dosyaların', metin: 'Diyetisyenlerinin gönderdikleri ve senin paylaştıkların.', arac: dugme('Dosya paylaş', { sinif: 'birincil', ikon: 'fa-upload', ek: ' data-ac="#dyDosya"' }) })}
-${kart({ ikon: 'fa-inbox', baslik: 'Diyetisyenlerinden Gelen Dosyalar', bosluksuz: true, govde: '<div class="ayar-liste" id="dyGelen"></div>' })}
+${kart({ ikon: 'fa-inbox', baslik: 'Diyetisyenlerinden Gelen Dosyalar', bosluksuz: true, govde: '<div class="ayar-liste sarar" id="dyGelen"></div>' })}
 ${kart({ ikon: 'fa-paper-plane', baslik: 'Senin Paylaştıkların', bosluksuz: true, govde: '<div class="ayar-liste" id="dyGiden"></div>' })}
 </div>` },
   { id: 'hak', ad: 'Kalan Görüşme Haklarım', ikon: 'fa-ticket', govde: `<div class="yigin">
@@ -55,6 +57,13 @@ const sonEk = randevuForm('dyRandevu', 'Randevu Oluştur', 'yeni', 'Talebi gönd
   govde: '<div class="alan"><label class="alan-etiket" for="dyDosyaTur">Belge türü</label><select class="alan-secim" id="dyDosyaTur"><option>Tahlil sonucu</option><option>Rapor</option><option>Reçete</option><option>Vücut analizi çıktısı</option><option>Haftalık özet</option><option>Diğer</option></select></div><div class="alan"><label class="alan-etiket" for="dyDosyaGirdi">Dosya <span class="zorunlu">*</span></label><input class="alan-girdi" id="dyDosyaGirdi" type="file" required><p class="alan-yardim"><span>Dosya diyetisyeninle paylaşılır. En çok 10 MB.</span></p></div>',
   ayak: dugme('Vazgeç', { ek: ' data-kapat' }) + dugme('Paylaş', { sinif: 'birincil', tur: 'submit' }),
 }) + modal({
+  id: 'dyBildir', baslik: 'Mesajı Bildir', form: ' id="dyBildirForm"',
+  govde: '<div class="not-kutu" id="dyBildirAlinti"></div><div class="alan"><label class="alan-etiket" for="dyBildirGerekce">Gerekçe <span class="zorunlu">*</span></label><select class="alan-secim" id="dyBildirGerekce" required><option value="">Gerekçe seç</option><option>Hakaret ya da taciz</option><option>Spam ya da reklam</option><option>Uygunsuz içerik</option><option>Kişisel veri isteği</option><option>Platform dışı ödeme isteği</option><option>Diğer</option></select></div><div class="alan"><label class="alan-etiket" for="dyBildirAciklama">Açıklama <span class="istege-bagli">(isteğe bağlı)</span></label><textarea class="alan-metin" id="dyBildirAciklama" rows="3" maxlength="1000"></textarea></div><div class="bilgi-notu"><i class="fa-solid fa-shield-halved" aria-hidden="true"></i><p>Bildirim Dada Diet moderasyon ekibine gider, diyetisyenine haber verilmez. Yazışman açık kalır.</p></div>',
+  ayak: dugme('Vazgeç', { ek: ' data-kapat' }) + dugme('Bildir', { sinif: 'birincil', tur: 'submit' }),
+}) + modal({
+  id: 'dyDosyaGor', baslik: '<span id="dyDosyaGorBaslik">Dosya</span>', govde: '<div id="dyDosyaGorGovde"></div>',
+  ayak: dugme('Kapat', { sinif: 'birincil', ek: ' data-kapat' }),
+}).replace('class="modal-kutu"', 'class="modal-kutu belge-modal"') + modal({
   id: 'dyIptal', baslik: 'Randevu İptal Talebi',
   govde: '<div class="okuma"><p id="dyIptalMetin"></p></div><label class="onay-kutusu" for="dyIptalKutu"><input type="checkbox" id="dyIptalKutu"><span>Randevunun iptal edileceğini ve diyetisyenime bildirileceğini anladım.</span></label><p class="durum-satir kapali" id="dyIptalKilit"><i class="fa-solid fa-lock" aria-hidden="true"></i> <span>Kutuyu işaretlemeden iptal talebi gönderilemez.</span></p>',
   ayak: dugme('Vazgeç', { ek: ' data-kapat' }) + dugme('İptal talebi gönder', { sinif: 'tehlike', ek: ' id="dyIptalOnay" disabled' }),
@@ -63,5 +72,5 @@ const sonEk = randevuForm('dyRandevu', 'Randevu Oluştur', 'yeni', 'Talebi gönd
 export default () => [uyeSayfa({
   yol: 'hesabim/diyetisyenim', ad: 'Diyetisyenim',
   giris: 'Diyetisyenlerinle olan her şey tek sayfada: hizmetlerin, randevuların, mesajların, notların ve dosyaların.',
-  grup: 'dy', sekmeler, sonEk, js: ['assets/js/belge-kasa.js', 'assets/js/sayfa/uye-diyetisyenim.js'],
+  grup: 'dy', sekmeler, sonEk, js: ['assets/js/belge-kasa.js', 'assets/js/tercih-uyum.js', 'assets/js/sayfa/uye-menu-pdf.js', 'assets/js/sayfa/uye-diyetisyenim.js'],
 })];
