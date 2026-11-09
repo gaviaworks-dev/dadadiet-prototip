@@ -3,6 +3,7 @@ import fs from 'node:fs';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { anaMenu, footerKolonlar, footerKurumsal, footerYasal, uyeMenu, panelMenu } from './menu.mjs';
+import { dilMenusu, cekmeceDil, gorusBildir, cerezBandi } from './canli-ogeler.mjs';
 
 const BU = path.dirname(fileURLToPath(import.meta.url));
 const logo = fs.readFileSync(path.join(BU, 'logo.svg'), 'utf8');
@@ -26,7 +27,7 @@ function cekmece() {
   const satir = anaMenu.map((m) => m.kalemler
     ? `<div class="d-item d-has-sub"><div class="d-row"><a class="d-link" href="${K}${m.href}"><i class="fa-solid ${m.ikon}"></i> ${m.ad}</a><button class="d-toggle" type="button" aria-expanded="false" aria-label="${m.ad} alt menüsü"><i class="fa-solid fa-chevron-down"></i></button></div><div class="d-sub">${m.kalemler.map((k) => `<a href="${K}${k.href}"><i class="fa-solid ${k.ikon}"></i>${k.ad}</a>`).join('')}</div></div>`
     : `<div class="d-item"><div class="d-row"><a class="d-link" href="${K}${m.href}"><i class="fa-solid ${m.ikon}"></i> ${m.ad}</a></div></div>`).join('');
-  return `<div class="drawer-overlay" id="drawerOverlay"></div><aside class="drawer" id="drawer" aria-label="Menü" aria-hidden="true" inert><div class="drawer-head"><a class="drawer-brand" href="${K}">${logo}</a><button class="drawer-close" id="drawerClose" type="button" aria-label="Menüyü kapat"><i class="fa-solid fa-xmark"></i></button></div><nav class="drawer-nav">${satir}</nav></aside>`;
+  return `<div class="drawer-overlay" id="drawerOverlay"></div><aside class="drawer" id="drawer" aria-label="Menü" aria-hidden="true" inert><div class="drawer-head"><a class="drawer-brand" href="${K}">${logo}</a><button class="drawer-close" id="drawerClose" type="button" aria-label="Menüyü kapat"><i class="fa-solid fa-xmark"></i></button></div><nav class="drawer-nav">${satir}</nav><div class="drawer-foot"><a class="btn btn-primary drawer-login oturum-kapali" href="${K}giris/"><i class="fa-solid fa-user"></i> Giriş Yap</a>${cekmeceDil}</div></aside>`;
 }
 
 function hesapMenu() {
@@ -36,7 +37,7 @@ function hesapMenu() {
 
 function ust(meta) {
   const hero = meta.hero ? ' at-top tepede' : '';
-  return `<div class="topbar ust-bant"><div class="wrap kap"><div class="tb-left"><a href="${K}besin-kutuphanesi/"><i class="fa-solid fa-leaf"></i> 541 besin değeri</a></div><div class="tb-right"><nav class="brand-switch" aria-label="DadaMentor dünyaları"><a class="bs-item bs-gastro" href="https://dadagastro.com" title="DadaGastro" rel="external"><i class="fa-solid fa-utensils"></i><span class="bs-name"><span class="bd">dada</span><span class="sf">gastro</span></span></a><a class="bs-item bs-fit" href="https://dadafit.com.tr" title="DadaFit" rel="external"><i class="fa-solid fa-dumbbell"></i><span class="bs-name"><span class="bd">dada</span><span class="sf">fit</span></span></a><a class="bs-item bs-diet is-active" href="${K}" aria-current="page"><i class="fa-solid fa-heart-pulse"></i><span class="bs-name"><span class="bd">dada</span><span class="sf">diet</span></span></a><a class="bs-item bs-gourmet" href="https://dadagourmet.com" title="DadaGourmet" rel="external"><i class="fa-solid fa-map-location-dot"></i><span class="bs-name"><span class="bd">dada</span><span class="sf">gourmet</span></span></a></nav></div></div></div>
+  return `<div class="topbar ust-bant"><div class="wrap kap"><div class="tb-left"><a href="${K}besin-kutuphanesi/"><i class="fa-solid fa-leaf"></i> 541 besin değeri</a></div><div class="tb-right"><nav class="brand-switch" aria-label="DadaMentor dünyaları"><a class="bs-item bs-gastro" href="https://dadagastro.com" title="DadaGastro" rel="external"><i class="fa-solid fa-utensils"></i><span class="bs-name"><span class="bd">dada</span><span class="sf">gastro</span></span></a><a class="bs-item bs-fit" href="https://dadafit.com.tr" title="DadaFit" rel="external"><i class="fa-solid fa-dumbbell"></i><span class="bs-name"><span class="bd">dada</span><span class="sf">fit</span></span></a><a class="bs-item bs-diet is-active" href="${K}" aria-current="page"><i class="fa-solid fa-heart-pulse"></i><span class="bs-name"><span class="bd">dada</span><span class="sf">diet</span></span></a><a class="bs-item bs-gourmet" href="https://dadagourmet.com" title="DadaGourmet" rel="external"><i class="fa-solid fa-map-location-dot"></i><span class="bs-name"><span class="bd">dada</span><span class="sf">gourmet</span></span></a></nav>${dilMenusu}</div></div></div>
 <header class="header${hero}" data-site-header${meta.hero ? ' data-hero="1"' : ''}><div class="h-top"><div class="wrap kap"><a class="brand dd-brand" href="${K}" aria-label="Dada Diet">${logo}</a><nav class="nav ana-menu" aria-label="Menü">${nav(meta.aktif)}</nav><div class="head-actions"><a class="icon-btn ikon-dugme" href="${K}arama/" aria-label="Ara"><i class="fa-solid fa-magnifying-glass"></i></a><a class="icon-btn ikon-dugme head-bell oturum-acik" href="${K}hesabim/bildirimler/" aria-label="Bildirimler"><i class="fa-solid fa-bell"></i><span class="hb-badge">3</span></a><a class="btn-login oturum-kapali" id="btnLogin" href="${K}giris/"><i class="fa-solid fa-user"></i> Giriş Yap</a>${hesapMenu()}<button class="icon-btn ikon-dugme hamburger" id="hamburger" type="button" aria-controls="drawer" aria-expanded="false" aria-label="Menü"><i class="fa-solid fa-bars"></i></button></div></div></div></header>${cekmece()}`;
 }
 
@@ -72,7 +73,7 @@ export function kabukla(s, { istekler }) {
   ].map((j) => `<script src="${K}${j}" defer></script>`).join('\n');
   const govde = duzen === 'panel' ? panelKabuk(m, s.govde)
     : duzen === 'tam' ? s.govde
-    : `${ust(m)}<main class="page-main" id="pageMain" tabindex="-1">${s.govde}</main>${dip()}`;
+    : `${ust(m)}<main class="page-main" id="pageMain" tabindex="-1">${s.govde}</main>${dip()}${gorusBildir}${cerezBandi}`;
   const bodySinif = panel ? ' class="yetkili" data-marka="diet"' : ` data-brand="diet"${duzen === 'uye' ? ' class="is-auth"' : ''}`;
   const oturum = duzen === 'uye' ? `document.documentElement.dataset.oturum='1'` : `try{if(localStorage.getItem('dd-oturum')==='1')document.documentElement.dataset.oturum='1'}catch(e){}`;
   return `<!doctype html>

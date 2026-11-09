@@ -1825,7 +1825,7 @@
      "t": "ul",
      "l": [
       "İlk ziyarette çerez bildirimi gösterilir; zorunlu çerezler dışındaki tüm kategoriler <strong>varsayılan olarak kapalıdır</strong> ve onayınız olmadan çalıştırılmaz. Siteyi kullanmaya devam etmek onay yerine geçmez.",
-      "İsteğe bağlı tek kategori analitiktir (§2.3). Bildirimde \"Reddet\" ve \"Tümünü Kabul Et\" düğmeleri bulunur; kararınızı dilediğiniz an geri alabilirsiniz: <button class=\"dugme hayalet kucuk\" type=\"button\" data-toast=\"Çerez tercihin sıfırlandı. Prototipte çerez bandı yok; canlıda bir sonraki ziyarette yeniden sorulur.\">Çerez tercihimi sıfırla</button> — tercih unutulur ve bildirim yeniden gösterilir.",
+      "İsteğe bağlı tek kategori analitiktir (§2.3). Bildirimde \"Reddet\" ve \"Tümünü Kabul Et\" düğmeleri bulunur; kararınızı dilediğiniz an geri alabilirsiniz: <button class=\"dugme hayalet kucuk\" type=\"button\" data-cerez-sifirla data-toast=\"Çerez tercihin sıfırlandı; bilgilendirme bandı yeniden açıldı.\">Çerez tercihimi sıfırla</button> — tercih unutulur ve bildirim yeniden gösterilir.",
       "Kararınız <code>dadadiet_cookie_notice</code> adlı çerezde 12 ay saklanır ve her istekte sunucuya iletilir; bu çerez yalnızca kararınızı hatırlamak için kullanılır.",
       "İsteğe bağlı bir kategori kullanılmaya başlandığında bu metin ve bildirim, kategori bazında onay alacak biçimde birlikte değişir."
      ]
