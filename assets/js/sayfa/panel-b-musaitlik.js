@@ -75,8 +75,8 @@
   }
 
   /* ---------- Geçmiş ve sayaç ---------- */
-  const kurallar = () => ({ on: $('#slotOnline').value, yz: $('#slotYuz').value, tp: $('#tampon').value, onay: $('#onayKural').value, ko: $('#kabulOnline').checked, ky: $('#kabulYuz').checked });
-  const KURAL_ID = { on: 'slotOnline', yz: 'slotYuz', tp: 'tampon', onay: 'onayKural', ko: 'kabulOnline', ky: 'kabulYuz' };
+  const kurallar = () => ({ on: $('#slotOnline').value, yz: $('#slotYuz').value, uon: $('#ucretOnline').value, uyz: $('#ucretYuz').value, tp: $('#tampon').value, onay: $('#onayKural').value, ko: $('#kabulOnline').checked, ky: $('#kabulYuz').checked });
+  const KURAL_ID = { on: 'slotOnline', yz: 'slotYuz', uon: 'ucretOnline', uyz: 'ucretYuz', tp: 'tampon', onay: 'onayKural', ko: 'kabulOnline', ky: 'kabulYuz' };
   function kuralYaz(k) { Object.keys(KURAL_ID).forEach((a) => { const e = $('#' + KURAL_ID[a]); if (e.type === 'checkbox') e.checked = k[a]; else e.value = k[a]; }); }
   const anlik = () => ({ I: kopya(I), k: kurallar() });
   function adimAc() { gecmis.push(anlik()); if (gecmis.length > 60) gecmis.shift(); }
@@ -153,11 +153,15 @@
   function kaydet() {
     aralikYaz();
     m.slot = { online: +$('#slotOnline').value, 'yüz yüze': +$('#slotYuz').value };
+    m.ucret = { online: Math.max(0, +$('#ucretOnline').value || 0), 'yüz yüze': Math.max(0, +$('#ucretYuz').value || 0) };
     m.tampon = +$('#tampon').value;
     m.onay = $('#onayKural').value;
     m.son_kayit = PB.simdi();
     const d = PB.demo().diyetisyen;
     d.online = $('#kabulOnline').checked; d.yuz_yuze = $('#kabulYuz').checked;
+    /* Profil üstündeki "Seans ücreti" aralığı bu iki ücretten gelir */
+    const u = [d.online && m.ucret.online, d.yuz_yuze && m.ucret['yüz yüze']].filter((x) => x > 0);
+    if (u.length) d.fiyat_araligi = Object.assign({}, d.fiyat_araligi, { min: Math.min(...u), max: Math.max(...u) });
     PB.kaydet();
     kayitli = kopya(I); kuralKayitli = kurallar(); sonKural = kuralKayitli; gecmis.length = 0;
     ciz(); sayac();
@@ -166,6 +170,9 @@
   function kurallarDoldur() {
     const d = PB.demo().diyetisyen;
     $('#slotOnline').value = m.slot.online; $('#slotYuz').value = m.slot['yüz yüze'];
+    /* Ücret kaydı yoksa profildeki fiyat aralığından: online alt, yüz yüze üst sınır */
+    const u = m.ucret || {}, fa = d.fiyat_araligi || {};
+    $('#ucretOnline').value = u.online != null ? u.online : (fa.min || 0); $('#ucretYuz').value = u['yüz yüze'] != null ? u['yüz yüze'] : (fa.max || 0);
     $('#tampon').value = m.tampon || 0; $('#onayKural').value = m.onay || 'elle';
     $('#kabulOnline').checked = !!d.online; $('#kabulYuz').checked = !!d.yuz_yuze;
   }
