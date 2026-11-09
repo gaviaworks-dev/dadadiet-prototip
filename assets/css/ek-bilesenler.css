@@ -3427,3 +3427,15 @@ html:has(#pageMain .modal-ortu:not([hidden]),#pageMain .sheet-ortu:not([hidden])
 .kart-not{display:block;font-size:var(--yazi-12-5);line-height:1.5;color:var(--metin-ikincil)}
 .yetkili .kart-govde>.bilgi-notu:first-child{margin-top:0}
 .yetkili .panel-sayfa .secenek-kart p{margin-bottom:0}
+/* Plan uyumu özeti: başlık oranı, ölçer, sayılar, 7 günlük şerit, bugünün öğünleri */
+.uyum-ayrac{margin-top:var(--bosluk-16);padding-top:var(--bosluk-16);border-top:1px solid var(--cizgi)}
+.uyum-ozet{display:flex;flex-direction:column;gap:var(--bosluk-12)}
+.uyum-bas{display:flex;align-items:baseline;justify-content:space-between;gap:var(--bosluk-8);flex-wrap:wrap}
+.uyum-bas>span{font-size:var(--yazi-14);font-weight:var(--agirlik-kalin);color:var(--murekkep)}
+.uyum-bas>b{font-size:var(--yazi-24);font-weight:var(--agirlik-ekstra);color:var(--aksan-koyu)}
+.uyum-bas small{font-size:var(--yazi-12-5);font-weight:var(--agirlik-govde);color:var(--metin-ikincil)}
+.uyum-sayilar{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:var(--bosluk-8)}
+.yetkili .uyum-ozet .form-bolum-bas{margin:var(--bosluk-4) 0 0}
+.yetkili .uyum-ozet .alan-yardim,.yetkili .uyum-ozet .mini-liste{margin:0}
+.gs-deger small{font-size:var(--yazi-11);font-weight:var(--agirlik-govde)}
+@media(max-width:520px){.uyum-sayilar{grid-template-columns:repeat(2,minmax(0,1fr))}}

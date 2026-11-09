@@ -111,11 +111,39 @@
     };
     return `<div class="kart panel">${bas(`Son 7 gün, ${dolu} kayıt`)}<div class="kart-govde"><div class="gun-seri-kap"><ol class="gun-seri" aria-label="Son 7 günün his kayıtları">${gunler.map(gun).join('')}</ol></div></div></div>`;
   }
+  /* F7 plan uyumu: üyenin Uydum / Atladım işaretleri, tek kaynak assets/js/uyum.js (üye Beslenme Planım ile aynı veri ve kural).
+     Öğün işaretleri günlük takip kaydıdır: izin kapalıysa sayı gösterilmez */
+  const UY_DURUM = { uydu: ['Uydu', 'cozulen', 'fa-check'], atladi: ['Atladı', 'hata', 'fa-xmark'], '': ['Bekliyor', 'kapali', 'fa-clock'] };
+  function uyumHtml(plan) {
+    if (!window.UYUM) return '';
+    if (!dn.izinler.gunluk) return `<p class="bos-satir uyum-ayrac">Günlük takip izni yok; öğün işaretleri görünmez.</p>`;
+    const s = UYUM.ozet(PA.d(), plan, DD.bugun, 7);
+    if (DD.bugun < s.bas) return `<p class="bos-satir uyum-ayrac">Plan ${PA.tarih(s.bas)} günü başlıyor; ${h(ilgi)} öğün işaretleri o günden sonra görünür.</p>`;
+    const p = s.program, son = s.son, yuzde = (x) => (x == null ? '—' : '%' + x);
+    const gunler = Array.from({ length: 7 }, (_, n) => PA.ekle(DD.bugun, n - 6));
+    const gunLi = (t) => {
+      const g = s.gunler.find((x) => x.tarih === t), bugun = t === DD.bugun;
+      const ton = !g ? 'bos' : g.atla ? 'uyari' : g.tamam && (!bugun || g.tamam === g.toplam) ? 'olumlu' : 'bos';
+      const adet = UYUM.gunOgunleri(plan, t).length;
+      const deger = !g ? '<span aria-hidden="true">—</span><span class="yalniz-okuyucu">Plan dışı</span>' : `<b>${g.tamam}/${adet}</b><span class="yalniz-okuyucu"> öğüne uydu</span>${g.atla ? `<small>${g.atla} atladı</small>` : ''}`;
+      return `<li class="${ton}"${bugun ? ' aria-current="date"' : ''}><span class="gs-gun">${PA.gunKisa(t)}<span class="yalniz-okuyucu">, ${PA.tarih(t)}</span></span><span class="gs-deger">${deger}</span></li>`;
+    };
+    const bugunL = s.bugun.length ? `<div class="mini-liste">${s.bugun.map((o) => { const [e, c, i] = UY_DURUM[o.durum]; return `<div class="mini-satir"><span><b>${h(o.ad)} · ${DD.bicim.saat(o.saat)}</b><small>${o.kalem} kalem</small></span><span class="durum-hapi ikonlu ${c}"><i class="fa-solid ${i}" aria-hidden="true"></i> ${e}</span></div>`; }).join('')}</div>` : `<p class="bos-satir">${DD.bugun > s.bit ? 'Plan bitti, bugün için öğün yok.' : 'Bugün planda öğün yok.'}</p>`;
+    return `<div class="uyum-ozet uyum-ayrac">
+      <div class="uyum-bas"><span>Programa uyum <small>${DD.bugun > s.bit ? PA.tarih(s.bas) + ' – ' + PA.tarih(s.bit) + ', plan bitti' : 'başlangıç ' + PA.tarih(s.bas) + ', bugün dahil'}</small></span><b>${yuzde(p.oran)} <small>${p.tamam}/${p.toplam} öğün</small></b></div>
+      ${PA.olcer(p.oran || 0)}
+      <div class="uyum-sayilar"><div class="kisa-kalem"><span>Son 7 gün uyumu</span><div>${yuzde(son.oran)}</div></div><div class="kisa-kalem"><span>Uydu</span><div>${son.tamam} öğün</div></div><div class="kisa-kalem"><span>Atladı</span><div>${son.atla} öğün</div></div><div class="kisa-kalem"><span>İşaretsiz</span><div>${son.bos} öğün</div></div></div>
+      <div class="gun-seri-kap"><ol class="gun-seri" aria-label="Son 7 günün öğün uyumu">${gunler.map(gunLi).join('')}</ol></div>
+      <h3 class="form-bolum-bas"><i class="fa-solid fa-calendar-day" aria-hidden="true"></i> Bugünün Öğünleri</h3>
+      ${bugunL}
+      <p class="alan-yardim"><i class="fa-solid fa-circle-info" aria-hidden="true"></i><span>${h(ilgi)} Beslenme Planım ekranındaki Uydum / Atladım işaretleri. Programa uyum bugünün bütün öğünlerini sayar; son 7 gün uyumu bugün yalnız işaretlenen öğünü sayar.</span></p>
+    </div>`;
+  }
   function ozetCiz() {
     const rs = PA.d().randevular.filter((r) => r.danisan_id === id).sort((a, b) => (b.tarih + b.saat).localeCompare(a.tarih + a.saat));
     const plan = PA.d().planlar.filter((x) => x.danisan_id === id && x.durum === 'gonderildi').sort((a, b) => b.tarih.localeCompare(a.tarih))[0];
     const notlar = notSirali().slice(0, 2);
-    const planKart = `<div class="kart panel">${kartBas('fa-clipboard-list', 'Atanmış Plan', plan ? '' : `<a class="dugme hayalet kucuk" href="${PA.yol.yeniPlan(id)}">Yeni plan</a>`)}<div class="kart-govde">${plan ? `<div class="ayar-liste"><a class="ayar-satir" href="${PA.yol.plan(plan.id)}"><span class="as-metin"><b>${h(plan.ad)}</b><span>${DD.bicim.kcal(plan.hedef_kcal)} · ${PA.tarih(plan.tarih)}</span></span><i class="fa-solid fa-chevron-right as-ok" aria-hidden="true"></i></a></div>` : `<p class="bos-satir">${h(ilgi)} atanmış planı yok. Plan gönderdiğinde burada görünür.</p>`}</div></div>`;
+    const planKart = `<div class="kart panel">${kartBas('fa-clipboard-list', plan ? 'Atanmış Plan ve Uyum' : 'Atanmış Plan', plan ? '' : `<a class="dugme hayalet kucuk" href="${PA.yol.yeniPlan(id)}">Yeni plan</a>`)}<div class="kart-govde">${plan ? `<div class="ayar-liste"><a class="ayar-satir" href="${PA.yol.plan(plan.id)}"><span class="as-metin"><b>${h(plan.ad)}</b><span>${DD.bicim.kcal(plan.hedef_kcal)} · ${PA.tarih(plan.tarih)}</span></span><i class="fa-solid fa-chevron-right as-ok" aria-hidden="true"></i></a></div>${uyumHtml(plan)}` : `<p class="bos-satir">${h(ilgi)} atanmış planı yok. Plan gönderdiğinde burada görünür.</p>`}</div></div>`;
     const notKart = `<div class="kart panel">${kartBas('fa-note-sticky', 'Son Notlar', notlar.length ? `<button class="dugme hayalet kucuk" type="button" data-sekme-git="not">Tümü</button>` : '<button class="dugme hayalet kucuk" type="button" data-is="not-ekle">Not ekle</button>')}<div class="kart-govde">${notlar.length ? `<div class="mini-liste">${notlar.map((n) => `<div class="mini-satir"><span><b>${PA.tarih(n.tarih)}</b><small>${h(n.metin)}</small></span></div>`).join('')}</div>` : `<p class="bos-satir">${h(ilgi)} klinik notu yok.</p>`}</div></div>`;
     $('p-ozet').innerHTML = `<div class="iki-sutun-pano"><div class="yigin">${ilkSeri()}${randevuKart(rs)}${hisKart()}${planKart}${notKart}</div><aside class="yigin" aria-label="Paket, ödeme ve sağlık özeti">${paketKart()}${odemeKart()}${saglikKart()}</aside></div>`;
     PA.oranlar($('p-ozet'));
