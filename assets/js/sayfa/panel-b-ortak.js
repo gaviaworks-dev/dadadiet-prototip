@@ -201,7 +201,11 @@
       .forEach((p) => (p.degerler || []).forEach((d) => son.set(d.ad, Object.assign({ tarih: p.tarih }, d))));
     return [...son.values()];
   };
-  PB.tahlilDurum = (d) => (d.ref_alt != null && d.sonuc < d.ref_alt ? 'dusuk' : d.ref_ust != null && d.sonuc > d.ref_ust ? 'yuksek' : '');
+  /* Danışan kartı ve Sağlık Dosyam ile aynı kural (tahlil-deger.js: rapor aralığı, yoksa varsayılan tablo, ferritinde kılavuz sınırı) */
+  PB.tahlilDurum = (d) => {
+    if (DD.tahlilDeger) { const r = DD.tahlilDeger.durum(d); return r === 'dusuk' || r === 'yuksek' ? r : ''; }
+    return d.ref_alt != null && d.sonuc < d.ref_alt ? 'dusuk' : d.ref_ust != null && d.sonuc > d.ref_ust ? 'yuksek' : '';
+  };
   PB.tahlilIzni = (danisan) => !danisan.izinler || danisan.izinler.tahlil !== false;
   PB.oneriler = (danisan) => {
     if (!danisan) return [];

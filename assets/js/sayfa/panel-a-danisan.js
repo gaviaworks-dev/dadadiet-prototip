@@ -154,13 +154,29 @@
       <p class="alan-yardim"><i class="fa-solid fa-circle-info" aria-hidden="true"></i><span>${h(ilgi)} Beslenme Planım ekranındaki Uydum / Atladım işaretleri. Programa uyum bugünün bütün öğünlerini sayar; son 7 gün uyumu bugün yalnız işaretlenen öğünü sayar.</span></p>
     </div>`;
   }
+  /* WKA-3-8: Sağlık Dosyası'ndaki son 7 günün dökümü uzmana gelir (öğün, su, adım, his). Günlük takip iznine bağlı.
+     Su ve adım yalnız uygulamayı kullanan üyede kayıtlıdır (demo: oturumdaki üye); öteki danışanda "kayıt yok" yazar */
+  function dokumKart(plan) {
+    const bas = (alt) => kartBas('fa-table-list', 'Son 7 Gün Dökümü', '', alt);
+    if (!dn.izinler.gunluk) return `<div class="kart panel">${bas('Günlük takip izni yok')}</div>`;
+    const d = PA.d(), uye = d.uye && d.uye.danisan_id === id ? d.uye : null;
+    const gunler = Array.from({ length: 7 }, (_, n) => PA.ekle(DD.bugun, n - 6));
+    const s = plan && window.UYUM ? UYUM.ozet(d, plan, DD.bugun, 7) : null;
+    const su = (g) => { const x = uye && ((uye.su || {}).hafta || []).find((y) => y.tarih === g); return x ? PA.sayi(x.ml / 1000, 1) + ' L' : '—'; };
+    const adim = (g) => { const x = uye && ((uye.adim || {}).hafta || []).find((y) => y.tarih === g); return x ? PA.sayi(x.adim, 0) : '—'; };
+    const ogun = (g) => { const x = s && s.gunler.find((y) => y.tarih === g); return x ? x.tamam + '/' + UYUM.gunOgunleri(plan, g).length + (x.atla ? ' · ' + x.atla + ' atladı' : '') : '—'; };
+    const his = (g) => { const k = (dn.his_kayitlari || []).filter((x) => x.tarih === g).pop(); return k ? h((HIS[k.his] || [k.his])[0]) : '—'; };
+    const satir = gunler.map((g) => `<tr${g === DD.bugun ? ' aria-current="date"' : ''}><td><b>${PA.gunKisa(g)}</b><small>${PA.tarih(g)}</small></td><td class="num" data-etiket="Öğün">${ogun(g)}</td><td class="num" data-etiket="Su">${su(g)}</td><td class="num" data-etiket="Adım">${adim(g)}</td><td data-etiket="His">${his(g)}</td></tr>`).join('');
+    const hedef = uye ? `Su hedefi ${PA.sayi(((uye.su || {}).hedef_ml || 0) / 1000, 1)} L, adım hedefi ${PA.sayi((uye.adim || {}).hedef || 0, 0)}` : 'Su ve adım kaydı yok; danışan uygulamada kayıt tutmuyor';
+    return `<div class="kart panel">${bas(hedef)}<div class="kart-govde bosluksuz"><div class="tablo-kap gomulu"><table class="tablo panel dar-yigin"><caption class="yalniz-okuyucu">Son 7 günün öğün, su, adım ve his dökümü</caption><thead><tr><th scope="col">Gün</th><th class="num" scope="col" data-kolon-tut>Öğün</th><th class="num" scope="col" data-kolon-tut>Su</th><th class="num" scope="col" data-kolon-tut>Adım</th><th scope="col" data-kolon-tut>His</th></tr></thead><tbody>${satir}</tbody></table></div></div></div>`;
+  }
   function ozetCiz() {
     const rs = PA.d().randevular.filter((r) => r.danisan_id === id).sort((a, b) => (b.tarih + b.saat).localeCompare(a.tarih + a.saat));
     const plan = PA.d().planlar.filter((x) => x.danisan_id === id && x.durum === 'gonderildi').sort((a, b) => b.tarih.localeCompare(a.tarih))[0];
     const notlar = notSirali().slice(0, 2);
     const planKart = `<div class="kart panel">${kartBas('fa-clipboard-list', plan ? 'Atanmış Plan ve Uyum' : 'Atanmış Plan', plan ? '' : `<a class="dugme hayalet kucuk" href="${PA.yol.yeniPlan(id)}">Yeni plan</a>`)}<div class="kart-govde">${plan ? `<div class="ayar-liste"><a class="ayar-satir" href="${PA.yol.plan(plan.id)}"><span class="as-metin"><b>${h(plan.ad)}</b><span>${DD.bicim.kcal(plan.hedef_kcal)} · ${PA.tarih(plan.tarih)}</span></span><i class="fa-solid fa-chevron-right as-ok" aria-hidden="true"></i></a></div>${uyumHtml(plan)}` : `<p class="bos-satir">${h(ilgi)} atanmış planı yok. Plan gönderdiğinde burada görünür.</p>`}</div></div>`;
     const notKart = `<div class="kart panel">${kartBas('fa-note-sticky', 'Son Notlar', notlar.length ? `<button class="dugme hayalet kucuk" type="button" data-sekme-git="not">Tümü</button>` : '<button class="dugme hayalet kucuk" type="button" data-is="not-ekle">Not ekle</button>')}<div class="kart-govde">${notlar.length ? `<div class="mini-liste">${notlar.map((n) => `<div class="mini-satir"><span><b>${PA.tarih(n.tarih)}</b><small>${h(n.metin)}</small></span></div>`).join('')}</div>` : `<p class="bos-satir">${h(ilgi)} klinik notu yok.</p>`}</div></div>`;
-    $('p-ozet').innerHTML = `<div class="iki-sutun-pano"><div class="yigin">${ilkSeri()}${randevuKart(rs)}${hisKart()}${planKart}${notKart}</div><aside class="yigin" aria-label="Paket, ödeme ve sağlık özeti">${paketKart()}${odemeKart()}${saglikKart()}${tahlilOzetKart()}</aside></div>`;
+    $('p-ozet').innerHTML = `<div class="iki-sutun-pano"><div class="yigin">${ilkSeri()}${randevuKart(rs)}${hisKart()}${planKart}${dokumKart(plan)}${notKart}</div><aside class="yigin" aria-label="Paket, ödeme ve sağlık özeti">${paketKart()}${odemeKart()}${saglikKart()}${tahlilOzetKart()}</aside></div>`;
     PA.oranlar($('p-ozet'));
     $('randevuKume').addEventListener('dd:secim', (e) => { v.randevu = e.detail.deger; ozetCiz(); });
   }
