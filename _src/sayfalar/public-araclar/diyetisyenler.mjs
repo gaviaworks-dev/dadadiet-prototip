@@ -122,7 +122,7 @@ const randevuSecici = (devamHref, ek = '') => `<div class="iki-kolon randevu-sec
 </div>
 <aside class="yapiskan alt-yapiskan" aria-label="Randevu özeti"><div class="kart secim-ozet"><div class="kart-bas"><h3 class="kart-baslik">${ikon('fa-clipboard-check')} Randevu Özeti</h3></div><div class="kart-govde"><div class="secim-ozet-liste" id="ozetListe"></div><p class="secim-ozet-satir" id="ozetSatir"></p><div class="yigin sik"><a class="dugme birincil tam-en" id="slotDevam" href="${devamHref}" aria-disabled="true">Randevuyu tamamla ${ikon('fa-arrow-right')}</a><p class="kart-metin" id="slotNot" aria-live="polite">Saat seçince randevunu hesabından onaylarsın.</p></div></div></div></aside>
 </div>`;
-const randevuBas = (ek = '') => bolumBas({ etiket: 'Uygunluk', ikon: 'fa-calendar-check', baslik: 'Önümüzdeki Günler', metin: 'Görüşme türünü ve günü seç, sonra boş bir saate dokun. Üstü çizili saatler dolu.', arac: ek });
+const randevuBas = (ek = '') => bolumBas({ etiket: 'Uygunluk', ikon: 'fa-calendar-check', baslik: 'Önümüzdeki Günler', metin: 'Görüşme türünü ve günü seç, sonra uygun bir saate dokun. Üstü çizili saatler alınmış.', arac: ek });
 
 /* Liste kartı ve profil başlığı aynı veriden: puan ve değerlendirme yorumlardan, fiyat seans ücretinden */
 const ozetAl = (o) => ({ puan: ortalama(o.yorumlar), degerlendirme_sayisi: o.yorumlar.length, fiyat_araligi: ucretAralik(o.musaitlik), dogrulandi: true, diller: o.diller });
