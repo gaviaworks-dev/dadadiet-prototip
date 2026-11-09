@@ -45,6 +45,10 @@
   /* Bildirim düğmesi: sunucuya gitmeyen eylemler (ör. çerez tercihini sıfırla) yalnız toast verir */
   document.addEventListener('click', (e) => { const t = e.target.closest('[data-toast]'); if (t) DD.toast(t.dataset.toast); });
 
+  /* İpuçlu ikon düğme: aria-label (yoksa title) ipucuna kopyalanır; sonradan basılan düğmeler için de gözlenir. Panel kendi kitini kullanır. */
+  const ipucuKur = (kok) => (kok.querySelectorAll ? kok : document).querySelectorAll('.ikon-dugme:not([data-ipucu])').forEach((d) => { const ad = d.getAttribute('aria-label') || d.getAttribute('title'); if (ad) { d.setAttribute('data-ipucu', ad); if (d.title === ad) d.removeAttribute('title'); } });
+  if (!panelKipi) { ipucuKur(document); new MutationObserver((l) => l.forEach((m) => m.addedNodes.forEach((n) => { if (n.nodeType === 1) { if (n.matches && n.matches('.ikon-dugme')) ipucuKur(n.parentElement || document); else ipucuKur(n); } }))).observe(document.body, { childList: true, subtree: true }); }
+
   /* Video hero: kaynak sayfa açıldıktan sonra bağlanır; azaltılmış hareket ve veri tasarrufunda poster kalır */
   const hareketAzalt = matchMedia('(prefers-reduced-motion: reduce)').matches;
   const veriTasarrufu = navigator.connection && navigator.connection.saveData;

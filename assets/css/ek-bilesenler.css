@@ -3634,3 +3634,12 @@ body.cerez-acik .yuzen-dugme{display:none}
 }
 /* T8: çerez bandı açıkken sayfa sonu bandın yüksekliği kadar boşluk bırakır, kapanınca kalkar (kabuk.css'teki sabit 140/370 px yerine) */
 body:has(.cookie-banner.show),body.cerez-acik{padding-bottom:var(--cerez-boy,0px)}
+
+/* ── İpuçlu ikon düğme (Sayfa Revizesi 1 kanon kuralı): işlem düğmeleri Gastro'daki gibi ikon düğmedir, adı ipucunda görünür.
+   Ad tek kaynaktan: aria-label (ortak.js data-ipucu'ya kopyalar). Panel kitindeki .panel-katla[data-ipucu] yüzeyinin genel hâli. */
+.ikon-dugme[data-ipucu]{position:relative}
+.ikon-dugme[data-ipucu]::after{content:attr(data-ipucu);position:absolute;left:50%;bottom:calc(100% + var(--bosluk-6));transform:translateX(-50%) translateY(2px);z-index:20;padding:var(--bosluk-4) var(--bosluk-8);border-radius:var(--yuvarlak-sm);background:var(--murekkep);color:var(--kagit);font-size:var(--yazi-12);font-weight:var(--agirlik-kalin);line-height:1.3;white-space:nowrap;pointer-events:none;opacity:0;visibility:hidden;transition:opacity var(--sure) var(--yumusama),transform var(--sure) var(--yumusama),visibility 0s var(--sure)}
+.ikon-dugme[data-ipucu]:hover::after,.ikon-dugme[data-ipucu]:focus-visible::after{opacity:1;visibility:visible;transform:translateX(-50%);transition-delay:0s}
+.ikon-dugme[data-ipucu-alt]::after{bottom:auto;top:calc(100% + var(--bosluk-6))}
+@media (hover:none){.ikon-dugme[data-ipucu]:hover::after{opacity:0;visibility:hidden}}
+.head-actions .ikon-dugme[data-ipucu]::after{bottom:auto;top:calc(100% + var(--bosluk-6))}
