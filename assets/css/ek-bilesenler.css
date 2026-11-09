@@ -3479,3 +3479,8 @@ body.cerez-acik #dadaMentor{--mentor-dip:max(var(--mentor-taban),calc(var(--ment
 .yetkili .uyum-ozet .alan-yardim,.yetkili .uyum-ozet .mini-liste{margin:0}
 .gs-deger small{font-size:var(--yazi-11);font-weight:var(--agirlik-govde)}
 @media(max-width:520px){.uyum-sayilar{grid-template-columns:repeat(2,minmax(0,1fr))}}
+
+/* ── dk-panel (9 Kasım): mesaj eki indirilebilir düğme, balon künyesindeki bildir bağı ── */
+button.sohbet-ek{font-family:inherit;text-align:left;cursor:pointer}
+button.sohbet-ek:hover b{color:var(--aksan-koyu)}
+.sohbet-kunye .bag-dugme{display:inline-flex;align-items:center;gap:var(--bosluk-4);font-weight:var(--agirlik-orta);color:var(--metin-ikincil)}
