@@ -74,10 +74,10 @@ const marka = () => ['marka-is-birlikleri', 'reklam-ver'].map((y) => sayfa(y, 'M
 
 /* Yasal */
 const YASAL_GRUP = [
-  ['A. Sözleşmeler ve Kullanım', [['Kullanım Koşulları', DETAY.yasal, 'fa-file-contract']]],
-  ['B. Sağlık İçeriği ve Tıbbi Sorumluluk', [['Tıbbi Sorumluluk Reddi', DETAY.yasal, 'fa-stethoscope'], ['Bilimsel Kaynaklar ve Metodoloji', 'sayfa/bilimsel-kaynaklar/', 'fa-flask']]],
-  ['C. Sağlık Verisi, Gizlilik ve Güvenlik', [['Sağlık Verisi Politikası', DETAY.yasal, 'fa-heart-pulse'], ['Gizlilik Politikası', DETAY.yasal, 'fa-user-shield'], ['KVKK Aydınlatma Metni', DETAY.yasal, 'fa-scale-balanced'], ['Çerez Politikası', DETAY.yasal, 'fa-cookie-bite']]],
-  ['D. Uzman İlişkisi, Ticari ve Şeffaflık', [['Diyetisyen Doğrulama ve Kabul Politikası', DETAY.yasal, 'fa-user-check'], ['Künye / Yer Sağlayıcı Bilgisi', 'sayfa/kunye/', 'fa-id-card']]],
+  ['A. Sözleşmeler ve Kullanım', [['Kullanım Koşulları', 'yasal/kullanim-kosullari/', 'fa-file-contract']]],
+  ['B. Sağlık İçeriği ve Tıbbi Sorumluluk', [['Tıbbi Sorumluluk Reddi', 'yasal/tibbi-sorumluluk-reddi/', 'fa-stethoscope'], ['Bilimsel Kaynaklar ve Metodoloji', 'sayfa/bilimsel-kaynaklar/', 'fa-flask']]],
+  ['C. Sağlık Verisi, Gizlilik ve Güvenlik', [['Sağlık Verisi Politikası', 'yasal/saglik-verisi/', 'fa-heart-pulse'], ['Gizlilik Politikası', 'yasal/gizlilik/', 'fa-user-shield'], ['KVKK Aydınlatma Metni', 'yasal/kvkk/', 'fa-scale-balanced'], ['Çerez Politikası', 'yasal/cerez/', 'fa-cookie-bite']]],
+  ['D. Uzman İlişkisi, Ticari ve Şeffaflık', [['Diyetisyen Doğrulama ve Kabul Politikası', 'yasal/diyetisyen-dogrulama/', 'fa-user-check'], ['Künye / Yer Sağlayıcı Bilgisi', 'sayfa/kunye/', 'fa-id-card']]],
 ];
 const YASAL_NOT = 'Bu metinler bilgilendirme amaçlıdır; güncel sürüm her zaman bu sayfada yayımlanır.';
 
@@ -85,7 +85,9 @@ const yasal = () => sayfa('yasal', 'Yasal Metinler',
   bant({ yol: [['Yasal Metinler']], etiket: 'DADA DİET', etiketIkon: 'fa-scale-balanced', h1: 'Yasal Metinler', alt: 'Her metnin başında yürürlük sürümü ve son güncelleme tarihi bulunur.' })
   + dizi(bolum(`<div class="yigin">${okuma('<p class="okuma-giris">Dada Diet\'i kullanırken geçerli olan sözleşmeler, sağlık içeriği ve tıbbi sorumluluk metinleri ile sağlık verisi ve gizlilik politikaları burada toplanır. Metinler dört başlık altında gruplanmıştır.</p>')}${YASAL_GRUP.map(([g, l]) => `<div class="yigin sik"><h2 class="kart-baslik">${g}</h2>${izgara(l.map(([a, h, i]) => ikonKart({ href: h, ikon: i, baslik: a, metin: 'Metni oku' })).join(''), 'c2')}</div>`).join('')}<p class="sonuc-not-kisa">${YASAL_NOT}</p></div>`, { ilk: true })));
 
-const BELGE_MENU = [['KVKK Aydınlatma Metni', 'yasal/kvkk/'], ['Künye', 'sayfa/kunye/'], ['Bilimsel Kaynaklar', 'sayfa/bilimsel-kaynaklar/'], ['Tüm Yasal Metinler', 'yasal/']];
+/* Canlıdaki belge menüsünün sırası */
+const YASAL_BELGE = [['kullanim-kosullari', 'Kullanım Koşulları'], ['tibbi-sorumluluk-reddi', 'Tıbbi Sorumluluk Reddi'], ['saglik-verisi', 'Sağlık Verisi Politikası'], ['gizlilik', 'Gizlilik Politikası'], ['kvkk', 'KVKK Aydınlatma Metni'], ['cerez', 'Çerez Politikası'], ['diyetisyen-dogrulama', 'Diyetisyen Doğrulama ve Kabul Politikası']];
+const BELGE_MENU = [...YASAL_BELGE.map(([y, a]) => [a, `yasal/${y}/`]), ['Künye', 'sayfa/kunye/'], ['Bilimsel Kaynaklar', 'sayfa/bilimsel-kaynaklar/'], ['Tüm Yasal Metinler', 'yasal/']];
 
 function yasalBelge({ yol, baslik, anahtar, tarih, kirinti }) {
   const b = metin.yasal[anahtar].bloklar;
@@ -191,7 +193,7 @@ const saglik = () => sayfa('sayfa/saglik-bilgilendirmesi', 'Sağlık Bilgilendir
 
 export default ({ veri }) => [
   pro(), ...marka(), yasal(),
-  yasalBelge({ yol: 'yasal/kvkk', baslik: 'KVKK Aydınlatma Metni', anahtar: 'yasal-kvkk', tarih: '28.10.2026', kirinti: [['Yasal Metinler', 'yasal/'], ['KVKK Aydınlatma Metni']] }),
+  ...YASAL_BELGE.map(([y, a]) => yasalBelge({ yol: `yasal/${y}`, baslik: a, anahtar: `yasal-${y}`, tarih: '28.10.2026', kirinti: [['Yasal Metinler', 'yasal/'], [a]] })),
   yasalBelge({ yol: 'sayfa/kunye', baslik: 'Künye', anahtar: 'sayfa-kunye', tarih: '14.09.2026', kirinti: [['Yasal Metinler', 'yasal/'], ['Künye']] }),
   yasalBelge({ yol: 'sayfa/bilimsel-kaynaklar', baslik: 'Bilimsel Kaynaklar', anahtar: 'sayfa-bilimsel-kaynaklar', tarih: '19.08.2026', kirinti: [['Yasal Metinler', 'yasal/'], ['Bilimsel Kaynaklar']] }),
   hakkimizda(veri), editoryal(), iletisim(), cozumMerkezi(), sss(), nasilCalisir(), uzmanRehberi(), saglik(),

@@ -42,6 +42,9 @@
     window.print();
   };
 
+  /* Bildirim düğmesi: sunucuya gitmeyen eylemler (ör. çerez tercihini sıfırla) yalnız toast verir */
+  document.addEventListener('click', (e) => { const t = e.target.closest('[data-toast]'); if (t) DD.toast(t.dataset.toast); });
+
   /* Video hero: kaynak sayfa açıldıktan sonra bağlanır; azaltılmış hareket ve veri tasarrufunda poster kalır */
   const hareketAzalt = matchMedia('(prefers-reduced-motion: reduce)').matches;
   const veriTasarrufu = navigator.connection && navigator.connection.saveData;

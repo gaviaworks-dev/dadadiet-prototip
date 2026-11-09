@@ -953,6 +953,1056 @@
      ]
     }
    ]
+  },
+  "yasal-kullanim-kosullari": {
+   "bloklar": [
+    {
+     "t": "p",
+     "h": "Sürüm 1.0 · Yürürlük tarihi: 28.10.2026 · Son güncelleme: 28.10.2026"
+    },
+    {
+     "t": "h2",
+     "h": "1. Taraflar ve Konu",
+     "id": "b1"
+    },
+    {
+     "t": "p",
+     "h": "İşbu Kullanım Koşulları; DadaDiet platformunu işleten <span class=\"rozet bekleme\">[unvan] · bekliyor</span> (\"<strong>DadaDiet</strong>\" veya \"<strong>Platform</strong>\") ile Platform'u ziyaret eden, üye olan veya Platform üzerinden hizmet alan gerçek kişi (\"<strong>Kullanıcı</strong>\") arasındaki ilişkiyi düzenler. Platform'u kullanmaya devam ederek bu koşulları kabul etmiş sayılırsınız."
+    },
+    {
+     "t": "p",
+     "h": "Bu metin; <a href=\"{{kok}}yasal/tibbi-sorumluluk-reddi/\">Tıbbi Sorumluluk Reddi</a>, <a href=\"{{kok}}yasal/saglik-verisi/\">Sağlık Verisi Politikası</a> ve Platformun Rolü ve Aracılık Bildirimi metinlerine atıf yapar ve onlarla birlikte bir bütün oluşturur."
+    },
+    {
+     "t": "h2",
+     "h": "2. Tanımlar",
+     "id": "b2"
+    },
+    {
+     "t": "ul",
+     "l": [
+      "<strong>Hesaplayıcı</strong> — Kullanıcının girdiği ölçü ve bilgilerden referans denklemlerle tahmini bir sonuç üreten araç.",
+      "<strong>Program</strong> — Platform'da yayımlanan örnek nitelikteki beslenme içeriği ve takip planı.",
+      "<strong>Rehber içerik</strong> — Beslenme ve besin bilgisine ilişkin editoryal yazı ve besin kütüphanesi kayıtları.",
+      "<strong>Sağlık verisi</strong> — Boy, kilo, vücut ölçüleri, hedefler, öğün kayıtları ve diyetisyene aktarılan sağlık geçmişi.",
+      "<strong>Uzman</strong> — Platform üzerinde doğrulanmış, bağımsız meslek mensubu diyetisyen."
+     ]
+    },
+    {
+     "t": "h2",
+     "h": "3. Platform'un Niteliği",
+     "id": "b3"
+    },
+    {
+     "t": "p",
+     "h": "<strong>DadaDiet bir sağlık kuruluşu değildir ve sağlık hizmeti sunmaz.</strong> Platform; hesaplayıcı, rehber içerik ve beslenme programı yayımlar ve kullanıcı ile bağımsız diyetisyeni buluşturan aracılık, randevu ve altyapı hizmeti verir. Bu ayrımın kapsamı Platformun Rolü ve Aracılık Bildirimi'nde düzenlenmiştir."
+    },
+    {
+     "t": "p",
+     "h": "Platform'da yayımlanan içerikler genel bilgi amaçlıdır; kişiye özel tıbbi ya da beslenme önerisi değildir ve teşhis veya tedavi yerine geçmez. Sınırların tamamı <a href=\"{{kok}}yasal/tibbi-sorumluluk-reddi/\">Tıbbi Sorumluluk Reddi</a>'ndedir."
+    },
+    {
+     "t": "h2",
+     "h": "4. Hesap Açma ve Hesabın Kullanımı",
+     "id": "b4"
+    },
+    {
+     "t": "ul",
+     "l": [
+      "Üyelik sırasında verilen bilgilerin doğru ve güncel olması Kullanıcı'nın sorumluluğundadır.",
+      "Hesap kişiseldir; giriş bilgilerinin gizliliğinden ve hesap üzerinden yapılan işlemlerden Kullanıcı sorumludur.",
+      "Sağlık verisi barındıran bir hesapta iki adımlı doğrulamanın açılması önerilir; ayarları \"Giriş ve Güvenlik\" bölümündedir.",
+      "Yetkisiz erişim şüphesinde Kullanıcı derhal <strong>[e-posta]</strong> adresine bildirimde bulunur.",
+      "Üyelik için asgari yaş ve küçüklere ilişkin kurallar Yaş Sınırı ve Küçüklerin Korunması metnindedir."
+     ]
+    },
+    {
+     "t": "h2",
+     "h": "5. Onayların Ayrı Alınması",
+     "id": "b5"
+    },
+    {
+     "t": "p",
+     "h": "DadaDiet'te onaylar tek kutuda toplanmaz. <strong>Üyelik onayı, sağlık verisi rızası, uzmanla paylaşım rızası ve pazarlama izni dört ayrı onaydır</strong>; ayrı ayrı verilir, ayrı ayrı kaydedilir ve ayrı ayrı geri çekilebilir. Tek kutuda birleştirilen rıza geçersiz sayılır."
+    },
+    {
+     "t": "ul",
+     "l": [
+      "<strong>Zorunlu:</strong> Kullanım Koşulları ve <a href=\"{{kok}}yasal/gizlilik/\">Gizlilik Politikası</a>'nın kabulü.",
+      "<strong>İsteğe bağlı ve ayrı:</strong> sağlık verisinin diyetisyenle paylaşılması izni — hesabınızın \"Veri ve İzinlerim\" bölümünde ayrı bir anahtar.",
+      "<strong>İsteğe bağlı ve ayrı:</strong> pazarlama iletileri izni — aynı bölümde ayrı bir anahtar.",
+      "<strong>İsteğe bağlı ve ayrı:</strong> sağlık verisinin işlenmesine ilişkin açık rıza — bkz. Açık Rıza Metni. <strong>Bu rızayı ayrı olarak isteyen bir ekran bugün Platform'da bulunmamaktadır</strong>; ilgili metnin §4'ü bugünkü durumu ayrıca bildirir."
+     ]
+    },
+    {
+     "t": "p",
+     "h": "<strong>Rıza vermemek Platform'u kullanmanıza engel değildir:</strong> izin vermeden de rehberleri okuyabilir, programları inceleyebilirsiniz. Kabul ettiğiniz metnin sürümü ve kabul tarihi kaydedilir; bu kayıt hesabınızda görüntülenmemekte, <a href=\"{{kok}}yasal/gizlilik/\">Gizlilik Politikası</a> §11'deki adrese başvurularak öğrenilmektedir."
+    },
+    {
+     "t": "h2",
+     "h": "6. Sağlık Verisi",
+     "id": "b6"
+    },
+    {
+     "t": "p",
+     "h": "Boy, kilo, vücut ölçüleri, hedefler, öğün kayıtları ve diyetisyene aktardığınız sağlık geçmişi özel nitelikli kişisel veridir ve genel kişisel veriden ayrı bir rejime tabidir. İşleme amaçları, saklama süreleri, uzmanla paylaşım koşulları ve bu veriler üzerindeki kontrolünüz <a href=\"{{kok}}yasal/saglik-verisi/\">Sağlık Verisi Politikası</a>'nda düzenlenmiştir."
+    },
+    {
+     "t": "h2",
+     "h": "7. Hesaplayıcılar ve Programlar",
+     "id": "b7"
+    },
+    {
+     "t": "p",
+     "h": "Hesaplama sonuçları tahmini değerlerdir ve referans denklemlere dayanır; program menüleri örnek niteliktedir ve kişiye uyarlanması gerekir. Her hesaplayıcının sınırlılıkları Hesaplayıcı Sınırlılıkları Bildirimi'nde, kullanılan referans denklemler ve besin değeri kaynakları <a href=\"{{kok}}sayfa/bilimsel-kaynaklar/\">Bilimsel Kaynaklar ve Metodoloji</a>'de açıklanmıştır."
+    },
+    {
+     "t": "p",
+     "h": "Gebelik ve emzirme, kronik hastalık, düzenli ilaç kullanımı, çocuk ve ergen beslenmesi ile klinik bir durumun varlığı hâlinde programa başlamadan önce hekim ve diyetisyen kontrolü zorunludur — bkz. Hassas Gruplar ve Kontrendikasyon Bildirimi."
+    },
+    {
+     "t": "h2",
+     "h": "8. Uzman Hizmetleri",
+     "id": "b8"
+    },
+    {
+     "t": "p",
+     "h": "Platform üzerinde listelenen diyetisyenler bağımsız meslek mensubudur, Platform çalışanı değildir. Kişiye özel beslenme planı yalnızca yetkili diyetisyen tarafından hazırlanabilir ve mesleki sorumluluk uzmandadır. Doğrulama esasları <a href=\"{{kok}}yasal/diyetisyen-dogrulama/\">Diyetisyen Doğrulama ve Kabul Politikası</a>'nda, sorumluluk sınırı Platformun Rolü ve Aracılık Bildirimi'ndedir."
+    },
+    {
+     "t": "h2",
+     "h": "9. Yasak Kullanımlar",
+     "id": "b9"
+    },
+    {
+     "t": "ul",
+     "l": [
+      "Platform içeriğinin otomatik araçlarla toplu olarak çekilmesi, kopyalanması veya türev bir hizmette kullanılması.",
+      "Platform içeriğinin tıbbi tavsiye, teşhis veya tedavi olarak sunulması ya da bu izlenimi verecek şekilde yeniden yayımlanması.",
+      "Başkasına ait sağlık verisinin, o kişinin bilgisi ve onayı olmaksızın Platform'a girilmesi.",
+      "Uzman olmadığı hâlde uzman gibi görünmek, sahte belge sunmak veya doğrulama sürecini yanıltmak.",
+      "Platform'un güvenlik önlemlerini aşmaya yönelik girişimler ve hizmeti aksatacak yükleme oluşturmak.",
+      "Üçüncü kişilerin kişilik, telif veya marka haklarını ihlal eden içerik yüklemek."
+     ]
+    },
+    {
+     "t": "h2",
+     "h": "10. Ücretli Hizmetler",
+     "id": "b10"
+    },
+    {
+     "t": "p",
+     "h": "Platform'un temel kullanımı ücretsizdir. Pro üyelik, randevu ücreti ve benzeri ücretli hizmetlerin koşulları ayrı bilgilendirme ve sözleşme metinleriyle düzenlenir; bu hizmetlerden yararlanmak Platform'un ücretsiz kullanımının şartı değildir."
+    },
+    {
+     "t": "p",
+     "h": "Ücretli hizmet almak, bir uzmanın doğrulama durumunu, sıralamasını veya hakkındaki bildirimlerin akıbetini değiştirmez."
+    },
+    {
+     "t": "h2",
+     "h": "11. Fikri Mülkiyet",
+     "id": "b11"
+    },
+    {
+     "t": "p",
+     "h": "Platform'un tasarımı, yazılımı, veri tabanı yapısı, markası ve editoryal içerikleri DadaDiet'e aittir. Kullanıcı'nın Platform'a girdiği kendi verisi Kullanıcı'ya aittir; bu verinin işlenmesi <a href=\"{{kok}}yasal/saglik-verisi/\">Sağlık Verisi Politikası</a> ve <a href=\"{{kok}}yasal/gizlilik/\">Gizlilik Politikası</a> kapsamındadır."
+    },
+    {
+     "t": "h2",
+     "h": "12. Sorumluluğun Sınırlandırılması",
+     "id": "b12"
+    },
+    {
+     "t": "p",
+     "h": "İçeriklerin niteliği, hesaplama sonuçlarının tahmini oluşu, program menülerinin örnek niteliği, besin değeri bilgilerinin kaynaklara göre değişebilmesi ve acil sağlık durumunda izlenecek yol <a href=\"{{kok}}yasal/tibbi-sorumluluk-reddi/\">Tıbbi Sorumluluk Reddi</a>'nde düzenlenmiştir. Uzmandan kaynaklanan hususlarda sorumluluğun kimde olduğu Platformun Rolü ve Aracılık Bildirimi'nde yazılıdır."
+    },
+    {
+     "t": "h2",
+     "h": "13. Hesabın Askıya Alınması ve Sonlandırılması",
+     "id": "b13"
+    },
+    {
+     "t": "p",
+     "h": "Bu koşulların ihlali hâlinde içerik yayından kaldırılabilir, hesap geçici olarak askıya alınabilir veya sonlandırılabilir. Kullanıcı'nın karara itiraz hakkı saklıdır; itiraz başvuruları <strong>[e-posta]</strong> adresinden yapılır ve <strong>[yanıt süresi]</strong> içinde sonuçlandırılır."
+    },
+    {
+     "t": "p",
+     "h": "Kullanıcı hesabını dilediği zaman kapatabilir. Hesap silindiğinde sağlık verileri kalıcı olarak silinir; uzmanla paylaşılmış veri ve görüşme kayıtları için mesleki saklama yükümlülükleri geçerli olabilir. Ayrıntı <a href=\"{{kok}}yasal/saglik-verisi/\">Sağlık Verisi Politikası</a>'ndadır."
+    },
+    {
+     "t": "h2",
+     "h": "14. Değişiklikler ve Versiyonlama",
+     "id": "b14"
+    },
+    {
+     "t": "p",
+     "h": "Her metnin başında yürürlük tarihi, son güncelleme tarihi ve sürüm numarası gösterilir. Metin güncellendiğinde kayıtlı kullanıcılara bildirim gönderilir; esaslı değişiklikte yeniden onay istenir. Sağlık içeriğinde güncellik ayrıca bir güvenilirlik göstergesidir; rehber ve hesaplayıcı sayfalarında da son güncelleme tarihi gösterilir."
+    },
+    {
+     "t": "h2",
+     "h": "15. Uygulanacak Hukuk ve İletişim",
+     "id": "b15"
+    },
+    {
+     "t": "p",
+     "h": "Bu koşullara Türk hukuku uygulanır. Uyuşmazlıklarda <strong>[yetkili mahkeme ve icra daireleri]</strong> yetkilidir."
+    },
+    {
+     "t": "ul",
+     "l": [
+      "<strong>Unvan:</strong> [unvan]",
+      "<strong>Adres:</strong> [adres]",
+      "<strong>MERSİS no:</strong> [MERSİS no]",
+      "<strong>Vergi dairesi / vergi no:</strong> [vergi dairesi / vergi no]",
+      "<strong>KEP adresi:</strong> [KEP adresi]",
+      "<strong>E-posta:</strong> [e-posta]"
+     ]
+    },
+    {
+     "t": "p",
+     "h": "Yer sağlayıcı bilgileri <a href=\"{{kok}}sayfa/kunye/\">Künye / Yer Sağlayıcı Bilgisi</a> sayfasındadır."
+    },
+    {
+     "t": "h2",
+     "h": "16. İlgili Metinler",
+     "id": "b16"
+    },
+    {
+     "t": "ul",
+     "l": [
+      "<a href=\"{{kok}}yasal/tibbi-sorumluluk-reddi/\">Tıbbi Sorumluluk Reddi</a>",
+      "<a href=\"{{kok}}yasal/saglik-verisi/\">Sağlık Verisi Politikası</a>",
+      "Platformun Rolü ve Aracılık Bildirimi",
+      "Yaş Sınırı ve Küçüklerin Korunması"
+     ]
+    }
+   ]
+  },
+  "yasal-tibbi-sorumluluk-reddi": {
+   "bloklar": [
+    {
+     "t": "p",
+     "h": "Sürüm 1.0 · Yürürlük tarihi: 28.10.2026 · Son güncelleme: 28.10.2026"
+    },
+    {
+     "t": "h2",
+     "h": "1. Özet Uyarı",
+     "id": "b1"
+    },
+    {
+     "t": "p",
+     "h": "<strong>Bu sitedeki hesaplayıcı, test, rehber ve program içerikleri genel bilgi amaçlıdır; kişiye özel tıbbi ya da beslenme önerisi değildir, teşhis veya tedavi yerine geçmez. Gebelik, kronik hastalık, düzenli ilaç kullanımı veya çocuk beslenmesi durumunda hekim ve diyetisyen kontrolü zorunludur.</strong>"
+    },
+    {
+     "t": "p",
+     "h": "Bu uyarı Platform'un tüm sayfalarında kalıcı olarak gösterilir. Aşağıdaki bölümler, uyarının kapsamını ayrıntılandırır."
+    },
+    {
+     "t": "h2",
+     "h": "2. İçeriklerin Niteliği",
+     "id": "b2"
+    },
+    {
+     "t": "p",
+     "h": "Platform'da yayımlanan hesaplayıcı sonuçları, testler, rehber yazılar, besin bilgileri ve beslenme programları <strong>genel bilgi amaçlıdır</strong>. Bu içerikler kişiye özel tıbbi veya beslenme önerisi değildir; kişinin yaşı, sağlık durumu, kullandığı ilaçlar ve klinik geçmişi dikkate alınarak hazırlanmamıştır."
+    },
+    {
+     "t": "h2",
+     "h": "3. Teşhis ve Tedavi Yerine Geçmez",
+     "id": "b3"
+    },
+    {
+     "t": "p",
+     "h": "Platform içeriği <strong>teşhis ve tedavi yerine geçmez</strong>; hekim veya diyetisyen muayenesinin yerini almaz. Bir hastalığın tanısı, tedavisi veya izlemi için Platform'a dayanılamaz. Mevcut bir tedaviniz varsa, Platform'daki içeriğe dayanarak tedavinizi değiştirmeyiniz."
+    },
+    {
+     "t": "h2",
+     "h": "4. Hesaplama Sonuçları Tahmini Değerlerdir",
+     "id": "b4"
+    },
+    {
+     "t": "p",
+     "h": "Hesaplayıcıların ürettiği sonuçlar <strong>tahmini değerlerdir ve referans denklemlere dayanır</strong>. Bu denklemler kişiler arası farklılıkları tam olarak yansıtmaz; sonuç, ölçülmüş bir değer değil, girdiğiniz verilerden türetilmiş bir tahmindir."
+    },
+    {
+     "t": "p",
+     "h": "Hangi referans denklemin kullanıldığı ve kaynağı sonuç ekranında gösterilir; ayrıntı için <a href=\"{{kok}}sayfa/bilimsel-kaynaklar/\">Bilimsel Kaynaklar ve Metodoloji</a> ve Hesaplayıcı Sınırlılıkları Bildirimi."
+    },
+    {
+     "t": "h2",
+     "h": "5. Program Menüleri Örnek Niteliktedir",
+     "id": "b5"
+    },
+    {
+     "t": "p",
+     "h": "Platform'da yayımlanan program ve menüler <strong>örnek niteliktedir ve kişiye uyarlanması gerekir</strong>. Bir programın olduğu gibi uygulanması amaçlanmamıştır; kişiye özel beslenme planı yalnızca yetkili bir diyetisyen tarafından hazırlanabilir."
+    },
+    {
+     "t": "h2",
+     "h": "6. Besin Değeri Bilgileri",
+     "id": "b6"
+    },
+    {
+     "t": "p",
+     "h": "Besin değeri bilgileri <strong>kaynaklara göre değişebilir</strong>. Ürünün cinsi, üretim ve pişirme yöntemi, marka ve porsiyon ölçüsü gibi etkenler değerleri değiştirir. Kullanılan veri kaynakları <a href=\"{{kok}}sayfa/bilimsel-kaynaklar/\">Bilimsel Kaynaklar ve Metodoloji</a>'de listelenmiştir."
+    },
+    {
+     "t": "h2",
+     "h": "7. Uygulanan Beslenme Düzeninin Sonuçları",
+     "id": "b7"
+    },
+    {
+     "t": "p",
+     "h": "<strong>Platform, kullanıcının uyguladığı beslenme düzeninin sonuçlarından sorumlu değildir.</strong> İçeriklerin kişinin durumuna uygun olup olmadığının değerlendirilmesi, hekim ve diyetisyen kontrolü ile yapılır. Bu değerlendirme yapılmadan uygulanan düzenin sonuçları kullanıcının kendi sorumluluğundadır."
+    },
+    {
+     "t": "h2",
+     "h": "8. Acil Sağlık Durumu",
+     "id": "b8"
+    },
+    {
+     "t": "p",
+     "h": "<strong>Acil sağlık durumunda Platform kullanılmaz.</strong> Böyle bir durumda doğrudan bir sağlık kuruluşuna başvurunuz. Platform bir acil yardım, danışma veya triaj hizmeti değildir ve mesajlarınıza acil müdahale sağlamaz."
+    },
+    {
+     "t": "h2",
+     "h": "9. Hassas Gruplar",
+     "id": "b9"
+    },
+    {
+     "t": "p",
+     "h": "Gebelik ve emzirme, kronik hastalık, düzenli ilaç kullanımı, çocuk ve ergen beslenmesi ile klinik bir durumun varlığı hâlinde programa başlamadan önce <strong>hekim ve diyetisyen kontrolü zorunludur</strong>; bu gruplara yönelik hazır programlar uygun değildir. Ayrıntı: Hassas Gruplar ve Kontrendikasyon Bildirimi."
+    },
+    {
+     "t": "h2",
+     "h": "10. Bu Uyarının Gösterildiği Yerler",
+     "id": "b10"
+    },
+    {
+     "t": "p",
+     "h": "Sorumluluk sınırlaması, kullanıcının içeriği tükettiği anda görünür olduğunda anlam taşır. Bu nedenle uyarı yalnızca bu sayfada değil, şu noktalarda da özet hâlinde gösterilir:"
+    },
+    {
+     "t": "ul",
+     "l": [
+      "Tüm sayfalarda, footer'ın üstündeki kalıcı tıbbi uyarı bandında.",
+      "Hesaplayıcı sonuç ekranlarında.",
+      "Program sayfalarının başında."
+     ]
+    },
+    {
+     "t": "h2",
+     "h": "11. Uzman Hizmetleri Bakımından Sorumluluk",
+     "id": "b11"
+    },
+    {
+     "t": "p",
+     "h": "Bir diyetisyenin hazırladığı kişiye özel plan bakımından mesleki sorumluluk uzmandadır; Platform aracılık, randevu ve altyapı hizmeti verir. Bu ayrım Platformun Rolü ve Aracılık Bildirimi'nde düzenlenmiştir."
+    },
+    {
+     "t": "h2",
+     "h": "12. Bildirim Kanalı",
+     "id": "b12"
+    },
+    {
+     "t": "p",
+     "h": "Platform'da hatalı veya yanıltıcı olduğunu düşündüğünüz bir sağlık içeriğini <strong>[e-posta]</strong> adresine bildirebilirsiniz. Bildirimler <strong>[inceleme süresi]</strong> içinde incelenir; içerik gerekiyorsa düzeltilir veya yayından kaldırılır ve sonuç gerekçesiyle bildirilir."
+    },
+    {
+     "t": "h2",
+     "h": "13. İlgili Metinler",
+     "id": "b13"
+    },
+    {
+     "t": "ul",
+     "l": [
+      "Hesaplayıcı Sınırlılıkları Bildirimi",
+      "Hassas Gruplar ve Kontrendikasyon Bildirimi",
+      "<a href=\"{{kok}}sayfa/bilimsel-kaynaklar/\">Bilimsel Kaynaklar ve Metodoloji</a>",
+      "Editoryal ve Tıbbi Denetim Politikası"
+     ]
+    }
+   ]
+  },
+  "yasal-saglik-verisi": {
+   "bloklar": [
+    {
+     "t": "p",
+     "h": "Sürüm 1.0 · Yürürlük tarihi: 28.10.2026 · Son güncelleme: 28.10.2026"
+    },
+    {
+     "t": "h2",
+     "h": "1. Neden Ayrı Bir Metin?",
+     "id": "b1"
+    },
+    {
+     "t": "p",
+     "h": "DadaDiet'te işlenen bazı veriler, KVKK kapsamında <strong>özel nitelikli kişisel veri</strong>, GDPR kapsamında <strong>sağlık verisi</strong> sayılır. Bu kategori genel kişisel veriden ayrı bir rejime tabidir; bu nedenle ayrı bir metinde düzenlenmiştir."
+    },
+    {
+     "t": "h2",
+     "h": "2. Hangi Veriler Sağlık Verisi Sayılır?",
+     "id": "b2"
+    },
+    {
+     "t": "p",
+     "h": "Aşağıdaki veriler sağlık verisi kapsamındadır:"
+    },
+    {
+     "t": "ul",
+     "l": [
+      "<strong>Boy</strong>",
+      "<strong>Kilo</strong>",
+      "<strong>Vücut ölçüleri</strong>",
+      "<strong>Hedefler</strong> — girdiğiniz kilo, ölçü ve beslenme hedefleri",
+      "<strong>Öğün kayıtları</strong> — tükettiğiniz besinlere ilişkin kayıtlar",
+      "<strong>Diyetisyene aktarılan sağlık geçmişi</strong>"
+     ]
+    },
+    {
+     "t": "p",
+     "h": "Bu verilerden üretilen hesaplama sonuçları ve bunlara dayalı program eşleştirmeleri de aynı rejime tabidir."
+    },
+    {
+     "t": "h2",
+     "h": "3. Bu Veri Nasıl Doğuyor?",
+     "id": "b3"
+    },
+    {
+     "t": "ul",
+     "l": [
+      "Sağlık verisi Platform'da <strong>yalnızca sizin bir forma kendi elinizle girmenizle</strong> doğar. Ölçülerinizi girmediğiniz sürece bu kategoride hiçbir kaydınız oluşmaz.",
+      "Girdiğiniz veri, girdiğiniz aracın amacıyla sınırlı olarak işlenir ve <strong>hesabınızın dışına çıkarılmaz</strong>.",
+      "<strong>Bugünkü durum — açıkça bildiriyoruz:</strong> girişten ayrı, amaç amaç işaretlenen bir açık rıza ekranı Platform'da <strong>henüz bulunmamaktadır</strong>. Sağlık verisi yalnızca sizin girişinizle doğduğu ve dışarıya aktarılmadığı için işleme bu girişle sınırlıdır. Rıza metninin kendisi Açık Rıza Metni (Özel Nitelikli Veri) sayfasındadır.",
+      "<strong>Kritik kural:</strong> sağlık verisine ilişkin açık rıza, üyelik sözleşmesi onayıyla aynı kutuda alınamaz. Rıza özgür iradeye dayanmalı, ayrı ve anlaşılır biçimde sunulmalı, hizmetin kullanımının koşulu hâline getirilmemelidir. <strong>Tek kutuda birleştirilen rıza geçersiz sayılır.</strong>"
+     ]
+    },
+    {
+     "t": "h2",
+     "h": "4. İşleme Amaçları — Her Amaç Ayrı",
+     "id": "b4"
+    },
+    {
+     "t": "p",
+     "h": "Sağlık veriniz yalnızca aşağıdaki amaçlarla işlenir ve her amaç ayrı ayrı bildirilir:"
+    },
+    {
+     "t": "h3",
+     "h": "4.1 Hesaplama",
+     "id": "b4-1"
+    },
+    {
+     "t": "p",
+     "h": "Girdiğiniz ölçülerden referans denklemlerle tahmini sonuç üretilmesi. Sonuçların niteliği ve sınırları Hesaplayıcı Sınırlılıkları Bildirimi'ndedir."
+    },
+    {
+     "t": "h3",
+     "h": "4.2 Program eşleştirme",
+     "id": "b4-2"
+    },
+    {
+     "t": "p",
+     "h": "Girdiğiniz bilgilere göre Platform'daki örnek programların önerilmesi."
+    },
+    {
+     "t": "h3",
+     "h": "4.3 Takip",
+     "id": "b4-3"
+    },
+    {
+     "t": "p",
+     "h": "Hesaplama geçmişinin ve öğün kayıtlarının hesabınızda saklanarak zaman içinde görüntülenebilmesi."
+    },
+    {
+     "t": "h3",
+     "h": "4.4 Uzman paylaşımı",
+     "id": "b4-4"
+    },
+    {
+     "t": "p",
+     "h": "Verinin, izin verdiğiniz diyetisyenle paylaşılması. Bu izin hesabınızın <strong>\"Veri ve İzinlerim\"</strong> bölümünde ayrı bir anahtar olarak durur ve <strong>varsayılan olarak kapalıdır</strong>."
+    },
+    {
+     "t": "p",
+     "h": "Bu amaçların dışında — örneğin profil çıkarma, reklam hedefleme veya üçüncü taraflara satış amacıyla — sağlık veriniz işlenmez."
+    },
+    {
+     "t": "h2",
+     "h": "5. Uzmanla Paylaşım",
+     "id": "b5"
+    },
+    {
+     "t": "p",
+     "h": "<strong>Bugünkü durum:</strong> Platform'da diyetisyene sağlık verisi aktaran çalışan bir akış <strong>bulunmamaktadır</strong>; \"Veri ve İzinlerim\" bölümündeki paylaşım anahtarı bu akış için önceden alınmış bir tercihtir. Aşağıdaki kurallar, paylaşım açıldığında uygulanacak olanlardır ve bu metnin taahhüdüdür:"
+    },
+    {
+     "t": "ul",
+     "l": [
+      "<strong>Hangi veri:</strong> yalnızca ilgili danışan ilişkisi için gerekli olan veriler paylaşılır; paylaşılacak veri kalemleri paylaşım öncesinde size gösterilir.",
+      "<strong>Ne zaman:</strong> paylaşım, siz onay verdiğiniz anda ve yalnızca çalışmayı kabul ettiğiniz uzman bakımından başlar.",
+      "<strong>Kimin onayıyla:</strong> paylaşım yalnızca sizin ayrı izninizle yapılır; uzmanın talebi tek başına yeterli değildir.",
+      "<strong>Erişim sınırı:</strong> diyetisyen yalnızca kendisiyle çalışmayı kabul etmiş ve veri paylaşımına ayrıca izin vermiş danışanların verisini görebilir. Platform genelinde kullanıcı verisine erişim yetkisi tanımlanmaz.",
+      "<strong>Paylaşımın kaldırılması:</strong> paylaşım anahtarını \"Veri ve İzinlerim\" bölümünden kapatabilirsiniz."
+     ]
+    },
+    {
+     "t": "h2",
+     "h": "6. Saklama Süreleri",
+     "id": "b6"
+    },
+    {
+     "t": "ul",
+     "l": [
+      "<strong>Hesaplama geçmişi</strong> — [saklama süresi — hesaplama geçmişi]",
+      "<strong>Öğün kaydı</strong> — [saklama süresi — öğün kaydı]",
+      "<strong>Danışan dosyası</strong> — [saklama süresi — danışan dosyası]",
+      "<strong>Görüşme kayıtları</strong> — [saklama süresi — görüşme kayıtları]"
+     ]
+    },
+    {
+     "t": "p",
+     "h": "Sürenin sonunda veriler silinir, yok edilir veya anonim hâle getirilir. Uzmanın mesleki kayıt tutma yükümlülüğü ile silme talebiniz çakışabilir; bu çakışmanın nasıl çözüleceği §9'da ve diyetisyenle imzalanan hizmet sözleşmesinde tanımlanır."
+    },
+    {
+     "t": "h2",
+     "h": "7. Güvenlik Tedbirleri",
+     "id": "b7"
+    },
+    {
+     "t": "ul",
+     "l": [
+      "<strong>Şifreli bağlantı</strong> — site ile tarayıcınız arasındaki tüm trafik şifreli bağlantı üzerinden taşınır.",
+      "<strong>Erişim yetkilendirmesi</strong> — yönetim arayüzüne erişim yetkilendirilmiş hesaplarla sınırlıdır; genel erişim yetkisi tanımlanmaz.",
+      "<strong>Hesap ayrımı</strong> — sağlık kayıtları hesabınıza bağlıdır; başka bir üyenin kaydına erişim uygulama düzeyinde engellenir."
+     ]
+    },
+    {
+     "t": "p",
+     "h": "<strong>Bugünkü durum:</strong> sağlık verisine yapılan her erişimi zaman damgasıyla tutan ayrı bir erişim kaydı modülü <strong>bulunmamaktadır</strong>. Veritabanı üzerinde şifreli saklama (at-rest) da uygulanmamaktadır."
+    },
+    {
+     "t": "h2",
+     "h": "8. Kullanıcı Kontrolü",
+     "id": "b8"
+    },
+    {
+     "t": "p",
+     "h": "Sağlık veriniz üzerinde bugün fiilen kullanabildiğiniz kontroller şunlardır:"
+    },
+    {
+     "t": "ul",
+     "l": [
+      "<strong>Görüntüleme ve değiştirme</strong> — ölçüleriniz, hedefleriniz ve beslenme tercihleriniz hesabınızın <strong>\"Sağlık Profilim\"</strong> bölümünde durur; buradan güncellenir.",
+      "<strong>İzinlerin yönetimi</strong> — diyetisyen paylaşımı, kişiselleştirilmiş öneriler, anonim kullanım ve pazarlama iletileri izinleri <strong>\"Veri ve İzinlerim\"</strong> bölümünden tek tek açılıp kapatılır. Kapatma ileriye etkilidir; o ana kadar yapılmış işlemenin hukuka uygunluğunu etkilemez."
+     ]
+    },
+    {
+     "t": "p",
+     "h": "<strong>Bugünkü durum:</strong> verilerinizi kendi başınıza dışa aktarabileceğiniz bir \"indir\" işlevi ve kayıtlarınızı tek tuşla silen bir düğme hesabınızda <strong>bulunmamaktadır</strong>. Silme ve kopya talepleriniz <a href=\"{{kok}}yasal/gizlilik/\">Gizlilik Politikası</a> §11'deki adrese başvurularak karşılanır; başvuru elle işlenir."
+    },
+    {
+     "t": "h2",
+     "h": "9. Hesap Silme ve Sağlık Verisinin İmhası",
+     "id": "b9"
+    },
+    {
+     "t": "p",
+     "h": "Hesabınızın ve sağlık verilerinizin (ölçüler, hesaplama geçmişi, öğün kayıtları) silinmesini <a href=\"{{kok}}yasal/gizlilik/\">Gizlilik Politikası</a> §11'deki adrese başvurarak talep edebilirsiniz. Talep elle işlenir ve sonucu size bildirilir."
+    },
+    {
+     "t": "p",
+     "h": "Diyetisyeninizle paylaştığınız veriler ve görüşme kayıtları için mesleki saklama yükümlülükleri geçerli olabilir; bu durumda hangi verinin hangi süreyle saklandığı size bildirilir. İşlem geri alınamaz."
+    },
+    {
+     "t": "h2",
+     "h": "10. Rıza Verilmediğinde",
+     "id": "b10"
+    },
+    {
+     "t": "p",
+     "h": "<strong>Rıza vermeden de Platform'u kullanmaya devam edebilirsiniz:</strong> rehberleri okuyabilir, besin kütüphanesini görüntüleyebilir ve programları inceleyebilirsiniz. Rıza verilmediğinde çalışmayan bölümler, ölçü girişi gerektiren hesaplayıcılar, kişisel takip ve uzmanla veri paylaşımıdır."
+    },
+    {
+     "t": "p",
+     "h": "Rıza vermeyen kullanıcının Platform'u kullanmaya devam edebilmesi, rızanın geçerliliği için gereklidir."
+    },
+    {
+     "t": "h2",
+     "h": "11. Onay Kaydı",
+     "id": "b11"
+    },
+    {
+     "t": "p",
+     "h": "Üyelik sırasında hangi metnin hangi sürümünü ne zaman kabul ettiğiniz kaydedilir ve bu kayıt bir uyuşmazlıkta tek dayanaktır. Kaydın kendisi <strong>hesabınızda görüntülenmemektedir</strong>; içeriğini <a href=\"{{kok}}yasal/gizlilik/\">Gizlilik Politikası</a> §11'deki adrese başvurarak öğrenebilirsiniz."
+    },
+    {
+     "t": "h2",
+     "h": "12. İlgili Metinler",
+     "id": "b12"
+    },
+    {
+     "t": "ul",
+     "l": [
+      "Açık Rıza Metni (Özel Nitelikli Veri)",
+      "<a href=\"{{kok}}yasal/kvkk/\">KVKK Aydınlatma Metni</a>",
+      "<a href=\"{{kok}}yasal/gizlilik/\">Gizlilik Politikası</a>",
+      "Platformun Rolü ve Aracılık Bildirimi"
+     ]
+    }
+   ]
+  },
+  "yasal-gizlilik": {
+   "bloklar": [
+    {
+     "t": "p",
+     "h": "Sürüm 1.0 · Yürürlük tarihi: 28.10.2026 · Son güncelleme: 28.10.2026"
+    },
+    {
+     "t": "h2",
+     "h": "1. Veri Sorumlusu",
+     "id": "b1"
+    },
+    {
+     "t": "p",
+     "h": "DadaDiet platformunda işlenen kişisel veriler bakımından veri sorumlusu <span class=\"rozet bekleme\">[unvan] · bekliyor</span>'dır."
+    },
+    {
+     "t": "ul",
+     "l": [
+      "<strong>Adres:</strong> [adres]",
+      "<strong>MERSİS no:</strong> [MERSİS no]",
+      "<strong>KEP adresi:</strong> [KEP adresi]",
+      "<strong>E-posta:</strong> [e-posta]"
+     ]
+    },
+    {
+     "t": "p",
+     "h": "Bu metin, verilerinizi nasıl işlediğimizi ve bunun üzerinde hangi kontrollere sahip olduğunuzu anlatır. Aydınlatma yükümlülüğünün mevzuat karşılığı için <a href=\"{{kok}}yasal/kvkk/\">KVKK Aydınlatma Metni</a>'ne, yer sağlayıcı bilgileri için <a href=\"{{kok}}sayfa/kunye/\">Künye / Yer Sağlayıcı Bilgisi</a> sayfasına bakınız."
+    },
+    {
+     "t": "p",
+     "h": "<strong>Sağlık verisi bu metnin dışında ayrıca düzenlenmiştir:</strong> boy, kilo, vücut ölçüleri, hedefler, öğün kayıtları ve diyetisyene aktarılan sağlık geçmişi için <a href=\"{{kok}}yasal/saglik-verisi/\">Sağlık Verisi Politikası</a> geçerlidir."
+    },
+    {
+     "t": "h2",
+     "h": "2. İşlediğimiz Veriler",
+     "id": "b2"
+    },
+    {
+     "t": "ul",
+     "l": [
+      "<strong>Hesap verileri</strong> — ad, kullanıcı adı, e-posta, profil fotoğrafı, doğum tarihi beyanı.",
+      "<strong>Sağlık verileri</strong> — ölçüler, hedefler, hesaplama geçmişi, öğün kayıtları ve uzmana aktarılan sağlık geçmişi. Bu kategori özel nitelikli kişisel veridir ve <a href=\"{{kok}}yasal/saglik-verisi/\">Sağlık Verisi Politikası</a>'na tabidir.",
+      "<strong>Kullanım ve teknik veriler</strong> — IP adresi, oturum kayıtları, cihaz ve tarayıcı bilgisi, görüntülenen sayfalar.",
+      "<strong>Randevu ve görüşme verileri</strong> — randevu kayıtları ve görüşmeye ilişkin işlem bilgileri.",
+      "<strong>Ticari işlem verileri</strong> — ücretli bir hizmet alırsanız abonelik ve fatura bilgileri. Kart bilgileri Platform'da saklanmaz; ödeme kuruluşu tarafından tokenize edilir.",
+      "<strong>İletişim verileri</strong> — destek, şikâyet ve başvurularınızın içeriği."
+     ]
+    },
+    {
+     "t": "h2",
+     "h": "3. İşleme Amaçları",
+     "id": "b3"
+    },
+    {
+     "t": "ul",
+     "l": [
+      "Üyeliğin oluşturulması, hesabın yönetilmesi ve güvenliğinin sağlanması",
+      "Hesaplama, program eşleştirme ve takip (açık rıza — bkz. Sağlık Verisi Politikası)",
+      "Diyetisyenle veri paylaşımı, randevu ve görüşme süreçlerinin yürütülmesi (ayrı açık rıza)",
+      "Uzman doğrulama ve şikâyet süreçlerinin yürütülmesi",
+      "Ücretli hizmetlerin sunulması, faturalandırma ve muhasebe yükümlülükleri",
+      "Pazarlama iletişimi (ayrı ve isteğe bağlı açık rıza)",
+      "Hukuki yükümlülüklerin yerine getirilmesi ve uyuşmazlıkların çözümü"
+     ]
+    },
+    {
+     "t": "h2",
+     "h": "4. Onayların Ayrı Alınması",
+     "id": "b4"
+    },
+    {
+     "t": "p",
+     "h": "DadaDiet'te dört onay birbirinden ayrıdır; ayrı ayrı verilir, ayrı ayrı kaydedilir ve ayrı ayrı geri çekilebilir:"
+    },
+    {
+     "t": "ul",
+     "l": [
+      "<strong>Üyelik onayı</strong> (zorunlu) — <a href=\"{{kok}}yasal/kullanim-kosullari/\">Kullanım Koşulları</a> ve bu Gizlilik Politikası'nın kabulü.",
+      "<strong>Sağlık verisi rızası</strong> (isteğe bağlı) — Açık Rıza Metni. Bu rızayı ayrı olarak isteyen bir ekran bugün <strong>bulunmamaktadır</strong>; ilgili metnin §4'ü durumu ayrıca bildirir.",
+      "<strong>Uzmanla paylaşım rızası</strong> (isteğe bağlı) — randevu ve danışan ilişkisi için.",
+      "<strong>Pazarlama izni</strong> (isteğe bağlı) — e-posta, uygulama içi bildirim ve pazarlama izinleri tek tek verilir ve tek tek geri alınır."
+     ]
+    },
+    {
+     "t": "p",
+     "h": "<strong>Tek kutuda birleştirilen rıza geçersiz sayılır.</strong> Kabul ettiğiniz metnin sürümü ve tarihi kaydedilir; bu kayıt hesabınızda görüntülenmemekte, §11'deki adrese başvurularak öğrenilmektedir."
+    },
+    {
+     "t": "h2",
+     "h": "5. Paylaşım ve Aktarım",
+     "id": "b5"
+    },
+    {
+     "t": "ul",
+     "l": [
+      "<strong>Diyetisyen</strong> — yalnızca ayrıca rıza verdiğiniz veri, yalnızca çalışmayı kabul ettiğiniz uzmanla. Bkz. <a href=\"{{kok}}yasal/saglik-verisi/\">Sağlık Verisi Politikası</a> §5.",
+      "<strong>Barındırma ve altyapı sağlayıcıları</strong> — hizmetin sunulması için zorunlu ölçüde.",
+      "<strong>Ödeme kuruluşu</strong> — yalnızca ücretli hizmet alındığında.",
+      "<strong>Yetkili kamu kurum ve kuruluşları</strong> — mevzuattan doğan talep hâlinde."
+     ]
+    },
+    {
+     "t": "p",
+     "h": "Sağlık veriniz reklam ağlarıyla veya veri satışı amacıyla üçüncü kişilerle paylaşılmaz. Yurt dışına aktarım yalnızca mevzuatın öngördüğü güvenceler sağlanarak yapılır."
+    },
+    {
+     "t": "h2",
+     "h": "6. Saklama Süreleri",
+     "id": "b6"
+    },
+    {
+     "t": "ul",
+     "l": [
+      "<strong>Hesap verileri</strong> — hesap açık kaldığı sürece; hesap silindiğinde §8'e göre.",
+      "<strong>Sağlık verileri</strong> — kategori bazında ayrı süreler; bkz. <a href=\"{{kok}}yasal/saglik-verisi/\">Sağlık Verisi Politikası</a> §6.",
+      "<strong>İşlem güvenliği kayıtları</strong> — mevzuatın öngördüğü asgari süre boyunca.",
+      "<strong>Fatura ve muhasebe kayıtları</strong> — mevzuattaki zorunlu saklama süresi boyunca.",
+      "<strong>Şikâyet ve inceleme kayıtları</strong> — [saklama süresi — şikâyet kayıtları]"
+     ]
+    },
+    {
+     "t": "p",
+     "h": "Sürenin sonunda veriler silinir, yok edilir veya anonim hâle getirilir."
+    },
+    {
+     "t": "h2",
+     "h": "7. Haklarınız ve Bunları Kullandığınız Yer",
+     "id": "b7"
+    },
+    {
+     "t": "p",
+     "h": "Verilerinizin bir bölümünü doğrudan hesabınızdan yönetirsiniz:"
+    },
+    {
+     "t": "ul",
+     "l": [
+      "<strong>Sağlık Profilim</strong> — hedefiniz, ölçüleriniz ve beslenme tercihleriniz; bu bölümden görüntülenir ve değiştirilir.",
+      "<strong>Veri ve İzinlerim</strong> — diyetisyeninizle veri paylaşımı, kişiselleştirilmiş öneriler, ürün geliştirme için anonim kullanım ve pazarlama iletileri izinleri; her biri ayrı ayrı açılıp kapatılır."
+     ]
+    },
+    {
+     "t": "p",
+     "h": "Bunların dışındaki talepleriniz — verilerinizin bir kopyasının çıkarılması, düzeltilmesi, silinmesi ve hesabınızın kapatılması dâhil — §11'deki adrese yapacağınız başvuruyla karşılanır. Bu işlemler için hesabınızda kendi başınıza kullanabileceğiniz bir düğme <strong>bulunmamaktadır</strong>; başvurunuz elle işlenir. Mevzuattan doğan haklarınızın tam listesi ve başvuru usulü <a href=\"{{kok}}yasal/kvkk/\">KVKK Aydınlatma Metni</a>'ndedir."
+    },
+    {
+     "t": "h2",
+     "h": "8. Hesap Silme",
+     "id": "b8"
+    },
+    {
+     "t": "p",
+     "h": "Hesabınızın ve verilerinizin silinmesini §11'deki adrese başvurarak talep edebilirsiniz. Talebiniz elle işlenir; sonucu ve hangi kayıtların mevzuattan doğan saklama yükümlülüğü nedeniyle kaldığı size bildirilir. Sağlık verisinin imhası bakımından ayrıca <a href=\"{{kok}}yasal/saglik-verisi/\">Sağlık Verisi Politikası</a> §9 geçerlidir."
+    },
+    {
+     "t": "h2",
+     "h": "9. Güvenlik",
+     "id": "b9"
+    },
+    {
+     "t": "p",
+     "h": "Kişisel verilerin yetkisiz erişime, kayba ve hukuka aykırı işlenmeye karşı korunması için idari ve teknik tedbirler uygulanır: site ile tarayıcınız arasındaki tüm trafik şifreli bağlantı üzerinden taşınır, yönetim arayüzüne erişim yetkilendirilmiş hesaplarla sınırlıdır ve parolalar geri döndürülemez biçimde saklanır."
+    },
+    {
+     "t": "h2",
+     "h": "10. Çerezler",
+     "id": "b10"
+    },
+    {
+     "t": "p",
+     "h": "Tarayıcınıza yerleştirilen çerezler ve benzeri teknolojiler ayrıca <a href=\"{{kok}}yasal/cerez/\">Çerez Politikası</a>'nda açıklanmıştır."
+    },
+    {
+     "t": "h2",
+     "h": "11. Başvuru",
+     "id": "b11"
+    },
+    {
+     "t": "p",
+     "h": "Bu politikaya ilişkin talep ve sorularınızı <strong>[e-posta]</strong> adresine iletebilirsiniz. Mevzuattan doğan haklara ilişkin başvurular en geç <strong>30 gün</strong> içinde sonuçlandırılır; diğer başvurular <strong>[yanıt süresi]</strong> içinde yanıtlanır."
+    },
+    {
+     "t": "h2",
+     "h": "12. İlgili Metinler",
+     "id": "b12"
+    },
+    {
+     "t": "ul",
+     "l": [
+      "<a href=\"{{kok}}yasal/saglik-verisi/\">Sağlık Verisi Politikası</a>",
+      "<a href=\"{{kok}}yasal/kvkk/\">KVKK Aydınlatma Metni</a>",
+      "Açık Rıza Metni (Özel Nitelikli Veri)",
+      "<a href=\"{{kok}}yasal/cerez/\">Çerez Politikası</a>"
+     ]
+    }
+   ]
+  },
+  "yasal-cerez": {
+   "bloklar": [
+    {
+     "t": "p",
+     "h": "Sürüm 1.0 · Yürürlük tarihi: 28.10.2026 · Son güncelleme: 28.10.2026"
+    },
+    {
+     "t": "h2",
+     "h": "1. Çerez Nedir?",
+     "id": "b1"
+    },
+    {
+     "t": "p",
+     "h": "Çerezler, ziyaret ettiğiniz sitelerin tarayıcınıza kaydettiği küçük metin dosyalarıdır. Bu politika, çerezlerin yanı sıra yerel depolama (localStorage) ve benzeri istemci tarafı saklama teknolojilerini de kapsar."
+    },
+    {
+     "t": "h2",
+     "h": "2. Kullandığımız Çerez Kategorileri",
+     "id": "b2"
+    },
+    {
+     "t": "h3",
+     "h": "2.1 Zorunlu çerezler — <em>kullanılıyor</em>",
+     "id": "b2-1"
+    },
+    {
+     "t": "p",
+     "h": "Oturumun açık tutulması, güvenlik ve form gönderimlerinin doğrulanması için gereklidir. Bu çerezler olmadan Platform çalışmaz; bu nedenle rızaya bağlı değildir ve devre dışı bırakılamaz."
+    },
+    {
+     "t": "h3",
+     "h": "2.2 Tercih saklama — <em>çerez değil, tarayıcı depolaması</em>",
+     "id": "b2-2"
+    },
+    {
+     "t": "p",
+     "h": "Görünüm tercihi, son kullanılan filtreler ve benzeri seçimleriniz sunucuya gönderilen bir çerezde değil, tarayıcınızın kendi yerel depolamasında (localStorage) tutulur. Bu kayıtları tarayıcı ayarlarınızdan silebilirsiniz."
+    },
+    {
+     "t": "h3",
+     "h": "2.3 Analitik çerezler — <em>yalnızca onayınızla</em>",
+     "id": "b2-3"
+    },
+    {
+     "t": "p",
+     "h": "Platform'un nasıl kullanıldığını anlamak için Google Analytics 4 kullanırız. Bu hizmet <strong>yalnızca çerez bildiriminde \"Tümünü Kabul Et\" derseniz</strong> yüklenir; \"Reddet\" derseniz ya da hiç seçim yapmazsanız Google'a hiçbir istek gönderilmez ve analitik çerezi yerleştirilmez. Onay verdiğinizde tarayıcınıza <code>_ga</code> ve <code>_ga_&lt;kimlik&gt;</code> çerezleri yerleştirilir (süre: 2 yıl). Ölçüme ad, e-posta, telefon ya da sağlık verisi gönderilmez; üye girişi yaptıysanız hesabınız yalnızca geri çevrilemeyen anonim bir anahtarla temsil edilir. Reklam ve kişiselleştirme sinyalleri her durumda kapalıdır."
+    },
+    {
+     "t": "h3",
+     "h": "2.4 Pazarlama çerezleri — <em>kullanılmıyor</em>",
+     "id": "b2-4"
+    },
+    {
+     "t": "p",
+     "h": "Reklam, yeniden hedefleme ve siteler arası takip çerezi <strong>yerleştirilmemektedir</strong>."
+    },
+    {
+     "t": "h2",
+     "h": "3. Hesaplayıcı Girdilerinin Tarayıcıda Saklanması",
+     "id": "b3"
+    },
+    {
+     "t": "p",
+     "h": "Bir hesaplayıcıya girdiğiniz değerlerin, sayfalar arasında kaybolmaması için tarayıcınızda geçici olarak saklanması söz konusu olabilir. <strong>Bu saklama, sağlık verisinin işlenmesi için verilen açık rızanın yerine geçmez</strong>; sağlık verisinin işlenmesi Açık Rıza Metni ve <a href=\"{{kok}}yasal/saglik-verisi/\">Sağlık Verisi Politikası</a>'na tabidir."
+    },
+    {
+     "t": "p",
+     "h": "Tarayıcınızdaki bu kayıtları tarayıcı ayarlarınızdan silebilirsiniz."
+    },
+    {
+     "t": "h2",
+     "h": "4. Rıza Yönetimi",
+     "id": "b4"
+    },
+    {
+     "t": "ul",
+     "l": [
+      "İlk ziyarette çerez bildirimi gösterilir; zorunlu çerezler dışındaki tüm kategoriler <strong>varsayılan olarak kapalıdır</strong> ve onayınız olmadan çalıştırılmaz. Siteyi kullanmaya devam etmek onay yerine geçmez.",
+      "İsteğe bağlı tek kategori analitiktir (§2.3). Bildirimde \"Reddet\" ve \"Tümünü Kabul Et\" düğmeleri bulunur; kararınızı dilediğiniz an geri alabilirsiniz: <button class=\"dugme hayalet kucuk\" type=\"button\" data-toast=\"Çerez tercihin sıfırlandı. Prototipte çerez bandı yok; canlıda bir sonraki ziyarette yeniden sorulur.\">Çerez tercihimi sıfırla</button> — tercih unutulur ve bildirim yeniden gösterilir.",
+      "Kararınız <code>dadadiet_cookie_notice</code> adlı çerezde 12 ay saklanır ve her istekte sunucuya iletilir; bu çerez yalnızca kararınızı hatırlamak için kullanılır.",
+      "İsteğe bağlı bir kategori kullanılmaya başlandığında bu metin ve bildirim, kategori bazında onay alacak biçimde birlikte değişir."
+     ]
+    },
+    {
+     "t": "h2",
+     "h": "5. Tarayıcıdan Kontrol",
+     "id": "b5"
+    },
+    {
+     "t": "p",
+     "h": "Çerezleri tarayıcı ayarlarınızdan da yönetebilirsiniz: mevcut çerezleri silebilir, yeni çerezleri engelleyebilir veya her çerez öncesi uyarı isteyebilirsiniz. Zorunlu çerezlerin engellenmesi hâlinde oturum açma ve form gönderme gibi işlevler çalışmayabilir."
+    },
+    {
+     "t": "h2",
+     "h": "6. Üçüncü Taraf Hizmetleri",
+     "id": "b6"
+    },
+    {
+     "t": "p",
+     "h": "Platform, onay vermeniz hâlinde yalnızca <strong>Google Analytics 4</strong> ölçümleme betiğini yükler (bkz. §2.3); onay yoksa hiçbir üçüncü taraf betiği yüklenmez. Reklam ya da siteler arası takip betiği kullanılmamaktadır. Google'ın yerleştirdiği çerezler Google'ın kendi gizlilik politikasına tabidir. Başka bir üçüncü taraf hizmet devreye alınırsa yalnızca ilgili kategoriye onay verdiğinizde yüklenir ve bu metin önceden güncellenir."
+    },
+    {
+     "t": "h2",
+     "h": "7. Saklama Süreleri",
+     "id": "b7"
+    },
+    {
+     "t": "ul",
+     "l": [
+      "<strong>Oturum ve güvenlik çerezleri</strong> (zorunlu) — oturum süresince; tarayıcı kapatıldığında ya da oturum sona erdiğinde silinir.",
+      "<strong><code>dadadiet_cookie_notice</code></strong> (zorunlu, çerez kararınız) — 12 ay.",
+      "<strong><code>_ga</code> ve <code>_ga_&lt;kimlik&gt;</code></strong> (analitik, yalnızca onayınızla) — 2 yıl; onayı geri çektiğinizde yeniden yüklenmez, mevcut kayıtları tarayıcı ayarlarınızdan silebilirsiniz."
+     ]
+    },
+    {
+     "t": "p",
+     "h": "Tarayıcınızın yerel depolamasındaki tercih kayıtları siz silene kadar tarayıcınızda kalır."
+    },
+    {
+     "t": "h2",
+     "h": "8. İlgili Metinler",
+     "id": "b8"
+    },
+    {
+     "t": "ul",
+     "l": [
+      "<a href=\"{{kok}}yasal/gizlilik/\">Gizlilik Politikası</a>",
+      "<a href=\"{{kok}}yasal/kvkk/\">KVKK Aydınlatma Metni</a>",
+      "<a href=\"{{kok}}yasal/saglik-verisi/\">Sağlık Verisi Politikası</a>"
+     ]
+    }
+   ]
+  },
+  "yasal-diyetisyen-dogrulama": {
+   "bloklar": [
+    {
+     "t": "p",
+     "h": "Sürüm 1.0 · Yürürlük tarihi: 28.10.2026 · Son güncelleme: 28.10.2026"
+    },
+    {
+     "t": "h2",
+     "h": "1. Amaç",
+     "id": "b1"
+    },
+    {
+     "t": "p",
+     "h": "Doğrulandı rozeti, kullanıcının bir uzmanı seçerken güvendiği sinyaldir. Bu politika, rozetin neye dayandığını, hangi belgelerin arandığını ve doğrulamanın nasıl sürdürüldüğünü yazılı hâle getirir."
+    },
+    {
+     "t": "h2",
+     "h": "2. İstenen Belgeler",
+     "id": "b2"
+    },
+    {
+     "t": "ul",
+     "l": [
+      "<strong>Diploma</strong>",
+      "<strong>Mesleki kayıt belgesi</strong>",
+      "<strong>Kimlik belgesi</strong>"
+     ]
+    },
+    {
+     "t": "p",
+     "h": "Belgeler başvuru sırasında Platform üzerinden yüklenir; başvurunun durumu (\"onay bekliyor\", \"onaylandı\", \"reddedildi\") uzmanın panelinde görünür."
+    },
+    {
+     "t": "h2",
+     "h": "3. Doğrulamayı Kim, Nasıl Yapar?",
+     "id": "b3"
+    },
+    {
+     "t": "ul",
+     "l": [
+      "<strong>Doğrulamayı yapan birim:</strong> [doğrulamayı yapan birim]",
+      "<strong>Doğrulama yöntemi:</strong> [doğrulama yöntemi — belge incelemesi ve kayıt teyidi usulü]",
+      "<strong>Kayıt:</strong> her doğrulamada belge incelemesini yapan kişi ve inceleme tarihi kayda alınır.",
+      "<strong>Karar:</strong> onay ve red kararları gerekçesiyle kaydedilir ve başvurana bildirilir."
+     ]
+    },
+    {
+     "t": "h2",
+     "h": "4. Rozet Doğrulama Tamamlanmadan Gösterilmez",
+     "id": "b4"
+    },
+    {
+     "t": "p",
+     "h": "<strong>Doğrulandı rozeti yalnızca diploması ve mesleki kaydı kontrol edilen uzmanlara verilir.</strong> Doğrulama tamamlanmadan rozet gösterilmez; başvurusu incelemede olan bir uzmanın profilinde rozet bulunmaz."
+    },
+    {
+     "t": "p",
+     "h": "Rozet, uzmanın hizmet kalitesine değil, <strong>belgelerinin ve mesleki kaydının doğrulanmış olduğuna</strong> işaret eder."
+    },
+    {
+     "t": "h2",
+     "h": "5. Doğrulamanın Yenilenmesi",
+     "id": "b5"
+    },
+    {
+     "t": "p",
+     "h": "Mesleki kaydın güncelliği <strong>[doğrulama yenileme aralığı]</strong> aralıklarla yeniden doğrulanır. Yenileme döneminde belgesini güncellemeyen uzmanın rozeti askıya alınır."
+    },
+    {
+     "t": "h2",
+     "h": "6. Belgesi Geçersiz Hâle Gelen Uzman",
+     "id": "b6"
+    },
+    {
+     "t": "ul",
+     "l": [
+      "Rozet kaldırılır ve profil, yeni danışan başvurusuna kapatılır.",
+      "Devam eden randevular ve danışan ilişkileri bakımından uygulanacak usul: <strong>[devam eden randevu ve danışan ilişkisi usulü]</strong>.",
+      "Danışan dosyalarına erişim, mesleki saklama yükümlülüğü saklı kalmak üzere sınırlandırılır.",
+      "Uzmana durum gerekçesiyle bildirilir; itiraz hakkı §8'dedir."
+     ]
+    },
+    {
+     "t": "h2",
+     "h": "7. Uzmanın Veriye Erişim Sınırı",
+     "id": "b7"
+    },
+    {
+     "t": "p",
+     "h": "Diyetisyen yalnızca <strong>kendisiyle çalışmayı kabul etmiş ve veri paylaşımına ayrıca rıza vermiş</strong> danışanların verisini görebilir. Platform genelinde kullanıcı verisine erişim yetkisi tanımlanmaz. Sağlık verisine yapılan her erişim zaman damgasıyla kaydedilir — bkz. <a href=\"{{kok}}yasal/saglik-verisi/\">Sağlık Verisi Politikası</a> §7."
+    },
+    {
+     "t": "h2",
+     "h": "8. Başvurunun Reddi ve İtiraz",
+     "id": "b8"
+    },
+    {
+     "t": "p",
+     "h": "Başvurusu reddedilen veya rozeti kaldırılan uzman, karara <strong>[itiraz süresi]</strong> içinde itiraz edebilir. İtiraz, ilk kararı veren kişiden bağımsız olarak incelenir ve sonucu gerekçesiyle bildirilir."
+    },
+    {
+     "t": "h2",
+     "h": "9. Kullanıcı Bildirimi",
+     "id": "b9"
+    },
+    {
+     "t": "p",
+     "h": "Bir uzmanın belgesi veya beyanı hakkında şüpheniz varsa <strong>[e-posta]</strong> adresine bildirebilirsiniz. Bildirimler <strong>[inceleme süresi]</strong> içinde incelenir ve sonuç gerekçesiyle bildirilir."
+    },
+    {
+     "t": "h2",
+     "h": "10. İlgili Metinler",
+     "id": "b10"
+    },
+    {
+     "t": "ul",
+     "l": [
+      "Platformun Rolü ve Aracılık Bildirimi",
+      "<a href=\"{{kok}}yasal/saglik-verisi/\">Sağlık Verisi Politikası</a>",
+      "Editoryal ve Tıbbi Denetim Politikası"
+     ]
+    }
+   ]
   }
  },
  "kartlar": {

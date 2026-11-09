@@ -540,8 +540,38 @@
   "duzen": "public"
  },
  {
+  "yol": "yasal/cerez",
+  "baslik": "Çerez Politikası",
+  "duzen": "public"
+ },
+ {
+  "yol": "yasal/diyetisyen-dogrulama",
+  "baslik": "Diyetisyen Doğrulama ve Kabul Politikası",
+  "duzen": "public"
+ },
+ {
+  "yol": "yasal/gizlilik",
+  "baslik": "Gizlilik Politikası",
+  "duzen": "public"
+ },
+ {
+  "yol": "yasal/kullanim-kosullari",
+  "baslik": "Kullanım Koşulları",
+  "duzen": "public"
+ },
+ {
   "yol": "yasal/kvkk",
   "baslik": "KVKK Aydınlatma Metni",
+  "duzen": "public"
+ },
+ {
+  "yol": "yasal/saglik-verisi",
+  "baslik": "Sağlık Verisi Politikası",
+  "duzen": "public"
+ },
+ {
+  "yol": "yasal/tibbi-sorumluluk-reddi",
+  "baslik": "Tıbbi Sorumluluk Reddi",
   "duzen": "public"
  }
 ]
