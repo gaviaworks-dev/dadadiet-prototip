@@ -2828,7 +2828,7 @@ html[data-oturum="1"] .head-bell{display:grid}
   --mentor-yay:cubic-bezier(.16,1,.3,1);
   --mentor-taban:var(--bosluk-24);
   --mentor-dip:max(var(--mentor-taban),calc(var(--mentor-engel,0px) + var(--bosluk-12)));
-  position:fixed;left:var(--bosluk-24);right:auto;top:auto;bottom:var(--mentor-dip);
+  position:fixed;left:var(--bosluk-16);right:auto;top:auto;bottom:var(--mentor-dip);
   width:360px;height:min(72vh,540px,calc(100dvh - var(--mentor-dip) - var(--bosluk-16)));
   z-index:var(--kat-sohbet-ortu);box-sizing:border-box;overflow:hidden;
   display:flex;flex-direction:column;justify-content:space-between;text-align:left;
@@ -2884,9 +2884,17 @@ html[data-oturum="1"] .head-bell{display:grid}
 /* Footer perdesi açılınca kenara çekilir */
 #dadaMentor.foot-hide{transform:translateY(150%);opacity:0;visibility:hidden;pointer-events:none;transition:transform .45s var(--mentor-yay),opacity .35s var(--yumusama),visibility 0s .35s}
 
-/* Mobil: ikon ağırlıklı kare. Gastro'daki 88px alt çubuğun payı; Diet kabuğunda alt çubuk yok, çıkınca --mentor-engel ölçer. */
+/* Masaüstü (9 Kasım, Gastro birebir: dadagastro.com /kabuk/mentor.css 7 Kas): kapalı düğme 56×56 kare, yalnız ikon;
+   fareyle üstüne gelince ya da klavye odağında 148 px'e açılır ve "Mentör" yazısı görünür. Konum her genişlikte soldan 16 px. */
+@media (min-width:641px){
+  #dadaMentor[data-state="mini"]{width:56px}
+  #dadaMentor[data-state="mini"] .mp-mini-lbl{opacity:0;transform:translateX(-6px)}
+  #dadaMentor[data-state="mini"]:hover,#dadaMentor[data-state="mini"]:focus-within{width:148px}
+  #dadaMentor[data-state="mini"]:hover .mp-mini-lbl,#dadaMentor[data-state="mini"]:focus-within .mp-mini-lbl{opacity:1;transform:none}
+}
+/* Mobil: ikon ağırlıklı kare. Taban Gastro gibi 88 px (alt sekme çubuğunun payı); çubuk görünürken --mentor-engel ölçer, hangisi büyükse. */
 @media (max-width:640px){
-  #dadaMentor{--mentor-taban:calc(var(--bosluk-16) + env(safe-area-inset-bottom,0px));left:var(--bosluk-16);width:calc(100vw - var(--bosluk-32));max-width:360px;height:min(64vh,520px,calc(100dvh - var(--mentor-dip) - var(--bosluk-16)))}
+  #dadaMentor{--mentor-taban:calc(88px + env(safe-area-inset-bottom,0px));left:var(--bosluk-16);width:calc(100vw - var(--bosluk-32));max-width:360px;height:min(64vh,520px,calc(100dvh - var(--mentor-dip) - var(--bosluk-16)))}
   #dadaMentor[data-state="mini"]{width:56px;height:56px}
   #dadaMentor .mp-mini-overlay{justify-content:center;padding:0}
   #dadaMentor .mp-mini-lbl{display:none}
