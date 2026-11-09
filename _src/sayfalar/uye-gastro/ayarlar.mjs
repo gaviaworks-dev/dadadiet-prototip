@@ -33,6 +33,10 @@ const kanallar = [
   ['rapor', 'Haftalık özetim', 'Pazar akşamı: aktif gün, öğün düzeni, su ve ölçüm özeti.', 1, 0],
   ['icerik', 'Yeni tarif, program ve rehber', 'Sana uygun yeni içerik eklendiğinde.', 0, 1],
   ['kampanya', 'Kampanya ve Dada Diet Pro fırsatları', 'Paket indirimleri ve özel dönem seçkileri.', 0, 0],
+  ['tahlil', 'Tahlil sonuçları', 'Yüklediğin tahlilin değerleri okunduğunda ya da diyetisyenin yorumladığında.', 1, 1],
+  ['haftalikMenu', 'Haftalık menü', 'Yeni haftanın menüsü hazır olduğunda, pazartesi sabahı.', 0, 1],
+  ['meydan', 'Rozet ve meydan okuma', 'Rozet kazandığında ve meydan okumanın günü işaretlenmeyi beklerken.', 0, 1],
+  ['grup', 'Destek grupları', 'Gönderine yorum geldiğinde.', 0, 1],
 ];
 const kanalSatir = ([k, b, m, e, u]) => `<div class="kanal-satir"><div class="kanal-metin"><b>${b}</b><span>${m}</span></div><span class="kanal-hucre">${anahtar(k + '_eposta', b + ', e-posta', e)}</span><span class="kanal-hucre">${anahtar(k + '_uygulama', b + ', uygulama', u)}</span></div>`;
 const kategoriler = [['randevu', 'Görüşme ve randevu', 'Görüşmenden önce tek hatırlatma'], ['menu', 'Haftalık menü günü', 'Gün başında tek bildirim'], ['mesaj', 'Diyetisyen mesajı', 'Diyetisyenin yazdığında'], ['odeme', 'Ödeme ve fatura', 'Yalnız işlem gerektiğinde']];
@@ -55,6 +59,7 @@ ${ayarSatir({ ikon: 'fa-key', baslik: 'Kurtarma Kodların', metin: '<span id="gv
 ${ayarSatir({ ikon: 'fa-envelope', baslik: 'E-posta ile giriş', metin: '<span id="gvEposta"></span> · birincil giriş yöntemin.', sag: `<span class="as-acik">${ikon('fa-circle-check')} Aktif</span>` })}
 ${ayarSatir({ ikon: 'fa-brands fa-google', baslik: 'Google hesabı', metin: '<span data-bag-metin="Google"></span>', sag: `<span class="as-eylem">${satirDugme('Bağla', ' data-bagla="Google"')}</span>` })}
 ${ayarSatir({ ikon: 'fa-brands fa-apple', baslik: 'Apple hesabı', metin: '<span data-bag-metin="Apple"></span>', sag: `<span class="as-eylem">${satirDugme('Bağla', ' data-bagla="Apple"')}</span>` })}
+${ayarSatir({ ikon: 'fa-brands fa-facebook', baslik: 'Facebook hesabı', metin: '<span data-bag-metin="Facebook"></span>', sag: `<span class="as-eylem">${satirDugme('Bağla', ' data-bagla="Facebook"')}</span>` })}
 </div>` })}
 ${kart({ ikon: 'fa-desktop', baslik: 'Açık Oturumlarım', metin: 'Hesabına giriş yapılmış cihazlar. Tanımadığın bir cihaz varsa oturumu kapat ve şifreni değiştir.', bosluksuz: true, govde: '<div class="ayar-liste" id="oturumlar"></div>', alt: `<span class="not">Bu cihaz dışındaki tüm oturumlar kapatılır; yeniden giriş yapman gerekir.</span>${dugme('Diğer Tüm Oturumları Kapat', { ikon: 'fa-right-from-bracket', ek: ' id="oturumKapat"' })}` })}
 </div>`;
