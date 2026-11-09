@@ -3525,11 +3525,11 @@ button.sohbet-ek:hover b{color:var(--aksan-koyu)}
    Buradakiler prototipin önizleme yüzeyi: şerit, "prototip örneği" ibaresi, tek alan vurgusu, çerçeve (satış vitrini) içi sadeleşme,
    komşu kart anatomisinde sponsor hapı ve alt bandın yüzen düğmelerle çakışmaması. */
 .rk-ornek{text-transform:none;letter-spacing:0;font-weight:var(--agirlik-govde)}
-.rk-onizleme-serit{position:fixed;z-index:55;top:var(--rk-serit-ust,124px);left:50%;transform:translateX(-50%);max-width:calc(100% - var(--bosluk-32));background:var(--murekkep);color:var(--kagit);border-radius:var(--yuvarlak-hap);box-shadow:var(--golge-md);font-size:var(--yazi-12-5)}
-.rk-onizleme-serit .kap{display:flex;align-items:center;gap:var(--bosluk-8);padding:var(--bosluk-4) var(--bosluk-4) var(--bosluk-4) var(--bosluk-14);max-width:none;width:auto}
-.rk-onizleme-serit span{white-space:nowrap;overflow:hidden;text-overflow:ellipsis;min-width:0}
-.rk-onizleme-serit .rk-onizleme-not{opacity:.72}
-.rk-onizleme-serit .dugme{flex:none;min-height:var(--bosluk-30);padding:0 var(--bosluk-12);background:transparent;color:var(--kagit);border-color:currentColor}
+.rk-onizleme-serit,.onizleme-serit{position:fixed;z-index:55;top:var(--rk-serit-ust,124px);left:50%;transform:translateX(-50%);max-width:calc(100% - var(--bosluk-32));background:var(--murekkep);color:var(--kagit);border-radius:var(--yuvarlak-hap);box-shadow:var(--golge-md);font-size:var(--yazi-12-5)}
+.rk-onizleme-serit .kap,.onizleme-serit .kap{display:flex;align-items:center;gap:var(--bosluk-8);padding:var(--bosluk-4) var(--bosluk-4) var(--bosluk-4) var(--bosluk-14);max-width:none;width:auto}
+.rk-onizleme-serit span,.onizleme-serit span{white-space:nowrap;overflow:hidden;text-overflow:ellipsis;min-width:0}
+.rk-onizleme-serit .rk-onizleme-not,.onizleme-serit .onizleme-not{opacity:.72}
+.rk-onizleme-serit .dugme,.onizleme-serit .dugme{flex:none;min-height:var(--bosluk-30);padding:0 var(--bosluk-12);background:transparent;color:var(--kagit);border-color:currentColor}
 @media (max-width:640px){.rk-onizleme-serit .rk-onizleme-not{display:none}}
 .rk-vurgu{outline:var(--bosluk-3) solid var(--aksan);outline-offset:var(--bosluk-6)}
 html.rk-cerceve #cookieBanner,html.rk-cerceve .feedback-tab,html.rk-cerceve .fb-rail,html.rk-cerceve .edge-rail,html.rk-cerceve #dadaMentor,html.rk-cerceve .yuzen-dugme,html.rk-cerceve .basa-don{display:none!important}
@@ -3784,3 +3784,8 @@ body:has(.cookie-banner.show),body.cerez-acik{padding-bottom:var(--cerez-boy,0px
   .alt-yapiskan .secim-ozet .dugme.tam-en{padding-left:var(--bosluk-16);padding-right:var(--bosluk-16)}
   .alt-yapiskan .secim-ozet .dugme.tam-en>i{display:none}
 }
+
+/* ── S3: boş durum önizlemesi (?bos=1 → html.bos-kip, kabuk). Derlemede örnek içerik [data-ornek], aynı yerin boş durumu [data-bos] basılır;
+   JS'le çizilen ekranlarda örnek kayıtlar demo.js'te süzülür. Boş durum tasarımı silinmez, bu kipte görünür. */
+html.bos-kip [data-ornek]{display:none!important}
+html:not(.bos-kip) [data-bos]{display:none!important}

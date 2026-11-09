@@ -121,7 +121,9 @@ export function kabukla(s, { istekler }) {
     : duzen === 'tam' ? `${s.govde}<footer class="footer orange tam-uyari">${uyariBandi}</footer>`
     : `${ust(m, s.yol)}${altCubuk(m, s.yol)}<main class="page-main" id="pageMain" tabindex="-1">${s.govde}</main>${dip()}${gorusBildir}${cerezBandi}${standartKatman()}`;
   const bodySinif = panel ? ' class="yetkili" data-marka="diet"' : ` data-brand="diet"${duzen === 'uye' ? ' class="is-auth"' : ''}`;
-  const oturum = duzen === 'uye' ? `document.documentElement.dataset.oturum='1'` : `try{if(localStorage.getItem('dd-oturum')==='1')document.documentElement.dataset.oturum='1'}catch(e){}`;
+  const oturum = (duzen === 'uye' ? `document.documentElement.dataset.oturum='1'` : `try{if(localStorage.getItem('dd-oturum')==='1')document.documentElement.dataset.oturum='1'}catch(e){}`)
+    /* Boş durum önizlemesi (S3): ?bos=1 örnek veriyi gizler, boş durum tasarımını açar; ilk boyamadan önce */
+    + `;if(/[?&]bos=1(&|$)/.test(location.search))document.documentElement.classList.add('bos-kip')`;
   return `<!doctype html>
 <html lang="tr" data-kok="${K}">
 <head>
