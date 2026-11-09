@@ -35,6 +35,12 @@ const bolumler = [
         <div class="yigin sik" id="bolmeListe"></div>
         <p class="alan-yardim referans-not"><span><b>İdeal tabak:</b> Akdeniz tipi dengeli öğün hedefi. Sebze %40–50, protein %20–25, karbonhidrat %20–25, yağ %5–10.</span></p>
       </div>
+      <div class="kart-govde ogun-kaydet">
+        <div class="alan"><label class="alan-etiket" for="tabakOgun">Hangi öğünün?</label><select class="alan-secim" id="tabakOgun"><option value="kahvalti">Kahvaltı</option><option value="ara1">Ara Öğün</option><option value="ogle" selected>Öğle Yemeği</option><option value="ara2">İkindi</option><option value="aksam">Akşam Yemeği</option></select></div>
+        <button class="dugme birincil tam-en" id="tabakKaydet" type="button"><i class="fa-solid fa-calendar-plus" aria-hidden="true"></i> Bu tabağı bugünkü öğünlerime ekle</button>
+        <p class="alan-yardim oturum-kapali"><span>Kayıt olmadan da kullanırsın. Tabağın bu tarayıcıda tutulur; kaydolunca bugünkü öğünlerine aktarılır ve takibe başlarsın.</span></p>
+        <p class="sonuc-kayit" id="tabakKayitDurum" role="status" hidden></p>
+      </div>
     </div>
   </div>
 </div>`,
@@ -78,7 +84,7 @@ const bolumler = [
 
 export default () => [{
   yol: 'akilli-tabak-ve-degisim',
-  meta: { baslik: 'Akıllı Tabak ve Değişim', duzen: 'public', aktif: 'Sağlık Araçları', hero: true, js: [JS, 'assets/js/ogun-foto.js', 'assets/js/sayfa/moduller-ortak.js', 'assets/js/sayfa/moduller-tabak.js'] },
+  meta: { baslik: 'Akıllı Tabak ve Değişim', duzen: 'public', aktif: 'Sağlık Araçları', hero: true, js: [JS, 'assets/js/misafir.js', 'assets/js/ogun-foto.js', 'assets/js/sayfa/moduller-ortak.js', 'assets/js/sayfa/moduller-tabak.js'] },
   govde: `${bant({
     yol: [['Sağlık Araçları', 'hesaplayicilar/'], ['Akıllı Tabak ve Değişim']], etiket: 'Sağlık araçları', etiketIkon: 'fa-chart-pie',
     h1: 'Akıllı Tabak ve <span class="vurgu">Değişim</span>', gorsel: 'hero/beslenme-reh-hero.jpg',

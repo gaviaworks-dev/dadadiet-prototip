@@ -55,7 +55,14 @@
   const yemekler = () => Object.keys(YEMEK).map((s) => M.besin('tarif-' + s)).filter(Boolean).map((b) => ({ ...b, kategori: b.tarif_turu }));
   /* Ana yemeğin yanına en sık eklenenler, ölçü birimiyle gelir */
   const YAN = ['kepekli-ekmek', 'beyaz-ekmek', 'zeytinyagi', 'ceviz-ic', 'yogurt-yarim-yagli', 'roka'];
-  const besinKaynak = () => { const yan = YAN.map((s) => M.besin(s)).filter(Boolean), v = new Set(YAN); return yan.concat(M.besinler().filter((b) => !v.has(b.slug))); };
+  /* Favori besinler (besin detayındaki "Favori besinlerime ekle") tek besin aramasında önce gelir */
+  const favoriSluglar = () => (DD.oturum.acik() ? (((DD.demo.al().uye || {}).kaydedilenler || {}).besinler || []) : DD.misafir.kayitlar().filter((k) => k.tur === 'kaydet' && k.veri.grup === 'besinler').map((k) => k.veri.slug));
+  const besinKaynak = () => {
+    const fav = favoriSluglar().map((s) => M.besin(s)).filter(Boolean).map((b) => ({ ...b, kategori: 'Favorin · ' + (b.kategori || '') }));
+    const v = new Set(fav.map((b) => b.slug)), yan = YAN.filter((s) => !v.has(s)).map((s) => M.besin(s)).filter(Boolean);
+    YAN.forEach((s) => v.add(s));
+    return fav.concat(yan, M.besinler().filter((b) => !v.has(b.slug)));
+  };
   const olcuAdi = (b) => (b.porsiyon && b.porsiyon.ad ? b.porsiyon.ad.replace(/^1\s+/, '') : 'porsiyon');
   /* Eksik bölme için tek dokunuşluk öneri ve tek tıkla değişim */
   const ONERI = { sebze: ['roka', 75, 'bol yeşillik ve limon', 'Yeşillik ekle'], protein: ['yogurt-yarim-yagli', 120, 'yoğurt', 'Yoğurt ekle'], karb: ['kepekli-ekmek', 50, 'iki dilim kepekli ekmek', 'Ekmek ekle'], yag: ['zeytinyagi', 10, 'iki tatlı kaşığı zeytinyağı', 'Zeytinyağı ekle'] };
@@ -285,7 +292,9 @@
   function hazirCiz() {
     $('hazirTabaklar').innerHTML = HAZIR.map((t, i) => '<button class="cip' + (i === hazirNo ? ' aktif' : '') + '" type="button" data-hazir="' + i + '" aria-pressed="' + (i === hazirNo) + '">' + t.ad + '</button>').join('');
   }
-  const yenile = () => { kalemCiz(); ozetCiz(); hazirCiz(); muadilCiz(); };
+  /* Tabak taslağı tarayıcıda kalır: sayfa yenilenince hazır tabağa dönmez (misafir deposu, 24 saat) */
+  const taslakYaz = () => DD.misafir.taslak('tabak', { kalemler, hazirNo });
+  const yenile = () => { kalemCiz(); ozetCiz(); hazirCiz(); muadilCiz(); taslakYaz(); };
 
   function ekle(b, miktar, birim) {
     const o = olcusu(b), bir = birim || o.birim, var_ = kalemler.find((k) => k.slug === b.slug), pg = M.porsiyonGram(b);
@@ -524,5 +533,49 @@
   /* Bant sayıları aramanın kapsamıdır: aramanın okuduğu listelerden sayılır */
   document.querySelector('[data-arama-sayi="yemek"]').textContent = M.sayi(yemekler().length, 0);
   document.querySelector('[data-arama-sayi="besin"]').textContent = M.sayi(besinKaynak().length, 0);
-  cizimKur(); yukle(0); disaridan(); yenile();
+  /* Öğüne ekle (Web Kullanıcı Akışı: Akıllı Tabak). Üyede bugünkü günlüğe yazar; misafirde tabak depoda tutulur ve kayıt penceresi açılır */
+  const OGUN_AD = { kahvalti: 'Kahvaltı', ara1: 'Ara Öğün', ogle: 'Öğle Yemeği', ara2: 'İkindi', aksam: 'Akşam Yemeği' };
+  const porsiyonEtiket = (m) => { const p = PORSIYON.find((x) => x[1] === m); return p ? p[0] + ' porsiyon' : M.sayi(m, 1) + ' porsiyon'; };
+  function gunlukKalemleri() {
+    return kalemler.map((k) => {
+      const b = M.besin(k.slug), tarif = M.tarifMi(b), v = (a) => M.miktarDeger(b, a, k.miktar, k.birim) || 0;
+      const olcu = yemekBilgi(b) ? porsiyonEtiket(k.miktar) : k.birim === 'g' ? M.sayi(k.miktar, 0) + ' g' : M.sayi(k.miktar, 1) + ' ' + olcuAdi(b);
+      const gram = yemekBilgi(b) ? Math.round(yemekBilgi(b).gram * k.miktar) : k.birim === 'g' ? k.miktar : null;
+      return { tur: tarif ? 'tarif' : 'besin', slug: tarif ? k.slug.slice(6) : k.slug, ad: b.ad, olcu, miktar: gram, kcal: v('kcal'), protein: v('protein'), yag: v('yag'), karb: v('karb') };
+    });
+  }
+  function kayitDurum(ogun) {
+    const d = $('tabakKayitDurum');
+    d.hidden = false;
+    d.innerHTML = '<i class="fa-solid fa-circle-check" aria-hidden="true"></i><span>Tabağın ' + OGUN_AD[ogun] + ' öğününe eklendi · <a href="' + DD.kok + 'hesabim/gunluk-takibim/">Günlük takibimde gör</a></span>';
+  }
+  const sorgu = new URLSearchParams(location.search);
+  if (OGUN_AD[sorgu.get('ogun')]) $('tabakOgun').value = sorgu.get('ogun');
+  let bekleyenOgun = null;
+  $('tabakKaydet').addEventListener('click', () => {
+    if (!kalemler.length) { DD.toast('Önce tabağına bir yemek ekle.', 'uyari'); return; }
+    const ogun = $('tabakOgun').value, l = gunlukKalemleri(), h = hesap();
+    if (DD.oturum.acik()) {
+      const d = DD.demo.al();
+      d.uyeYerel = d.uyeYerel || {};
+      const ek = (d.uyeYerel.gunlukEk = d.uyeYerel.gunlukEk || {});
+      ek[DD.bugun] = (ek[DD.bugun] || []).concat(l.map((x) => Object.assign(x, { ogun, kaynak: 'akilli-tabak' })));
+      DD.demo.kaydet();
+      /* Günlük Takibim'in "Yeni öğün ekle" penceresinden gelindiyse oraya dönülür */
+      const donus = DD.davet.guvenliYol(sorgu.get('donus') || '');
+      if (donus) { location.href = DD.kok + donus + (donus.includes('?') ? '&' : '?') + 'tabak=1'; return; }
+      kayitDurum(ogun);
+      DD.toast('Tabağın ' + OGUN_AD[ogun] + ' öğününe eklendi.');
+      return;
+    }
+    DD.misafir.ekle('tabak', { ogun, kalemler: l, skor: h.skor }, 'tabak-' + ogun);
+    bekleyenOgun = ogun;
+    DD.davet.ac({ baslik: 'Bu tabağı bugünkü öğünlerime ekle', metin: 'Tabağın (' + h.skor + ' / 100) bu tarayıcıda tutuluyor. Kaydolunca bugünkü ' + OGUN_AD[ogun] + ' öğününe eklenir ve takibe başlarsın.' });
+  });
+  document.addEventListener('dd:oturum', () => { if (bekleyenOgun) { kayitDurum(bekleyenOgun); bekleyenOgun = null; } });
+
+  cizimKur();
+  const taslak = DD.misafir.taslak('tabak');
+  if (taslak && Array.isArray(taslak.kalemler) && taslak.kalemler.every((k) => M.besin(k.slug))) { kalemler = taslak.kalemler; hazirNo = taslak.hazirNo; } else yukle(0);
+  disaridan(); yenile();
 })();

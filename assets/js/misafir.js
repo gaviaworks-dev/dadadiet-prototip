@@ -104,15 +104,15 @@
     o.className = 'modal-ortu'; o.id = 'hizliKayit'; o.hidden = true;
     o.innerHTML = '<div class="modal-kutu" role="dialog" aria-modal="true" aria-labelledby="hizliKayitBaslik"><form class="modal-form" id="hizliKayitForm" novalidate>'
       + '<div class="modal-bas"><h2 id="hizliKayitBaslik">Ücretsiz Hesabını Oluştur</h2><button class="kapat-dugme" type="button" data-kapat aria-label="Kapat">' + ikon('fa-xmark') + '</button></div>'
-      + '<div class="modal-govde yigin sik"><p class="kart-metin" id="hizliKayitMetin"></p><p class="sonuc-kayit" id="hizliKayitAktarim" hidden></p>'
+      + '<div class="modal-govde duz-metin"><p class="kart-metin" id="hizliKayitMetin"></p><p class="sonuc-kayit" id="hizliKayitAktarim" hidden></p>'
       + '<div class="alan"><label class="alan-etiket" for="hkEposta">E-posta <span class="zorunlu" aria-hidden="true">*</span></label><input class="alan-girdi" id="hkEposta" type="email" placeholder="ornek@eposta.com" autocomplete="email" required aria-describedby="hkEpostaHata"><span class="alan-hata" id="hkEpostaHata">' + ikon('fa-circle-exclamation') + ' Geçerli bir e-posta adresi gir.</span></div>'
       + '<div class="alan"><label class="alan-etiket" for="hkSifre">Şifre <span class="zorunlu" aria-hidden="true">*</span></label><input class="alan-girdi" id="hkSifre" type="password" placeholder="En az 8 karakter" autocomplete="new-password" required aria-describedby="hkSifreHata"><span class="alan-hata" id="hkSifreHata">' + ikon('fa-circle-exclamation') + ' Şifre en az 8 karakter olmalı.</span></div>'
       + '<div class="onay-satirlari"><label class="onay-kutusu"><input type="checkbox" id="hkKosul" required><span><a href="' + kok() + 'yasal/kullanim-kosullari/">Kullanım Koşulları</a>\'nı kabul ediyorum. <span class="zorunlu">*</span></span></label><label class="onay-kutusu"><input type="checkbox" id="hkKvkk" required><span><a href="' + kok() + 'yasal/kvkk/">KVKK Aydınlatma Metni</a>\'ni okudum. <span class="zorunlu">*</span></span></label></div><span class="alan-hata" id="hkOnayHata">' + ikon('fa-circle-exclamation') + ' Devam etmek için iki onayı da işaretle.</span>'
-      + '<div class="giris-ayrac">veya</div><button class="sosyal-dugme" type="button" data-mentor-sso>' + ikon('fa-compass') + ' Dada Mentor hesabınla devam et</button>'
+      + '<div class="giris-ayrac">veya</div><button class="sosyal-dugme tam" type="button" data-mentor-sso>' + ikon('fa-compass') + ' Dada Mentor hesabınla devam et</button>'
       + '<p class="alan-yardim"><span>Dada Gastro, Dada Fit ya da Dada Gourmet hesabın varsa aynı hesapla Dada Diet profilini eşitlersin. Prototipte örnek akış: demo oturum açılır, gerçek eşitleme yapılmaz.</span></p></div>'
-      + '<div class="modal-ayak-cubuk yayik"><a class="baglanti-metin" id="hizliKayitGiris" href="' + kok() + 'giris/">Zaten üye misin? Giriş yap</a><button class="dugme birincil" type="submit">' + ikon('fa-user-plus') + ' Hesabımı oluştur</button></div>'
+      + '<div class="modal-ayak-cubuk yayik yigilir"><a class="baglanti-metin" id="hizliKayitGiris" href="' + kok() + 'giris/">Zaten üye misin? Giriş yap</a><button class="dugme birincil" type="submit">' + ikon('fa-user-plus') + ' Hesabımı oluştur</button></div>'
       + '</form></div>';
-    (document.getElementById('pageMain') || document.body).appendChild(o);
+    document.body.appendChild(o);
     o.querySelector('form').addEventListener('submit', (e) => {
       e.preventDefault();
       const ep = o.querySelector('#hkEposta'), sf = o.querySelector('#hkSifre');
