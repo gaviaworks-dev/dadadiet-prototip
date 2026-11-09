@@ -3526,3 +3526,6 @@ body.cerez-acik #dadaMentor{--mentor-dip:max(var(--mentor-taban),calc(var(--ment
 button.sohbet-ek{font-family:inherit;text-align:left;cursor:pointer}
 button.sohbet-ek:hover b{color:var(--aksan-koyu)}
 .sohbet-kunye .bag-dugme{display:inline-flex;align-items:center;gap:var(--bosluk-4);font-weight:var(--agirlik-orta);color:var(--metin-ikincil)}
+
+/* ── dk-hesabim (9 Kasım): sabit tabloda sayı kolonu. dar-kolon (160) yanında kısa sayılar için; esnek kolon dar ekranda ezilmesin ── */
+.tablo .kisa-kolon{width:96px}
