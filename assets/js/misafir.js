@@ -161,6 +161,13 @@
   const kaydetCiz = (b) => {
     const v = DD.kaydet.var(b.dataset.kaydet, b.dataset.slug);
     b.setAttribute('aria-pressed', String(v));
+    /* İkon düğme: yalnız ikon değişir, ad aria-label ve ipucunda (Sayfa Revizesi 1) */
+    if (b.classList.contains('ikon-dugme')) {
+      const ad = v ? (b.dataset.etiketTamam || 'Kaydedildi') : b.dataset.etiket;
+      b.innerHTML = ikon(v ? 'fa-circle-check' : (b.dataset.ikon || 'fa-bookmark'));
+      b.setAttribute('aria-label', ad); b.setAttribute('data-ipucu', ad);
+      return;
+    }
     b.innerHTML = ikon(v ? 'fa-circle-check' : (b.dataset.ikon || 'fa-bookmark')) + ' ' + kac(v ? (b.dataset.etiketTamam || 'Kaydedildi') : b.dataset.etiket);
   };
   const kaydetHepsi = () => document.querySelectorAll('[data-kaydet][data-slug]').forEach(kaydetCiz);
