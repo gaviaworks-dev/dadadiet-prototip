@@ -231,10 +231,13 @@ export function initStandards(doc=document, win=window) {
  const visible=n=>!!n&&!n.hidden&&n.getBoundingClientRect().width>0&&n.getBoundingClientRect().height>0&&getComputedStyle(n).visibility!=='hidden'&&+getComputedStyle(n).opacity>0;
  const cooking=()=>visible(doc.querySelector('#cookmode:not([hidden])'));
  const navigationClearance=()=>{
+   // Prototip: önizlemede (yönetici önizlemesi, data-rk-cookie-exempt) açık çerez bandının da üstüne çıkar (alignAltbar ile aynı kural).
+   let bant=0;
+   if(layer?.dataset.rkCookieExempt==='1')for(const n of doc.querySelectorAll('#cookieBanner,.cookie-banner')){const r=n.getBoundingClientRect();if(visible(n)&&r.top<win.innerHeight&&r.bottom>0)bant=Math.max(bant,win.innerHeight-r.top+12)}
    const nav=doc.querySelector('.bottom-nav,.alt-cubuk');
-   if(!nav||getComputedStyle(nav).display==='none')return 0;
+   if(!nav||getComputedStyle(nav).display==='none')return bant;
    const top=Math.min(...[nav,...nav.querySelectorAll('*')].filter(visible).map(n=>n.getBoundingClientRect().top));
-   return Math.max(0,win.innerHeight-top+12);
+   return Math.max(bant,win.innerHeight-top+12);
  };
  const cookie=()=>cookieBannerVisible(doc,win);
  const impression=(node)=>{
