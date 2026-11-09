@@ -22,6 +22,8 @@
   const acikTurler = () => TUR.filter((t) => iz[t[0]]);
   const bosSatir = (n, m) => '<tr><td colspan="' + n + '" class="bos-hucre">' + m + '</td></tr>';
   const yaz = (metin) => hareket().push({ tarih: U.bugun(), metin });
+  /* Başlangıç kayıtları demo.json uyeYerel.izinKapanan/izinHareket: prototip örneği */
+  const ornek = (x) => (x.ornek ? '<span class="ornek-etiket satir-ici">prototip örneği</span>' : '');
 
   function turDegis(k, acik) {
     iz[k] = acik;
@@ -67,11 +69,11 @@
   }
 
   function kayitCiz() {
-    U.bas('#viDolan', kapanan().slice().reverse().map((k) => '<tr><td class="tarih">' + U.noktaliTarih(k.tarih) + '</td><td>' + U.kac(k.izin) + '</td><td>' + U.durum('kapali', k.durum) + '</td></tr>').join('') || bosSatir(3, 'Kapanmış izin kaydın yok.'));
+    U.bas('#viDolan', kapanan().slice().reverse().map((k) => '<tr><td class="tarih">' + U.noktaliTarih(k.tarih) + '</td><td>' + U.kac(k.izin) + ornek(k) + '</td><td>' + U.durum('kapali', k.durum) + '</td></tr>').join('') || bosSatir(3, 'Kapanmış izin kaydın yok.'));
     /* Erişim kaydı: diyetisyenin klinik notu yazdığı günler verinin okunduğu günlerdir */
     const l = (dn.klinik_notlar || []).slice().reverse();
     U.bas('#viKayit', l.map((n) => '<tr><td class="tarih">' + U.noktaliTarih(n.tarih) + '</td><td>' + U.kac(dy ? dy.ad : '') + '</td><td>Ölçüm ve tahlil kayıtları</td><td>Görüntüleme</td></tr>').join('') || bosSatir(4, 'Henüz erişim kaydı yok.'));
-    U.bas('#viHareket', hareket().slice().reverse().map((h) => '<tr><td class="tarih">' + U.noktaliTarih(h.tarih) + '</td><td class="sol">' + U.kac(h.metin) + '</td></tr>').join('') || bosSatir(2, 'Henüz izin hareketin yok.'));
+    U.bas('#viHareket', hareket().slice().reverse().map((h) => '<tr><td class="tarih">' + U.noktaliTarih(h.tarih) + '</td><td class="sol">' + U.kac(h.metin) + ornek(h) + '</td></tr>').join('') || bosSatir(2, 'Henüz izin hareketin yok.'));
   }
 
   /* Sağlık verisi rızası: kapsam başına ver, geri al, verilerimi sil */
