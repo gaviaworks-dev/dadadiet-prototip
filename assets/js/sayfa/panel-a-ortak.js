@@ -218,7 +218,16 @@
     const kapali = (m.kapali_tarihler || []).find((x) => x.tarih === iso);
     if (kapali) return { acik: false, neden: kapali.neden };
     if (!g || !g.acik) return { acik: false, neden: 'Kapalı' };
-    return { acik: true, bas: PA.dakika(g.baslangic), bit: PA.dakika(g.bitis), ara: g.ara ? g.ara.map(PA.dakika) : null };
+    /* araliklar: müsaitlik ızgarasının açık parçaları; ara dışındaki küçük boşluklar da kapalı sayılır */
+    const araliklar = Array.isArray(g.araliklar) && g.araliklar.length ? g.araliklar.map((x) => [PA.dakika(x.baslangic), PA.dakika(x.bitis)]) : null;
+    return { acik: true, bas: PA.dakika(g.baslangic), bit: PA.dakika(g.bitis), ara: g.ara ? g.ara.map(PA.dakika) : null, araliklar };
+  };
+  /* Aralık içinde mi: parça listesi yoksa gün aralığı yeter. Bitişik parçalar (biçim değişimi) tek parça sayılır */
+  PA.aralikta = (g, bas, bit) => {
+    if (!g.araliklar) return true;
+    let t = bas;
+    for (const [a, z] of g.araliklar.slice().sort((x, y) => x[0] - y[0])) if (a <= t && z > t) t = z;
+    return t >= bit;
   };
   /* Saat kapatma: tek seferlik blok, haftalık müsaitliği değiştirmez */
   PA.bloklar = () => PA.d().takvim_bloklari || (PA.d().takvim_bloklari = []);
@@ -228,6 +237,7 @@
     const g = PA.gunDuzeni(iso), bit = bas + sure;
     if (!g.acik || bas < g.bas || bit > g.bit) return false;
     if (g.ara && bas < g.ara[1] && bit > g.ara[0]) return false;
+    if (!PA.aralikta(g, bas, bit)) return false;
     if (iso + 'T' + PA.saat(bas) <= PA.simdi) return false;
     const tampon = PA.d().musaitlik.tampon || 0; /* seanslar arası boşluk her iki yöne uygulanır */
     return !PA.dolulukVar(iso, bas - tampon, bit + tampon, haric);
@@ -237,6 +247,7 @@
     if (!g.acik) return l;
     for (let m = g.bas; m + sure <= g.bit; m += 30) {
       if (g.ara && m < g.ara[1] && m + sure > g.ara[0]) continue;
+      if (!PA.aralikta(g, m, m + sure)) continue;
       if (iso + 'T' + PA.saat(m) <= PA.simdi) continue;
       l.push({ saat: PA.saat(m), uygun: PA.slotUygun(iso, m, sure, haric) });
     }

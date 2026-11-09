@@ -3377,3 +3377,88 @@ body.cerez-acik #dadaMentor{--mentor-dip:max(var(--mentor-taban),calc(var(--ment
 .mekan-kart-ornek-satir b{flex:none;font-weight:var(--agirlik-kalin);color:var(--aksan-koyu)}
 .mekan-kart-ornek{flex:1 1 auto;justify-content:flex-start}
 .mekan-kart-ornek-satir[data-yemek-yok] span{white-space:normal}
+/* === Revize 9 Kasım · panel === */
+/* Kural formu: gün çipleri, saat alanları, uygula satırı */
+.kural-form{display:flex;flex-direction:column;gap:var(--bosluk-16)}
+.yetkili .kural-form .alan{margin:0}
+.gun-secim{display:flex;flex-direction:column;align-items:flex-start;gap:var(--bosluk-8)}
+.cip-sira{display:flex;flex-wrap:wrap;gap:var(--bosluk-8);margin:0}
+.cip-sira.kisayol .cip{min-height:32px;font-size:var(--yazi-12-5)}
+.cip-sira .cip:disabled{opacity:.45;cursor:not-allowed}
+.kural-izgara{display:grid;grid-template-columns:repeat(3,minmax(0,1fr)) auto;gap:var(--bosluk-12) var(--bosluk-16);align-items:end}
+.kural-izgara .segment{display:flex}
+.kural-izgara .segment button{flex:1 1 auto;min-height:36px}
+.kural-alt{display:flex;flex-wrap:wrap;align-items:center;gap:var(--bosluk-12) var(--bosluk-16);padding-top:var(--bosluk-16);border-top:1px solid var(--cizgi)}
+.kural-alt>.dugme{margin-left:auto}
+.yetkili .panel-sayfa .kural-ozet{flex:1 1 220px;margin:0;font-size:var(--yazi-13);color:var(--metin-ikincil)}
+.anahtar-etiketli{display:inline-flex;align-items:center;gap:var(--bosluk-8);font-size:var(--yazi-13-5);font-weight:var(--agirlik-kalin);color:var(--murekkep);cursor:pointer}
+@media(max-width:900px){.kural-izgara{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media(max-width:480px){.kural-izgara{grid-template-columns:minmax(0,1fr)}.kural-alt>.dugme{width:100%;margin-left:0}}
+/* Fırça çubuğu: ızgara uzunken üstte yapışık kalır */
+.firca-cubuk{position:sticky;top:var(--kit-ust-h,64px);z-index:var(--kat-icerik);display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:var(--bosluk-8) var(--bosluk-16);margin:0 0 var(--bosluk-12);padding:var(--bosluk-8) 0;background:var(--kagit)}
+.firca-sec{display:flex;align-items:center;gap:var(--bosluk-8)}
+.yetkili .firca-sec>.alan-etiket{margin:0}
+.firca-sec .segment button{display:inline-flex;align-items:center;gap:var(--bosluk-6)}
+.takvim-lejant.musait-lejant{margin-top:0;gap:var(--bosluk-12)}
+.lejant-kalem.online::before{background:var(--aksan-yikama);border:1px solid var(--aksan-koyu)}
+.lejant-kalem.yuzyuze::before{background:var(--durum-acik-zemin);border:1px solid var(--durum-acik-metin)}
+.lejant-kalem.kapali::before{background:var(--kagit);border:1px dashed var(--cizgi-vurgu)}
+.lejant-kalem.degisti::before{background:var(--kagit);border:1px solid var(--cizgi);box-shadow:inset 0 -3px 0 var(--uyari)}
+/* Boyanabilir ızgara */
+.musait-izgara .takvim-slot{user-select:none;-webkit-user-select:none;-webkit-touch-callout:none;touch-action:manipulation;cursor:cell}
+.musait-izgara .takvim-slot.degisti{box-shadow:inset 0 -3px 0 var(--uyari)}
+.musait-izgara .takvim-slot:hover{border-color:var(--aksan-koyu)}
+.musait-izgara .takvim-saat,.musait-izgara .takvim-kose{position:sticky;left:0;background:var(--kagit)}
+.musait-izgara .takvim-saat{z-index:1}
+.musait-izgara .takvim-kose{z-index:2}
+.gun-menu-dugme{border-radius:var(--yuvarlak-sm);min-height:40px}
+.gun-menu-dugme>span{display:inline-flex;align-items:center;gap:var(--bosluk-4)}
+.gun-menu-dugme>span i{font-size:var(--yazi-11);color:var(--metin-ikincil)}
+.gun-menu-dugme:hover,.gun-menu-dugme[aria-expanded="true"]{background:var(--aksan-yikama);color:var(--aksan-koyu)}
+.gun-menu-dugme:focus-visible{outline:var(--odak-kalinlik) solid var(--aksan);outline-offset:1px}
+/* Kaydırma kabının dışında, düğmenin altına JS ile konan menü */
+.acilir-yuzey.gun-menu{position:fixed;top:0;left:0;width:240px;min-width:0;z-index:var(--kat-menu)}
+.acilir-yuzey .acilir-kalem[hidden]{display:none}
+/* Pano şeridi: kopyalanan günü başka günlere yapıştırma */
+.pano-serit{display:flex;flex-wrap:wrap;align-items:center;gap:var(--bosluk-12)}
+.yetkili .pano-serit{margin:0 0 var(--bosluk-12)}
+.pano-serit[hidden]{display:none}
+.pano-serit-govde{flex:1 1 280px;min-width:0}
+.yetkili .panel-sayfa .pano-serit-govde p{margin:0 0 var(--bosluk-8)}
+.pano-serit>.eylem-satiri{flex-wrap:wrap}
+@media(max-width:640px){
+  .musait-izgara.takvim-izgara.sik{grid-template-columns:48px repeat(7,minmax(52px,1fr));min-width:calc(48px + 7*52px)}
+  /* Sayaçlı sabit çubuk: dar ekranda sayaç düğmelerin üstünde kalır */
+  .yetkili .form-eylem.cubuk-sabit.sayacli{flex-wrap:wrap;row-gap:var(--bosluk-4);padding-top:var(--bosluk-8)}
+  .yetkili .form-eylem.cubuk-sabit.sayacli>.not{display:block;width:100%;font-size:var(--yazi-12-5)}
+}
+/* Sabit eylem çubuğu menü çekmeceye inince içerikle birlikte sola kayar (önceden 1100 altında 340 px boşluk kalıyordu) */
+@media(max-width:1100px){.yetkili .form-eylem.cubuk-sabit,.yetkili.panel-katli .form-eylem.cubuk-sabit{left:var(--kit-ray-w)}}
+@media(max-width:900px){.yetkili .form-eylem.cubuk-sabit,.yetkili.panel-katli .form-eylem.cubuk-sabit{left:0}}
+@media(max-width:480px){.yetkili .firca-sec>.alan-etiket{display:none}.firca-sec,.firca-sec .segment{width:100%}.firca-sec .segment button{flex:1 1 0;justify-content:center;padding:0 var(--bosluk-8)}}
+/* Seçicide öğün süzgeci ve tek satır kaydırılan kategori çipleri */
+.yetkili .secim-suzgec>.alan-izgara.ogun-suzgec{grid-template-columns:minmax(0,1fr);gap:var(--bosluk-8)}
+.ogun-suzgec .segment{display:flex;width:100%}
+.ogun-suzgec .segment button{flex:1 1 auto;white-space:nowrap;padding:0 var(--bosluk-8)}
+.ogun-suzgec .alan[hidden]{display:none}
+.cip-sira.tek-satir{flex-wrap:nowrap;overflow-x:auto;scrollbar-width:thin;padding-bottom:var(--bosluk-4)}
+.cip-sira.tek-satir>.cip{flex:none}
+.cip-sira[hidden]{display:none}
+.cip-sira .cip .sekme-sayi{margin-left:var(--bosluk-4);color:inherit;opacity:.75}
+@media(max-width:480px){.segment.tam-segment button>i{display:none}}
+/* Kart içi küçük not satırı ve kart gövdesinin ilk bilgi bandı */
+.kart-not{display:block;font-size:var(--yazi-12-5);line-height:1.5;color:var(--metin-ikincil)}
+.yetkili .kart-govde>.bilgi-notu:first-child{margin-top:0}
+.yetkili .panel-sayfa .secenek-kart p{margin-bottom:0}
+/* Plan uyumu özeti: başlık oranı, ölçer, sayılar, 7 günlük şerit, bugünün öğünleri */
+.uyum-ayrac{margin-top:var(--bosluk-16);padding-top:var(--bosluk-16);border-top:1px solid var(--cizgi)}
+.uyum-ozet{display:flex;flex-direction:column;gap:var(--bosluk-12)}
+.uyum-bas{display:flex;align-items:baseline;justify-content:space-between;gap:var(--bosluk-8);flex-wrap:wrap}
+.uyum-bas>span{font-size:var(--yazi-14);font-weight:var(--agirlik-kalin);color:var(--murekkep)}
+.uyum-bas>b{font-size:var(--yazi-24);font-weight:var(--agirlik-ekstra);color:var(--aksan-koyu)}
+.uyum-bas small{font-size:var(--yazi-12-5);font-weight:var(--agirlik-govde);color:var(--metin-ikincil)}
+.uyum-sayilar{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:var(--bosluk-8)}
+.yetkili .uyum-ozet .form-bolum-bas{margin:var(--bosluk-4) 0 0}
+.yetkili .uyum-ozet .alan-yardim,.yetkili .uyum-ozet .mini-liste{margin:0}
+.gs-deger small{font-size:var(--yazi-11);font-weight:var(--agirlik-govde)}
+@media(max-width:520px){.uyum-sayilar{grid-template-columns:repeat(2,minmax(0,1fr))}}
