@@ -56,6 +56,19 @@
   const metin = P.metin || 'Dört yıldır kilo yönetimi, insülin direnci ve sporcu beslenmesi üzerine çalışıyorum. Danışanlarımla klinikte ve online görüşüyorum. Amacım kısa süreli bir diyet değil, günlük hayatına uyan ve uzun vadede sürdürebileceğin bir beslenme düzeni kurmak.\n\nİlk görüşmede alışkanlıklarını, hedefini ve günlük ritmini birlikte konuşuyoruz. Planı buna göre kuruyor, iki haftada bir gözden geçirip ihtiyacın olan yerde güncelliyoruz.';
   $('eceMetin').innerHTML = metin.split(/\n{2,}/).map((p) => '<p>' + kac(p) + '</p>').join('');
 
+  /* Eğitim ve doğrulama: panel Profil > Belgeler kaydı; panel hiç açılmadıysa paneldeki başlangıç değerleri */
+  const egitim = P.egitim || [{ kurum: 'Beslenme ve Diyetetik Bölümü', program: 'Lisans' }, { kurum: 'Klinik Beslenme', program: 'Yüksek lisans' }];
+  const belgeler = P.belgeler || [{ ad: 'Lisans diploması', tur: 'Diploma', durum: 'Doğrulandı', tarih: '2026-02-11' }, { ad: 'Mesleki sorumluluk belgesi', tur: 'Belge', durum: 'Doğrulandı', tarih: '2026-02-11' }];
+  const sertifika = String(P.sertifika != null ? P.sertifika : 'Sporcu Beslenmesi Eğitimi\nDiyabette Beslenme Tedavisi').split(/\n+/).filter(Boolean);
+  const diller = P.diller || ['Türkçe', 'İngilizce'];
+  const hap = (durum) => '<span class="durum-hapi ' + (durum === 'Doğrulandı' ? 'cozulen' : 'bekleyen') + '">' + kac(durum) + '</span>';
+  const egSatir = (i, b, m, sag) => '<div class="ayar-satir"><span class="as-ikon" aria-hidden="true">' + ikon(i) + '</span><div class="as-metin"><b>' + b + '</b><span>' + m + '</span></div>' + (sag || '') + '</div>';
+  $('eceEgitimListe').innerHTML = egitim.filter((x) => x.kurum).map((x) => egSatir('fa-graduation-cap', kac(x.kurum), kac(x.program || 'Eğitim'))).join('')
+    + sertifika.map((x) => egSatir('fa-certificate', kac(x), 'Sertifika')).join('')
+    + belgeler.map((b) => egSatir('fa-file-shield', kac(b.ad), kac(b.tur) + (b.tarih ? ' · ' + DD.bicim.tarih(b.tarih) : ''), hap(b.durum))).join('')
+    + egSatir('fa-language', 'Görüşme dili', kac(diller.join(', ')))
+    + egSatir('fa-utensils', 'Örnek menüler', 'Uzman örnek menü yayınladığında İçerikler sekmesinde listelenir.', '<span class="rozet bekleme">bekliyor</span>');
+
   const paket = d.paketler.filter((p) => p.aktif);
   $('paketSayi').textContent = paket.length;
   $('paketler').innerHTML = paket.map((p) => '<div class="kart"><div class="kart-bas"><h3 class="kart-baslik">' + ikon('fa-box-open') + ' ' + kac(p.ad) + '</h3><span class="rozet pasif">' + kac(ilkBuyuk(p.tur)) + '</span></div><div class="kart-govde"><p class="sonuc-sayi kucuk">' + tl(p.fiyat) + '</p><p class="kart-metin">' + kac(p.aciklama) + '</p><ul class="uzman-meta">' + '<li>' + ikon('fa-comments') + ' ' + p.seans + ' seans</li><li>' + ikon('fa-clock') + ' ' + p.sure + ' dk görüşme</li></ul></div><div class="kart-alt"><a class="dugme birincil tam-en" href="' + DD.kok + 'hesabim/odeme/?paket=' + encodeURIComponent(p.id) + '">Paketi seç</a></div></div>').join('');
