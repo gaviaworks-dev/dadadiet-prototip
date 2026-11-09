@@ -118,8 +118,10 @@
       const t = m.zaman.slice(0, 10);
       const ayrac = t !== gun ? '<span class="sohbet-gun">' + U.kisaTarih(t) + '</span>' : '';
       gun = t;
-      /* Dosya içeriği saklanmaz; balonda adı ve boyutu görünür */
-      const ek = m.ek ? '<span class="sohbet-ek"><i class="fa-solid fa-paperclip" aria-hidden="true"></i><b>' + U.kac(m.ek.ad) + '</b>' + (m.ek.boyut ? '<small>' + boyut(m.ek.boyut) + '</small>' : '') + '</span>' : '';
+      /* Diyetisyenin eki bu tarayıcının belge kasasındaysa indirilir (panel sohbeti yazar); yoksa adı ve boyutu görünür */
+      const ek = !m.ek ? '' : m.ek.kaldirildi ? '<span class="sohbet-ek"><i class="fa-solid fa-file-circle-xmark" aria-hidden="true"></i><small>' + U.kac(m.ek.ad) + ' kaldırıldı</small></span>'
+        : m.ek.anahtar ? '<button class="sohbet-ek" type="button" data-ek-indir="' + U.kac(m.ek.anahtar) + '" data-ek-ad="' + U.kac(m.ek.ad) + '" aria-label="' + U.kac(m.ek.ad) + ' dosyasını indir"><i class="fa-solid fa-file-arrow-down" aria-hidden="true"></i><b>' + U.kac(m.ek.ad) + '</b>' + (m.ek.boyut ? '<small>' + boyut(m.ek.boyut) + '</small>' : '') + '</button>'
+        : '<span class="sohbet-ek"><i class="fa-solid fa-paperclip" aria-hidden="true"></i><b>' + U.kac(m.ek.ad) + '</b>' + (m.ek.boyut ? '<small>' + boyut(m.ek.boyut) + '</small>' : '') + '</span>';
       return ayrac + '<div class="sohbet-balon ' + (m.kimden === 'danisan' ? 'uye' : 'karsi') + '">' + (m.metin && !(m.ek && m.metin === m.ek.ad) ? '<p>' + U.kac(m.metin) + '</p>' : '') + ek + '<span class="sohbet-kunye">' + DD.bicim.saat(m.zaman.slice(11, 16)) + '</span></div>';
     }).join('') || U.bos({ ikon: 'fa-comments', baslik: 'Henüz mesaj yok', metin: acik ? 'Diyetisyenine ilk mesajını aşağıdan yaz.' : 'Bu uzmanla yazışman olmadı.' }));
     const a = $('#dyAkis'); a.scrollTop = a.scrollHeight;
@@ -149,6 +151,7 @@
   function dosyalar() {
     const p = U.plan();
     const gelen = (p ? [satirKur('fa-file-pdf', p.ad + '.pdf', U.tarih(U.planBas(p)) + ' · Beslenme planı · ' + dy.ad, '<a class="dugme hayalet kucuk" href="' + DD.kok + 'hesabim/beslenme-planim/">Planda aç</a>')] : [])
+      .concat((U.sohbet().mesajlar || []).filter((m) => m.kimden === 'diyetisyen' && m.ek && !m.ek.kaldirildi).reverse().map((m) => satirKur('fa-paperclip', m.ek.ad, U.tarih(m.zaman.slice(0, 10)) + ' · Mesaj eki · ' + dy.ad, m.ek.anahtar ? '<button class="dugme hayalet kucuk" type="button" data-ek-indir="' + U.kac(m.ek.anahtar) + '" data-ek-ad="' + U.kac(m.ek.ad) + '">İndir</button>' : '')))
       .concat(...U.uzmanlar().map((k) => (k.dosyalar || []).map((x) => satirKur('fa-file-pdf', x.ad, U.tarih(x.tarih) + ' · ' + x.tur + ' · ' + k.ad))));
     U.bas('#dyGelen', gelen.join('') || U.bos({ ikon: 'fa-inbox', baslik: 'Henüz dosya yok', metin: 'Diyetisyenin dosya gönderdiğinde burada listelenir.' }));
     const l = (dn.tahliller || []).map((t) => satirKur('fa-file-pdf', t.dosya_adi, U.tarih(t.tarih) + ' · Tahlil'))
@@ -246,6 +249,17 @@
     DD.toast(otomatik(k) ? 'Randevun oluşturuldu: ' + U.tarih(t) + ', ' + s + '.' : 'Randevu talebin ' + k.ad + ' için iletildi, onay bekliyor.');
   });
   document.addEventListener('click', (e) => {
+    const ind = e.target.closest('[data-ek-indir]');
+    if (ind) {
+      if (!DD.belgeKasa) { DD.toast('Dosya bu tarayıcıda açılamıyor.', 'uyari'); return; }
+      DD.belgeKasa.al(ind.dataset.ekIndir).then((v) => {
+        if (!v) { DD.toast('Dosya bu tarayıcıda yok. Prototipte dosya gönderildiği tarayıcıda saklanır.', 'uyari'); return; }
+        const a = document.createElement('a');
+        a.href = v.url; a.download = ind.dataset.ekAd; document.body.appendChild(a); a.click(); a.remove();
+        setTimeout(() => URL.revokeObjectURL(v.url), 4000);
+      });
+      return;
+    }
     const al = e.target.closest('[data-randevu-al]');
     if (al) { uzSec.value = al.dataset.randevuAl; uzmanUygula(); DD.ac('#dyRandevu'); }
     const git = e.target.closest('[data-sohbet-git]');
