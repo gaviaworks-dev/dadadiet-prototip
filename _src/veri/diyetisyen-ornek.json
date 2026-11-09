@@ -1,0 +1,4045 @@
+{
+ "uretim": "2026-11-09",
+ "not": "Prototip örneği: listedeki uzmanların profil içeriği (hakkında, eğitim, paket, müsaitlik, yorum, yazı, örnek menü) ve Ece Tunalı'nın yazı ve menüleri. Gerçek kişi, kurum ya da danışan bilgisi değildir. Menü değerleri derlemede besinler.json'dan hesaplanır. musaitlik.dolu[].gun: içinde bulunulan haftanın pazartesisinden gün farkı.",
+ "uzmanlar": {
+  "dyt-elif-sahin": {
+   "kisa": "Çalışan ve düzenli spor yapan danışanlarla, yoğun iş temposuna sığan ve antrenmanı destekleyen planlar hazırlıyorum.",
+   "hakkinda": {
+    "baslik": "İş Temposuna Uyan Kilo Yönetimi ve Spor Beslenmesi",
+    "metin": [
+     "Dört yıldır kilo yönetimi ve sporcu beslenmesi alanında çalışıyorum. Danışanlarımın çoğu haftada birkaç gün pilates, fitness ya da koşu yapan, gün boyu masa başında çalışan kişiler. Bu yüzden planları önce iş saatlerine ve antrenman gününe göre kuruyor, sonra öğünlerin içeriğini birlikte belirliyoruz.",
+     "İstanbul'daki ofisimde yüz yüze, diğer günlerde online görüşüyorum. İlk görüşmede günlük ritmini, mutfakta ne kadar vakit ayırabildiğini ve hedefini konuşuyoruz. Takip görüşmelerinde ölçümleri ve haftalık kayıtları birlikte değerlendirip planı küçük adımlarla güncelliyoruz."
+    ]
+   },
+   "egitim": [
+    {
+     "ad": "Beslenme ve Diyetetik",
+     "program": "Lisans"
+    }
+   ],
+   "sertifikalar": [
+    "Sporcu Beslenmesi Eğitimi",
+    "Kadın Sağlığında Beslenme Eğitimi"
+   ],
+   "diller": [
+    "Türkçe",
+    "İngilizce"
+   ],
+   "dogrulama_tarih": "2025-09-18",
+   "paketler": [
+    {
+     "id": "k1",
+     "ad": "Online Başlangıç",
+     "tur": "online",
+     "seans": 4,
+     "sure": 30,
+     "sure_hafta": 4,
+     "fiyat": 2400,
+     "aciklama": "Dört online görüşme, iş ve antrenman gününe göre haftalık plan ve mesaj desteği."
+    },
+    {
+     "id": "k2",
+     "ad": "Yüz Yüze Takip",
+     "tur": "yüz yüze",
+     "seans": 6,
+     "sure": 45,
+     "sure_hafta": 8,
+     "fiyat": 4600,
+     "aciklama": "Ofiste altı görüşme, her görüşmede ölçüm ve plan güncellemesi."
+    },
+    {
+     "id": "k3",
+     "ad": "Karma Fit Program",
+     "tur": "karma",
+     "seans": 10,
+     "sure": 45,
+     "sure_hafta": 12,
+     "fiyat": 7200,
+     "aciklama": "On görüşme; ölçüm günleri yüz yüze, ara takipler online, antrenman dönemine göre plan."
+    }
+   ],
+   "musaitlik": {
+    "haftalik": [
+     {
+      "gun": "Pazartesi",
+      "acik": true,
+      "baslangic": "09:00",
+      "bitis": "17:00",
+      "ara": [
+       "12:30",
+       "13:30"
+      ],
+      "tur": "karma"
+     },
+     {
+      "gun": "Salı",
+      "acik": true,
+      "baslangic": "10:00",
+      "bitis": "18:00",
+      "ara": [
+       "13:00",
+       "14:00"
+      ],
+      "tur": "online"
+     },
+     {
+      "gun": "Çarşamba",
+      "acik": true,
+      "baslangic": "09:00",
+      "bitis": "15:00",
+      "ara": [
+       "12:00",
+       "13:00"
+      ],
+      "tur": "yuzyuze"
+     },
+     {
+      "gun": "Perşembe",
+      "acik": true,
+      "baslangic": "09:00",
+      "bitis": "17:00",
+      "ara": [
+       "12:30",
+       "13:30"
+      ],
+      "tur": "karma"
+     },
+     {
+      "gun": "Cuma",
+      "acik": true,
+      "baslangic": "09:00",
+      "bitis": "16:00",
+      "ara": null,
+      "tur": "online"
+     },
+     {
+      "gun": "Cumartesi",
+      "acik": true,
+      "baslangic": "10:00",
+      "bitis": "14:00",
+      "ara": null,
+      "tur": "yuzyuze"
+     },
+     {
+      "gun": "Pazar",
+      "acik": false,
+      "baslangic": null,
+      "bitis": null,
+      "ara": null,
+      "tur": "online"
+     }
+    ],
+    "slot": {
+     "online": 30,
+     "yüz yüze": 45
+    },
+    "ucret": {
+     "online": 650,
+     "yüz yüze": 850
+    },
+    "onay": "uzman",
+    "dolu": [
+     {
+      "gun": 1,
+      "saat": "10:00",
+      "tur": "online",
+      "sure": 30
+     },
+     {
+      "gun": 1,
+      "saat": "14:30",
+      "tur": "online",
+      "sure": 30
+     },
+     {
+      "gun": 2,
+      "saat": "09:00",
+      "tur": "yüz yüze",
+      "sure": 45
+     },
+     {
+      "gun": 3,
+      "saat": "09:45",
+      "tur": "yüz yüze",
+      "sure": 45
+     },
+     {
+      "gun": 3,
+      "saat": "15:00",
+      "tur": "online",
+      "sure": 30
+     },
+     {
+      "gun": 4,
+      "saat": "11:00",
+      "tur": "online",
+      "sure": 30
+     },
+     {
+      "gun": 5,
+      "saat": "10:45",
+      "tur": "yüz yüze",
+      "sure": 45
+     },
+     {
+      "gun": 7,
+      "saat": "09:00",
+      "tur": "yüz yüze",
+      "sure": 45
+     },
+     {
+      "gun": 8,
+      "saat": "16:00",
+      "tur": "online",
+      "sure": 30
+     },
+     {
+      "gun": 10,
+      "saat": "14:00",
+      "tur": "online",
+      "sure": 30
+     }
+    ]
+   },
+   "yorumlar": [
+    {
+     "id": "y1",
+     "puan": 5,
+     "tarih": "2026-10-30",
+     "tur": "online",
+     "sure_hafta": 10,
+     "konu": "Kilo yönetimi",
+     "danisan_etiket": "Danışan · 30'lu yaşlar",
+     "metin": "Toplantı yoğun günlerde öğle yemeğini hep atlıyordum. Masamda tutabileceğim ara öğünlerle bir düzen kurduk, akşam aşırı acıkma sorunum azaldı. Planı her hafta takvimime bakarak birlikte güncelledik."
+    },
+    {
+     "id": "y2",
+     "puan": 5,
+     "tarih": "2026-10-11",
+     "tur": "yüz yüze",
+     "sure_hafta": 8,
+     "konu": "Sporcu beslenmesi",
+     "danisan_etiket": "Danışan · 20'li yaşlar",
+     "metin": "Sabah 07.00 pilates derslerine aç gidiyordum ve ders ortasında halsizleşiyordum. Dersten önce hafif bir şey, sonrasında doyurucu bir kahvaltı yapmayı denedik. Ölçümlerimi her görüşmede gösterip neyin değiştiğini anlattı."
+    },
+    {
+     "id": "y3",
+     "puan": 4,
+     "tarih": "2026-09-24",
+     "tur": "online",
+     "sure_hafta": 6,
+     "konu": "Kilo yönetimi",
+     "danisan_etiket": "Danışan · 40'lı yaşlar",
+     "metin": "Hafta içi iyi gidiyordum ama hafta sonları dağılıyordum. Cumartesi için ayrı bir esnek plan yaptık. Bazı tarifler bana uzun geldi, söyleyince daha pratik olanlarla değiştirdi."
+    },
+    {
+     "id": "y4",
+     "puan": 5,
+     "tarih": "2026-08-29",
+     "tur": "yüz yüze",
+     "sure_hafta": 12,
+     "konu": "Sporcu beslenmesi",
+     "danisan_etiket": "Danışan · 30'lu yaşlar",
+     "metin": "İlk yarı maratonuma hazırlanırken uzun koşu günlerinde ne yiyeceğimi bilmiyordum. Koşu öncesi ve sonrası öğünleri tek tek yazdık, yarış haftası için de ayrı bir liste verdi."
+    },
+    {
+     "id": "y5",
+     "puan": 4,
+     "tarih": "2026-07-15",
+     "tur": "online",
+     "sure_hafta": 4,
+     "konu": "Kilo yönetimi",
+     "danisan_etiket": "Danışan · 20'li yaşlar",
+     "metin": "Kısa bir paketle başladım. Yasak yerine porsiyonları konuşmamız iyi geldi; dört haftada alışkanlıklarımı fark etmeye başladım. Daha uzun takip için yeniden görüşmeyi düşünüyorum."
+    },
+    {
+     "id": "y6",
+     "puan": 5,
+     "tarih": "2026-06-20",
+     "tur": "yüz yüze",
+     "sure_hafta": 16,
+     "konu": "Kilo yönetimi",
+     "danisan_etiket": "Danışan · 30'lu yaşlar",
+     "metin": "Doğumdan sonra spora yeniden başlarken destek aldım. Uyku düzenim bozukken bile uygulayabileceğim basit öğünler önerdi, acele ettirmedi."
+    }
+   ],
+   "yazilar": [
+    {
+     "id": "w1",
+     "baslik": "Sabah Antrenmanından Önce Ne Yemeli?",
+     "ozet": "Erken saatte spor yapanlar için antrenman öncesi ve sonrası öğün fikirleri.",
+     "okuma_dk": 3,
+     "tarih": "2026-10-20",
+     "paragraflar": [
+      "Sabah erken antrenman yapanların en sık sorusu, aç karnına mı yoksa bir şey yiyerek mi gitmeleri gerektiği. Kısa ve hafif bir egzersiz için çoğu kişi aç karnına rahat eder; ancak bir saati aşan ya da yoğun bir antrenmanda gece boyunca azalan enerji depoları performansı etkileyebilir.",
+      "Antrenmandan 30–60 dakika önce sindirimi kolay, az yağlı ve karbonhidrat ağırlıklı küçük bir atıştırma işe yarar: bir muz, birkaç kuru kayısı ya da yarım dilim ekmek ve bir bardak su gibi. Mideyi yoran kızartma, çok lifli ya da çok yağlı yiyecekleri antrenmandan sonraya bırakmak daha konforludur.",
+      "Antrenmandan sonraki kahvaltıda protein ve karbonhidratı birlikte almak toparlanmayı destekler. Yumurta, peynir ya da yoğurdun yanına tam tahıllı ekmek ve sebze eklemek iyi bir başlangıçtır. Herkesin midesi farklı tepki verdiği için en uygun düzeni birkaç hafta deneyerek bulmak gerekir."
+     ]
+    },
+    {
+     "id": "w2",
+     "baslik": "Yoğun İş Gününde Öğün Atlamamanın Yolları",
+     "ozet": "Toplantılar arasında öğün kaçıranlar için küçük planlama adımları.",
+     "okuma_dk": 4,
+     "tarih": "2026-09-08",
+     "paragraflar": [
+      "Öğle yemeğini atlamak kısa vadede zaman kazandırıyor gibi görünse de gün sonunda aşırı acıkmaya ve akşam yemeğinde kontrolsüz porsiyonlara yol açabilir. Bu döngüyü kırmanın ilk adımı, öğünü takvime bir toplantı gibi yazmaktır.",
+      "Masada ya da çantada taşınabilecek birkaç seçenek hazır bulunsun: bir avuç kuruyemiş, bir meyve, küçük bir kap yoğurt ya da peynirli tam tahıllı sandviç. Bunlar tam bir öğünün yerini tutmaz ama uzun aralıkları kısaltır.",
+      "Haftanın en yoğun iki gününü önceden belirleyip o günler için bir akşam önceden yemek hazırlamak da işe yarar. Bir kap baklagil yemeği, bulgur ve salata ertesi gün kolayca taşınır. Amaç her günü kusursuz yapmak değil, en zor günlerde bile öğünün bir karşılığı olmasıdır."
+     ]
+    },
+    {
+     "id": "w3",
+     "baslik": "Hafta Sonu Beslenmesini Dengede Tutmak",
+     "ozet": "Rutin bozulduğunda planı tamamen bırakmadan esnek kalmanın yolları.",
+     "okuma_dk": 3,
+     "tarih": "2026-07-27",
+     "paragraflar": [
+      "Hafta içi düzenli giden pek çok kişi hafta sonu geç kalkma, uzun kahvaltılar ve dışarıda yemekle rutinini kaybeder. Bu tamamen doğaldır; sorun hafta sonunu bir ödül ya da kaçamak olarak görüp pazartesiye kadar planı askıya almaktır.",
+      "Geç başlayan bir günde kahvaltı ve öğle yemeğini birleştirip bunu dengeli bir tabakla yapmak işe yarar: yumurta, peynir, bol sebze ve tam tahıllı ekmek. Davetlere ya da dışarıdaki yemeklere çok aç gitmemek de porsiyonu yönetmeyi kolaylaştırır.",
+      "Hafta sonu kısa bir yürüyüş ya da hafif bir antrenman eklemek hem hareketi korur hem de günün ritmini toparlar. Pazar akşamı haftanın ilk iki gününün öğünlerini kabaca planlamak, pazartesiyi yeniden başlamak yerine kaldığın yerden devam etmeye çevirir."
+     ]
+    }
+   ],
+   "menuler": [
+    {
+     "id": "m1",
+     "baslik": "Sabah Antrenmanlı İş Günü Örnek Günlük Menü",
+     "ozet": "Sabah antrenman yapıp gün boyu masa başında çalışan ve kilo vermeyi hedefleyen yetişkinler için.",
+     "tarih": "2026-10-22",
+     "ogunler": [
+      {
+       "ad": "Kahvaltı",
+       "kalemler": [
+        [
+         "yumurta-haslanmis",
+         100,
+         "2 adet"
+        ],
+        [
+         "beyaz-peynir-yarim-yagli",
+         30,
+         "1 kibrit kutusu"
+        ],
+        [
+         "tam-bugday-ekmegi",
+         50,
+         "2 dilim"
+        ],
+        [
+         "domates",
+         100,
+         "1 küçük boy"
+        ],
+        [
+         "salatalik",
+         75,
+         "yarım kupa"
+        ],
+        [
+         "yesil-zeytin",
+         15,
+         "5 adet"
+        ]
+       ]
+      },
+      {
+       "ad": "Ara Öğün",
+       "kalemler": [
+        [
+         "elma-fuji",
+         150,
+         "1 orta boy"
+        ],
+        [
+         "badem",
+         20,
+         "15 adet"
+        ]
+       ]
+      },
+      {
+       "ad": "Öğle Yemeği",
+       "kalemler": [
+        [
+         "tavuk-gogsu-izgara",
+         100,
+         "1 porsiyon"
+        ],
+        [
+         "bulgur-pismis",
+         150,
+         "6 yemek kaşığı"
+        ],
+        [
+         "roka",
+         50,
+         "1 küçük kâse"
+        ],
+        [
+         "zeytinyagi",
+         5,
+         "1 tatlı kaşığı"
+        ]
+       ]
+      },
+      {
+       "ad": "İkindi",
+       "kalemler": [
+        [
+         "yogurt-yarim-yagli",
+         200,
+         "1 kâse"
+        ],
+        [
+         "kivi",
+         75,
+         "1 adet"
+        ]
+       ]
+      },
+      {
+       "ad": "Akşam Yemeği",
+       "kalemler": [
+        [
+         "levrek-izgara",
+         150,
+         "1 porsiyon"
+        ],
+        [
+         "brokoli-haslanmis",
+         150,
+         "1 porsiyon"
+        ],
+        [
+         "patates-haslanmis",
+         150,
+         "1 orta boy"
+        ],
+        [
+         "zeytinyagi",
+         10,
+         "2 tatlı kaşığı"
+        ]
+       ]
+      }
+     ]
+    },
+    {
+     "id": "m2",
+     "baslik": "Ofise Taşınabilen Pratik Örnek Günlük Menü",
+     "ozet": "Öğle yemeğini ofise götüren, kilo vermeyi hedefleyen ve mutfakta az vakit geçiren çalışanlar için.",
+     "tarih": "2026-08-14",
+     "ogunler": [
+      {
+       "ad": "Kahvaltı",
+       "kalemler": [
+        [
+         "yulaf-beyaz",
+         40,
+         "4 yemek kaşığı"
+        ],
+        [
+         "sut-uht-yarim-yagli",
+         200,
+         "1 su bardağı"
+        ],
+        [
+         "ceviz-ic",
+         10,
+         "2 tam ceviz"
+        ],
+        [
+         "muz-anamur",
+         100,
+         "1 adet"
+        ]
+       ]
+      },
+      {
+       "ad": "Ara Öğün",
+       "kalemler": [
+        [
+         "mandalina-klemantin",
+         150,
+         "2 adet"
+        ]
+       ]
+      },
+      {
+       "ad": "Öğle Yemeği",
+       "kalemler": [
+        [
+         "ton-baligi-suda",
+         100,
+         "1 küçük kutu, süzülmüş"
+        ],
+        [
+         "nohut-haslanmis",
+         100,
+         "4 yemek kaşığı"
+        ],
+        [
+         "marul-kivircik",
+         75,
+         "1 porsiyon"
+        ],
+        [
+         "domates",
+         100,
+         "1 küçük boy"
+        ],
+        [
+         "zeytinyagi",
+         5,
+         "1 tatlı kaşığı"
+        ],
+        [
+         "tam-bugday-ekmegi",
+         25,
+         "1 dilim"
+        ]
+       ]
+      },
+      {
+       "ad": "İkindi",
+       "kalemler": [
+        [
+         "kefir",
+         200,
+         "1 su bardağı"
+        ],
+        [
+         "findik-cig",
+         15,
+         "10 adet"
+        ]
+       ]
+      },
+      {
+       "ad": "Akşam Yemeği",
+       "kalemler": [
+        [
+         "mercimek-haslanmis",
+         150,
+         "1 kâse yemek"
+        ],
+        [
+         "esmer-pirinc-pismis",
+         120,
+         "5 yemek kaşığı"
+        ],
+        [
+         "yogurt-yarim-yagli",
+         150,
+         "1 küçük kâse"
+        ],
+        [
+         "salatalik",
+         150,
+         "1 kupa doğranmış"
+        ],
+        [
+         "zeytinyagi",
+         5,
+         "1 tatlı kaşığı"
+        ]
+       ]
+      }
+     ]
+    }
+   ]
+  },
+  "dyt-mert-aydin": {
+   "kisa": "Takım sporcuları, üniversite öğrencileri ve kuvvet antrenmanı yapanlarla antrenman takvimine göre online beslenme planı hazırlıyorum.",
+   "hakkinda": {
+    "baslik": "Takım Sporları ve Kuvvet Antrenmanında Beslenme",
+    "metin": [
+     "Beş yıldır kilo yönetimi ve sporcu beslenmesi üzerine çalışıyorum. Danışanlarımın önemli bir kısmı futbol, basketbol ve voleybol oynayan genç sporcular ile salonda kuvvet antrenmanı yapan öğrenciler. Planı maç ve antrenman takvimine göre kuruyor, yoğun haftalarla dinlenme haftalarını ayrı ele alıyorum.",
+     "Görüşmelerimin tamamı online. Öğrenci bütçesine ve yurt ya da ev mutfağına uygun, kolay bulunan besinlerle çalışmayı önemsiyorum. Takip görüşmelerinde antrenman yükünü, vücut ağırlığını ve iştah değişimini birlikte değerlendiriyor, planı sezonun dönemine göre güncelliyoruz."
+    ]
+   },
+   "egitim": [
+    {
+     "ad": "Beslenme ve Diyetetik",
+     "program": "Lisans"
+    }
+   ],
+   "sertifikalar": [
+    "Egzersiz Fizyolojisi ve Performans Beslenmesi Eğitimi",
+    "Antropometrik Ölçüm Eğitimi"
+   ],
+   "diller": [
+    "Türkçe"
+   ],
+   "dogrulama_tarih": "2025-06-03",
+   "paketler": [
+    {
+     "id": "k1",
+     "ad": "Sezon Öncesi Hazırlık",
+     "tur": "online",
+     "seans": 4,
+     "sure": 45,
+     "sure_hafta": 4,
+     "fiyat": 2600,
+     "aciklama": "Dört online görüşme, antrenman takvimine göre öğün planı ve maç günü listesi."
+    },
+    {
+     "id": "k2",
+     "ad": "Kuvvet ve Kompozisyon",
+     "tur": "online",
+     "seans": 8,
+     "sure": 45,
+     "sure_hafta": 8,
+     "fiyat": 5000,
+     "aciklama": "Sekiz görüşme, kuvvet antrenmanına göre protein ve enerji dağılımı, haftalık kontrol."
+    },
+    {
+     "id": "k3",
+     "ad": "Sezon Boyu Takip",
+     "tur": "online",
+     "seans": 12,
+     "sure": 45,
+     "sure_hafta": 16,
+     "fiyat": 7200,
+     "aciklama": "On iki görüşme; maç, turnuva ve dinlenme dönemleri için ayrı planlar."
+    }
+   ],
+   "musaitlik": {
+    "haftalik": [
+     {
+      "gun": "Pazartesi",
+      "acik": true,
+      "baslangic": "14:00",
+      "bitis": "21:00",
+      "ara": [
+       "17:00",
+       "17:30"
+      ],
+      "tur": "online"
+     },
+     {
+      "gun": "Salı",
+      "acik": true,
+      "baslangic": "14:00",
+      "bitis": "21:00",
+      "ara": [
+       "17:00",
+       "17:30"
+      ],
+      "tur": "online"
+     },
+     {
+      "gun": "Çarşamba",
+      "acik": false,
+      "baslangic": null,
+      "bitis": null,
+      "ara": null,
+      "tur": "online"
+     },
+     {
+      "gun": "Perşembe",
+      "acik": true,
+      "baslangic": "14:00",
+      "bitis": "21:00",
+      "ara": [
+       "17:00",
+       "17:30"
+      ],
+      "tur": "online"
+     },
+     {
+      "gun": "Cuma",
+      "acik": true,
+      "baslangic": "10:00",
+      "bitis": "16:00",
+      "ara": null,
+      "tur": "online"
+     },
+     {
+      "gun": "Cumartesi",
+      "acik": true,
+      "baslangic": "10:00",
+      "bitis": "14:00",
+      "ara": null,
+      "tur": "online"
+     },
+     {
+      "gun": "Pazar",
+      "acik": false,
+      "baslangic": null,
+      "bitis": null,
+      "ara": null,
+      "tur": "online"
+     }
+    ],
+    "slot": {
+     "online": 45
+    },
+    "ucret": {
+     "online": 700
+    },
+    "onay": "otomatik",
+    "dolu": [
+     {
+      "gun": 0,
+      "saat": "18:30",
+      "tur": "online",
+      "sure": 45
+     },
+     {
+      "gun": 1,
+      "saat": "14:00",
+      "tur": "online",
+      "sure": 45
+     },
+     {
+      "gun": 1,
+      "saat": "19:15",
+      "tur": "online",
+      "sure": 45
+     },
+     {
+      "gun": 3,
+      "saat": "15:30",
+      "tur": "online",
+      "sure": 45
+     },
+     {
+      "gun": 4,
+      "saat": "10:00",
+      "tur": "online",
+      "sure": 45
+     },
+     {
+      "gun": 5,
+      "saat": "11:30",
+      "tur": "online",
+      "sure": 45
+     },
+     {
+      "gun": 7,
+      "saat": "20:00",
+      "tur": "online",
+      "sure": 45
+     },
+     {
+      "gun": 8,
+      "saat": "17:45",
+      "tur": "online",
+      "sure": 45
+     },
+     {
+      "gun": 11,
+      "saat": "12:15",
+      "tur": "online",
+      "sure": 45
+     }
+    ]
+   },
+   "yorumlar": [
+    {
+     "id": "y1",
+     "puan": 5,
+     "tarih": "2026-11-02",
+     "tur": "online",
+     "sure_hafta": 12,
+     "konu": "Sporcu beslenmesi",
+     "danisan_etiket": "Danışan · 20'li yaşlar",
+     "metin": "Üniversite takımında basketbol oynuyorum. Maç günlerinde öğle yemeğini ne zaman ve ne kadar yiyeceğimi netleştirdik, ikinci yarıda eskisi kadar yorulmuyorum. Yurt yemekhanesinde neyi seçeceğimi bile birlikte listeledik."
+    },
+    {
+     "id": "y2",
+     "puan": 5,
+     "tarih": "2026-10-06",
+     "tur": "online",
+     "sure_hafta": 8,
+     "konu": "Kuvvet antrenmanı",
+     "danisan_etiket": "Danışan · 20'li yaşlar",
+     "metin": "Protein tozu almadan kas kazanmak istiyordum. Yumurta, baklagil ve yoğurtla günlük ihtiyacımı nasıl karşılayacağımı gösterdi. Haftalık alışveriş listesi öğrenci bütçeme uygundu."
+    },
+    {
+     "id": "y3",
+     "puan": 4,
+     "tarih": "2026-09-01",
+     "tur": "online",
+     "sure_hafta": 6,
+     "konu": "Kilo yönetimi",
+     "danisan_etiket": "Danışan · 30'lu yaşlar",
+     "metin": "Hafta sonu halı saha oynuyorum ama hafta içi hareketsizim. Antrenman olan ve olmayan günler için iki farklı tabak düzeni yaptık. Görüşmeler akşam saatlerinde olduğu için işten sonra rahatça katılabildim."
+    },
+    {
+     "id": "y4",
+     "puan": 5,
+     "tarih": "2026-07-19",
+     "tur": "online",
+     "sure_hafta": 16,
+     "konu": "Sporcu beslenmesi",
+     "danisan_etiket": "Danışan · 20'li yaşlar",
+     "metin": "Üniversite takımıyla voleybol kampına gitmeden önce görüşmeye başladık. Kamp haftası için atıştırmalık ve su takibi planı yaptı, antrenmanlar arasında ne yiyeceğimi artık biliyorum."
+    },
+    {
+     "id": "y5",
+     "puan": 4,
+     "tarih": "2026-05-28",
+     "tur": "online",
+     "sure_hafta": 4,
+     "konu": "Kuvvet antrenmanı",
+     "danisan_etiket": "Danışan · 20'li yaşlar",
+     "metin": "Salona yeni başlamıştım ve çok yediğimi düşünüyordum, aslında öğünlerim düzensizmiş. Dört haftada öğün saatlerimi oturttuk. Mesajlara biraz geç döndüğü oldu ama görüşmelerde her soruma zaman ayırdı."
+    }
+   ],
+   "yazilar": [
+    {
+     "id": "w1",
+     "baslik": "Maç Gününden Önceki Akşam Tabağı",
+     "ozet": "Takım sporcuları için maçtan önceki akşam yemeğini planlamanın temel ilkeleri.",
+     "okuma_dk": 3,
+     "tarih": "2026-10-12",
+     "paragraflar": [
+      "Maçtan önceki akşam yemeği, ertesi günün enerjisini büyük ölçüde belirler. Bu öğünde tabağın yarısına yakınını makarna, pilav, bulgur ya da patates gibi karbonhidrat kaynakları oluşturabilir; yanına ızgara tavuk, balık ya da yumurta gibi orta miktarda bir protein eklenir.",
+      "Maç öncesi akşam yeni bir yiyecek denemek, çok baharatlı ya da ağır soslu yemekler yemek mide rahatsızlığı riskini artırır. Sindirimi alıştığın, sade pişirilmiş yemekler en güvenli seçimdir. Lifi çok yüksek salatalar ve kızartmalar maç sonrasına bırakılabilir.",
+      "Akşam boyunca düzenli su içmek ve geç saatte ağır atıştırmalardan kaçınmak uykuyu da destekler. Her sporcunun ihtiyacı pozisyonuna, antrenman yüküne ve vücut ağırlığına göre değişir; porsiyonları bir diyetisyenle birlikte belirlemek en doğrusudur."
+     ]
+    },
+    {
+     "id": "w2",
+     "baslik": "Kuvvet Antrenmanında Proteini Yemekle Karşılamak",
+     "ozet": "Takviyeye geçmeden önce günlük öğünlerle protein ihtiyacını karşılamanın yolları.",
+     "okuma_dk": 4,
+     "tarih": "2026-08-30",
+     "paragraflar": [
+      "Kuvvet antrenmanı yapan kişilerin protein ihtiyacı hareketsiz yetişkinlere göre biraz daha yüksektir; ancak bu ihtiyaç çoğu zaman dengeli öğünlerle karşılanabilir. Önemli olan proteini tek öğünde toplamak yerine gün içine yaymaktır.",
+      "Kahvaltıda yumurta ve peynir, öğlende kuru fasulye, nohut ya da mercimek ile bulgur, akşamda tavuk, balık ya da kırmızı et, ara öğünde yoğurt ya da kefir bu dağılımı kolayca sağlar. Baklagilleri tahıllarla birlikte tüketmek bitkisel proteinin değerini artırır.",
+      "Takviye ürünlere ihtiyaç olup olmadığı; antrenman yükü, iştah, bütçe ve sağlık durumuna göre kişiye özel değerlendirilmelidir. Yeterli enerji alınmadığında protein de kas yapımı yerine enerji için kullanılır, bu yüzden toplam öğün düzeni en az protein miktarı kadar önemlidir."
+     ]
+    },
+    {
+     "id": "w3",
+     "baslik": "Antrenmanda Sıvı Kaybını Takip Etmek",
+     "ozet": "Antrenman öncesi, sırası ve sonrasında su tüketimini planlamaya dair pratik öneriler.",
+     "okuma_dk": 3,
+     "tarih": "2026-06-16",
+     "paragraflar": [
+      "Terle kaybedilen sıvı yerine konmadığında yorgunluk erken gelir, dikkat ve koordinasyon azalabilir. Özellikle sıcak salonlarda ve yaz aylarında yapılan antrenmanlarda su tüketimini şansa bırakmamak gerekir.",
+      "Basit bir yöntem, antrenmandan önce ve sonra aynı koşullarda tartılmaktır. Aradaki fark büyük ölçüde sıvı kaybını gösterir ve bir sonraki antrenmanda ne kadar su içmen gerektiği konusunda fikir verir. İdrar renginin açık sarı olması da genel bir göstergedir.",
+      "Bir saati aşmayan çoğu antrenmanda su yeterlidir. Daha uzun ve yoğun antrenmanlarda ya da çok terleyen sporcularda karbonhidrat ve tuz içeren seçenekler gündeme gelebilir; bunun gerekliliği kişiye göre değerlendirilmelidir."
+     ]
+    }
+   ],
+   "menuler": [
+    {
+     "id": "m1",
+     "baslik": "Akşam Maçı Olan Gün Örnek Günlük Menü",
+     "ozet": "Akşam saatlerinde maçı olan, yoğun antrenman dönemindeki genç takım sporcuları için.",
+     "tarih": "2026-10-14",
+     "ogunler": [
+      {
+       "ad": "Kahvaltı",
+       "kalemler": [
+        [
+         "yulaf-beyaz",
+         60,
+         "6 yemek kaşığı"
+        ],
+        [
+         "sut-uht-yarim-yagli",
+         250,
+         "1 büyük kupa"
+        ],
+        [
+         "muz-anamur",
+         100,
+         "1 adet"
+        ],
+        [
+         "bal",
+         15,
+         "1 yemek kaşığı"
+        ],
+        [
+         "ceviz-ic",
+         15,
+         "3 tam ceviz"
+        ]
+       ]
+      },
+      {
+       "ad": "Ara Öğün",
+       "kalemler": [
+        [
+         "tam-bugday-ekmegi",
+         50,
+         "2 dilim"
+        ],
+        [
+         "beyaz-peynir-yarim-yagli",
+         40,
+         "1 dilim"
+        ],
+        [
+         "domates",
+         100,
+         "1 küçük boy"
+        ]
+       ]
+      },
+      {
+       "ad": "Öğle Yemeği",
+       "kalemler": [
+        [
+         "makarna-haslanmis",
+         280,
+         "1 büyük tabak"
+        ],
+        [
+         "tavuk-gogsu-izgara",
+         120,
+         "1,5 porsiyon"
+        ],
+        [
+         "zeytinyagi",
+         5,
+         "1 tatlı kaşığı"
+        ]
+       ]
+      },
+      {
+       "ad": "İkindi",
+       "kalemler": [
+        [
+         "muz-anamur",
+         100,
+         "1 adet"
+        ],
+        [
+         "kuru-kayisi",
+         30,
+         "4–5 adet"
+        ]
+       ]
+      },
+      {
+       "ad": "Akşam Yemeği",
+       "kalemler": [
+        [
+         "pirinc-pismis",
+         250,
+         "1 büyük tabak"
+        ],
+        [
+         "dana-kusbasi-haslanmis",
+         100,
+         "1 porsiyon"
+        ],
+        [
+         "ispanak-haslanmis",
+         150,
+         "1 porsiyon"
+        ],
+        [
+         "yogurt-yarim-yagli",
+         200,
+         "1 kâse"
+        ],
+        [
+         "zeytinyagi",
+         5,
+         "1 tatlı kaşığı"
+        ]
+       ]
+      }
+     ]
+    },
+    {
+     "id": "m2",
+     "baslik": "Kuvvet Antrenmanı Yapan Öğrenci İçin Örnek Günlük Menü",
+     "ozet": "Haftada dört gün salona giden, öğrenci bütçesiyle kas kazanmayı hedefleyen gençler için.",
+     "tarih": "2026-09-03",
+     "ogunler": [
+      {
+       "ad": "Kahvaltı",
+       "kalemler": [
+        [
+         "yumurta-haslanmis",
+         150,
+         "3 adet"
+        ],
+        [
+         "tam-bugday-ekmegi",
+         75,
+         "3 dilim"
+        ],
+        [
+         "beyaz-peynir-yarim-yagli",
+         40,
+         "1 dilim"
+        ],
+        [
+         "domates",
+         150,
+         "1 orta boy"
+        ],
+        [
+         "yesil-zeytin",
+         30,
+         "10 adet"
+        ]
+       ]
+      },
+      {
+       "ad": "Ara Öğün",
+       "kalemler": [
+        [
+         "yer-fistigi",
+         30,
+         "1 avuç"
+        ],
+        [
+         "muz-anamur",
+         100,
+         "1 adet"
+        ]
+       ]
+      },
+      {
+       "ad": "Öğle Yemeği",
+       "kalemler": [
+        [
+         "kuru-fasulye-beyaz-haslanmis",
+         200,
+         "1 kâse yemek"
+        ],
+        [
+         "bulgur-pismis",
+         200,
+         "1 büyük porsiyon"
+        ],
+        [
+         "ayran-tam-yagli",
+         300,
+         "1 büyük bardak"
+        ],
+        [
+         "salatalik",
+         150,
+         "1 kupa doğranmış"
+        ]
+       ]
+      },
+      {
+       "ad": "İkindi",
+       "kalemler": [
+        [
+         "yogurt-yarim-yagli",
+         200,
+         "1 kâse"
+        ],
+        [
+         "yulaf-beyaz",
+         30,
+         "3 yemek kaşığı"
+        ],
+        [
+         "bal",
+         10,
+         "1 tatlı kaşığı"
+        ]
+       ]
+      },
+      {
+       "ad": "Akşam Yemeği",
+       "kalemler": [
+        [
+         "tavuk-but-firinda",
+         150,
+         "2 parça"
+        ],
+        [
+         "esmer-pirinc-pismis",
+         200,
+         "1 büyük tabak"
+        ],
+        [
+         "brokoli-haslanmis",
+         150,
+         "1 porsiyon"
+        ],
+        [
+         "zeytinyagi",
+         10,
+         "2 tatlı kaşığı"
+        ]
+       ]
+      }
+     ]
+    }
+   ]
+  },
+  "uzm-dyt-selin-korkmaz": {
+   "kisa": "Gebelik, emzirme ve ileri yaş döneminde günlük hayata uyan, uygulanabilir beslenme düzenleri kuruyorum.",
+   "hakkinda": {
+    "baslik": "Gebelikten İleri Yaşa Hayatın Her Döneminde Beslenme",
+    "metin": [
+     "Altı yıldır gebelik, emzirme ve ileri yaş beslenmesi üzerine çalışıyorum. Danışanlarımla İzmir'deki ofisimde ve online görüşüyorum. Gebelikte amacım kilo sayısına takılmadan bebeğin ve annenin ihtiyacını karşılayan dengeli bir tabak kurmak; ileri yaşta ise protein, sıvı ve çiğneme kolaylığını gözeten sade bir düzen oturtmak.",
+     "İlk görüşmede günlük ritmini, sevdiğin ve zorlandığın yiyecekleri, hekiminin önerilerini birlikte konuşuyoruz. Planı hekim takibinle çelişmeyecek şekilde hazırlıyor, dönemin değiştikçe güncelliyoruz. Yaşlı danışanlarımda aile bireylerini de görüşmeye davet ediyor, mutfakta kimin ne hazırladığına göre öneri veriyorum."
+    ]
+   },
+   "egitim": [
+    {
+     "ad": "Beslenme ve Diyetetik",
+     "program": "Lisans"
+    },
+    {
+     "ad": "Toplum Beslenmesi",
+     "program": "Yüksek lisans"
+    }
+   ],
+   "sertifikalar": [
+    "Gebelik ve Emzirme Döneminde Beslenme Eğitimi",
+    "Yaşlılıkta Beslenme ve Sarkopeni Eğitimi"
+   ],
+   "diller": [
+    "Türkçe",
+    "İngilizce"
+   ],
+   "dogrulama_tarih": "2025-09-18",
+   "paketler": [
+    {
+     "id": "k1",
+     "ad": "Online Gebelik Takibi",
+     "tur": "online",
+     "seans": 4,
+     "sure": 30,
+     "sure_hafta": 8,
+     "fiyat": 2700,
+     "aciklama": "İki haftada bir online görüşme, trimestere göre güncellenen öğün planı ve mesaj desteği."
+    },
+    {
+     "id": "k2",
+     "ad": "İleri Yaş Beslenme Takibi",
+     "tur": "yüz yüze",
+     "seans": 4,
+     "sure": 45,
+     "sure_hafta": 8,
+     "fiyat": 3600,
+     "aciklama": "Ofiste dört görüşme, kilo ve kas ölçümü, çiğnemesi kolay öğün önerileri; yakınınız da katılabilir."
+    },
+    {
+     "id": "k3",
+     "ad": "Emzirme Dönemi Karma Paket",
+     "tur": "karma",
+     "seans": 6,
+     "sure": 45,
+     "sure_hafta": 12,
+     "fiyat": 4900,
+     "aciklama": "Doğum sonrası ilk aylarda altı görüşme; ilk ikisi yüz yüze, sonrası online."
+    }
+   ],
+   "musaitlik": {
+    "haftalik": [
+     {
+      "gun": "Pazartesi",
+      "acik": true,
+      "baslangic": "09:00",
+      "bitis": "17:00",
+      "ara": [
+       "12:30",
+       "13:30"
+      ],
+      "tur": "karma"
+     },
+     {
+      "gun": "Salı",
+      "acik": true,
+      "baslangic": "09:00",
+      "bitis": "17:00",
+      "ara": [
+       "12:30",
+       "13:30"
+      ],
+      "tur": "yuzyuze"
+     },
+     {
+      "gun": "Çarşamba",
+      "acik": true,
+      "baslangic": "10:00",
+      "bitis": "16:00",
+      "ara": null,
+      "tur": "online"
+     },
+     {
+      "gun": "Perşembe",
+      "acik": true,
+      "baslangic": "09:00",
+      "bitis": "17:00",
+      "ara": [
+       "12:30",
+       "13:30"
+      ],
+      "tur": "yuzyuze"
+     },
+     {
+      "gun": "Cuma",
+      "acik": true,
+      "baslangic": "09:00",
+      "bitis": "15:00",
+      "ara": [
+       "12:30",
+       "13:30"
+      ],
+      "tur": "karma"
+     },
+     {
+      "gun": "Cumartesi",
+      "acik": true,
+      "baslangic": "10:00",
+      "bitis": "13:00",
+      "ara": null,
+      "tur": "online"
+     },
+     {
+      "gun": "Pazar",
+      "acik": false,
+      "baslangic": null,
+      "bitis": null,
+      "ara": null,
+      "tur": "online"
+     }
+    ],
+    "slot": {
+     "online": 30,
+     "yüz yüze": 45
+    },
+    "ucret": {
+     "online": 750,
+     "yüz yüze": 1000
+    },
+    "onay": "uzman",
+    "dolu": [
+     {
+      "gun": 1,
+      "saat": "09:45",
+      "tur": "yüz yüze",
+      "sure": 45
+     },
+     {
+      "gun": 1,
+      "saat": "11:15",
+      "tur": "yüz yüze",
+      "sure": 45
+     },
+     {
+      "gun": 2,
+      "saat": "10:30",
+      "tur": "online",
+      "sure": 30
+     },
+     {
+      "gun": 3,
+      "saat": "14:15",
+      "tur": "yüz yüze",
+      "sure": 45
+     },
+     {
+      "gun": 7,
+      "saat": "14:00",
+      "tur": "online",
+      "sure": 30
+     },
+     {
+      "gun": 8,
+      "saat": "09:00",
+      "tur": "yüz yüze",
+      "sure": 45
+     },
+     {
+      "gun": 10,
+      "saat": "10:30",
+      "tur": "yüz yüze",
+      "sure": 45
+     },
+     {
+      "gun": 11,
+      "saat": "10:30",
+      "tur": "yüz yüze",
+      "sure": 45
+     },
+     {
+      "gun": 12,
+      "saat": "11:00",
+      "tur": "online",
+      "sure": 30
+     }
+    ]
+   },
+   "yorumlar": [
+    {
+     "id": "y1",
+     "puan": 5,
+     "tarih": "2026-10-22",
+     "tur": "online",
+     "sure_hafta": 16,
+     "konu": "Gebelik beslenmesi",
+     "danisan_etiket": "Danışan · 30'lu yaşlar",
+     "metin": "İlk trimesterde bulantı yüzünden düzgün yemek yiyemiyordum. Küçük ve sık öğünlerle başladık, her görüşmede hekimimin kontrol sonuçlarına göre planı birlikte güncelledik. Yasaklar listesi yerine neyi neden yediğimi anlattığı için içim rahatladı."
+    },
+    {
+     "id": "y2",
+     "puan": 5,
+     "tarih": "2026-09-27",
+     "tur": "yüz yüze",
+     "sure_hafta": 8,
+     "konu": "İleri yaş beslenmesi",
+     "danisan_etiket": "Danışan yakını · 50'li yaşlar",
+     "metin": "Annem için görüştük. Diş protezi nedeniyle et yemekte zorlanıyordu; kıyma, balık ve baklagille protein almayı, gün içinde su içmeyi hatırlatan basit bir düzen kurduk. Görüşmelere benim de katılmam çok işe yaradı."
+    },
+    {
+     "id": "y3",
+     "puan": 4,
+     "tarih": "2026-09-03",
+     "tur": "online",
+     "sure_hafta": 12,
+     "konu": "Emzirme dönemi",
+     "danisan_etiket": "Danışan · 30'lu yaşlar",
+     "metin": "Bebekle birlikte öğün saatlerim tamamen dağılmıştı. Tek elle hazırlanabilecek ara öğünler önerdi, su takibini kolaylaştırdık. Online görüşme saatlerini bebeğin uykusuna göre ayarlayabilmek büyük kolaylıktı."
+    },
+    {
+     "id": "y4",
+     "puan": 5,
+     "tarih": "2026-08-12",
+     "tur": "yüz yüze",
+     "sure_hafta": 6,
+     "konu": "İleri yaş beslenmesi",
+     "danisan_etiket": "Danışan · 70'li yaşlar",
+     "metin": "Son bir yılda iştahım azalmıştı, kilo veriyordum. Öğünleri küçültüp sayısını artırdık, sütlü ve yoğurtlu ara öğünler ekledik. Ofiste yaptığımız ölçümlerde kilomun yerinde durduğunu görmek beni sevindirdi."
+    },
+    {
+     "id": "y5",
+     "puan": 4,
+     "tarih": "2026-07-08",
+     "tur": "online",
+     "sure_hafta": 20,
+     "konu": "Gebelik beslenmesi",
+     "danisan_etiket": "Danışan · 20'li yaşlar",
+     "metin": "İkinci trimesterde kilo artışım hızlanınca başvurdum. Tatlı isteğimi tamamen kesmeden porsiyonla yönetmeyi öğrendim. Bazı haftalar planı uygulayamadım ama yargılamadan devam ettik."
+    },
+    {
+     "id": "y6",
+     "puan": 5,
+     "tarih": "2026-05-30",
+     "tur": "yüz yüze",
+     "sure_hafta": 10,
+     "konu": "İleri yaş beslenmesi",
+     "danisan_etiket": "Danışan yakını · 40'lı yaşlar",
+     "metin": "Babam yalnız yaşıyor ve kendine yemek hazırlamakta zorlanıyordu. Haftada iki gün toplu pişirip dondurabileceği yemeklerden bir liste hazırladık. Artık öğün atlamıyor, bunu biz de rahatça takip edebiliyoruz."
+    }
+   ],
+   "yazilar": [
+    {
+     "id": "w1",
+     "baslik": "Gebelikte İki Kişilik Değil, İki Kat Özenli Beslenmek",
+     "ozet": "Gebelikte enerji ihtiyacının nasıl değiştiğini ve tabağın nasıl kurulacağını anlatıyorum.",
+     "okuma_dk": 4,
+     "tarih": "2026-10-06",
+     "paragraflar": [
+      "Gebelikte en sık duyulan söz \"artık iki kişilik yemelisin\" olur. Oysa enerji ihtiyacı ilk üç ayda belirgin biçimde artmaz; ikinci ve üçüncü trimesterde ise günlük ihtiyaca yalnızca küçük bir ek gelir. Bu ek, bir kâse yoğurt ve bir avuç kuruyemişle bile karşılanabilecek kadardır.",
+      "Asıl artan, besin öğesi ihtiyacıdır. Protein, demir, folat, kalsiyum ve iyot için tabakta çeşitlilik önemlidir: her öğünde bir protein kaynağı, bol sebze, tam tahıl ve gün içinde iki üç porsiyon süt ürünü iyi bir başlangıçtır. Et, tavuk, balık ve yumurtanın iyice pişmiş olması da gebelikte dikkat edilen konular arasındadır.",
+      "Her gebelik farklıdır; kilo artışı hedefi, takviye ihtiyacı ve kısıtlamalar gebelik öncesi kiloya ve kontrol sonuçlarına göre değişir. Bu nedenle beslenme planını mutlaka kadın doğum hekiminin önerileriyle birlikte, onun takibinde yürütmek gerekir."
+     ]
+    },
+    {
+     "id": "w2",
+     "baslik": "Emzirirken Su ve Ara Öğün Düzeni",
+     "ozet": "Emzirme döneminde sıvı ihtiyacını ve pratik ara öğünleri ele alıyorum.",
+     "okuma_dk": 3,
+     "tarih": "2026-08-19",
+     "paragraflar": [
+      "Emzirme döneminde susama hissi sıklaşır, çünkü vücut süt üretimi için ek sıvıya ihtiyaç duyar. Pratik bir yöntem, her emzirmede yanına bir bardak su almaktır. İdrar renginin açık olması da yeterli sıvı aldığını gösteren basit bir işarettir.",
+      "Bu dönemde düzenli öğün kurmak zor olabilir. Önceden hazırlanmış yoğurt kâseleri, haşlanmış yumurta, tam buğday ekmeğiyle peynir, kuru kayısı ve kuruyemiş gibi tek elle yenebilen ara öğünler günün dağınık saatlerinde enerjiyi dengede tutar.",
+      "Emzirirken hızlı kilo vermeye yönelik sıkı diyetler önerilmez. Kilo kaybı genellikle aylar içinde kendiliğinden yavaşça olur. Takviye kullanımı ve özel bir beslenme ihtiyacı için hekimine ve bebeğinin doktoruna danışmalısın."
+     ]
+    },
+    {
+     "id": "w3",
+     "baslik": "İleri Yaşta Protein ve Çiğneme Kolaylığı",
+     "ozet": "Yaş ilerledikçe kas kaybını yavaşlatmaya yardımcı olabilecek pratik tabak önerileri.",
+     "okuma_dk": 5,
+     "tarih": "2026-06-24",
+     "paragraflar": [
+      "Yaş ilerledikçe iştah azalabilir, tat ve koku algısı değişebilir, çiğnemek zorlaşabilir. Bu değişiklikler fark edilmeden protein alımının düşmesine yol açar. Yeterli protein ve düzenli hareket, kas kütlesini korumaya yardımcı olan iki temel unsurdur.",
+      "Protein her öğüne paylaştırıldığında daha kolay karşılanır. Yumurta, yoğurt, peynir, kıyma, haşlanmış baklagiller ve kılçığı ayıklanmış balık hem yumuşak hem besleyicidir. Sebzeleri haşlayıp zeytinyağıyla sunmak, çorbalara yoğurt eklemek çiğnemeyi kolaylaştırır.",
+      "Yaşlılarda susama hissi de azalır; su şişesini görünür bir yerde tutmak ve öğünlerle birlikte bir bardak su içmek iyi bir alışkanlıktır. Kronik hastalık ve ilaç kullanımı varsa öğün planı, hekim önerileriyle uyumlu şekilde kişiye göre düzenlenmelidir."
+     ]
+    }
+   ],
+   "menuler": [
+    {
+     "id": "m1",
+     "baslik": "Gebeliğin İkinci Üç Ayı İçin Örnek Günlük Menü",
+     "ozet": "İkinci trimesterdeki ek enerji ve protein ihtiyacını dengeli öğünlerle karşılamak isteyen anne adayları için.",
+     "tarih": "2026-09-15",
+     "ogunler": [
+      {
+       "ad": "Kahvaltı",
+       "kalemler": [
+        [
+         "yumurta-haslanmis",
+         100,
+         "2 adet"
+        ],
+        [
+         "beyaz-peynir-yarim-yagli",
+         40,
+         "1 kibrit kutusu"
+        ],
+        [
+         "tam-bugday-ekmegi",
+         75,
+         "3 dilim"
+        ],
+        [
+         "domates",
+         150,
+         "1 orta boy"
+        ],
+        [
+         "salatalik",
+         100,
+         "1 küçük"
+        ],
+        [
+         "ceviz-ic",
+         15,
+         "3 tam ceviz"
+        ]
+       ]
+      },
+      {
+       "ad": "Ara Öğün",
+       "kalemler": [
+        [
+         "yogurt-yarim-yagli",
+         200,
+         "1 kâse"
+        ],
+        [
+         "muz-anamur",
+         100,
+         "1 orta boy"
+        ]
+       ]
+      },
+      {
+       "ad": "Öğle Yemeği",
+       "kalemler": [
+        [
+         "tavuk-but-firinda",
+         120,
+         "1 porsiyon"
+        ],
+        [
+         "bulgur-pismis",
+         180,
+         "2 porsiyon"
+        ],
+        [
+         "ispanak-haslanmis",
+         150,
+         "1 porsiyon"
+        ],
+        [
+         "zeytinyagi",
+         10,
+         "2 tatlı kaşığı"
+        ]
+       ]
+      },
+      {
+       "ad": "İkindi",
+       "kalemler": [
+        [
+         "sut-uht-yarim-yagli",
+         240,
+         "1 kupa"
+        ],
+        [
+         "elma-fuji",
+         150,
+         "1 orta boy"
+        ],
+        [
+         "badem",
+         15,
+         "10 adet"
+        ]
+       ]
+      },
+      {
+       "ad": "Akşam Yemeği",
+       "kalemler": [
+        [
+         "kuru-fasulye-beyaz-haslanmis",
+         180,
+         "1 kâse"
+        ],
+        [
+         "esmer-pirinc-pismis",
+         120,
+         "4 yemek kaşığı"
+        ],
+        [
+         "marul-kivircik",
+         75,
+         "1 porsiyon"
+        ],
+        [
+         "roka",
+         40,
+         "1 avuç"
+        ],
+        [
+         "zeytinyagi",
+         10,
+         "2 tatlı kaşığı"
+        ],
+        [
+         "yogurt-yarim-yagli",
+         150,
+         "1 küçük kâse"
+        ]
+       ]
+      }
+     ]
+    },
+    {
+     "id": "m2",
+     "baslik": "İleri Yaş İçin Çiğnemesi Kolay Örnek Günlük Menü",
+     "ozet": "İştahı azalan, çiğnemekte zorlanan ve proteini korumak isteyen ileri yaş danışanlar için.",
+     "tarih": "2026-07-14",
+     "ogunler": [
+      {
+       "ad": "Kahvaltı",
+       "kalemler": [
+        [
+         "omlet",
+         100,
+         "2 yumurtalı"
+        ],
+        [
+         "beyaz-peynir-yarim-yagli",
+         40,
+         "1 kibrit kutusu"
+        ],
+        [
+         "kepekli-ekmek",
+         50,
+         "2 ince dilim"
+        ],
+        [
+         "domates",
+         100,
+         "kabuğu soyulmuş, yarım büyük"
+        ],
+        [
+         "ceviz-ic",
+         10,
+         "2 tam ceviz, dövülmüş"
+        ]
+       ]
+      },
+      {
+       "ad": "Ara Öğün",
+       "kalemler": [
+        [
+         "yogurt-yarim-yagli",
+         200,
+         "1 kâse"
+        ],
+        [
+         "muz-anamur",
+         100,
+         "1 orta boy"
+        ]
+       ]
+      },
+      {
+       "ad": "Öğle Yemeği",
+       "kalemler": [
+        [
+         "mercimek-haslanmis",
+         180,
+         "1 kâse"
+        ],
+        [
+         "bulgur-pismis",
+         150,
+         "1 kâse"
+        ],
+        [
+         "kabak-haslanmis",
+         150,
+         "1 porsiyon"
+        ],
+        [
+         "zeytinyagi",
+         10,
+         "2 tatlı kaşığı"
+        ],
+        [
+         "tam-bugday-ekmegi",
+         25,
+         "1 dilim"
+        ]
+       ]
+      },
+      {
+       "ad": "İkindi",
+       "kalemler": [
+        [
+         "sut-uht-yarim-yagli",
+         200,
+         "1 su bardağı"
+        ],
+        [
+         "kuru-kayisi",
+         30,
+         "4 adet, ıslatılmış"
+        ]
+       ]
+      },
+      {
+       "ad": "Akşam Yemeği",
+       "kalemler": [
+        [
+         "levrek-izgara",
+         150,
+         "1 porsiyon, kılçıksız"
+        ],
+        [
+         "patates-haslanmis",
+         200,
+         "1 büyük boy, ezilmiş"
+        ],
+        [
+         "brokoli-haslanmis",
+         150,
+         "1 porsiyon"
+        ],
+        [
+         "zeytinyagi",
+         5,
+         "1 tatlı kaşığı"
+        ]
+       ]
+      },
+      {
+       "ad": "Gece",
+       "kalemler": [
+        [
+         "kefir",
+         200,
+         "1 su bardağı"
+        ]
+       ]
+      }
+     ]
+    }
+   ]
+  },
+  "dyt-kerem-polat": {
+   "kisa": "Verilen kilonun korunmasına odaklanıyor; vardiyalı ve masa başı çalışanlarla dışarıda yemeğe de uyan planlar kuruyorum.",
+   "hakkinda": {
+    "baslik": "Kalıcı Kilo Yönetimi ve Kiloyu Koruma Dönemi",
+    "metin": [
+     "Dokuz yıldır yalnızca yetişkin kilo yönetimi üzerine çalışıyorum. Kilo vermek kadar verilen kiloyu korumanın da ayrı bir süreç olduğunu düşünüyorum. Bu yüzden takiplerimde hızlı sonuç yerine, danışanın yıllarca sürdürebileceği alışkanlıklara odaklanıyorum.",
+     "Görüşmelerimi online yapıyorum ve sabah erken ile akşam saatlerinde de randevu veriyorum; danışanlarımın önemli bir kısmı vardiyalı çalışanlar ve gün boyu masa başında olanlar. Öğle yemeğini lokantada yiyenler için menüden seçim yapmayı, gece çalışanlar için de öğün saatlerini vardiyaya göre kaydırmayı birlikte planlıyoruz."
+    ]
+   },
+   "egitim": [
+    {
+     "ad": "Beslenme ve Diyetetik",
+     "program": "Lisans"
+    }
+   ],
+   "sertifikalar": [
+    "Yetişkin Obezitesinde Beslenme Eğitimi",
+    "Motivasyonel Görüşme Teknikleri Eğitimi"
+   ],
+   "diller": [
+    "Türkçe",
+    "İngilizce"
+   ],
+   "dogrulama_tarih": "2025-03-12",
+   "paketler": [
+    {
+     "id": "k1",
+     "ad": "Değerlendirme ve Plan",
+     "tur": "online",
+     "seans": 2,
+     "sure": 45,
+     "sure_hafta": 2,
+     "fiyat": 1600,
+     "aciklama": "İki görüşmede alışkanlık değerlendirmesi ve günlük düzenine uygun başlangıç planı."
+    },
+    {
+     "id": "k2",
+     "ad": "Üç Aylık Kilo Yönetimi",
+     "tur": "online",
+     "seans": 10,
+     "sure": 45,
+     "sure_hafta": 12,
+     "fiyat": 7500,
+     "aciklama": "On görüşme, haftalık kayıt değerlendirmesi ve dışarıda yemek rehberi."
+    },
+    {
+     "id": "k3",
+     "ad": "Koruma Dönemi Takibi",
+     "tur": "online",
+     "seans": 6,
+     "sure": 45,
+     "sure_hafta": 24,
+     "fiyat": 4600,
+     "aciklama": "Kilo verdikten sonraki altı ay boyunca ayda bir görüşme ve mesaj desteği."
+    }
+   ],
+   "musaitlik": {
+    "haftalik": [
+     {
+      "gun": "Pazartesi",
+      "acik": true,
+      "baslangic": "08:00",
+      "bitis": "12:00",
+      "ara": null,
+      "tur": "online"
+     },
+     {
+      "gun": "Salı",
+      "acik": true,
+      "baslangic": "15:00",
+      "bitis": "21:00",
+      "ara": null,
+      "tur": "online"
+     },
+     {
+      "gun": "Çarşamba",
+      "acik": true,
+      "baslangic": "08:00",
+      "bitis": "12:00",
+      "ara": null,
+      "tur": "online"
+     },
+     {
+      "gun": "Perşembe",
+      "acik": true,
+      "baslangic": "15:00",
+      "bitis": "21:00",
+      "ara": null,
+      "tur": "online"
+     },
+     {
+      "gun": "Cuma",
+      "acik": true,
+      "baslangic": "08:00",
+      "bitis": "14:00",
+      "ara": null,
+      "tur": "online"
+     },
+     {
+      "gun": "Cumartesi",
+      "acik": false,
+      "baslangic": null,
+      "bitis": null,
+      "ara": null,
+      "tur": "online"
+     },
+     {
+      "gun": "Pazar",
+      "acik": true,
+      "baslangic": "10:00",
+      "bitis": "13:00",
+      "ara": null,
+      "tur": "online"
+     }
+    ],
+    "slot": {
+     "online": 45
+    },
+    "ucret": {
+     "online": 850
+    },
+    "onay": "otomatik",
+    "dolu": [
+     {
+      "gun": 0,
+      "saat": "09:30",
+      "tur": "online",
+      "sure": 45
+     },
+     {
+      "gun": 1,
+      "saat": "18:00",
+      "tur": "online",
+      "sure": 45
+     },
+     {
+      "gun": 1,
+      "saat": "20:15",
+      "tur": "online",
+      "sure": 45
+     },
+     {
+      "gun": 2,
+      "saat": "08:00",
+      "tur": "online",
+      "sure": 45
+     },
+     {
+      "gun": 3,
+      "saat": "16:30",
+      "tur": "online",
+      "sure": 45
+     },
+     {
+      "gun": 4,
+      "saat": "11:00",
+      "tur": "online",
+      "sure": 45
+     },
+     {
+      "gun": 6,
+      "saat": "10:45",
+      "tur": "online",
+      "sure": 45
+     },
+     {
+      "gun": 8,
+      "saat": "15:45",
+      "tur": "online",
+      "sure": 45
+     },
+     {
+      "gun": 9,
+      "saat": "10:15",
+      "tur": "online",
+      "sure": 45
+     }
+    ]
+   },
+   "yorumlar": [
+    {
+     "id": "y1",
+     "puan": 5,
+     "tarih": "2026-10-25",
+     "tur": "online",
+     "sure_hafta": 24,
+     "konu": "Kilo koruma",
+     "danisan_etiket": "Danışan · 40'lı yaşlar",
+     "metin": "Daha önce verdiğim kiloyu birkaç ayda geri almıştım. Bu kez kilo verdikten sonra da ayda bir görüşmeye devam ettik; tartıda küçük bir artış olduğunda paniğe kapılmadan ne yapacağımı biliyordum."
+    },
+    {
+     "id": "y2",
+     "puan": 5,
+     "tarih": "2026-10-03",
+     "tur": "online",
+     "sure_hafta": 12,
+     "konu": "Kilo yönetimi",
+     "danisan_etiket": "Danışan · 30'lu yaşlar",
+     "metin": "Hastanede gece vardiyasında çalışıyorum. Vardiya öncesi, vardiya arası ve eve dönünce ne yiyeceğimi ayrı ayrı planladık. Sabah 08.00 randevuları işten çıkışıma denk geldiği için çok işime yaradı."
+    },
+    {
+     "id": "y3",
+     "puan": 4,
+     "tarih": "2026-09-09",
+     "tur": "online",
+     "sure_hafta": 8,
+     "konu": "Kilo yönetimi",
+     "danisan_etiket": "Danışan · 50'li yaşlar",
+     "metin": "İş yerinin yakınındaki lokantada hangi yemeği nasıl seçeceğimi konuştuk. Pilavı yarım porsiyon alıp yanına cacık eklemek gibi küçük değişiklikler yaptık. Kayıt tutmak ilk başta zor geldi, sonra alıştım."
+    },
+    {
+     "id": "y4",
+     "puan": 5,
+     "tarih": "2026-08-12",
+     "tur": "online",
+     "sure_hafta": 16,
+     "konu": "Kilo yönetimi",
+     "danisan_etiket": "Danışan · 40'lı yaşlar",
+     "metin": "Gün boyu masa başındayım ve öğleden sonra sürekli atıştırıyordum. Bunun açlıktan mı alışkanlıktan mı olduğunu ayırt etmeyi öğrendim. Görüşmelerde hiç yargılanmış hissetmedim."
+    },
+    {
+     "id": "y5",
+     "puan": 4,
+     "tarih": "2026-07-02",
+     "tur": "online",
+     "sure_hafta": 6,
+     "konu": "Kilo yönetimi",
+     "danisan_etiket": "Danışan · 30'lu yaşlar",
+     "metin": "Planlar ayrıntılı ve gerçekçiydi. Ben biraz daha hızlı sonuç bekliyordum ama neden yavaş ilerlediğimizi her görüşmede açıkça anlattı."
+    },
+    {
+     "id": "y6",
+     "puan": 5,
+     "tarih": "2026-05-21",
+     "tur": "online",
+     "sure_hafta": 20,
+     "konu": "Kilo koruma",
+     "danisan_etiket": "Danışan · 60'lı yaşlar",
+     "metin": "Emekli olduktan sonra günlerim düzensizleşmişti. Öğün saatlerini yürüyüş saatime göre kurduk. Yurt dışındaki kızımın yanındayken de online görüşmeye devam edebildim."
+    }
+   ],
+   "yazilar": [
+    {
+     "id": "w1",
+     "baslik": "Verilen Kiloyu Korumak: Ölçüden Çok Alışkanlık",
+     "ozet": "Kilo verdikten sonraki dönemde neye dikkat etmek gerektiğine dair genel bir bakış.",
+     "okuma_dk": 4,
+     "tarih": "2026-10-18",
+     "paragraflar": [
+      "Kilo verme dönemi bittiğinde birçok kişi planı tamamen bırakır ve eski düzenine döner. Oysa vücut ağırlığı azaldığında günlük enerji ihtiyacı da bir miktar azalır; eski porsiyonlara dönmek kiloların zamanla geri gelmesine yol açabilir.",
+      "Koruma döneminde amaç, kilo verirken edinilen alışkanlıkları daha esnek bir biçimde sürdürmektir. Düzenli öğün saatleri, sebze ağırlıklı tabaklar, haftalık hareket ve ara sıra tartılmak bu dönemin temel taşlarıdır. Tek bir öğünün ya da tek bir günün sonucu belirlemediğini hatırlamak önemlidir.",
+      "Tartıda iki üç kiloluk bir artış fark edildiğinde, bunu bir başarısızlık olarak değil erken bir uyarı olarak görmek işe yarar. Bu noktada son haftaların öğün ve hareket düzenine bakıp küçük düzeltmeler yapmak, büyük bir diyete yeniden başlamaktan çok daha kolaydır."
+     ]
+    },
+    {
+     "id": "w2",
+     "baslik": "Lokantada Dengeli Tabak Seçmek",
+     "ozet": "Öğle yemeğini dışarıda yiyenler için menüden seçim yaparken işe yarayan ipuçları.",
+     "okuma_dk": 3,
+     "tarih": "2026-09-14",
+     "paragraflar": [
+      "Esnaf lokantaları, doğru seçim yapıldığında dengeli bir öğle yemeği için iyi bir seçenektir. Zeytinyağlı sebze yemekleri, kuru baklagiller, ızgara et ve tavuk çoğu lokantada bulunur. Bir ana yemek, bir sebze ve bir yoğurt ya da cacık temel bir tabak oluşturur.",
+      "Pilav, makarna ve ekmeğin üçünü aynı öğünde almak yerine birini seçmek ve porsiyonu yarım tutmak pratik bir yöntemdir. Çorba ile başlamak tokluğa yardımcı olabilir; kremalı çorbalar yerine sebze ya da mercimek çorbası tercih edilebilir.",
+      "Yemeğin yanında gelen ekmek sepetini ve tatlıyı önceden düşünmek de önemlidir. Tatlıyı tamamen yasaklamak yerine haftanın belirli günlerine bırakmak çoğu kişi için daha sürdürülebilirdir."
+     ]
+    },
+    {
+     "id": "w3",
+     "baslik": "Masa Başında Atıştırma Alışkanlığını Fark Etmek",
+     "ozet": "Gün boyu oturarak çalışanlarda farkında olmadan yapılan atıştırmaları azaltmanın yolları.",
+     "okuma_dk": 3,
+     "tarih": "2026-07-06",
+     "paragraflar": [
+      "Masa başında çalışırken yapılan atıştırmaların çoğu açlıktan değil; sıkıntı, yorgunluk ya da alışkanlıktan kaynaklanır. Elin kendiliğinden kuruyemiş kasesine ya da bisküvi paketine gitmesi, günün sonunda fark edilmeyen bir enerji fazlası yaratabilir.",
+      "Birkaç gün boyunca neyi, ne zaman ve hangi duyguyla yediğini kısaca not etmek bu örüntüyü görmeyi sağlar. Çoğu zaman belirli saatler ya da belirli işler atıştırmayı tetikler. Bu saatlere planlı bir ara öğün koymak ya da kısa bir yürüyüş molası vermek işe yarar.",
+      "Atıştırmalıkları masanın üstünden kaldırıp porsiyonlu olarak çekmecede tutmak, yanında bir şişe su bulundurmak ve öğle yemeğini yeterli protein ve sebzeyle yapmak öğleden sonra gelen atıştırma isteğini azaltmaya yardımcı olur."
+     ]
+    }
+   ],
+   "menuler": [
+    {
+     "id": "m1",
+     "baslik": "Masa Başı Çalışan İçin Örnek Günlük Menü",
+     "ozet": "Gün boyu oturarak çalışan ve kilo vermeyi hedefleyen yetişkinler için tokluğu uzun tutan bir gün.",
+     "tarih": "2026-10-08",
+     "ogunler": [
+      {
+       "ad": "Kahvaltı",
+       "kalemler": [
+        [
+         "omlet",
+         100,
+         "2 yumurtalı"
+        ],
+        [
+         "kepekli-ekmek",
+         50,
+         "2 ince dilim"
+        ],
+        [
+         "domates",
+         150,
+         "1 orta boy"
+        ],
+        [
+         "salatalik",
+         100,
+         "yarım kupa"
+        ],
+        [
+         "yesil-zeytin",
+         15,
+         "5 adet"
+        ]
+       ]
+      },
+      {
+       "ad": "Ara Öğün",
+       "kalemler": [
+        [
+         "elma-fuji",
+         150,
+         "1 orta boy"
+        ],
+        [
+         "ceviz-ic",
+         15,
+         "3 tam ceviz"
+        ]
+       ]
+      },
+      {
+       "ad": "Öğle Yemeği",
+       "kalemler": [
+        [
+         "barbunya-haslanmis",
+         150,
+         "1 kâse yemek"
+        ],
+        [
+         "bulgur-pismis",
+         100,
+         "4 yemek kaşığı"
+        ],
+        [
+         "roka",
+         50,
+         "1 küçük kâse"
+        ],
+        [
+         "yogurt-yarim-yagli",
+         150,
+         "1 küçük kâse"
+        ],
+        [
+         "zeytinyagi",
+         5,
+         "1 tatlı kaşığı"
+        ]
+       ]
+      },
+      {
+       "ad": "İkindi",
+       "kalemler": [
+        [
+         "kefir",
+         200,
+         "1 su bardağı"
+        ]
+       ]
+      },
+      {
+       "ad": "Akşam Yemeği",
+       "kalemler": [
+        [
+         "uskumru-izgara",
+         120,
+         "1 küçük porsiyon"
+        ],
+        [
+         "karnabahar-haslanmis",
+         150,
+         "1 porsiyon"
+        ],
+        [
+         "patates-haslanmis",
+         100,
+         "1 küçük boy"
+        ],
+        [
+         "marul-kivircik",
+         75,
+         "1 porsiyon"
+        ],
+        [
+         "zeytinyagi",
+         5,
+         "1 tatlı kaşığı"
+        ]
+       ]
+      }
+     ]
+    },
+    {
+     "id": "m2",
+     "baslik": "Öğle Yemeği Dışarıda Olan Gün Örnek Günlük Menü",
+     "ozet": "Öğle yemeğini lokantada yiyen ve kiloyu korumak isteyen çalışanlar için.",
+     "tarih": "2026-09-16",
+     "ogunler": [
+      {
+       "ad": "Kahvaltı",
+       "kalemler": [
+        [
+         "yogurt-yarim-yagli",
+         150,
+         "1 küçük kâse"
+        ],
+        [
+         "yulaf-beyaz",
+         30,
+         "3 yemek kaşığı"
+        ],
+        [
+         "ceviz-ic",
+         10,
+         "2 tam ceviz"
+        ],
+        [
+         "kivi",
+         75,
+         "1 adet"
+        ],
+        [
+         "tam-bugday-ekmegi",
+         25,
+         "1 dilim"
+        ]
+       ]
+      },
+      {
+       "ad": "Ara Öğün",
+       "kalemler": [
+        [
+         "badem",
+         20,
+         "15 adet"
+        ]
+       ]
+      },
+      {
+       "ad": "Öğle Yemeği",
+       "kalemler": [
+        [
+         "kuru-fasulye-beyaz-haslanmis",
+         200,
+         "1 porsiyon"
+        ],
+        [
+         "pirinc-pismis",
+         90,
+         "yarım porsiyon"
+        ],
+        [
+         "yogurt-yarim-yagli",
+         150,
+         "1 kâse cacık"
+        ],
+        [
+         "zeytinyagi",
+         10,
+         "yemekteki yağ"
+        ]
+       ]
+      },
+      {
+       "ad": "İkindi",
+       "kalemler": [
+        [
+         "portakal-valensiya",
+         150,
+         "1 orta boy"
+        ]
+       ]
+      },
+      {
+       "ad": "Akşam Yemeği",
+       "kalemler": [
+        [
+         "tavuk-gogsu-izgara",
+         120,
+         "1,5 porsiyon"
+        ],
+        [
+         "ispanak-haslanmis",
+         150,
+         "1 porsiyon"
+        ],
+        [
+         "tam-bugday-makarna",
+         100,
+         "1 porsiyon"
+        ],
+        [
+         "zeytinyagi",
+         5,
+         "1 tatlı kaşığı"
+        ],
+        [
+         "domates",
+         150,
+         "1 orta boy"
+        ]
+       ]
+      }
+     ]
+    }
+   ]
+  },
+  "uzm-dyt-deniz-aksoy": {
+   "kisa": "PCOS ve kilo yönetiminde öğün zamanlamasını, protein ve lif dengesini merkeze alan planlar hazırlıyorum.",
+   "hakkinda": {
+    "baslik": "PCOS ve Kilo Yönetiminde Dengeli Tabak",
+    "metin": [
+     "On yıldır hormonal denge, polikistik over sendromu ve kilo yönetimi alanında çalışıyorum. İstanbul'daki ofisimde ve online görüşüyorum. Danışanlarımla en çok öğün saatleri, tabaktaki protein ve lif dengesi ve gün içindeki açlık dalgalanmaları üzerinde duruyoruz.",
+     "Planı her zaman hekiminin değerlendirmesi ve tahlil sonuçlarıyla birlikte ele alıyorum; beslenme tedavinin yerine geçmez, onu destekler. İlk ay alışkanlıkları sabitlemeye, sonraki aylarda ölçümlere göre ince ayara odaklanıyoruz. Hedefim hızlı kilo kaybı değil, birkaç ay sonra da sürdürebileceğin bir düzen."
+    ]
+   },
+   "egitim": [
+    {
+     "ad": "Beslenme ve Diyetetik",
+     "program": "Lisans"
+    },
+    {
+     "ad": "Klinik Beslenme",
+     "program": "Yüksek lisans"
+    }
+   ],
+   "sertifikalar": [
+    "Polikistik Over Sendromunda Beslenme Eğitimi",
+    "Motivasyonel Görüşme Teknikleri Eğitimi"
+   ],
+   "diller": [
+    "Türkçe",
+    "İngilizce"
+   ],
+   "dogrulama_tarih": "2025-03-04",
+   "paketler": [
+    {
+     "id": "k1",
+     "ad": "Online PCOS Başlangıç",
+     "tur": "online",
+     "seans": 4,
+     "sure": 30,
+     "sure_hafta": 4,
+     "fiyat": 3400,
+     "aciklama": "Dört haftalık online başlangıç: öğün saatleri, tabak düzeni ve haftalık kontrol."
+    },
+    {
+     "id": "k2",
+     "ad": "Yüz Yüze Ölçüm Takibi",
+     "tur": "yüz yüze",
+     "seans": 8,
+     "sure": 45,
+     "sure_hafta": 12,
+     "fiyat": 9400,
+     "aciklama": "Ofiste sekiz görüşme, vücut ölçümü ve tahlil sonuçlarına göre plan güncellemesi."
+    },
+    {
+     "id": "k3",
+     "ad": "Dört Aylık Karma Program",
+     "tur": "karma",
+     "seans": 12,
+     "sure": 45,
+     "sure_hafta": 16,
+     "fiyat": 12600,
+     "aciklama": "On iki görüşme; ayda bir yüz yüze ölçüm, aradaki haftalar online kontrol."
+    }
+   ],
+   "musaitlik": {
+    "haftalik": [
+     {
+      "gun": "Pazartesi",
+      "acik": true,
+      "baslangic": "10:00",
+      "bitis": "18:00",
+      "ara": [
+       "13:00",
+       "14:00"
+      ],
+      "tur": "yuzyuze"
+     },
+     {
+      "gun": "Salı",
+      "acik": true,
+      "baslangic": "09:00",
+      "bitis": "17:00",
+      "ara": [
+       "12:30",
+       "13:30"
+      ],
+      "tur": "online"
+     },
+     {
+      "gun": "Çarşamba",
+      "acik": true,
+      "baslangic": "09:00",
+      "bitis": "17:00",
+      "ara": [
+       "12:30",
+       "13:30"
+      ],
+      "tur": "karma"
+     },
+     {
+      "gun": "Perşembe",
+      "acik": true,
+      "baslangic": "10:00",
+      "bitis": "18:00",
+      "ara": [
+       "13:00",
+       "14:00"
+      ],
+      "tur": "yuzyuze"
+     },
+     {
+      "gun": "Cuma",
+      "acik": true,
+      "baslangic": "09:00",
+      "bitis": "15:00",
+      "ara": null,
+      "tur": "online"
+     },
+     {
+      "gun": "Cumartesi",
+      "acik": true,
+      "baslangic": "10:00",
+      "bitis": "14:00",
+      "ara": null,
+      "tur": "yuzyuze"
+     },
+     {
+      "gun": "Pazar",
+      "acik": false,
+      "baslangic": null,
+      "bitis": null,
+      "ara": null,
+      "tur": "online"
+     }
+    ],
+    "slot": {
+     "online": 30,
+     "yüz yüze": 45
+    },
+    "ucret": {
+     "online": 950,
+     "yüz yüze": 1300
+    },
+    "onay": "otomatik",
+    "dolu": [
+     {
+      "gun": 0,
+      "saat": "16:00",
+      "tur": "yüz yüze",
+      "sure": 45
+     },
+     {
+      "gun": 1,
+      "saat": "09:30",
+      "tur": "online",
+      "sure": 30
+     },
+     {
+      "gun": 1,
+      "saat": "15:00",
+      "tur": "online",
+      "sure": 30
+     },
+     {
+      "gun": 3,
+      "saat": "10:45",
+      "tur": "yüz yüze",
+      "sure": 45
+     },
+     {
+      "gun": 4,
+      "saat": "11:00",
+      "tur": "online",
+      "sure": 30
+     },
+     {
+      "gun": 5,
+      "saat": "10:45",
+      "tur": "yüz yüze",
+      "sure": 45
+     },
+     {
+      "gun": 7,
+      "saat": "10:00",
+      "tur": "yüz yüze",
+      "sure": 45
+     },
+     {
+      "gun": 9,
+      "saat": "09:45",
+      "tur": "yüz yüze",
+      "sure": 45
+     },
+     {
+      "gun": 9,
+      "saat": "14:00",
+      "tur": "online",
+      "sure": 30
+     },
+     {
+      "gun": 15,
+      "saat": "13:30",
+      "tur": "online",
+      "sure": 30
+     }
+    ]
+   },
+   "yorumlar": [
+    {
+     "id": "y1",
+     "puan": 5,
+     "tarih": "2026-10-30",
+     "tur": "yüz yüze",
+     "sure_hafta": 16,
+     "konu": "PCOS ve kilo yönetimi",
+     "danisan_etiket": "Danışan · 20'li yaşlar",
+     "metin": "Kahvaltıyı atlayıp akşam çok yemek benim en büyük sorunumdu. Öğün saatlerini sabitleyip her tabağa protein ekleyince öğleden sonraki tatlı krizlerim seyreldi. Aylık ölçümlerde değişimi birlikte görmek motive ediciydi."
+    },
+    {
+     "id": "y2",
+     "puan": 5,
+     "tarih": "2026-10-09",
+     "tur": "online",
+     "sure_hafta": 8,
+     "konu": "PCOS",
+     "danisan_etiket": "Danışan · 30'lu yaşlar",
+     "metin": "Tahlillerimi hekimimle konuştuktan sonra beslenme tarafını onunla ele aldık. Hangi yiyeceği neden tercih ettiğimizi anlattığı için ezber bir liste gibi gelmedi. Online görüşmeler iş saatlerime çok rahat uydu."
+    },
+    {
+     "id": "y3",
+     "puan": 4,
+     "tarih": "2026-09-16",
+     "tur": "yüz yüze",
+     "sure_hafta": 12,
+     "konu": "Kilo yönetimi",
+     "danisan_etiket": "Danışan · 40'lı yaşlar",
+     "metin": "Daha önce denediğim diyetlerde hep aç kalıyordum. Bu kez lifli sebze ve baklagille doyarak ilerledik. Kilo kaybı beklediğimden yavaş oldu ama ilk kez geri almadım."
+    },
+    {
+     "id": "y4",
+     "puan": 5,
+     "tarih": "2026-08-21",
+     "tur": "online",
+     "sure_hafta": 6,
+     "konu": "PCOS ve kilo yönetimi",
+     "danisan_etiket": "Danışan · 20'li yaşlar",
+     "metin": "Öğrenciyim ve yurtta kalıyorum; mutfak imkânım kısıtlı. Kantinde ve markette seçebileceğim seçeneklerle bir düzen kurduk. Her hafta kısa bir mesajla durumumu sorması çok iyi geldi."
+    },
+    {
+     "id": "y5",
+     "puan": 4,
+     "tarih": "2026-07-02",
+     "tur": "yüz yüze",
+     "sure_hafta": 20,
+     "konu": "Kilo yönetimi",
+     "danisan_etiket": "Danışan · 30'lu yaşlar",
+     "metin": "Uzun bir program oldu, arada iki kez motivasyonum düştü. Planı yeniden sadeleştirip haftada üç öğünü sabitlemekle başladık. Randevu saatlerini otomatik onaylı alabilmek de pratikti."
+    }
+   ],
+   "yazilar": [
+    {
+     "id": "w1",
+     "baslik": "PCOS'ta Öğün Saatleri Neden Önemli",
+     "ozet": "Düzenli öğün saatlerinin gün içi açlık ve enerji dalgalanmalarına etkisini anlatıyorum.",
+     "okuma_dk": 4,
+     "tarih": "2026-10-13",
+     "paragraflar": [
+      "Polikistik over sendromu olan pek çok kişi gün içinde ani açlık ve tatlı isteği yaşadığını anlatır. Uzun süre aç kalıp sonra büyük porsiyonlarla yemek bu dalgalanmayı artırabilir. Öğünleri yaklaşık aynı saatlere yerleştirmek, gün içi enerjiyi daha dengeli tutmanın basit bir yoludur.",
+      "Pratikte günü üç ana öğün ve ihtiyaca göre bir ara öğün olarak planlamak çoğu kişiye uyar. Kahvaltıyı atlamamak, öğle ile akşam arasında altı saatten uzun boşluk bırakmamak ve akşam yemeğini yatmadan iki üç saat önce bitirmek iyi bir başlangıçtır.",
+      "PCOS'un değerlendirilmesi ve tedavisi hekim tarafından yapılır; beslenme düzeni bu süreci destekleyen bir parçadır. Öğün düzeninde büyük bir değişiklik yapmadan önce hekiminle ve diyetisyeninle konuşmanı öneririm."
+     ]
+    },
+    {
+     "id": "w2",
+     "baslik": "Her Tabakta Protein ve Lif Dengesi",
+     "ozet": "Tokluğu uzatan tabak düzenini günlük örneklerle açıklıyorum.",
+     "okuma_dk": 3,
+     "tarih": "2026-08-25",
+     "paragraflar": [
+      "Protein ve lif, öğünden sonra tokluk hissinin daha uzun sürmesine yardımcı olur. Yalnız karbonhidrattan oluşan bir öğün yerine yanına yumurta, yoğurt, tavuk, balık ya da baklagil eklemek, kısa sürede tekrar acıkmayı azaltabilir.",
+      "Lifin en kolay kaynağı sebze, baklagil ve tam tahıllardır. Tabağın yarısını sebzeye, dörtte birini protein kaynağına, kalan dörtte birini bulgur, esmer pirinç ya da tam buğday ekmeği gibi tahıllara ayırmak akılda kalıcı bir ölçüdür.",
+      "Lif miktarını bir anda artırmak şişkinlik yapabilir; birkaç haftaya yayarak ve su tüketimini artırarak ilerlemek daha konforludur. Sindirim sorunun ya da özel bir sağlık durumun varsa uygun miktarı diyetisyeninle birlikte belirle."
+     ]
+    },
+    {
+     "id": "w3",
+     "baslik": "Tartı Yerine Ölçü Bandı ile Takip",
+     "ozet": "Kilo yönetiminde yalnız tartıya bakmanın neden yanıltıcı olabileceğini anlatıyorum.",
+     "okuma_dk": 3,
+     "tarih": "2026-06-10",
+     "paragraflar": [
+      "Tartıdaki sayı gün içinde su, tuz ve sindirime bağlı olarak bir iki kilo oynayabilir. Her sabah tartılıp bu değişimlere göre moral bozmak, sürdürülebilir bir düzeni zorlaştırır.",
+      "Haftada bir aynı gün ve aynı saatte tartılmak, ayda bir bel ve kalça çevresini ölçmek değişimi daha net gösterir. Kıyafetlerin oturuşu, merdiven çıkarken nefes ve uyku kalitesi de not edilmeye değer göstergelerdir.",
+      "Görüşmelerimizde bu ölçümleri yan yana koyup hangi alışkanlığın işe yaradığına bakıyoruz. Hızlı kilo kaybı hedefi yerine, birkaç ay boyunca küçük ama kalıcı değişimleri izlemek daha gerçekçidir."
+     ]
+    }
+   ],
+   "menuler": [
+    {
+     "id": "m1",
+     "baslik": "Protein ve Lif Odaklı Örnek Günlük Menü",
+     "ozet": "PCOS'u olan ve kilo vermek isteyen, öğünler arasında çabuk acıkan yetişkinler için.",
+     "tarih": "2026-09-29",
+     "ogunler": [
+      {
+       "ad": "Kahvaltı",
+       "kalemler": [
+        [
+         "yumurta-haslanmis",
+         100,
+         "2 adet"
+        ],
+        [
+         "beyaz-peynir-yarim-yagli",
+         30,
+         "1 ince dilim"
+        ],
+        [
+         "tam-bugday-ekmegi",
+         50,
+         "2 dilim"
+        ],
+        [
+         "domates",
+         150,
+         "1 orta boy"
+        ],
+        [
+         "salatalik",
+         100,
+         "1 küçük"
+        ],
+        [
+         "yesil-zeytin",
+         15,
+         "5 adet"
+        ]
+       ]
+      },
+      {
+       "ad": "Öğle Yemeği",
+       "kalemler": [
+        [
+         "tavuk-gogsu-izgara",
+         120,
+         "1,5 porsiyon"
+        ],
+        [
+         "kinoa-pismis",
+         120,
+         "4 yemek kaşığı"
+        ],
+        [
+         "roka",
+         75,
+         "1 porsiyon"
+        ],
+        [
+         "carliston-biber",
+         75,
+         "2 adet"
+        ],
+        [
+         "zeytinyagi",
+         10,
+         "2 tatlı kaşığı"
+        ]
+       ]
+      },
+      {
+       "ad": "İkindi",
+       "kalemler": [
+        [
+         "yogurt-yarim-yagli",
+         200,
+         "1 kâse"
+        ],
+        [
+         "ceviz-ic",
+         10,
+         "2 tam ceviz"
+        ],
+        [
+         "elma-fuji",
+         150,
+         "1 orta boy"
+        ]
+       ]
+      },
+      {
+       "ad": "Akşam Yemeği",
+       "kalemler": [
+        [
+         "nohut-haslanmis",
+         150,
+         "1 kâse"
+        ],
+        [
+         "brokoli-haslanmis",
+         150,
+         "1 porsiyon"
+        ],
+        [
+         "marul-kivircik",
+         75,
+         "1 porsiyon"
+        ],
+        [
+         "zeytinyagi",
+         10,
+         "2 tatlı kaşığı"
+        ],
+        [
+         "yogurt-yarim-yagli",
+         100,
+         "yarım kâse"
+        ]
+       ]
+      }
+     ]
+    },
+    {
+     "id": "m2",
+     "baslik": "Üç Ana Öğünlü Düzenli Saat Örnek Günlük Menü",
+     "ozet": "Ara öğün atıştırmalarını azaltıp günü üç ana öğün ve tek ara öğünle planlamak isteyenler için.",
+     "tarih": "2026-07-21",
+     "ogunler": [
+      {
+       "ad": "Kahvaltı",
+       "kalemler": [
+        [
+         "yulaf-beyaz",
+         40,
+         "4 yemek kaşığı"
+        ],
+        [
+         "sut-uht-yarim-yagli",
+         200,
+         "1 su bardağı"
+        ],
+        [
+         "ceviz-ic",
+         15,
+         "3 tam ceviz"
+        ],
+        [
+         "kivi",
+         75,
+         "1 orta boy"
+        ]
+       ]
+      },
+      {
+       "ad": "Öğle Yemeği",
+       "kalemler": [
+        [
+         "ton-baligi-suda",
+         80,
+         "yarım kutu, süzülmüş"
+        ],
+        [
+         "barbunya-haslanmis",
+         100,
+         "4 yemek kaşığı"
+        ],
+        [
+         "marul-kivircik",
+         75,
+         "1 porsiyon"
+        ],
+        [
+         "domates",
+         100,
+         "1 küçük"
+        ],
+        [
+         "zeytinyagi",
+         10,
+         "2 tatlı kaşığı"
+        ],
+        [
+         "kepekli-ekmek",
+         50,
+         "2 ince dilim"
+        ]
+       ]
+      },
+      {
+       "ad": "İkindi",
+       "kalemler": [
+        [
+         "kefir",
+         200,
+         "1 su bardağı"
+        ],
+        [
+         "badem",
+         15,
+         "10 adet"
+        ]
+       ]
+      },
+      {
+       "ad": "Akşam Yemeği",
+       "kalemler": [
+        [
+         "somon-atlantik-ciftlik",
+         150,
+         "1 porsiyon"
+        ],
+        [
+         "esmer-pirinc-pismis",
+         120,
+         "4 yemek kaşığı"
+        ],
+        [
+         "ispanak-haslanmis",
+         150,
+         "1 porsiyon"
+        ],
+        [
+         "yogurt-yarim-yagli",
+         100,
+         "yarım kâse"
+        ]
+       ]
+      }
+     ]
+    }
+   ]
+  },
+  "uzm-dyt-ayca-yildiz": {
+   "kisa": "Hormonal değişimlerin yaşandığı dönemlerde uyku, stres ve hareketi de hesaba katan yaşam tarzı odaklı planlar kuruyorum.",
+   "hakkinda": {
+    "baslik": "Hormonal Dönemlerde Yaşam Tarzıyla Uyumlu Beslenme",
+    "metin": [
+     "Sekiz yıldır hormonal denge, PCOS ve kilo yönetimi alanında danışan görüyorum. Ankara'daki ofisimde ve online çalışıyorum. Ergenlikten menopoza geçişe kadar hormonal değişimlerin yaşandığı dönemlerde beslenmeyi uyku, stres ve hareketle birlikte ele alıyorum.",
+     "Görüşmelerde yalnız ne yediğine değil, haftanın hangi günleri yorulduğuna, ne zaman canının tatlı çektiğine ve uyku saatlerine de bakıyoruz. Kayıtlarını birlikte inceleyip yoğun günler için daha sade, sakin günler için daha esnek bir plan hazırlıyoruz. Tıbbi değerlendirme ve tedavi her zaman hekimindedir; ben bu sürecin beslenme ayağında yanındayım."
+    ]
+   },
+   "egitim": [
+    {
+     "ad": "Beslenme ve Diyetetik",
+     "program": "Lisans"
+    },
+    {
+     "ad": "Beslenme Bilimleri",
+     "program": "Yüksek lisans"
+    }
+   ],
+   "sertifikalar": [
+    "Kadın Sağlığında Beslenme Eğitimi",
+    "Yeme Davranışı ve Farkındalıklı Yeme Eğitimi"
+   ],
+   "diller": [
+    "Türkçe",
+    "Almanca"
+   ],
+   "dogrulama_tarih": "2026-02-23",
+   "paketler": [
+    {
+     "id": "k1",
+     "ad": "Online Tanışma ve Yol Haritası",
+     "tur": "online",
+     "seans": 3,
+     "sure": 30,
+     "sure_hafta": 6,
+     "fiyat": 2400,
+     "aciklama": "Üç online görüşmede alışkanlık kaydı, öncelik listesi ve ilk öğün planı."
+    },
+    {
+     "id": "k2",
+     "ad": "Yüz Yüze Yaşam Tarzı Takibi",
+     "tur": "yüz yüze",
+     "seans": 6,
+     "sure": 45,
+     "sure_hafta": 12,
+     "fiyat": 6300,
+     "aciklama": "Ofiste altı görüşme; uyku, hareket ve beslenme kayıtlarına göre güncellenen plan."
+    },
+    {
+     "id": "k3",
+     "ad": "Menopoza Geçiş Karma Paketi",
+     "tur": "karma",
+     "seans": 10,
+     "sure": 45,
+     "sure_hafta": 20,
+     "fiyat": 9200,
+     "aciklama": "Beş ay boyunca on görüşme; yüz yüze ölçüm ve online ara kontroller."
+    }
+   ],
+   "musaitlik": {
+    "haftalik": [
+     {
+      "gun": "Pazartesi",
+      "acik": true,
+      "baslangic": "09:00",
+      "bitis": "17:00",
+      "ara": [
+       "12:30",
+       "13:30"
+      ],
+      "tur": "online"
+     },
+     {
+      "gun": "Salı",
+      "acik": true,
+      "baslangic": "09:00",
+      "bitis": "18:00",
+      "ara": [
+       "12:30",
+       "13:30"
+      ],
+      "tur": "karma"
+     },
+     {
+      "gun": "Çarşamba",
+      "acik": true,
+      "baslangic": "09:00",
+      "bitis": "17:00",
+      "ara": [
+       "12:30",
+       "13:30"
+      ],
+      "tur": "yuzyuze"
+     },
+     {
+      "gun": "Perşembe",
+      "acik": false,
+      "baslangic": null,
+      "bitis": null,
+      "ara": null,
+      "tur": "online"
+     },
+     {
+      "gun": "Cuma",
+      "acik": true,
+      "baslangic": "09:00",
+      "bitis": "17:00",
+      "ara": [
+       "12:30",
+       "13:30"
+      ],
+      "tur": "karma"
+     },
+     {
+      "gun": "Cumartesi",
+      "acik": true,
+      "baslangic": "10:00",
+      "bitis": "15:00",
+      "ara": null,
+      "tur": "yuzyuze"
+     },
+     {
+      "gun": "Pazar",
+      "acik": false,
+      "baslangic": null,
+      "bitis": null,
+      "ara": null,
+      "tur": "online"
+     }
+    ],
+    "slot": {
+     "online": 30,
+     "yüz yüze": 45
+    },
+    "ucret": {
+     "online": 850,
+     "yüz yüze": 1150
+    },
+    "onay": "uzman",
+    "dolu": [
+     {
+      "gun": 0,
+      "saat": "10:00",
+      "tur": "online",
+      "sure": 30
+     },
+     {
+      "gun": 1,
+      "saat": "09:45",
+      "tur": "yüz yüze",
+      "sure": 45
+     },
+     {
+      "gun": 2,
+      "saat": "11:15",
+      "tur": "yüz yüze",
+      "sure": 45
+     },
+     {
+      "gun": 2,
+      "saat": "14:15",
+      "tur": "yüz yüze",
+      "sure": 45
+     },
+     {
+      "gun": 4,
+      "saat": "15:00",
+      "tur": "online",
+      "sure": 30
+     },
+     {
+      "gun": 5,
+      "saat": "10:45",
+      "tur": "yüz yüze",
+      "sure": 45
+     },
+     {
+      "gun": 8,
+      "saat": "16:00",
+      "tur": "online",
+      "sure": 30
+     },
+     {
+      "gun": 9,
+      "saat": "09:00",
+      "tur": "yüz yüze",
+      "sure": 45
+     }
+    ]
+   },
+   "yorumlar": [
+    {
+     "id": "y1",
+     "puan": 5,
+     "tarih": "2026-11-03",
+     "tur": "online",
+     "sure_hafta": 6,
+     "konu": "PCOS",
+     "danisan_etiket": "Danışan · 20'li yaşlar",
+     "metin": "Hangi günler daha çok tatlı istediğimi bir ay boyunca not ettik. Plan bu notlara göre şekillendi; yoğun haftalarda hazırlığı daha az olan öğünlere geçtik. Kendimi ilk kez izlenen değil anlaşılan biri gibi hissettim."
+    },
+    {
+     "id": "y2",
+     "puan": 5,
+     "tarih": "2026-10-01",
+     "tur": "yüz yüze",
+     "sure_hafta": 20,
+     "konu": "Menopoza geçiş",
+     "danisan_etiket": "Danışan · 50'li yaşlar",
+     "metin": "Son iki yılda bel çevrem artmıştı ve uykum bozulmuştu. Akşam öğününü erkene aldık, süt ürünlerini ve balığı düzenli hale getirdik. Hekimimin önerdiği tetkiklerle birlikte ilerlemek bana güven verdi."
+    },
+    {
+     "id": "y3",
+     "puan": 4,
+     "tarih": "2026-09-09",
+     "tur": "online",
+     "sure_hafta": 12,
+     "konu": "Kilo yönetimi",
+     "danisan_etiket": "Danışan · 30'lu yaşlar",
+     "metin": "Vardiyalı çalışıyorum, uyku saatlerim sürekli değişiyor. Gece vardiyası için ayrı bir öğün sırası hazırladı. Bazı öneriler bana fazla detaylı geldi ama sadeleştirmek istediğimde hemen değiştirdik."
+    },
+    {
+     "id": "y4",
+     "puan": 5,
+     "tarih": "2026-08-05",
+     "tur": "yüz yüze",
+     "sure_hafta": 8,
+     "konu": "PCOS",
+     "danisan_etiket": "Danışan · 20'li yaşlar",
+     "metin": "Spor salonuna başlamak istiyordum ama nereden başlayacağımı bilmiyordum. Haftada üç gün yürüyüşle başlayıp öğünlerimi buna göre ayarladık. Görüşmelerde ölçüm kadar uyku ve stres durumumu da sordu."
+    },
+    {
+     "id": "y5",
+     "puan": 4,
+     "tarih": "2026-06-17",
+     "tur": "yüz yüze",
+     "sure_hafta": 10,
+     "konu": "Menopoza geçiş",
+     "danisan_etiket": "Danışan · 40'lı yaşlar",
+     "metin": "Kalsiyum ve D vitamini konusunda kafam çok karışıktı. Neleri besinlerden alabileceğimi tabak örnekleriyle gösterdi, takviye kararını hekimime bıraktı. Ofis biraz kalabalıktı ama görüşmeler hep zamanında başladı."
+    }
+   ],
+   "yazilar": [
+    {
+     "id": "w1",
+     "baslik": "Yoğun ve Sakin Günler İçin İki Ayrı Plan",
+     "ozet": "Haftanın temposuna göre değişen esnek bir beslenme planı nasıl kurulur.",
+     "okuma_dk": 4,
+     "tarih": "2026-10-20",
+     "paragraflar": [
+      "Tek tip bir plan, haftanın her gününe aynı şekilde uymaz. Yoğun iş günlerinde mutfağa ayıracak vakit azalır, yorgunluk arttıkça hazır atıştırmalıklara yönelmek kolaylaşır. Bu yüzden danışanlarımla genellikle iki ayrı gün kalıbı hazırlıyoruz.",
+      "Yoğun gün kalıbında öğünler önceden hazırlanabilir ya da beş dakikada toparlanabilir: yoğurtlu yulaf, haşlanmış yumurta, hazır pişirilmiş baklagil ve sebze. Sakin gün kalıbında ise yeni tarif denemek, haftalık toplu pişirme yapmak ve yürüyüş gibi hareketi plana eklemek için yer açılır.",
+      "Kendi haftanı birkaç gün kayıt tutarak gözlemlemek, hangi kalıbın ne zaman gerektiğini gösterir. Bu yaklaşım bir tedavi yöntemi değil, günlük hayatı kolaylaştıran bir planlama alışkanlığıdır."
+     ]
+    },
+    {
+     "id": "w2",
+     "baslik": "Menopoza Geçişte Kalsiyum ve Protein",
+     "ozet": "Menopoz döneminde kemik ve kas sağlığını gözeten tabak önerileri.",
+     "okuma_dk": 5,
+     "tarih": "2026-08-31",
+     "paragraflar": [
+      "Menopoza geçiş döneminde hormon düzeylerindeki değişim kemik ve kas kütlesini etkileyebilir. Bu dönemde yeterli kalsiyum, D vitamini ve protein almak, düzenli hareketle birlikte genel sağlığı desteklemenin bir parçasıdır.",
+      "Kalsiyumun başlıca kaynakları süt, yoğurt, kefir ve peynirdir; yeşil yapraklı sebzeler, badem ve kurubaklagiller de katkı sağlar. Proteini kahvaltı, öğle ve akşam öğünlerine paylaştırmak ve haftada iki kez balık yemek pratik hedeflerdir.",
+      "D vitamini ve kalsiyum takviyesine ihtiyaç olup olmadığı kan değerlerine ve kişisel risklere göre değişir. Takviye kararını mutlaka hekiminle birlikte vermelisin."
+     ]
+    },
+    {
+     "id": "w3",
+     "baslik": "Uyku Düzeni ve Akşam Atıştırmaları",
+     "ozet": "Uyku saatlerinin yeme alışkanlıklarıyla ilişkisini sade bir dille anlatıyorum.",
+     "okuma_dk": 3,
+     "tarih": "2026-07-07",
+     "paragraflar": [
+      "Geç yatıp az uyuduğumuz günlerde ertesi gün daha sık acıkmak ve tatlıya yönelmek yaygın bir deneyimdir. Bu yüzden beslenme planını konuşurken uyku saatlerini de mutlaka soruyorum.",
+      "Akşam yemeğini yatmadan iki üç saat önce bitirmek, gece atıştırmasını tamamen yasaklamak yerine bir kâse yoğurt ya da bir meyve gibi sade bir seçenek belirlemek işe yarayabilir. Akşam saatlerinde kafeinli içecekleri azaltmak da uykuyu kolaylaştırır.",
+      "Uzun süren uykusuzluk, horlama ya da gece sık uyanma gibi şikâyetlerin varsa bunları hekiminle konuşmalısın. Beslenme düzeni bu durumları tek başına çözmez, ancak günlük rutinin iyileşmesine katkı verebilir."
+     ]
+    }
+   ],
+   "menuler": [
+    {
+     "id": "m1",
+     "baslik": "Yoğun İş Günü İçin Pratik Örnek Günlük Menü",
+     "ozet": "Hormonal denge ve kilo yönetimi hedefi olan, mutfağa az vakit ayırabilen çalışan yetişkinler için.",
+     "tarih": "2026-10-05",
+     "ogunler": [
+      {
+       "ad": "Kahvaltı",
+       "kalemler": [
+        [
+         "yogurt-yarim-yagli",
+         200,
+         "1 kâse"
+        ],
+        [
+         "yulaf-beyaz",
+         40,
+         "4 yemek kaşığı"
+        ],
+        [
+         "findik-cig",
+         15,
+         "10 adet"
+        ],
+        [
+         "seftali",
+         150,
+         "1 orta boy"
+        ]
+       ]
+      },
+      {
+       "ad": "Öğle Yemeği",
+       "kalemler": [
+        [
+         "mercimek-haslanmis",
+         150,
+         "1 kâse"
+        ],
+        [
+         "kuskus-pismis",
+         75,
+         "1 porsiyon"
+        ],
+        [
+         "salatalik",
+         150,
+         "1 kupa doğranmış"
+        ],
+        [
+         "domates",
+         150,
+         "1 orta boy"
+        ],
+        [
+         "zeytinyagi",
+         10,
+         "2 tatlı kaşığı"
+        ]
+       ]
+      },
+      {
+       "ad": "İkindi",
+       "kalemler": [
+        [
+         "kasar-peyniri-taze",
+         30,
+         "1 ince dilim"
+        ],
+        [
+         "kepekli-ekmek",
+         25,
+         "1 ince dilim"
+        ],
+        [
+         "mandalina-klemantin",
+         75,
+         "1 adet"
+        ],
+        [
+         "ceviz-ic",
+         10,
+         "2 tam ceviz"
+        ]
+       ]
+      },
+      {
+       "ad": "Akşam Yemeği",
+       "kalemler": [
+        [
+         "hindi-gogsu-firinda",
+         120,
+         "1 porsiyon"
+        ],
+        [
+         "patates-firinda",
+         170,
+         "1 orta boy"
+        ],
+        [
+         "karnabahar-haslanmis",
+         150,
+         "1 porsiyon"
+        ],
+        [
+         "roka",
+         50,
+         "1 avuç"
+        ],
+        [
+         "zeytinyagi",
+         10,
+         "2 tatlı kaşığı"
+        ]
+       ]
+      }
+     ]
+    },
+    {
+     "id": "m2",
+     "baslik": "Menopoza Geçişte Kalsiyumu Gözeten Örnek Günlük Menü",
+     "ozet": "Menopoza geçiş döneminde süt ürünü, balık ve protein dengesine dikkat etmek isteyen kadınlar için.",
+     "tarih": "2026-08-17",
+     "ogunler": [
+      {
+       "ad": "Kahvaltı",
+       "kalemler": [
+        [
+         "omlet",
+         100,
+         "2 yumurtalı"
+        ],
+        [
+         "beyaz-peynir-yarim-yagli",
+         40,
+         "1 kibrit kutusu"
+        ],
+        [
+         "tam-bugday-ekmegi",
+         50,
+         "2 dilim"
+        ],
+        [
+         "roka",
+         30,
+         "1 avuç"
+        ],
+        [
+         "domates",
+         100,
+         "1 küçük"
+        ]
+       ]
+      },
+      {
+       "ad": "Ara Öğün",
+       "kalemler": [
+        [
+         "kefir",
+         200,
+         "1 su bardağı"
+        ],
+        [
+         "badem",
+         15,
+         "10 adet"
+        ]
+       ]
+      },
+      {
+       "ad": "Öğle Yemeği",
+       "kalemler": [
+        [
+         "barbunya-haslanmis",
+         150,
+         "1 kâse"
+        ],
+        [
+         "bulgur-pismis",
+         90,
+         "1 porsiyon"
+        ],
+        [
+         "ispanak-haslanmis",
+         150,
+         "1 porsiyon"
+        ],
+        [
+         "yogurt-yarim-yagli",
+         150,
+         "1 küçük kâse"
+        ],
+        [
+         "zeytinyagi",
+         10,
+         "2 tatlı kaşığı"
+        ]
+       ]
+      },
+      {
+       "ad": "Akşam Yemeği",
+       "kalemler": [
+        [
+         "uskumru-izgara",
+         120,
+         "1 küçük porsiyon"
+        ],
+        [
+         "brokoli-haslanmis",
+         150,
+         "1 porsiyon"
+        ],
+        [
+         "marul-kivircik",
+         75,
+         "1 porsiyon"
+        ],
+        [
+         "kepekli-ekmek",
+         25,
+         "1 ince dilim"
+        ]
+       ]
+      },
+      {
+       "ad": "Gece",
+       "kalemler": [
+        [
+         "sut-uht-yarim-yagli",
+         200,
+         "1 su bardağı"
+        ]
+       ]
+      }
+     ]
+    }
+   ]
+  },
+  "dyt-gizem-celik": {
+   "kisa": "Bağırsak sağlığında lifi kademeli artıran, düzenli öğün ve fermente gıdaları sofraya yerleştiren online planlar hazırlıyorum.",
+   "hakkinda": {
+    "baslik": "Bağırsak Dostu Beslenmeye Adım Adım Geçiş",
+    "metin": [
+     "On bir yıldır diyetisyen olarak çalışıyorum; son yıllarda ağırlıklı olarak bağırsak sağlığı ve sindirim konforu üzerine danışan görüyorum. Görüşmelerimi yalnız online yapıyorum, bu sayede Türkiye'nin her yerinden danışanlarla çalışabiliyorum.",
+     "Sindirim şikâyetlerinin değerlendirilmesi ve tanısı hekimin işidir; ben hekim değerlendirmesinden sonra günlük beslenme düzenini kurmana yardım ediyorum. Lifi birkaç haftaya yayarak artırıyor, öğün saatlerini düzenliyor ve yoğurt, kefir gibi fermente gıdaları sofrana yerleştiriyoruz. Her adımda belirti günlüğünü birlikte okuyup planı senin konforuna göre ayarlıyoruz."
+    ]
+   },
+   "egitim": [
+    {
+     "ad": "Beslenme ve Diyetetik",
+     "program": "Lisans"
+    }
+   ],
+   "sertifikalar": [
+    "Sindirim Sistemi Hastalıklarında Beslenme Eğitimi",
+    "Düşük FODMAP Diyeti Uygulama Eğitimi"
+   ],
+   "diller": [
+    "Türkçe"
+   ],
+   "dogrulama_tarih": "2025-06-11",
+   "paketler": [
+    {
+     "id": "k1",
+     "ad": "Online Sindirim Değerlendirmesi",
+     "tur": "online",
+     "seans": 4,
+     "sure": 45,
+     "sure_hafta": 8,
+     "fiyat": 3600,
+     "aciklama": "Belirti günlüğü, öğün düzeni ve ilk dört haftalık lif planı; iki haftada bir görüşme."
+    },
+    {
+     "id": "k2",
+     "ad": "Kademeli Lif Geçiş Programı",
+     "tur": "online",
+     "seans": 6,
+     "sure": 45,
+     "sure_hafta": 12,
+     "fiyat": 5300,
+     "aciklama": "On iki haftada lifi adım adım artıran, her görüşmede belirtilere göre güncellenen plan."
+    },
+    {
+     "id": "k3",
+     "ad": "Dört Aylık Sindirim Takibi",
+     "tur": "online",
+     "seans": 8,
+     "sure": 45,
+     "sure_hafta": 16,
+     "fiyat": 6800,
+     "aciklama": "Sekiz online görüşme, mesaj desteği ve dönem sonunda sürdürme planı."
+    }
+   ],
+   "musaitlik": {
+    "haftalik": [
+     {
+      "gun": "Pazartesi",
+      "acik": true,
+      "baslangic": "09:00",
+      "bitis": "17:00",
+      "ara": [
+       "12:30",
+       "13:30"
+      ],
+      "tur": "online"
+     },
+     {
+      "gun": "Salı",
+      "acik": true,
+      "baslangic": "09:00",
+      "bitis": "17:00",
+      "ara": [
+       "12:30",
+       "13:30"
+      ],
+      "tur": "online"
+     },
+     {
+      "gun": "Çarşamba",
+      "acik": true,
+      "baslangic": "12:00",
+      "bitis": "20:00",
+      "ara": null,
+      "tur": "online"
+     },
+     {
+      "gun": "Perşembe",
+      "acik": true,
+      "baslangic": "09:00",
+      "bitis": "17:00",
+      "ara": [
+       "12:30",
+       "13:30"
+      ],
+      "tur": "online"
+     },
+     {
+      "gun": "Cuma",
+      "acik": true,
+      "baslangic": "09:00",
+      "bitis": "15:00",
+      "ara": null,
+      "tur": "online"
+     },
+     {
+      "gun": "Cumartesi",
+      "acik": false,
+      "baslangic": null,
+      "bitis": null,
+      "ara": null,
+      "tur": "online"
+     },
+     {
+      "gun": "Pazar",
+      "acik": false,
+      "baslangic": null,
+      "bitis": null,
+      "ara": null,
+      "tur": "online"
+     }
+    ],
+    "slot": {
+     "online": 45
+    },
+    "ucret": {
+     "online": 1000
+    },
+    "onay": "otomatik",
+    "dolu": [
+     {
+      "gun": 0,
+      "saat": "13:30",
+      "tur": "online",
+      "sure": 45
+     },
+     {
+      "gun": 1,
+      "saat": "09:45",
+      "tur": "online",
+      "sure": 45
+     },
+     {
+      "gun": 1,
+      "saat": "14:15",
+      "tur": "online",
+      "sure": 45
+     },
+     {
+      "gun": 2,
+      "saat": "18:00",
+      "tur": "online",
+      "sure": 45
+     },
+     {
+      "gun": 3,
+      "saat": "10:30",
+      "tur": "online",
+      "sure": 45
+     },
+     {
+      "gun": 4,
+      "saat": "09:00",
+      "tur": "online",
+      "sure": 45
+     },
+     {
+      "gun": 7,
+      "saat": "15:00",
+      "tur": "online",
+      "sure": 45
+     },
+     {
+      "gun": 9,
+      "saat": "12:45",
+      "tur": "online",
+      "sure": 45
+     },
+     {
+      "gun": 10,
+      "saat": "11:15",
+      "tur": "online",
+      "sure": 45
+     }
+    ]
+   },
+   "yorumlar": [
+    {
+     "id": "y1",
+     "puan": 5,
+     "tarih": "2026-10-26",
+     "tur": "online",
+     "sure_hafta": 12,
+     "konu": "Bağırsak sağlığı",
+     "danisan_etiket": "Danışan · 30'lu yaşlar",
+     "metin": "Gastroenteroloji kontrolümden sonra başvurdum. Lifi birden artırmak yerine her hafta küçük bir ekleme yaptık, belirti günlüğümü her görüşmede birlikte okuduk. Şişkinliğimin hangi öğünlerden sonra arttığını ilk kez net gördüm."
+    },
+    {
+     "id": "y2",
+     "puan": 5,
+     "tarih": "2026-09-21",
+     "tur": "online",
+     "sure_hafta": 8,
+     "konu": "Düzenli öğün",
+     "danisan_etiket": "Danışan · 40'lı yaşlar",
+     "metin": "Gün boyu kahveyle idare edip akşam tek öğün yiyordum. Öğünleri üçe böldük, kahvaltıya kefir ve yulaf ekledik. Görüşmeler online olduğu için şehir dışında olsam da hiçbirini kaçırmadım."
+    },
+    {
+     "id": "y3",
+     "puan": 4,
+     "tarih": "2026-08-28",
+     "tur": "online",
+     "sure_hafta": 16,
+     "konu": "Bağırsak sağlığı",
+     "danisan_etiket": "Danışan · 20'li yaşlar",
+     "metin": "Kısıtlı bir dönemden sonra yiyecekleri yeniden eklemek beni korkutuyordu. Her ekleme için ne kadar ve hangi sırayla deneyeceğimi yazılı verdi. Süreç uzun sürdü ama sabırla açıkladığı için devam edebildim."
+    },
+    {
+     "id": "y4",
+     "puan": 5,
+     "tarih": "2026-07-15",
+     "tur": "online",
+     "sure_hafta": 6,
+     "konu": "Lif tüketimi",
+     "danisan_etiket": "Danışan · 50'li yaşlar",
+     "metin": "Hekimim lif ve su tüketimimi artırmamı söylemişti ama pratikte nasıl yapacağımı bilmiyordum. Baklagil ve tam tahılları alıştığım yemeklere ekleyerek ilerledik. Su içmeyi hatırlatmak için önerdiği basit yöntem hâlâ işime yarıyor."
+    },
+    {
+     "id": "y5",
+     "puan": 4,
+     "tarih": "2026-06-03",
+     "tur": "online",
+     "sure_hafta": 10,
+     "konu": "Bağırsak sağlığı",
+     "danisan_etiket": "Danışan · 30'lu yaşlar",
+     "metin": "İş seyahatlerinde düzenim tamamen bozuluyordu. Otelde ve havaalanında seçebileceğim seçeneklerden bir liste hazırladık. Bazı görüşmelerde bağlantı sorunu yaşadık ama hemen yeni saat verdi."
+    },
+    {
+     "id": "y6",
+     "puan": 5,
+     "tarih": "2026-05-12",
+     "tur": "online",
+     "sure_hafta": 4,
+     "konu": "Fermente gıdalar",
+     "danisan_etiket": "Danışan · 20'li yaşlar",
+     "metin": "Kefir ve yoğurdu sevmediğim için hiç tüketmiyordum. Meyveyle ve yulafla karıştırarak tadına alışmayı denedik. Kısa bir paketti ama alışkanlığım kalıcı oldu."
+    }
+   ],
+   "yazilar": [
+    {
+     "id": "w1",
+     "baslik": "Lifi Neden Yavaş Yavaş Artırmalı",
+     "ozet": "Lif tüketimini birkaç haftaya yaymanın sindirim konforuna etkisini anlatıyorum.",
+     "okuma_dk": 4,
+     "tarih": "2026-10-27",
+     "paragraflar": [
+      "Lif; sebze, meyve, baklagil ve tam tahıllarda bulunur ve düzenli bağırsak alışkanlığı için önemlidir. Ancak düşük lifli bir beslenmeden bir anda yüksek lifli bir düzene geçmek gaz, şişkinlik ve karın ağrısı gibi rahatsızlıklara yol açabilir.",
+      "Pratik bir yol, her hafta yalnız bir değişiklik yapmaktır: önce beyaz ekmeği tam buğdayla değiştirmek, sonraki hafta öğle yemeğine bir porsiyon baklagil eklemek, ardından ara öğüne meyve koymak gibi. Lif arttıkça su tüketimini de artırmak gerekir; aksi halde sindirim zorlaşabilir.",
+      "Kronik sindirim şikâyetlerin, kilo kaybın ya da dışkıda kan gibi bir belirtin varsa önce hekimine başvurmalısın. Lif planı, hekim değerlendirmesinin ardından kişiye göre ayarlanmalıdır."
+     ]
+    },
+    {
+     "id": "w2",
+     "baslik": "Sofrada Fermente Gıdalar: Yoğurt, Kefir ve Turşu",
+     "ozet": "Geleneksel fermente gıdaları günlük beslenmeye nasıl yerleştirebileceğini anlatıyorum.",
+     "okuma_dk": 3,
+     "tarih": "2026-09-08",
+     "paragraflar": [
+      "Yoğurt, kefir, ayran ve ev turşusu gibi fermente gıdalar sofralarımızda zaten yer alır. Yoğurt ve kefir aynı zamanda iyi birer protein ve kalsiyum kaynağıdır; günde bir iki porsiyon pek çok beslenme düzenine kolayca eklenebilir.",
+      "Kefirin tadına alışmakta zorlanıyorsan meyveyle ya da yulafla karıştırarak başlayabilirsin. Turşu ve salamura ürünler ise tuzlu olduğundan porsiyonu küçük tutmak, tansiyon takibi yapıyorsan tuz miktarına dikkat etmek gerekir.",
+      "Fermente gıdalar dengeli bir beslenmenin parçasıdır, ancak tek başına bir sağlık sorununu çözmez. Bağışıklık sistemini etkileyen bir hastalığın ya da özel bir diyetin varsa tüketim miktarını hekiminle ve diyetisyeninle belirle."
+     ]
+    },
+    {
+     "id": "w3",
+     "baslik": "Düzenli Öğün Saatleri ve Sindirim Ritmi",
+     "ozet": "Öğün atlamanın ve geç saatte büyük porsiyonların sindirim konforuna etkisi.",
+     "okuma_dk": 3,
+     "tarih": "2026-07-28",
+     "paragraflar": [
+      "Sindirim sistemi düzenli bir ritimden hoşlanır. Gün boyu öğün atlayıp akşam büyük bir porsiyon yemek, pek çok kişide hazımsızlık ve şişkinlik hissini artırır.",
+      "Günü üç ana öğün ve gerekirse bir iki küçük ara öğün olarak planlamak, yemeği acele etmeden ve iyice çiğneyerek yemek, akşam yemeğini yatmadan en az iki üç saat önce bitirmek sindirim konforunu destekleyen basit alışkanlıklardır.",
+      "Bir belirti günlüğü tutmak, hangi öğün saatinin ve hangi yiyeceklerin sana iyi geldiğini görmeni kolaylaştırır. Görüşmelerimizde bu günlüğü birlikte okuyup planı sana göre düzenliyoruz."
+     ]
+    }
+   ],
+   "menuler": [
+    {
+     "id": "m1",
+     "baslik": "Lifi Kademeli Artıran Örnek Günlük Menü",
+     "ozet": "Hekim kontrolünden sonra lif tüketimini birkaç haftada artırmaya başlayan yetişkinler için ikinci hafta örneği.",
+     "tarih": "2026-10-12",
+     "ogunler": [
+      {
+       "ad": "Kahvaltı",
+       "kalemler": [
+        [
+         "yulaf-beyaz",
+         50,
+         "5 yemek kaşığı"
+        ],
+        [
+         "kefir",
+         200,
+         "1 su bardağı"
+        ],
+        [
+         "muz-anamur",
+         100,
+         "1 orta boy"
+        ],
+        [
+         "ceviz-ic",
+         15,
+         "3 tam ceviz"
+        ]
+       ]
+      },
+      {
+       "ad": "Ara Öğün",
+       "kalemler": [
+        [
+         "kivi",
+         75,
+         "1 orta boy"
+        ],
+        [
+         "badem",
+         15,
+         "10 adet"
+        ]
+       ]
+      },
+      {
+       "ad": "Öğle Yemeği",
+       "kalemler": [
+        [
+         "mercimek-haslanmis",
+         130,
+         "1 porsiyon"
+        ],
+        [
+         "bulgur-pismis",
+         120,
+         "1 küçük kâse"
+        ],
+        [
+         "havuc",
+         100,
+         "1 küçük, rendelenmiş"
+        ],
+        [
+         "marul-kivircik",
+         75,
+         "1 porsiyon"
+        ],
+        [
+         "zeytinyagi",
+         10,
+         "2 tatlı kaşığı"
+        ]
+       ]
+      },
+      {
+       "ad": "İkindi",
+       "kalemler": [
+        [
+         "yogurt-yarim-yagli",
+         200,
+         "1 kâse"
+        ],
+        [
+         "kuru-kayisi",
+         30,
+         "4 adet"
+        ]
+       ]
+      },
+      {
+       "ad": "Akşam Yemeği",
+       "kalemler": [
+        [
+         "tavuk-but-firinda",
+         120,
+         "1 porsiyon"
+        ],
+        [
+         "esmer-pirinc-pismis",
+         150,
+         "5 yemek kaşığı"
+        ],
+        [
+         "kabak-haslanmis",
+         150,
+         "1 porsiyon"
+        ],
+        [
+         "zeytinyagi",
+         10,
+         "2 tatlı kaşığı"
+        ],
+        [
+         "tam-bugday-ekmegi",
+         50,
+         "2 dilim"
+        ]
+       ]
+      }
+     ]
+    },
+    {
+     "id": "m2",
+     "baslik": "Fermente Gıdalarla Zenginleşen Örnek Günlük Menü",
+     "ozet": "Yoğurt ve kefiri gün içine yaymak, düzenli öğün ritmi kurmak isteyen yetişkinler için.",
+     "tarih": "2026-08-24",
+     "ogunler": [
+      {
+       "ad": "Kahvaltı",
+       "kalemler": [
+        [
+         "yumurta-haslanmis",
+         100,
+         "2 adet"
+        ],
+        [
+         "beyaz-peynir-yarim-yagli",
+         30,
+         "1 ince dilim"
+        ],
+        [
+         "kepekli-ekmek",
+         50,
+         "2 ince dilim"
+        ],
+        [
+         "salatalik",
+         100,
+         "1 küçük"
+        ],
+        [
+         "domates",
+         100,
+         "1 küçük"
+        ]
+       ]
+      },
+      {
+       "ad": "Ara Öğün",
+       "kalemler": [
+        [
+         "kefir",
+         200,
+         "1 su bardağı"
+        ],
+        [
+         "elma-fuji",
+         150,
+         "1 orta boy"
+        ]
+       ]
+      },
+      {
+       "ad": "Öğle Yemeği",
+       "kalemler": [
+        [
+         "nohut-haslanmis",
+         130,
+         "1 porsiyon"
+        ],
+        [
+         "kinoa-pismis",
+         90,
+         "1 porsiyon"
+        ],
+        [
+         "roka",
+         50,
+         "1 avuç"
+        ],
+        [
+         "domates",
+         100,
+         "1 küçük"
+        ],
+        [
+         "zeytinyagi",
+         10,
+         "2 tatlı kaşığı"
+        ]
+       ]
+      },
+      {
+       "ad": "İkindi",
+       "kalemler": [
+        [
+         "ayran-tam-yagli",
+         250,
+         "1 bardak"
+        ],
+        [
+         "badem",
+         20,
+         "14 adet"
+        ]
+       ]
+      },
+      {
+       "ad": "Akşam Yemeği",
+       "kalemler": [
+        [
+         "alabalik-izgara",
+         150,
+         "1 porsiyon"
+        ],
+        [
+         "patates-firinda",
+         150,
+         "1 küçük"
+        ],
+        [
+         "brokoli-haslanmis",
+         150,
+         "1 porsiyon"
+        ],
+        [
+         "yogurt-yarim-yagli",
+         150,
+         "1 küçük kâse"
+        ],
+        [
+         "zeytinyagi",
+         5,
+         "1 tatlı kaşığı"
+        ]
+       ]
+      }
+     ]
+    }
+   ]
+  },
+  "dyt-ece-tunali": {
+   "yazilar": [
+    {
+     "id": "w1",
+     "baslik": "Pazar Günü Bir Saatte Haftalık Hazırlık",
+     "ozet": "Hafta içi mutfağa az vakit ayıranlar için birkaç temel malzemeyi önceden hazırlamanın yolu.",
+     "okuma_dk": 4,
+     "tarih": "2026-10-26",
+     "paragraflar": [
+      "Hafta içi akşam yorgun eve gelindiğinde dengeli bir öğün hazırlamak zor gelir ve hazır yiyeceklere yönelmek kolaylaşır. Pazar günü ayrılacak bir saat, haftanın büyük kısmında bu sorunu ortadan kaldırabilir.",
+      "Önce iki tahıl ya da baklagil pişirilir: örneğin bir tencere bulgur ve bir tencere haşlanmış nohut. Aynı anda fırına bir tepsi tavuk ve bir tepsi sebze verilir. Yıkanıp doğranmış yeşillikler ve haşlanmış yumurtalar da buzdolabında kapalı kaplarda üç dört gün saklanabilir.",
+      "Hafta içinde bu malzemeler farklı biçimlerde birleştirilir: bir gün tavuklu bulgur salatası, bir gün nohutlu sebze yemeği, bir gün yumurtalı kahvaltı tabağı. Pişmiş yiyecekleri soğuk zincirde tutmak ve birkaç günden uzun saklamamak gıda güvenliği açısından önemlidir."
+     ]
+    },
+    {
+     "id": "w2",
+     "baslik": "Uzun Koşudan Sonra Toparlanma Öğünü",
+     "ozet": "Bir saati aşan koşulardan sonra neyin, ne zaman yeneceğine dair genel öneriler.",
+     "okuma_dk": 3,
+     "tarih": "2026-09-21",
+     "paragraflar": [
+      "Uzun bir koşudan sonra kas glikojen depoları azalır ve kaslarda küçük hasarlar oluşur. Koşuyu izleyen saatlerde karbonhidrat ve proteini birlikte almak, depoların yeniden dolmasını ve toparlanmayı destekler.",
+      "Koşudan sonraki ilk bir iki saat içinde bir kâse yoğurt ya da kefir ile meyve, birkaç kuru kayısı ve bir avuç kuruyemiş iyi bir başlangıçtır. Ardından gelen öğünde makarna, pilav ya da patatesin yanına balık, tavuk veya yumurta eklenebilir.",
+      "Terle kaybedilen sıvıyı yerine koymak da toparlanmanın parçasıdır. Koşu sonrası susuzluk hissi geçene kadar düzenli aralıklarla su içmek gerekir. Antrenman programı yoğunlaştıkça bu öğünlerin miktarı kişiye göre ayarlanmalıdır."
+     ]
+    },
+    {
+     "id": "w3",
+     "baslik": "Tam Tahıllı Ürün Seçerken Etiket Okumak",
+     "ozet": "Ekmek, makarna ve kahvaltılık gevreklerde tam tahıllı olanı ayırt etmenin pratik yolu.",
+     "okuma_dk": 3,
+     "tarih": "2026-08-17",
+     "paragraflar": [
+      "Rafta tam buğday, kepekli ya da çok tahıllı yazan her ürün aynı değildir. Ürünün rengi de yanıltıcı olabilir; koyu renkli bir ekmek her zaman tam tahıllı değildir. En güvenilir bilgi ambalajdaki içindekiler listesindedir.",
+      "İçindekiler listesi miktara göre sıralanır. Listenin başında tam buğday unu, tam çavdar unu ya da yulaf gibi tam tahıllı bir malzeme yer alıyorsa ürünün ağırlıklı olarak tam tahıldan yapıldığı düşünülebilir. Lif miktarı da besin değeri tablosundan karşılaştırılabilir.",
+      "Kahvaltılık gevreklerde ve bazı paketli ekmeklerde eklenmiş şeker de dikkat edilmesi gereken bir noktadır. Aynı ürün grubunda birkaç etiketi yan yana koyup lifi daha yüksek, şekeri daha düşük olanı seçmek alışveriş sırasında uygulanabilecek basit bir alışkanlıktır."
+     ]
+    }
+   ],
+   "menuler": [
+    {
+     "id": "m1",
+     "baslik": "Haftalık Hazırlıkla Kurulan Örnek Günlük Menü",
+     "ozet": "Pazar günü hazırlanan malzemelerle hafta içi kurulan, kilo yönetimini hedefleyen bir gün.",
+     "tarih": "2026-10-28",
+     "ogunler": [
+      {
+       "ad": "Kahvaltı",
+       "kalemler": [
+        [
+         "yumurta-haslanmis",
+         100,
+         "2 adet"
+        ],
+        [
+         "tam-bugday-ekmegi",
+         50,
+         "2 dilim"
+        ],
+        [
+         "beyaz-peynir-yarim-yagli",
+         30,
+         "1 kibrit kutusu"
+        ],
+        [
+         "carliston-biber",
+         75,
+         "2 adet"
+        ],
+        [
+         "domates",
+         100,
+         "1 küçük boy"
+        ]
+       ]
+      },
+      {
+       "ad": "Ara Öğün",
+       "kalemler": [
+        [
+         "findik-cig",
+         20,
+         "14 adet"
+        ],
+        [
+         "mandalina-klemantin",
+         75,
+         "1 adet"
+        ]
+       ]
+      },
+      {
+       "ad": "Öğle Yemeği",
+       "kalemler": [
+        [
+         "tavuk-but-firinda",
+         100,
+         "1 parça"
+        ],
+        [
+         "kinoa-pismis",
+         150,
+         "6 yemek kaşığı"
+        ],
+        [
+         "brokoli-haslanmis",
+         100,
+         "1 küçük porsiyon"
+        ],
+        [
+         "havuc",
+         75,
+         "yarım adet"
+        ],
+        [
+         "zeytinyagi",
+         5,
+         "1 tatlı kaşığı"
+        ]
+       ]
+      },
+      {
+       "ad": "İkindi",
+       "kalemler": [
+        [
+         "yogurt-yarim-yagli",
+         200,
+         "1 kâse"
+        ],
+        [
+         "nar-hicaz",
+         75,
+         "yarım kâse"
+        ]
+       ]
+      },
+      {
+       "ad": "Akşam Yemeği",
+       "kalemler": [
+        [
+         "dana-kiyma-pismis",
+         70,
+         "3 yemek kaşığı"
+        ],
+        [
+         "patlican-haslanmis",
+         200,
+         "1 büyük porsiyon"
+        ],
+        [
+         "bulgur-pismis",
+         130,
+         "5 yemek kaşığı"
+        ],
+        [
+         "zeytinyagi",
+         5,
+         "1 tatlı kaşığı"
+        ]
+       ]
+      }
+     ]
+    },
+    {
+     "id": "m2",
+     "baslik": "Uzun Koşu Günü Örnek Günlük Menü",
+     "ozet": "Sabah bir buçuk saati aşan bir koşu yapan, dayanıklılık antrenmanındaki yetişkinler için.",
+     "tarih": "2026-09-23",
+     "ogunler": [
+      {
+       "ad": "Kahvaltı",
+       "kalemler": [
+        [
+         "yulaf-beyaz",
+         70,
+         "7 yemek kaşığı"
+        ],
+        [
+         "sut-uht-yarim-yagli",
+         250,
+         "1 büyük kupa"
+        ],
+        [
+         "muz-anamur",
+         100,
+         "1 adet"
+        ],
+        [
+         "bal",
+         15,
+         "1 yemek kaşığı"
+        ]
+       ]
+      },
+      {
+       "ad": "Ara Öğün",
+       "kalemler": [
+        [
+         "kefir",
+         240,
+         "1 kupa"
+        ],
+        [
+         "kuru-kayisi",
+         30,
+         "4–5 adet"
+        ],
+        [
+         "badem",
+         20,
+         "15 adet"
+        ]
+       ]
+      },
+      {
+       "ad": "Öğle Yemeği",
+       "kalemler": [
+        [
+         "tam-bugday-makarna",
+         230,
+         "1 büyük tabak"
+        ],
+        [
+         "ton-baligi-suda",
+         100,
+         "1 küçük kutu, süzülmüş"
+        ],
+        [
+         "domates",
+         150,
+         "1 orta boy"
+        ],
+        [
+         "zeytinyagi",
+         10,
+         "2 tatlı kaşığı"
+        ]
+       ]
+      },
+      {
+       "ad": "İkindi",
+       "kalemler": [
+        [
+         "tam-bugday-ekmegi",
+         50,
+         "2 dilim"
+        ],
+        [
+         "beyaz-peynir-yarim-yagli",
+         40,
+         "1 dilim"
+        ],
+        [
+         "seftali",
+         150,
+         "1 orta boy"
+        ]
+       ]
+      },
+      {
+       "ad": "Akşam Yemeği",
+       "kalemler": [
+        [
+         "somon-atlantik-ciftlik",
+         150,
+         "1 porsiyon"
+        ],
+        [
+         "patates-firinda",
+         250,
+         "1 büyük boy"
+        ],
+        [
+         "roka",
+         75,
+         "1 porsiyon"
+        ],
+        [
+         "zeytinyagi",
+         5,
+         "1 tatlı kaşığı"
+        ]
+       ]
+      }
+     ]
+    }
+   ]
+  }
+ }
+}

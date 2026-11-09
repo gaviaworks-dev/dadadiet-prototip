@@ -19,7 +19,7 @@ export default ({ veri }) => {
     ...veri.ipuclari.ipuclari.map((y) => ({ tur: 'rehber', ad: y.ad, metin: y.ozet, href: `ipuclari/${y.slug}/`, gorsel: y.gorsel_dosya, ikon: y.ikon.replace('fa-solid ', ''), etiket: 'İpucu' })),
     ...veri.puflar.puflar.map((y) => ({ tur: 'rehber', ad: y.ad, metin: y.ozet, href: `puflar/${y.slug}/`, gorsel: y.gorsel_dosya, ikon: y.ikon.replace('fa-solid ', ''), etiket: 'Püf noktası' })),
     ...veri.kac_kalori.yazilar.map((y) => ({ tur: 'rehber', ad: y.ad, metin: y.ozet, href: `kac-kalori/${y.slug}/`, gorsel: y.gorsel_dosya, ikon: y.ikon.replace('fa-solid ', ''), etiket: 'Kaç kalori?' })),
-    ...veri.diyetisyenler.diyetisyenler.map((d) => ({ tur: 'diyetisyen', ad: d.ad, metin: `${d.uzmanlik[0]} · ${d.sehir}`, href: DETAY.diyetisyen, harf: d.harf, etiket: d.unvan })),
+    ...veri.diyetisyenler.diyetisyenler.map((d) => ({ tur: 'diyetisyen', ad: d.ad, metin: `${d.uzmanlik[0]} · ${d.sehir}`, href: `diyetisyen/${d.slug}/`, harf: d.harf, etiket: d.unvan })),
   ];
   const govde = `<section class="bant" data-bant-gorsel="${K}assets/img/hero/besin-kutuphanesi-nb-top.webp"><div class="kap">
 ${kirinti(['Arama'])}<span class="ust-etiket">${ikon('fa-seedling')} Dada Diet · Arama</span>

@@ -25,10 +25,12 @@
     }
   }
   function ciz() {
-    const u = secili('uzmanlik'), g = secili('gorusme'), s = secili('sehir'), d = secili('dogrulama');
+    /* Alan → kart niteliği ve ayraç; alan içinde VEYA, alanlar arası VE */
+    const ALAN = [['uzmanlik', 'uzmanlik', '|'], ['gorusme', 'gorusme', ' '], ['sehir', 'sehir'], ['dil', 'dil', '|'], ['fiyat', 'fiyatBant'], ['dogrulama', 'dogrulama']];
+    const sec = ALAN.map(([a, n, ay]) => [secili(a), n, ay]);
     let adet = 0;
     kartlar.forEach((k) => {
-      const uy = (!u.length || k.dataset.uzmanlik.split('|').some((x) => u.includes(x))) && (!g.length || k.dataset.gorusme.split(' ').some((x) => g.includes(x))) && (!s.length || s.includes(k.dataset.sehir)) && (!d.length || d.includes(k.dataset.dogrulama));
+      const uy = sec.every(([l, n, ay]) => !l.length || (ay ? String(k.dataset[n] || '').split(ay) : [k.dataset[n]]).some((x) => l.includes(x)));
       k.hidden = !uy; if (uy) adet++;
     });
     $('uzmanSayi').textContent = adet + ' uzman';

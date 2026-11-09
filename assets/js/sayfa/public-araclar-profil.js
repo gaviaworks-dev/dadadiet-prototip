@@ -1,4 +1,5 @@
-/* Diyetisyen profili. Ece Tunalı alanları demo durumundan okunur; panelde yapılan değişiklik burada görünür. */
+/* Diyetisyen profili. Ece Tunalı alanları demo durumundan okunur; panelde yapılan değişiklik burada görünür.
+   Öteki uzmanlar derlemede basılır (örnek profil verisi); randevu seçicisi #profilVeri gömülü verisinden okur. */
 (function () {
   'use strict';
   const $ = (id) => document.getElementById(id);
@@ -18,11 +19,25 @@
     /* Misafir üye alanına düşmez: Mesaj, Paketi seç ve Randevuyu tamamla girişe gider */
     const uye = e.target.closest('.page-main a[href*="hesabim/"]');
     if (uye && !DD.oturum.acik()) { e.preventDefault(); location.href = DD.kok + 'giris/'; return; }
-    if (DD.oturum.acik() && e.target.closest('[data-randevu],[data-mesaj]')) {
+    if (DD.oturum.acik() && e.target.closest('[data-mesaj]')) {
       e.preventDefault();
-      DD.toast(e.target.closest('[data-randevu]') ? 'Bu hafta açık saat yok. Uzmanın takvimi açıldığında bildirim alırsın.' : 'Mesajlaşma, uzmanla bir görüşme başlattığında açılır.', 'uyari');
+      DD.toast('Mesajlaşma, uzmanla bir görüşme başlattığında açılır.', 'uyari');
+    }
+    /* Örnek profilde paket: üyede talep uzmana gider (toast), misafir giriş sayfasına */
+    const pk = e.target.closest('[data-paket-talep]');
+    if (pk && DD.oturum.acik()) {
+      e.preventDefault();
+      DD.toast('"' + pk.dataset.paketTalep + '" talebin uzmana iletildi. Uzman onaylayınca ödeme adımı hesabında açılır.');
     }
   });
+
+  /* Adresle sekme: #randevu ya da #p-<sekme> (eşleştirme sonuçlarındaki "Randevu al" bağlantısı) */
+  const hashSekme = () => {
+    const h = location.hash.replace('#', ''), t = $(h === 'randevu' ? 't-randevu' : 't-' + h.replace(/^p-/, ''));
+    if (t && t.getAttribute('role') === 'tab') t.click();
+  };
+  if (location.hash) hashSekme();
+  addEventListener('hashchange', hashSekme);
 
   /* Dar ekranda kayan şerit: seçilen sekme görünür alana gelir */
   document.addEventListener('dd:sekme', (e) => {
@@ -32,8 +47,13 @@
     ray.scrollBy({ left: b.left - a.left - (a.width - b.width) / 2, behavior: 'smooth' });
   });
 
-  if (!$('paketler')) return;
-  const d = DD.demo.al(), dyt = d.diyetisyen, P = dyt.profil || {};
+  if (!$('slotTur')) return;
+  const ECE = !!$('paketler'), d = DD.demo.al();
+  let dyt = d.diyetisyen;
+  const YORUM_TUR = { online: 'Online', 'yüz yüze': 'Yüz yüze' };
+  const yildiz = (p) => '<span class="yildizlar" role="img" aria-label="5 üzerinden ' + p + ' puan">' + [1, 2, 3, 4, 5].map((i) => '<i class="fa-solid fa-star' + (i > p ? ' bos' : '') + '" aria-hidden="true"></i>').join('') + '</span>';
+  if (ECE) {
+  const P = dyt.profil || {};
 
   /* Panelde değişen alanlar: derleme değerinin üstüne yazılır */
   const yaz = (ad, v) => document.querySelectorAll('[data-alan="' + ad + '"]').forEach((e) => { e.textContent = v; });
@@ -70,11 +90,24 @@
     + sertifika.map((x) => egSatir('fa-certificate', kac(x), 'Sertifika')).join('')
     + belgeler.map((b) => egSatir('fa-file-shield', kac(b.ad), kac(b.tur) + (b.tarih ? ' · ' + DD.bicim.tarih(b.tarih) : ''), hap(b.durum))).join('')
     + egSatir('fa-language', 'Görüşme dili', kac(diller.join(', ')))
-    + egSatir('fa-utensils', 'Örnek menüler', 'Uzman örnek menü yayınladığında İçerikler sekmesinde listelenir.', '<span class="rozet bekleme">bekliyor</span>');
+    + (DD.bosKip ? egSatir('fa-utensils', 'Örnek menüler', 'Uzman örnek menü yayınladığında İçerikler sekmesinde listelenir.', '<span class="rozet bekleme">bekliyor</span>')
+      : egSatir('fa-utensils', 'Örnek menüler', document.querySelectorAll('#p-icerikler [data-ac^="#icerik-m"]').length + ' örnek menü İçerikler sekmesinde', '<span class="durum-hapi cozulen">Yayında</span>'));
+
+  /* Danışan yorumları: demo durumundaki onaylı yorumlar (panel Raporlar aynı kaydı okur); ?bos=1'de örnekler süzülür, boş durum görünür */
+  const yorumlar = (dyt.yorumlar || []).slice().sort((a, b) => String(b.tarih).localeCompare(String(a.tarih)));
+  const ort = yorumlar.length ? yorumlar.reduce((t, y) => t + (+y.puan || 0), 0) / yorumlar.length : null;
+  $('yorumSayi').textContent = yorumlar.length;
+  yaz('puan', ort ? DD.bicim.sayi(ort, 1, 1) + ' · ' + yorumlar.length + ' yorum' : 'Henüz puan yok');
+  $('yorumDolu').hidden = !yorumlar.length; $('yorumBos').hidden = !!yorumlar.length;
+  if (yorumlar.length) {
+    $('yorumOzet').innerHTML = '<div class="kart"><div class="kart-govde skor-yerlesim"><div class="skor-kisa"><b>' + DD.bicim.sayi(ort, 1, 1) + '</b><span>/ 5</span></div><div>' + yildiz(Math.round(ort)) + '<p class="kart-metin">' + yorumlar.length + ' onaylı yorum · yalnız görüşmesi tamamlanmış danışanlardan</p></div></div></div>';
+    $('yorumListe').innerHTML = yorumlar.map((y) => '<article class="kart yorum-kart"><div class="kart-bas"><div><h3 class="kart-baslik">' + kac(y.danisan_etiket) + '</h3><p>' + kac(y.konu) + ' · ' + (YORUM_TUR[y.tur] || kac(y.tur)) + ' görüşme · ' + kac(y.sure_hafta) + ' hafta</p></div>' + yildiz(+y.puan) + '</div><div class="kart-govde"><p class="kart-metin">' + kac(y.metin) + '</p><p class="kart-metin">' + ikon('fa-calendar') + ' ' + DD.bicim.tarih(y.tarih) + '</p></div></article>').join('');
+  }
 
   const paket = d.paketler.filter((p) => p.aktif);
   $('paketSayi').textContent = paket.length;
-  $('paketler').innerHTML = paket.map((p) => '<div class="kart"><div class="kart-bas"><h3 class="kart-baslik">' + ikon('fa-box-open') + ' ' + kac(p.ad) + '</h3><span class="rozet pasif">' + kac(ilkBuyuk(p.tur)) + '</span></div><div class="kart-govde"><p class="sonuc-sayi kucuk">' + tl(p.fiyat) + '</p><p class="kart-metin">' + kac(p.aciklama) + '</p><ul class="uzman-meta">' + '<li>' + ikon('fa-comments') + ' ' + p.seans + ' seans</li><li>' + ikon('fa-clock') + ' ' + p.sure + ' dk görüşme</li></ul></div><div class="kart-alt"><a class="dugme birincil tam-en" href="' + DD.kok + 'hesabim/odeme/?paket=' + encodeURIComponent(p.id) + '">Paketi seç</a></div></div>').join('');
+  $('paketler').innerHTML = paket.map((p) => '<div class="kart"><div class="kart-bas"><h3 class="kart-baslik">' + ikon('fa-box-open') + ' ' + kac(p.ad) + '</h3><span class="rozet pasif">' + kac(ilkBuyuk(p.tur)) + '</span></div><div class="kart-govde"><p class="sonuc-sayi kucuk">' + tl(p.fiyat) + '</p><p class="kart-metin">' + kac(p.aciklama) + '</p><ul class="uzman-meta">' + '<li>' + ikon('fa-comments') + ' ' + p.seans + ' seans</li><li>' + ikon('fa-clock') + ' ' + p.sure + ' dk görüşme</li>' + (p.sure_hafta ? '<li>' + ikon('fa-calendar') + ' ' + p.sure_hafta + ' hafta</li>' : '') + '</ul></div><div class="kart-alt"><a class="dugme birincil tam-en" href="' + DD.kok + 'hesabim/odeme/?paket=' + encodeURIComponent(p.id) + '">Paketi seç</a></div></div>').join('');
+  }
 
   /* Randevu seçici. Kaynaklar panelde: Müsaitlik ızgarası (gün, saat aralığı, biçim), Seans Kuralları (süre, ücret, tampon),
      kapalı tarihler, takvim blokları, açık seanslar ve dolu randevular. Tarihler bugünden üretilir, geçmiş gün gösterilmez;
@@ -84,7 +117,21 @@
   const GUN_UZUN = ['Pazar', 'Pazartesi', 'Salı', 'Çarşamba', 'Perşembe', 'Cuma', 'Cumartesi'];
   const AY = ['Oca', 'Şub', 'Mar', 'Nis', 'May', 'Haz', 'Tem', 'Ağu', 'Eyl', 'Eki', 'Kas', 'Ara'];
   const AY_UZUN = ['Ocak', 'Şubat', 'Mart', 'Nisan', 'Mayıs', 'Haziran', 'Temmuz', 'Ağustos', 'Eylül', 'Ekim', 'Kasım', 'Aralık'];
-  const m = d.musaitlik || {}, HAFTA = 4, ON_SURE = 60;
+  const simdi = new Date(), bugun = new Date(simdi.getFullYear(), simdi.getMonth(), simdi.getDate(), 12);
+  const iso = (t) => t.getFullYear() + '-' + String(t.getMonth() + 1).padStart(2, '0') + '-' + String(t.getDate()).padStart(2, '0');
+  /* Kaynak: Ece demo durumu; öteki uzmanlar gömülü örnek veri. Örnek dolu randevular bu haftanın pazartesisinden gün farkıyla
+     tutulur, geçmişe düşen 28 gün ileri alınır (haftanın günü korunur, şeridin dört haftası içinde kalır). */
+  const K = (() => {
+    if (ECE) return { m: d.musaitlik || {}, randevular: d.randevular || [], bloklar: d.takvim_bloklari || [] };
+    const v = JSON.parse($('profilVeri').textContent), pzt = new Date(bugun);
+    pzt.setDate(pzt.getDate() - ((pzt.getDay() + 6) % 7));
+    dyt = v;
+    return { m: v.musaitlik || {}, bloklar: [], randevular: (v.dolu || []).map((r) => {
+      const t = new Date(pzt); t.setDate(t.getDate() + r.gun); if (t < bugun) t.setDate(t.getDate() + 28);
+      return { tarih: iso(t), saat: r.saat, sure: r.sure, tur: r.tur, durum: 'dolu' };
+    }) };
+  })();
+  const m = K.m, HAFTA = 4, ON_SURE = 60;
   const TUR = {
     online: { ad: 'Online', ikon: 'fa-video', bilgi: 'Görüntülü görüşme', acik: !!dyt.online, ucret: (m.ucret || {}).online, yedek: (dyt.fiyat_araligi || {}).min },
     'yüz yüze': { ad: 'Yüz yüze', ikon: 'fa-location-dot', bilgi: 'Klinik · ' + (dyt.sehir || ''), acik: !!dyt.yuz_yuze, ucret: (m.ucret || {})['yüz yüze'], yedek: (dyt.fiyat_araligi || {}).max },
@@ -93,8 +140,6 @@
   const ucret = (t) => (TUR[t].ucret != null ? TUR[t].ucret : TUR[t].yedek);
   const dk = (x) => { const [a, b] = x.split(':'); return +a * 60 + +b; };
   const saat = (n) => String(Math.floor(n / 60)).padStart(2, '0') + ':' + String(n % 60).padStart(2, '0');
-  const iso = (t) => t.getFullYear() + '-' + String(t.getMonth() + 1).padStart(2, '0') + '-' + String(t.getDate()).padStart(2, '0');
-  const simdi = new Date(), bugun = new Date(simdi.getFullYear(), simdi.getMonth(), simdi.getDate(), 12);
   const enErken = simdi.getHours() * 60 + simdi.getMinutes() + ON_SURE;
 
   /* Panel ızgarası: 08.00'den 30 dakikalık hücreler; kayıt yoksa panelin kendi kuruluşu (gün biçimi o günün randevu çoğunluğu) */
@@ -103,7 +148,7 @@
     if (Array.isArray(m.izgara) && m.izgara.length === 7) return m.izgara;
     return ['Pazartesi', 'Salı', 'Çarşamba', 'Perşembe', 'Cuma', 'Cumartesi', 'Pazar'].map((ad, gi) => {
       const g = (m.haftalik || []).find((x) => x.gun === ad) || {}, say = { online: 0, yuzyuze: 0 };
-      d.randevular.forEach((r) => { if ((new Date(r.tarih + 'T12:00').getDay() + 6) % 7 === gi) say[r.tur === 'online' ? 'online' : 'yuzyuze']++; });
+      K.randevular.forEach((r) => { if ((new Date(r.tarih + 'T12:00').getDay() + 6) % 7 === gi) say[r.tur === 'online' ? 'online' : 'yuzyuze']++; });
       const tur = say.yuzyuze > say.online ? 'yuzyuze' : 'online';
       return Array.from({ length: 26 }, (_, i) => { const t = IZ_BAS + i * IZ_ADIM; return g.acik && t >= dk(g.baslangic) && t < dk(g.bitis) && !(g.ara && t >= dk(g.ara[0]) && t < dk(g.ara[1])) ? tur : ''; });
     });
@@ -120,8 +165,8 @@
     const ekler = (m.ek_seanslar || []).filter((e) => e.tarih === ti && e.sure >= n && (!e.tur || e.tur === tur));
     const kapali = !g || !g.acik || (m.kapali_tarihler || []).some((k) => k.tarih === ti);
     if (kapali && !ekler.length) return null;
-    const mesgul = d.randevular.filter((r) => r.tarih === ti && r.durum !== 'iptal').map((r) => [dk(r.saat), dk(r.saat) + (r.sure || 45)])
-      .concat((d.takvim_bloklari || []).filter((x) => x.tarih === ti).map((x) => [dk(x.saat), dk(x.saat) + (x.sure || 45)]));
+    const mesgul = K.randevular.filter((r) => r.tarih === ti && r.durum !== 'iptal').map((r) => [dk(r.saat), dk(r.saat) + (r.sure || 45)])
+      .concat(K.bloklar.filter((x) => x.tarih === ti).map((x) => [dk(x.saat), dk(x.saat) + (x.sure || 45)]));
     const dolu = (a) => mesgul.some(([x, z]) => a - tampon < z && a + n + tampon > x);
     const l = [];
     if (!kapali) {
@@ -208,8 +253,13 @@
     $('ozetSatir').innerHTML = '<b>' + (t && sec.saat ? gunAd(t, sec.gun) + ', ' + tarihKisa(t) + ' · ' + DD.bicim.saat(sec.saat) : 'Saat seçilmedi') + '</b><span>' + x.ad + ' · ' + sure(sec.tur) + ' dk · ' + tl(ucret(sec.tur)) + '</span>';
     const a = $('slotDevam'), hazir = !!(t && sec.saat);
     a.setAttribute('aria-disabled', String(!hazir)); a.classList.toggle('pasif', !hazir);
-    a.href = DD.kok + 'hesabim/diyetisyenim/' + (hazir ? '?tarih=' + iso(t) + '&saat=' + encodeURIComponent(sec.saat) + '&tur=' + encodeURIComponent(sec.tur) : '') + '#randevu';
-    $('slotNot').textContent = hazir ? 'Randevunu hesabından onaylarsın; ' + (m.onay === 'otomatik' ? 'uzman takvimi otomatik onaylıyor.' : 'uzman talebini onaylayınca kesinleşir.') : 'Saat seçince randevunu hesabından onaylarsın.';
+    const onay = m.onay === 'otomatik' ? 'uzman takvimi otomatik onaylıyor.' : 'uzman talebini onaylayınca kesinleşir.';
+    if (ECE) {
+      a.href = DD.kok + 'hesabim/diyetisyenim/' + (hazir ? '?tarih=' + iso(t) + '&saat=' + encodeURIComponent(sec.saat) + '&tur=' + encodeURIComponent(sec.tur) : '') + '#randevu';
+      $('slotNot').textContent = hazir ? 'Randevunu hesabından onaylarsın; ' + onay : 'Saat seçince randevunu hesabından onaylarsın.';
+    } else {
+      $('slotNot').textContent = !hazir ? 'Saat seçince randevu talebini gönderirsin.' : DD.oturum.acik() ? 'Talebin uzmana gider; ' + onay : 'Devam etmek için giriş yap; ' + onay;
+    }
   }
 
   /* Tür değişince seçili gün korunur; o günde bu türde boş saat yoksa ilk uygun güne geçilir */
@@ -254,9 +304,14 @@
     $('slotlar').querySelector('[data-saat="' + sec.saat + '"]').focus();
   });
   $('slotDevam').addEventListener('click', (e) => {
-    if ($('slotDevam').getAttribute('aria-disabled') !== 'true') return;
+    if ($('slotDevam').getAttribute('aria-disabled') === 'true') { e.preventDefault(); e.stopPropagation(); DD.toast('Önce bir gün ve saat seç.', 'uyari'); return; }
+    if (ECE || !DD.oturum.acik()) return;
+    /* Örnek profil, üye: talep iletilir, seçilen saat bu sayfada dolu görünür (kalıcı kayıt yok) */
     e.preventDefault(); e.stopPropagation();
-    DD.toast('Önce bir gün ve saat seç.', 'uyari');
+    const t = gunler[sec.gun], ne = gunAd(t, sec.gun) + ', ' + tarihKisa(t) + ' · ' + DD.bicim.saat(sec.saat);
+    K.randevular.push({ tarih: iso(t), saat: sec.saat, sure: sure(sec.tur), tur: sec.tur, durum: 'dolu' });
+    sec.saat = null; hepsi();
+    DD.toast(m.onay === 'otomatik' ? 'Randevun alındı: ' + ne + '. Uzmanın takvimi otomatik onaylıyor.' : 'Randevu talebin iletildi: ' + ne + '. Uzman onaylayınca kesinleşir.');
   }, true);
   hepsi();
 })();
