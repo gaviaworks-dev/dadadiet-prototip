@@ -63,6 +63,7 @@
         else if (k.tur === 'kaydet') {
           const kd = (u.kaydedilenler = u.kaydedilenler || {}), g = (kd[v.grup] = kd[v.grup] || []);
           if (!g.includes(v.slug)) g.push(v.slug);
+          (u.kaydedilenler_tarih = u.kaydedilenler_tarih || {})[v.grup + '|' + v.slug] = k.tarih || DD.bugun;
         }
       });
       DD.demo.kaydet();
@@ -88,6 +89,9 @@
         const d = DD.demo.al(), u = (d.uye = d.uye || {}), kd = (u.kaydedilenler = u.kaydedilenler || {});
         kd[grup] = (kd[grup] || []).filter((x) => x !== slug);
         if (!vardi) kd[grup].push(slug);
+        /* Kaydedilenler'in "Kaydedildi" sütunu bu tarihi okur */
+        const kt = (u.kaydedilenler_tarih = u.kaydedilenler_tarih || {});
+        if (vardi) delete kt[grup + '|' + slug]; else kt[grup + '|' + slug] = DD.bugun;
         DD.demo.kaydet();
       } else if (vardi) DD.misafir.sil('kaydet', grup + '|' + slug);
       else DD.misafir.ekle('kaydet', { grup, slug }, grup + '|' + slug);
