@@ -160,5 +160,77 @@
     olc();
   }
 
-  if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', kur); else kur();
+  /* Canlı kabuğun global öğeleri (9 Kasım): dil menüsü, Görüş Bildir, çerez bandı. Markup _src/kabuk/canli-ogeler.mjs.
+     Prototipte sunucu yok: dil seçiminde sayfanın basılı "henüz yayımlanmadı" notu çıkar, Görüş Bildir yerel başarı ekranı
+     gösterir (gönderilmez), çerez kararı tarayıcıda kalır. */
+  function globalOgeler() {
+    const DEP = 'dd-cerez-karar';
+    const al = () => { try { return localStorage.getItem(DEP); } catch (e) { return null; } };
+    const yaz = (v) => { try { if (v) localStorage.setItem(DEP, v); else localStorage.removeItem(DEP); } catch (e) { /* yok say */ } };
+    const bant = document.getElementById('cookieBanner');
+    if (bant) {
+      /* Bant açılıp kapanınca yüzen düğmeler (--kenar-engel) yeniden ölçülür; geçiş bitince bir kez daha */
+      const olcTetik = () => { dispatchEvent(new Event('resize')); setTimeout(() => dispatchEvent(new Event('resize')), 400); };
+      const goster = () => { bant.classList.add('show'); document.body.classList.add('cerez-acik'); olcTetik(); };
+      const gizle = () => { bant.classList.remove('show'); document.body.classList.remove('cerez-acik'); olcTetik(); };
+      if (!al()) goster();
+      bant.addEventListener('click', (e) => {
+        if (e.target.closest('[data-cookie-accept]')) { yaz('kabul'); gizle(); DD.toast('Çerez tercihin kaydedildi: tümü kabul.'); }
+        else if (e.target.closest('[data-cookie-reject]')) { yaz('ret'); gizle(); DD.toast('Çerez tercihin kaydedildi: yalnız gerekli çerezler.'); }
+      });
+      document.addEventListener('click', (e) => { if (e.target.closest('[data-cerez-sifirla]')) { yaz(null); goster(); } });
+    }
+    /* Dil menüsü: canlı dil-menusu.js davranışı; TR dışı diller prototipte yayında değil, notu gösterilir */
+    const kutular = [...document.querySelectorAll('.tb-lang, .drawer-lang')];
+    const tetik = (k) => k.querySelector('.tb-lang-btn, .drawer-lang-toggle');
+    const notSil = (k) => k.querySelectorAll('[data-dil-yok-not]').forEach((n) => n.remove());
+    const kapat = (k) => { k.classList.remove('open'); notSil(k); tetik(k)?.setAttribute('aria-expanded', 'false'); };
+    kutular.forEach((k) => {
+      tetik(k)?.addEventListener('click', (e) => { e.stopPropagation(); const acik = k.classList.contains('open'); kutular.forEach(kapat); if (!acik) { k.classList.add('open'); tetik(k).setAttribute('aria-expanded', 'true'); } });
+      k.addEventListener('click', (e) => {
+        const s = e.target.closest('[data-lang]');
+        if (!s) return;
+        e.stopPropagation();
+        if (s.dataset.lang === 'tr') { kapat(k); return; }
+        notSil(k);
+        const sablon = document.querySelector('template[data-dil-yok="' + s.dataset.lang + '"]');
+        const liste = k.querySelector('.tb-lang-menu, .drawer-lang-list');
+        if (sablon && liste) liste.appendChild(sablon.content.cloneNode(true));
+      });
+    });
+    document.addEventListener('click', () => kutular.forEach((k) => k.classList.contains('open') && kapat(k)));
+    document.addEventListener('keydown', (e) => { if (e.key === 'Escape') kutular.forEach(kapat); });
+    /* Görüş Bildir */
+    const sekme = document.getElementById('fbTab'), modal = document.getElementById('fbModal'), ortu = document.getElementById('fbOverlay');
+    if (!sekme || !modal) return;
+    const form = document.getElementById('fbForm'), basari = document.getElementById('fbSuccess'), hata = document.getElementById('fbError');
+    const ac = () => { modal.classList.add('show'); ortu.classList.add('show'); modal.removeAttribute('inert'); modal.setAttribute('aria-hidden', 'false'); sekme.setAttribute('aria-expanded', 'true'); document.getElementById('fbPageUrl').value = location.pathname; setTimeout(() => modal.querySelector('.fb-topic.active')?.focus(), 50); };
+    const kapa = () => { modal.classList.remove('show'); ortu.classList.remove('show'); modal.setAttribute('inert', ''); modal.setAttribute('aria-hidden', 'true'); sekme.setAttribute('aria-expanded', 'false'); sekme.focus(); };
+    const konu = (t) => {
+      modal.querySelectorAll('.fb-topic').forEach((b) => b.classList.toggle('active', b.dataset.topic === t));
+      modal.querySelectorAll('.fb-fields').forEach((f) => { const on = f.dataset.for === t; f.classList.toggle('active', on); f.querySelectorAll('input,select,textarea,button').forEach((x) => { if (!x.hasAttribute('data-static-disabled')) x.disabled = !on; }); });
+      document.getElementById('fbTopicValue').value = t; hata.hidden = true;
+    };
+    sekme.addEventListener('click', ac);
+    sekme.addEventListener('keydown', (e) => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); ac(); } });
+    ortu.addEventListener('click', kapa);
+    document.getElementById('fbClose').addEventListener('click', kapa);
+    document.addEventListener('keydown', (e) => { if (e.key === 'Escape' && modal.classList.contains('show')) kapa(); });
+    modal.addEventListener('click', (e) => {
+      const t = e.target.closest('.fb-topic'); if (t) { konu(t.dataset.topic); return; }
+      const c = e.target.closest('.fb-chiprow .chip'); if (c) { c.parentElement.querySelectorAll('.chip').forEach((x) => x.classList.toggle('active', x === c)); document.getElementById('fbAreaValue').value = c.dataset.area; return; }
+      const p = e.target.closest('.fb-emoji button'); if (p) { p.parentElement.querySelectorAll('button').forEach((x) => x.classList.toggle('active', x === p)); document.getElementById('fbRatingValue').value = p.dataset.val; }
+    });
+    form.addEventListener('submit', (e) => {
+      e.preventDefault();
+      const gecersiz = [...form.querySelectorAll('input,select,textarea')].find((x) => !x.disabled && !x.checkValidity());
+      const puanEksik = document.getElementById('fbTopicValue').value === 'puan' && !document.getElementById('fbRatingValue').value;
+      if (gecersiz || puanEksik) { document.getElementById('fbErrorText').textContent = puanEksik ? 'Bir puan seç.' : gecersiz.type === 'checkbox' ? 'KVKK onayını işaretle.' : 'Zorunlu alanları doldur.'; hata.hidden = false; (gecersiz || form).focus?.(); return; }
+      form.hidden = true; basari.hidden = false;
+    });
+    document.getElementById('fbAgain').addEventListener('click', () => { kapa(); form.reset(); form.hidden = false; basari.hidden = true; konu('oneri'); });
+    konu('oneri');
+  }
+
+  if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', () => { kur(); globalOgeler(); }); else { kur(); globalOgeler(); }
 })();

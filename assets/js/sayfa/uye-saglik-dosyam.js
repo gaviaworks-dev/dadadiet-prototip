@@ -3,7 +3,7 @@
   'use strict';
   const DD = window.DD, U = window.DDU;
   const $ = (s) => document.querySelector(s);
-  const dn = U.danisan(), b = U.bugun(), duyarli = U.yemeDuyarli();
+  const dn = U.danisan(), u = U.uye(), b = U.bugun(), duyarli = U.yemeDuyarli();
   const pf = $('#sdProfilForm');
   /* #pageMain kendi katmanını kurduğu için içindeki pencere üst menünün altında kalıyor; pencereler gövdeye taşınır */
   document.querySelectorAll('#pageMain > .modal-ortu').forEach((m) => document.body.appendChild(m));
@@ -52,18 +52,20 @@
     U.bas('#sdIzinler', tur.map((x) => U.durum(iz[x[0]] ? 'cozulen' : 'kapali', x[1], iz[x[0]] ? 'fa-eye' : 'fa-eye-slash')).join(''));
   }
 
-  function profilForm() { ['boy', 'kilo', 'hedef_kilo', 'hedef'].forEach((k) => { pf.elements[k].value = dn[k] ?? ''; }); }
+  function profilForm() { ['boy', 'kilo', 'hedef_kilo', 'hedef', 'dogum_yili', 'hareket_duzeyi'].forEach((k) => { pf.elements[k].value = dn[k] ?? ''; }); }
 
+  const TARZ = { dengeli: 'Dengeli', akdeniz: 'Akdeniz tipi', 'ev-yemekleri': 'Pratik ev yemekleri', vejetaryen: 'Vejetaryen', bitkisel: 'Vegan (bitkisel)', 'yuksek-protein': 'Yüksek protein', glutensiz: 'Glütensiz' };
   function profil() {
     const an = dn.anamnez || {};
     const s = olcumler()[olcumler().length - 1];
-    $('#sdSon').textContent = s ? 'Son güncelleme: ' + U.tarih(s.tarih) : 'Henüz ölçüm yok';
+    $('#sdSon').textContent = (s ? 'Son güncelleme: ' + U.tarih(s.tarih) : 'Henüz ölçüm yok') + ' · Hareket düzeyi: ' + (dn.hareket_duzeyi || 'kayıtlı değil');
     /* Duyarlı üyede kilo ve hedef bu özette görünmez; kayıtlı değerler düzenleme penceresinde korunur */
     const temel = [['Boy', dn.boy ? dn.boy + ' cm' : '—'], ['Yaş', dn.yas || '—']].concat(duyarli ? [] : [['Güncel Kilo', dn.kilo ? U.sayi(dn.kilo, 1) + ' kg' : '—'], ['Hedef Kilo', dn.hedef_kilo ? kg(dn.hedef_kilo) : '—'], ['Hedefin', dn.hedef || 'Belirtilmedi']]);
     U.bas('#sdTemel', temel.map((x) => '<div><dt>' + x[0] + '</dt><dd>' + U.kac(x[1]) + '</dd></div>').join(''));
     const yok = 'Kayıtlı değil.';
     U.bas('#sdDikkat', [
       satir('fa-wheat-awn-circle-exclamation', 'Besin alerjileri ve hassasiyetler', (dn.hassasiyetler || []).map(U.basHarf).join(', ') || yok),
+      satir('fa-utensils', 'Beslenme tercihi', TARZ[(u.tercihler || {}).beslenme_tarzi] || yok, '<a class="dugme hayalet kucuk" href="' + DD.kok + 'hesabim/tercihlerim/">Düzenle</a>'),
       satir('fa-pills', 'Düzenli kullanılan ilaç veya takviye', (an.ilaclar || []).join(', ') || yok),
       satir('fa-stethoscope', 'Bilinen kronik rahatsızlık', (dn.kronik || []).join(', ') || yok),
     ].join(''));
@@ -215,6 +217,9 @@
     dn.kilo = Number(pf.elements.kilo.value) || dn.kilo;
     dn.hedef_kilo = Number(pf.elements.hedef_kilo.value) || dn.hedef_kilo;
     dn.hedef = pf.elements.hedef.value.trim();
+    const dy = Number(pf.elements.dogum_yili.value);
+    if (dy) { dn.dogum_yili = dy; dn.yas = Number(b.slice(0, 4)) - dy; }
+    dn.hareket_duzeyi = pf.elements.hareket_duzeyi.value;
     U.kaydet(); DD.kapat($('#sdProfilModal')); ciz();
     DD.toast('Sağlık profilin güncellendi.');
   });
@@ -234,13 +239,16 @@
     e.preventDefault();
     const f = e.target.elements, s = olcumler()[olcumler().length - 1] || {};
     const kilo = Number(f.oKilo.value);
-    olcumler().push({ hafta: (s.hafta || 0) + 1, tarih: b, kilo, bel: Number(f.oBel.value) || s.bel, yag_orani: Number(f.oYag.value) || s.yag_orani });
+    const o = { hafta: (s.hafta || 0) + 1, tarih: b, kilo, bel: Number(f.oBel.value) || s.bel, yag_orani: Number(f.oYag.value) || s.yag_orani };
+    if (Number(f.oKalca.value)) o.kalca = Number(f.oKalca.value);
+    if (Number(f.oKas.value)) o.kas = Number(f.oKas.value);
+    olcumler().push(o);
     dn.kilo = kilo;
     U.kaydet(); e.target.reset(); DD.kapat($('#sdOlcumModal')); ciz();
     DD.toast('Ölçümün kaydedildi.');
   });
   $('#sdOlcumIndir').addEventListener('click', () => {
-    const csv = 'tarih;kilo;bel;yag_orani\n' + olcumler().map((o) => [o.tarih, o.kilo, o.bel, o.yag_orani].join(';')).join('\n');
+    const csv = 'tarih;kilo;bel;kalca;yag_orani;kas\n' + olcumler().map((o) => [o.tarih, o.kilo, o.bel, o.kalca ?? '', o.yag_orani, o.kas ?? ''].join(';')).join('\n');
     const a = document.createElement('a');
     a.href = URL.createObjectURL(new Blob([csv], { type: 'text/csv' }));
     a.download = 'olcumlerim.csv';
@@ -313,13 +321,23 @@
   const rf = $('#sdRaporForm');
   rf.elements.rBas.value = (olcumler()[0] || {}).tarih || b;
   rf.elements.rBit.value = b;
+  /* Varsayılana dön: dönem ilk ölçümden bugüne, bütün bölümler seçili */
+  rf.addEventListener('reset', () => setTimeout(() => { rf.elements.rBas.value = (olcumler()[0] || {}).tarih || b; rf.elements.rBit.value = b; }));
   rf.addEventListener('submit', (e) => {
     e.preventDefault();
     const a = rf.elements.rBas.value, z = rf.elements.rBit.value;
     if (a > z) { DD.toast('Başlangıç bitişten sonra olamaz.', 'hata'); return; }
     const l = olcumler().filter((o) => o.tarih >= a && o.tarih <= z);
-    const ozet = l.length > 1 ? U.sayi(l[l.length - 1].kilo - l[0].kilo, 1) + ' kg değişim, ' + l.length + ' ölçüm' : l.length + ' ölçüm';
-    U.yerel('gelisimRapor', []).push({ ad: rf.elements.rAd.value.trim(), bas: a, bit: z, ozet });
+    /* Seçilen bölümler özete girer: ölçüm, günlük su ortalaması, program uyumu, dönemdeki tahliller */
+    const bol = [...rf.querySelectorAll('[name=rBolum]:checked')].map((c) => c.value);
+    if (!bol.length) { DD.toast('Rapora en az bir bölüm seç.', 'hata'); return; }
+    const p = [];
+    if (bol.includes('olcum')) p.push(l.length > 1 ? U.sayi(l[l.length - 1].kilo - l[0].kilo, 1) + ' kg değişim, ' + l.length + ' ölçüm' : l.length + ' ölçüm');
+    if (bol.includes('gunluk')) { const su = (u.su.hafta || []).filter((x) => x.tarih >= a && x.tarih <= z); p.push(su.length ? 'su ortalaması ' + U.sayi(Math.round(su.reduce((t, x) => t + x.ml, 0) / su.length)) + ' ml' : 'günlük takip kaydı yok'); }
+    if (bol.includes('uyum')) { const k = U.aktifKaynak(); p.push(k ? 'program uyumu %' + U.uyum(k).oran : 'aktif program yok'); }
+    if (bol.includes('tahlil')) p.push((dn.tahliller || []).filter((t) => t.tarih >= a && t.tarih <= z).length + ' tahlil');
+    const ozet = p.join(', ');
+    U.yerel('gelisimRapor', []).push({ ad: rf.elements.rAd.value.trim(), bas: a, bit: z, ozet, bolumler: bol });
     U.kaydet(); raporlar();
     DD.toast('Gelişim raporun oluşturuldu.');
   });

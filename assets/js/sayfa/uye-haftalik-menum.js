@@ -6,11 +6,11 @@
   const f = $('#hmForm');
   const tarifler = () => { const t = window.DD_VERI.tarifler; return Array.isArray(t) ? t : t.tarifler; };
   const OGUN = [['kahvaltı', 'Kahvaltı'], ['ara', 'Ara Öğün'], ['öğle', 'Öğle'], ['akşam', 'Akşam']];
-  const ESLEME = { laktoz: ['laktoz', 'sut'], gluten: ['gluten'], yumurta: ['yumurta'], kuruyemis: ['kuruyemis'], balik: ['balik', 'kabuklu-deniz'], susam: ['susam'] };
+  const ESLEME = { laktoz: ['laktoz', 'sut'], gluten: ['gluten'], yumurta: ['yumurta'], kuruyemis: ['kuruyemis'], balik: ['balik', 'kabuklu-deniz'], susam: ['susam'], soya: ['soya'] };
   const durum = () => U.yerel('haftalikMenu', null);
   const TU = DD.tercihUyum, tk = TU.kisitlar(), duyarli = U.yemeDuyarli();
   /* Tarzın zaten kapsadığı kısıt ayrıca sorulmaz */
-  const KISIT_ETIKET = { laktoz: 'laktoz', gluten: 'gluten', yumurta: 'yumurta', kuruyemis: 'kuruyemis', balik: 'balik', susam: 'susam' };
+  const KISIT_ETIKET = { laktoz: 'laktoz', gluten: 'gluten', yumurta: 'yumurta', kuruyemis: 'kuruyemis', balik: 'balik', susam: 'susam', soya: 'soya' };
   const tarzKapsar = (k) => !!tk.tarzYasak && tk.tarzYasak.has(KISIT_ETIKET[k]);
   /* Kayıtlı menüdeki tarif tercih sonradan değiştiyse uyan bir tarifle değişir */
   function gecerli(s, tip, g) {
@@ -44,6 +44,12 @@
     const hucre = (s, tip, i) => { const t = gecerli(s, tip, i); return t ? '<td><span class="no">' + U.kac(t.ad) + (duyarli ? '' : '<small>' + DD.bicim.kcal(t.kcal) + '</small>') + '</span></td>' : '<td>—</td>'; };
     const toplam = (g, i) => OGUN.reduce((a, [tip]) => a + ((gecerli(g[tip], tip, i) || {}).kcal || 0), 0);
     U.bas('#hmSonuc', (duyarli ? '<div class="yigin">' + U.uzmanNot() : '') + '<div class="kart panel tam-kolon"><div class="kart-bas"><div><h3 class="kart-baslik"><i class="fa-solid fa-calendar-week" aria-hidden="true"></i> Bu haftanın menüsü</h3><p>' + U.kisaTarih(bas) + ' – ' + U.kisaTarih(U.gunEkle(bas, 6)) + (m.kisitlar.length ? ' · ' + m.kisitlar.length + ' kısıt uygulandı' : '') + '</p></div></div><div class="kart-govde bosluksuz"><div class="tablo-kap gomulu" tabindex="0" role="region" aria-label="Haftalık menü"><table class="tablo panel"><caption class="yalniz-okuyucu">Gün gün menü' + (duyarli ? '' : ' ve enerji') + '</caption><thead><tr><th scope="col">Gün</th>' + OGUN.map((o) => '<th scope="col">' + o[1] + '</th>').join('') + (duyarli ? '' : '<th scope="col">Enerji</th>') + '</tr></thead><tbody>' + m.gunler.map((g, i) => '<tr><td><span class="no">' + U.gunAdi(U.gunEkle(bas, i)) + '<small>' + U.kisaTarih(U.gunEkle(bas, i)) + '</small></span></td>' + OGUN.map(([tip]) => hucre(g[tip], tip, i)).join('') + (duyarli ? '' : '<td class="tutar">' + DD.bicim.kcal(toplam(g, i)) + '</td>') + '</tr>').join('') + '</tbody></table></div></div><div class="kart-alt eylem"><button class="dugme hayalet" type="button" id="hmYazdir"><i class="fa-solid fa-print" aria-hidden="true"></i> Menüyü yazdır</button></div></div>' + (duyarli ? '</div>' : ''));
+    /* Haftalık makro özeti: menüdeki tariflerin günlük ortalaması; enerji hedefi Kalan kalori sayacıyla aynı kaynaktan */
+    if (duyarli) return;
+    const ort = (a) => m.gunler.reduce((t, g, i) => t + OGUN.reduce((x, [tip]) => x + (Number((gecerli(g[tip], tip, i) || {})[a]) || 0), 0), 0) / m.gunler.length;
+    const k = U.aktifKaynak(), hedef = (U.uye().tercihler || {}).kcal || (k && k.tip === 'plan' ? k.plan.hedef_kcal : 0);
+    const satir = (ad, a, birim, h) => { const o = ort(a); return '<tr><td><b>' + ad + '</b></td><td class="tutar sag">' + U.sayi(o, birim === 'g' ? 1 : 0) + ' ' + birim + '</td><td class="tutar sag">' + (h ? U.sayi(h) + ' ' + birim : '—') + '</td><td class="tutar sag">' + (h ? (o - h >= 0 ? '+' : '−') + U.sayi(Math.abs(o - h)) + ' ' + birim : '—') + '</td></tr>'; };
+    $('#hmSonuc').insertAdjacentHTML('beforeend', '<div class="kart panel tam-kolon"><div class="kart-bas"><div><h3 class="kart-baslik"><i class="fa-solid fa-chart-pie" aria-hidden="true"></i> Haftalık Makro Özeti</h3><p>Günlük ortalama, menüdeki tariflerin besin değerlerinden hesaplandı.' + (hedef ? '' : ' Enerji hedefin kayıtlı değil.') + '</p></div></div><div class="kart-govde bosluksuz"><div class="tablo-kap gomulu" tabindex="0" role="region" aria-label="Haftalık makro özeti"><table class="tablo panel"><caption class="yalniz-okuyucu">Günlük ortalama enerji ve makrolar</caption><thead><tr><th scope="col">Besin ögesi</th><th scope="col" class="sag">Günlük ortalama</th><th scope="col" class="sag">Hedef</th><th scope="col" class="sag">Fark</th></tr></thead><tbody>' + satir('Enerji', 'kcal', 'kcal', hedef) + satir('Protein', 'protein', 'g') + satir('Karbonhidrat', 'karb', 'g') + satir('Yağ', 'yag', 'g') + '</tbody></table></div></div></div>');
   }
 
   /* Sağlık dosyasındaki hassasiyet ve kayıtlı seçim forma gelir */

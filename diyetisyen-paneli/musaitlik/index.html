@@ -47,23 +47,70 @@
   <div class="yigin">
     <div class="kart panel">
       <div class="kart-bas">
-        <div><h2 class="kart-baslik">Haftalık Çalışma Saatleri</h2><p>Hücreye tıkla ya da sürükle: kapalı, online, yüz yüze. Gün başlığı o günü kapatır.</p></div>
+        <div><h2 class="kart-baslik">Hızlı Kural</h2><p>Seçtiğin günlere aynı saat aralığını tek seferde yaz. Sonra ızgarada fırçayla ince ayar yapabilirsin.</p></div>
       </div>
       <div class="kart-govde">
-        <div class="takvim-cubuk">
-          <div class="takvim-lejant">
-            <span class="durum-hapi cozulen">Online</span>
-            <span class="durum-hapi acik">Yüz yüze</span>
-            <span class="durum-hapi kapali">Kapalı</span>
+        <div class="kural-form">
+          <div class="alan">
+            <span class="alan-etiket" id="hkGunEtiket">Günler</span>
+            <div class="gun-secim">
+              <div class="cip-sira" id="hkGunler" role="group" aria-labelledby="hkGunEtiket" data-coklu-secim></div>
+              <div class="cip-sira kisayol" role="group" aria-label="Gün kısayolları">
+                <button class="cip" type="button" aria-pressed="false" data-kisayol="0,1,2,3,4">Hafta içi</button>
+                <button class="cip" type="button" aria-pressed="false" data-kisayol="5,6">Hafta sonu</button>
+                <button class="cip" type="button" aria-pressed="false" data-kisayol="0,1,2,3,4,5,6">Her gün</button>
+              </div>
+            </div>
           </div>
-          <div class="eylem-satiri">
-            <button class="dugme hayalet kucuk" type="button" data-musait="hafta-ici">Hafta içi 09–17</button>
-            <button class="dugme hayalet kucuk" type="button" data-musait="pzt-uygula">Pazartesiyi hafta içine uygula</button>
-            <button class="dugme hayalet kucuk" type="button" data-musait="temizle">Temizle</button>
+          <div class="kural-izgara">
+            <div class="alan"><label class="alan-etiket" for="hkBas">Başlangıç</label><select class="alan-secim" id="hkBas"></select></div>
+            <div class="alan"><label class="alan-etiket" for="hkBit">Bitiş</label><select class="alan-secim" id="hkBit"></select></div>
+            <div class="alan"><label class="alan-etiket" for="hkAra">Ara</label><select class="alan-secim" id="hkAra"><option value="">Ara yok</option><option value="12:00-13:00">12.00–13.00</option><option value="12:30-13:30">12.30–13.30</option><option value="13:00-14:00">13.00–14.00</option></select></div>
+            <div class="alan"><span class="alan-etiket" id="hkBicimEtiket">Biçim</span><div class="segment" id="hkBicim" role="group" aria-labelledby="hkBicimEtiket"><button type="button" aria-pressed="true" data-deger="online"><i class="fa-solid fa-video" aria-hidden="true"></i> Online</button><button type="button" aria-pressed="false" data-deger="yuzyuze"><i class="fa-solid fa-location-dot" aria-hidden="true"></i> Yüz yüze</button></div></div>
+          </div>
+          <div class="kural-alt">
+            <label class="anahtar-etiketli"><span class="anahtar"><input type="checkbox" id="hkKalan"><span class="anahtar-ray"></span></span><span>Seçili günlerin kalan saatlerini kapat</span></label>
+            <p class="kural-ozet" id="hkOzet" aria-live="polite"></p>
+            <button class="dugme birincil" type="button" data-musait="kural"><i class="fa-solid fa-wand-magic-sparkles" aria-hidden="true"></i> Uygula</button>
           </div>
         </div>
-        <div class="takvim-kap"><div class="takvim-izgara sik" id="musaitIzgara"></div></div>
-        <p class="alan-yardim"><i class="fa-solid fa-clock" aria-hidden="true"></i><span>Haftada <b id="haftaSaat">0</b> saat randevuya açıksın.</span></p>
+      </div>
+    </div>
+    <div class="kart panel">
+      <div class="kart-bas">
+        <div><h2 class="kart-baslik">Haftalık Çalışma Saatleri</h2><p>Fırçayı seç, hücreye tıkla ya da basılı tutup sürükle. Aynı biçimdeki hücreye tıklamak onu kapatır. Gün başlığındaki menüden günü kopyalayabilir ya da temizleyebilirsin.</p></div>
+      </div>
+      <div class="kart-govde">
+        <div class="firca-cubuk" id="fircaCubuk">
+          <div class="firca-sec">
+            <span class="alan-etiket" id="fircaEtiket">Fırça</span>
+            <div class="segment" id="firca" role="group" aria-labelledby="fircaEtiket">
+              <button type="button" aria-pressed="true" data-deger="online" aria-keyshortcuts="1"><i class="fa-solid fa-video" aria-hidden="true"></i> Online</button>
+              <button type="button" aria-pressed="false" data-deger="yuzyuze" aria-keyshortcuts="2"><i class="fa-solid fa-location-dot" aria-hidden="true"></i> Yüz yüze</button>
+              <button type="button" aria-pressed="false" data-deger="" aria-keyshortcuts="3"><i class="fa-solid fa-eraser" aria-hidden="true"></i> Kapat</button>
+            </div>
+          </div>
+          <div class="takvim-lejant musait-lejant" aria-label="Lejant">
+            <span class="lejant-kalem online">Online</span>
+            <span class="lejant-kalem yuzyuze">Yüz yüze</span>
+            <span class="lejant-kalem kapali">Kapalı</span>
+            <span class="lejant-kalem degisti">Kaydedilmedi</span>
+          </div>
+        </div>
+        <div class="bilgi-notu pano-serit" id="kopyaSerit" hidden>
+          <i class="fa-solid fa-copy" aria-hidden="true"></i>
+          <div class="pano-serit-govde">
+            <p><b id="kopyaKaynak">Pazartesi</b> kopyalandı. Yapıştırılacak günleri seç.</p>
+            <div class="cip-sira" id="kopyaGunler" role="group" aria-label="Yapıştırılacak günler" data-coklu-secim></div>
+          </div>
+          <div class="eylem-satiri">
+            <button class="dugme hayalet kucuk" type="button" data-musait="kopya-vazgec">Vazgeç</button>
+            <button class="dugme birincil kucuk" type="button" data-musait="yapistir"><i class="fa-solid fa-paste" aria-hidden="true"></i> Yapıştır</button>
+          </div>
+        </div>
+        <div class="takvim-kap musait-kap"><div class="takvim-izgara sik musait-izgara" id="musaitIzgara" role="grid" aria-label="Haftalık müsaitlik ızgarası" aria-describedby="izgaraIpucu"></div></div>
+        <p class="alan-yardim" id="izgaraIpucu"><i class="fa-solid fa-keyboard" aria-hidden="true"></i><span>Klavyede ok tuşlarıyla gez, Boşluk ya da Enter ile boya, Shift ve ok ile boyayarak ilerle. 1, 2 ve 3 fırçayı değiştirir. Telefonda hücreye dokun ya da basılı tutup sürükle.</span></p>
+        <p class="alan-yardim"><i class="fa-solid fa-clock" aria-hidden="true"></i><span>Haftada <b id="haftaSaat">0</b> saat randevuya açıksın: <b id="haftaOnline">0</b> saat online, <b id="haftaYuz">0</b> saat yüz yüze.</span></p>
       </div>
     </div>
     <div class="kart panel">
@@ -103,11 +150,18 @@
     </div>
   </aside>
 </form>
-<div class="kart-alt form-eylem">
-  <span class="not" id="musaitNot">Kaydedilmiş düzen</span>
+<div class="acilir-yuzey gun-menu" id="gunMenu" role="menu" aria-label="Gün işlemleri" hidden>
+  <div class="acilir-bas" id="gunMenuBas">Pazartesi</div>
+  <button class="acilir-kalem" type="button" role="menuitem" data-musait="gun-kopyala"><i class="fa-solid fa-copy" aria-hidden="true"></i>Günü kopyala</button>
+  <button class="acilir-kalem" type="button" role="menuitem" data-musait="gun-yapistir" hidden><i class="fa-solid fa-paste" aria-hidden="true"></i><span>Buraya yapıştır</span></button>
+  <button class="acilir-kalem" type="button" role="menuitem" data-musait="gun-temizle"><i class="fa-solid fa-eraser" aria-hidden="true"></i>Günü temizle</button>
+</div>
+<div class="kart-alt form-eylem sayacli">
+  <span class="not" aria-live="polite"><b id="degisimSayac">Değişiklik yok</b><span class="dar-gizli"> · </span><span id="musaitNot" class="dar-gizli">Kaydedilmiş düzen</span></span>
   <div class="eylem-satiri">
-    <button class="dugme hayalet" type="button" data-musait="geri">Değişiklikleri geri al</button>
-    <button class="dugme birincil" type="button" data-musait="kaydet">Saatleri kaydet</button>
+    <button class="dugme hayalet" type="button" data-musait="geri" aria-keyshortcuts="Control+Z Meta+Z" disabled><i class="fa-solid fa-rotate-left" aria-hidden="true"></i> Geri al</button>
+    <button class="dugme hayalet" type="button" data-musait="hepsini-geri" title="Kaydedilmiş düzene dön" aria-label="Vazgeç, kaydedilmiş düzene dön" disabled>Vazgeç</button>
+    <button class="dugme birincil" type="button" data-musait="kaydet"><i class="fa-solid fa-floppy-disk" aria-hidden="true"></i> Kaydet</button>
   </div>
 </div>
 </div></main>

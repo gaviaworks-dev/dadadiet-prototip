@@ -26,10 +26,11 @@ export const anaMenu = [
 ];
 
 // Footer canlı dadadiet.com ile birebir (7 Kasım). Sütun ve satır sırası canlıdan; canlı adların prototipte karşılığı olan yollara gider.
-// Yeni modül bağlantıları kendi sütununun sonuna eklenir, yapı değişmez. Prototipte sayfası olmayan yasal metinler canlı adresi açar.
+// Yeni modül bağlantıları kendi sütununun sonuna eklenir, yapı değişmez. 9 Kasım revizesi (F1–F4): Bana Uygun Olanı Bul, Programlar,
+// Beslenme Rehberi, Dışarıda Ne Yesem, Programını Bul ve Makro Rehberi footer'dan kalktı (sayfalar duruyor); püf bağlantısının adı değişti.
 export const footerKolonlar = [
-  { ad: 'Beslenme ve Araçlar', kalemler: [['Hesaplayıcılar', 'hesaplayicilar/'], ['Beslenme Testleri', 'saglik-testleri/'], ['Besin Kütüphanesi', 'besin-kutuphanesi/'], ['Beslenme Rehberi', 'besin-rehberi/'], ['Programlar', 'programlar/'], ['Bana Uygun Olanı Bul', 'bana-uygun-olani-bul/'], ['Akıllı Tabak ve Değişim', 'akilli-tabak-ve-degisim/'], ['Aralıklı Oruç Rehberi', 'aralikli-oruc-rehberi/'], ['Dışarıda Ne Yesem', 'disarida-ne-yesem/']] },
-  { ad: 'Öğren ve İlerle', kalemler: [['Beslenme İpuçları', 'ipuclari-ve-puf-noktalari/?tur=ipucu'], ['Kaç Kalori?', 'kac-kalori/'], ['Beslenmenin Püf Noktaları', 'ipuclari-ve-puf-noktalari/?tur=puf'], ['Dengeli Tabak Rehberi', 'besin-rehberi/dengeli-tabak/'], ['Programını Bul', 'programlar/program-bul/'], ['Günlük Takibini Yap', 'giris/'], ['Besin Karşılaştır', 'besin-karsilastir/'], ['Makro Rehberi', 'makro-rehberi/']] },
+  { ad: 'Beslenme ve Araçlar', kalemler: [['Hesaplayıcılar', 'hesaplayicilar/'], ['Beslenme Testleri', 'saglik-testleri/'], ['Besin Kütüphanesi', 'besin-kutuphanesi/'], ['Akıllı Tabak ve Değişim', 'akilli-tabak-ve-degisim/'], ['Aralıklı Oruç Rehberi', 'aralikli-oruc-rehberi/']] },
+  { ad: 'Öğren ve İlerle', kalemler: [['Beslenme İpuçları', 'ipuclari-ve-puf-noktalari/?tur=ipucu'], ['Kaç Kalori?', 'kac-kalori/'], ['Beslenme İpuçları ve Püf Noktaları', 'ipuclari-ve-puf-noktalari/?tur=puf'], ['Dengeli Tabak Rehberi', 'besin-rehberi/dengeli-tabak/'], ['Günlük Takibini Yap', 'giris/'], ['Besin Karşılaştır', 'besin-karsilastir/']] },
   { ad: 'Uzman Desteği', kalemler: [['Diyetisyenler', 'diyetisyenler/'], ['Diyetisyen Bul', 'diyetisyen-bul-sihirbazi/'], ['Diyetisyen Ol', 'diyetisyen-ol/'], ['Nasıl Çalışır?', 'sayfa/nasil-calisir/'], ['Uzmanla Çalışma Rehberi', 'sayfa/uzmanla-calisma-rehberi/']] },
 ];
 export const footerKurumsal = [['Hakkımızda', 'sayfa/hakkimizda/'], ['Editoryal ve Bilimsel Kurul', 'sayfa/editoryal-kurul/'], ['Künye', 'sayfa/kunye/'], ['İletişim', 'sayfa/iletisim/'], ['Çözüm Merkezi', 'sayfa/cozum-merkezi/'], ['Öneri ve Şikâyet', 'sayfa/iletisim/'], ['Reklam ve Marka İş Birlikleri', 'marka-is-birlikleri/'], ['Sponsorlar ve Partnerler', 'reklam-ver/']];
@@ -37,8 +38,8 @@ export const footerYasal = [['Kullanım Koşulları', 'yasal/kullanim-kosullari/
 
 export const uyeMenu = [
   [['fa-gauge-high', 'Genel Bakış', 'hesabim/'], ['fa-clipboard-list', 'Beslenme Planım', 'hesabim/beslenme-planim/'], ['fa-utensils', 'Günlük Takibim', 'hesabim/gunluk-takibim/'], ['fa-list-check', 'Programlarım', 'hesabim/programlarim/'], ['fa-user-doctor', 'Diyetisyenim', 'hesabim/diyetisyenim/']],
-  [['fa-notes-medical', 'Sağlık Dosyam', 'hesabim/saglik-dosyam/'], ['fa-user-shield', 'Veri İzinlerim', 'hesabim/veri-izinlerim/'], ['fa-medal', 'Rozetlerim', 'hesabim/rozetlerim/'], ['fa-user-pen', 'Tercihlerim', 'hesabim/tercihlerim/']],
-  [['fa-crown', 'Paketlerim', 'hesabim/paketlerim/'], ['fa-receipt', 'Ödemelerim', 'hesabim/odemelerim/'], ['fa-sliders', 'Hesap Ayarlarım', 'hesabim/ayarlar/'], ['fa-headset', 'Çözüm Merkezi', 'hesabim/cozum-merkezi/']],
+  [['fa-notes-medical', 'Sağlık Dosyam', 'hesabim/saglik-dosyam/'], ['fa-user-shield', 'Veri İzinlerim', 'hesabim/veri-izinlerim/'], ['fa-medal', 'Rozetlerim', 'hesabim/rozetlerim/'], ['fa-trophy', 'Meydan Okumalar', 'hesabim/rozetlerim/#meydan'], ['fa-user-pen', 'Tercihlerim', 'hesabim/tercihlerim/']],
+  [['fa-crown', 'Paketlerim', 'hesabim/paketlerim/'], ['fa-receipt', 'Ödemelerim', 'hesabim/odemelerim/'], ['fa-sliders', 'Hesap Ayarları', 'hesabim/ayarlar/'], ['fa-headset', 'Çözüm Merkezi', 'hesabim/cozum-merkezi/']],
 ];
 
 export const panelMenu = [

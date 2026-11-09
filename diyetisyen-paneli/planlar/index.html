@@ -47,6 +47,7 @@
   <button class="sekme" type="button" role="tab" id="t-taslak" aria-controls="planPano" aria-selected="false" data-sekme="taslak"><i class="fa-solid fa-pen-ruler" aria-hidden="true"></i> Taslak <span class="sekme-sayi" data-say="taslak"></span></button>
   <button class="sekme" type="button" role="tab" id="t-arsiv" aria-controls="planPano" aria-selected="false" data-sekme="arsiv"><i class="fa-solid fa-box-archive" aria-hidden="true"></i> Arşiv <span class="sekme-sayi" data-say="arsiv"></span></button>
   <button class="sekme" type="button" role="tab" id="t-sablon" aria-controls="planPano" aria-selected="false" data-sekme="sablon"><i class="fa-solid fa-layer-group" aria-hidden="true"></i> Şablonlar <span class="sekme-sayi" data-say="sablon"></span></button>
+  <button class="sekme" type="button" role="tab" id="t-recete" aria-controls="planPano" aria-selected="false" data-sekme="recete"><i class="fa-solid fa-book-bookmark" aria-hidden="true"></i> Reçetelerim <span class="sekme-sayi" data-say="recete"></span></button>
 </div>
 
 <section id="planPano" role="tabpanel" aria-label="Plan listesi">
@@ -73,6 +74,10 @@
       </table>
     </div></div>
     <div class="kart-govde" id="sablonGovde" hidden><div class="secenek-izgara-kart" id="sablonKartlar"></div></div>
+    <div class="kart-govde" id="receteGovde" hidden>
+      <div class="bilgi-notu"><i class="fa-solid fa-lock" aria-hidden="true"></i><p><b>Reçetelerin yalnız sana görünür.</b> Plan oluşturucuda bir öğüne eklerken <b>Yeni Tarif</b> ile yazarsın ya da bir Dada Gastro tarifinden uyarlarsın. Danışanın reçeteyi yalnız ona gönderdiğin plandaki öğün kalemi olarak görür.</p></div>
+      <div class="secenek-izgara-kart" id="receteKartlar"></div>
+    </div>
     <div class="bos-durum kart-ici" id="planBos" hidden>
       <span class="bos-ikon"><i class="fa-solid fa-clipboard-list" aria-hidden="true"></i></span>
       <h3 id="planBosBaslik">Bu sekmede plan yok</h3>

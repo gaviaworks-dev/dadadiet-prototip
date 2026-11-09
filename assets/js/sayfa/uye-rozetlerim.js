@@ -4,7 +4,7 @@
   const DD = window.DD, U = window.DDU;
   const $ = (s) => document.querySelector(s);
   const { aileler, kademeler } = JSON.parse($('#rzKatalog').textContent);
-  const u = U.uye();
+  const u = U.uye(), b = U.bugun();
   const kazanilan = {};
   (u.rozetler || []).forEach((r) => { kazanilan[r.ad] = r; });
   const hepsi = aileler.flatMap((a) => a.rozetler.map((r) => ({ ...r, aile: a.ad })));
@@ -55,8 +55,64 @@
     U.bas('#rzLiderlik', gorunur
       ? '<div class="siralama-satir ben"><span class="siralama-sira">1</span><span class="siralama-kim"><b>' + U.kac(p[0] + ' ' + (p[1] || '').charAt(0) + '.') + ' <span class="rozet olumlu">Sen</span></b><small>@' + U.kullaniciAdi() + ' · ' + (u.rozetler || []).length + ' rozet</small></span><span class="siralama-puan"><b>' + puan + '</b><small>puan</small></span></div>'
       : U.bos({ ikon: 'fa-eye-slash', baslik: 'Adın tabloda görünmüyor', metin: 'Sıralamaya katılmak için görünürlüğünü aç.', eylem: U.bag('Hesap Ayarları', 'hesabim/ayarlar/') }));
-    U.bas('#rzMeydan', U.bos({ ikon: 'fa-trophy', baslik: 'Şu an açık meydan okuma yok', metin: 'Yeni meydan okumalar açıldığında burada görünür.', eylem: U.bag('Günlük takibe dön', 'hesabim/gunluk-takibim/', 'hayalet') }));
+    meydan();
   }
+  /* Meydan okumalar: canlı tohumdaki iki kayıt (2026_10_31_160200_rozet_ve_meydan_okuma_tohumu). Elle işaretlenen ve su kaydından kendiliğinden işaretlenen */
+  const MEYDAN = [
+    { slug: '21-gun-sekersiz-yasam', ad: '21 Gün Şekersiz Yaşam', ikon: 'fa-cube', sure: 21, kural: 'elle', aciklama: '21 gün boyunca eklenmiş şeker içeren yiyecek ve içecekleri bırakmayı dene. Her akşam gününü işaretle; seri ne kadar uzarsa alışkanlık o kadar yerleşir.', gorev: 'Bugün eklenmiş şeker içeren yiyecek ya da içecek tüketmedim.', kaynak: ['WHO. Guideline: Sugars intake for adults and children (2015)', 'https://www.who.int/publications/i/item/9789241549028'] },
+    { slug: '14-gunluk-su-icme-serueni', ad: '14 Günlük Su İçme Serüveni', ikon: 'fa-glass-water', sure: 14, kural: 'su', hedef: 2000, aciklama: '14 gün boyunca su içtiğin her bardağı Günlük Takibim’e kaydet. Gün içindeki toplam 2.000 ml’ye ulaştığında gün kendiliğinden işaretlenir.', gorev: 'Gün içinde en az 2.000 ml su içip Günlük Takibim’e kaydet.', kaynak: ['EFSA. Scientific Opinion on Dietary reference values for water. EFSA Journal 2010;8(3):1459', 'https://doi.org/10.2903/j.efsa.2010.1459'] },
+  ];
+  const katilim = () => U.yerel('meydan', {});
+  const suMl = (t) => (t === b ? u.su.bugun_ml : ((u.su.hafta || []).find((x) => x.tarih === t) || {}).ml || 0);
+  const isaretli = (m, k, t) => (m.kural === 'su' ? suMl(t) >= m.hedef : !!k.isaret[t]);
+  function meydanDurum(m) {
+    const k = katilim()[m.slug];
+    if (!k) return { k: null };
+    const son = U.gunEkle(k.baslangic, m.sure - 1), bit = b < son ? b : son;
+    let n = 0, seri = 0, enUzun = 0;
+    for (let t = k.baslangic; t <= bit; t = U.gunEkle(t, 1)) { if (isaretli(m, k, t)) { n++; seri++; enUzun = Math.max(enUzun, seri); } else if (t < b) seri = 0; }
+    const durum = k.birakti ? 'birakti' : n >= m.sure ? 'tamam' : b > son ? 'bitti' : 'devam';
+    return { k, son, n, seri, enUzun, durum, kalan: Math.max(0, U.gunFarki(b, son) + (b <= son ? 1 : 0)) };
+  }
+  function meydanKart(m) {
+    const d = meydanDurum(m), k = d.k;
+    const HAP = { devam: ['acik', 'Devam ediyor'], tamam: ['cozulen', 'Tamamladın'], bitti: ['kapali', 'Bitti'], birakti: ['kapali', 'Bıraktın'] };
+    const hap = k ? U.durum(HAP[d.durum][0], HAP[d.durum][1]) : U.durum('bekleyen', 'Katılmadın');
+    const s = (i, e, v) => '<div class="sayac"><i class="fa-solid ' + i + '" aria-hidden="true"></i><div><span>' + e + '</span><b>' + v + '</b></div></div>';
+    let govde = '<p class="alan-yardim"><i class="fa-solid fa-list-check" aria-hidden="true"></i> <span><b>Bugünün görevi:</b> ' + U.kac(m.gorev) + '</span></p>';
+    if (k) {
+      const oran = Math.round((d.n / m.sure) * 100), bas = Math.max(0, Math.min(m.sure - 7, U.gunFarki(k.baslangic, b) - 3));
+      let serit = '';
+      for (let i = bas; i < Math.min(m.sure, bas + 7); i++) {
+        const t = U.gunEkle(k.baslangic, i), x = isaretli(m, k, t);
+        serit += '<div class="gun-kutu"><b>' + (i + 1) + '. gün</b><small>' + U.kisaTarih(t) + '</small>' + (x ? U.durum('cozulen', m.kural === 'su' ? 'Otomatik' : 'İşaretli') : t > b ? U.durum('kapali', 'Sırada') : t === b ? U.durum('acik', 'Bugün') : U.durum('bekleyen', 'İşaretsiz')) + '</div>';
+      }
+      govde += '<div class="sayac-izgara">' + s('fa-fire', 'Güncel seri', d.seri + ' gün') + s('fa-trophy', 'En uzun seri', d.enUzun + ' gün') + s('fa-circle-check', 'İşaretli gün', d.n + ' / ' + m.sure) + s('fa-flag-checkered', 'Kalan gün', d.kalan + ' gün') + s('fa-hand-pointer', 'İşaretleme', m.kural === 'su' ? 'Otomatik' : 'Elle') + '</div><div class="olcer hap" role="img" aria-label="İlerleme: yüzde ' + oran + '"><span data-oran="' + oran + '"></span></div><div class="gun-serit-liste" role="list" aria-label="Gün gün ilerleme">' + serit + '</div>';
+    } else govde += '<p class="alan-yardim"><span>Henüz katılmadın. ' + m.sure + ' gün sürer; katıldığın gün 1. gün sayılır.</span></p>';
+    govde += '<p class="alan-yardim"><span>Kaynak: <a href="' + m.kaynak[1] + '" rel="external noopener" target="_blank">' + U.kac(m.kaynak[0]) + '</a></span></p>';
+    let alt = '';
+    if (!k || d.durum === 'birakti' || d.durum === 'bitti') alt = '<button class="dugme birincil" type="button" data-meydan-katil="' + m.slug + '">' + (k ? 'Yeniden başla' : 'Meydan okumaya katıl') + '</button>';
+    else if (d.durum === 'devam') {
+      alt = '<button class="dugme hayalet tehlike" type="button" data-meydan-birak="' + m.slug + '">Meydan okumayı bırak</button>';
+      if (m.kural === 'su') alt += U.bag('Günlük Takibi aç', 'hesabim/gunluk-takibim/#su');
+      else {
+        const dun = U.gunEkle(b, -1);
+        if (dun >= k.baslangic && !k.isaret[dun]) alt += '<button class="dugme hayalet" type="button" data-meydan-isaret="' + m.slug + '" data-gun="' + dun + '">Dünü işaretle</button>';
+        alt += k.isaret[b] ? '<button class="dugme hayalet" type="button" data-meydan-isaret="' + m.slug + '" data-gun="' + b + '">Bugünün işaretini geri al</button>' : '<button class="dugme birincil" type="button" data-meydan-isaret="' + m.slug + '" data-gun="' + b + '">Bugünü işaretle</button>';
+      }
+    }
+    return '<div class="kart panel tam-kolon"><div class="kart-bas"><div><h3 class="kart-baslik"><i class="fa-solid ' + m.ikon + '" aria-hidden="true"></i> ' + m.ad + '</h3><p>' + U.kac(m.aciklama) + '</p></div><div class="as-eylem">' + hap + '</div></div><div class="kart-govde">' + govde + '</div>' + (alt ? '<div class="kart-alt eylem">' + alt + '</div>' : '') + '</div>';
+  }
+  function meydan() { U.bas('#rzMeydan', MEYDAN.map(meydanKart).join('')); }
+  document.addEventListener('click', (e) => {
+    const k = e.target.closest('[data-meydan-katil]'), bi = e.target.closest('[data-meydan-birak]'), is = e.target.closest('[data-meydan-isaret]');
+    if (!k && !bi && !is) return;
+    const l = katilim();
+    if (k) { l[k.dataset.meydanKatil] = { baslangic: b, isaret: {} }; DD.toast('Meydan okumaya katıldın. Bugün 1. gün.'); }
+    if (bi) { l[bi.dataset.meydanBirak].birakti = true; DD.toast('Meydan okumayı bıraktın.', 'uyari'); }
+    if (is) { const x = l[is.dataset.meydanIsaret], t = is.dataset.gun; if (x.isaret[t]) { delete x.isaret[t]; DD.toast('İşaret geri alındı.'); } else { x.isaret[t] = true; DD.toast(t === b ? 'Bugün işaretlendi.' : 'Dün işaretlendi.'); } }
+    U.kaydet(); meydan();
+  });
   document.addEventListener('dd:suzgec', (e) => { if (e.target.id === 'rzSuzgec') { suzgec = e.detail.deger; koleksiyon(); ortala(); } });
   document.addEventListener('click', (e) => {
     const r = e.target.closest('.rozet-karti');

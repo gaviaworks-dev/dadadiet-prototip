@@ -12,6 +12,7 @@
     ['gunluk', 'fa-clipboard-list', 'Günlük takip verilerim', 'Öğün, su, adım kayıtları ve günlük notların.'],
     ['anamnez', 'fa-notes-medical', 'Sağlık profilim', 'Alışkanlıkların, ilaçların ve aile öykün.'],
     ['belge', 'fa-file-prescription', 'Reçete ve belgelerim', 'Sağlık Dosyam’a eklediğin belgeler.'],
+    ['test', 'fa-clipboard-question', 'Test sonuçlarım', 'Çözdüğün beslenme testlerinin sonuçları.'],
   ];
   const adi = (k) => (TUR.find((t) => t[0] === k) || [])[2] || k;
   const hareket = () => U.yerel('izinHareket', []);

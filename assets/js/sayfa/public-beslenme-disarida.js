@@ -159,8 +159,18 @@
 
   const mesafe = (m) => (m.enlem - nokta.enlem) ** 2 + ((m.boylam - nokta.boylam) * Math.cos(nokta.enlem * Math.PI / 180)) ** 2;
 
+  /* Beslenme süzgeci seçiliyse örnek yemeklerden uymayanlar gizlenir; hiçbiri uymuyorsa "menüyü sor" satırı çıkar */
+  function ornekSuz(k, tipler) {
+    const satirlar = [...k.querySelectorAll('[data-yemek]')];
+    const uygun = (y) => !tipler.length || tipler.some((t) => y.dataset.tip.split(' ').includes(t));
+    satirlar.forEach((y) => { y.hidden = !uygun(y); });
+    const yok = k.querySelector('[data-yemek-yok]');
+    if (yok) yok.hidden = satirlar.some(uygun);
+  }
+
   function ciz(basaDon) {
     const s = secimler();
+    mekanlar.forEach((m) => ornekSuz(m.k, s.beslenme || []));
     const sirali = nokta ? [...mekanlar].sort((a, b) => mesafe(a) - mesafe(b)) : mekanlar;
     sirali.forEach((m) => kap.append(m.k));
     const uyan = sirali.filter((m) => uyar(m, s));
