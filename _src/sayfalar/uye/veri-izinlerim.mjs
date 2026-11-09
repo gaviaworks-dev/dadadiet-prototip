@@ -44,6 +44,7 @@ ${kart({
     ikon: 'fa-scale-balanced', baslik: 'Verilerin Üzerindeki Hakların', metin: 'KVKK kapsamındaki taleplerin tek yerden başlar.', bosluksuz: true,
     govde: `<div class="ayar-liste">${ayarSatir({ ikon: 'fa-download', baslik: 'Verilerimi indir', metin: 'Erişim kaydın dahil bütün verilerin tek arşivde iner.', sag: `<span class="as-eylem">${dugme('Verilerimi indir', { sinif: 'hayalet kucuk', ek: ' id="viIndir"' })}</span>` })}${ayarSatir({ ikon: 'fa-eraser', baslik: 'Verilerimin silinmesini iste', metin: 'Talebin kimliğin doğrulandıktan sonra işleme alınır.', sag: `<span class="as-eylem">${dugme('Silme talebi oluştur', { sinif: 'hayalet tehlike kucuk', ek: ' id="viSil"' })}</span>` })}</div>`,
   })}
+<div class="bilgi-notu"><i class="fa-solid fa-scale-balanced" aria-hidden="true"></i><p>Sağlık verilerinin nasıl işlendiğini <a href="{{kok}}yasal/saglik-verisi/">Sağlık Verisi Politikası</a>’nda, kişisel verilerinle ilgili haklarını <a href="{{kok}}yasal/kvkk/">KVKK Aydınlatma Metni</a>’nde okuyabilirsin.</p></div>
 </div>`;
 
 const sonEk = modal({

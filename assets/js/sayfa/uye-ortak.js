@@ -184,23 +184,33 @@
       return t ? Object.assign(ogunKur(o.anahtar, o.ad, o.saat, o.ikon, [tarifKalem(t)]), { degisti: true }) : o;
     });
   };
-  /* Öğün işaretleri: gün bazında; plan için son üç gün başlangıç durumu olarak dolu gelir */
-  U.isaretler = function () {
-    const b = U.bugun(), p = U.plan();
-    const tohum = {};
-    if (p) {
-      const tam = { kahvalti: true, ara1: true, ogle: true, ara2: true, aksam: true };
-      tohum[p.id] = { [U.gunEkle(b, -3)]: { ...tam }, [U.gunEkle(b, -2)]: { ...tam, ara2: false }, [U.gunEkle(b, -1)]: { ...tam }, [b]: { kahvalti: true } };
+  /* Öğün işaretleri gün bazında. Biçim: { 'YYYY-MM-DD': { <öğün>: true (Plana uydum), '<öğün>_atla': true (Atladım) } }.
+     Diyetisyenin gönderdiği plan: işaretler planın kendi kaydında, DD.demo planlar[].ogun_isaret; panel danışan detayında oradan okur (F7).
+     Üyenin kendi başlattığı program: uyeYerel.ogunIsaret[<program slug>], yalnız üye tarafı. */
+  U.isaretler = () => U.yerel('ogunIsaret', {});
+  U.planIsaret = function (p) {
+    if (!p.ogun_isaret) {
+      /* Eski tarayıcı durumu üye alanında tutuyordu: plana taşınır. Yoksa başlangıç verisindeki işaretler gelir */
+      const eski = U.isaretler(), ilk = (((window.DD_VERI || {}).demo || {}).planlar || []).find((x) => x.id === p.id);
+      p.ogun_isaret = eski[p.id] || (ilk && ilk.ogun_isaret ? JSON.parse(JSON.stringify(ilk.ogun_isaret)) : {});
+      delete eski[p.id];
     }
-    return U.yerel('ogunIsaret', tohum);
+    return p.ogun_isaret;
   };
-  U.isaret = (k, tarih) => { const i = U.isaretler(); i[k.anahtar] = i[k.anahtar] || {}; i[k.anahtar][tarih] = i[k.anahtar][tarih] || {}; return i[k.anahtar][tarih]; };
+  U.isaret = (k, tarih) => {
+    let i;
+    if (k.tip === 'plan') i = U.planIsaret(k.plan);
+    else { const a = U.isaretler(); i = a[k.anahtar] = a[k.anahtar] || {}; }
+    i[tarih] = i[tarih] || {};
+    return i[tarih];
+  };
   /* Uyum: başlangıçtan bugüne planlanan öğünlerin tamamlanma oranı */
   U.uyum = function (k) {
     if (!k) return { tamam: 0, toplam: 0, oran: 0 };
-    const bas = U.kaynakBas(k);
+    const bas = U.kaynakBas(k), sure = k.tip === 'plan' ? k.plan.gunler.length : k.program.sure_gun;
+    const son = U.gunEkle(bas, sure - 1), bit = U.bugun() < son ? U.bugun() : son; /* biten programda süre sonrası sayılmaz */
     let tamam = 0, toplam = 0;
-    for (let t = bas; t <= U.bugun(); t = U.gunEkle(t, 1)) {
+    for (let t = bas; t <= bit; t = U.gunEkle(t, 1)) {
       const l = U.gunOgunleri(k, t), i = U.isaret(k, t);
       toplam += l.length;
       tamam += l.filter((o) => i[o.anahtar]).length;
@@ -224,8 +234,9 @@
     if (!d) return;
     const k = U.aktifKaynak(), i = U.isaret(k, U.bugun()), a = d.dataset.ogunKalem, uydu = d.dataset.ogunDurum === 'uydu';
     const onceki = uydu ? i[a] : i[a + '_atla'];
-    i[a] = uydu ? !onceki : false;
-    i[a + '_atla'] = uydu ? false : !onceki;
+    /* Yalnız işaretli durum yazılır: kayıt panelde okunurken boş anahtar kalmaz */
+    delete i[a]; delete i[a + '_atla'];
+    if (!onceki) i[uydu ? a : a + '_atla'] = true;
     U.kaydet();
     document.dispatchEvent(new CustomEvent('dd:ogun'));
   });
@@ -235,7 +246,7 @@
     const sure = k.tip === 'plan' ? k.plan.gunler.length : k.program.sure_gun;
     const gun = Math.max(0, Math.min(sure, U.gunFarki(bas, U.bugun()) + 1));
     const s = (i, e, d) => '<div class="sayac"><i class="fa-solid ' + i + '" aria-hidden="true"></i><div><span>' + e + '</span><b>' + d + '</b></div></div>';
-    return '<div class="olcer hap" role="img" aria-label="Programa uyum: yüzde ' + u.oran + '"><span data-oran="' + u.oran + '"></span></div><div class="sayac-izgara">' + s('fa-calendar-day', 'Bugün', gun ? gun + '. gün' : 'Başlamadı') + s('fa-utensils', 'Tamamlanan öğün', u.tamam + ' / ' + u.toplam) + s('fa-percent', 'Uyum', '%' + u.oran) + s('fa-flag-checkered', 'Kalan', (sure - gun) + ' gün') + '</div><p class="alan-yardim"><i class="fa-solid fa-circle-info" aria-hidden="true"></i> <span>Başlangıç <b>' + U.tarih(bas) + '</b>, bitiş <b>' + U.tarih(U.gunEkle(bas, sure - 1)) + '</b>. Uyum, tamamlanan öğünlerin planlanan öğünlere oranıdır.</span></p>';
+    return '<div class="olcer hap" role="img" aria-label="Programa uyum: yüzde ' + u.oran + '"><span data-oran="' + u.oran + '"></span></div><div class="sayac-izgara">' + s('fa-calendar-day', 'Bugün', gun ? gun + '. gün' : 'Başlamadı') + s('fa-utensils', 'Tamamlanan öğün', u.tamam + ' / ' + u.toplam) + s('fa-percent', 'Uyum', '%' + u.oran) + s('fa-flag-checkered', 'Kalan', (sure - gun) + ' gün') + '</div><p class="alan-yardim"><i class="fa-solid fa-circle-info" aria-hidden="true"></i> <span>Başlangıç <b>' + U.tarih(bas) + '</b>, bitiş <b>' + U.tarih(U.gunEkle(bas, sure - 1)) + '</b>. Uyum, tamamlanan öğünlerin planlanan öğünlere oranıdır; duraklatırsan kalan günler ileri kayar.</span></p>';
   };
 
   /* Bildirimler: demo kayıtlarından türer, okundu ve silme durumu üye tarafında tutulur */
@@ -251,9 +262,9 @@
     const son = U.sohbet().mesajlar.filter((m) => m.kimden !== 'danisan').slice(-1)[0];
     if (son) l.push({ id: 'msj-' + son.zaman, tur: 'mesaj', tarih: son.zaman.slice(0, 10), baslik: 'Yeni bir mesajın var', metin: dyAd + ': ' + (son.metin || (son.ek ? son.ek.ad : '')), yol: 'hesabim/diyetisyenim/#mesaj' });
     const dn = U.danisan(), IZ = { olcum: 'ölçüm', tahlil: 'tahlil', gunluk: 'günlük takip', belge: 'belge', anamnez: 'sağlık profili' };
-    Object.keys(dn.izin_talepleri || {}).filter((t) => !(dn.izinler || {})[t]).forEach((t) => l.push({ id: 'izn-' + t, tur: 'program', tarih: dn.izin_talepleri[t], baslik: 'İzin isteği', metin: dyAd + ' ' + IZ[t] + ' verini görmek istiyor.', yol: 'hesabim/veri-izinlerim/' }));
-    if (dn.tahlil_istegi) l.push({ id: 'thl-' + dn.tahlil_istegi.tarih, tur: 'program', tarih: dn.tahlil_istegi.tarih, baslik: 'Tahlil isteği', metin: dn.tahlil_istegi.not || dyAd + ' güncel tahlilini istiyor.', yol: 'hesabim/saglik-dosyam/#tahlil' });
-    (dn.klinik_notlar || []).filter((x) => x.paylasildi).forEach((x) => l.push({ id: 'not-' + x.tarih, tur: 'program', tarih: x.tarih, baslik: 'Diyetisyeninden not', metin: x.metin, yol: 'hesabim/saglik-dosyam/#not' }));
+    Object.keys(dn.izin_talepleri || {}).filter((t) => !(dn.izinler || {})[t]).forEach((t) => l.push({ id: 'izn-' + t, tur: 'diyetisyen', tarih: dn.izin_talepleri[t], baslik: 'İzin isteği', metin: dyAd + ' ' + IZ[t] + ' verini görmek istiyor.', yol: 'hesabim/veri-izinlerim/' }));
+    if (dn.tahlil_istegi) l.push({ id: 'thl-' + dn.tahlil_istegi.tarih, tur: 'diyetisyen', tarih: dn.tahlil_istegi.tarih, baslik: 'Tahlil isteği', metin: dn.tahlil_istegi.not || dyAd + ' güncel tahlilini istiyor.', yol: 'hesabim/saglik-dosyam/#tahlil' });
+    (dn.klinik_notlar || []).filter((x) => x.paylasildi).forEach((x) => l.push({ id: 'not-' + x.tarih, tur: 'diyetisyen', tarih: x.tarih, baslik: 'Diyetisyeninden not', metin: x.metin, yol: 'hesabim/saglik-dosyam/#not' }));
     (u.rozetler || []).forEach((r) => l.push({ id: 'roz-' + r.slug, tur: 'rozet', tarih: r.tarih, baslik: 'Yeni rozet: ' + r.ad, metin: r.aciklama, yol: 'hesabim/rozetlerim/' }));
     const dur = U.yerel('bildirimDurum', { okundu: {}, silindi: {} });
     /* Son iki haftadan eskiler başlangıçta okunmuş sayılır */

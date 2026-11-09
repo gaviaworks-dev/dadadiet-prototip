@@ -1,7 +1,7 @@
 import { uyeSayfa, kart, dugme, bilgi } from '../../parcalar/uye/ust.mjs';
 
 const butce = [['ekonomik', 'fa-coins', 'Ekonomik', 'Baklagil, sebze ve yumurta ağırlıklı.'], ['orta', 'fa-wallet', 'Orta', 'Temel ürünler ve taze ürün.'], ['genis', 'fa-gem', 'Geniş', 'Fiyat sınıfı sınırı yok.']];
-const kisit = [['laktoz', 'Laktoz (süt ve süt ürünleri)'], ['gluten', 'Gluten (buğday, arpa, çavdar, yulaf)'], ['yumurta', 'Yumurta'], ['kuruyemis', 'Kuruyemiş ve yer fıstığı'], ['balik', 'Balık ve deniz ürünleri'], ['susam', 'Susam']];
+const kisit = [['laktoz', 'Laktoz (süt ve süt ürünleri)'], ['gluten', 'Gluten (buğday, arpa, çavdar, yulaf)'], ['yumurta', 'Yumurta'], ['kuruyemis', 'Kuruyemiş ve yer fıstığı'], ['balik', 'Balık ve deniz ürünleri'], ['soya', 'Soya'], ['susam', 'Susam']];
 
 const govde = `<div class="yigin">
 ${kart({

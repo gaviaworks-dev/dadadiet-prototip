@@ -24,7 +24,7 @@ ${kart({ ikon: 'fa-trophy', baslik: 'Sıralama', bosluksuz: true, govde: '<div i
 </div>` },
   { id: 'meydan', ad: 'Meydan Okumalar', ikon: 'fa-trophy', govde: `<div class="yigin">
 ${bolumBas({ etiket: 'Meydan okumalar', ikon: 'fa-trophy', baslik: 'Kendine Meydan Oku', metin: 'Her meydan okumanın tek bir günlük görevi var; sonuna kadar götürdüğünde rozetini kazanırsın.' })}
-${kart({ bosluksuz: true, govde: '<div id="rzMeydan"></div>' })}
+<div class="yigin" id="rzMeydan"></div>
 </div>` },
 ];
 
