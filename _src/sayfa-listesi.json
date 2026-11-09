@@ -865,11 +865,6 @@
   "duzen": "public"
  },
  {
-  "yol": "tarifler/seckiler/ornek-glutensiz-ile-glutensiz-sofralar",
-  "baslik": "Örnek Glütensiz Gıda ile Glütensiz Sofralar",
-  "duzen": "public"
- },
- {
   "yol": "test/beslenme",
   "baslik": "Beslenme alışkanlığın ne durumda?",
   "duzen": "public"
