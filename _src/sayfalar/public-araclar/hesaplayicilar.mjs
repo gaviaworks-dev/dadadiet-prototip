@@ -1,5 +1,5 @@
 // Hesaplayıcılar listesi + günlük kalori detayı (sonuç istemcide hesaplanır, formül _src/veri/hesaplayicilar.json).
-import { K, JS, sayfaJs, bant, bolum, bolumBas, dugme, ikon, ikonKart, hesapKart, genelNot, kirinti, kac } from '../../parcalar/public-araclar/ortak.mjs';
+import { K, JS, sayfaJs, bant, bolum, bolumBas, dugme, ikon, ikonKart, hesapKart, kirinti, kac } from '../../parcalar/public-araclar/ortak.mjs';
 import { bicim } from '../../parcalar/bicim.mjs';
 import { reklamYeri as rk } from '../../parcalar/reklam.mjs';
 const ustSerit = (...k) => k.map((x) => rk(x, { tur: 'bant', kap: false })).join('');
@@ -34,7 +34,6 @@ export default ({ veri }) => {
 ${bolum(`${ustSerit('OB-B1')}${bolumBas({ etiket: 'Hesaplayıcılar', ikon: 'fa-calculator', baslik: 'Hangi Değerini Öğrenmek İstiyorsun?', metin: 'Her araç referans denklemlere dayanır; sonuçlar tahminidir.' })}${amacListe(H)}${rk('OB-B1-SIDE', { tur: 'yan' })}`, { ilk: true })}
 ${bolum(`${bolumBas({ etiket: 'Kayıtlı sonuçlar', ikon: 'fa-folder-open', baslik: 'Son Sonuçların', metin: 'Kaydettiğin son hesap ve test sonuçları. Tamamı Sağlık Dosyam’da.', arac: dugme('Sağlık Dosyam', 'hesabim/saglik-dosyam/', 'hayalet orta', 'fa-arrow-right', true) })}<div class="kart-izgara c3" data-son-sonuclar></div>`, { sinif: 'oturum-acik' })}
 ${bolum(`${bolumBas({ etiket: 'Sonucu kullan', ikon: 'fa-arrow-right-long', baslik: 'Rakamdan Tabağa Geç', metin: 'Hesapladığın değeri günlük seçimlerine taşı.' })}<div class="kart-izgara c3">${ikonKart({ href: 'akilli-tabak-ve-degisim/', ikon: 'fa-chart-pie', baslik: 'Akıllı Tabak ve Değişim', metin: 'Tabağını kur, muadilini bul' })}${ikonKart({ href: 'saglik-testleri/', ikon: 'fa-clipboard-question', baslik: 'Sağlık Testleri', metin: `${s.test} test ile alışkanlığını ölç` })}${ikonKart({ href: 'programlar/program-bul/', ikon: 'fa-wand-magic-sparkles', baslik: 'Program Bul', metin: 'Beş adımda eşleştirme' })}</div>`)}
-${bolum(genelNot)}
 ${sonSerit('OB-B1-END')}
 </div>`;
 
@@ -64,7 +63,6 @@ ${rk('OB-DONUSTURUCU')}
 <p class="alt-not">${ikon('fa-book')} <span>Kaynak: TÜBER 2022, Türkiye Beslenme Rehberi. Mifflin-St Jeor denklemi, hesaplama sürümü 2 (canlı sitedeki sürüm), prototip verisi ${bicim.tarih(veri.hesaplayicilar.uretim)}. Sonuç tahminidir, tıbbi tavsiye değildir.</span></p>
 </div></div>`, { ilk: true })}
 ${bolum(`${bolumBas({ etiket: 'Diğer araçlar', ikon: 'fa-calculator', baslik: 'Hesaplamaya Devam Et', arac: dugme('Tüm hesaplayıcılar', 'hesaplayicilar/', 'hayalet orta', 'fa-arrow-right', true) })}<div class="kart-izgara c3">${ikonKart({ href: 'akilli-tabak-ve-degisim/', ikon: 'fa-chart-pie', baslik: 'Akıllı Tabak ve Değişim', metin: 'Bu kaloriyi tabağa dök' })}${ikonKart({ href: 'kac-kalori/', ikon: 'fa-fire', baslik: 'Kaç Kalori?', metin: 'Porsiyon karşılıklarını gör' })}${ikonKart({ href: 'diyetisyen-bul-sihirbazi/', ikon: 'fa-user-doctor', baslik: 'Diyetisyene Danış', metin: 'Sonucunu uzmanla yorumla' })}</div>`)}
-${bolum(genelNot)}
 </div>`;
 
   return [

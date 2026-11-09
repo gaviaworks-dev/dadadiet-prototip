@@ -3799,3 +3799,12 @@ html:not(.bos-kip) [data-bos]{display:none!important}
 .olcum-satir>.olcer.hap{margin-top:var(--bosluk-4)}
 .yigin.ayracli>*+*{padding-top:var(--bosluk-20);border-top:var(--cizgi-1) solid var(--cizgi)}
 .yigin.ayracli{gap:var(--bosluk-20)}
+
+/* ── S5: tıbbi bilgilendirme şeridi (kabuk, public düzen, main'in son bölümü). Canlı diyetisyenler-v1.css .pf-disclaimer birebir:
+   zemin --tomato-tint (#DDF2E6 = --marka-yikama-2), üst kenar rgba(marka,.25) (= --aksan-cizgi-3), ikon --tomato-deep 17 px,
+   metin 13,5/500/1.65 --slate-2, kalın --slate 700, iç boşluk 22, ikon aralığı 14; metin satırı tam genişlik. */
+.tibbi-serit{background:var(--marka-yikama-2);border-top:var(--cizgi-1) solid var(--aksan-cizgi-3)}
+.tibbi-serit .wrap{display:flex;gap:var(--bosluk-14);align-items:flex-start;padding-top:var(--bosluk-22);padding-bottom:var(--bosluk-22)}
+.tibbi-serit i{flex:none;margin-top:2px;font-size:var(--yazi-17);color:var(--aksan-koyu)}
+.tibbi-serit p{flex:1 1 auto;margin:0;font-size:var(--yazi-13-5);font-weight:var(--agirlik-govde);line-height:1.65;color:var(--murekkep-yumusak);text-align:start}
+.tibbi-serit b{font-weight:var(--agirlik-kalin);color:var(--murekkep)}

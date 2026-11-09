@@ -67,7 +67,7 @@ ${rk('AD-B1-SIDE', { tur: 'yan' })}<div class="kart"><div class="kart-bas"><h2 c
 </div>`;
   return sayfa('besin/avokado', 'Avokado',
     bant({ yol: [['Besin Kütüphanesi', 'besin-kutuphanesi/'], ['Avokado']], etiket: 'MEYVELER', etiketIkon: 'fa-apple-whole', h1: 'Avokado', alt: AVOKADO_OZET, gorsel: 'assets/img/besin/avokado-hero.webp', sayilar: [[sayi(b.kcal, 0), '<span class="birim">kcal / 100 g</span>'], [`${bicim.gram(b.yag)}`, 'yağ'], [`${sayi(b.lif, 1)} g`, 'lif']] })
-    + dizi(bolum(`${ustSerit('AD-B1')}<div class="iki-kolon">${sol}${sag}</div>${bilgiNot('Bu sayfadaki içerik genel bilgilendirme amaçlıdır; <b>tıbbi teşhis veya tedavi yerine geçmez</b>. Kişiye özel beslenme planı yalnızca <b>yetkili bir diyetisyen</b> tarafından hazırlanır. Gebelik, kronik hastalık, düzenli ilaç kullanımı, çocuk beslenmesi veya klinik bir durum varsa plana başlamadan önce <b>hekim ve diyetisyen kontrolü zorunludur</b>.', false)}`, { ilk: true }), sonSerit('AD-B1-END')), { ...A, onJs: ['assets/js/misafir.js'], js: ['besin'] });
+    + dizi(bolum(`${ustSerit('AD-B1')}<div class="iki-kolon">${sol}${sag}</div>`, { ilk: true }), sonSerit('AD-B1-END')), { ...A, onJs: ['assets/js/misafir.js'], js: ['besin'] });
 }
 
 /* Kaç Kalori */

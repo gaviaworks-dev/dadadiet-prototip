@@ -81,6 +81,10 @@ function ust(meta, yol = '') {
 <header class="header${hero}" data-site-header${meta.hero ? ' data-hero="1"' : ''}><div class="h-top"><div class="wrap kap"><a class="brand dd-brand" href="${K}" aria-label="Dada Diet">${logo}</a><nav class="nav ana-menu" aria-label="Menü">${nav(meta.aktif)}</nav><div class="head-actions"><a class="icon-btn ikon-dugme" href="${K}arama/" aria-label="Ara"><i class="fa-solid fa-magnifying-glass"></i></a><a class="icon-btn ikon-dugme head-bell oturum-acik" href="${K}hesabim/bildirimler/" aria-label="Bildirimler"><i class="fa-solid fa-bell"></i><span class="hb-badge">3</span></a><a class="btn-login oturum-kapali" id="btnLogin" href="${K}giris/${donusEki(yol)}"><i class="fa-solid fa-user"></i> Giriş Yap</a>${hesapMenu()}<button class="icon-btn ikon-dugme hamburger" id="hamburger" type="button" aria-controls="drawer" aria-expanded="false" aria-label="Menü"><i class="fa-solid fa-bars"></i></button></div></div></div></header>${cekmece()}`;
 }
 
+/* Tıbbi bilgilendirme şeridi (S5): canlı dadadiet.com/diyetisyenler `section.pf-disclaimer`, footer'ın hemen üstünde, main'in son bölümü.
+   Metin ve ölçü birebir (diyetisyenler-v1.css). Yalnız public düzende; panel, üye ve tam ekran düzende yok. */
+const tibbiSerit = `<section class="tibbi-serit" aria-label="Tıbbi bilgilendirme"><div class="wrap"><i class="fa-solid fa-circle-info" aria-hidden="true"></i><p>Bu sayfadaki içerik genel bilgilendirme amaçlıdır; <b>tıbbi teşhis veya tedavi yerine geçmez.</b> Kişiye özel beslenme planı yalnızca <b>yetkili bir diyetisyen</b> tarafından hazırlanır. Gebelik, kronik hastalık, düzenli ilaç kullanımı, çocuk beslenmesi veya klinik bir durum varsa plana başlamadan önce <b>hekim ve diyetisyen kontrolü zorunludur.</b></p></div></section>`;
+
 /* Canlıdaki genel bilgi uyarısı: footer başında; tam ekran düzende tek başına basılır */
 const uyariBandi = `<div class="foot-med"><div class="wrap"><i class="fa-solid fa-triangle-exclamation" aria-hidden="true"></i><p>Bu sitedeki hesaplayıcı, test, rehber ve program içerikleri genel bilgi amaçlıdır; kişiye özel tıbbi ya da beslenme önerisi değildir, teşhis veya tedavi yerine geçmez. Gebelik, kronik hastalık, düzenli ilaç kullanımı veya çocuk beslenmesi durumunda hekim ve diyetisyen kontrolü zorunludur.</p><a class="fm-link" href="${K}sayfa/bilimsel-kaynaklar/">Bilimsel Kaynaklar →</a></div></div>`;
 
@@ -119,7 +123,7 @@ export function kabukla(s, { istekler }) {
   ].filter((j, i, l) => l.indexOf(j) === i).map((j) => `<script src="${K}${j}"${j.endsWith('reklam/onizle.js') ? ` data-rk-surum="${RK_SURUM}"` : ''} defer></script>`).join('\n');
   const govde = duzen === 'panel' ? panelKabuk(m, s.govde)
     : duzen === 'tam' ? `${s.govde}<footer class="footer orange tam-uyari">${uyariBandi}</footer>`
-    : `${ust(m, s.yol)}${altCubuk(m, s.yol)}<main class="page-main" id="pageMain" tabindex="-1">${s.govde}</main>${dip()}${gorusBildir}${cerezBandi}${standartKatman()}`;
+    : `${ust(m, s.yol)}${altCubuk(m, s.yol)}<main class="page-main" id="pageMain" tabindex="-1">${s.govde}${duzen === 'public' ? tibbiSerit : ''}</main>${dip()}${gorusBildir}${cerezBandi}${standartKatman()}`;
   const bodySinif = panel ? ' class="yetkili" data-marka="diet"' : ` data-brand="diet"${duzen === 'uye' ? ' class="is-auth"' : ''}`;
   const oturum = (duzen === 'uye' ? `document.documentElement.dataset.oturum='1'` : `try{if(localStorage.getItem('dd-oturum')==='1')document.documentElement.dataset.oturum='1'}catch(e){}`)
     /* Boş durum önizlemesi (S3): ?bos=1 örnek veriyi gizler, boş durum tasarımını açar; ilk boyamadan önce */

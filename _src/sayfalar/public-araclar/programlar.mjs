@@ -1,5 +1,5 @@
 // Programlar: ana liste, beş kırılım (her biri kendi başlığıyla), program detayı, Program Bul sihirbazı.
-import { K, sayfaJs, bant, bolum, bolumBas, dugme, ikon, ikonKart, programKart, programIkon, genelNot, kac, sayi, DETAY, sihirbazBolum, adim, jsonGom, guven, enerjiBandi, gunlukOgun } from '../../parcalar/public-araclar/ortak.mjs';
+import { K, sayfaJs, bant, bolum, bolumBas, dugme, ikon, ikonKart, programKart, programIkon, kac, sayi, DETAY, sihirbazBolum, adim, jsonGom, guven, enerjiBandi, gunlukOgun } from '../../parcalar/public-araclar/ortak.mjs';
 import { akdenizGunler, akdenizAlternatif, akdenizMalzeme, MALZEME_GRUP } from '../../parcalar/public-araclar/akdeniz-gunler.mjs';
 const MISAFIR_JS = 'assets/js/misafir.js';
 import { reklamYeri as rk } from '../../parcalar/reklam.mjs';
@@ -46,7 +46,6 @@ export default ({ veri }) => {
 <div class="bolum-dizi">
 ${bolum(`${ustSerit('SF-B1')}${bolumBas({ etiket: 'Nasıl aramak istersin?', ikon: 'fa-compass', baslik: 'Programını Seçmenin Altı Yolu', metin: 'Beş kırılımdan birini aç ya da sihirbaz senin için eşleştirsin.' })}<div class="kart-izgara c3">${ikonKart({ href: 'programlar/program-bul/', ikon: 'fa-wand-magic-sparkles', baslik: 'Program Bul', metin: 'Beş adımda eşleştirme' })}${KIRILIM.map((x) => ikonKart({ href: `programlar/${x.yol}/`, ikon: x.ikon, baslik: x.ad, metin: x.kisa })).join('')}</div>`, { ilk: true })}
 ${bolum(`${bolumBas({ etiket: 'Tüm programlar', ikon: 'fa-list-check', baslik: `${s.program} Program Yayında`, metin: 'Tüm menüler genel örnektir, kişiye özel plan değildir.' })}${liste({ P })}${rk('SF-N1', { tur: 'sonuc', hedef: '#programListe [data-izgara]', sira: 4 })}${rk('SF-B1-SIDE', { tur: 'yan', suzgec: true })}`, { id: 'programListe' })}
-${bolum(genelNot)}
 </div>`;
 
   const kirilimSayfa = (x) => ({
@@ -55,7 +54,6 @@ ${bolum(genelNot)}
 <div class="bolum-dizi">
 ${bolum(liste({ P, alan: x.alan, kume: x.kume, etiket: x.ad }), { ilk: true, id: 'programListe' })}
 ${altPanel(x)}
-${bolum(genelNot)}
 </div>`,
   });
 
@@ -101,7 +99,7 @@ ${bolum(`${bolumBas({ etiket: 'Uygunluk', ikon: 'fa-user-check', baslik: 'Bu Pro
 ${bolum(kunye)}
 ${bolum(`${bolumBas({ etiket: 'Benzer programlar', ikon: 'fa-list-check', baslik: 'Akdeniz Tipi Başka Menüler', arac: dugme('Tümünü gör', 'programlar/beslenme-tercihine-gore/?tercih=akdeniz', 'hayalet orta', 'fa-arrow-right', true) })}<div class="kart-izgara c3" data-uyum-yedekli="3">${benzer.map((x, i) => programKart(x, { gizli: i >= 3 })).join('')}</div>`)}
 ${rk('KL-PROGRAM', { tur: 'sar' })}
-${bolum(`${genelNot}<div class="bolum-eylem sayfa-sonu">${dugme('Programlara dön', 'programlar/', 'hayalet', 'fa-arrow-left')}</div>`)}
+${bolum(`<div class="bolum-eylem sayfa-sonu">${dugme('Programlara dön', 'programlar/', 'hayalet', 'fa-arrow-left')}</div>`)}
 ${sonSerit('SD-B1-END')}
 </div>`;
 
