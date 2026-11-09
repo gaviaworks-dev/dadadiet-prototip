@@ -65,6 +65,6 @@
     $('#hmSonuc').scrollIntoView({ behavior: 'smooth', block: 'start' });
     DD.toast('Haftalık menün hazır.');
   });
-  document.addEventListener('click', (e) => { if (e.target.closest('#hmYazdir')) window.print(); });
+  document.addEventListener('click', (e) => { const y = e.target.closest('#hmYazdir'); if (y) DD.yazdir(y.closest('.kart'), 'Haftalık Menüm'); });
   ciz();
 })();

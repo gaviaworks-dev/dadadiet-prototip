@@ -76,7 +76,8 @@
     for (let i = 0; i < 7; i++) {
       const t = U.gunEkle(bas, i), l = U.secilenOgunler(k, t);
       const hap = t === b ? U.durum('acik', 'Bugün') : t < b ? U.durum('cozulen', 'Geçti') : U.durum('kapali', 'Planlandı');
-      h += '<li class="hafta-gun' + (t === b ? ' bugun' : '') + '"><div class="hafta-gun-bas"><b>' + U.gunAdi(t) + '</b><small>' + U.kisaTarih(t) + '</small>' + hap + '</div><div class="hafta-ogunler">' + tanim.map((o) => haftaOgun(o, l.find((m) => m.anahtar === o[0]))).join('') + '</div></li>';
+      /* Telefonda yalnız bugün açık gelir, diğer günler başlıktaki düğmeyle açılır (.hafta-gun-ac yalnız 640 altında görünür) */
+      h += '<li class="hafta-gun' + (t === b ? ' bugun acik' : '') + '"><div class="hafta-gun-bas"><b>' + U.gunAdi(t) + '</b><small>' + U.kisaTarih(t) + ' · ' + l.length + ' öğün</small>' + hap + '<button class="hafta-gun-ac" type="button" aria-expanded="' + (t === b) + '" aria-controls="bpGun' + i + '" aria-label="' + U.gunAdi(t) + ' öğünleri"><i class="fa-solid fa-chevron-down" aria-hidden="true"></i></button></div><div class="hafta-ogunler" id="bpGun' + i + '">' + tanim.map((o) => haftaOgun(o, l.find((m) => m.anahtar === o[0]))).join('') + '</div></li>';
     }
     U.bas(kap, h);
     /* Alışveriş listesi: hafta boyunca kalem toplamı */
@@ -173,7 +174,13 @@
     U.kaydet(); ciz();
     DD.toast(yeni ? 'Program duraklatıldı.' : 'Programa devam ediyorsun.');
   });
-  $('#bpYazdir').addEventListener('click', () => window.print());
+  $('#bpHafta').addEventListener('click', (e) => {
+    const d = e.target.closest('.hafta-gun-ac');
+    if (!d) return;
+    const acik = d.closest('.hafta-gun').classList.toggle('acik');
+    d.setAttribute('aria-expanded', acik);
+  });
+  $('#bpYazdir').addEventListener('click', () => DD.yazdir($('#bpYazdir').closest('.kart'), 'Haftalık Menü'));
   /* Duyarlı üye: alınan, hedef ve kalan tablosu yerine uzman notu */
   if (duyarli) {
     $('#bpMakroKart').outerHTML = U.uzmanNot();

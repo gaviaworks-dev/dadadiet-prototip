@@ -120,7 +120,7 @@
     U.bas('#fdGovde', faturaGovde(acikFatura));
     DD.ac('#fdModal');
   }
-  $('#fdYazdir').addEventListener('click', () => window.print());
+  $('#fdYazdir').addEventListener('click', () => DD.yazdir('#fdGovde', 'Fatura Belgesi', acikFatura ? acikFatura.no : ''));
   $('#fdIndir').addEventListener('click', () => {
     const a = document.createElement('a');
     const html = '<!doctype html><meta charset="utf-8"><title>' + U.kac(acikFatura.no) + '</title><h1>Dada Diet faturası</h1>' + document.getElementById('fdGovde').innerHTML;

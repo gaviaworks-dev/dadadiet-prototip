@@ -18,6 +18,30 @@
     saat: (s) => String(s ?? '—').replace(':', '.'),
   };
 
+  /* Seçili yazdırma: yalnız verilen öğe kâğıda çıkar. Öğenin kopyası başlıkla birlikte gövdenin sonuna konur,
+     html.yazdirma-secili sayfanın geri kalanını yazdırmada gizler (ek-bilesenler.css). Düğmeler kopyada basılmaz. */
+  DD.yazdir = function (oge, baslik, alt) {
+    const kaynak = typeof oge === 'string' ? document.querySelector(oge) : oge;
+    if (!kaynak) { window.print(); return; }
+    let kap = document.getElementById('yazdirmaKopya');
+    if (!kap) { kap = document.createElement('div'); kap.id = 'yazdirmaKopya'; kap.setAttribute('aria-hidden', 'true'); document.body.appendChild(kap); }
+    const bugun = DD.bicim.tarih(DD.bugun || new Date().toISOString().slice(0, 10));
+    const bas = document.createElement('header');
+    bas.className = 'yazdirma-ust';
+    bas.innerHTML = '<b>Dada Diet</b><h1></h1><p></p>';
+    bas.querySelector('h1').textContent = baslik || document.title.replace(/\s*[|·–-]\s*Dada Diet.*$/, '');
+    bas.querySelector('p').textContent = (alt ? alt + ' · ' : '') + 'Yazdırma tarihi ' + bugun;
+    const kopya = kaynak.cloneNode(true);
+    kopya.removeAttribute('id');
+    kopya.querySelectorAll('[id]').forEach((x) => x.removeAttribute('id'));
+    kopya.querySelectorAll('button,.kart-alt,[data-yazdirma-disi]').forEach((x) => x.remove());
+    kap.replaceChildren(bas, kopya);
+    document.documentElement.classList.add('yazdirma-secili');
+    const bitir = () => { document.documentElement.classList.remove('yazdirma-secili'); kap.replaceChildren(); window.removeEventListener('afterprint', bitir); };
+    window.addEventListener('afterprint', bitir);
+    window.print();
+  };
+
   /* Video hero: kaynak sayfa açıldıktan sonra bağlanır; azaltılmış hareket ve veri tasarrufunda poster kalır */
   const hareketAzalt = matchMedia('(prefers-reduced-motion: reduce)').matches;
   const veriTasarrufu = navigator.connection && navigator.connection.saveData;

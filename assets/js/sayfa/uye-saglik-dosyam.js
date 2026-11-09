@@ -257,7 +257,8 @@
     if (ot) { const t = (dn.tahliller || []).find((x) => x.dosya_adi === ot.dataset.onizleTahlil); if (t) onizle({ ad: t.dosya_adi, tur: 'Tahlil', tarih: t.tarih }); return; }
     const s = e.target.closest('[data-belge-sil]');
     if (s) { belgeler().splice(Number(s.dataset.belgeSil), 1); U.kaydet(); belge(); ozet(); DD.toast('Belge kaldırıldı.', 'uyari'); return; }
-    if (e.target.closest('[data-yazdir]')) { window.print(); return; }
+    const yz = e.target.closest('[data-yazdir]');
+    if (yz) { DD.yazdir(yz.closest('.ayar-satir'), 'Gelişim Raporu'); return; }
     const m = e.target.closest('[data-metrik]');
     if (m) { metrik = m.dataset.metrik; grafik(); return; }
     const dg = e.target.closest('[data-donem]');

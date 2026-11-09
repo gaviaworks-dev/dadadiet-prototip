@@ -3309,3 +3309,38 @@ html:has(#pageMain .modal-ortu:not([hidden]),#pageMain .sheet-ortu:not([hidden])
 .yetkili .secim-suzgec>.alan-izgara>.alan{min-height:0;height:auto;grid-template-rows:auto auto;align-content:start}
 /* Yazdırmada yüzen kalemler çıkmaz */
 @media print{.basa-don,.yuzen-dugme,.sohbet-ortu,.sohbet-panel,#dadaMentor{display:none!important}}
+
+/* Seçili yazdırma (DD.yazdir): ekranda kopya görünmez; yazdırmada yalnız kopya ve başlığı çıkar */
+#yazdirmaKopya{display:none}
+@media print{
+  html.yazdirma-secili body>*:not(#yazdirmaKopya){display:none!important}
+  html.yazdirma-secili #yazdirmaKopya{display:block}
+  html.yazdirma-secili body{background:var(--kagit)!important}
+  .yazdirma-ust{display:grid;gap:var(--bosluk-4);margin-bottom:var(--bosluk-16);padding-bottom:var(--bosluk-12);border-bottom:var(--cizgi-1) solid var(--cizgi)}
+  .yazdirma-ust b{font-size:var(--yazi-12);font-weight:var(--agirlik-ekstra);letter-spacing:var(--aralik-versal);text-transform:uppercase;color:var(--aksan)}
+  .yazdirma-ust h1{font-size:var(--yazi-20);color:var(--murekkep)}
+  .yazdirma-ust p{font-size:var(--yazi-12);color:var(--metin-ikincil)}
+  #yazdirmaKopya .kart{border:0;box-shadow:none}
+  #yazdirmaKopya .tablo-kap{overflow:visible}
+}
+
+/* Haftalık menü dar ekran: öğünler satırı doldurur (5 öğün 768'de 3+2, boş hücre yok); telefonda yalnız bugün açık */
+.hafta-gun-ac{display:none}
+@media(max-width:1024px){
+  .hafta-ogunler{display:flex;flex-wrap:wrap}
+  .hafta-ogun{flex:1 1 180px}
+}
+@media(max-width:640px){
+  .hafta-ogun{flex-basis:132px}
+  .hafta-gun-ac{display:inline-grid;place-items:center;width:var(--bosluk-32);height:var(--bosluk-32);margin-left:var(--bosluk-4);border:var(--cizgi-1) solid var(--cizgi);border-radius:var(--yuvarlak-hap);background:var(--kagit);color:var(--murekkep-yumusak);cursor:pointer}
+  .hafta-gun-ac i{font-size:var(--yazi-12);transition:transform .2s ease}
+  .hafta-gun.acik .hafta-gun-ac i{transform:rotate(180deg)}
+  .hafta-gun:not(.acik) .hafta-ogunler{display:none}
+  .hafta-gun:not(.acik){padding-block:var(--bosluk-12)}
+}
+@media print{
+  .hafta-gun-ac{display:none!important}
+  .hafta-gun .hafta-ogunler{display:grid!important;grid-template-columns:repeat(var(--ogun-sayi,5),minmax(0,1fr))}
+  .hafta-gun{grid-template-columns:96px minmax(0,1fr)}
+  .hafta-ogun li,.hafta-ogun small{font-size:var(--yazi-11-5)}
+}
