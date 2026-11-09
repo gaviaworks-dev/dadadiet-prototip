@@ -3462,3 +3462,10 @@ body.cerez-acik #dadaMentor{--mentor-dip:max(var(--mentor-taban),calc(var(--ment
 .yetkili .uyum-ozet .alan-yardim,.yetkili .uyum-ozet .mini-liste{margin:0}
 .gs-deger small{font-size:var(--yazi-11);font-weight:var(--agirlik-govde)}
 @media(max-width:520px){.uyum-sayilar{grid-template-columns:repeat(2,minmax(0,1fr))}}
+/* === Revize 9 Kasım · dk-public === */
+/* --- dk-public · misafir akışı --- */
+/* --- dk-public · misafir akışı sonu --- */
+/* --- dk-public · diyetisyen ve arama --- */
+/* --- dk-public · diyetisyen ve arama sonu --- */
+/* --- dk-public · programlar --- */
+/* --- dk-public · programlar sonu --- */
