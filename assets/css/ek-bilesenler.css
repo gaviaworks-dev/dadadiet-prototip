@@ -3567,10 +3567,9 @@ body.rk-altbar-acik #dadaMentor{--mentor-dip:max(var(--mentor-taban),calc(var(--
 .kk-ust .kirinti,.kk-ust .kirinti a,.kk-ust .kirinti i{color:var(--kagit)}
 /* "… sunar" hapı (KT-HERO) bant rozetlerinin yanında: satır yüksekliğini rozetlere göre korur */
 .bant-eylem:has(>.rk-eslik){align-items:center}
-/* Yan yapışkanlar: sağdaki "Görüş Bildir" sekmesinin içinde kalır; tek kart kendi kenarında, sol kart dar ekranda gizlenir (standart.js ölçer) */
-[data-rk-side-pair]>.rk-std-side.rk-std[data-rk-slot="STD-SIDE"]{left:auto;right:calc(var(--rk-side-inset,8px) + var(--rk-kenar-sekme,0px))}
-[data-rk-side-pair]>.rk-std-side.rk-std[data-rk-slot="STD-SIDE-LEFT"]{right:auto;left:var(--rk-side-inset,8px)}
-[data-rk-side-pair][data-rk-side-tek]>.rk-std-side[data-rk-slot="STD-SIDE-LEFT"]{display:none!important}
+/* Yan yapışkanlar canlı kuralla (standart.css, standart.js sidePairGeometry): 1280–1366 px tek kart sağda, üstünde iki taraf.
+   Prototipte yalnız tek alan önizlemesi (?reklam=STD-SIDE-LEFT) sol kartı kendi kenarında gösterir; canlıda tek kart hep sağdadır. */
+html.rk-tek [data-rk-side-pair]>.rk-std-side.rk-std[data-rk-slot="STD-SIDE-LEFT"]:only-of-type{right:auto;left:var(--rk-side-inset,8px)}
 /* Satış vitrini: alan önizlemesi prototip sayfasının ölçekli iframe'i (vitrin.js ölçer), paket kalemindeki "Önizle" bağı */
 .vt-vp:has(>.vt-iframe){overflow:hidden}
 .vt-iframe{display:block;border:0;transform-origin:0 0;background:var(--kagit)}

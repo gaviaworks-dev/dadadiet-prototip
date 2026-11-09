@@ -1,7 +1,9 @@
 /* kaynak: DadaDiet public/reklam/standart.js (DadaGastro@905288b7b2) · uyarlama (prototip, 9 Kasım): sunucu oturumundaki sıklık
    (StandartSiklik) ve gösterim sayımı yerine tarayıcı oturumu (sessionStorage; pop-up günde 1 için localStorage tarih damgası).
    Hiçbir istek gönderilmez. Alt menü olarak prototipin .alt-cubuk'u da sayılır; alt bant açılıp kapanınca yüzen düğmeler yeniden ölçülür.
-   Tek alan önizlemesinde (?reklam=STD-POPUP) pop-up sıklık kuralını beklemeden 1 sn sonra açılır. Gerisi birebir. */
+   Tek alan önizlemesinde (?reklam=STD-POPUP) pop-up sıklık kuralını beklemeden 1 sn sonra açılır. İçerik kolonu ölçümünde prototipin
+   .kap kabı da sayılır, footer yapışkan da olabilir. Yan ray (sidePairGeometry/sideLayout) canlıyla birebir: ≥1280 px görünür,
+   >1366 px iki taraf, 120 px, kenardan 8 px, header +24 px; "Görüş Bildir" sekmesiyle kesişme canlıdaki gibi kabul (kart üstte). */
 // Y5: pop-up, side and altbar frequency lives in the server session (StandartSiklik); nothing is written to browser storage.
 /** Counters written by earlier versions are removed once; nothing replaces them. */
 export function clearLegacyCounters(win){
@@ -74,11 +76,6 @@ export function sidePairGeometry(doc,win) {
  const layout=sideLayout({viewport:win.innerWidth,left,right,top,height,obstacles});
  if(!layout)return reject('120 px side için içerik dışında yeterli yan alan yok');
  if(pair.querySelectorAll('.rk-std-side').length===1){layout.count=1;layout.variant=`sağ 120×${height}`;}
- // Prototip uyarlaması: yan kart içerik kolonuna ve sağ kenardaki "Görüş Bildir" sekmesine binmez (canlı satış metni: ≥1600 px ekran).
- const sekme=doc.querySelector('.feedback-tab'),sekmeEn=sekme&&style(sekme).display!=='none'?sekme.getBoundingClientRect().width:0;
- if(win.innerWidth-right<layout.width+layout.inset*2+sekmeEn)return reject('yan kart içerik kolonuna biner');
- if(layout.count===2&&left<layout.width+layout.inset*2){layout.count=1;layout.variant=`sağ 120×${height}`;pair.dataset.rkSideTek='1'}else delete pair.dataset.rkSideTek;
- pair.style.setProperty('--rk-kenar-sekme',sekmeEn+'px');
  pair.style.setProperty('--rk-side-inset',layout.inset+'px');pair.style.setProperty('--rk-side-top',top+'px');pair.style.setProperty('--rk-side-width',layout.width+'px');pair.style.setProperty('--rk-side-height',height+'px');
  pair.dataset.rkSideCount=String(layout.count);pair.dataset.rkSideVariant=layout.variant;pair.dataset.rkSideReason=layout.variant;
  pair.dataset.rkSideGap=String(layout.gap);
