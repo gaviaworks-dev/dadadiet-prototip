@@ -87,7 +87,7 @@
     const disi = tahlil ? (tahlil.degerler || []).filter(T.disi).length : 0;
     const ilaclar = dn.anamnez && (dn.anamnez.ilaclar || []).length ? h(dn.anamnez.ilaclar.join(', ')) : 'Kayıt yok';
     const tahlilMetin = !dn.izinler.tahlil ? 'İzin yok' : tahlil ? `${PA.tarih(tahlil.tarih)} · ${disi ? disi + ' değer referans dışı' : 'Değerler referans içinde'}` : 'Kayıt yok';
-    return `<div class="kart panel">${kartBas('fa-heart-pulse', 'Sağlık Özeti', acik ? '<button class="dugme hayalet kucuk" type="button" data-sekme-git="not">Anamnez</button>' : '')}<div class="kart-govde"><div class="deger-liste">${acik ? satir('Hassasiyet', dn.hassasiyetler.length ? `<span class="rozet-sira">${rozet(dn.hassasiyetler, 'bekleme')}</span>` : 'Kayıt yok') + satir('Kronik Durum', dn.kronik.length ? `<span class="rozet-sira">${rozet(dn.kronik, 'pasif')}</span>` : 'Kayıt yok') + satir('İlaç ve Takviye', ilaclar) : satir('Anamnez', 'İzin yok')}${satir('Son Tahlil', tahlilMetin)}</div></div></div>`;
+    return `<div class="kart panel">${kartBas('fa-heart-pulse', 'Sağlık Özeti', acik ? '<button class="dugme hayalet kucuk" type="button" data-sekme-git="not">Anamnez</button>' : '')}<div class="kart-govde"><div class="deger-liste">${acik ? satir('Hassasiyet', dn.hassasiyetler.length ? `<span class="rozet-sira">${rozet(dn.hassasiyetler, 'bekleme')}</span>` : 'Kayıt yok') + satir('Kronik Durum', dn.kronik.length ? `<span class="rozet-sira">${rozet(dn.kronik, 'pasif')}</span>` : 'Kayıt yok') + satir('İlaç ve Takviye', ilaclar) : satir('Anamnez', 'İzin yok')}${satir('Protokol', PA.protokoller(dn).length ? `<span class="rozet-sira">${PA.protokoller(dn).map((p) => `<span class="rozet olumlu">${h(p.ad)}</span>`).join('')}</span>` : 'Tanımlı değil')}${satir('Son Tahlil', tahlilMetin)}</div></div></div>`;
   }
   /* Özet: son tahlilin referans dışı değerleri doğrudan görünür. Tahlil izni yoksa kart çıkmaz (Sağlık Özeti "İzin yok" der) */
   function tahlilOzetKart() {
@@ -274,8 +274,9 @@
       : !PA.anamnezGorunur(dn) ? kilit('anamnez')
       : a ? `<div class="kart panel">${kartBas('fa-notes-medical', 'Anamnez', `<div class="eylem-satiri">${eksikAlan ? PA.hap(eksikAlan + ' alan eksik', 'bekleyen') + (dn.anamnez_hatirlatma ? '' : '<button class="dugme hayalet kucuk" type="button" data-is="anamnez-hatirlat">Hatırlat</button>') : PA.hap('Dolduruldu', 'cozulen')}<button class="dugme hayalet kucuk" type="button" data-is="hassasiyet"><i class="fa-solid fa-plus" aria-hidden="true"></i> Alerji ekle</button></div>`)}<div class="kart-govde">${kunye([['Meslek', h(a.meslek)], ['Şikâyet', h(a.sikayet)], ['Uyku', h(a.uyku)], ['Su', h(a.su)], ['Hareket', h(a.hareket)], ['İlaç ve takviye', (a.ilaclar || []).length ? h(a.ilaclar.join(', ')) : 'Yok'], ['Aile öyküsü', h(a.aile_oykusu)], ['Alışkanlıklar', h(a.aliskanliklar)], ['Hassasiyet ve kronik durum', hs.length ? h(hs.join(', ')) : 'Yok']])}</div></div>`
         : `<div class="kart panel">${kartBas('fa-notes-medical', 'Anamnez', PA.hap('Bekliyor', 'bekleyen'))}<div class="kart-govde">${bos('fa-notes-medical', `${h(ilgi)} anamnezi boş`, 'İzin açık, danışan henüz formu doldurmadı.', hatirlat)}</div></div>`;
-    const l = notSirali();
-    $('p-not').innerHTML = `<div class="yigin">${anamnez}<div class="kart panel">${kartBas('fa-clock-rotate-left', 'Klinik Notlar', '<button class="dugme hayalet kucuk" type="button" data-is="not-ekle"><i class="fa-solid fa-plus" aria-hidden="true"></i> Not ekle</button>', l.length + ' not')}<div class="kart-govde">${l.length ? `<div class="zaman-cizelgesi">${l.map((n) => `<div class="zc-kalem gecti"><div class="zc-zaman">${PA.tarih(n.tarih)}</div><div class="zc-metin">${h(n.metin)}</div>${n.sabit || n.paylasildi ? `<div class="eylem-satiri">${n.sabit ? '<span class="rozet olumlu">Sabit</span>' : ''}${n.paylasildi ? '<span class="rozet pasif">Danışanla paylaşıldı</span>' : ''}</div>` : ''}</div>`).join('')}</div>` : bos('fa-note-sticky', `${h(ilgi)} klinik notu yok`, 'İlk görüşme notunu ekle.')}</div></div></div>`;
+    const l = notSirali(), pr = PA.protokoller(dn);
+    const protokol = `<div class="kart panel">${kartBas('fa-clipboard-check', 'Beslenme Protokolü', `<button class="dugme hayalet kucuk" type="button" data-is="protokol"><i class="fa-solid ${pr.length ? 'fa-pen' : 'fa-plus'}" aria-hidden="true"></i> ${pr.length ? 'Düzenle' : 'Protokol tanımla'}</button>`, pr.length ? PA.tarih(dn.protokol.tarih) + ' tarihinden beri' : '')}<div class="kart-govde">${pr.length ? `<div class="yigin sik"><span class="rozet-sira">${pr.map((p) => `<span class="rozet olumlu">${h(p.ad)}</span>`).join('')}</span>${dn.protokol.not ? `<div class="not-kutu"><b>Not</b>${h(dn.protokol.not)}</div>` : ''}<p class="alan-yardim"><i class="fa-solid fa-clipboard-list" aria-hidden="true"></i><span>Plan oluşturucu bu protokolü uyarı ve önerilere katar.</span></p></div>` : bos('fa-clipboard-check', 'Protokol tanımlı değil', 'Düşük FODMAP, glütensiz ya da diyabetik gibi bir beslenme protokolü tanımlarsan planlar ona göre denetlenir.')}</div></div>`;
+    $('p-not').innerHTML = `<div class="yigin">${anamnez}${protokol}<div class="kart panel">${kartBas('fa-clock-rotate-left', 'Klinik Notlar', '<button class="dugme hayalet kucuk" type="button" data-is="not-ekle"><i class="fa-solid fa-plus" aria-hidden="true"></i> Not ekle</button>', l.length + ' not')}<div class="kart-govde">${l.length ? `<div class="zaman-cizelgesi">${l.map((n) => `<div class="zc-kalem gecti"><div class="zc-zaman">${PA.tarih(n.tarih)}</div><div class="zc-metin">${h(n.metin)}</div>${n.sabit || n.paylasildi ? `<div class="eylem-satiri">${n.sabit ? '<span class="rozet olumlu">Sabit</span>' : ''}${n.paylasildi ? '<span class="rozet pasif">Danışanla paylaşıldı</span>' : ''}</div>` : ''}</div>`).join('')}</div>` : bos('fa-note-sticky', `${h(ilgi)} klinik notu yok`, 'İlk görüşme notunu ekle.')}</div></div></div>`;
   }
   $('notPanelForm').addEventListener('submit', (e) => {
     e.preventDefault();
@@ -288,6 +289,17 @@
     if (!PA.formGecerli(e.target)) return;
     dn.hassasiyetler.push($('hsMetin').value.trim());
     PA.kaydet(); e.target.reset(); DD.kapat($('hassasiyetPanel')); DD.toast('Hassasiyet eklendi.'); notCiz(); ozetCiz();
+  });
+
+  $('protokolPanelForm').addEventListener('submit', (e) => {
+    e.preventDefault();
+    const idler = [...$('prKutular').querySelectorAll('input:checked')].map((x) => x.value);
+    const onceki = (dn.protokol && dn.protokol.idler) || [];
+    if (idler.length) dn.protokol = { idler, not: $('prNot').value.trim(), tarih: idler.join() === onceki.join() && dn.protokol ? dn.protokol.tarih : DD.bugun };
+    else delete dn.protokol;
+    PA.kaydet(); DD.kapat($('protokolPanel'));
+    DD.toast(idler.length ? 'Protokol kaydedildi: ' + PA.protokoller(dn).map((p) => p.ad).join(', ') : 'Protokol kaldırıldı.');
+    notCiz(); ozetCiz();
   });
 
   /* ── Plan geçmişi ───────────────────────────────────────────────── */
@@ -372,6 +384,12 @@
     else if (is === 'not-ekle') DD.ac('#notPanel');
     else if (is === 'anamnez-hatirlat') { dn.anamnez_hatirlatma = DD.bugun; PA.mesajYaz(id, 'Görüşmemize hazırlık için Sağlık Dosyam ekranındaki anamnez formunu doldurabilir misiniz?'); PA.kaydet(); DD.toast('Anamnez hatırlatması gönderildi.'); notCiz(); }
     else if (is === 'hassasiyet') DD.ac('#hassasiyetPanel');
+    else if (is === 'protokol') {
+      const secili = (dn.protokol && dn.protokol.idler) || [];
+      $('prKutular').innerHTML = PA.PROTOKOLLER.map((p) => `<label class="onay-kutusu"><input type="checkbox" value="${p.id}"${secili.includes(p.id) ? ' checked' : ''}><span><b>${h(p.ad)}</b><br><small>${h(p.not)}</small></span></label>`).join('');
+      $('prNot').value = (dn.protokol && dn.protokol.not) || '';
+      DD.ac('#protokolPanel');
+    }
     else if (is === 'tahlil-yukle') $('tahlilDosya').click();
     else if (is === 'tahlil-ac') {
       const t = dn.tahliller.find((x) => x.dosya_adi === v.tahlil), pencere = t && window.open('', '_blank');

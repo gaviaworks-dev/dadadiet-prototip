@@ -20,7 +20,10 @@ const hedefForm = `<div class="alan"><label class="alan-etiket" for="hTur">Hedef
 const notForm = `<div class="alan"><label class="alan-etiket" for="notMetin">Not <span class="zorunlu" aria-hidden="true">*</span></label><textarea class="alan-metin" id="notMetin" rows="6" required></textarea></div>
 <div class="ayar-liste"><label class="ayar-satir"><span class="as-metin"><b>Danışanla paylaş</b><span>Not üye ekranında görünür.</span></span><span class="as-eylem"><span class="anahtar"><input type="checkbox" id="notPaylas" aria-label="Danışanla paylaş"><span class="anahtar-ray"></span></span></span></label><label class="ayar-satir"><span class="as-metin"><b>Sabitle</b><span>Listenin başında kalır.</span></span><span class="as-eylem"><span class="anahtar"><input type="checkbox" id="notSabit" aria-label="Sabitle"><span class="anahtar-ray"></span></span></span></label></div>`;
 const hassasiyetForm = `<div class="alan"><label class="alan-etiket" for="hsMetin">Alerji ya da hassasiyet <span class="zorunlu" aria-hidden="true">*</span></label><input class="alan-girdi" id="hsMetin" type="text" required autocomplete="off"></div>`;
-const degerForm = `<div class="alan"><label class="alan-etiket" for="vAd">Parametre <span class="zorunlu" aria-hidden="true">*</span></label><input class="alan-girdi" id="vAd" type="text" required autocomplete="off"></div>
+const protokolForm = `<div class="alan"><span class="alan-etiket" id="prEtiket">Protokol</span><div class="yigin sik" id="prKutular" role="group" aria-labelledby="prEtiket"></div></div>
+<div class="alan"><label class="alan-etiket" for="prNot">Diyetisyen notu <span class="istege-bagli">(isteğe bağlı)</span></label><textarea class="alan-metin" id="prNot" rows="3" placeholder="Eleme süresi, yeniden ekleme planı"></textarea></div>
+<div class="bilgi-notu"><i class="fa-solid fa-circle-info" aria-hidden="true"></i><p>Protokol plan oluşturucuda uyarı ve önerilere girer. Glütensiz ve laktozsuz protokol, uyan kalemleri hassasiyet gibi işaretler.</p></div>`;
+const degerForm =`<div class="alan"><label class="alan-etiket" for="vAd">Parametre <span class="zorunlu" aria-hidden="true">*</span></label><input class="alan-girdi" id="vAd" type="text" required autocomplete="off"></div>
 <div class="alan-izgara c2">${alan('vSonuc', 'Sonuç', 'number', ' required')}<div class="alan"><label class="alan-etiket" for="vBirim">Birim</label><input class="alan-girdi" id="vBirim" type="text" autocomplete="off"></div>${alan('vAlt', 'Referans alt')}${alan('vUst', 'Referans üst')}</div>`;
 
 const raporForm = `<div class="bilgi-notu" id="raporBilgi"></div>
@@ -46,6 +49,7 @@ ${drawer('hedefPanel', 'Hedefi Güncelle', hedefForm, 'Hedefi kaydet')}
 ${drawer('degerPanel', 'Değer Ekle', degerForm, 'Değeri ekle')}
 ${drawer('notPanel', 'Klinik Not Ekle', notForm, 'Notu kaydet')}
 ${drawer('hassasiyetPanel', 'Alerji ya da Hassasiyet Ekle', hassasiyetForm, 'Ekle')}
+${drawer('protokolPanel', 'Beslenme Protokolü', protokolForm, 'Protokolü kaydet')}
 ${drawer('raporPanel', 'PDF Rapor', raporForm, '<i class="fa-solid fa-download" aria-hidden="true"></i> PDF indir')}`;
 
 export default ({ veri }) => {

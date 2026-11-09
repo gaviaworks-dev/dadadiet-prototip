@@ -153,11 +153,14 @@
   };
   const ETLI_KATEGORI = ['Et & Tavuk', 'Balık & Deniz', 'Balık ve Deniz Ürünleri', 'Tavuk ve Hindi', 'Kırmızı Et'];
   PB.hassasiyetAd = (kod) => HASSASIYET_AD[kod] || kod;
+  /* Uyarı kodları: danışanın hassasiyetleri ve tanımlı protokolün hassasiyet karşılığı (glütensiz → gluten) */
+  PB.protokoller = (danisan) => (window.PA && PA.protokoller ? PA.protokoller(danisan) : []);
+  PB.kurallar = (danisan) => (danisan ? [...new Set((danisan.hassasiyetler || []).concat(PB.protokoller(danisan).map((p) => p.hassasiyet).filter(Boolean)))] : []);
   PB.kalemUyari = (tur, slug, danisan) => {
     const c = PB.katalog({ tur, slug });
     if (!c || !danisan) return [];
     const et = c.alerjenler || c.hassasiyet || [];
-    return (danisan.hassasiyetler || []).filter((h) => (h === 'vejetaryen' ? ETLI_KATEGORI.includes(c.kategori) : et.includes(h)));
+    return PB.kurallar(danisan).filter((h) => (h === 'vejetaryen' ? ETLI_KATEGORI.includes(c.kategori) : et.includes(h)));
   };
 
   /* Serbest kalem katalogda yok: hassasiyet kuralı ad içindeki kelime başlarıyla çalışır */
@@ -172,7 +175,7 @@
     if (k.tur !== 'serbest') return PB.kalemUyari(k.tur, k.slug, danisan);
     /* Kayıtlı tarifte malzemeler de taranır, diyetisyenin işaretlediği etiket doğrudan sayılır */
     const metin = PB.kucuk([k.ad].concat(k.malzemeler || []).join(' ')), kelime = metin.split(/[\s,()]+/);
-    return ((danisan && danisan.hassasiyetler) || []).filter((h) => (k.alerjenler || []).includes(h) || (SERBEST_ANAHTAR[h] || []).some((a) => (a.includes(' ') ? metin.includes(a) : a.length < 3 ? kelime.includes(a) : kelime.some((w) => w.startsWith(a)))));
+    return PB.kurallar(danisan).filter((h) => (k.alerjenler || []).includes(h) || (SERBEST_ANAHTAR[h] || []).some((a) => (a.includes(' ') ? metin.includes(a) : a.length < 3 ? kelime.includes(a) : kelime.some((w) => w.startsWith(a)))));
   };
 
   /* Tahlil kuralı: her testin son sonucu referans aralığıyla karşılaştırılır, kalem işaretlemez, öneri notu üretir */
@@ -213,6 +216,7 @@
       const k = KRONIK.find((x) => PB.kucuk(h).includes(x.anahtar));
       if (k && !sonuc.some((s) => s.not === k.not)) sonuc.push({ baslik: h, not: k.not });
     });
+    PB.protokoller(danisan).forEach((p) => sonuc.push({ baslik: 'Protokol: ' + p.ad, not: p.not }));
     return sonuc;
   };
   PB.mikroKaynaklari = (mikro) => PB.besinSec().filter((b) => b.mikrolar && b.mikrolar[mikro])

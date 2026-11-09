@@ -100,6 +100,17 @@
   PA.tahlilYeni = (x) => !x.incelendi && (x.yukleyen === 'uye' || (!x.yukleyen && !(x.degerler || []).length));
   /* Üye anamnezi yarıda bırakabilir: kayıt var diye tamam sayılmaz */
   PA.anamnezEksik = (dn) => ['meslek', 'sikayet', 'uyku', 'su', 'hareket', 'aile_oykusu', 'aliskanliklar'].filter((k) => !(dn.anamnez || {})[k]);
+  /* Beslenme protokolü (ME-3-2): diyetisyen danışana tanımlar; plan oluşturucu uyarı ve önerilere katar.
+     `hassasiyet` kodu olan protokol, kalem uyarısında hassasiyet gibi çalışır. Metinler genel beslenme ilkesidir, tıbbi karar hekimindir. */
+  PA.PROTOKOLLER = [
+    { id: 'dusuk-fodmap', ad: 'Düşük FODMAP', not: 'Eleme döneminde soğan, sarımsak, buğday, baklagil, elma ve armut gibi yüksek FODMAP kaynaklarını sınırla; yeniden ekleme aşamasını takvime bağla.' },
+    { id: 'glutensiz', ad: 'Glütensiz', hassasiyet: 'gluten', not: 'Buğday, arpa ve çavdarı çıkar; pirinç, karabuğday ve kinoa gibi glütensiz tahılları kullan.' },
+    { id: 'laktozsuz', ad: 'Laktozsuz', hassasiyet: 'laktoz', not: 'Laktozlu süt ürünlerini çıkar; kalsiyumu laktozsuz ürünler ve yeşil yapraklılarla karşıla.' },
+    { id: 'diyabetik', ad: 'Diyabetik (düşük glisemik)', not: 'Karbonhidratı öğünlere eşit dağıt, düşük glisemik indeksli kaynakları seç, her öğüne protein ve lif ekle.' },
+    { id: 'dusuk-sodyum', ad: 'Düşük sodyum (DASH)', not: 'Tuzlu peynir, zeytin, turşu ve hazır sosları sınırla; sebze, meyve ve baklagili artır.' },
+    { id: 'yuksek-protein', ad: 'Yüksek protein', not: 'Her öğüne yağsız bir protein kaynağı koy, günlük proteini öğünlere dağıt.' },
+  ];
+  PA.protokoller = (dn) => ((dn && dn.protokol && dn.protokol.idler) || []).map((id) => PA.PROTOKOLLER.find((p) => p.id === id)).filter(Boolean);
   PA.anamnezGorunur = (dn) => !!((dn.izinler || {}).anamnez || dn.anamnez_kaynak === 'gorusme');
 
   /* Sıradaki adım: danışanın durumundan türeyen tek eylem. Kart, liste ve iş listesi aynı sonucu okur.

@@ -201,6 +201,7 @@
       '<p class="alan-yardim"><i class="fa-solid fa-bullseye" aria-hidden="true"></i><span>' + esc(d.hedef) + '</span></p>' +
       '<div class="deger-liste"><div class="deger-satir"><span>Hassasiyet</span><span>' + (has || 'Kayıt yok') + '</span></div>' +
       (kr ? '<div class="deger-satir"><span>Kronik</span><span>' + kr + '</span></div>' : '') +
+      (PB.protokoller(d).length ? '<div class="deger-satir"><span>Protokol</span><span>' + PB.protokoller(d).map((p) => '<span class="rozet olumlu">' + esc(p.ad) + '</span>').join(' ') + '</span></div>' : '') +
       (izin ? (tah.length ? tah.map((x) => '<div class="deger-satir"><span>' + esc(x.ad) + '</span><b>' + sayi(x.sonuc, 1) + ' ' + esc(x.birim) + ' <span class="rozet durdu">' + (PB.tahlilDurum(x) === 'dusuk' ? 'Düşük' : 'Yüksek') + '</span></b></div>').join('') : '<div class="deger-satir"><span>Son tahlil</span><span>Referans dışı değer yok</span></div>') : '<div class="deger-satir"><span>Tahlil</span><span>Paylaşılmıyor</span></div>') +
       '<div class="deger-satir"><span>İzinler</span><span>' + izinMetin + '</span></div></div></div>';
   }
