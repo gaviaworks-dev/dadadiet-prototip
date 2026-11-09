@@ -3677,4 +3677,6 @@ body:has(.cookie-banner.show),body.cerez-acik{padding-bottom:var(--cerez-boy,0px
 @media(max-width:1024px){.hedef-izgara{grid-template-columns:repeat(2,minmax(0,1fr))}}
 @media(max-width:420px){.hedef-izgara{grid-template-columns:minmax(0,1fr)}}
 /* Bilgi notu listenin altında: satır ayracına yapışmaz */
-.ayar-liste+.bilgi-notu{margin:var(--bosluk-16)}
+/* Sarmalı satırın eylem şeridi dar ekranda taşmaz, alt satıra geçer */
+.ayar-satir.sarmali>.as-eylem{flex-wrap:wrap;row-gap:var(--bosluk-6)}
+.kart-govde.bosluksuz>.ayar-liste+.bilgi-notu{max-width:none;margin:var(--bosluk-4) var(--bosluk-22) var(--bosluk-20)}

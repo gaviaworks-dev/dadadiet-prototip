@@ -73,8 +73,8 @@
       const ek = e.filter((x) => x.ogun === o.anahtar);
       const ekMetin = ek.length ? ' Eklediğin: ' + ek.map((x) => U.kalemMetin(x)).join(', ') + '.' : '';
       const durum = U.ogunDurum(i, o);
-      const satir = DD.ogunFoto.satir(U.ogunSatir({ ...o, metin: 'Planlanan: ' + o.metin + '.' + ekMetin }, durum), o, durum);
-      return satir.replace('<div class="segment"', '<button class="dugme hayalet kucuk" type="button" data-besin-ekle="' + o.anahtar + '" aria-label="' + U.kac(o.ad) + ' için besin ekle"><i class="fa-solid fa-plus" aria-hidden="true"></i></button><div class="segment"');
+      /* G1: Fotoğraf ve Besin ekle ikon düğme, durum küçük Uydum/Atladım segmenti */
+      return DD.ogunFoto.satir(U.ogunSatirKisa({ ...o, metin: 'Planlanan: ' + o.metin + '.' + ekMetin }, durum, U.ikonDugme('fa-plus', 'Besin ekle', 'data-besin-ekle="' + o.anahtar + '"')), o, durum);
     }).join(''));
     const tm = toplam();
     $('#gtOzet').textContent = ogunler().filter((o) => i[o.anahtar]).length + ' / ' + ogunler().length + ' öğün tamamlandı, ' + e.length + ' ek kalem kayıtlı.';
@@ -147,25 +147,38 @@
     U.bas('#gtKalemler', tm.l.map((x) => '<tr><td><span class="no">' + U.kac(U.kalemMetin(x)) + '</span></td><td>' + ogunAd(x.ogun) + '</td><td class="tutar sag">' + DD.bicim.kcal(x.kcal) + '</td><td class="tutar sag">' + U.sayi(x.protein, 1) + ' g</td><td class="tutar sag">' + U.sayi(x.yag, 1) + ' g</td><td class="tutar sag">' + U.sayi(x.karb, 1) + ' g</td></tr>').join('') || '<tr><td colspan="6" class="bos-hucre">Bugün henüz kalem kaydedilmedi.</td></tr>');
   }
   function notCiz() {
-    const l = U.yerel('gunlukNot', []).slice().reverse();
+    const l = U.tohumla('gunlukNot').slice().reverse();
     U.bas('#gtNotlar', l.length
-      ? '' + l.map((n) => '<div class="ayar-satir"><span class="as-ikon"><i class="fa-solid fa-note-sticky" aria-hidden="true"></i></span><div class="as-metin"><b>' + U.tarih(n.tarih) + ' · ' + U.kac(n.etiket) + '</b><span>' + U.kac(n.metin) + '</span></div>' + (n.paylasildi ? '<span class="as-eylem">' + U.durum('cozulen', 'Paylaşıldı') + '</span>' : '') + '</div>').join('')
+      ? '' + l.map((n) => '<div class="ayar-satir sarmali"><span class="as-ikon"><i class="fa-solid fa-note-sticky" aria-hidden="true"></i></span><div class="as-metin"><b>' + U.tarih(n.tarih) + ' · ' + U.kac(n.etiket) + '</b><span>' + U.kac(n.metin) + '</span></div>' + (n.paylasildi || n.ornek ? '<span class="as-eylem">' + (n.ornek ? U.durum('kapali', 'Prototip örneği') : '') + (n.paylasildi ? U.durum('cozulen', 'Paylaşıldı') : '') + '</span>' : '') + '</div>').join('')
       : U.bos({ ikon: 'fa-note-sticky', baslik: 'Henüz not yok', metin: 'Bugüne ilk notunu yukarıdan ekle.' }));
   }
   function ozetCiz() {
     const s = u.su, a = u.adim;
-    const k1 = (i, e, d) => '<div class="sayac"><i class="fa-solid ' + i + '" aria-hidden="true"></i><div><span>' + e + '</span><b>' + d + '</b></div></div>';
     const hedefGun = s.hafta.filter((x) => gunSu(x) >= s.hedef_ml).length;
     /* Yeni üyede hafta boştur; bugünün satırı yine çıkar ki his kaydı görünsün */
     const gunler = s.hafta.length ? s.hafta : [{ tarih: b, ml: s.bugun_ml }];
     /* Gün gün öğün: plana uyulan öğün / planlanan; enerji işaretlenen öğünler ve eklenen kalemlerden */
     const gunOgun = (t) => { const l = U.secilenOgunler(k, t), i = k ? U.isaret(k, t) : {}, ek = (U.yerel('gunlukEk', {})[t]) || []; const y = l.filter((o) => i[o.anahtar]); return { n: y.length, top: l.length, kcal: y.reduce((x, o) => x + o.kcal, 0) + ek.reduce((x, e) => x + (Number(e.kcal) || 0), 0), ek: ek.length }; };
     const og = gunler.map((x) => gunOgun(x.tarih)), kayitli = og.filter((x) => x.n || x.ek);
-    U.bas('#gtOrtalama', (duyarli ? '' : k1('fa-fire', 'Günlük enerji', kayitli.length ? DD.bicim.kcal(Math.round(kayitli.reduce((x, o) => x + o.kcal, 0) / kayitli.length)) : 'Kayıt yok')) + k1('fa-utensils', 'Kaydedilen öğün', og.reduce((x, o) => x + o.n, 0) + ' / ' + og.reduce((x, o) => x + o.top, 0)) + k1('fa-droplet', 'Su ortalaması', U.sayi(s.ortalama_ml) + ' ml') + k1('fa-shoe-prints', 'Adım ortalaması', U.sayi(a.ortalama)) + k1('fa-bullseye', 'Su hedefi tutan gün', hedefGun + ' / 7') + k1('fa-percent', 'Program uyumu', '%' + U.uyum(k).oran));
+    /* G3: her ortalama hedefiyle birlikte; değer, ölçer ve tek satır not. Su ve adımda yedi günün hedef şeridi */
+    const oran = (v, h) => (h ? Math.min(100, Math.round((v / h) * 100)) : 0);
+    /* Ölçer ortalamanın hedefe oranı; su ve adımda ölçer yerine yedi günün hedef şeridi (yeşil hedefte, turuncu altında) */
+    const olcer = (e, o) => '<div class="olcer hap" role="img" aria-label="' + e + ': hedefin yüzde ' + o + '"><span data-oran="' + o + '"></span></div>';
+    const kalem = (i, e, deger, hedef, gorsel, alt) => '<div class="hedef-kalem"><span><i class="fa-solid ' + i + '" aria-hidden="true"></i> ' + e + '</span><b>' + deger + (hedef ? ' <small>/ ' + hedef + '</small>' : '') + '</b>' + gorsel + '<small>' + alt + '</small></div>';
+    const serit = (e, l, h) => '<span class="gun-serit" role="img" aria-label="' + e + ': son ' + l.length + ' günün ' + l.filter((v) => v >= h).length + ' tanesinde hedefte">' + l.map((v) => '<i class="' + (v >= h ? 'hedefte' : 'sinirda') + '"></i>').join('') + '</span>';
+    const hedefKcal = Number(t.kcal) || (k && k.tip === 'plan' ? k.plan.hedef_kcal : 0), ortKcal = kayitli.length ? Math.round(kayitli.reduce((x, o) => x + o.kcal, 0) / kayitli.length) : 0;
+    const oN = og.reduce((x, o) => x + o.n, 0), oT = og.reduce((x, o) => x + o.top, 0);
+    const suL = gunler.map(gunSu), adimL = gunler.map((x) => (x.tarih === b ? a.bugun : (a.hafta.find((z) => z.tarih === x.tarih) || {}).adim || 0)), adimGun = adimL.filter((v) => v >= a.hedef).length;
+    U.bas('#gtOrtalama', '<div class="hedef-izgara">'
+      + (duyarli ? '' : kalem('fa-fire', 'Günlük enerji', kayitli.length ? DD.bicim.kcal(ortKcal) : 'Kayıt yok', hedefKcal ? DD.bicim.kcal(hedefKcal) : '', olcer('Günlük enerji', oran(ortKcal, hedefKcal)), 'Kayıtlı ' + kayitli.length + ' günün ortalaması'))
+      + kalem('fa-utensils', 'Plana uyulan öğün', oN + ' / ' + oT, '', olcer('Plana uyulan öğün', oran(oN, oT)), 'Program uyumu %' + U.uyum(k).oran)
+      + kalem('fa-droplet', 'Su ortalaması', U.sayi(s.ortalama_ml) + ' ml', U.sayi(s.hedef_ml) + ' ml', serit('Su hedefi', suL, s.hedef_ml), hedefGun + ' / ' + gunler.length + ' gün hedefte')
+      + kalem('fa-shoe-prints', 'Adım ortalaması', U.sayi(a.ortalama), U.sayi(a.hedef), serit('Adım hedefi', adimL, a.hedef), adimGun + ' / ' + gunler.length + ' gün hedefte')
+      + '</div>');
     U.bas('#gtHafta', gunler.slice().reverse().map((x) => {
       const y = a.hafta.find((z) => z.tarih === x.tarih) || {}, ml = gunSu(x), adim = x.tarih === b ? a.bugun : y.adim, his = DD.hisKaydi.kayit(x.tarih);
-      const o = gunOgun(x.tarih), uyum = !o.top ? U.durum('kapali', 'Plan yok') : !o.n ? U.durum('kapali', 'Kayıt yok') : o.n === o.top ? U.durum('cozulen', 'Tam') : U.durum('bekleyen', 'Kısmi');
-      return '<tr><td><span class="no">' + U.gunAdi(x.tarih) + '<small>' + U.kisaTarih(x.tarih) + '</small></span></td>' + (duyarli ? '' : '<td class="tutar sag">' + (o.n || o.ek ? DD.bicim.kcal(o.kcal) : '—') + '</td>') + '<td><span class="no">' + o.n + ' / ' + o.top + '</span> ' + uyum + '</td>' + (his ? '<td>' + DD.hisKaydi.hap(his) + '</td>' : '<td class="bos-hucre">Kayıt yok</td>') + '<td class="tutar sag">' + U.sayi(ml) + ' ml</td><td class="tutar sag">' + U.sayi(adim) + '</td><td>' + (ml >= s.hedef_ml ? U.durum('cozulen', 'Tuttu') : U.durum('bekleyen', 'Altında')) + '</td></tr>';
+      const o = gunOgun(x.tarih), uyum = !o.top ? U.durum('kapali', o.ek + ' kalem, plan dışı') : !o.n ? U.durum('kapali', 'Kayıt yok') : o.n === o.top ? U.durum('cozulen', 'Tam') : U.durum('bekleyen', 'Kısmi');
+      return '<tr><td><span class="no">' + U.gunAdi(x.tarih) + '<small>' + U.kisaTarih(x.tarih) + '</small></span></td>' + (duyarli ? '' : '<td class="tutar sag">' + (o.n || o.ek ? DD.bicim.kcal(o.kcal) : '—') + '</td>') + '<td>' + (o.top ? '<span class="no">' + o.n + ' / ' + o.top + '</span> ' : '') + uyum + '</td>' + (his ? '<td>' + DD.hisKaydi.hap(his) + '</td>' : x.tarih === b ? '<td><a class="metin-bag" href="#ogun" data-sekme-git="ogun">Hissini seç</a></td>' : '<td class="bos-hucre">Kayıt yok</td>') + '<td class="tutar sag">' + U.sayi(ml) + ' ml</td><td class="tutar sag">' + U.sayi(adim) + '</td><td>' + (ml >= s.hedef_ml ? U.durum('cozulen', 'Tuttu') : U.durum('bekleyen', 'Altında')) + '</td></tr>';
     }).join(''));
   }
   /* Eklenen kalemler: kaynak rozeti, Düzelt ve Sil */
@@ -173,9 +186,12 @@
     const e = ekler(), gastro = e.some((x) => x.kaynak === 'gastro');
     U.bas('#gtEkler', (e.length ? e.map((x, n) => {
       const kn = KAYNAK[x.kaynak];
-      return '<div class="ayar-satir sarmali"><span class="as-ikon"><i class="fa-solid ' + (kn ? kn[1] : 'fa-plus') + '" aria-hidden="true"></i></span><div class="as-metin"><b>' + U.kac(U.kalemMetin(x)) + '</b><span>' + ogunAd(x.ogun) + (duyarli ? '' : ' · ' + (x.kcal ? DD.bicim.kcal(Math.round(x.kcal)) : 'enerji girilmedi')) + '</span></div><div class="as-eylem">' + (kn ? U.durum('acik', kn[0]) : '') + (x.ornek ? U.durum('kapali', 'Prototip örneği') : '') + '<button class="dugme hayalet kucuk" type="button" data-ek-duzelt="' + n + '">Düzelt</button><button class="dugme hayalet kucuk" type="button" data-ek-sil="' + n + '" aria-label="' + U.kac(U.kalemAd(x)) + ' kalemini sil"><i class="fa-solid fa-trash" aria-hidden="true"></i></button></div></div>';
-    }).join('') : U.bos({ ikon: 'fa-plus', baslik: 'İlk öğününü ekle', metin: 'Plandan farklı yediğin her şeyi buraya ekle; Akıllı Tabak’tan ya da yalnız kaloriyle de ekleyebilirsin.' }))
-      + (gastro ? '<div class="bilgi-notu"><i class="fa-solid fa-kitchen-set" aria-hidden="true"></i><p><b>Dada Gastro:</b> tarif sayfasında “Pişirdim” dediğin yemek günlüğüne kendiliğinden düşer. Buradaki kayıt prototip örneğidir; iki hesabın bağlanması canlıda yapılır.</p></div>' : ''));
+      return '<div class="ayar-satir sarmali"><span class="as-ikon"><i class="fa-solid ' + (kn ? kn[1] : 'fa-plus') + '" aria-hidden="true"></i></span><div class="as-metin"><b>' + U.kac(U.kalemMetin(x)) + '</b><span>' + ogunAd(x.ogun) + (duyarli ? '' : ' · ' + (x.kcal ? DD.bicim.kcal(Math.round(x.kcal)) : 'enerji girilmedi')) + '</span></div><div class="as-eylem">' + (kn ? U.durum('acik', kn[0]) : '') + (x.ornek ? U.durum('kapali', 'Prototip örneği') : '') + '<span class="ikon-eylemler">' + U.ikonDugme('fa-pen', 'Düzenle', 'data-ek-duzelt="' + n + '"') + '<button class="ikon-dugme yikici" type="button" data-ek-sil="' + n + '" aria-label="Sil"><i class="fa-solid fa-trash" aria-hidden="true"></i></button></span></div></div>';
+    }).join('') : U.bos({ ikon: 'fa-plus', baslik: 'İlk öğününü ekle', metin: 'Plandan farklı yediğin her şeyi buraya ekle; Akıllı Tabak’tan ya da yalnız kaloriyle de ekleyebilirsin.' })));
+    /* G2: bilgi notu listenin kardeşi; listenin içinde son satır ayracına biniyordu */
+    const not = $('#gtEkNot');
+    if (not) not.remove();
+    if (gastro) $('#gtEkler').insertAdjacentHTML('afterend', '<div class="bilgi-notu" id="gtEkNot"><i class="fa-solid fa-kitchen-set" aria-hidden="true"></i><p><b>Dada Gastro:</b> tarif sayfasında “Pişirdim” dediğin yemek günlüğüne kendiliğinden düşer. Buradaki kayıt prototip örneğidir; iki hesabın bağlanması canlıda yapılır.</p></div>');
   }
   /* Öğün penceresinin kısayolları: dünü kopyala, Akıllı Tabak, favori öğünler, sık eklenenler */
   const favoriler = () => U.yerel('favoriOgunler', []);
