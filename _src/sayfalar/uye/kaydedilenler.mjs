@@ -11,12 +11,12 @@ export default ({ veri }) => {
   };
   const govde = `<div class="yigin">${rk('DF-B1', { tur: 'bant', konum: 'alt' })}
 <div class="cipler" id="kdSuzgec" role="group" aria-label="İçerik türü" data-suzgec></div>
-${kart({ ikon: 'fa-bookmark', baslik: 'Kaydettiklerin', bosluksuz: true, govde: tablo({ id: 'kdListe', etiket: 'Kaydedilen içerikler', basliklar: ['İçerik', ['Tür', 'dar-kolon'], ['Kaydedildi', 'dar-kolon'], ['İşlem', 'eylem-kolon']] }) })}
+${kart({ ikon: 'fa-bookmark', baslik: 'Kaydettiklerin', metin: 'Başlangıçtaki kayıtlar ve tarihleri prototip örneğidir; yeni kaydettiğin içerik kendi tarihiyle eklenir.', bosluksuz: true, govde: tablo({ id: 'kdListe', etiket: 'Kaydedilen içerikler', basliklar: ['İçerik', ['Tür', 'dar-kolon'], ['Kaydedildi', 'dar-kolon'], ['İşlem', 'eylem-kolon']] }) })}
 </div>
 <script type="application/json" id="kdKatalog">${JSON.stringify(katalog).replace(/</g, '\\u003c')}</script>`;
   return [uyeSayfa({
     yol: 'hesabim/kaydedilenler', ad: 'Kaydedilenler', aktif: 'hesabim/programlarim/', ust: [['Programlarım', 'hesabim/programlarim/']],
-    giris: 'Kaydettiğin besinler, programlar, rehberler, diyetisyenler ve önerilerin tek listede.',
+    giris: 'Kaydettiğin tarifler, besinler, programlar, rehberler, diyetisyenler ve önerilerin tek listede.',
     govde, js: ['assets/js/sayfa/uye-kaydedilenler.js'],
   })];
 };
