@@ -138,5 +138,8 @@
     });
     bagliSuz();
     ciz(false);
+    /* Bağlantıyla gelen arama: ?ara=domates (tarif malzemesinden gelen besin araması) */
+    const araQ = sorgu.get('ara');
+    if (araQ && ara) { ara.value = araQ; ara.dispatchEvent(new Event('input', { bubbles: true })); }
   });
 })();
