@@ -3508,12 +3508,18 @@ body.cerez-acik #dadaMentor{--mentor-dip:max(var(--mentor-taban),calc(var(--ment
 .gun-ad .gun-durum{margin-left:var(--bosluk-8)}
 .akordeon-govde .akordeon-davet{padding:0 var(--ogun-kenar,var(--bosluk-24)) var(--bosluk-16)}
 .akordeon-davet .bilgi-notu{margin:0}
-/* Alışveriş listesi: grup başına sütun */
-.alisveris-izgara{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:var(--bosluk-20) var(--bosluk-24);margin-bottom:var(--bosluk-12)}
-.alisveris-grup .kart-baslik{margin-bottom:var(--bosluk-8)}
-.alisveris-grup small{color:var(--metin-ikincil);font-size:var(--yazi-12-5)}
-@media(max-width:1024px){.alisveris-izgara{grid-template-columns:repeat(2,minmax(0,1fr))}}
-@media(max-width:560px){.alisveris-izgara{grid-template-columns:minmax(0,1fr)}}
+/* Alışveriş listesi (Sayfa Revizesi 1, P4): kompakt grup kartları sütunlara akar (masonry), uzun grup boş sütun bırakmaz.
+   Kalem satırı ad + küçük gün rozeti; grup içinde kalemler sığdığı kadar yan yana. */
+.alisveris-izgara{columns:3 260px;column-gap:var(--bosluk-12);margin-bottom:var(--bosluk-4)}
+.alisveris-grup{break-inside:avoid;margin-bottom:var(--bosluk-12);padding:var(--bosluk-12) var(--bosluk-14);background:var(--zemin);border:var(--cizgi-1) solid var(--cizgi);border-radius:var(--yuvarlak-md)}
+.alisveris-grup-bas{display:flex;align-items:center;gap:var(--bosluk-6);margin:0 0 var(--bosluk-8);font-size:var(--yazi-13-5);font-weight:var(--agirlik-kalin);line-height:var(--satir-govde);color:var(--murekkep)}
+.alisveris-grup-bas i{color:var(--aksan-koyu);font-size:var(--yazi-12)}
+.alisveris-grup-sayi{margin-left:auto;font-size:var(--yazi-11-5);font-weight:var(--agirlik-kalin);color:var(--metin-ikincil)}
+.alisveris-kalemler{list-style:none;margin:0;padding:0;display:grid;grid-template-columns:repeat(auto-fill,minmax(130px,1fr));gap:var(--bosluk-6) var(--bosluk-12);font-size:var(--yazi-13);line-height:var(--satir-govde);color:var(--murekkep-yumusak)}
+.alisveris-kalemler li{display:flex;align-items:center;gap:var(--bosluk-6);min-width:0}
+.alisveris-kalemler li>span:not(.rozet){min-width:0;line-height:1.3}
+.alisveris-kalemler i{flex:none;color:var(--aksan-koyu);font-size:var(--yazi-11)}
+.alisveris-kalemler .rozet{flex:none;margin-left:auto}
 /* Kartın altında eylem düğmesi (kart bağlantı olduğu için düğme dışarıda) */
 .kart-eylemli{display:flex;flex-direction:column;gap:var(--bosluk-8);min-width:0}
 .kart-eylemli>.sonuc-kart{flex:1}
@@ -3644,3 +3650,23 @@ body:has(.cookie-banner.show),body.cerez-acik{padding-bottom:var(--cerez-boy,0px
 .ikon-dugme[data-ipucu-alt]::after{bottom:auto;top:calc(100% + var(--bosluk-6))}
 @media (hover:none){.ikon-dugme[data-ipucu]:hover::after{opacity:0;visibility:hidden}}
 .head-actions .ikon-dugme[data-ipucu]::after{bottom:auto;top:calc(100% + var(--bosluk-6))}
+
+/* ── sr-public (Sayfa Revizesi 1: P1, P2, P4, D1, H1) ──────────────────────────────────────────────── */
+/* P1: sayaç şeridinin küçük kipi (bant altı bilgi şeridi). Kanon .sayac-serit ölçüsünün sıkı hâli: kutu 8/14, ikon 30, değer 14.5 */
+.sayac-serit.kucuk{margin-top:0;box-shadow:none}
+.sayac-serit.kucuk .sayac{flex:1 1 150px;gap:var(--bosluk-10);padding:var(--bosluk-8) var(--bosluk-14)}
+.sayac-serit.kucuk .sayac>i{width:30px;height:30px;border-radius:var(--yuvarlak-sm);font-size:var(--yazi-13)}
+.sayac-serit.kucuk .sayac span{font-size:var(--yazi-10-5)}
+.sayac-serit.kucuk .sayac b{font-size:var(--yazi-14-5);line-height:var(--satir-govde);white-space:nowrap}
+@media(max-width:640px){.sayac-serit.kucuk .sayac{flex:1 1 44%;padding:var(--bosluk-8) var(--bosluk-12)}}
+/* P2: şerit ve eylemleri tek satırda; dar ekranda eylemler alt satıra sarar */
+.serit-satir{display:flex;flex-wrap:wrap;align-items:center;gap:var(--bosluk-12) var(--bosluk-16)}
+.serit-satir>.sayac-serit{flex:1 1 560px;min-width:0}
+.serit-eylem{display:flex;flex-wrap:wrap;align-items:center;gap:var(--bosluk-8)}
+@media(max-width:640px){.serit-eylem{width:100%}.serit-eylem>.dugme{flex:1 1 auto;justify-content:center}}
+/* Çerçeveli ikon düğme: düz zeminde yazılı düğmelerin yanında durur; aria-pressed iki durumlu eylemi (Kaydet) gösterir */
+.ikon-dugme.cerceveli{border:var(--cizgi-1) solid var(--cizgi);background:var(--kagit);border-radius:var(--yuvarlak-md);color:var(--murekkep-yumusak);font-size:var(--yazi-15)}
+.ikon-dugme.cerceveli:hover{border-color:var(--aksan);background:var(--kagit);color:var(--aksan-koyu)}
+.ikon-dugme.cerceveli[aria-pressed="true"]{border-color:var(--aksan);background:var(--aksan-yikama);color:var(--aksan-koyu)}
+/* P4: küçük rozet (sayı, gün) */
+.rozet.mini{padding:var(--bosluk-2) var(--bosluk-6);font-size:var(--yazi-10-5);letter-spacing:0;line-height:var(--satir-govde)}

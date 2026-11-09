@@ -9,9 +9,21 @@ const AKTIVITE = [
   ['1.2', 'Hareketsiz', 'Masa başı, egzersiz yok'], ['1.375', 'Az aktif', 'Haftada 1-3 gün düşük yoğunluklu egzersiz'], ['1.55', 'Orta aktif', 'Haftada 3-5 gün egzersiz'],
   ['1.725', 'Çok aktif', 'Haftada 6-7 gün yoğun egzersiz'], ['1.9', 'Atlet', 'Günde çift antrenman ya da ağır fiziksel iş'],
 ];
-/* Site haritası 7.2: "Ne öğrenmek istiyorsun?" Her çip ilgili araca gider (hesaplayıcı detayları örneklenir, K7.2) */
-const NE_OGREN = [['Enerji ihtiyacım', 'hesaplayici/gunluk-kalori/', 'fa-fire'], ['İdeal aralığım', 'hesaplayici/ideal-kilo/', 'fa-weight-scale'], ['Su ihtiyacım', 'hesaplayici/gunluk-su/', 'fa-droplet'], ['Beslenme alışkanlıklarım', 'test/beslenme/', 'fa-clipboard-question'], ['Metabolizma ritmim', 'hesaplayici/bazal-metabolizma/', 'fa-heart-pulse']];
-const neOgren = `<div class="cipler tek-satir ne-ogren" role="group" aria-label="Ne öğrenmek istiyorsun?">${NE_OGREN.map(([a, h, i]) => `<a class="cip suzgec" href="${K}${h}">${ikon(i)} ${a}</a>`).join('')}</div>`;
+/* Site haritası 7.2 "Ne öğrenmek istiyorsun?" + Sayfa Revizesi 1 H1: Gastro araç sayfasındaki sekme yapısı (dadagastro.com/olcu-birimleri .ob-tabs:
+   ikon + etiket, aktif dolgu, dar ekranda yatay kayar) kanon sekme rayıyla kurulur. Sekme, aynı sayfadaki araç ızgarasını amaca göre süzer
+   (public-araclar-liste.js, ?amac= ile ön seçilir). Beslenme alışkanlığı bir testtir: ızgarada test kartı olarak durur. */
+const AMAC = [['enerji', 'Enerji ihtiyacım', 'fa-fire'], ['ideal', 'İdeal aralığım', 'fa-weight-scale'], ['su', 'Su ihtiyacım', 'fa-droplet'], ['aliskanlik', 'Beslenme alışkanlıklarım', 'fa-clipboard-question'], ['metabolizma', 'Metabolizma ritmim', 'fa-heart-pulse']];
+const HESAP_AMAC = { 'gunluk-kalori': 'enerji metabolizma', 'bazal-metabolizma': 'enerji metabolizma', 'makro-dagilim': 'enerji', 'porsiyon-hesaplama': 'enerji', 'beden-kutle-endeksi': 'ideal', 'ideal-kilo': 'ideal', 'vucut-yag-orani': 'ideal', 'vucut-tipi': 'ideal', 'hedef-kilo-suresi': 'ideal', 'gunluk-su': 'su' };
+const testKart = ikonKart({ href: 'test/beslenme/', ikon: 'fa-clipboard-question', baslik: 'Beslenme Alışkanlığı Testi', metin: 'Günlük tabağını analiz et, dengeni gör', ek: ' data-kart data-amac="aliskanlik"' });
+const amacListe = (H) => {
+  const kartlar = H.map((h) => hesapKart(h, ` data-kart data-amac="${HESAP_AMAC[h.slug] || ''}"`)).join('') + testKart;
+  const sayi = (a) => H.filter((h) => (HESAP_AMAC[h.slug] || '').split(' ').includes(a)).length + (a === 'aliskanlik' ? 1 : 0);
+  return `<div data-liste data-alan="amac" data-param="amac" data-boyut="24" data-birim="araç">
+<div class="sekme-ray liste-ust tam-serit-kap"><div class="sekmeler suzgec tam-serit" role="tablist" aria-label="Ne öğrenmek istiyorsun?"><button class="sekme aktif" type="button" role="tab" data-deger="" aria-selected="true">${ikon('fa-layer-group')} Tümü <span class="sekme-sayi">${H.length + 1}</span></button>${AMAC.map(([d, a, i]) => `<button class="sekme" type="button" role="tab" data-deger="${d}" aria-selected="false" tabindex="-1">${ikon(i)} ${a} <span class="sekme-sayi">${sayi(d)}</span></button>`).join('')}</div></div>
+<div class="kart-izgara c3" data-izgara>${kartlar}</div>
+<nav class="sayfalama" data-sayfalama aria-label="Sayfalama" hidden></nav>
+</div>`;
+};
 const girdi = (id, ad, birim, g) => `<div class="alan"><label class="alan-etiket" for="${id}">${ad} <span class="zorunlu" aria-hidden="true">*</span></label><div class="alan-birimli"><input class="alan-girdi" id="${id}" type="number" inputmode="decimal" min="${g.min}" max="${g.max}" required aria-describedby="${id}Hata"><span>${birim}</span></div><span class="alan-hata" id="${id}Hata">${ikon('fa-circle-exclamation')} ${ad} ${g.min} ile ${g.max} arasında olmalı.</span></div>`;
 
 export default ({ veri }) => {
@@ -19,7 +31,7 @@ export default ({ veri }) => {
   const h = H.find((x) => x.slug === 'gunluk-kalori'), g = h.girdiler;
   const liste = `${bant({ yol: [['Hesaplayıcılar']], etiket: 'Sağlık araçları', etiketIkon: 'fa-calculator', h1: 'Vücudunu <span class="vurgu">rakamlarla</span> tanı', gorsel: 'hero/hesaplayicilar-tst-top.webp', alt: 'Kalori, makro, su ve kilo hesaplarını birkaç saniyede yap; sonucuna göre program ve porsiyon önerilerine geç.', eylem: dugme('Bana Uygun Olanı Bul', 'bana-uygun-olani-bul/', 'koyu-zemin', 'fa-compass'), sayilar: [[s.hesaplayici, 'Hesaplayıcı'], [s.test, 'Sağlık testi'], [s.besin, 'Besin değeri']] })}
 <div class="bolum-dizi">
-${bolum(`${ustSerit('OB-B1')}${bolumBas({ etiket: 'Hesaplayıcılar', ikon: 'fa-calculator', baslik: 'Hangi Değerini Öğrenmek İstiyorsun?', metin: 'Her araç referans denklemlere dayanır; sonuçlar tahminidir.' })}${neOgren}<div class="kart-izgara c3">${H.map(hesapKart).join('')}</div>${rk('OB-B1-SIDE', { tur: 'yan' })}`, { ilk: true })}
+${bolum(`${ustSerit('OB-B1')}${bolumBas({ etiket: 'Hesaplayıcılar', ikon: 'fa-calculator', baslik: 'Hangi Değerini Öğrenmek İstiyorsun?', metin: 'Her araç referans denklemlere dayanır; sonuçlar tahminidir.' })}${amacListe(H)}${rk('OB-B1-SIDE', { tur: 'yan' })}`, { ilk: true })}
 ${bolum(`${bolumBas({ etiket: 'Kayıtlı sonuçlar', ikon: 'fa-folder-open', baslik: 'Son Sonuçların', metin: 'Kaydettiğin son hesap ve test sonuçları. Tamamı Sağlık Dosyam’da.', arac: dugme('Sağlık Dosyam', 'hesabim/saglik-dosyam/', 'hayalet orta', 'fa-arrow-right', true) })}<div class="kart-izgara c3" data-son-sonuclar></div>`, { sinif: 'oturum-acik' })}
 ${bolum(`${bolumBas({ etiket: 'Sonucu kullan', ikon: 'fa-arrow-right-long', baslik: 'Rakamdan Tabağa Geç', metin: 'Hesapladığın değeri günlük seçimlerine taşı.' })}<div class="kart-izgara c3">${ikonKart({ href: 'akilli-tabak-ve-degisim/', ikon: 'fa-chart-pie', baslik: 'Akıllı Tabak ve Değişim', metin: 'Tabağını kur, muadilini bul' })}${ikonKart({ href: 'saglik-testleri/', ikon: 'fa-clipboard-question', baslik: 'Sağlık Testleri', metin: `${s.test} test ile alışkanlığını ölç` })}${ikonKart({ href: 'programlar/program-bul/', ikon: 'fa-wand-magic-sparkles', baslik: 'Program Bul', metin: 'Beş adımda eşleştirme' })}</div>`)}
 ${bolum(genelNot)}
@@ -56,7 +68,7 @@ ${bolum(genelNot)}
 </div>`;
 
   return [
-    { yol: 'hesaplayicilar', meta: { baslik: 'Hesaplayıcılar', duzen: 'public', aktif: 'Sağlık Araçları', hero: true, js: [...sayfaJs('sonuclar'), 'assets/js/misafir.js'] }, govde: liste },
+    { yol: 'hesaplayicilar', meta: { baslik: 'Hesaplayıcılar', duzen: 'public', aktif: 'Sağlık Araçları', hero: true, js: [...sayfaJs('liste', 'sonuclar'), 'assets/js/misafir.js'] }, govde: liste },
     { yol: 'hesaplayici/gunluk-kalori', meta: { baslik: h.ad, duzen: 'public', aktif: 'Sağlık Araçları', hero: true, js: [...sayfaJs('kalori'), 'assets/js/misafir.js'] }, govde: detay },
   ];
 };
