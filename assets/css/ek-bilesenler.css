@@ -3657,4 +3657,21 @@ body:has(.cookie-banner.show),body.cerez-acik{padding-bottom:var(--cerez-boy,0px
 .alan-izgara>*{min-width:0}
 .alan-izgara .olcu-girdi{display:flex;width:100%;padding:var(--bosluk-10) var(--bosluk-14)}
 .alan-izgara .olcu-girdi input{flex:1;width:auto;min-width:0;font-size:var(--yazi-22)}
+/* İkonlu bilgi satırı kart gövdesinin ilk öğesiyse üst payı kartın kendi dolgusudur */
+.kart-govde>.kimlik-meta:first-child{margin-top:0}
+.kart-govde>.kimlik-meta+.alan-yardim{margin-top:var(--bosluk-12)}
+@media(max-width:640px){.kart-govde>.kimlik-meta{justify-content:flex-start}}
+/* Sayfa içi sohbet kartı: akışın yüksekliği sınırlı, kendi içinde kayar; açılınca son mesaj ve yazma alanı görünür.
+   Akış sınırsız uzayınca scrollTop işe yaramıyordu ve 390'da yazma alanı ekranın 470 px altında kalıyordu. */
+.kart.sohbet-kart{display:flex;flex-direction:column}
+.kart.sohbet-kart .sohbet-akis{flex:none;height:clamp(260px,calc(100dvh - 560px),600px)}
+/* Gönderilmeden önce ek önizlemesi ve balondaki görsel ek */
+.sohbet-yaz>.sohbet-kunye{margin:0 0 var(--bosluk-10);padding:var(--bosluk-8);border:var(--cizgi-1) solid var(--cizgi);border-radius:var(--yuvarlak-md);background:var(--zemin);flex-wrap:nowrap}
+.sohbet-ek-onizleme{width:48px;height:48px;flex:none;object-fit:cover;border-radius:var(--yuvarlak-sm);border:var(--cizgi-1) solid var(--cizgi)}
+.sohbet-ek-ad{display:flex;flex-direction:column;gap:2px;flex:1;min-width:0}
+.sohbet-ek-ad b{font-size:var(--yazi-13);color:var(--murekkep);overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.sohbet-ek-ad small{font-weight:var(--agirlik-orta);color:var(--metin-ikincil)}
+.sohbet-ek.gorsel{flex-direction:column;align-items:flex-start;padding:var(--bosluk-6)}
+.sohbet-ek-resim{display:block;width:220px;max-width:100%;aspect-ratio:4/3;object-fit:cover;border-radius:var(--yuvarlak-sm);background:var(--zemin-2)}
+.sohbet-ek.gorsel.yok .sohbet-ek-resim{display:none}
 /* --- sr-saglik sonu --- */
