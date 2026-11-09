@@ -211,15 +211,7 @@
         <form id="yeniTarifAlan" novalidate hidden>
           <div class="bilgi-notu" id="ytKaynakNot" hidden><i class="fa-solid fa-utensils" aria-hidden="true"></i><p id="ytKaynakMetin"></p></div>
           <div class="alan"><label class="alan-etiket" for="ytAd">Tarif adı <span class="zorunlu" aria-hidden="true">*</span></label><input class="alan-girdi" id="ytAd" type="text" maxlength="60" required placeholder="Örn. Fırında sebzeli hindi"></div>
-          <div class="alan">
-            <span class="alan-etiket" id="ytOgunEtiket">Uygun öğünler</span>
-            <div class="cip-sira" id="ytOgunler" role="group" aria-labelledby="ytOgunEtiket">
-              <button class="cip" type="button" data-deger="kahvalti" aria-pressed="false">Kahvaltı</button>
-              <button class="cip" type="button" data-deger="ara" aria-pressed="false">Ara öğün</button>
-              <button class="cip" type="button" data-deger="ogle" aria-pressed="false">Öğle</button>
-              <button class="cip" type="button" data-deger="aksam" aria-pressed="false">Akşam</button>
-            </div>
-          </div>
+          <div class="alan"><label class="alan-etiket" for="ytKategori">Kategori <span class="zorunlu" aria-hidden="true">*</span></label><select class="alan-secim" id="ytKategori" required></select></div>
           <div class="alan-izgara c3">
             <div class="alan"><label class="alan-etiket" for="ytKcal">Enerji (kcal) <span class="zorunlu" aria-hidden="true">*</span></label><input class="alan-girdi" id="ytKcal" type="number" min="0" step="5" required></div>
             <div class="alan"><label class="alan-etiket" for="ytP">Protein (g)</label><input class="alan-girdi" id="ytP" type="number" min="0" step="0.5"></div>
@@ -268,11 +260,10 @@
               <input class="panel-arama-girdi" id="sheetAra" type="search" placeholder="Ara" autocomplete="off">
             </div>
             <div class="secim-suzgec" id="suzgecAlan">
-            <div class="alan-izgara ogun-suzgec">
-              <div class="alan"><span class="alan-etiket" id="suzOgunEtiket">Öğün</span><div class="segment" id="suzOgunKip" role="group" aria-labelledby="suzOgunEtiket"><button type="button" aria-pressed="true" data-deger="uygun"><span data-rol="uygun-ad">Bu öğüne uygun</span> <span class="sekme-sayi" id="suzUygunSayi"></span></button><button type="button" aria-pressed="false" data-deger="tum">Tüm yemekler <span class="sekme-sayi" id="suzTumSayi"></span></button></div></div>
+            <div class="alan-izgara c2">
+              <div class="alan"><label class="alan-etiket" for="suzKategori">Kategori</label><select class="alan-secim" id="suzKategori"></select></div>
               <div class="alan"><label class="alan-etiket" for="suzKcal">Kalori</label><select class="alan-secim" id="suzKcal"><option value="">Tümü</option><option value="0-150">150 altı</option><option value="150-300">150–300</option><option value="300-500">300–500</option><option value="500-9999">500 üstü</option></select></div>
             </div>
-            <div class="cip-sira tek-satir" id="suzKategori" role="group" aria-label="Kategori"></div>
             <div class="cipler" id="suzDiyet" aria-label="Diyet süzgeci">
               <button class="cip" type="button" data-deger="Vegan" aria-pressed="false">Vegan</button>
               <button class="cip" type="button" data-deger="Vejetaryen" aria-pressed="false">Vejetaryen</button>
@@ -286,7 +277,7 @@
             <span class="bos-ikon"><i class="fa-solid fa-magnifying-glass" aria-hidden="true"></i></span>
             <h3>Sonuç bulunamadı</h3>
             <p>Süzgeci gevşet ya da serbest kalem olarak ekle.</p>
-            <div class="eylem-satiri"><button class="dugme hayalet" type="button" data-plan="ogun-tum" id="sheetBosOgun">Tüm yemekleri göster</button><button class="dugme hayalet" type="button" data-plan="serbest-gec">Serbest kalem ekle</button></div>
+            <div class="eylem-satiri"><button class="dugme hayalet" type="button" data-plan="kategori-tum" id="sheetBosOgun">Tüm kategorileri göster</button><button class="dugme hayalet" type="button" data-plan="serbest-gec">Serbest kalem ekle</button></div>
           </div>
         </div>
       </div>
