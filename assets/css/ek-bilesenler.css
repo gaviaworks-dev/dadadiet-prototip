@@ -3418,8 +3418,8 @@ body.rk-altbar-acik #dadaMentor{--mentor-dip:max(var(--mentor-taban),calc(var(--
 /* "… sunar" hapı (KT-HERO) bant rozetlerinin yanında: satır yüksekliğini rozetlere göre korur */
 .bant-eylem:has(>.rk-eslik){align-items:center}
 /* Yan yapışkanlar: sağdaki "Görüş Bildir" sekmesinin içinde kalır; tek kart kendi kenarında, sol kart dar ekranda gizlenir (standart.js ölçer) */
-[data-rk-side-pair]>.rk-std-side[data-rk-slot="STD-SIDE"]{left:auto;right:calc(var(--rk-side-inset,8px) + var(--rk-kenar-sekme,0px))}
-[data-rk-side-pair]>.rk-std-side[data-rk-slot="STD-SIDE-LEFT"]{right:auto;left:var(--rk-side-inset,8px)}
+[data-rk-side-pair]>.rk-std-side.rk-std[data-rk-slot="STD-SIDE"]{left:auto;right:calc(var(--rk-side-inset,8px) + var(--rk-kenar-sekme,0px))}
+[data-rk-side-pair]>.rk-std-side.rk-std[data-rk-slot="STD-SIDE-LEFT"]{right:auto;left:var(--rk-side-inset,8px)}
 [data-rk-side-pair][data-rk-side-tek]>.rk-std-side[data-rk-slot="STD-SIDE-LEFT"]{display:none!important}
 /* Satış vitrini: alan önizlemesi prototip sayfasının ölçekli iframe'i (vitrin.js ölçer), paket kalemindeki "Önizle" bağı */
 .vt-vp:has(>.vt-iframe){overflow:hidden}
