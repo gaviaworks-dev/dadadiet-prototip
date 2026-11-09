@@ -3544,11 +3544,12 @@
    "kademe": "1",
    "katalog": "secki.sayfa",
    "aciklama": "Seçki /tarifler/seckiler/{s} · Sağlıklı Tarifler marka seçkisi",
-   "yol": "tarifler/seckiler/ornek-glutensiz-ile-glutensiz-sofralar",
+   "yol": "",
    "bolum": "sayfanın tamamı: marka renginde bant, marka kimliği ve marka imzalı tarif listesi (örnek sayfa, kurgu marka)",
-   "durum": "yerlesik",
-   "gerekce": "",
-   "sekme": "marka"
+   "durum": "yok",
+   "gerekce": "Tarif seçkisi prototipten kaldırıldı (9 Kasım kullanıcı kararı); alan canlı katalogda duruyor, prototipte yüzeyi yok.",
+   "sekme": "marka",
+   "kaldirildi": true
   },
   {
    "kod": "menu.secki-hucresi",
@@ -3571,9 +3572,10 @@
    "aciklama": "Header mega menü · seçki hücresi",
    "yol": "kabuk",
    "bolum": "ilk mega menü · .mega-cats sonunda HD-MEGA ardı",
-   "durum": "yerlesik",
-   "gerekce": "",
-   "sekme": "menu"
+   "durum": "yok",
+   "gerekce": "Tarif seçkisi prototipten kaldırıldı (9 Kasım kullanıcı kararı); alan canlı katalogda duruyor, prototipte yüzeyi yok.",
+   "sekme": "menu",
+   "kaldirildi": true
   },
   {
    "kod": "ana-sayfa.marka-sef-karti",

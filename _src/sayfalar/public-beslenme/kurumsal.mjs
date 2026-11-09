@@ -71,7 +71,8 @@ function vitrinVeri(setler) {
   setler.forEach((s) => s.paketler.forEach((p) => p.kalemler.forEach((k) => ekle(k.ad, `${s.ad} · ${p.ad}`))));
   EKLER.forEach(([, ad, , , l]) => l.forEach((x) => ekle(x, `Ürün markası · ${ad}`)));
   const UYE = { 'hesabim/beslenme-planim': 'Beslenme Planım · alışveriş listesi', 'hesabim/haftalik-menum': 'Haftalık Menüm', 'hesabim/kaydedilenler': 'Kaydedilenler', 'hesabim/saglik-dosyam': 'Sağlık Dosyam' };
-  return ALANLAR.map((a) => ({
+  /* Kullanıcı kararıyla prototipten kaldırılan alan (ör. tarif seçkisi, 9 Kasım) satış vitrininde listelenmez; envanter tablosunda gerekçesiyle durur */
+  return ALANLAR.filter((a) => !a.kaldirildi).map((a) => ({
     k: a.kod, ad: a.ad, ca: a.canliAd, b: a.bicim, bo: a.bicimOlcu, d: a.masaustu, m: a.mobil, f: a.dosya, st: a.satis, az: a.azami, kd: a.kademe, ac: a.aciklama,
     y: a.durum === 'yerlesik' ? onizlemeYolu(a) : null, du: a.durum, sk: a.sekme, pk: pk.get(a.kod) ?? [],
     g: a.durum === 'uye' ? `Bu alan üye girişiyle açılan ${UYE[a.yol] ?? 'hesap'} sayfasında; prototipte önizlemesi üye sayfası güncellenince açılır.` : a.gerekce,

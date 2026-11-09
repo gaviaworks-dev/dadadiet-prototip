@@ -49,7 +49,7 @@ const ATAMA = {
   'PD-END': 'ornek-su', 'PD-R1': 'ornek-su', 'PD-END-END': 'demo-spor', 'TD-SB1': 'ornek-sut',
   'PL-N1': 'ornek-su', 'TL-M1': 'ornek-glutensiz', 'TL-M2': 'demo-spor', 'PL-B1': 'demo-market', 'MG-KONU': 'ornek-mutfak', 'PL-B1-END': 'ornek-su', 'MG-KONU-END': 'ornek-sut',
   'KT-HERO': 'ornek-glutensiz', 'KT-M1': 'ornek-sut', 'SD-B1': 'demo-market', 'SD-B1-END': 'ornek-su',
-  'AS-SEF-2': 'demo-spor', 'AS-CHEF': 'ornek-glutensiz', 'ana-sayfa.marka-sef-karti': 'ornek-glutensiz', 'AS-DAY': 'ornek-su', 'HD-WEEK': 'ornek-glutensiz', 'HD-MEGA': 'ornek-sut', 'menu.secki-hucresi': 'ornek-glutensiz',
+  'AS-SEF-2': 'demo-spor', 'AS-CHEF': 'ornek-glutensiz', 'ana-sayfa.marka-sef-karti': 'ornek-glutensiz', 'AS-DAY': 'ornek-su', 'HD-WEEK': 'ornek-glutensiz', 'HD-MEGA': 'ornek-sut',
   'STD-ALTBAR': 'demo-market', 'STD-SIDE': 'demo-spor', 'STD-SIDE-LEFT': 'ornek-su', 'STD-POPUP': 'ornek-glutensiz', 'STD-VIDEO': 'demo-spor',
 };
 /* kod: katalog kodu ya da doğrudan kurgu marka anahtarı (marka yüzeyleri, ör. 'ornek-glutensiz') */
@@ -60,8 +60,7 @@ export function kreatif(kod) {
   return { slug, ...m, renkSinif: 'rk-renk-' + m.renk, cta: m.tur === 'urun' ? 'İncele' : 'Keşfet', logo: `${K}assets/img/reklam/demo/${slug}.svg`, amblem: `${K}assets/img/reklam/demo/${slug}-amblem.svg`, resim: `${K}assets/img/${m.gorsel}` };
 }
 
-/* Marka yüzeyleri (örnek sayfalar, _src/sayfalar/public-beslenme/marka.mjs): seçki hücresi seçkiye, marka diyetisyen kartı profile gider (iç bağ, canlıdaki gibi) */
-const SECKI_YOLU = 'tarifler/seckiler/ornek-glutensiz-ile-glutensiz-sofralar/';
+/* Marka yüzeyi (örnek sayfa, _src/sayfalar/public-beslenme/marka.mjs): marka diyetisyen kartı profile gider (iç bağ, canlıdaki gibi). Tarif seçkisi kaldırıldı (9 Kasım) */
 const PROFIL_YOLU = 'markalar/ornek-glutensiz/';
 
 /* Ortak parçalar */
@@ -101,11 +100,10 @@ function gununSponsoru(kod) {
   const k = kreatif(kod);
   return `<a ${kok(kod, null, `rk-slot rk-gunun-sponsoru ${k.renkSinif}`)} ${bag(kod)}>${logo(k)}<span>${k.marka} sponsorluğunda${ORNEK}</span></a>`;
 }
-// x-reklam.slot bicim=menu (HD-MEGA, menu.secki-hucresi)
+// x-reklam.slot bicim=menu (HD-MEGA)
 function menu(kod) {
   const k = kreatif(kod);
-  const baslik = kod === 'menu.secki-hucresi' ? `${k.marka} Seçkisi` : k.baslik;
-  return `<a ${kok(kod, null, `rk-slot rk-menu${kod === 'menu.secki-hucresi' ? ' rk-secki-menu' : ''}`)} ${kod === 'menu.secki-hucresi' ? `href="${K}${SECKI_YOLU}" rel="sponsored"` : bag(kod)} aria-label="Sponsorlu · ${kac(k.marka)}" title="${kac(baslik)}"><span class="rk-menu-logo">${amblem(k)}</span><span><b>${baslik}</b><small class="rk-etiket">Sponsorlu${ORNEK}</small></span></a>`;
+  return `<a ${kok(kod, null, 'rk-slot rk-menu')} ${bag(kod)} aria-label="Sponsorlu · ${kac(k.marka)}" title="${kac(k.baslik)}"><span class="rk-menu-logo">${amblem(k)}</span><span><b>${k.baslik}</b><small class="rk-etiket">Sponsorlu${ORNEK}</small></span></a>`;
 }
 // x-reklam.hafta (HD-WEEK): organik vitrin kartının yerine
 function hafta(kod) {
@@ -245,7 +243,7 @@ export function reklamHtml(kod, s = {}) {
   else if (kod === 'AS-DAY') ic = gununSponsoru(kod);
   else if (kod === 'HD-WEEK') ic = hafta(kod);
   else if (kod === 'HD-DOLAP-SPON') ic = dolapMenu(kod);
-  else if (kod === 'HD-MEGA' || kod === 'menu.secki-hucresi') ic = menu(kod);
+  else if (kod === 'HD-MEGA') ic = menu(kod);
   else if (kod === 'AN-N1' || kod === 'ansiklopedi-liste.kategori-rozeti') ic = katSponsor(kod, s.kategori);
   else if (kod === 'DN-RAIL') ic = besinSatiri(kod);
   else if (kod === 'TD-ING') ic = malzeme(kod);

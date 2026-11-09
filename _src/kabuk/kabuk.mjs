@@ -28,7 +28,7 @@ const kalemHtml = (k) => k.sihirbaz
 /* Reklam kancaları (canlı header_mega ailesi): tarif bağı olan mega menü prototipte yok (K13.2), canlı kural ilk mega menüye düşer.
    Varsayılan görünümde <template> olarak durur; assets/js/reklam/onizle.js önizlemede açar. */
 const megaReklam = {
-  hucre: reklamYeri('HD-MEGA') + reklamYeri('menu.secki-hucresi'),
+  hucre: reklamYeri('HD-MEGA'),
   vitrin: reklamYeri('HD-WEEK', { hedef: '.mf-fig', yon: 'yerine' }) + reklamYeri('HD-DOLAP-SPON'),
 };
 

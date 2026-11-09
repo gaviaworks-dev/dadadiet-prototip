@@ -2494,7 +2494,7 @@
    {
     "kod": "urun",
     "ad": "Ürün markası",
-    "aciklama": "Gıda ve malzeme markaları için: ürünün tarifte, listede ve besin kütüphanesinde kendisi olarak görünür; üst pakette markanın seçkisi ve profil sayfası eklenir.",
+    "aciklama": "Gıda ve malzeme markaları için: ürünün tarifte, listede ve besin kütüphanesinde kendisi olarak görünür; üst pakette markanın profil sayfası eklenir.",
     "paketler": [
      {
       "ad": "Basic",
@@ -2585,15 +2585,7 @@
         "pay": "%100"
        },
        {
-        "ad": "Seçki · Sayfa sponsorluğu",
-        "pay": "%100"
-       },
-       {
         "ad": "Marka profili · Sayfa sponsorluğu",
-        "pay": "%100"
-       },
-       {
-        "ad": "Menü · Seçki hücresi",
         "pay": "%100"
        },
        {
@@ -2693,10 +2685,6 @@
        {
         "ad": "Besin Kütüphanesi · Besin kartı",
         "pay": "%100"
-       },
-       {
-        "ad": "Seçki · Sayfa sponsorluğu",
-        "pay": "%100"
        }
       ],
       "fiyat": "Teklifle"
@@ -2790,10 +2778,6 @@
         "pay": "%100"
        },
        {
-        "ad": "Seçki · Sayfa sponsorluğu",
-        "pay": "%100"
-       },
-       {
         "ad": "Tüm sayfalar · Videolu banner",
         "pay": "%100"
        }
@@ -2806,7 +2790,7 @@
    {
     "kod": "icerik",
     "ad": "Genel içerik",
-    "aciklama": "Marka içeriği için: her ay markan için sağlıklı tarif üretilir ve listede öne çıkar; üst paketlerde seçki, profil sayfası ve dönem sonu raporu eklenir.",
+    "aciklama": "Marka içeriği için: her ay markan için sağlıklı tarif üretilir ve listede öne çıkar; üst paketlerde profil sayfası ve dönem sonu raporu eklenir.",
     "paketler": [
      {
       "ad": "Basic",
@@ -2838,14 +2822,6 @@
        {
         "ad": "Sağlıklı Tarifler listesi · Liste kartı 2",
         "pay": "%50"
-       },
-       {
-        "ad": "Seçki · Sayfa sponsorluğu",
-        "pay": "%100"
-       },
-       {
-        "ad": "Menü · Seçki hücresi",
-        "pay": "%100"
        }
       ],
       "fiyat": "Teklifle"
@@ -2862,14 +2838,6 @@
        },
        {
         "ad": "Sağlıklı Tarifler listesi · Liste kartı 2",
-        "pay": "%100"
-       },
-       {
-        "ad": "Seçki · Sayfa sponsorluğu",
-        "pay": "%100"
-       },
-       {
-        "ad": "Menü · Seçki hücresi",
         "pay": "%100"
        },
        {
