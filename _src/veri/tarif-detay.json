@@ -1,0 +1,5758 @@
+{
+ "uretim": "2026-11-09",
+ "kaynak": "Canlı dadadiet.com/tarif/{slug} sayfalarından GET ile okundu (9 Kasım 2026): giriş, ipucu, neler değişti, klasik kalori, nasıl hesapladık, malzeme grupları, kategori, yayın tarihi, programlar. Temel kayıt _src/veri/tarifler.json.",
+ "gastro_kaynak": "Gastro eşlemesi DadaDiet/tasks/diet-saglikli-tarifler-plan.md §2 (Yasin Bey onaylı kurgu, Beyar 24 Eki onayı); adres T3 kontrolünde 200 dönen TR adresi (diet-saglikli-tarifler-gastro-adresleri.txt). Eşlemesi ya da doğrulanmış adresi olmayan tarifte bağ basılmaz.",
+ "tarifler": {
+  "cilbir": {
+   "kategori": {
+    "slug": "yumurta-tarifleri",
+    "ad": "Yumurta Tarifleri"
+   },
+   "kategoriler": [
+    {
+     "slug": "yumurta-tarifleri",
+     "ad": "Yumurta Tarifleri"
+    },
+    {
+     "slug": "kahvaltilik",
+     "ad": "Kahvaltılık"
+    }
+   ],
+   "yayin": "28 Ekim 2026",
+   "giris": "Çılbırın kimliği sarımsaklı süzme yoğurt ile poşe yumurtadır; bu tarifte ikisine de dokunulmaz. Değişen yalnız üstteki sos ve servisteki dereotu.",
+   "alerjen": "Yumurta ve süt (yoğurt) içerir (AB alerjen listesi). Laktoz için: laktozsuz süzme yoğurtla aynı biçimde hazırlanabilir.",
+   "ipucu": "Yumurtayı önce küçük bir kâseye kırın, sonra suya kaydırın; beyazı dağılmadan toplanır. Sarısı tam pişmiş isteyenler süreyi 4–5 dakikaya uzatabilir.",
+   "neler_degisti": "Sostaki 2 yemek kaşığı tereyağı yerine 2 çay kaşığı zeytinyağı kullanılır. Sos ocakta kızdırılmaz; pul biber zeytinyağında birkaç dakika bekletilerek rengini verir. Servise kıyılmış dereotu eklenir.",
+   "klasik_kcal": 396,
+   "hesap_toplam": "Toplam 467 g · 2 porsiyona bölündü",
+   "hesap": [
+    {
+     "ad": "Süzme Yoğurt",
+     "gram": "245 g",
+     "besin": "suzme-yogurt",
+     "kaynak": "TürKomp — Ulusal Gıda Kompozisyon Veri Tabanı",
+     "kaynak_url": "https://turkomp.tarimorman.gov.tr/food-yogurt-suzme-burdur-559"
+    },
+    {
+     "ad": "Sarımsak",
+     "gram": "3 g",
+     "besin": "sarimsak",
+     "kaynak": "TürKomp — Ulusal Gıda Kompozisyon Veri Tabanı",
+     "kaynak_url": "https://turkomp.tarimorman.gov.tr/food-sarimsak-kuru-233"
+    },
+    {
+     "ad": "Yumurta (tam · çiğ)",
+     "gram": "200 g",
+     "besin": "yumurta-tam-cig",
+     "kaynak": "TürKomp — Ulusal Gıda Kompozisyon Veri Tabanı",
+     "kaynak_url": "https://turkomp.tarimorman.gov.tr/food-yumurta-tavuk-tam-26"
+    },
+    {
+     "ad": "Zeytinyağı",
+     "gram": "9 g",
+     "besin": "zeytinyagi",
+     "kaynak": "TürKomp — Ulusal Gıda Kompozisyon Veri Tabanı",
+     "kaynak_url": "https://turkomp.tarimorman.gov.tr/food-zeytinyagi-sizma-103"
+    },
+    {
+     "ad": "Dereotu",
+     "gram": "10 g",
+     "besin": "dereotu",
+     "kaynak": "TürKomp — Ulusal Gıda Kompozisyon Veri Tabanı",
+     "kaynak_url": "https://turkomp.tarimorman.gov.tr/food-dereotu-255"
+    }
+   ],
+   "hesap_not": "Porsiyon başına, malzemelerin Besin Kütüphanesi değerlerinden hesaplanmıştır (TürKomp).",
+   "malzeme_gruplari": [
+    {
+     "ad": "Yoğurt için",
+     "satirlar": [
+      {
+       "miktar": 245.0,
+       "birim": "g",
+       "ad": "Süzme Yoğurt",
+       "not": "1 su bardağı, oda sıcaklığında",
+       "besin": "suzme-yogurt"
+      },
+      {
+       "miktar": 3.0,
+       "birim": "g",
+       "ad": "Sarımsak",
+       "not": "1 diş, ezilmiş",
+       "besin": "sarimsak"
+      },
+      {
+       "miktar": null,
+       "birim": null,
+       "ad": "Tuz",
+       "not": "¼ çay kaşığı",
+       "besin": null
+      }
+     ]
+    },
+    {
+     "ad": "Yumurta için",
+     "satirlar": [
+      {
+       "miktar": 200.0,
+       "birim": "g",
+       "ad": "Yumurta (tam · çiğ)",
+       "not": "4 adet",
+       "besin": "yumurta-tam-cig"
+      },
+      {
+       "miktar": null,
+       "birim": null,
+       "ad": "Sirke",
+       "not": "1 yemek kaşığı, poşe suyu için",
+       "besin": null
+      }
+     ]
+    },
+    {
+     "ad": "Sos için",
+     "satirlar": [
+      {
+       "miktar": 9.0,
+       "birim": "g",
+       "ad": "Zeytinyağı",
+       "not": "2 çay kaşığı",
+       "besin": "zeytinyagi"
+      },
+      {
+       "miktar": null,
+       "birim": null,
+       "ad": "Pul biber",
+       "not": "1 çay kaşığı",
+       "besin": null
+      }
+     ]
+    },
+    {
+     "ad": "Servis için",
+     "satirlar": [
+      {
+       "miktar": 10.0,
+       "birim": "g",
+       "ad": "Dereotu",
+       "not": "birkaç dal, kıyılmış",
+       "besin": "dereotu"
+      }
+     ]
+    }
+   ],
+   "malzeme_sayisi": 8,
+   "programlar": [
+    {
+     "slug": "vejetaryen-dort-hafta",
+     "ad": "Glütensiz Hafta"
+    }
+   ],
+   "benzer": [
+    "pose-yumurtali-ekmek",
+    "kus-yuvasi-yumurta",
+    "sebzeli-peynirli-omlet",
+    "sebzeli-yumurta-muffin"
+   ],
+   "gastro": {
+    "id": 562,
+    "url": "https://dadagastro.com/tarif/cilbir-yogurtlu-pose-yumurta"
+   }
+  },
+  "cilekli-donmus-yogurt": {
+   "kategori": {
+    "slug": "dondurma-ve-soguk-tatlilar",
+    "ad": "Dondurma ve Soğuk Tatlılar"
+   },
+   "kategoriler": [
+    {
+     "slug": "dondurma-ve-soguk-tatlilar",
+     "ad": "Dondurma ve Soğuk Tatlılar"
+    },
+    {
+     "slug": "tatli",
+     "ad": "Tatlı"
+    }
+   ],
+   "yayin": "28 Ekim 2026",
+   "giris": "Donmuş meyve ve yoğurdun blenderda kremamsı bir kıvama geldiği soğuk tatlı aynı kalır. Değişen bal ve yoğurdun yağ oranı.",
+   "alerjen": "Süt (yoğurt) içerir (AB alerjen listesi).",
+   "ipucu": "Meyveyi tam donmuş kullanın; blenderdan çıkar çıkmaz kaşıklanacak kıvamda olur, dondurucuya koymanız gerekmez.",
+   "neler_degisti": "Bal 3 yemek kaşığından 1 yemek kaşığına indi. 2 su bardağı süzme yoğurdun yarısı yerine yarım yağlı yoğurt kullanılır. Klasik \"isteğe göre\" bal yazar; klasik taraf 3 yemek kaşığı balla hesaplandı. Klasikteki karışık donmuş meyve iki tarafta da çilek kaydıyla hesaplandı.",
+   "klasik_kcal": 150,
+   "hesap_toplam": "Toplam 828 g · 6 porsiyona bölündü",
+   "hesap": [
+    {
+     "ad": "Süzme Yoğurt",
+     "gram": "245 g",
+     "besin": "suzme-yogurt",
+     "kaynak": "TürKomp — Ulusal Gıda Kompozisyon Veri Tabanı",
+     "kaynak_url": "https://turkomp.tarimorman.gov.tr/food-yogurt-suzme-burdur-559"
+    },
+    {
+     "ad": "Yoğurt (yarım yağlı)",
+     "gram": "245 g",
+     "besin": "yogurt-yarim-yagli",
+     "kaynak": "TürKomp — Ulusal Gıda Kompozisyon Veri Tabanı",
+     "kaynak_url": "https://turkomp.tarimorman.gov.tr/food-yogurt-homojenize-yarim-yagli--2--sut-yagi---1-5-3"
+    },
+    {
+     "ad": "Çilek",
+     "gram": "288 g",
+     "besin": "cilek",
+     "kaynak": "TürKomp — Ulusal Gıda Kompozisyon Veri Tabanı",
+     "kaynak_url": "https://turkomp.tarimorman.gov.tr/food-cilek-377"
+    },
+    {
+     "ad": "Bal",
+     "gram": "21 g",
+     "besin": "bal",
+     "kaynak": "TürKomp — Ulusal Gıda Kompozisyon Veri Tabanı",
+     "kaynak_url": "https://turkomp.tarimorman.gov.tr/food-bal-cicek-288"
+    },
+    {
+     "ad": "Limon",
+     "gram": "29 g",
+     "besin": "limon",
+     "kaynak": "TürKomp — Ulusal Gıda Kompozisyon Veri Tabanı",
+     "kaynak_url": "https://turkomp.tarimorman.gov.tr/food-limon-interdonato-309"
+    }
+   ],
+   "hesap_not": "Porsiyon başına, malzemelerin Besin Kütüphanesi değerlerinden hesaplanmıştır (TürKomp).",
+   "malzeme_gruplari": [
+    {
+     "ad": "Tatlı için",
+     "satirlar": [
+      {
+       "miktar": 245.0,
+       "birim": "g",
+       "ad": "Süzme Yoğurt",
+       "not": "1 su bardağı",
+       "besin": "suzme-yogurt"
+      },
+      {
+       "miktar": 245.0,
+       "birim": "g",
+       "ad": "Yoğurt (yarım yağlı)",
+       "not": "1 su bardağı",
+       "besin": "yogurt-yarim-yagli"
+      },
+      {
+       "miktar": 288.0,
+       "birim": "g",
+       "ad": "Çilek",
+       "not": "2 su bardağı donmuş çilek",
+       "besin": "cilek"
+      },
+      {
+       "miktar": 21.0,
+       "birim": "g",
+       "ad": "Bal",
+       "not": "1 yemek kaşığı",
+       "besin": "bal"
+      },
+      {
+       "miktar": 29.0,
+       "birim": "g",
+       "ad": "Limon",
+       "not": "½ adet, suyu sıkılmış",
+       "besin": "limon"
+      }
+     ]
+    }
+   ],
+   "malzeme_sayisi": 5,
+   "programlar": [
+    {
+     "slug": "olculu-porsiyon-iki-hafta",
+     "ad": "Glütensiz Hafta"
+    }
+   ],
+   "benzer": [
+    "supangle",
+    "cilbir",
+    "zencefilli-bal-kabagi-corbasi",
+    "yogurtlu-tavuk-sis"
+   ],
+   "gastro": null
+  },
+  "cilekli-smoothie": {
+   "kategori": {
+    "slug": "icecek",
+    "ad": "İçecek"
+   },
+   "kategoriler": [
+    {
+     "slug": "icecek",
+     "ad": "İçecek"
+    }
+   ],
+   "yayin": "28 Ekim 2026",
+   "giris": "Çilek, muz ve yoğurdun blenderda buluştuğu içecek aynı kalır. Değişen bal ile yoğurdun ve sütün yağ oranı.",
+   "alerjen": "Süt (yoğurt, süt) içerir (AB alerjen listesi). Laktoz için: laktozsuz yoğurt ve sütle hazırlanabilir.",
+   "ipucu": "Muz ne kadar olgunsa içecek o kadar tatlı olur; donmuş çilek kullanırsanız buz eklemenize gerek kalmaz.",
+   "neler_degisti": "1 yemek kaşığı bal çıkarıldı. Yoğurt ve süt tam yağlı yerine yarım yağlı.",
+   "klasik_kcal": 224,
+   "hesap_toplam": "Toplam 629 g · 2 porsiyona bölündü",
+   "hesap": [
+    {
+     "ad": "Çilek",
+     "gram": "144 g",
+     "besin": "cilek",
+     "kaynak": "TürKomp — Ulusal Gıda Kompozisyon Veri Tabanı",
+     "kaynak_url": "https://turkomp.tarimorman.gov.tr/food-cilek-377"
+    },
+    {
+     "ad": "Muz (Anamur)",
+     "gram": "118 g",
+     "besin": "muz-anamur",
+     "kaynak": "TürKomp — Ulusal Gıda Kompozisyon Veri Tabanı",
+     "kaynak_url": "https://turkomp.tarimorman.gov.tr/food-muz-anamur-395"
+    },
+    {
+     "ad": "Yoğurt (yarım yağlı)",
+     "gram": "245 g",
+     "besin": "yogurt-yarim-yagli",
+     "kaynak": "TürKomp — Ulusal Gıda Kompozisyon Veri Tabanı",
+     "kaynak_url": "https://turkomp.tarimorman.gov.tr/food-yogurt-homojenize-yarim-yagli--2--sut-yagi---1-5-3"
+    },
+    {
+     "ad": "Süt (UHT · yarım yağlı)",
+     "gram": "122 g",
+     "besin": "sut-uht-yarim-yagli",
+     "kaynak": "TürKomp — Ulusal Gıda Kompozisyon Veri Tabanı",
+     "kaynak_url": "https://turkomp.tarimorman.gov.tr/food-sut-inek-uht-yarim-yagli-19"
+    }
+   ],
+   "hesap_not": "Porsiyon başına, malzemelerin Besin Kütüphanesi değerlerinden hesaplanmıştır (TürKomp).",
+   "malzeme_gruplari": [
+    {
+     "ad": "İçecek için",
+     "satirlar": [
+      {
+       "miktar": 144.0,
+       "birim": "g",
+       "ad": "Çilek",
+       "not": "1 su bardağı, taze ya da donmuş",
+       "besin": "cilek"
+      },
+      {
+       "miktar": 118.0,
+       "birim": "g",
+       "ad": "Muz (Anamur)",
+       "not": "1 adet, olgun",
+       "besin": "muz-anamur"
+      },
+      {
+       "miktar": 245.0,
+       "birim": "g",
+       "ad": "Yoğurt (yarım yağlı)",
+       "not": "1 su bardağı",
+       "besin": "yogurt-yarim-yagli"
+      },
+      {
+       "miktar": 122.0,
+       "birim": "g",
+       "ad": "Süt (UHT · yarım yağlı)",
+       "not": "½ su bardağı",
+       "besin": "sut-uht-yarim-yagli"
+      }
+     ]
+    }
+   ],
+   "malzeme_sayisi": 4,
+   "programlar": [
+    {
+     "slug": "vejetaryen-dort-hafta",
+     "ad": "Glütensiz Hafta"
+    }
+   ],
+   "benzer": [
+    "soguk-kahve",
+    "sicak-cikolata",
+    "limonata",
+    "buzlu-cay"
+   ],
+   "gastro": null
+  },
+  "domatesli-bulgur-pilavi": {
+   "kategori": {
+    "slug": "pilav",
+    "ad": "Pilav"
+   },
+   "kategoriler": [
+    {
+     "slug": "pilav",
+     "ad": "Pilav"
+    }
+   ],
+   "yayin": "28 Ekim 2026",
+   "giris": "Pilavlık bulgur, domates, biber ve demlenme bulgur pilavının kendisi; hepsi kalır. Değişen yağ, salça ve bulgurun pişmeye nasıl başladığı.",
+   "alerjen": "Buğday (glüten; bulgur buğdaydan yapılır) içerir (AB alerjen listesi).",
+   "ipucu": "Bulgur yağda kavrulmadığında tanelerin dağılmaması için suyu ölçülü koyun ve pişince 10 dakika demlendirmeden kapağı açmayın.",
+   "neler_degisti": "Zeytinyağı 3 yemek kaşığından 1 yemek kaşığına indi. Bulgur yağda kavrulmaz; domatesli sosa eklenip doğrudan suyla pişer. Domates 2 adetten 3 adede, sivri biber 1 adetten 2 adede çıktı; salça 1 yemek kaşığından 1 tatlı kaşığına indi. Tuz 1 tatlı kaşığından 1 çay kaşığına indi.",
+   "klasik_kcal": 370,
+   "hesap_toplam": "Toplam 836 g · 4 porsiyona bölündü",
+   "hesap": [
+    {
+     "ad": "Bulgur (pilavlık · kuru)",
+     "gram": "280 g",
+     "besin": "bulgur-kuru",
+     "kaynak": "TürKomp — Ulusal Gıda Kompozisyon Veri Tabanı",
+     "kaynak_url": "https://turkomp.tarimorman.gov.tr/food-bulgur-pilavlik-gaziantep-460"
+    },
+    {
+     "ad": "Soğan (sarı)",
+     "gram": "110 g",
+     "besin": "sogan-sari",
+     "kaynak": "TürKomp — Ulusal Gıda Kompozisyon Veri Tabanı",
+     "kaynak_url": "https://turkomp.tarimorman.gov.tr/food-sogan-sari-kuru-230"
+    },
+    {
+     "ad": "Sivri Biber",
+     "gram": "54 g",
+     "besin": "sivri-biber",
+     "kaynak": "TürKomp — Ulusal Gıda Kompozisyon Veri Tabanı",
+     "kaynak_url": "https://turkomp.tarimorman.gov.tr/food-biber-sivri-174"
+    },
+    {
+     "ad": "Domates",
+     "gram": "369 g",
+     "besin": "domates",
+     "kaynak": "TürKomp — Ulusal Gıda Kompozisyon Veri Tabanı",
+     "kaynak_url": "https://turkomp.tarimorman.gov.tr/food-domates-sofralik-168"
+    },
+    {
+     "ad": "Domates Salçası",
+     "gram": "9 g",
+     "besin": "domates-salcasi",
+     "kaynak": "TürKomp — Ulusal Gıda Kompozisyon Veri Tabanı",
+     "kaynak_url": "https://turkomp.tarimorman.gov.tr/food-domates-salcasi-170"
+    },
+    {
+     "ad": "Zeytinyağı",
+     "gram": "13,5 g",
+     "besin": "zeytinyagi",
+     "kaynak": "TürKomp — Ulusal Gıda Kompozisyon Veri Tabanı",
+     "kaynak_url": "https://turkomp.tarimorman.gov.tr/food-zeytinyagi-sizma-103"
+    }
+   ],
+   "hesap_not": "Porsiyon başına, malzemelerin Besin Kütüphanesi değerlerinden hesaplanmıştır (TürKomp).",
+   "malzeme_gruplari": [
+    {
+     "ad": "Pilav için",
+     "satirlar": [
+      {
+       "miktar": 280.0,
+       "birim": "g",
+       "ad": "Bulgur (pilavlık · kuru)",
+       "not": "2 su bardağı pilavlık bulgur",
+       "besin": "bulgur-kuru"
+      },
+      {
+       "miktar": 110.0,
+       "birim": "g",
+       "ad": "Soğan (sarı)",
+       "not": "1 adet, ince kıyılmış",
+       "besin": "sogan-sari"
+      },
+      {
+       "miktar": 54.0,
+       "birim": "g",
+       "ad": "Sivri Biber",
+       "not": "2 adet, ince kıyılmış",
+       "besin": "sivri-biber"
+      },
+      {
+       "miktar": 369.0,
+       "birim": "g",
+       "ad": "Domates",
+       "not": "3 adet, rendelenmiş",
+       "besin": "domates"
+      },
+      {
+       "miktar": 9.0,
+       "birim": "g",
+       "ad": "Domates Salçası",
+       "not": "1 tatlı kaşığı",
+       "besin": "domates-salcasi"
+      },
+      {
+       "miktar": 13.5,
+       "birim": "g",
+       "ad": "Zeytinyağı",
+       "not": "1 yemek kaşığı",
+       "besin": "zeytinyagi"
+      },
+      {
+       "miktar": null,
+       "birim": null,
+       "ad": "Sıcak su",
+       "not": "2½ su bardağı",
+       "besin": null
+      },
+      {
+       "miktar": null,
+       "birim": null,
+       "ad": "Tuz",
+       "not": "1 çay kaşığı",
+       "besin": null
+      },
+      {
+       "miktar": null,
+       "birim": null,
+       "ad": "Karabiber",
+       "not": "isteğe göre",
+       "besin": null
+      }
+     ]
+    }
+   ],
+   "malzeme_sayisi": 9,
+   "programlar": [
+    {
+     "slug": "bitkisel-dort-hafta",
+     "ad": "Öğrenci Dostu Menü"
+    }
+   ],
+   "benzer": [
+    "sebzeli-pirinc-pilavi",
+    "nohutlu-pirinc-pilavi",
+    "mercimekli-bulgur-pilavi",
+    "sehriyeli-pirinc-pilavi"
+   ],
+   "gastro": null
+  },
+  "ezogelin-corbasi": {
+   "kategori": {
+    "slug": "corba",
+    "ad": "Çorba"
+   },
+   "kategoriler": [
+    {
+     "slug": "corba",
+     "ad": "Çorba"
+    },
+    {
+     "slug": "bakliyat",
+     "ad": "Bakliyat"
+    }
+   ],
+   "yayin": "28 Ekim 2026",
+   "giris": "Kırmızı mercimek, bulgur, salça ve nane ezogelini ezogelin yapar; hepsi kalır. Değişen tenceredeki ve üstteki yağ ile tahılın türü.",
+   "alerjen": "Buğday (glüten; bulgur buğdaydan yapılır) içerir (AB alerjen listesi).",
+   "ipucu": "Nane ve pul biberi yağda kavurmak yerine çorbayı ocaktan almadan hemen önce ekleyin; kokusu çorbaya geçer, yağ gerekmez.",
+   "neler_degisti": "Çorbadaki zeytinyağı 3 yemek kaşığından 1 yemek kaşığına indi. Üstteki 2 yemek kaşığı zeytinyağı 1 çay kaşığına indi; nane ve pul biber yağda kavrulmaz. 2 yemek kaşığı pirinç yerine bulgur kullanılır (toplam 4 yemek kaşığı bulgur). Tuz 1 tatlı kaşığından 1 çay kaşığına indi.",
+   "klasik_kcal": 259,
+   "hesap_toplam": "Toplam 365 g · 5 porsiyona bölündü",
+   "hesap": [
+    {
+     "ad": "Mercimek (kırmızı · kuru)",
+     "gram": "146,3 g",
+     "besin": "mercimek-kirmizi-kuru",
+     "kaynak": "TürKomp — Ulusal Gıda Kompozisyon Veri Tabanı",
+     "kaynak_url": "https://turkomp.tarimorman.gov.tr/food-mercimek-kirmizi-kuru-156"
+    },
+    {
+     "ad": "Bulgur (pilavlık · kuru)",
+     "gram": "35 g",
+     "besin": "bulgur-kuru",
+     "kaynak": "TürKomp — Ulusal Gıda Kompozisyon Veri Tabanı",
+     "kaynak_url": "https://turkomp.tarimorman.gov.tr/food-bulgur-pilavlik-gaziantep-460"
+    },
+    {
+     "ad": "Soğan (sarı)",
+     "gram": "110 g",
+     "besin": "sogan-sari",
+     "kaynak": "TürKomp — Ulusal Gıda Kompozisyon Veri Tabanı",
+     "kaynak_url": "https://turkomp.tarimorman.gov.tr/food-sogan-sari-kuru-230"
+    },
+    {
+     "ad": "Domates Salçası",
+     "gram": "18 g",
+     "besin": "domates-salcasi",
+     "kaynak": "TürKomp — Ulusal Gıda Kompozisyon Veri Tabanı",
+     "kaynak_url": "https://turkomp.tarimorman.gov.tr/food-domates-salcasi-170"
+    },
+    {
+     "ad": "Biber Salçası",
+     "gram": "9 g",
+     "besin": "biber-salcasi",
+     "kaynak": "TürKomp — Ulusal Gıda Kompozisyon Veri Tabanı",
+     "kaynak_url": "https://turkomp.tarimorman.gov.tr/food-biber-salcasi-181"
+    },
+    {
+     "ad": "Zeytinyağı",
+     "gram": "13,5 g",
+     "besin": "zeytinyagi",
+     "kaynak": "TürKomp — Ulusal Gıda Kompozisyon Veri Tabanı",
+     "kaynak_url": "https://turkomp.tarimorman.gov.tr/food-zeytinyagi-sizma-103"
+    },
+    {
+     "ad": "Zeytinyağı",
+     "gram": "4,5 g",
+     "besin": "zeytinyagi",
+     "kaynak": "TürKomp — Ulusal Gıda Kompozisyon Veri Tabanı",
+     "kaynak_url": "https://turkomp.tarimorman.gov.tr/food-zeytinyagi-sizma-103"
+    },
+    {
+     "ad": "Limon",
+     "gram": "29 g",
+     "besin": "limon",
+     "kaynak": "TürKomp — Ulusal Gıda Kompozisyon Veri Tabanı",
+     "kaynak_url": "https://turkomp.tarimorman.gov.tr/food-limon-interdonato-309"
+    }
+   ],
+   "hesap_not": "Porsiyon başına, malzemelerin Besin Kütüphanesi değerlerinden hesaplanmıştır (TürKomp).",
+   "malzeme_gruplari": [
+    {
+     "ad": "Çorba için",
+     "satirlar": [
+      {
+       "miktar": 146.25,
+       "birim": "g",
+       "ad": "Mercimek (kırmızı · kuru)",
+       "not": "¾ su bardağı, yıkanmış",
+       "besin": "mercimek-kirmizi-kuru"
+      },
+      {
+       "miktar": 35.0,
+       "birim": "g",
+       "ad": "Bulgur (pilavlık · kuru)",
+       "not": "4 yemek kaşığı ince bulgur",
+       "besin": "bulgur-kuru"
+      },
+      {
+       "miktar": 110.0,
+       "birim": "g",
+       "ad": "Soğan (sarı)",
+       "not": "1 adet, ince doğranmış",
+       "besin": "sogan-sari"
+      },
+      {
+       "miktar": 18.0,
+       "birim": "g",
+       "ad": "Domates Salçası",
+       "not": "1 yemek kaşığı",
+       "besin": "domates-salcasi"
+      },
+      {
+       "miktar": 9.0,
+       "birim": "g",
+       "ad": "Biber Salçası",
+       "not": "1 tatlı kaşığı",
+       "besin": "biber-salcasi"
+      },
+      {
+       "miktar": 13.5,
+       "birim": "g",
+       "ad": "Zeytinyağı",
+       "not": "1 yemek kaşığı",
+       "besin": "zeytinyagi"
+      },
+      {
+       "miktar": null,
+       "birim": null,
+       "ad": "Sıcak su",
+       "not": "6 su bardağı",
+       "besin": null
+      },
+      {
+       "miktar": null,
+       "birim": null,
+       "ad": "Tuz",
+       "not": "1 çay kaşığı",
+       "besin": null
+      }
+     ]
+    },
+    {
+     "ad": "Üzeri için",
+     "satirlar": [
+      {
+       "miktar": 4.5,
+       "birim": "g",
+       "ad": "Zeytinyağı",
+       "not": "1 çay kaşığı",
+       "besin": "zeytinyagi"
+      },
+      {
+       "miktar": null,
+       "birim": null,
+       "ad": "Kuru nane",
+       "not": "1 yemek kaşığı",
+       "besin": null
+      },
+      {
+       "miktar": null,
+       "birim": null,
+       "ad": "Pul biber",
+       "not": "1 çay kaşığı",
+       "besin": null
+      }
+     ]
+    },
+    {
+     "ad": "Servis için",
+     "satirlar": [
+      {
+       "miktar": 29.0,
+       "birim": "g",
+       "ad": "Limon",
+       "not": "½ adet, dilimlenmiş",
+       "besin": "limon"
+      }
+     ]
+    }
+   ],
+   "malzeme_sayisi": 12,
+   "programlar": [
+    {
+     "slug": "bitkisel-dort-hafta",
+     "ad": "Öğrenci Dostu Menü"
+    }
+   ],
+   "benzer": [
+    "zencefilli-bal-kabagi-corbasi",
+    "tavuklu-sehriye-corbasi",
+    "kabak-corbasi",
+    "sebzeli-tavuk-suyu-corbasi"
+   ],
+   "gastro": null
+  },
+  "firinda-sebze-turlusu": {
+   "kategori": {
+    "slug": "sebze",
+    "ad": "Sebze"
+   },
+   "kategoriler": [
+    {
+     "slug": "sebze",
+     "ad": "Sebze"
+    },
+    {
+     "slug": "zeytinyaglilar",
+     "ad": "Zeytinyağlılar"
+    }
+   ],
+   "yayin": "28 Ekim 2026",
+   "giris": "Tepside domatesli sosla yavaşça pişen karışık sebze türlünün kendisi; aynı kalır. Değişen sostaki yağ ve tepsideki patates payı.",
+   "alerjen": "AB alerjen listesinden içerik yok.",
+   "ipucu": "Folyoyu son 20 dakikada açın; sebzeler hem yumuşar hem üstleri renk alır, sos da koyulaşır.",
+   "neler_degisti": "Zeytinyağı ½ su bardağından 3 yemek kaşığına indi. 2 patatesten biri çıkarıldı; yerine 1 havuç daha ve 1 dolmalık biber eklendi. Domates salçası 1 yemek kaşığından 1 tatlı kaşığına, tuz 1½ tatlı kaşığından 1 çay kaşığına indi.",
+   "klasik_kcal": 316,
+   "hesap_toplam": "Toplam 1738 g · 5 porsiyona bölündü",
+   "hesap": [
+    {
+     "ad": "Patlıcan (uzun · çiğ)",
+     "gram": "300 g",
+     "besin": "patlican-uzun-cig",
+     "kaynak": "TürKomp — Ulusal Gıda Kompozisyon Veri Tabanı",
+     "kaynak_url": "https://turkomp.tarimorman.gov.tr/food-patlican-uzun-186"
+    },
+    {
+     "ad": "Yazlık Kabak (koyu yeşil · çiğ)",
+     "gram": "392 g",
+     "besin": "yazlik-kabak-cig",
+     "kaynak": "TürKomp — Ulusal Gıda Kompozisyon Veri Tabanı",
+     "kaynak_url": "https://turkomp.tarimorman.gov.tr/food-kabak-yazlik-koyu-yesil-199"
+    },
+    {
+     "ad": "Patates (sofralık sarı · çiğ)",
+     "gram": "213 g",
+     "besin": "patates-cig",
+     "kaynak": "TürKomp — Ulusal Gıda Kompozisyon Veri Tabanı",
+     "kaynak_url": "https://turkomp.tarimorman.gov.tr/food-patates-sofralik-sari-marfona-granola-marabel-282"
+    },
+    {
+     "ad": "Havuç",
+     "gram": "122 g",
+     "besin": "havuc",
+     "kaynak": "TürKomp — Ulusal Gıda Kompozisyon Veri Tabanı",
+     "kaynak_url": "https://turkomp.tarimorman.gov.tr/food-havuc-turuncu-258"
+    },
+    {
+     "ad": "Dolmalık Biber",
+     "gram": "119 g",
+     "besin": "dolmalik-biber",
+     "kaynak": "TürKomp — Ulusal Gıda Kompozisyon Veri Tabanı",
+     "kaynak_url": "https://turkomp.tarimorman.gov.tr/food-biber-dolma-175"
+    },
+    {
+     "ad": "Sivri Biber",
+     "gram": "54 g",
+     "besin": "sivri-biber",
+     "kaynak": "TürKomp — Ulusal Gıda Kompozisyon Veri Tabanı",
+     "kaynak_url": "https://turkomp.tarimorman.gov.tr/food-biber-sivri-174"
+    },
+    {
+     "ad": "Soğan (sarı)",
+     "gram": "110 g",
+     "besin": "sogan-sari",
+     "kaynak": "TürKomp — Ulusal Gıda Kompozisyon Veri Tabanı",
+     "kaynak_url": "https://turkomp.tarimorman.gov.tr/food-sogan-sari-kuru-230"
+    },
+    {
+     "ad": "Sarımsak",
+     "gram": "9 g",
+     "besin": "sarimsak",
+     "kaynak": "TürKomp — Ulusal Gıda Kompozisyon Veri Tabanı",
+     "kaynak_url": "https://turkomp.tarimorman.gov.tr/food-sarimsak-kuru-233"
+    },
+    {
+     "ad": "Domates",
+     "gram": "369 g",
+     "besin": "domates",
+     "kaynak": "TürKomp — Ulusal Gıda Kompozisyon Veri Tabanı",
+     "kaynak_url": "https://turkomp.tarimorman.gov.tr/food-domates-sofralik-168"
+    },
+    {
+     "ad": "Domates Salçası",
+     "gram": "9 g",
+     "besin": "domates-salcasi",
+     "kaynak": "TürKomp — Ulusal Gıda Kompozisyon Veri Tabanı",
+     "kaynak_url": "https://turkomp.tarimorman.gov.tr/food-domates-salcasi-170"
+    },
+    {
+     "ad": "Zeytinyağı",
+     "gram": "40,5 g",
+     "besin": "zeytinyagi",
+     "kaynak": "TürKomp — Ulusal Gıda Kompozisyon Veri Tabanı",
+     "kaynak_url": "https://turkomp.tarimorman.gov.tr/food-zeytinyagi-sizma-103"
+    }
+   ],
+   "hesap_not": "Porsiyon başına, malzemelerin Besin Kütüphanesi değerlerinden hesaplanmıştır (TürKomp).",
+   "malzeme_gruplari": [
+    {
+     "ad": "Sebzeler için",
+     "satirlar": [
+      {
+       "miktar": 300.0,
+       "birim": "g",
+       "ad": "Patlıcan (uzun · çiğ)",
+       "not": "2 adet (300 g tahmini ağırlık; kaynaklı adet gramı yok), küp doğranmış",
+       "besin": "patlican-uzun-cig"
+      },
+      {
+       "miktar": 392.0,
+       "birim": "g",
+       "ad": "Yazlık Kabak (koyu yeşil · çiğ)",
+       "not": "2 adet, küp doğranmış",
+       "besin": "yazlik-kabak-cig"
+      },
+      {
+       "miktar": 213.0,
+       "birim": "g",
+       "ad": "Patates (sofralık sarı · çiğ)",
+       "not": "1 adet, küp doğranmış",
+       "besin": "patates-cig"
+      },
+      {
+       "miktar": 122.0,
+       "birim": "g",
+       "ad": "Havuç",
+       "not": "2 adet, küp doğranmış",
+       "besin": "havuc"
+      },
+      {
+       "miktar": 119.0,
+       "birim": "g",
+       "ad": "Dolmalık Biber",
+       "not": "1 adet, doğranmış",
+       "besin": "dolmalik-biber"
+      },
+      {
+       "miktar": 54.0,
+       "birim": "g",
+       "ad": "Sivri Biber",
+       "not": "2 adet, doğranmış",
+       "besin": "sivri-biber"
+      },
+      {
+       "miktar": 110.0,
+       "birim": "g",
+       "ad": "Soğan (sarı)",
+       "not": "1 adet, doğranmış",
+       "besin": "sogan-sari"
+      },
+      {
+       "miktar": 9.0,
+       "birim": "g",
+       "ad": "Sarımsak",
+       "not": "3 diş",
+       "besin": "sarimsak"
+      }
+     ]
+    },
+    {
+     "ad": "Sos için",
+     "satirlar": [
+      {
+       "miktar": 369.0,
+       "birim": "g",
+       "ad": "Domates",
+       "not": "3 adet, rendelenmiş",
+       "besin": "domates"
+      },
+      {
+       "miktar": 9.0,
+       "birim": "g",
+       "ad": "Domates Salçası",
+       "not": "1 tatlı kaşığı",
+       "besin": "domates-salcasi"
+      },
+      {
+       "miktar": 40.5,
+       "birim": "g",
+       "ad": "Zeytinyağı",
+       "not": "3 yemek kaşığı",
+       "besin": "zeytinyagi"
+      },
+      {
+       "miktar": null,
+       "birim": null,
+       "ad": "Sıcak su",
+       "not": "1 su bardağı",
+       "besin": null
+      },
+      {
+       "miktar": null,
+       "birim": null,
+       "ad": "Tuz",
+       "not": "1 çay kaşığı",
+       "besin": null
+      },
+      {
+       "miktar": null,
+       "birim": null,
+       "ad": "Karabiber",
+       "not": "isteğe göre",
+       "besin": null
+      }
+     ]
+    }
+   ],
+   "malzeme_sayisi": 14,
+   "programlar": [
+    {
+     "slug": "bitkisel-dort-hafta",
+     "ad": "Akdeniz Tipi Dört Hafta"
+    }
+   ],
+   "benzer": [
+    "kumpir",
+    "imambayildi",
+    "zeytinyagli-pirasa",
+    "kahvalti-patatesi"
+   ],
+   "gastro": null
+  },
+  "firinda-sebzeli-tavuk": {
+   "kategori": {
+    "slug": "tavuk-ve-hindi",
+    "ad": "Tavuk ve Hindi"
+   },
+   "kategoriler": [
+    {
+     "slug": "tavuk-ve-hindi",
+     "ad": "Tavuk ve Hindi"
+    },
+    {
+     "slug": "ana-yemek",
+     "ad": "Ana Yemek"
+    }
+   ],
+   "yayin": "28 Ekim 2026",
+   "giris": "Zeytinyağı ve kekikle harmanlanan küp tavuk ve sebzelerin tek sıra halinde yüksek ısıda fırınlanması bu tepsinin kendisi; aynı kalır. Değişen yağın miktarı ve tepsideki sebze.",
+   "alerjen": "AB alerjen listesinden içerik yok.",
+   "ipucu": "Parçaları tepsiye tek sıra ve aralıklı yayın; üst üste binen sebze buharda haşlanır, renk almaz.",
+   "neler_degisti": "Zeytinyağı 2 yemek kaşığından 1 yemek kaşığına indi. Tepsiye 150 g mantar ve 1 havuç eklendi. Tuz 1 çay kaşığından ½ çay kaşığına indi. Porsiyon kalorisi iki tarafta yakındır (klasik yaklaşık 209, bu tarif yaklaşık 193 kcal): yağdaki azalmanın bir kısmını eklenen mantar ve havuç karşılar. Değişen asıl şey tepsideki sebze payıdır. Klasikteki kırmızı biber, kütüphanede kapya kaydı olmadığı için iki tarafta da dolmalık biber kaydıyla hesaplandı.",
+   "klasik_kcal": 209,
+   "hesap_toplam": "Toplam 1050 g · 4 porsiyona bölündü",
+   "hesap": [
+    {
+     "ad": "Piliç Göğsü (derisiz · çiğ)",
+     "gram": "400 g",
+     "besin": "pilic-gogsu-cig",
+     "kaynak": "TürKomp — Ulusal Gıda Kompozisyon Veri Tabanı",
+     "kaynak_url": "https://turkomp.tarimorman.gov.tr/food-pilic-eti-gogus-derisiz-64"
+    },
+    {
+     "ad": "Dolmalık Biber",
+     "gram": "119 g",
+     "besin": "dolmalik-biber",
+     "kaynak": "TürKomp — Ulusal Gıda Kompozisyon Veri Tabanı",
+     "kaynak_url": "https://turkomp.tarimorman.gov.tr/food-biber-dolma-175"
+    },
+    {
+     "ad": "Yazlık Kabak (koyu yeşil · çiğ)",
+     "gram": "196 g",
+     "besin": "yazlik-kabak-cig",
+     "kaynak": "TürKomp — Ulusal Gıda Kompozisyon Veri Tabanı",
+     "kaynak_url": "https://turkomp.tarimorman.gov.tr/food-kabak-yazlik-koyu-yesil-199"
+    },
+    {
+     "ad": "Soğan (mor)",
+     "gram": "110 g",
+     "besin": "sogan-mor",
+     "kaynak": "TürKomp — Ulusal Gıda Kompozisyon Veri Tabanı",
+     "kaynak_url": "https://turkomp.tarimorman.gov.tr/food-sogan-mor-kuru-231"
+    },
+    {
+     "ad": "Kültür Mantarı (çiğ)",
+     "gram": "150 g",
+     "besin": "kultur-mantari-cig",
+     "kaynak": "TürKomp — Ulusal Gıda Kompozisyon Veri Tabanı",
+     "kaynak_url": "https://turkomp.tarimorman.gov.tr/food-mantar-beyaz-sapkali-276"
+    },
+    {
+     "ad": "Havuç",
+     "gram": "61 g",
+     "besin": "havuc",
+     "kaynak": "TürKomp — Ulusal Gıda Kompozisyon Veri Tabanı",
+     "kaynak_url": "https://turkomp.tarimorman.gov.tr/food-havuc-turuncu-258"
+    },
+    {
+     "ad": "Zeytinyağı",
+     "gram": "13,5 g",
+     "besin": "zeytinyagi",
+     "kaynak": "TürKomp — Ulusal Gıda Kompozisyon Veri Tabanı",
+     "kaynak_url": "https://turkomp.tarimorman.gov.tr/food-zeytinyagi-sizma-103"
+    }
+   ],
+   "hesap_not": "Porsiyon başına, malzemelerin Besin Kütüphanesi değerlerinden hesaplanmıştır (TürKomp).",
+   "malzeme_gruplari": [
+    {
+     "ad": "Tepsi için",
+     "satirlar": [
+      {
+       "miktar": 400.0,
+       "birim": "g",
+       "ad": "Piliç Göğsü (derisiz · çiğ)",
+       "not": "küp doğranmış",
+       "besin": "pilic-gogsu-cig"
+      },
+      {
+       "miktar": 119.0,
+       "birim": "g",
+       "ad": "Dolmalık Biber",
+       "not": "1 adet kırmızı biber, küp doğranmış",
+       "besin": "dolmalik-biber"
+      },
+      {
+       "miktar": 196.0,
+       "birim": "g",
+       "ad": "Yazlık Kabak (koyu yeşil · çiğ)",
+       "not": "1 adet, küp doğranmış",
+       "besin": "yazlik-kabak-cig"
+      },
+      {
+       "miktar": 110.0,
+       "birim": "g",
+       "ad": "Soğan (mor)",
+       "not": "1 adet, iri doğranmış",
+       "besin": "sogan-mor"
+      },
+      {
+       "miktar": 150.0,
+       "birim": "g",
+       "ad": "Kültür Mantarı (çiğ)",
+       "not": "ikiye bölünmüş",
+       "besin": "kultur-mantari-cig"
+      },
+      {
+       "miktar": 61.0,
+       "birim": "g",
+       "ad": "Havuç",
+       "not": "1 adet, kalın halka doğranmış",
+       "besin": "havuc"
+      },
+      {
+       "miktar": 13.5,
+       "birim": "g",
+       "ad": "Zeytinyağı",
+       "not": "1 yemek kaşığı",
+       "besin": "zeytinyagi"
+      },
+      {
+       "miktar": null,
+       "birim": null,
+       "ad": "Kekik",
+       "not": "1 çay kaşığı",
+       "besin": null
+      },
+      {
+       "miktar": null,
+       "birim": null,
+       "ad": "Tuz",
+       "not": "½ çay kaşığı",
+       "besin": null
+      }
+     ]
+    }
+   ],
+   "malzeme_sayisi": 9,
+   "programlar": [
+    {
+     "slug": "glutensiz-hafta",
+     "ad": "Ofis Öğünleri"
+    }
+   ],
+   "benzer": [
+    "yogurtlu-tavuk-sis",
+    "sebzeli-tavuk-suyu-corbasi",
+    "sebzeli-tavuk-sote",
+    "kabakli-tavuk-kofte"
+   ],
+   "gastro": null
+  },
+  "firinda-tarcinli-elma": {
+   "kategori": {
+    "slug": "tatli",
+    "ad": "Tatlı"
+   },
+   "kategoriler": [
+    {
+     "slug": "tatli",
+     "ad": "Tatlı"
+    },
+    {
+     "slug": "meyve-tarifleri",
+     "ad": "Meyve Tarifleri"
+    }
+   ],
+   "yayin": "28 Ekim 2026",
+   "giris": "Çekirdek evi oyulup cevizli, tarçınlı harçla doldurulan ve fırında yumuşayan elma bu tatlının kendisi; aynı kalır. Değişen harçtaki tereyağı, şeker ve ceviz.",
+   "alerjen": "Sert kabuklu yemiş (ceviz) içerir (AB alerjen listesi).",
+   "ipucu": "Sert, mayhoş elma seçin; fırında dağılmadan yumuşar ve şeker azken de tatlı gelir.",
+   "neler_degisti": "Harçtaki 2 yemek kaşığı tereyağı çıkarıldı. Esmer şeker 3 yemek kaşığından 1 yemek kaşığına indi. Ceviz ½ su bardağından ¼ su bardağına indi.",
+   "klasik_kcal": 323,
+   "hesap_toplam": "Toplam 935 g · 4 porsiyona bölündü",
+   "hesap": [
+    {
+     "ad": "Elma (Gala)",
+     "gram": "892 g",
+     "besin": "elma-gala",
+     "kaynak": "TürKomp — Ulusal Gıda Kompozisyon Veri Tabanı",
+     "kaynak_url": "https://turkomp.tarimorman.gov.tr/food-elma-gala-332"
+    },
+    {
+     "ad": "Ceviz (iç)",
+     "gram": "29,3 g",
+     "besin": "ceviz-ic",
+     "kaynak": "TürKomp — Ulusal Gıda Kompozisyon Veri Tabanı",
+     "kaynak_url": "https://turkomp.tarimorman.gov.tr/food-ceviz-ic-kuru-400"
+    },
+    {
+     "ad": "Esmer Şeker",
+     "gram": "13,8 g",
+     "besin": "esmer-seker",
+     "kaynak": "TürKomp — Ulusal Gıda Kompozisyon Veri Tabanı",
+     "kaynak_url": "https://turkomp.tarimorman.gov.tr/food-seker-esmer-kup-290"
+    }
+   ],
+   "hesap_not": "Porsiyon başına, malzemelerin Besin Kütüphanesi değerlerinden hesaplanmıştır (TürKomp).",
+   "malzeme_gruplari": [
+    {
+     "ad": "Elmalar için",
+     "satirlar": [
+      {
+       "miktar": 892.0,
+       "birim": "g",
+       "ad": "Elma (Gala)",
+       "not": "4 adet, iri ve sert",
+       "besin": "elma-gala"
+      }
+     ]
+    },
+    {
+     "ad": "İç harcı için",
+     "satirlar": [
+      {
+       "miktar": 29.25,
+       "birim": "g",
+       "ad": "Ceviz (iç)",
+       "not": "¼ su bardağı, iri kıyılmış",
+       "besin": "ceviz-ic"
+      },
+      {
+       "miktar": null,
+       "birim": null,
+       "ad": "Tarçın",
+       "not": "1 çay kaşığı",
+       "besin": null
+      },
+      {
+       "miktar": 13.8,
+       "birim": "g",
+       "ad": "Esmer Şeker",
+       "not": "1 yemek kaşığı esmer şeker",
+       "besin": "esmer-seker"
+      }
+     ]
+    },
+    {
+     "ad": "Fırın kabı için",
+     "satirlar": [
+      {
+       "miktar": null,
+       "birim": null,
+       "ad": "Su",
+       "not": "½ su bardağı",
+       "besin": null
+      }
+     ]
+    }
+   ],
+   "malzeme_sayisi": 5,
+   "programlar": [
+    {
+     "slug": "olculu-porsiyon-iki-hafta",
+     "ad": "Bitkisel Dört Hafta"
+    },
+    {
+     "slug": "glutensiz-hafta",
+     "ad": "Aile Haftalık Menü"
+    }
+   ],
+   "benzer": [
+    "kabak-tatlisi",
+    "vanilyali-kurabiye",
+    "un-kurabiyesi",
+    "supangle"
+   ],
+   "gastro": null
+  },
+  "girit-ezmesi": {
+   "kategori": {
+    "slug": "meze",
+    "ad": "Meze"
+   },
+   "kategoriler": [
+    {
+     "slug": "meze",
+     "ad": "Meze"
+    },
+    {
+     "slug": "kahvaltilik",
+     "ad": "Kahvaltılık"
+    }
+   ],
+   "yayin": "28 Ekim 2026",
+   "giris": "Çatalla ezilen beyaz peynirin ceviz, dereotu ve kekikle buluştuğu meze aynı kalır. Değişen peynirin yağ oranı, ceviz, yağ ve yeşillik.",
+   "alerjen": "Süt (beyaz peynir) ve sert kabuklu yemiş (ceviz) içerir (AB alerjen listesi).",
+   "ipucu": "Peynir tuzluysa ayrıca tuz eklemeyin; limon suyu tadı dengeler.",
+   "neler_degisti": "Orta yağlı beyaz peynir yerine az yağlı beyaz peynir kullanılır. Ceviz ½ su bardağından ¼ su bardağına, zeytinyağı 3 yemek kaşığından 1 yemek kaşığına indi. Dereotu ½ su bardağı kıyılmışa çıktı. Klasikteki \"orta yağlı\" beyaz peynir yarım yağlı beyaz peynir kaydıyla hesaplandı.",
+   "klasik_kcal": 295,
+   "hesap_toplam": "Toplam 276 g · 4 porsiyona bölündü",
+   "hesap": [
+    {
+     "ad": "Beyaz Peynir (az yağlı)",
+     "gram": "200 g",
+     "besin": "beyaz-peynir-az-yagli",
+     "kaynak": "TürKomp — Ulusal Gıda Kompozisyon Veri Tabanı",
+     "kaynak_url": "https://turkomp.tarimorman.gov.tr/food-peynir-beyaz-az-yagli-yagsiz-yag-kuru-maddede---20-7"
+    },
+    {
+     "ad": "Ceviz (iç)",
+     "gram": "29,3 g",
+     "besin": "ceviz-ic",
+     "kaynak": "TürKomp — Ulusal Gıda Kompozisyon Veri Tabanı",
+     "kaynak_url": "https://turkomp.tarimorman.gov.tr/food-ceviz-ic-kuru-400"
+    },
+    {
+     "ad": "Zeytinyağı",
+     "gram": "13,5 g",
+     "besin": "zeytinyagi",
+     "kaynak": "TürKomp — Ulusal Gıda Kompozisyon Veri Tabanı",
+     "kaynak_url": "https://turkomp.tarimorman.gov.tr/food-zeytinyagi-sizma-103"
+    },
+    {
+     "ad": "Dereotu",
+     "gram": "4,5 g",
+     "besin": "dereotu",
+     "kaynak": "TürKomp — Ulusal Gıda Kompozisyon Veri Tabanı",
+     "kaynak_url": "https://turkomp.tarimorman.gov.tr/food-dereotu-255"
+    },
+    {
+     "ad": "Limon",
+     "gram": "29 g",
+     "besin": "limon",
+     "kaynak": "TürKomp — Ulusal Gıda Kompozisyon Veri Tabanı",
+     "kaynak_url": "https://turkomp.tarimorman.gov.tr/food-limon-interdonato-309"
+    }
+   ],
+   "hesap_not": "Porsiyon başına, malzemelerin Besin Kütüphanesi değerlerinden hesaplanmıştır (TürKomp).",
+   "malzeme_gruplari": [
+    {
+     "ad": "Meze için",
+     "satirlar": [
+      {
+       "miktar": 200.0,
+       "birim": "g",
+       "ad": "Beyaz Peynir (az yağlı)",
+       "not": "ezilmiş",
+       "besin": "beyaz-peynir-az-yagli"
+      },
+      {
+       "miktar": 29.25,
+       "birim": "g",
+       "ad": "Ceviz (iç)",
+       "not": "¼ su bardağı, iri çekilmiş",
+       "besin": "ceviz-ic"
+      },
+      {
+       "miktar": 13.5,
+       "birim": "g",
+       "ad": "Zeytinyağı",
+       "not": "1 yemek kaşığı",
+       "besin": "zeytinyagi"
+      },
+      {
+       "miktar": 4.5,
+       "birim": "g",
+       "ad": "Dereotu",
+       "not": "½ su bardağı ince kıyılmış",
+       "besin": "dereotu"
+      },
+      {
+       "miktar": null,
+       "birim": null,
+       "ad": "Kuru kekik",
+       "not": "½ çay kaşığı",
+       "besin": null
+      },
+      {
+       "miktar": 29.0,
+       "birim": "g",
+       "ad": "Limon",
+       "not": "½ adet, suyu sıkılmış",
+       "besin": "limon"
+      },
+      {
+       "miktar": null,
+       "birim": null,
+       "ad": "Sarımsak",
+       "not": "1 diş, ezilmiş, isteğe göre",
+       "besin": null
+      }
+     ]
+    }
+   ],
+   "malzeme_sayisi": 7,
+   "programlar": [
+    {
+     "slug": "vejetaryen-dort-hafta",
+     "ad": "Akdeniz Tipi Dört Hafta"
+    }
+   ],
+   "benzer": [
+    "sebze-cubuklu-humus",
+    "kisir",
+    "haydari",
+    "muhammara"
+   ],
+   "gastro": null
+  },
+  "haydari": {
+   "kategori": {
+    "slug": "meze",
+    "ad": "Meze"
+   },
+   "kategoriler": [
+    {
+     "slug": "meze",
+     "ad": "Meze"
+    }
+   ],
+   "yayin": "28 Ekim 2026",
+   "giris": "Süzme yoğurt, sarımsak ve dereotu haydarinin kendisi; üçü de kalır. Değişen dereotunun payı ile üstteki yağ ve ceviz.",
+   "alerjen": "Süt (yoğurt) ve sert kabuklu yemiş (ceviz) içerir (AB alerjen listesi).",
+   "ipucu": "Sarımsağı yoğurda ekledikten sonra mezeyi 15 dakika buzdolabında bekletin; tadı yoğurda yayılır.",
+   "neler_degisti": "Dereotu yarım demetten 1 su bardağı kıyılmışa çıktı. Üstteki zeytinyağı 2 yemek kaşığından 2 çay kaşığına indi. Ceviz 2 yemek kaşığından 1 yemek kaşığına indi.",
+   "klasik_kcal": 234,
+   "hesap_toplam": "Toplam 521 g · 4 porsiyona bölündü",
+   "hesap": [
+    {
+     "ad": "Süzme Yoğurt",
+     "gram": "490 g",
+     "besin": "suzme-yogurt",
+     "kaynak": "TürKomp — Ulusal Gıda Kompozisyon Veri Tabanı",
+     "kaynak_url": "https://turkomp.tarimorman.gov.tr/food-yogurt-suzme-burdur-559"
+    },
+    {
+     "ad": "Sarımsak",
+     "gram": "6 g",
+     "besin": "sarimsak",
+     "kaynak": "TürKomp — Ulusal Gıda Kompozisyon Veri Tabanı",
+     "kaynak_url": "https://turkomp.tarimorman.gov.tr/food-sarimsak-kuru-233"
+    },
+    {
+     "ad": "Dereotu",
+     "gram": "8,9 g",
+     "besin": "dereotu",
+     "kaynak": "TürKomp — Ulusal Gıda Kompozisyon Veri Tabanı",
+     "kaynak_url": "https://turkomp.tarimorman.gov.tr/food-dereotu-255"
+    },
+    {
+     "ad": "Ceviz (iç)",
+     "gram": "7,3 g",
+     "besin": "ceviz-ic",
+     "kaynak": "TürKomp — Ulusal Gıda Kompozisyon Veri Tabanı",
+     "kaynak_url": "https://turkomp.tarimorman.gov.tr/food-ceviz-ic-kuru-400"
+    },
+    {
+     "ad": "Zeytinyağı",
+     "gram": "9 g",
+     "besin": "zeytinyagi",
+     "kaynak": "TürKomp — Ulusal Gıda Kompozisyon Veri Tabanı",
+     "kaynak_url": "https://turkomp.tarimorman.gov.tr/food-zeytinyagi-sizma-103"
+    }
+   ],
+   "hesap_not": "Porsiyon başına, malzemelerin Besin Kütüphanesi değerlerinden hesaplanmıştır (TürKomp).",
+   "malzeme_gruplari": [
+    {
+     "ad": "Meze için",
+     "satirlar": [
+      {
+       "miktar": 490.0,
+       "birim": "g",
+       "ad": "Süzme Yoğurt",
+       "not": "2 su bardağı",
+       "besin": "suzme-yogurt"
+      },
+      {
+       "miktar": 6.0,
+       "birim": "g",
+       "ad": "Sarımsak",
+       "not": "2 diş, ezilmiş",
+       "besin": "sarimsak"
+      },
+      {
+       "miktar": 8.9,
+       "birim": "g",
+       "ad": "Dereotu",
+       "not": "1 su bardağı ince kıyılmış",
+       "besin": "dereotu"
+      },
+      {
+       "miktar": 7.3,
+       "birim": "g",
+       "ad": "Ceviz (iç)",
+       "not": "1 yemek kaşığı, iri çekilmiş",
+       "besin": "ceviz-ic"
+      },
+      {
+       "miktar": null,
+       "birim": null,
+       "ad": "Tuz",
+       "not": "½ tatlı kaşığı",
+       "besin": null
+      }
+     ]
+    },
+    {
+     "ad": "Üzeri için",
+     "satirlar": [
+      {
+       "miktar": 9.0,
+       "birim": "g",
+       "ad": "Zeytinyağı",
+       "not": "2 çay kaşığı",
+       "besin": "zeytinyagi"
+      },
+      {
+       "miktar": null,
+       "birim": null,
+       "ad": "Pul biber",
+       "not": "isteğe göre",
+       "besin": null
+      }
+     ]
+    }
+   ],
+   "malzeme_sayisi": 7,
+   "programlar": [
+    {
+     "slug": "vejetaryen-dort-hafta",
+     "ad": "Akdeniz Tipi Dört Hafta"
+    }
+   ],
+   "benzer": [
+    "sebze-cubuklu-humus",
+    "kisir",
+    "muhammara",
+    "mercimek-koftesi"
+   ],
+   "gastro": null
+  },
+  "imambayildi": {
+   "kategori": {
+    "slug": "zeytinyaglilar",
+    "ad": "Zeytinyağlılar"
+   },
+   "kategoriler": [
+    {
+     "slug": "zeytinyaglilar",
+     "ad": "Zeytinyağlılar"
+    },
+    {
+     "slug": "sebze",
+     "ad": "Sebze"
+    }
+   ],
+   "yayin": "28 Ekim 2026",
+   "giris": "Soğanlı, domatesli harç ve ağır ateşte yumuşayan patlıcan aynı kalır. Değişen, patlıcanın yağda değil fırında pişmesi.",
+   "alerjen": "Bu tarifte AB alerjen listesindeki 14 alerjenden hiçbiri yoktur.",
+   "ipucu": "Patlıcanları fırından çıkarınca birkaç dakika ters çevirip bekletin; fazla suyu akar, harç sulanmaz.",
+   "neler_degisti": "Patlıcanlar zeytinyağında sotelenmek yerine 200 °C fırında yumuşatıldı. Zeytinyağı ¾ su bardağından 4 yemek kaşığına indi. Harçtaki 1 çay kaşığı toz şeker çıkarıldı. Tuz 1 tatlı kaşığından 1 çay kaşığına indi.",
+   "klasik_kcal": 481,
+   "hesap_toplam": "Toplam 1709 g · 4 porsiyona bölündü",
+   "hesap": [
+    {
+     "ad": "Patlıcan (uzun · çiğ)",
+     "gram": "750 g",
+     "besin": "patlican-uzun-cig",
+     "kaynak": "TürKomp — Ulusal Gıda Kompozisyon Veri Tabanı",
+     "kaynak_url": "https://turkomp.tarimorman.gov.tr/food-patlican-uzun-186"
+    },
+    {
+     "ad": "Soğan (sarı)",
+     "gram": "440 g",
+     "besin": "sogan-sari",
+     "kaynak": "TürKomp — Ulusal Gıda Kompozisyon Veri Tabanı",
+     "kaynak_url": "https://turkomp.tarimorman.gov.tr/food-sogan-sari-kuru-230"
+    },
+    {
+     "ad": "Sarımsak",
+     "gram": "12 g",
+     "besin": "sarimsak",
+     "kaynak": "TürKomp — Ulusal Gıda Kompozisyon Veri Tabanı",
+     "kaynak_url": "https://turkomp.tarimorman.gov.tr/food-sarimsak-kuru-233"
+    },
+    {
+     "ad": "Domates",
+     "gram": "369 g",
+     "besin": "domates",
+     "kaynak": "TürKomp — Ulusal Gıda Kompozisyon Veri Tabanı",
+     "kaynak_url": "https://turkomp.tarimorman.gov.tr/food-domates-sofralik-168"
+    },
+    {
+     "ad": "Sivri Biber",
+     "gram": "54 g",
+     "besin": "sivri-biber",
+     "kaynak": "TürKomp — Ulusal Gıda Kompozisyon Veri Tabanı",
+     "kaynak_url": "https://turkomp.tarimorman.gov.tr/food-biber-sivri-174"
+    },
+    {
+     "ad": "Maydanoz",
+     "gram": "30 g",
+     "besin": "maydanoz",
+     "kaynak": "TürKomp — Ulusal Gıda Kompozisyon Veri Tabanı",
+     "kaynak_url": "https://turkomp.tarimorman.gov.tr/food-maydanoz-263"
+    },
+    {
+     "ad": "Zeytinyağı",
+     "gram": "54 g",
+     "besin": "zeytinyagi",
+     "kaynak": "TürKomp — Ulusal Gıda Kompozisyon Veri Tabanı",
+     "kaynak_url": "https://turkomp.tarimorman.gov.tr/food-zeytinyagi-sizma-103"
+    }
+   ],
+   "hesap_not": "Porsiyon başına, malzemelerin Besin Kütüphanesi değerlerinden hesaplanmıştır (TürKomp).",
+   "malzeme_gruplari": [
+    {
+     "ad": null,
+     "satirlar": [
+      {
+       "miktar": 750.0,
+       "birim": "g",
+       "ad": "Patlıcan (uzun · çiğ)",
+       "not": "5 adet (750 g tahmini ağırlık; kaynaklı adet gramı yok), alacalı soyulmuş",
+       "besin": "patlican-uzun-cig"
+      }
+     ]
+    },
+    {
+     "ad": "İç harcı için",
+     "satirlar": [
+      {
+       "miktar": 440.0,
+       "birim": "g",
+       "ad": "Soğan (sarı)",
+       "not": "4 adet, yemeklik doğranmış",
+       "besin": "sogan-sari"
+      },
+      {
+       "miktar": 12.0,
+       "birim": "g",
+       "ad": "Sarımsak",
+       "not": "4 diş, ince doğranmış",
+       "besin": "sarimsak"
+      },
+      {
+       "miktar": 369.0,
+       "birim": "g",
+       "ad": "Domates",
+       "not": "3 adet, küp doğranmış",
+       "besin": "domates"
+      },
+      {
+       "miktar": 54.0,
+       "birim": "g",
+       "ad": "Sivri Biber",
+       "not": "2 adet, doğranmış",
+       "besin": "sivri-biber"
+      },
+      {
+       "miktar": 30.0,
+       "birim": "g",
+       "ad": "Maydanoz",
+       "not": "ince kıyılmış",
+       "besin": "maydanoz"
+      },
+      {
+       "miktar": 54.0,
+       "birim": "g",
+       "ad": "Zeytinyağı",
+       "not": "4 yemek kaşığı",
+       "besin": "zeytinyagi"
+      },
+      {
+       "miktar": null,
+       "birim": null,
+       "ad": "Sıcak su",
+       "not": "1 su bardağı",
+       "besin": null
+      },
+      {
+       "miktar": null,
+       "birim": null,
+       "ad": "Tuz",
+       "not": "1 çay kaşığı",
+       "besin": null
+      }
+     ]
+    }
+   ],
+   "malzeme_sayisi": 9,
+   "programlar": [
+    {
+     "slug": "akdeniz-tipi-dort-hafta",
+     "ad": "Bitkisel Dört Hafta"
+    }
+   ],
+   "benzer": [
+    "mercimekli-biber-dolmasi",
+    "bulgurlu-yaprak-sarma",
+    "zeytinyagli-pirasa",
+    "zeytinyagli-lahana-sarmasi"
+   ],
+   "gastro": {
+    "id": 735,
+    "url": "https://dadagastro.com/tarif/imambayildi-zeytinyagli-patlican"
+   }
+  },
+  "ispanakli-omlet": {
+   "kategori": {
+    "slug": "yumurta-tarifleri",
+    "ad": "Yumurta Tarifleri"
+   },
+   "kategoriler": [
+    {
+     "slug": "yumurta-tarifleri",
+     "ad": "Yumurta Tarifleri"
+    },
+    {
+     "slug": "kahvaltilik",
+     "ad": "Kahvaltılık"
+    }
+   ],
+   "yayin": "28 Ekim 2026",
+   "giris": "Tavada solan ıspanak ve üzerine dökülüp katlanan yumurta omletin kendisi; ikisi de kalır. Değişen ıspanağın payı, tavadaki yağ ve peynir.",
+   "alerjen": "Yumurta ve süt (beyaz peynir) içerir (AB alerjen listesi).",
+   "ipucu": "Ispanak suyunu bırakınca birkaç saniye daha çevirin; tavada su kalırsa yumurta iyi tutmaz.",
+   "neler_degisti": "Taze ıspanak 100 g'dan 200 g'a çıktı. Zeytinyağı 1 yemek kaşığından 1 çay kaşığına indi. 40 g tam yağlı beyaz peynir yerine 30 g az yağlı beyaz peynir kullanılır.",
+   "klasik_kcal": 251,
+   "hesap_toplam": "Toplam 440 g · 2 porsiyona bölündü",
+   "hesap": [
+    {
+     "ad": "Yumurta (tam · çiğ)",
+     "gram": "150 g",
+     "besin": "yumurta-tam-cig",
+     "kaynak": "TürKomp — Ulusal Gıda Kompozisyon Veri Tabanı",
+     "kaynak_url": "https://turkomp.tarimorman.gov.tr/food-yumurta-tavuk-tam-26"
+    },
+    {
+     "ad": "Ispanak (çiğ)",
+     "gram": "200 g",
+     "besin": "ispanak-cig",
+     "kaynak": "TürKomp — Ulusal Gıda Kompozisyon Veri Tabanı",
+     "kaynak_url": "https://turkomp.tarimorman.gov.tr/food-ispanak-268"
+    },
+    {
+     "ad": "Soğan (sarı)",
+     "gram": "55 g",
+     "besin": "sogan-sari",
+     "kaynak": "TürKomp — Ulusal Gıda Kompozisyon Veri Tabanı",
+     "kaynak_url": "https://turkomp.tarimorman.gov.tr/food-sogan-sari-kuru-230"
+    },
+    {
+     "ad": "Zeytinyağı",
+     "gram": "4,5 g",
+     "besin": "zeytinyagi",
+     "kaynak": "TürKomp — Ulusal Gıda Kompozisyon Veri Tabanı",
+     "kaynak_url": "https://turkomp.tarimorman.gov.tr/food-zeytinyagi-sizma-103"
+    },
+    {
+     "ad": "Beyaz Peynir (az yağlı)",
+     "gram": "30 g",
+     "besin": "beyaz-peynir-az-yagli",
+     "kaynak": "TürKomp — Ulusal Gıda Kompozisyon Veri Tabanı",
+     "kaynak_url": "https://turkomp.tarimorman.gov.tr/food-peynir-beyaz-az-yagli-yagsiz-yag-kuru-maddede---20-7"
+    }
+   ],
+   "hesap_not": "Porsiyon başına, malzemelerin Besin Kütüphanesi değerlerinden hesaplanmıştır (TürKomp).",
+   "malzeme_gruplari": [
+    {
+     "ad": "Omlet için",
+     "satirlar": [
+      {
+       "miktar": 150.0,
+       "birim": "g",
+       "ad": "Yumurta (tam · çiğ)",
+       "not": "3 adet",
+       "besin": "yumurta-tam-cig"
+      },
+      {
+       "miktar": 200.0,
+       "birim": "g",
+       "ad": "Ispanak (çiğ)",
+       "not": "iri doğranmış",
+       "besin": "ispanak-cig"
+      },
+      {
+       "miktar": 55.0,
+       "birim": "g",
+       "ad": "Soğan (sarı)",
+       "not": "½ adet, ince doğranmış",
+       "besin": "sogan-sari"
+      },
+      {
+       "miktar": 4.5,
+       "birim": "g",
+       "ad": "Zeytinyağı",
+       "not": "1 çay kaşığı",
+       "besin": "zeytinyagi"
+      },
+      {
+       "miktar": 30.0,
+       "birim": "g",
+       "ad": "Beyaz Peynir (az yağlı)",
+       "not": "ufalanmış",
+       "besin": "beyaz-peynir-az-yagli"
+      },
+      {
+       "miktar": null,
+       "birim": null,
+       "ad": "Tuz, karabiber",
+       "not": "birer tutam",
+       "besin": null
+      }
+     ]
+    }
+   ],
+   "malzeme_sayisi": 6,
+   "programlar": [
+    {
+     "slug": "vejetaryen-dort-hafta",
+     "ad": "Glütensiz Hafta"
+    }
+   ],
+   "benzer": [
+    "cilbir",
+    "pose-yumurtali-ekmek",
+    "kus-yuvasi-yumurta",
+    "sebzeli-peynirli-omlet"
+   ],
+   "gastro": null
+  },
+  "izgara-sebzeli-dana-bonfile": {
+   "kategori": {
+    "slug": "kirmizi-et",
+    "ad": "Kırmızı Et"
+   },
+   "kategoriler": [
+    {
+     "slug": "kirmizi-et",
+     "ad": "Kırmızı Et"
+    },
+    {
+     "slug": "ana-yemek",
+     "ad": "Ana Yemek"
+    }
+   ],
+   "yayin": "28 Ekim 2026",
+   "giris": "İri çekilmiş karabiberle kaplanan bonfilenin yüksek ateşte mühürlenip dinlendirilmesi bu tabağın kendisi; aynı kalır. Değişen yağın türü ve miktarı, dilimin boyu ve tabaktaki sebze.",
+   "alerjen": "AB alerjen listesinden içerik yok.",
+   "ipucu": "Bonfileyi tavaya koyduktan sonra birkaç dakika kımıldatmayın; sabit kalan et dışını mühürler, suyunu içinde tutar.",
+   "neler_degisti": "2 yemek kaşığı tereyağı yerine 1 yemek kaşığı zeytinyağı kullanılır. Bonfile dilimleri yaklaşık 180 g'dan 150 g'a indi. Tabağa ızgara kabak, iki dolmalık biber ve 150 g mantar eklendi. Klasik tarifte bonfile adetle yazılır; gramı tarifin kendi notundan (\"yaklaşık 180 gramlık dilimler\") alındı.",
+   "klasik_kcal": 324,
+   "hesap_toplam": "Toplam 1204 g · 4 porsiyona bölündü",
+   "hesap": [
+    {
+     "ad": "Dana Bonfile (çiğ)",
+     "gram": "600 g",
+     "besin": "dana-bonfile-cig",
+     "kaynak": "TürKomp — Ulusal Gıda Kompozisyon Veri Tabanı",
+     "kaynak_url": "https://turkomp.tarimorman.gov.tr/food-dana-eti-bonfile-41"
+    },
+    {
+     "ad": "Sarımsak",
+     "gram": "6 g",
+     "besin": "sarimsak",
+     "kaynak": "TürKomp — Ulusal Gıda Kompozisyon Veri Tabanı",
+     "kaynak_url": "https://turkomp.tarimorman.gov.tr/food-sarimsak-kuru-233"
+    },
+    {
+     "ad": "Zeytinyağı",
+     "gram": "13,5 g",
+     "besin": "zeytinyagi",
+     "kaynak": "TürKomp — Ulusal Gıda Kompozisyon Veri Tabanı",
+     "kaynak_url": "https://turkomp.tarimorman.gov.tr/food-zeytinyagi-sizma-103"
+    },
+    {
+     "ad": "Yazlık Kabak (koyu yeşil · çiğ)",
+     "gram": "196 g",
+     "besin": "yazlik-kabak-cig",
+     "kaynak": "TürKomp — Ulusal Gıda Kompozisyon Veri Tabanı",
+     "kaynak_url": "https://turkomp.tarimorman.gov.tr/food-kabak-yazlik-koyu-yesil-199"
+    },
+    {
+     "ad": "Dolmalık Biber",
+     "gram": "238 g",
+     "besin": "dolmalik-biber",
+     "kaynak": "TürKomp — Ulusal Gıda Kompozisyon Veri Tabanı",
+     "kaynak_url": "https://turkomp.tarimorman.gov.tr/food-biber-dolma-175"
+    },
+    {
+     "ad": "Kültür Mantarı (çiğ)",
+     "gram": "150 g",
+     "besin": "kultur-mantari-cig",
+     "kaynak": "TürKomp — Ulusal Gıda Kompozisyon Veri Tabanı",
+     "kaynak_url": "https://turkomp.tarimorman.gov.tr/food-mantar-beyaz-sapkali-276"
+    }
+   ],
+   "hesap_not": "Porsiyon başına, malzemelerin Besin Kütüphanesi değerlerinden hesaplanmıştır (TürKomp).",
+   "malzeme_gruplari": [
+    {
+     "ad": "Bonfile için",
+     "satirlar": [
+      {
+       "miktar": 600.0,
+       "birim": "g",
+       "ad": "Dana Bonfile (çiğ)",
+       "not": "4 dilim, yaklaşık 150 g'lık",
+       "besin": "dana-bonfile-cig"
+      },
+      {
+       "miktar": null,
+       "birim": null,
+       "ad": "Karabiber",
+       "not": "1 yemek kaşığı, iri çekilmiş",
+       "besin": null
+      },
+      {
+       "miktar": null,
+       "birim": null,
+       "ad": "Tuz",
+       "not": "1 çay kaşığı",
+       "besin": null
+      },
+      {
+       "miktar": 6.0,
+       "birim": "g",
+       "ad": "Sarımsak",
+       "not": "2 diş, kabuklu, ezilmiş",
+       "besin": "sarimsak"
+      },
+      {
+       "miktar": 13.5,
+       "birim": "g",
+       "ad": "Zeytinyağı",
+       "not": "1 yemek kaşığı",
+       "besin": "zeytinyagi"
+      }
+     ]
+    },
+    {
+     "ad": "Sebzeler için",
+     "satirlar": [
+      {
+       "miktar": 196.0,
+       "birim": "g",
+       "ad": "Yazlık Kabak (koyu yeşil · çiğ)",
+       "not": "1 adet, boyuna dilimlenmiş",
+       "besin": "yazlik-kabak-cig"
+      },
+      {
+       "miktar": 238.0,
+       "birim": "g",
+       "ad": "Dolmalık Biber",
+       "not": "2 adet, iri dilimlenmiş",
+       "besin": "dolmalik-biber"
+      },
+      {
+       "miktar": 150.0,
+       "birim": "g",
+       "ad": "Kültür Mantarı (çiğ)",
+       "not": "ikiye bölünmüş",
+       "besin": "kultur-mantari-cig"
+      }
+     ]
+    }
+   ],
+   "malzeme_sayisi": 8,
+   "programlar": [
+    {
+     "slug": "glutensiz-hafta",
+     "ad": "Lokanta Haftası"
+    }
+   ],
+   "benzer": [
+    "sebzeli-tas-kebabi",
+    "sebzeli-kuzu-sis",
+    "mantarli-dana-sote",
+    "soganli-dana-biftek"
+   ],
+   "gastro": null
+  },
+  "izgara-sebzeli-sandvic": {
+   "kategori": {
+    "slug": "sandvic-burger-ve-durum",
+    "ad": "Sandviç, Burger ve Dürüm"
+   },
+   "kategoriler": [
+    {
+     "slug": "sandvic-burger-ve-durum",
+     "ad": "Sandviç, Burger ve Dürüm"
+    }
+   ],
+   "yayin": "28 Ekim 2026",
+   "giris": "Izgara tavada izi çıkan sebzeler ve ızgarada kısa süre kızartılan ekmek bu sandviçin kendisi; aynı kalır. Değişen ekmeğin türü, sebzelere sürülen yağ ve ekmeğe sürülen sos.",
+   "alerjen": "Buğday (glüten; ekmek) ve süt (yoğurt) içerir (AB alerjen listesi).",
+   "ipucu": "Sebzeleri yağa bulamak yerine fırçayla ince bir kat sürün; ızgara izi yine çıkar, daha az yağ yeter.",
+   "neler_degisti": "Beyaz ekmek yerine kepekli ekmek kullanılır. Zeytinyağı 3 yemek kaşığından 1 yemek kaşığına indi; sebzelere fırçayla sürülür. Ekmeğe 2 yemek kaşığı sarımsaklı süzme yoğurt sürülür. Klasik tarif \"kepekli veya beyaz ekmek\" der; klasik taraf beyaz ekmekle hesaplandı; 1 dilim = 25 g (TÜBER Ek 2.1.5: 2 ince dilim 50 g).",
+   "klasik_kcal": 370,
+   "hesap_toplam": "Toplam 614 g · 2 porsiyona bölündü",
+   "hesap": [
+    {
+     "ad": "Kepekli Ekmek",
+     "gram": "100 g",
+     "besin": "kepekli-ekmek",
+     "kaynak": "TürKomp — Ulusal Gıda Kompozisyon Veri Tabanı",
+     "kaynak_url": "https://turkomp.tarimorman.gov.tr/food-ekmek-kepekli-127"
+    },
+    {
+     "ad": "Süzme Yoğurt",
+     "gram": "32 g",
+     "besin": "suzme-yogurt",
+     "kaynak": "TürKomp — Ulusal Gıda Kompozisyon Veri Tabanı",
+     "kaynak_url": "https://turkomp.tarimorman.gov.tr/food-yogurt-suzme-burdur-559"
+    },
+    {
+     "ad": "Yazlık Kabak (koyu yeşil · çiğ)",
+     "gram": "196 g",
+     "besin": "yazlik-kabak-cig",
+     "kaynak": "TürKomp — Ulusal Gıda Kompozisyon Veri Tabanı",
+     "kaynak_url": "https://turkomp.tarimorman.gov.tr/food-kabak-yazlik-koyu-yesil-199"
+    },
+    {
+     "ad": "Patlıcan (uzun · çiğ)",
+     "gram": "150 g",
+     "besin": "patlican-uzun-cig",
+     "kaynak": "TürKomp — Ulusal Gıda Kompozisyon Veri Tabanı",
+     "kaynak_url": "https://turkomp.tarimorman.gov.tr/food-patlican-uzun-186"
+    },
+    {
+     "ad": "Dolmalık Biber",
+     "gram": "119 g",
+     "besin": "dolmalik-biber",
+     "kaynak": "TürKomp — Ulusal Gıda Kompozisyon Veri Tabanı",
+     "kaynak_url": "https://turkomp.tarimorman.gov.tr/food-biber-dolma-175"
+    },
+    {
+     "ad": "Zeytinyağı",
+     "gram": "13,5 g",
+     "besin": "zeytinyagi",
+     "kaynak": "TürKomp — Ulusal Gıda Kompozisyon Veri Tabanı",
+     "kaynak_url": "https://turkomp.tarimorman.gov.tr/food-zeytinyagi-sizma-103"
+    },
+    {
+     "ad": "Sarımsak",
+     "gram": "3 g",
+     "besin": "sarimsak",
+     "kaynak": "TürKomp — Ulusal Gıda Kompozisyon Veri Tabanı",
+     "kaynak_url": "https://turkomp.tarimorman.gov.tr/food-sarimsak-kuru-233"
+    }
+   ],
+   "hesap_not": "Porsiyon başına, malzemelerin Besin Kütüphanesi değerlerinden hesaplanmıştır (TürKomp).",
+   "malzeme_gruplari": [
+    {
+     "ad": "Sandviç için",
+     "satirlar": [
+      {
+       "miktar": 100.0,
+       "birim": "g",
+       "ad": "Kepekli Ekmek",
+       "not": "4 dilim",
+       "besin": "kepekli-ekmek"
+      },
+      {
+       "miktar": 32.0,
+       "birim": "g",
+       "ad": "Süzme Yoğurt",
+       "not": "2 yemek kaşığı",
+       "besin": "suzme-yogurt"
+      }
+     ]
+    },
+    {
+     "ad": "Sebzeler için",
+     "satirlar": [
+      {
+       "miktar": 196.0,
+       "birim": "g",
+       "ad": "Yazlık Kabak (koyu yeşil · çiğ)",
+       "not": "1 adet, boyuna dilimlenmiş",
+       "besin": "yazlik-kabak-cig"
+      },
+      {
+       "miktar": 150.0,
+       "birim": "g",
+       "ad": "Patlıcan (uzun · çiğ)",
+       "not": "1 adet (150 g tahmini ağırlık; kaynaklı adet gramı yok), boyuna dilimlenmiş",
+       "besin": "patlican-uzun-cig"
+      },
+      {
+       "miktar": 119.0,
+       "birim": "g",
+       "ad": "Dolmalık Biber",
+       "not": "1 adet kırmızı biber, dilimlenmiş",
+       "besin": "dolmalik-biber"
+      },
+      {
+       "miktar": 13.5,
+       "birim": "g",
+       "ad": "Zeytinyağı",
+       "not": "1 yemek kaşığı",
+       "besin": "zeytinyagi"
+      },
+      {
+       "miktar": 3.0,
+       "birim": "g",
+       "ad": "Sarımsak",
+       "not": "1 diş, ezilmiş",
+       "besin": "sarimsak"
+      },
+      {
+       "miktar": null,
+       "birim": null,
+       "ad": "Tuz, karabiber",
+       "not": "birer tutam",
+       "besin": null
+      }
+     ]
+    }
+   ],
+   "malzeme_sayisi": 8,
+   "programlar": [
+    {
+     "slug": "vejetaryen-dort-hafta",
+     "ad": "Ofis Öğünleri"
+    },
+    {
+     "slug": "ogrenci",
+     "ad": "Evden Çalışma Menüsü"
+    }
+   ],
+   "benzer": [
+    "cilbir",
+    "zencefilli-bal-kabagi-corbasi",
+    "yogurtlu-tavuk-sis",
+    "kumpir"
+   ],
+   "gastro": null
+  },
+  "kahvalti-patatesi": {
+   "kategori": {
+    "slug": "kahvaltilik",
+    "ad": "Kahvaltılık"
+   },
+   "kategoriler": [
+    {
+     "slug": "kahvaltilik",
+     "ad": "Kahvaltılık"
+    },
+    {
+     "slug": "sebze",
+     "ad": "Sebze"
+    }
+   ],
+   "yayin": "28 Ekim 2026",
+   "giris": "Küp patatesin biber, soğan ve salçayla tavada renk aldığı kahvaltılık aynı kalır. Değişen patatesin pişirilişi, yağ ve sebzenin payı.",
+   "alerjen": "AB alerjen listesinden içerik yok.",
+   "ipucu": "Haşlanmış patatesi kuruttuktan sonra tavaya alın; nemli patates renk almaz, yağ ister.",
+   "neler_degisti": "Patatesler tavadan önce 5 dakika haşlanır; zeytinyağı 4 yemek kaşığından 1 yemek kaşığına indi. Patates 4 adetten 3 adede indi; sivri biber 2 adetten 3 adede çıktı. Klasikteki kırmızı kapya biber, kütüphanede kapya kaydı olmadığı için iki tarafta da dolmalık biber kaydıyla hesaplandı.",
+   "klasik_kcal": 387,
+   "hesap_toplam": "Toplam 972 g · 3 porsiyona bölündü",
+   "hesap": [
+    {
+     "ad": "Patates (sofralık sarı · çiğ)",
+     "gram": "639 g",
+     "besin": "patates-cig",
+     "kaynak": "TürKomp — Ulusal Gıda Kompozisyon Veri Tabanı",
+     "kaynak_url": "https://turkomp.tarimorman.gov.tr/food-patates-sofralik-sari-marfona-granola-marabel-282"
+    },
+    {
+     "ad": "Soğan (sarı)",
+     "gram": "110 g",
+     "besin": "sogan-sari",
+     "kaynak": "TürKomp — Ulusal Gıda Kompozisyon Veri Tabanı",
+     "kaynak_url": "https://turkomp.tarimorman.gov.tr/food-sogan-sari-kuru-230"
+    },
+    {
+     "ad": "Sivri Biber",
+     "gram": "81 g",
+     "besin": "sivri-biber",
+     "kaynak": "TürKomp — Ulusal Gıda Kompozisyon Veri Tabanı",
+     "kaynak_url": "https://turkomp.tarimorman.gov.tr/food-biber-sivri-174"
+    },
+    {
+     "ad": "Dolmalık Biber",
+     "gram": "119 g",
+     "besin": "dolmalik-biber",
+     "kaynak": "TürKomp — Ulusal Gıda Kompozisyon Veri Tabanı",
+     "kaynak_url": "https://turkomp.tarimorman.gov.tr/food-biber-dolma-175"
+    },
+    {
+     "ad": "Domates Salçası",
+     "gram": "9 g",
+     "besin": "domates-salcasi",
+     "kaynak": "TürKomp — Ulusal Gıda Kompozisyon Veri Tabanı",
+     "kaynak_url": "https://turkomp.tarimorman.gov.tr/food-domates-salcasi-170"
+    },
+    {
+     "ad": "Zeytinyağı",
+     "gram": "13,5 g",
+     "besin": "zeytinyagi",
+     "kaynak": "TürKomp — Ulusal Gıda Kompozisyon Veri Tabanı",
+     "kaynak_url": "https://turkomp.tarimorman.gov.tr/food-zeytinyagi-sizma-103"
+    }
+   ],
+   "hesap_not": "Porsiyon başına, malzemelerin Besin Kütüphanesi değerlerinden hesaplanmıştır (TürKomp).",
+   "malzeme_gruplari": [
+    {
+     "ad": "Yemek için",
+     "satirlar": [
+      {
+       "miktar": 639.0,
+       "birim": "g",
+       "ad": "Patates (sofralık sarı · çiğ)",
+       "not": "3 adet, küp doğranmış",
+       "besin": "patates-cig"
+      },
+      {
+       "miktar": 110.0,
+       "birim": "g",
+       "ad": "Soğan (sarı)",
+       "not": "1 adet, doğranmış",
+       "besin": "sogan-sari"
+      },
+      {
+       "miktar": 81.0,
+       "birim": "g",
+       "ad": "Sivri Biber",
+       "not": "3 adet, doğranmış",
+       "besin": "sivri-biber"
+      },
+      {
+       "miktar": 119.0,
+       "birim": "g",
+       "ad": "Dolmalık Biber",
+       "not": "1 adet kırmızı kapya biber, doğranmış",
+       "besin": "dolmalik-biber"
+      },
+      {
+       "miktar": 9.0,
+       "birim": "g",
+       "ad": "Domates Salçası",
+       "not": "1 tatlı kaşığı",
+       "besin": "domates-salcasi"
+      },
+      {
+       "miktar": 13.5,
+       "birim": "g",
+       "ad": "Zeytinyağı",
+       "not": "1 yemek kaşığı",
+       "besin": "zeytinyagi"
+      },
+      {
+       "miktar": null,
+       "birim": null,
+       "ad": "Tuz, pul biber, kuru kekik",
+       "not": "birer çay kaşığının yarısı",
+       "besin": null
+      }
+     ]
+    }
+   ],
+   "malzeme_sayisi": 7,
+   "programlar": [
+    {
+     "slug": "bitkisel-dort-hafta",
+     "ad": "Glütensiz Hafta"
+    },
+    {
+     "slug": "aile",
+     "ad": "Öğrenci Dostu Menü"
+    }
+   ],
+   "benzer": [
+    "cilbir",
+    "pankek",
+    "pose-yumurtali-ekmek",
+    "zeytinli-pogaca"
+   ],
+   "gastro": null
+  },
+  "karidesli-guvec": {
+   "kategori": {
+    "slug": "balik-ve-deniz-urunleri",
+    "ad": "Balık ve Deniz Ürünleri"
+   },
+   "kategoriler": [
+    {
+     "slug": "balik-ve-deniz-urunleri",
+     "ad": "Balık ve Deniz Ürünleri"
+    },
+    {
+     "slug": "ana-yemek",
+     "ad": "Ana Yemek"
+    }
+   ],
+   "yayin": "28 Ekim 2026",
+   "giris": "Domatesli sosun koyulaşıp karidesin içinde birkaç dakikada pembeleştiği güveç aynı kalır. Değişen sostaki yağ, sebzenin payı ve tuz.",
+   "alerjen": "Kabuklu deniz ürünü (karides) içerir (AB alerjen listesi).",
+   "ipucu": "Karidesi sos iyice koyulaştıktan sonra ekleyin ve pembeleşir pembeleşmez ocaktan alın; fazla pişerse sertleşir.",
+   "neler_degisti": "Zeytinyağı 4 yemek kaşığından 1 yemek kaşığına indi. Domates 3 adetten 4 adede, sivri biber 2 adetten 3 adede çıktı; maydanoz ½ su bardağı kıyılmış. Tuz 1 tatlı kaşığından ½ çay kaşığına indi.",
+   "klasik_kcal": 316,
+   "hesap_toplam": "Toplam 1145 g · 3 porsiyona bölündü",
+   "hesap": [
+    {
+     "ad": "Karides (derin su pembe · çiğ)",
+     "gram": "400 g",
+     "besin": "karides-cig",
+     "kaynak": "TürKomp — Ulusal Gıda Kompozisyon Veri Tabanı",
+     "kaynak_url": "https://turkomp.tarimorman.gov.tr/food-karides-derin-su-pembe-94"
+    },
+    {
+     "ad": "Soğan (sarı)",
+     "gram": "110 g",
+     "besin": "sogan-sari",
+     "kaynak": "TürKomp — Ulusal Gıda Kompozisyon Veri Tabanı",
+     "kaynak_url": "https://turkomp.tarimorman.gov.tr/food-sogan-sari-kuru-230"
+    },
+    {
+     "ad": "Sarımsak",
+     "gram": "9 g",
+     "besin": "sarimsak",
+     "kaynak": "TürKomp — Ulusal Gıda Kompozisyon Veri Tabanı",
+     "kaynak_url": "https://turkomp.tarimorman.gov.tr/food-sarimsak-kuru-233"
+    },
+    {
+     "ad": "Domates",
+     "gram": "492 g",
+     "besin": "domates",
+     "kaynak": "TürKomp — Ulusal Gıda Kompozisyon Veri Tabanı",
+     "kaynak_url": "https://turkomp.tarimorman.gov.tr/food-domates-sofralik-168"
+    },
+    {
+     "ad": "Sivri Biber",
+     "gram": "81 g",
+     "besin": "sivri-biber",
+     "kaynak": "TürKomp — Ulusal Gıda Kompozisyon Veri Tabanı",
+     "kaynak_url": "https://turkomp.tarimorman.gov.tr/food-biber-sivri-174"
+    },
+    {
+     "ad": "Domates Salçası",
+     "gram": "9 g",
+     "besin": "domates-salcasi",
+     "kaynak": "TürKomp — Ulusal Gıda Kompozisyon Veri Tabanı",
+     "kaynak_url": "https://turkomp.tarimorman.gov.tr/food-domates-salcasi-170"
+    },
+    {
+     "ad": "Zeytinyağı",
+     "gram": "13,5 g",
+     "besin": "zeytinyagi",
+     "kaynak": "TürKomp — Ulusal Gıda Kompozisyon Veri Tabanı",
+     "kaynak_url": "https://turkomp.tarimorman.gov.tr/food-zeytinyagi-sizma-103"
+    },
+    {
+     "ad": "Maydanoz",
+     "gram": "30 g",
+     "besin": "maydanoz",
+     "kaynak": "TürKomp — Ulusal Gıda Kompozisyon Veri Tabanı",
+     "kaynak_url": "https://turkomp.tarimorman.gov.tr/food-maydanoz-263"
+    }
+   ],
+   "hesap_not": "Porsiyon başına, malzemelerin Besin Kütüphanesi değerlerinden hesaplanmıştır (TürKomp).",
+   "malzeme_gruplari": [
+    {
+     "ad": "Güveç için",
+     "satirlar": [
+      {
+       "miktar": 400.0,
+       "birim": "g",
+       "ad": "Karides (derin su pembe · çiğ)",
+       "not": "temizlenmiş, ayıklanmış",
+       "besin": "karides-cig"
+      },
+      {
+       "miktar": 110.0,
+       "birim": "g",
+       "ad": "Soğan (sarı)",
+       "not": "1 adet, ince doğranmış",
+       "besin": "sogan-sari"
+      },
+      {
+       "miktar": 9.0,
+       "birim": "g",
+       "ad": "Sarımsak",
+       "not": "3 diş, ince doğranmış",
+       "besin": "sarimsak"
+      },
+      {
+       "miktar": 492.0,
+       "birim": "g",
+       "ad": "Domates",
+       "not": "4 adet, rendelenmiş",
+       "besin": "domates"
+      },
+      {
+       "miktar": 81.0,
+       "birim": "g",
+       "ad": "Sivri Biber",
+       "not": "3 adet, doğranmış",
+       "besin": "sivri-biber"
+      },
+      {
+       "miktar": 9.0,
+       "birim": "g",
+       "ad": "Domates Salçası",
+       "not": "1 tatlı kaşığı",
+       "besin": "domates-salcasi"
+      },
+      {
+       "miktar": 13.5,
+       "birim": "g",
+       "ad": "Zeytinyağı",
+       "not": "1 yemek kaşığı",
+       "besin": "zeytinyagi"
+      },
+      {
+       "miktar": null,
+       "birim": null,
+       "ad": "Pul biber",
+       "not": "½ çay kaşığı",
+       "besin": null
+      },
+      {
+       "miktar": null,
+       "birim": null,
+       "ad": "Tuz",
+       "not": "½ çay kaşığı",
+       "besin": null
+      }
+     ]
+    },
+    {
+     "ad": "Servis için",
+     "satirlar": [
+      {
+       "miktar": 30.0,
+       "birim": "g",
+       "ad": "Maydanoz",
+       "not": "½ su bardağı ince kıyılmış",
+       "besin": "maydanoz"
+      }
+     ]
+    }
+   ],
+   "malzeme_sayisi": 10,
+   "programlar": [],
+   "benzer": [
+    "ton-balikli-salata",
+    "sebzeli-levrek-bugulama",
+    "ton-balikli-makarna",
+    "karidesli-spagetti"
+   ],
+   "gastro": null
+  },
+  "kisir": {
+   "kategori": {
+    "slug": "salata",
+    "ad": "Salata"
+   },
+   "kategoriler": [
+    {
+     "slug": "salata",
+     "ad": "Salata"
+    },
+    {
+     "slug": "meze",
+     "ad": "Meze"
+    }
+   ],
+   "yayin": "28 Ekim 2026",
+   "giris": "Bulgur aynı yolla şişer, salçayla yoğrulur. Değişen tabaktaki yeşilliğin payı ve yağın miktarı.",
+   "alerjen": "Buğday (glüten) içerir (AB alerjen listesi; bulgur buğdaydan yapılır).",
+   "ipucu": "Yeşillikleri bulgur tamamen soğuduktan sonra ekleyin; ılık bulgurda maydanoz rengini kaybeder.",
+   "neler_degisti": "Zeytinyağı 4 yemek kaşığından 2 yemek kaşığına indi. Maydanoz yarım demetten 1 su bardağı kıyılmışa, taze soğan 3 daldan 6 dala çıktı. Tuz 1 tatlı kaşığından ½ çay kaşığına indi; ekşilik limon ve nar ekşisiyle.",
+   "klasik_kcal": 302,
+   "hesap_toplam": "Toplam 996 g · 6 porsiyona bölündü",
+   "hesap": [
+    {
+     "ad": "Bulgur (pilavlık · kuru)",
+     "gram": "280 g",
+     "besin": "bulgur-kuru",
+     "kaynak": "TürKomp — Ulusal Gıda Kompozisyon Veri Tabanı",
+     "kaynak_url": "https://turkomp.tarimorman.gov.tr/food-bulgur-pilavlik-gaziantep-460"
+    },
+    {
+     "ad": "Domates Salçası",
+     "gram": "18 g",
+     "besin": "domates-salcasi",
+     "kaynak": "TürKomp — Ulusal Gıda Kompozisyon Veri Tabanı",
+     "kaynak_url": "https://turkomp.tarimorman.gov.tr/food-domates-salcasi-170"
+    },
+    {
+     "ad": "Biber Salçası",
+     "gram": "9 g",
+     "besin": "biber-salcasi",
+     "kaynak": "TürKomp — Ulusal Gıda Kompozisyon Veri Tabanı",
+     "kaynak_url": "https://turkomp.tarimorman.gov.tr/food-biber-salcasi-181"
+    },
+    {
+     "ad": "Domates",
+     "gram": "123 g",
+     "besin": "domates",
+     "kaynak": "TürKomp — Ulusal Gıda Kompozisyon Veri Tabanı",
+     "kaynak_url": "https://turkomp.tarimorman.gov.tr/food-domates-sofralik-168"
+    },
+    {
+     "ad": "Salatalık",
+     "gram": "150,5 g",
+     "besin": "salatalik",
+     "kaynak": "TürKomp — Ulusal Gıda Kompozisyon Veri Tabanı",
+     "kaynak_url": "https://turkomp.tarimorman.gov.tr/food-salatalik-203"
+    },
+    {
+     "ad": "Taze Soğan",
+     "gram": "90 g",
+     "besin": "taze-sogan",
+     "kaynak": "TürKomp — Ulusal Gıda Kompozisyon Veri Tabanı",
+     "kaynak_url": "https://turkomp.tarimorman.gov.tr/food-sogan-taze-kok-sap-229"
+    },
+    {
+     "ad": "Maydanoz",
+     "gram": "60 g",
+     "besin": "maydanoz",
+     "kaynak": "TürKomp — Ulusal Gıda Kompozisyon Veri Tabanı",
+     "kaynak_url": "https://turkomp.tarimorman.gov.tr/food-maydanoz-263"
+    },
+    {
+     "ad": "Nar Ekşisi",
+     "gram": "36 g",
+     "besin": "nar-eksisi",
+     "kaynak": "TürKomp — Ulusal Gıda Kompozisyon Veri Tabanı",
+     "kaynak_url": "https://turkomp.tarimorman.gov.tr/food-nar-eksisi-gaziantep-534"
+    },
+    {
+     "ad": "Limon",
+     "gram": "58 g",
+     "besin": "limon",
+     "kaynak": "TürKomp — Ulusal Gıda Kompozisyon Veri Tabanı",
+     "kaynak_url": "https://turkomp.tarimorman.gov.tr/food-limon-interdonato-309"
+    },
+    {
+     "ad": "Zeytinyağı",
+     "gram": "27 g",
+     "besin": "zeytinyagi",
+     "kaynak": "TürKomp — Ulusal Gıda Kompozisyon Veri Tabanı",
+     "kaynak_url": "https://turkomp.tarimorman.gov.tr/food-zeytinyagi-sizma-103"
+    },
+    {
+     "ad": "Marul (kıvırcık)",
+     "gram": "144 g",
+     "besin": "marul-kivircik",
+     "kaynak": "TürKomp — Ulusal Gıda Kompozisyon Veri Tabanı",
+     "kaynak_url": "https://turkomp.tarimorman.gov.tr/food-marul-kivircik-salata-239"
+    }
+   ],
+   "hesap_not": "Porsiyon başına, malzemelerin Besin Kütüphanesi değerlerinden hesaplanmıştır (TürKomp).",
+   "malzeme_gruplari": [
+    {
+     "ad": null,
+     "satirlar": [
+      {
+       "miktar": 280.0,
+       "birim": "g",
+       "ad": "Bulgur (pilavlık · kuru)",
+       "not": "2 su bardağı ince bulgur",
+       "besin": "bulgur-kuru"
+      },
+      {
+       "miktar": null,
+       "birim": null,
+       "ad": "Kaynar su",
+       "not": "2 su bardağı",
+       "besin": null
+      },
+      {
+       "miktar": 18.0,
+       "birim": "g",
+       "ad": "Domates Salçası",
+       "not": "1 yemek kaşığı",
+       "besin": "domates-salcasi"
+      },
+      {
+       "miktar": 9.0,
+       "birim": "g",
+       "ad": "Biber Salçası",
+       "not": "1 tatlı kaşığı",
+       "besin": "biber-salcasi"
+      },
+      {
+       "miktar": 123.0,
+       "birim": "g",
+       "ad": "Domates",
+       "not": "1 adet, küp doğranmış",
+       "besin": "domates"
+      },
+      {
+       "miktar": 150.5,
+       "birim": "g",
+       "ad": "Salatalık",
+       "not": "½ adet, küp doğranmış",
+       "besin": "salatalik"
+      },
+      {
+       "miktar": 90.0,
+       "birim": "g",
+       "ad": "Taze Soğan",
+       "not": "6 dal, ince doğranmış",
+       "besin": "taze-sogan"
+      },
+      {
+       "miktar": 60.0,
+       "birim": "g",
+       "ad": "Maydanoz",
+       "not": "1 su bardağı ince kıyılmış",
+       "besin": "maydanoz"
+      },
+      {
+       "miktar": 36.0,
+       "birim": "g",
+       "ad": "Nar Ekşisi",
+       "not": "2 yemek kaşığı",
+       "besin": "nar-eksisi"
+      },
+      {
+       "miktar": 58.0,
+       "birim": "g",
+       "ad": "Limon",
+       "not": "1 adet, suyu sıkılmış",
+       "besin": "limon"
+      },
+      {
+       "miktar": 27.0,
+       "birim": "g",
+       "ad": "Zeytinyağı",
+       "not": "2 yemek kaşığı",
+       "besin": "zeytinyagi"
+      },
+      {
+       "miktar": null,
+       "birim": null,
+       "ad": "Pul biber, kimyon",
+       "not": "isteğe göre",
+       "besin": null
+      },
+      {
+       "miktar": null,
+       "birim": null,
+       "ad": "Tuz",
+       "not": "½ çay kaşığı",
+       "besin": null
+      }
+     ]
+    },
+    {
+     "ad": "Servis için",
+     "satirlar": [
+      {
+       "miktar": 144.0,
+       "birim": "g",
+       "ad": "Marul (kıvırcık)",
+       "not": "6 yaprak",
+       "besin": "marul-kivircik"
+      }
+     ]
+    }
+   ],
+   "malzeme_sayisi": 14,
+   "programlar": [
+    {
+     "slug": "bitkisel-dort-hafta",
+     "ad": "Ofis Öğünleri"
+    }
+   ],
+   "benzer": [
+    "ton-balikli-salata",
+    "sebzeli-makarna-salatasi",
+    "piyaz",
+    "nohut-salatasi"
+   ],
+   "gastro": {
+    "id": 680,
+    "url": "https://dadagastro.com/tarif/kisir-acili-bulgur-salatasi"
+   }
+  },
+  "menemen": {
+   "kategori": {
+    "slug": "kahvaltilik",
+    "ad": "Kahvaltılık"
+   },
+   "kategoriler": [
+    {
+     "slug": "kahvaltilik",
+     "ad": "Kahvaltılık"
+    },
+    {
+     "slug": "yumurta-tarifleri",
+     "ad": "Yumurta Tarifleri"
+    }
+   ],
+   "yayin": "28 Ekim 2026",
+   "giris": "Aynı tava, aynı sıra: önce biber, sonra domates, en son yumurta. Değişen yağın türü ve miktarı.",
+   "alerjen": "Yumurta içerir (AB alerjen listesi). Glüten içermez; ekmekle servis edilirse ekmeğin içeriğine bakın.",
+   "ipucu": "Domatesin suyunu iyice çekmeden yumurtayı eklemeyin; yağ azaldığında tavanın dibini domatesin kendi suyu korur.",
+   "neler_degisti": "Sıvı yağ 2 yemek kaşığından 1 yemek kaşığı zeytinyağına indi. Domates 3 adetten 4 adede çıktı; tavadaki sebze payı arttı. Tuz ½ çay kaşığından bir tutama indi.",
+   "klasik_kcal": 274,
+   "hesap_toplam": "Toplam 737 g · 2 porsiyona bölündü",
+   "hesap": [
+    {
+     "ad": "Yumurta (tam · çiğ)",
+     "gram": "150 g",
+     "besin": "yumurta-tam-cig",
+     "kaynak": "TürKomp — Ulusal Gıda Kompozisyon Veri Tabanı",
+     "kaynak_url": "https://turkomp.tarimorman.gov.tr/food-yumurta-tavuk-tam-26"
+    },
+    {
+     "ad": "Domates",
+     "gram": "492 g",
+     "besin": "domates",
+     "kaynak": "TürKomp — Ulusal Gıda Kompozisyon Veri Tabanı",
+     "kaynak_url": "https://turkomp.tarimorman.gov.tr/food-domates-sofralik-168"
+    },
+    {
+     "ad": "Sivri Biber",
+     "gram": "81 g",
+     "besin": "sivri-biber",
+     "kaynak": "TürKomp — Ulusal Gıda Kompozisyon Veri Tabanı",
+     "kaynak_url": "https://turkomp.tarimorman.gov.tr/food-biber-sivri-174"
+    },
+    {
+     "ad": "Zeytinyağı",
+     "gram": "13,5 g",
+     "besin": "zeytinyagi",
+     "kaynak": "TürKomp — Ulusal Gıda Kompozisyon Veri Tabanı",
+     "kaynak_url": "https://turkomp.tarimorman.gov.tr/food-zeytinyagi-sizma-103"
+    }
+   ],
+   "hesap_not": "Porsiyon başına, malzemelerin Besin Kütüphanesi değerlerinden hesaplanmıştır (TürKomp).",
+   "malzeme_gruplari": [
+    {
+     "ad": null,
+     "satirlar": [
+      {
+       "miktar": 150.0,
+       "birim": "g",
+       "ad": "Yumurta (tam · çiğ)",
+       "not": "3 adet",
+       "besin": "yumurta-tam-cig"
+      },
+      {
+       "miktar": 492.0,
+       "birim": "g",
+       "ad": "Domates",
+       "not": "4 adet, rendelenmiş",
+       "besin": "domates"
+      },
+      {
+       "miktar": 81.0,
+       "birim": "g",
+       "ad": "Sivri Biber",
+       "not": "3 adet, ince doğranmış",
+       "besin": "sivri-biber"
+      },
+      {
+       "miktar": 13.5,
+       "birim": "g",
+       "ad": "Zeytinyağı",
+       "not": "1 yemek kaşığı",
+       "besin": "zeytinyagi"
+      },
+      {
+       "miktar": null,
+       "birim": null,
+       "ad": "Tuz",
+       "not": "bir tutam",
+       "besin": null
+      },
+      {
+       "miktar": null,
+       "birim": null,
+       "ad": "Karabiber",
+       "not": "isteğe göre",
+       "besin": null
+      },
+      {
+       "miktar": null,
+       "birim": null,
+       "ad": "Pul biber",
+       "not": "isteğe göre",
+       "besin": null
+      }
+     ]
+    }
+   ],
+   "malzeme_sayisi": 7,
+   "programlar": [
+    {
+     "slug": "akdeniz-tipi-dort-hafta",
+     "ad": "Vejetaryen Dört Hafta"
+    },
+    {
+     "slug": "glutensiz-hafta",
+     "ad": "Ölçülü Porsiyon: İki Hafta"
+    }
+   ],
+   "benzer": [
+    "cilbir",
+    "pankek",
+    "pose-yumurtali-ekmek",
+    "zeytinli-pogaca"
+   ],
+   "gastro": {
+    "id": 558,
+    "url": "https://dadagastro.com/tarif/menemen-domatesli-biberli-klasik"
+   }
+  },
+  "mercimek-corbasi": {
+   "kategori": {
+    "slug": "corba",
+    "ad": "Çorba"
+   },
+   "kategoriler": [
+    {
+     "slug": "corba",
+     "ad": "Çorba"
+    }
+   ],
+   "yayin": "28 Ekim 2026",
+   "giris": "Klasik kırmızı mercimek çorbasının aynısı: soğan, havuç, salça ve mercimek blenderdan geçer. Değişen, tencereye giden yağın miktarı ve servis yağının kalkması.",
+   "alerjen": "Bu tarifte AB alerjen listesindeki 14 alerjenden hiçbiri yoktur. Glütene duyarlıysanız paketinde \"glüten içerebilir\" uyarısı olmayan mercimek seçin.",
+   "ipucu": "Kıvam koyulaşırsa sıcak su ekleyip bir taşım kaynatın; limonu her kase için ayrı sıkın.",
+   "neler_degisti": "Zeytinyağı 3 yemek kaşığından 1 yemek kaşığına indi. Servis için ayrıca yağ kızdırılmıyor; nane ve pul biber doğrudan çorbaya serpiliyor. Patatesin yerini ikinci bir havuç aldı. Tuz 1 tatlı kaşığından ½ çay kaşığına indi; tat limonla tamamlanıyor.",
+   "klasik_kcal": 248,
+   "hesap_toplam": "Toplam 479 g · 5 porsiyona bölündü",
+   "hesap": [
+    {
+     "ad": "Mercimek (kırmızı · kuru)",
+     "gram": "195 g",
+     "besin": "mercimek-kirmizi-kuru",
+     "kaynak": "TürKomp — Ulusal Gıda Kompozisyon Veri Tabanı",
+     "kaynak_url": "https://turkomp.tarimorman.gov.tr/food-mercimek-kirmizi-kuru-156"
+    },
+    {
+     "ad": "Soğan (sarı)",
+     "gram": "110 g",
+     "besin": "sogan-sari",
+     "kaynak": "TürKomp — Ulusal Gıda Kompozisyon Veri Tabanı",
+     "kaynak_url": "https://turkomp.tarimorman.gov.tr/food-sogan-sari-kuru-230"
+    },
+    {
+     "ad": "Havuç",
+     "gram": "122 g",
+     "besin": "havuc",
+     "kaynak": "TürKomp — Ulusal Gıda Kompozisyon Veri Tabanı",
+     "kaynak_url": "https://turkomp.tarimorman.gov.tr/food-havuc-turuncu-258"
+    },
+    {
+     "ad": "Domates Salçası",
+     "gram": "9 g",
+     "besin": "domates-salcasi",
+     "kaynak": "TürKomp — Ulusal Gıda Kompozisyon Veri Tabanı",
+     "kaynak_url": "https://turkomp.tarimorman.gov.tr/food-domates-salcasi-170"
+    },
+    {
+     "ad": "Zeytinyağı",
+     "gram": "13,5 g",
+     "besin": "zeytinyagi",
+     "kaynak": "TürKomp — Ulusal Gıda Kompozisyon Veri Tabanı",
+     "kaynak_url": "https://turkomp.tarimorman.gov.tr/food-zeytinyagi-sizma-103"
+    },
+    {
+     "ad": "Limon",
+     "gram": "29 g",
+     "besin": "limon",
+     "kaynak": "TürKomp — Ulusal Gıda Kompozisyon Veri Tabanı",
+     "kaynak_url": "https://turkomp.tarimorman.gov.tr/food-limon-interdonato-309"
+    }
+   ],
+   "hesap_not": "Porsiyon başına, malzemelerin Besin Kütüphanesi değerlerinden hesaplanmıştır (TürKomp).",
+   "malzeme_gruplari": [
+    {
+     "ad": null,
+     "satirlar": [
+      {
+       "miktar": 195.0,
+       "birim": "g",
+       "ad": "Mercimek (kırmızı · kuru)",
+       "not": "yıkanmış",
+       "besin": "mercimek-kirmizi-kuru"
+      },
+      {
+       "miktar": 110.0,
+       "birim": "g",
+       "ad": "Soğan (sarı)",
+       "not": "1 adet, küçük doğranmış",
+       "besin": "sogan-sari"
+      },
+      {
+       "miktar": 122.0,
+       "birim": "g",
+       "ad": "Havuç",
+       "not": "2 adet, küçük küp doğranmış",
+       "besin": "havuc"
+      },
+      {
+       "miktar": 9.0,
+       "birim": "g",
+       "ad": "Domates Salçası",
+       "not": "1 tatlı kaşığı",
+       "besin": "domates-salcasi"
+      },
+      {
+       "miktar": 13.5,
+       "birim": "g",
+       "ad": "Zeytinyağı",
+       "not": "1 yemek kaşığı",
+       "besin": "zeytinyagi"
+      },
+      {
+       "miktar": 29.0,
+       "birim": "g",
+       "ad": "Limon",
+       "not": "½ adet, servis için dilimlenmiş",
+       "besin": "limon"
+      },
+      {
+       "miktar": null,
+       "birim": null,
+       "ad": "Sıcak su",
+       "not": "1,2 litre",
+       "besin": null
+      },
+      {
+       "miktar": null,
+       "birim": null,
+       "ad": "Tuz",
+       "not": "½ çay kaşığı",
+       "besin": null
+      },
+      {
+       "miktar": null,
+       "birim": null,
+       "ad": "Karabiber",
+       "not": "isteğe göre",
+       "besin": null
+      },
+      {
+       "miktar": null,
+       "birim": null,
+       "ad": "Kuru nane",
+       "not": "1 çay kaşığı",
+       "besin": null
+      },
+      {
+       "miktar": null,
+       "birim": null,
+       "ad": "Pul biber",
+       "not": "1 çay kaşığı",
+       "besin": null
+      }
+     ]
+    }
+   ],
+   "malzeme_sayisi": 11,
+   "programlar": [
+    {
+     "slug": "bitkisel-dort-hafta",
+     "ad": "Glütensiz Hafta"
+    },
+    {
+     "slug": "ogrenci",
+     "ad": "Akdeniz Tipi Dört Hafta"
+    }
+   ],
+   "benzer": [
+    "zencefilli-bal-kabagi-corbasi",
+    "tavuklu-sehriye-corbasi",
+    "kabak-corbasi",
+    "sebzeli-tavuk-suyu-corbasi"
+   ],
+   "gastro": {
+    "id": 522,
+    "url": "https://dadagastro.com/tarif/mercimek-corbasi-klasik-ezme-kirmizi-mercimek-corbasi"
+   }
+  },
+  "mercimek-koftesi": {
+   "kategori": {
+    "slug": "bakliyat",
+    "ad": "Bakliyat"
+   },
+   "kategoriler": [
+    {
+     "slug": "bakliyat",
+     "ad": "Bakliyat"
+    },
+    {
+     "slug": "meze",
+     "ad": "Meze"
+    }
+   ],
+   "yayin": "28 Ekim 2026",
+   "giris": "Mercimek ile ince bulgurun aynı tencerede demlendiği harç ve avuçta sıkılan köfte biçimi aynı kalır. Değişen mercimek–bulgur oranı, yağ ve yeşillik.",
+   "alerjen": "Buğday (glüten; bulgur buğdaydan yapılır) içerir (AB alerjen listesi).",
+   "ipucu": "Mercimek oranı arttığında harç daha yumuşak olur; köfteleri ıslak elle sıkın ve servis etmeden önce 15 dakika buzdolabında dinlendirin.",
+   "neler_degisti": "Mercimek 1 su bardağından 1¼ su bardağına çıktı, bulgur 1 su bardağından ¾ su bardağına indi. Zeytinyağı 4 yemek kaşığından 2 yemek kaşığına indi. Taze soğan 3 daldan 6 dala, maydanoz yarım demetten 1 su bardağı kıyılmışa çıktı. Tuz 1 tatlı kaşığından 1 çay kaşığına indi.",
+   "klasik_kcal": 291,
+   "hesap_toplam": "Toplam 865 g · 6 porsiyona bölündü",
+   "hesap": [
+    {
+     "ad": "Mercimek (kırmızı · kuru)",
+     "gram": "243,8 g",
+     "besin": "mercimek-kirmizi-kuru",
+     "kaynak": "TürKomp — Ulusal Gıda Kompozisyon Veri Tabanı",
+     "kaynak_url": "https://turkomp.tarimorman.gov.tr/food-mercimek-kirmizi-kuru-156"
+    },
+    {
+     "ad": "Bulgur (pilavlık · kuru)",
+     "gram": "105 g",
+     "besin": "bulgur-kuru",
+     "kaynak": "TürKomp — Ulusal Gıda Kompozisyon Veri Tabanı",
+     "kaynak_url": "https://turkomp.tarimorman.gov.tr/food-bulgur-pilavlik-gaziantep-460"
+    },
+    {
+     "ad": "Soğan (sarı)",
+     "gram": "110 g",
+     "besin": "sogan-sari",
+     "kaynak": "TürKomp — Ulusal Gıda Kompozisyon Veri Tabanı",
+     "kaynak_url": "https://turkomp.tarimorman.gov.tr/food-sogan-sari-kuru-230"
+    },
+    {
+     "ad": "Domates Salçası",
+     "gram": "18 g",
+     "besin": "domates-salcasi",
+     "kaynak": "TürKomp — Ulusal Gıda Kompozisyon Veri Tabanı",
+     "kaynak_url": "https://turkomp.tarimorman.gov.tr/food-domates-salcasi-170"
+    },
+    {
+     "ad": "Biber Salçası",
+     "gram": "9 g",
+     "besin": "biber-salcasi",
+     "kaynak": "TürKomp — Ulusal Gıda Kompozisyon Veri Tabanı",
+     "kaynak_url": "https://turkomp.tarimorman.gov.tr/food-biber-salcasi-181"
+    },
+    {
+     "ad": "Zeytinyağı",
+     "gram": "27 g",
+     "besin": "zeytinyagi",
+     "kaynak": "TürKomp — Ulusal Gıda Kompozisyon Veri Tabanı",
+     "kaynak_url": "https://turkomp.tarimorman.gov.tr/food-zeytinyagi-sizma-103"
+    },
+    {
+     "ad": "Taze Soğan",
+     "gram": "90 g",
+     "besin": "taze-sogan",
+     "kaynak": "TürKomp — Ulusal Gıda Kompozisyon Veri Tabanı",
+     "kaynak_url": "https://turkomp.tarimorman.gov.tr/food-sogan-taze-kok-sap-229"
+    },
+    {
+     "ad": "Maydanoz",
+     "gram": "60 g",
+     "besin": "maydanoz",
+     "kaynak": "TürKomp — Ulusal Gıda Kompozisyon Veri Tabanı",
+     "kaynak_url": "https://turkomp.tarimorman.gov.tr/food-maydanoz-263"
+    },
+    {
+     "ad": "Marul (kıvırcık)",
+     "gram": "144 g",
+     "besin": "marul-kivircik",
+     "kaynak": "TürKomp — Ulusal Gıda Kompozisyon Veri Tabanı",
+     "kaynak_url": "https://turkomp.tarimorman.gov.tr/food-marul-kivircik-salata-239"
+    },
+    {
+     "ad": "Limon",
+     "gram": "58 g",
+     "besin": "limon",
+     "kaynak": "TürKomp — Ulusal Gıda Kompozisyon Veri Tabanı",
+     "kaynak_url": "https://turkomp.tarimorman.gov.tr/food-limon-interdonato-309"
+    }
+   ],
+   "hesap_not": "Porsiyon başına, malzemelerin Besin Kütüphanesi değerlerinden hesaplanmıştır (TürKomp).",
+   "malzeme_gruplari": [
+    {
+     "ad": "Harç için",
+     "satirlar": [
+      {
+       "miktar": 243.75,
+       "birim": "g",
+       "ad": "Mercimek (kırmızı · kuru)",
+       "not": "1¼ su bardağı, yıkanmış",
+       "besin": "mercimek-kirmizi-kuru"
+      },
+      {
+       "miktar": 105.0,
+       "birim": "g",
+       "ad": "Bulgur (pilavlık · kuru)",
+       "not": "¾ su bardağı ince bulgur",
+       "besin": "bulgur-kuru"
+      },
+      {
+       "miktar": null,
+       "birim": null,
+       "ad": "Su",
+       "not": "2½ su bardağı",
+       "besin": null
+      },
+      {
+       "miktar": 110.0,
+       "birim": "g",
+       "ad": "Soğan (sarı)",
+       "not": "1 adet, rendelenmiş",
+       "besin": "sogan-sari"
+      },
+      {
+       "miktar": 18.0,
+       "birim": "g",
+       "ad": "Domates Salçası",
+       "not": "1 yemek kaşığı",
+       "besin": "domates-salcasi"
+      },
+      {
+       "miktar": 9.0,
+       "birim": "g",
+       "ad": "Biber Salçası",
+       "not": "1 tatlı kaşığı",
+       "besin": "biber-salcasi"
+      },
+      {
+       "miktar": 27.0,
+       "birim": "g",
+       "ad": "Zeytinyağı",
+       "not": "2 yemek kaşığı",
+       "besin": "zeytinyagi"
+      },
+      {
+       "miktar": null,
+       "birim": null,
+       "ad": "Kimyon, pul biber",
+       "not": "birer çay kaşığı",
+       "besin": null
+      },
+      {
+       "miktar": null,
+       "birim": null,
+       "ad": "Tuz",
+       "not": "1 çay kaşığı",
+       "besin": null
+      }
+     ]
+    },
+    {
+     "ad": "Harmanlamak için",
+     "satirlar": [
+      {
+       "miktar": 90.0,
+       "birim": "g",
+       "ad": "Taze Soğan",
+       "not": "6 dal, ince doğranmış",
+       "besin": "taze-sogan"
+      },
+      {
+       "miktar": 60.0,
+       "birim": "g",
+       "ad": "Maydanoz",
+       "not": "1 su bardağı ince kıyılmış",
+       "besin": "maydanoz"
+      }
+     ]
+    },
+    {
+     "ad": "Servis için",
+     "satirlar": [
+      {
+       "miktar": 144.0,
+       "birim": "g",
+       "ad": "Marul (kıvırcık)",
+       "not": "6 yaprak",
+       "besin": "marul-kivircik"
+      },
+      {
+       "miktar": 58.0,
+       "birim": "g",
+       "ad": "Limon",
+       "not": "1 adet, dilimlenmiş",
+       "besin": "limon"
+      }
+     ]
+    }
+   ],
+   "malzeme_sayisi": 13,
+   "programlar": [
+    {
+     "slug": "bitkisel-dort-hafta",
+     "ad": "Ofis Öğünleri"
+    },
+    {
+     "slug": "ogrenci",
+     "ad": "Seyahat Haftası"
+    }
+   ],
+   "benzer": [
+    "nohutlu-pirinc-pilavi",
+    "mercimekli-bulgur-pilavi",
+    "yesil-mercimek-yemegi",
+    "yesil-mercimek-corbasi"
+   ],
+   "gastro": {
+    "id": 516,
+    "url": "https://dadagastro.com/tarif/kirmizi-mercimek-koftesi-etsiz-mercimek-koftesi"
+   }
+  },
+  "mevsim-salatasi": {
+   "kategori": {
+    "slug": "salata",
+    "ad": "Salata"
+   },
+   "kategoriler": [
+    {
+     "slug": "salata",
+     "ad": "Salata"
+    }
+   ],
+   "yayin": "28 Ekim 2026",
+   "giris": "Kıvırcık marul, roka, domates, salatalık, havuç ve taze soğan bu salatanın kendisi; hepsi kalır. Değişen sostaki yağ ve tuz.",
+   "alerjen": "AB alerjen listesinden içerik yok.",
+   "ipucu": "Yeşillikleri yıkadıktan sonra iyice kurutun; ıslak yaprak sosu tutmaz ve salata sulanır.",
+   "neler_degisti": "Zeytinyağı 3 yemek kaşığından 1 yemek kaşığına indi. Tuz ½ tatlı kaşığından bir tutama indi. Rokanın kaynaklı demet gramı yok; iki tarafta da hesaba alınmadı.",
+   "klasik_kcal": 161,
+   "hesap_toplam": "Toplam 897 g · 4 porsiyona bölündü",
+   "hesap": [
+    {
+     "ad": "Marul (kıvırcık)",
+     "gram": "180 g",
+     "besin": "marul-kivircik",
+     "kaynak": "TürKomp — Ulusal Gıda Kompozisyon Veri Tabanı",
+     "kaynak_url": "https://turkomp.tarimorman.gov.tr/food-marul-kivircik-salata-239"
+    },
+    {
+     "ad": "Domates",
+     "gram": "246 g",
+     "besin": "domates",
+     "kaynak": "TürKomp — Ulusal Gıda Kompozisyon Veri Tabanı",
+     "kaynak_url": "https://turkomp.tarimorman.gov.tr/food-domates-sofralik-168"
+    },
+    {
+     "ad": "Salatalık",
+     "gram": "301 g",
+     "besin": "salatalik",
+     "kaynak": "TürKomp — Ulusal Gıda Kompozisyon Veri Tabanı",
+     "kaynak_url": "https://turkomp.tarimorman.gov.tr/food-salatalik-203"
+    },
+    {
+     "ad": "Havuç",
+     "gram": "61 g",
+     "besin": "havuc",
+     "kaynak": "TürKomp — Ulusal Gıda Kompozisyon Veri Tabanı",
+     "kaynak_url": "https://turkomp.tarimorman.gov.tr/food-havuc-turuncu-258"
+    },
+    {
+     "ad": "Taze Soğan",
+     "gram": "30 g",
+     "besin": "taze-sogan",
+     "kaynak": "TürKomp — Ulusal Gıda Kompozisyon Veri Tabanı",
+     "kaynak_url": "https://turkomp.tarimorman.gov.tr/food-sogan-taze-kok-sap-229"
+    },
+    {
+     "ad": "Zeytinyağı",
+     "gram": "13,5 g",
+     "besin": "zeytinyagi",
+     "kaynak": "TürKomp — Ulusal Gıda Kompozisyon Veri Tabanı",
+     "kaynak_url": "https://turkomp.tarimorman.gov.tr/food-zeytinyagi-sizma-103"
+    },
+    {
+     "ad": "Nar Ekşisi",
+     "gram": "36 g",
+     "besin": "nar-eksisi",
+     "kaynak": "TürKomp — Ulusal Gıda Kompozisyon Veri Tabanı",
+     "kaynak_url": "https://turkomp.tarimorman.gov.tr/food-nar-eksisi-gaziantep-534"
+    },
+    {
+     "ad": "Limon",
+     "gram": "29 g",
+     "besin": "limon",
+     "kaynak": "TürKomp — Ulusal Gıda Kompozisyon Veri Tabanı",
+     "kaynak_url": "https://turkomp.tarimorman.gov.tr/food-limon-interdonato-309"
+    }
+   ],
+   "hesap_not": "Porsiyon başına, malzemelerin Besin Kütüphanesi değerlerinden hesaplanmıştır (TürKomp).",
+   "malzeme_gruplari": [
+    {
+     "ad": "Salata için",
+     "satirlar": [
+      {
+       "miktar": 180.0,
+       "birim": "g",
+       "ad": "Marul (kıvırcık)",
+       "not": "½ adet, doğranmış",
+       "besin": "marul-kivircik"
+      },
+      {
+       "miktar": null,
+       "birim": null,
+       "ad": "Roka",
+       "not": "1 demet",
+       "besin": null
+      },
+      {
+       "miktar": 246.0,
+       "birim": "g",
+       "ad": "Domates",
+       "not": "2 adet, dilimlenmiş",
+       "besin": "domates"
+      },
+      {
+       "miktar": 301.0,
+       "birim": "g",
+       "ad": "Salatalık",
+       "not": "1 adet, dilimlenmiş",
+       "besin": "salatalik"
+      },
+      {
+       "miktar": 61.0,
+       "birim": "g",
+       "ad": "Havuç",
+       "not": "1 adet, rendelenmiş",
+       "besin": "havuc"
+      },
+      {
+       "miktar": 30.0,
+       "birim": "g",
+       "ad": "Taze Soğan",
+       "not": "2 dal, doğranmış",
+       "besin": "taze-sogan"
+      }
+     ]
+    },
+    {
+     "ad": "Sosu için",
+     "satirlar": [
+      {
+       "miktar": 13.5,
+       "birim": "g",
+       "ad": "Zeytinyağı",
+       "not": "1 yemek kaşığı",
+       "besin": "zeytinyagi"
+      },
+      {
+       "miktar": 36.0,
+       "birim": "g",
+       "ad": "Nar Ekşisi",
+       "not": "2 yemek kaşığı",
+       "besin": "nar-eksisi"
+      },
+      {
+       "miktar": 29.0,
+       "birim": "g",
+       "ad": "Limon",
+       "not": "½ adet, suyu sıkılmış",
+       "besin": "limon"
+      },
+      {
+       "miktar": null,
+       "birim": null,
+       "ad": "Tuz",
+       "not": "bir tutam",
+       "besin": null
+      }
+     ]
+    }
+   ],
+   "malzeme_sayisi": 10,
+   "programlar": [
+    {
+     "slug": "bitkisel-dort-hafta",
+     "ad": "Akdeniz Tipi Dört Hafta"
+    },
+    {
+     "slug": "glutensiz-hafta",
+     "ad": "Ölçülü Porsiyon: İki Hafta"
+    }
+   ],
+   "benzer": [
+    "ton-balikli-salata",
+    "sebzeli-makarna-salatasi",
+    "kisir",
+    "piyaz"
+   ],
+   "gastro": null
+  },
+  "naneli-meyve-salatasi": {
+   "kategori": {
+    "slug": "meyve-tarifleri",
+    "ad": "Meyve Tarifleri"
+   },
+   "kategoriler": [
+    {
+     "slug": "meyve-tarifleri",
+     "ad": "Meyve Tarifleri"
+    },
+    {
+     "slug": "tatli",
+     "ad": "Tatlı"
+    }
+   ],
+   "yayin": "28 Ekim 2026",
+   "giris": "Benzer boyda doğranmış karışık meyve ve taze nane bu salatanın kendisi; aynı kalır. Değişen sostaki bal ve üstteki nar.",
+   "alerjen": "AB alerjen listesinden içerik yok.",
+   "ipucu": "Elmayı ve muzu doğrar doğramaz limon suyuyla karıştırın; kararmazlar.",
+   "neler_degisti": "Sostaki 2 yemek kaşığı bal çıkarıldı; sosu limon suyu ve portakaldan sızan su verir. Üstüne ½ su bardağı nar tanesi eklendi.",
+   "klasik_kcal": 138,
+   "hesap_toplam": "Toplam 842 g · 4 porsiyona bölündü",
+   "hesap": [
+    {
+     "ad": "Elma (Gala)",
+     "gram": "182 g",
+     "besin": "elma-gala",
+     "kaynak": "TürKomp — Ulusal Gıda Kompozisyon Veri Tabanı",
+     "kaynak_url": "https://turkomp.tarimorman.gov.tr/food-elma-gala-332"
+    },
+    {
+     "ad": "Muz (Anamur)",
+     "gram": "118 g",
+     "besin": "muz-anamur",
+     "kaynak": "TürKomp — Ulusal Gıda Kompozisyon Veri Tabanı",
+     "kaynak_url": "https://turkomp.tarimorman.gov.tr/food-muz-anamur-395"
+    },
+    {
+     "ad": "Portakal (Washington Navel · çiğ)",
+     "gram": "131 g",
+     "besin": "portakal-navel-cig",
+     "kaynak": "TürKomp — Ulusal Gıda Kompozisyon Veri Tabanı",
+     "kaynak_url": "https://turkomp.tarimorman.gov.tr/food-portakal-washington-navel-gobekli-portakali-300"
+    },
+    {
+     "ad": "Çilek",
+     "gram": "144 g",
+     "besin": "cilek",
+     "kaynak": "TürKomp — Ulusal Gıda Kompozisyon Veri Tabanı",
+     "kaynak_url": "https://turkomp.tarimorman.gov.tr/food-cilek-377"
+    },
+    {
+     "ad": "Üzüm (beyaz)",
+     "gram": "151 g",
+     "besin": "uzum-beyaz",
+     "kaynak": "TürKomp — Ulusal Gıda Kompozisyon Veri Tabanı",
+     "kaynak_url": "https://turkomp.tarimorman.gov.tr/food-uzum-beyaz-yalova-incisi-322"
+    },
+    {
+     "ad": "Limon",
+     "gram": "29 g",
+     "besin": "limon",
+     "kaynak": "TürKomp — Ulusal Gıda Kompozisyon Veri Tabanı",
+     "kaynak_url": "https://turkomp.tarimorman.gov.tr/food-limon-interdonato-309"
+    },
+    {
+     "ad": "Nar (Hicaz)",
+     "gram": "87 g",
+     "besin": "nar-hicaz",
+     "kaynak": "TürKomp — Ulusal Gıda Kompozisyon Veri Tabanı",
+     "kaynak_url": "https://turkomp.tarimorman.gov.tr/food-nar-hicaz-369"
+    }
+   ],
+   "hesap_not": "Porsiyon başına, malzemelerin Besin Kütüphanesi değerlerinden hesaplanmıştır (TürKomp).",
+   "malzeme_gruplari": [
+    {
+     "ad": "Salata için",
+     "satirlar": [
+      {
+       "miktar": 182.0,
+       "birim": "g",
+       "ad": "Elma (Gala)",
+       "not": "1 adet, küp doğranmış",
+       "besin": "elma-gala"
+      },
+      {
+       "miktar": 118.0,
+       "birim": "g",
+       "ad": "Muz (Anamur)",
+       "not": "1 adet, dilimlenmiş",
+       "besin": "muz-anamur"
+      },
+      {
+       "miktar": 131.0,
+       "birim": "g",
+       "ad": "Portakal (Washington Navel · çiğ)",
+       "not": "1 adet, dilimlenmiş",
+       "besin": "portakal-navel-cig"
+      },
+      {
+       "miktar": 144.0,
+       "birim": "g",
+       "ad": "Çilek",
+       "not": "1 su bardağı, dörde bölünmüş",
+       "besin": "cilek"
+      },
+      {
+       "miktar": 151.0,
+       "birim": "g",
+       "ad": "Üzüm (beyaz)",
+       "not": "1 su bardağı",
+       "besin": "uzum-beyaz"
+      }
+     ]
+    },
+    {
+     "ad": "Sosu için",
+     "satirlar": [
+      {
+       "miktar": 29.0,
+       "birim": "g",
+       "ad": "Limon",
+       "not": "½ adet, suyu sıkılmış",
+       "besin": "limon"
+      }
+     ]
+    },
+    {
+     "ad": "Üzeri için",
+     "satirlar": [
+      {
+       "miktar": 87.0,
+       "birim": "g",
+       "ad": "Nar (Hicaz)",
+       "not": "½ su bardağı nar tanesi",
+       "besin": "nar-hicaz"
+      },
+      {
+       "miktar": null,
+       "birim": null,
+       "ad": "Taze nane",
+       "not": "6 yaprak",
+       "besin": null
+      }
+     ]
+    }
+   ],
+   "malzeme_sayisi": 8,
+   "programlar": [
+    {
+     "slug": "bitkisel-dort-hafta",
+     "ad": "Glütensiz Hafta"
+    },
+    {
+     "slug": "olculu-porsiyon-iki-hafta",
+     "ad": "Evden Çalışma Menüsü"
+    }
+   ],
+   "benzer": [
+    "karamelize-muz",
+    "elma-kompostosu",
+    "cilek-sosu",
+    "firinda-tarcinli-elma"
+   ],
+   "gastro": null
+  },
+  "nohut-salatasi": {
+   "kategori": {
+    "slug": "salata",
+    "ad": "Salata"
+   },
+   "kategoriler": [
+    {
+     "slug": "salata",
+     "ad": "Salata"
+    },
+    {
+     "slug": "bakliyat",
+     "ad": "Bakliyat"
+    }
+   ],
+   "yayin": "28 Ekim 2026",
+   "giris": "Haşlanmış nohut, taze sebze ve limonlu, kimyonlu sos bu salatanın kendisi; hepsi kalır. Değişen sostaki yağ ve salatadaki sebze payı.",
+   "alerjen": "AB alerjen listesinden içerik yok.",
+   "ipucu": "Nohutu ılıkken sosa alın; sosu daha iyi çeker. Sebzeleri servise yakın ekleyin ki suyunu salmasın.",
+   "neler_degisti": "Zeytinyağı 3 yemek kaşığından 1 yemek kaşığına indi. Domates 1 adetten 2 adede, sivri biber 1 adetten 2 adede çıktı; maydanoz yarım demetten 1 su bardağı kıyılmışa çıktı. Tuz 1 çay kaşığından ½ çay kaşığına indi; tat limon ve kimyonla.",
+   "klasik_kcal": 374,
+   "hesap_toplam": "Toplam 1088 g · 4 porsiyona bölündü",
+   "hesap": [
+    {
+     "ad": "Nohut (Koçbaşı · kuru tane)",
+     "gram": "300 g",
+     "besin": "nohut-kocbasi-kuru",
+     "kaynak": "TürKomp — Ulusal Gıda Kompozisyon Veri Tabanı",
+     "kaynak_url": "https://turkomp.tarimorman.gov.tr/food-nohut-kocbasi-kuru-158"
+    },
+    {
+     "ad": "Soğan (mor)",
+     "gram": "55 g",
+     "besin": "sogan-mor",
+     "kaynak": "TürKomp — Ulusal Gıda Kompozisyon Veri Tabanı",
+     "kaynak_url": "https://turkomp.tarimorman.gov.tr/food-sogan-mor-kuru-231"
+    },
+    {
+     "ad": "Domates",
+     "gram": "246 g",
+     "besin": "domates",
+     "kaynak": "TürKomp — Ulusal Gıda Kompozisyon Veri Tabanı",
+     "kaynak_url": "https://turkomp.tarimorman.gov.tr/food-domates-sofralik-168"
+    },
+    {
+     "ad": "Salatalık",
+     "gram": "301 g",
+     "besin": "salatalik",
+     "kaynak": "TürKomp — Ulusal Gıda Kompozisyon Veri Tabanı",
+     "kaynak_url": "https://turkomp.tarimorman.gov.tr/food-salatalik-203"
+    },
+    {
+     "ad": "Sivri Biber",
+     "gram": "54 g",
+     "besin": "sivri-biber",
+     "kaynak": "TürKomp — Ulusal Gıda Kompozisyon Veri Tabanı",
+     "kaynak_url": "https://turkomp.tarimorman.gov.tr/food-biber-sivri-174"
+    },
+    {
+     "ad": "Maydanoz",
+     "gram": "60 g",
+     "besin": "maydanoz",
+     "kaynak": "TürKomp — Ulusal Gıda Kompozisyon Veri Tabanı",
+     "kaynak_url": "https://turkomp.tarimorman.gov.tr/food-maydanoz-263"
+    },
+    {
+     "ad": "Zeytinyağı",
+     "gram": "13,5 g",
+     "besin": "zeytinyagi",
+     "kaynak": "TürKomp — Ulusal Gıda Kompozisyon Veri Tabanı",
+     "kaynak_url": "https://turkomp.tarimorman.gov.tr/food-zeytinyagi-sizma-103"
+    },
+    {
+     "ad": "Limon",
+     "gram": "58 g",
+     "besin": "limon",
+     "kaynak": "TürKomp — Ulusal Gıda Kompozisyon Veri Tabanı",
+     "kaynak_url": "https://turkomp.tarimorman.gov.tr/food-limon-interdonato-309"
+    }
+   ],
+   "hesap_not": "Porsiyon başına, malzemelerin Besin Kütüphanesi değerlerinden hesaplanmıştır (TürKomp).",
+   "malzeme_gruplari": [
+    {
+     "ad": "Salata için",
+     "satirlar": [
+      {
+       "miktar": 300.0,
+       "birim": "g",
+       "ad": "Nohut (Koçbaşı · kuru tane)",
+       "not": "1½ su bardağı, bir gece ıslatılmış",
+       "besin": "nohut-kocbasi-kuru"
+      },
+      {
+       "miktar": 55.0,
+       "birim": "g",
+       "ad": "Soğan (mor)",
+       "not": "½ adet, ince doğranmış",
+       "besin": "sogan-mor"
+      },
+      {
+       "miktar": 246.0,
+       "birim": "g",
+       "ad": "Domates",
+       "not": "2 adet, küp doğranmış",
+       "besin": "domates"
+      },
+      {
+       "miktar": 301.0,
+       "birim": "g",
+       "ad": "Salatalık",
+       "not": "1 adet, küp doğranmış",
+       "besin": "salatalik"
+      },
+      {
+       "miktar": 54.0,
+       "birim": "g",
+       "ad": "Sivri Biber",
+       "not": "2 adet, ince doğranmış",
+       "besin": "sivri-biber"
+      },
+      {
+       "miktar": 60.0,
+       "birim": "g",
+       "ad": "Maydanoz",
+       "not": "1 su bardağı ince kıyılmış",
+       "besin": "maydanoz"
+      }
+     ]
+    },
+    {
+     "ad": "Sosu için",
+     "satirlar": [
+      {
+       "miktar": 13.5,
+       "birim": "g",
+       "ad": "Zeytinyağı",
+       "not": "1 yemek kaşığı",
+       "besin": "zeytinyagi"
+      },
+      {
+       "miktar": 58.0,
+       "birim": "g",
+       "ad": "Limon",
+       "not": "1 adet, suyu sıkılmış",
+       "besin": "limon"
+      },
+      {
+       "miktar": null,
+       "birim": null,
+       "ad": "Kimyon",
+       "not": "½ çay kaşığı",
+       "besin": null
+      },
+      {
+       "miktar": null,
+       "birim": null,
+       "ad": "Tuz",
+       "not": "½ çay kaşığı",
+       "besin": null
+      }
+     ]
+    }
+   ],
+   "malzeme_sayisi": 10,
+   "programlar": [
+    {
+     "slug": "bitkisel-dort-hafta",
+     "ad": "Glütensiz Hafta"
+    }
+   ],
+   "benzer": [
+    "ton-balikli-salata",
+    "sebzeli-makarna-salatasi",
+    "kisir",
+    "piyaz"
+   ],
+   "gastro": null
+  },
+  "otlu-kaygana": {
+   "kategori": {
+    "slug": "yumurta-tarifleri",
+    "ad": "Yumurta Tarifleri"
+   },
+   "kategoriler": [
+    {
+     "slug": "yumurta-tarifleri",
+     "ad": "Yumurta Tarifleri"
+    },
+    {
+     "slug": "kahvaltilik",
+     "ad": "Kahvaltılık"
+    }
+   ],
+   "yayin": "28 Ekim 2026",
+   "giris": "Yumurta, biraz un ve sütle açılan, tavada ince dökülen otlu krep kayganadır; aynı kalır. Değişen tavadaki yağ, unun türü ve yeşillik.",
+   "alerjen": "Yumurta, buğday (glüten; un) ve süt içerir (AB alerjen listesi).",
+   "ipucu": "Her krepten önce tavayı yağa batırılmış kâğıt havluyla silin; ince bir kat yeter ve kaygana yapışmaz.",
+   "neler_degisti": "Sıvı yağ 3 yemek kaşığından 1 yemek kaşığına indi; tava kâğıt havluyla yağlanır. Beyaz un yerine tam buğday unu kullanılır; süt yarım yağlı. Taze soğan 3 daldan 6 dala, maydanoz yarım demetten 1 su bardağı kıyılmışa çıktı.",
+   "klasik_kcal": 259,
+   "hesap_toplam": "Toplam 446 g · 3 porsiyona bölündü",
+   "hesap": [
+    {
+     "ad": "Yumurta (tam · çiğ)",
+     "gram": "200 g",
+     "besin": "yumurta-tam-cig",
+     "kaynak": "TürKomp — Ulusal Gıda Kompozisyon Veri Tabanı",
+     "kaynak_url": "https://turkomp.tarimorman.gov.tr/food-yumurta-tavuk-tam-26"
+    },
+    {
+     "ad": "Ekmeklik Buğday (kuru tane)",
+     "gram": "22,5 g",
+     "besin": "bugday-ekmeklik",
+     "kaynak": "TürKomp — Ulusal Gıda Kompozisyon Veri Tabanı",
+     "kaynak_url": "https://turkomp.tarimorman.gov.tr/food-bugday-ekmeklik-118"
+    },
+    {
+     "ad": "Süt (UHT · yarım yağlı)",
+     "gram": "60 g",
+     "besin": "sut-uht-yarim-yagli",
+     "kaynak": "TürKomp — Ulusal Gıda Kompozisyon Veri Tabanı",
+     "kaynak_url": "https://turkomp.tarimorman.gov.tr/food-sut-inek-uht-yarim-yagli-19"
+    },
+    {
+     "ad": "Maydanoz",
+     "gram": "60 g",
+     "besin": "maydanoz",
+     "kaynak": "TürKomp — Ulusal Gıda Kompozisyon Veri Tabanı",
+     "kaynak_url": "https://turkomp.tarimorman.gov.tr/food-maydanoz-263"
+    },
+    {
+     "ad": "Taze Soğan",
+     "gram": "90 g",
+     "besin": "taze-sogan",
+     "kaynak": "TürKomp — Ulusal Gıda Kompozisyon Veri Tabanı",
+     "kaynak_url": "https://turkomp.tarimorman.gov.tr/food-sogan-taze-kok-sap-229"
+    },
+    {
+     "ad": "Ayçiçek Yağı",
+     "gram": "13,6 g",
+     "besin": "aycicek-yagi",
+     "kaynak": "TürKomp — Ulusal Gıda Kompozisyon Veri Tabanı",
+     "kaynak_url": "https://turkomp.tarimorman.gov.tr/food-aycicek-yagi-101"
+    }
+   ],
+   "hesap_not": "Porsiyon başına, malzemelerin Besin Kütüphanesi değerlerinden hesaplanmıştır (TürKomp).",
+   "malzeme_gruplari": [
+    {
+     "ad": "Harç için",
+     "satirlar": [
+      {
+       "miktar": 200.0,
+       "birim": "g",
+       "ad": "Yumurta (tam · çiğ)",
+       "not": "4 adet",
+       "besin": "yumurta-tam-cig"
+      },
+      {
+       "miktar": 22.5,
+       "birim": "g",
+       "ad": "Ekmeklik Buğday (kuru tane)",
+       "not": "3 yemek kaşığı tam buğday unu",
+       "besin": "bugday-ekmeklik"
+      },
+      {
+       "miktar": 60.0,
+       "birim": "g",
+       "ad": "Süt (UHT · yarım yağlı)",
+       "not": "4 yemek kaşığı",
+       "besin": "sut-uht-yarim-yagli"
+      },
+      {
+       "miktar": 60.0,
+       "birim": "g",
+       "ad": "Maydanoz",
+       "not": "1 su bardağı ince kıyılmış",
+       "besin": "maydanoz"
+      },
+      {
+       "miktar": 90.0,
+       "birim": "g",
+       "ad": "Taze Soğan",
+       "not": "6 dal, ince doğranmış",
+       "besin": "taze-sogan"
+      },
+      {
+       "miktar": null,
+       "birim": null,
+       "ad": "Tuz, karabiber",
+       "not": "birer tutam",
+       "besin": null
+      }
+     ]
+    },
+    {
+     "ad": "Pişirmek için",
+     "satirlar": [
+      {
+       "miktar": 13.6,
+       "birim": "g",
+       "ad": "Ayçiçek Yağı",
+       "not": "1 yemek kaşığı",
+       "besin": "aycicek-yagi"
+      }
+     ]
+    }
+   ],
+   "malzeme_sayisi": 7,
+   "programlar": [
+    {
+     "slug": "vejetaryen-dort-hafta",
+     "ad": "Aile Haftalık Menü"
+    }
+   ],
+   "benzer": [
+    "cilbir",
+    "pose-yumurtali-ekmek",
+    "kus-yuvasi-yumurta",
+    "sebzeli-peynirli-omlet"
+   ],
+   "gastro": null
+  },
+  "overnight-yulaf": {
+   "kategori": {
+    "slug": "kahvaltilik",
+    "ad": "Kahvaltılık"
+   },
+   "kategoriler": [
+    {
+     "slug": "kahvaltilik",
+     "ad": "Kahvaltılık"
+    }
+   ],
+   "yayin": "28 Ekim 2026",
+   "giris": "Yulaf ezmesinin süt ve yoğurtla kavanozda bir gece bekleyip meyveyle soğuk sunulması bu kahvaltılığın kendisi; aynı kalır. Değişen bal ve sütle yoğurdun yağ oranı.",
+   "alerjen": "Yulaf (glüten) ve süt içerir (AB alerjen listesi).",
+   "ipucu": "Muzun yarısını ezip karışıma katın; ezilen muz balın yerini tutacak tatlılığı verir, kalan yarısını dilimleyip üzerine koyun.",
+   "neler_degisti": "1 yemek kaşığı bal çıkarıldı; tatlılık karışıma ezilerek katılan muzdan gelir. Süt ve yoğurt yarım yağlı.",
+   "klasik_kcal": 183,
+   "hesap_toplam": "Toplam 302 g · 2 porsiyona bölündü",
+   "hesap": [
+    {
+     "ad": "Yulaf (beyaz)",
+     "gram": "40,5 g",
+     "besin": "yulaf-beyaz",
+     "kaynak": "TürKomp — Ulusal Gıda Kompozisyon Veri Tabanı",
+     "kaynak_url": "https://turkomp.tarimorman.gov.tr/food-yulaf-beyaz-148"
+    },
+    {
+     "ad": "Süt (UHT · yarım yağlı)",
+     "gram": "122 g",
+     "besin": "sut-uht-yarim-yagli",
+     "kaynak": "TürKomp — Ulusal Gıda Kompozisyon Veri Tabanı",
+     "kaynak_url": "https://turkomp.tarimorman.gov.tr/food-sut-inek-uht-yarim-yagli-19"
+    },
+    {
+     "ad": "Yoğurt (yarım yağlı)",
+     "gram": "32 g",
+     "besin": "yogurt-yarim-yagli",
+     "kaynak": "TürKomp — Ulusal Gıda Kompozisyon Veri Tabanı",
+     "kaynak_url": "https://turkomp.tarimorman.gov.tr/food-yogurt-homojenize-yarim-yagli--2--sut-yagi---1-5-3"
+    },
+    {
+     "ad": "Çilek",
+     "gram": "48 g",
+     "besin": "cilek",
+     "kaynak": "TürKomp — Ulusal Gıda Kompozisyon Veri Tabanı",
+     "kaynak_url": "https://turkomp.tarimorman.gov.tr/food-cilek-377"
+    },
+    {
+     "ad": "Muz (Anamur)",
+     "gram": "59 g",
+     "besin": "muz-anamur",
+     "kaynak": "TürKomp — Ulusal Gıda Kompozisyon Veri Tabanı",
+     "kaynak_url": "https://turkomp.tarimorman.gov.tr/food-muz-anamur-395"
+    }
+   ],
+   "hesap_not": "Porsiyon başına, malzemelerin Besin Kütüphanesi değerlerinden hesaplanmıştır (TürKomp).",
+   "malzeme_gruplari": [
+    {
+     "ad": "Overnight yulaf için",
+     "satirlar": [
+      {
+       "miktar": 40.5,
+       "birim": "g",
+       "ad": "Yulaf (beyaz)",
+       "not": "½ su bardağı yulaf ezmesi",
+       "besin": "yulaf-beyaz"
+      },
+      {
+       "miktar": 122.0,
+       "birim": "g",
+       "ad": "Süt (UHT · yarım yağlı)",
+       "not": "½ su bardağı",
+       "besin": "sut-uht-yarim-yagli"
+      },
+      {
+       "miktar": 32.0,
+       "birim": "g",
+       "ad": "Yoğurt (yarım yağlı)",
+       "not": "2 yemek kaşığı",
+       "besin": "yogurt-yarim-yagli"
+      }
+     ]
+    },
+    {
+     "ad": "Üzeri için",
+     "satirlar": [
+      {
+       "miktar": 48.0,
+       "birim": "g",
+       "ad": "Çilek",
+       "not": "4 adet, dilimlenmiş",
+       "besin": "cilek"
+      },
+      {
+       "miktar": 59.0,
+       "birim": "g",
+       "ad": "Muz (Anamur)",
+       "not": "½ adet; yarısı ezilip karışıma, yarısı dilimlenip üzerine",
+       "besin": "muz-anamur"
+      }
+     ]
+    }
+   ],
+   "malzeme_sayisi": 5,
+   "programlar": [
+    {
+     "slug": "vejetaryen-dort-hafta",
+     "ad": "Öğrenci Dostu Menü"
+    }
+   ],
+   "benzer": [
+    "cilbir",
+    "pankek",
+    "pose-yumurtali-ekmek",
+    "zeytinli-pogaca"
+   ],
+   "gastro": null
+  },
+  "pose-yumurtali-ekmek": {
+   "kategori": {
+    "slug": "kahvaltilik",
+    "ad": "Kahvaltılık"
+   },
+   "kategoriler": [
+    {
+     "slug": "kahvaltilik",
+     "ad": "Kahvaltılık"
+    },
+    {
+     "slug": "yumurta-tarifleri",
+     "ad": "Yumurta Tarifleri"
+    }
+   ],
+   "yayin": "28 Ekim 2026",
+   "giris": "Sirkeli suda beyazı toplanan, sarısı akışkan kalan poşe yumurtanın çıtır tam buğday ekmeğine oturtulması bu kahvaltılığın kendisi; aynı kalır. Değişen ekmeğe sürülen yağ.",
+   "alerjen": "Buğday (glüten) ve yumurta içerir (AB alerjen listesi).",
+   "ipucu": "Yumurtayı önce küçük bir kâseye kırın ve suyun kenarından kaydırın; doğrudan tencereye kırılan yumurtanın beyazı dağılır.",
+   "neler_degisti": "Ekmeğe sürülen 1 yemek kaşığı tereyağı yerine üzerine 1 çay kaşığı zeytinyağı gezdirilir. Poşe suyuna katılan sirke ve dereotu iki tarafta da hesaba alınmadı (sirke suyla dökülür; dereotunun kaynaklı demet gramı yok). Ekmek dilimi iki tarafta da TÜBER Ek 2.1.5'teki ölçüyle (1 dilim = 25 g) hesaplandı.",
+   "klasik_kcal": 188,
+   "hesap_toplam": "Toplam 155 g · 2 porsiyona bölündü",
+   "hesap": [
+    {
+     "ad": "Yumurta (tam · çiğ)",
+     "gram": "100 g",
+     "besin": "yumurta-tam-cig",
+     "kaynak": "TürKomp — Ulusal Gıda Kompozisyon Veri Tabanı",
+     "kaynak_url": "https://turkomp.tarimorman.gov.tr/food-yumurta-tavuk-tam-26"
+    },
+    {
+     "ad": "Tam Buğday Ekmeği",
+     "gram": "50 g",
+     "besin": "tam-bugday-ekmegi",
+     "kaynak": "TürKomp — Ulusal Gıda Kompozisyon Veri Tabanı",
+     "kaynak_url": "https://turkomp.tarimorman.gov.tr/food-ekmek-tam-bugday-unlu-128"
+    },
+    {
+     "ad": "Zeytinyağı",
+     "gram": "4,5 g",
+     "besin": "zeytinyagi",
+     "kaynak": "TürKomp — Ulusal Gıda Kompozisyon Veri Tabanı",
+     "kaynak_url": "https://turkomp.tarimorman.gov.tr/food-zeytinyagi-sizma-103"
+    }
+   ],
+   "hesap_not": "Porsiyon başına, malzemelerin Besin Kütüphanesi değerlerinden hesaplanmıştır (TürKomp).",
+   "malzeme_gruplari": [
+    {
+     "ad": "Yemek için",
+     "satirlar": [
+      {
+       "miktar": 100.0,
+       "birim": "g",
+       "ad": "Yumurta (tam · çiğ)",
+       "not": "2 adet",
+       "besin": "yumurta-tam-cig"
+      },
+      {
+       "miktar": 50.0,
+       "birim": "g",
+       "ad": "Tam Buğday Ekmeği",
+       "not": "2 dilim",
+       "besin": "tam-bugday-ekmegi"
+      },
+      {
+       "miktar": 4.5,
+       "birim": "g",
+       "ad": "Zeytinyağı",
+       "not": "1 çay kaşığı",
+       "besin": "zeytinyagi"
+      },
+      {
+       "miktar": null,
+       "birim": null,
+       "ad": "Sirke",
+       "not": "1 yemek kaşığı, poşe suyu için",
+       "besin": null
+      },
+      {
+       "miktar": null,
+       "birim": null,
+       "ad": "Tuz",
+       "not": "¼ çay kaşığı",
+       "besin": null
+      },
+      {
+       "miktar": null,
+       "birim": null,
+       "ad": "Karabiber",
+       "not": "¼ çay kaşığı",
+       "besin": null
+      },
+      {
+       "miktar": null,
+       "birim": null,
+       "ad": "Dereotu",
+       "not": "¼ demet, ince kıyılmış",
+       "besin": null
+      }
+     ]
+    }
+   ],
+   "malzeme_sayisi": 7,
+   "programlar": [
+    {
+     "slug": "vejetaryen-dort-hafta",
+     "ad": "Ölçülü Porsiyon: İki Hafta"
+    },
+    {
+     "slug": "akdeniz-tipi-dort-hafta",
+     "ad": "Öğrenci Dostu Menü"
+    }
+   ],
+   "benzer": [
+    "cilbir",
+    "pankek",
+    "zeytinli-pogaca",
+    "peynirli-pogaca"
+   ],
+   "gastro": null
+  },
+  "sebze-cubuklu-humus": {
+   "kategori": {
+    "slug": "meze",
+    "ad": "Meze"
+   },
+   "kategoriler": [
+    {
+     "slug": "meze",
+     "ad": "Meze"
+    },
+    {
+     "slug": "atistirmalik",
+     "ad": "Atıştırmalık"
+    }
+   ],
+   "yayin": "28 Ekim 2026",
+   "giris": "Nohut, tahin, limon ve sarımsak humusun dört direği; dördü de kalır. Değişen tahin ve yağ miktarı ile humusun yanına konan şey.",
+   "alerjen": "Susam (tahin) içerir (AB alerjen listesi).",
+   "ipucu": "Kıvamı inceltmek için zeytinyağı yerine nohutların haşlama suyunu kaşık kaşık ekleyin; humus hem açılır hem tadı dağılmaz.",
+   "neler_degisti": "Tahin 3 yemek kaşığından 2 yemek kaşığına indi; limon suyu 2 yemek kaşığından 3 yemek kaşığına çıktı. Ezmenin içindeki 2 yemek kaşığı zeytinyağı çıkarıldı; kıvam nohut haşlama suyuyla verilir. Servisteki zeytinyağı 1 yemek kaşığından 1 çay kaşığına indi. Humus 2 havuç ve 1 salatalık çubuğuyla servis edilir.",
+   "klasik_kcal": 306,
+   "hesap_toplam": "Toplam 834 g · 4 porsiyona bölündü",
+   "hesap": [
+    {
+     "ad": "Nohut (haşlanmış)",
+     "gram": "328 g",
+     "besin": "nohut-haslanmis",
+     "kaynak": "USDA FoodData Central",
+     "kaynak_url": "https://fdc.nal.usda.gov/fdc-app.html#/food-details/173757/nutrients"
+    },
+    {
+     "ad": "Tahin",
+     "gram": "30 g",
+     "besin": "tahin",
+     "kaynak": "TürKomp — Ulusal Gıda Kompozisyon Veri Tabanı",
+     "kaynak_url": "https://turkomp.tarimorman.gov.tr/food-tahin-istanbul-440"
+    },
+    {
+     "ad": "Limon",
+     "gram": "45,8 g",
+     "besin": "limon",
+     "kaynak": "TürKomp — Ulusal Gıda Kompozisyon Veri Tabanı",
+     "kaynak_url": "https://turkomp.tarimorman.gov.tr/food-limon-interdonato-309"
+    },
+    {
+     "ad": "Sarımsak",
+     "gram": "3 g",
+     "besin": "sarimsak",
+     "kaynak": "TürKomp — Ulusal Gıda Kompozisyon Veri Tabanı",
+     "kaynak_url": "https://turkomp.tarimorman.gov.tr/food-sarimsak-kuru-233"
+    },
+    {
+     "ad": "Zeytinyağı",
+     "gram": "4,5 g",
+     "besin": "zeytinyagi",
+     "kaynak": "TürKomp — Ulusal Gıda Kompozisyon Veri Tabanı",
+     "kaynak_url": "https://turkomp.tarimorman.gov.tr/food-zeytinyagi-sizma-103"
+    },
+    {
+     "ad": "Havuç",
+     "gram": "122 g",
+     "besin": "havuc",
+     "kaynak": "TürKomp — Ulusal Gıda Kompozisyon Veri Tabanı",
+     "kaynak_url": "https://turkomp.tarimorman.gov.tr/food-havuc-turuncu-258"
+    },
+    {
+     "ad": "Salatalık",
+     "gram": "301 g",
+     "besin": "salatalik",
+     "kaynak": "TürKomp — Ulusal Gıda Kompozisyon Veri Tabanı",
+     "kaynak_url": "https://turkomp.tarimorman.gov.tr/food-salatalik-203"
+    }
+   ],
+   "hesap_not": "Porsiyon başına, malzemelerin Besin Kütüphanesi değerlerinden hesaplanmıştır (USDA, TürKomp). Karbonhidrat değerleri iki ayrı tanımdan gelir: TürKomp lifi hariç, USDA lifi dahil sayar.",
+   "malzeme_gruplari": [
+    {
+     "ad": "Humus için",
+     "satirlar": [
+      {
+       "miktar": 328.0,
+       "birim": "g",
+       "ad": "Nohut (haşlanmış)",
+       "not": "2 su bardağı, süzülmüş (haşlama suyunu ayırın)",
+       "besin": "nohut-haslanmis"
+      },
+      {
+       "miktar": 30.0,
+       "birim": "g",
+       "ad": "Tahin",
+       "not": "2 yemek kaşığı",
+       "besin": "tahin"
+      },
+      {
+       "miktar": 45.75,
+       "birim": "g",
+       "ad": "Limon",
+       "not": "3 yemek kaşığı limon suyu",
+       "besin": "limon"
+      },
+      {
+       "miktar": 3.0,
+       "birim": "g",
+       "ad": "Sarımsak",
+       "not": "1 diş, ezilmiş",
+       "besin": "sarimsak"
+      },
+      {
+       "miktar": null,
+       "birim": null,
+       "ad": "Nohut haşlama suyu",
+       "not": "3–4 yemek kaşığı",
+       "besin": null
+      },
+      {
+       "miktar": null,
+       "birim": null,
+       "ad": "Tuz, kimyon",
+       "not": "birer çay kaşığının yarısı",
+       "besin": null
+      }
+     ]
+    },
+    {
+     "ad": "Servis için",
+     "satirlar": [
+      {
+       "miktar": 4.5,
+       "birim": "g",
+       "ad": "Zeytinyağı",
+       "not": "1 çay kaşığı",
+       "besin": "zeytinyagi"
+      },
+      {
+       "miktar": null,
+       "birim": null,
+       "ad": "Pul biber",
+       "not": "bir tutam",
+       "besin": null
+      },
+      {
+       "miktar": 122.0,
+       "birim": "g",
+       "ad": "Havuç",
+       "not": "2 adet, çubuk doğranmış",
+       "besin": "havuc"
+      },
+      {
+       "miktar": 301.0,
+       "birim": "g",
+       "ad": "Salatalık",
+       "not": "1 adet, çubuk doğranmış",
+       "besin": "salatalik"
+      }
+     ]
+    }
+   ],
+   "malzeme_sayisi": 10,
+   "programlar": [
+    {
+     "slug": "bitkisel-dort-hafta",
+     "ad": "Glütensiz Hafta"
+    },
+    {
+     "slug": "ofis-ogunleri",
+     "ad": "Seyahat Haftası"
+    }
+   ],
+   "benzer": [
+    "kisir",
+    "haydari",
+    "muhammara",
+    "mercimek-koftesi"
+   ],
+   "gastro": {
+    "id": 978,
+    "url": "https://dadagastro.com/tarif/humus-tahinli-nohut-mezesi"
+   }
+  },
+  "sebzeli-levrek-bugulama": {
+   "kategori": {
+    "slug": "balik-ve-deniz-urunleri",
+    "ad": "Balık ve Deniz Ürünleri"
+   },
+   "kategoriler": [
+    {
+     "slug": "balik-ve-deniz-urunleri",
+     "ad": "Balık ve Deniz Ürünleri"
+    },
+    {
+     "slug": "ana-yemek",
+     "ad": "Ana Yemek"
+    }
+   ],
+   "yayin": "28 Ekim 2026",
+   "giris": "Buğulamanın kendisi zaten sade bir pişirme; balık sebze yatağında, kapalı tencerede kendi buharıyla pişer. Bu tarifte değişen, o yatağı hazırlarken kullanılan yağ.",
+   "alerjen": "Balık içerir (AB alerjen listesi).",
+   "ipucu": "Balığı koyduktan sonra karıştırmayın; tencereyi yavaşça sallamanız sosun dağılmasına yeter.",
+   "neler_degisti": "Zeytinyağı 4 yemek kaşığından 1 yemek kaşığına indi. Soğan ve sarımsak yağda kavrulmaz; birkaç kaşık suyla kısık ateşte yumuşatılır. Tencereye 1 havuç eklendi; maydanoz yarım demetten 1 su bardağı kıyılmışa çıktı. Tuz 1 tatlı kaşığından ½ çay kaşığına indi; tat limonla tamamlanır.",
+   "klasik_kcal": 568,
+   "hesap_toplam": "Toplam 1009 g · 2 porsiyona bölündü",
+   "hesap": [
+    {
+     "ad": "Levrek (yetiştirme · çiğ)",
+     "gram": "400 g",
+     "besin": "levrek-cig",
+     "kaynak": "TürKomp — Ulusal Gıda Kompozisyon Veri Tabanı",
+     "kaynak_url": "https://turkomp.tarimorman.gov.tr/food-levrek-yetistirme-85"
+    },
+    {
+     "ad": "Soğan (sarı)",
+     "gram": "110 g",
+     "besin": "sogan-sari",
+     "kaynak": "TürKomp — Ulusal Gıda Kompozisyon Veri Tabanı",
+     "kaynak_url": "https://turkomp.tarimorman.gov.tr/food-sogan-sari-kuru-230"
+    },
+    {
+     "ad": "Sarımsak",
+     "gram": "6 g",
+     "besin": "sarimsak",
+     "kaynak": "TürKomp — Ulusal Gıda Kompozisyon Veri Tabanı",
+     "kaynak_url": "https://turkomp.tarimorman.gov.tr/food-sarimsak-kuru-233"
+    },
+    {
+     "ad": "Havuç",
+     "gram": "61 g",
+     "besin": "havuc",
+     "kaynak": "TürKomp — Ulusal Gıda Kompozisyon Veri Tabanı",
+     "kaynak_url": "https://turkomp.tarimorman.gov.tr/food-havuc-turuncu-258"
+    },
+    {
+     "ad": "Domates",
+     "gram": "246 g",
+     "besin": "domates",
+     "kaynak": "TürKomp — Ulusal Gıda Kompozisyon Veri Tabanı",
+     "kaynak_url": "https://turkomp.tarimorman.gov.tr/food-domates-sofralik-168"
+    },
+    {
+     "ad": "Sivri Biber",
+     "gram": "54 g",
+     "besin": "sivri-biber",
+     "kaynak": "TürKomp — Ulusal Gıda Kompozisyon Veri Tabanı",
+     "kaynak_url": "https://turkomp.tarimorman.gov.tr/food-biber-sivri-174"
+    },
+    {
+     "ad": "Zeytinyağı",
+     "gram": "13,5 g",
+     "besin": "zeytinyagi",
+     "kaynak": "TürKomp — Ulusal Gıda Kompozisyon Veri Tabanı",
+     "kaynak_url": "https://turkomp.tarimorman.gov.tr/food-zeytinyagi-sizma-103"
+    },
+    {
+     "ad": "Limon",
+     "gram": "58 g",
+     "besin": "limon",
+     "kaynak": "TürKomp — Ulusal Gıda Kompozisyon Veri Tabanı",
+     "kaynak_url": "https://turkomp.tarimorman.gov.tr/food-limon-interdonato-309"
+    },
+    {
+     "ad": "Maydanoz",
+     "gram": "60 g",
+     "besin": "maydanoz",
+     "kaynak": "TürKomp — Ulusal Gıda Kompozisyon Veri Tabanı",
+     "kaynak_url": "https://turkomp.tarimorman.gov.tr/food-maydanoz-263"
+    }
+   ],
+   "hesap_not": "Porsiyon başına, malzemelerin Besin Kütüphanesi değerlerinden hesaplanmıştır (TürKomp).",
+   "malzeme_gruplari": [
+    {
+     "ad": "Balık için",
+     "satirlar": [
+      {
+       "miktar": 400.0,
+       "birim": "g",
+       "ad": "Levrek (yetiştirme · çiğ)",
+       "not": "2 fileto, kılçığı ayıklanmış",
+       "besin": "levrek-cig"
+      }
+     ]
+    },
+    {
+     "ad": "Sebzeler için",
+     "satirlar": [
+      {
+       "miktar": 110.0,
+       "birim": "g",
+       "ad": "Soğan (sarı)",
+       "not": "1 adet, ince doğranmış",
+       "besin": "sogan-sari"
+      },
+      {
+       "miktar": 6.0,
+       "birim": "g",
+       "ad": "Sarımsak",
+       "not": "2 diş, ince doğranmış",
+       "besin": "sarimsak"
+      },
+      {
+       "miktar": 61.0,
+       "birim": "g",
+       "ad": "Havuç",
+       "not": "1 adet, ince halka doğranmış",
+       "besin": "havuc"
+      },
+      {
+       "miktar": 246.0,
+       "birim": "g",
+       "ad": "Domates",
+       "not": "2 adet, küp doğranmış",
+       "besin": "domates"
+      },
+      {
+       "miktar": 54.0,
+       "birim": "g",
+       "ad": "Sivri Biber",
+       "not": "2 adet, doğranmış",
+       "besin": "sivri-biber"
+      }
+     ]
+    },
+    {
+     "ad": "Pişirmek için",
+     "satirlar": [
+      {
+       "miktar": 13.5,
+       "birim": "g",
+       "ad": "Zeytinyağı",
+       "not": "1 yemek kaşığı",
+       "besin": "zeytinyagi"
+      },
+      {
+       "miktar": 58.0,
+       "birim": "g",
+       "ad": "Limon",
+       "not": "1 adet, suyu sıkılmış",
+       "besin": "limon"
+      },
+      {
+       "miktar": null,
+       "birim": null,
+       "ad": "Sıcak su",
+       "not": "½ su bardağı",
+       "besin": null
+      },
+      {
+       "miktar": null,
+       "birim": null,
+       "ad": "Tuz",
+       "not": "½ çay kaşığı",
+       "besin": null
+      },
+      {
+       "miktar": null,
+       "birim": null,
+       "ad": "Karabiber",
+       "not": "isteğe göre",
+       "besin": null
+      }
+     ]
+    },
+    {
+     "ad": "Servis için",
+     "satirlar": [
+      {
+       "miktar": 60.0,
+       "birim": "g",
+       "ad": "Maydanoz",
+       "not": "1 su bardağı ince kıyılmış",
+       "besin": "maydanoz"
+      }
+     ]
+    }
+   ],
+   "malzeme_sayisi": 12,
+   "programlar": [
+    {
+     "slug": "akdeniz-tipi-dort-hafta",
+     "ad": "Glütensiz Hafta"
+    }
+   ],
+   "benzer": [
+    "ton-balikli-salata",
+    "ton-balikli-makarna",
+    "karidesli-spagetti",
+    "karidesli-guvec"
+   ],
+   "gastro": {
+    "id": 659,
+    "url": "https://dadagastro.com/tarif/levrek-bugulama-zeytinyagli-sebzeli"
+   }
+  },
+  "sebzeli-peynirli-omlet": {
+   "kategori": {
+    "slug": "yumurta-tarifleri",
+    "ad": "Yumurta Tarifleri"
+   },
+   "kategoriler": [
+    {
+     "slug": "yumurta-tarifleri",
+     "ad": "Yumurta Tarifleri"
+    },
+    {
+     "slug": "kahvaltilik",
+     "ad": "Kahvaltılık"
+    }
+   ],
+   "yayin": "28 Ekim 2026",
+   "giris": "Sütle çırpılıp tavada katlanan, içinde kaşar eriyen omlet aynı kalır. Değişen tavadaki yağ, kaşarın miktarı ve omletin içindeki sebze.",
+   "alerjen": "Yumurta ve süt (süt, kaşar) içerir (AB alerjen listesi).",
+   "ipucu": "Domatesin çekirdekli suyunu ayırın; omletin içi sulanmaz.",
+   "neler_degisti": "1 yemek kaşığı tereyağı yerine 1 çay kaşığı zeytinyağı kullanılır. Kaşar 60 g'dan 30 g'a indi; süt yarım yağlı. Omletin içine 1 domates ve 1 sivri biber girer; maydanoz ½ su bardağı kıyılmışa çıktı.",
+   "klasik_kcal": 269,
+   "hesap_toplam": "Toplam 380 g · 2 porsiyona bölündü",
+   "hesap": [
+    {
+     "ad": "Yumurta (tam · çiğ)",
+     "gram": "150 g",
+     "besin": "yumurta-tam-cig",
+     "kaynak": "TürKomp — Ulusal Gıda Kompozisyon Veri Tabanı",
+     "kaynak_url": "https://turkomp.tarimorman.gov.tr/food-yumurta-tavuk-tam-26"
+    },
+    {
+     "ad": "Süt (UHT · yarım yağlı)",
+     "gram": "15 g",
+     "besin": "sut-uht-yarim-yagli",
+     "kaynak": "TürKomp — Ulusal Gıda Kompozisyon Veri Tabanı",
+     "kaynak_url": "https://turkomp.tarimorman.gov.tr/food-sut-inek-uht-yarim-yagli-19"
+    },
+    {
+     "ad": "Kaşar Peyniri (taze)",
+     "gram": "30 g",
+     "besin": "kasar-peyniri-taze",
+     "kaynak": "TürKomp — Ulusal Gıda Kompozisyon Veri Tabanı",
+     "kaynak_url": "https://turkomp.tarimorman.gov.tr/food-peynir-kasar-olgunlastirilmamis-11"
+    },
+    {
+     "ad": "Domates",
+     "gram": "123 g",
+     "besin": "domates",
+     "kaynak": "TürKomp — Ulusal Gıda Kompozisyon Veri Tabanı",
+     "kaynak_url": "https://turkomp.tarimorman.gov.tr/food-domates-sofralik-168"
+    },
+    {
+     "ad": "Sivri Biber",
+     "gram": "27 g",
+     "besin": "sivri-biber",
+     "kaynak": "TürKomp — Ulusal Gıda Kompozisyon Veri Tabanı",
+     "kaynak_url": "https://turkomp.tarimorman.gov.tr/food-biber-sivri-174"
+    },
+    {
+     "ad": "Maydanoz",
+     "gram": "30 g",
+     "besin": "maydanoz",
+     "kaynak": "TürKomp — Ulusal Gıda Kompozisyon Veri Tabanı",
+     "kaynak_url": "https://turkomp.tarimorman.gov.tr/food-maydanoz-263"
+    },
+    {
+     "ad": "Zeytinyağı",
+     "gram": "4,5 g",
+     "besin": "zeytinyagi",
+     "kaynak": "TürKomp — Ulusal Gıda Kompozisyon Veri Tabanı",
+     "kaynak_url": "https://turkomp.tarimorman.gov.tr/food-zeytinyagi-sizma-103"
+    }
+   ],
+   "hesap_not": "Porsiyon başına, malzemelerin Besin Kütüphanesi değerlerinden hesaplanmıştır (TürKomp).",
+   "malzeme_gruplari": [
+    {
+     "ad": "Omlet için",
+     "satirlar": [
+      {
+       "miktar": 150.0,
+       "birim": "g",
+       "ad": "Yumurta (tam · çiğ)",
+       "not": "3 adet",
+       "besin": "yumurta-tam-cig"
+      },
+      {
+       "miktar": 15.0,
+       "birim": "g",
+       "ad": "Süt (UHT · yarım yağlı)",
+       "not": "1 yemek kaşığı",
+       "besin": "sut-uht-yarim-yagli"
+      },
+      {
+       "miktar": 30.0,
+       "birim": "g",
+       "ad": "Kaşar Peyniri (taze)",
+       "not": "rendelenmiş",
+       "besin": "kasar-peyniri-taze"
+      },
+      {
+       "miktar": 123.0,
+       "birim": "g",
+       "ad": "Domates",
+       "not": "1 adet, çekirdekleri ayrılıp küp doğranmış",
+       "besin": "domates"
+      },
+      {
+       "miktar": 27.0,
+       "birim": "g",
+       "ad": "Sivri Biber",
+       "not": "1 adet, ince doğranmış",
+       "besin": "sivri-biber"
+      },
+      {
+       "miktar": 30.0,
+       "birim": "g",
+       "ad": "Maydanoz",
+       "not": "½ su bardağı ince kıyılmış",
+       "besin": "maydanoz"
+      },
+      {
+       "miktar": 4.5,
+       "birim": "g",
+       "ad": "Zeytinyağı",
+       "not": "1 çay kaşığı",
+       "besin": "zeytinyagi"
+      },
+      {
+       "miktar": null,
+       "birim": null,
+       "ad": "Tuz, karabiber",
+       "not": "birer tutam",
+       "besin": null
+      }
+     ]
+    }
+   ],
+   "malzeme_sayisi": 8,
+   "programlar": [
+    {
+     "slug": "vejetaryen-dort-hafta",
+     "ad": "Glütensiz Hafta"
+    }
+   ],
+   "benzer": [
+    "cilbir",
+    "pose-yumurtali-ekmek",
+    "kus-yuvasi-yumurta",
+    "sebzeli-yumurta-muffin"
+   ],
+   "gastro": null
+  },
+  "sebzeli-tavuk-sote": {
+   "kategori": {
+    "slug": "tavuk-ve-hindi",
+    "ad": "Tavuk ve Hindi"
+   },
+   "kategoriler": [
+    {
+     "slug": "tavuk-ve-hindi",
+     "ad": "Tavuk ve Hindi"
+    },
+    {
+     "slug": "ana-yemek",
+     "ad": "Ana Yemek"
+    }
+   ],
+   "yayin": "28 Ekim 2026",
+   "giris": "Kuşbaşı tavuk, biber, mantar ve domates aynı tavada buluşur; klasik sote bu. Değişen tavadaki yağ ve sebzenin payı.",
+   "alerjen": "AB alerjen listesinden içerik yok (kereviz kullanılmadı).",
+   "ipucu": "Tavayı kalabalık etmeyin; tavuk suyunu salıp çekmezse haşlanmış gibi kalır. Gerekirse tavuğu iki seferde çevirin.",
+   "neler_degisti": "Zeytinyağı 3 yemek kaşığından 1 yemek kaşığına indi. Mantar 150 g'dan 250 g'a çıktı; tavaya 1 kabak eklendi. Klasik tarif \"göğüs veya but\" der; karşılaştırma göğüsle yapıldı. Bu tarifte yalnız derisiz göğüs kullanılır. Kapya biber yerine dolmalık biber; renk için kapya da kullanılabilir.",
+   "klasik_kcal": 281,
+   "hesap_toplam": "Toplam 1375 g · 4 porsiyona bölündü",
+   "hesap": [
+    {
+     "ad": "Piliç Göğsü (derisiz · çiğ)",
+     "gram": "500 g",
+     "besin": "pilic-gogsu-cig",
+     "kaynak": "TürKomp — Ulusal Gıda Kompozisyon Veri Tabanı",
+     "kaynak_url": "https://turkomp.tarimorman.gov.tr/food-pilic-eti-gogus-derisiz-64"
+    },
+    {
+     "ad": "Soğan (sarı)",
+     "gram": "110 g",
+     "besin": "sogan-sari",
+     "kaynak": "TürKomp — Ulusal Gıda Kompozisyon Veri Tabanı",
+     "kaynak_url": "https://turkomp.tarimorman.gov.tr/food-sogan-sari-kuru-230"
+    },
+    {
+     "ad": "Dolmalık Biber",
+     "gram": "119 g",
+     "besin": "dolmalik-biber",
+     "kaynak": "TürKomp — Ulusal Gıda Kompozisyon Veri Tabanı",
+     "kaynak_url": "https://turkomp.tarimorman.gov.tr/food-biber-dolma-175"
+    },
+    {
+     "ad": "Sivri Biber",
+     "gram": "54 g",
+     "besin": "sivri-biber",
+     "kaynak": "TürKomp — Ulusal Gıda Kompozisyon Veri Tabanı",
+     "kaynak_url": "https://turkomp.tarimorman.gov.tr/food-biber-sivri-174"
+    },
+    {
+     "ad": "Kültür Mantarı (çiğ)",
+     "gram": "250 g",
+     "besin": "kultur-mantari-cig",
+     "kaynak": "TürKomp — Ulusal Gıda Kompozisyon Veri Tabanı",
+     "kaynak_url": "https://turkomp.tarimorman.gov.tr/food-mantar-beyaz-sapkali-276"
+    },
+    {
+     "ad": "Yazlık Kabak (koyu yeşil · çiğ)",
+     "gram": "196 g",
+     "besin": "yazlik-kabak-cig",
+     "kaynak": "TürKomp — Ulusal Gıda Kompozisyon Veri Tabanı",
+     "kaynak_url": "https://turkomp.tarimorman.gov.tr/food-kabak-yazlik-koyu-yesil-199"
+    },
+    {
+     "ad": "Domates",
+     "gram": "123 g",
+     "besin": "domates",
+     "kaynak": "TürKomp — Ulusal Gıda Kompozisyon Veri Tabanı",
+     "kaynak_url": "https://turkomp.tarimorman.gov.tr/food-domates-sofralik-168"
+    },
+    {
+     "ad": "Domates Salçası",
+     "gram": "9 g",
+     "besin": "domates-salcasi",
+     "kaynak": "TürKomp — Ulusal Gıda Kompozisyon Veri Tabanı",
+     "kaynak_url": "https://turkomp.tarimorman.gov.tr/food-domates-salcasi-170"
+    },
+    {
+     "ad": "Zeytinyağı",
+     "gram": "13,5 g",
+     "besin": "zeytinyagi",
+     "kaynak": "TürKomp — Ulusal Gıda Kompozisyon Veri Tabanı",
+     "kaynak_url": "https://turkomp.tarimorman.gov.tr/food-zeytinyagi-sizma-103"
+    }
+   ],
+   "hesap_not": "Porsiyon başına, malzemelerin Besin Kütüphanesi değerlerinden hesaplanmıştır (TürKomp).",
+   "malzeme_gruplari": [
+    {
+     "ad": "Sote için",
+     "satirlar": [
+      {
+       "miktar": 500.0,
+       "birim": "g",
+       "ad": "Piliç Göğsü (derisiz · çiğ)",
+       "not": "derisiz, kuşbaşı doğranmış",
+       "besin": "pilic-gogsu-cig"
+      },
+      {
+       "miktar": 110.0,
+       "birim": "g",
+       "ad": "Soğan (sarı)",
+       "not": "1 adet, jülyen doğranmış",
+       "besin": "sogan-sari"
+      },
+      {
+       "miktar": 119.0,
+       "birim": "g",
+       "ad": "Dolmalık Biber",
+       "not": "1 adet, jülyen doğranmış",
+       "besin": "dolmalik-biber"
+      },
+      {
+       "miktar": 54.0,
+       "birim": "g",
+       "ad": "Sivri Biber",
+       "not": "2 adet, doğranmış",
+       "besin": "sivri-biber"
+      },
+      {
+       "miktar": 250.0,
+       "birim": "g",
+       "ad": "Kültür Mantarı (çiğ)",
+       "not": "dilimlenmiş",
+       "besin": "kultur-mantari-cig"
+      },
+      {
+       "miktar": 196.0,
+       "birim": "g",
+       "ad": "Yazlık Kabak (koyu yeşil · çiğ)",
+       "not": "1 adet, yarım ay doğranmış",
+       "besin": "yazlik-kabak-cig"
+      },
+      {
+       "miktar": 123.0,
+       "birim": "g",
+       "ad": "Domates",
+       "not": "1 adet, küp doğranmış",
+       "besin": "domates"
+      },
+      {
+       "miktar": 9.0,
+       "birim": "g",
+       "ad": "Domates Salçası",
+       "not": "1 tatlı kaşığı",
+       "besin": "domates-salcasi"
+      },
+      {
+       "miktar": 13.5,
+       "birim": "g",
+       "ad": "Zeytinyağı",
+       "not": "1 yemek kaşığı",
+       "besin": "zeytinyagi"
+      },
+      {
+       "miktar": null,
+       "birim": null,
+       "ad": "Tuz",
+       "not": "½ çay kaşığı",
+       "besin": null
+      },
+      {
+       "miktar": null,
+       "birim": null,
+       "ad": "Karabiber, kuru kekik",
+       "not": "birer çay kaşığının yarısı",
+       "besin": null
+      }
+     ]
+    }
+   ],
+   "malzeme_sayisi": 11,
+   "programlar": [
+    {
+     "slug": "evden-calisma",
+     "ad": "Glütensiz Hafta"
+    }
+   ],
+   "benzer": [
+    "yogurtlu-tavuk-sis",
+    "sebzeli-tavuk-suyu-corbasi",
+    "kabakli-tavuk-kofte",
+    "firinda-sebzeli-tavuk"
+   ],
+   "gastro": {
+    "id": 504,
+    "url": "https://dadagastro.com/tarif/sebzeli-tavuk-sote-tavada-pratik"
+   }
+  },
+  "sebzeli-yumurta-muffin": {
+   "kategori": {
+    "slug": "yumurta-tarifleri",
+    "ad": "Yumurta Tarifleri"
+   },
+   "kategoriler": [
+    {
+     "slug": "yumurta-tarifleri",
+     "ad": "Yumurta Tarifleri"
+    },
+    {
+     "slug": "kahvaltilik",
+     "ad": "Kahvaltılık"
+    }
+   ],
+   "yayin": "28 Ekim 2026",
+   "giris": "Çırpılmış yumurta, sebze ve kaşarın muffin kalıbında kabardığı porsiyonluk kahvaltı aynı kalır. Değişen sebzenin payı, kaşar ve kalıptaki yağ.",
+   "alerjen": "Yumurta ve süt (kaşar) içerir (AB alerjen listesi).",
+   "ipucu": "Ispanağı önce tavada suyunu çektirin; ıslak sebze muffinin altını sulandırır.",
+   "neler_degisti": "Kapya biber yarım adetten 1 adede, taze soğan 2 daldan 4 dala çıktı; 100 g ıspanak eklendi. Kaşar 80 g'dan 40 g'a indi. Kalıpları yağlamak için 1 yemek kaşığı yerine 1 çay kaşığı sıvı yağ yeter.",
+   "klasik_kcal": 212,
+   "hesap_toplam": "Toplam 654 g · 4 porsiyona bölündü",
+   "hesap": [
+    {
+     "ad": "Yumurta (tam · çiğ)",
+     "gram": "300 g",
+     "besin": "yumurta-tam-cig",
+     "kaynak": "TürKomp — Ulusal Gıda Kompozisyon Veri Tabanı",
+     "kaynak_url": "https://turkomp.tarimorman.gov.tr/food-yumurta-tavuk-tam-26"
+    },
+    {
+     "ad": "Dolmalık Biber",
+     "gram": "119 g",
+     "besin": "dolmalik-biber",
+     "kaynak": "TürKomp — Ulusal Gıda Kompozisyon Veri Tabanı",
+     "kaynak_url": "https://turkomp.tarimorman.gov.tr/food-biber-dolma-175"
+    },
+    {
+     "ad": "Taze Soğan",
+     "gram": "60 g",
+     "besin": "taze-sogan",
+     "kaynak": "TürKomp — Ulusal Gıda Kompozisyon Veri Tabanı",
+     "kaynak_url": "https://turkomp.tarimorman.gov.tr/food-sogan-taze-kok-sap-229"
+    },
+    {
+     "ad": "Ispanak (çiğ)",
+     "gram": "100 g",
+     "besin": "ispanak-cig",
+     "kaynak": "TürKomp — Ulusal Gıda Kompozisyon Veri Tabanı",
+     "kaynak_url": "https://turkomp.tarimorman.gov.tr/food-ispanak-268"
+    },
+    {
+     "ad": "Maydanoz",
+     "gram": "30 g",
+     "besin": "maydanoz",
+     "kaynak": "TürKomp — Ulusal Gıda Kompozisyon Veri Tabanı",
+     "kaynak_url": "https://turkomp.tarimorman.gov.tr/food-maydanoz-263"
+    },
+    {
+     "ad": "Kaşar Peyniri (taze)",
+     "gram": "40 g",
+     "besin": "kasar-peyniri-taze",
+     "kaynak": "TürKomp — Ulusal Gıda Kompozisyon Veri Tabanı",
+     "kaynak_url": "https://turkomp.tarimorman.gov.tr/food-peynir-kasar-olgunlastirilmamis-11"
+    },
+    {
+     "ad": "Ayçiçek Yağı",
+     "gram": "4,5 g",
+     "besin": "aycicek-yagi",
+     "kaynak": "TürKomp — Ulusal Gıda Kompozisyon Veri Tabanı",
+     "kaynak_url": "https://turkomp.tarimorman.gov.tr/food-aycicek-yagi-101"
+    }
+   ],
+   "hesap_not": "Porsiyon başına, malzemelerin Besin Kütüphanesi değerlerinden hesaplanmıştır (TürKomp).",
+   "malzeme_gruplari": [
+    {
+     "ad": "Muffin için",
+     "satirlar": [
+      {
+       "miktar": 300.0,
+       "birim": "g",
+       "ad": "Yumurta (tam · çiğ)",
+       "not": "6 adet",
+       "besin": "yumurta-tam-cig"
+      },
+      {
+       "miktar": 119.0,
+       "birim": "g",
+       "ad": "Dolmalık Biber",
+       "not": "1 adet kapya biber, küçük küp doğranmış",
+       "besin": "dolmalik-biber"
+      },
+      {
+       "miktar": 60.0,
+       "birim": "g",
+       "ad": "Taze Soğan",
+       "not": "4 dal, ince doğranmış",
+       "besin": "taze-sogan"
+      },
+      {
+       "miktar": 100.0,
+       "birim": "g",
+       "ad": "Ispanak (çiğ)",
+       "not": "ince kıyılmış",
+       "besin": "ispanak-cig"
+      },
+      {
+       "miktar": 30.0,
+       "birim": "g",
+       "ad": "Maydanoz",
+       "not": "½ su bardağı ince kıyılmış",
+       "besin": "maydanoz"
+      },
+      {
+       "miktar": 40.0,
+       "birim": "g",
+       "ad": "Kaşar Peyniri (taze)",
+       "not": "rendelenmiş",
+       "besin": "kasar-peyniri-taze"
+      },
+      {
+       "miktar": null,
+       "birim": null,
+       "ad": "Tuz, karabiber",
+       "not": "birer tutam",
+       "besin": null
+      }
+     ]
+    },
+    {
+     "ad": "Kalıp için",
+     "satirlar": [
+      {
+       "miktar": 4.5,
+       "birim": "g",
+       "ad": "Ayçiçek Yağı",
+       "not": "1 çay kaşığı",
+       "besin": "aycicek-yagi"
+      }
+     ]
+    }
+   ],
+   "malzeme_sayisi": 8,
+   "programlar": [
+    {
+     "slug": "vejetaryen-dort-hafta",
+     "ad": "Glütensiz Hafta"
+    }
+   ],
+   "benzer": [
+    "cilbir",
+    "pose-yumurtali-ekmek",
+    "kus-yuvasi-yumurta",
+    "sebzeli-peynirli-omlet"
+   ],
+   "gastro": null
+  },
+  "tarcinli-firin-armudu": {
+   "kategori": {
+    "slug": "tatli",
+    "ad": "Tatlı"
+   },
+   "kategoriler": [
+    {
+     "slug": "tatli",
+     "ad": "Tatlı"
+    },
+    {
+     "slug": "meyve-tarifleri",
+     "ad": "Meyve Tarifleri"
+    }
+   ],
+   "yayin": "28 Ekim 2026",
+   "giris": "İkiye bölünüp oyulan, cevizle doldurulup fırında yumuşayan armut bu tatlının kendisi; aynı kalır. Değişen bal, ceviz ve tereyağı.",
+   "alerjen": "Sert kabuklu yemiş (ceviz) içerir (AB alerjen listesi).",
+   "ipucu": "Olgun ama sert armut seçin; fırında dağılmadan yumuşar ve az balla da tatlı olur.",
+   "neler_degisti": "Bal 3 yemek kaşığından 1 yemek kaşığına indi. Ceviz ½ su bardağından ¼ su bardağına indi. Üstteki 1 yemek kaşığı tereyağı çıkarıldı.",
+   "klasik_kcal": 224,
+   "hesap_toplam": "Toplam 406 g · 4 porsiyona bölündü",
+   "hesap": [
+    {
+     "ad": "Armut (Deveci)",
+     "gram": "356 g",
+     "besin": "armut-deveci",
+     "kaynak": "TürKomp — Ulusal Gıda Kompozisyon Veri Tabanı",
+     "kaynak_url": "https://turkomp.tarimorman.gov.tr/food-armut-deveci-357"
+    },
+    {
+     "ad": "Bal",
+     "gram": "21 g",
+     "besin": "bal",
+     "kaynak": "TürKomp — Ulusal Gıda Kompozisyon Veri Tabanı",
+     "kaynak_url": "https://turkomp.tarimorman.gov.tr/food-bal-cicek-288"
+    },
+    {
+     "ad": "Ceviz (iç)",
+     "gram": "29,3 g",
+     "besin": "ceviz-ic",
+     "kaynak": "TürKomp — Ulusal Gıda Kompozisyon Veri Tabanı",
+     "kaynak_url": "https://turkomp.tarimorman.gov.tr/food-ceviz-ic-kuru-400"
+    }
+   ],
+   "hesap_not": "Porsiyon başına, malzemelerin Besin Kütüphanesi değerlerinden hesaplanmıştır (TürKomp).",
+   "malzeme_gruplari": [
+    {
+     "ad": "Armutlar için",
+     "satirlar": [
+      {
+       "miktar": 356.0,
+       "birim": "g",
+       "ad": "Armut (Deveci)",
+       "not": "2 adet, ikiye bölünmüş",
+       "besin": "armut-deveci"
+      }
+     ]
+    },
+    {
+     "ad": "Üzeri için",
+     "satirlar": [
+      {
+       "miktar": 21.0,
+       "birim": "g",
+       "ad": "Bal",
+       "not": "1 yemek kaşığı",
+       "besin": "bal"
+      },
+      {
+       "miktar": 29.25,
+       "birim": "g",
+       "ad": "Ceviz (iç)",
+       "not": "¼ su bardağı, iri kıyılmış",
+       "besin": "ceviz-ic"
+      },
+      {
+       "miktar": null,
+       "birim": null,
+       "ad": "Tarçın",
+       "not": "1 çay kaşığı",
+       "besin": null
+      }
+     ]
+    },
+    {
+     "ad": "Fırın kabı için",
+     "satirlar": [
+      {
+       "miktar": null,
+       "birim": null,
+       "ad": "Su",
+       "not": "3 yemek kaşığı",
+       "besin": null
+      }
+     ]
+    }
+   ],
+   "malzeme_sayisi": 5,
+   "programlar": [
+    {
+     "slug": "olculu-porsiyon-iki-hafta",
+     "ad": "Glütensiz Hafta"
+    }
+   ],
+   "benzer": [
+    "kabak-tatlisi",
+    "vanilyali-kurabiye",
+    "un-kurabiyesi",
+    "supangle"
+   ],
+   "gastro": null
+  },
+  "ton-balikli-salata": {
+   "kategori": {
+    "slug": "salata",
+    "ad": "Salata"
+   },
+   "kategoriler": [
+    {
+     "slug": "salata",
+     "ad": "Salata"
+    },
+    {
+     "slug": "balik-ve-deniz-urunleri",
+     "ad": "Balık ve Deniz Ürünleri"
+    }
+   ],
+   "yayin": "28 Ekim 2026",
+   "giris": "İri parçalar hâlinde ton balığı, mısır ve taze sebzenin limonlu sosla buluştuğu salata aynı kalır. Değişen konservenin türü, sostaki yağ ve sebzenin payı.",
+   "alerjen": "Balık (ton balığı) içerir (AB alerjen listesi).",
+   "ipucu": "Ton balığını en son ve iri parçalar hâlinde ekleyin; salataya karışırken ezilmez.",
+   "neler_degisti": "Ayçiçek yağlı ton balığı konservesi yerine suda ton balığı kullanılır (2 kutu, süzülmüş; kutu başına 171 g, USDA ölçüsü). Zeytinyağı 3 yemek kaşığından 1 yemek kaşığına indi. Mısır 1 su bardağından ½ su bardağına indi; marul 4 yapraktan 8 yaprağa, cherry domates 8 adetten 12 adede çıktı. Klasik tarif konservenin türünü yazmaz; klasik taraf yağlı konserveyle hesaplandı.",
+   "klasik_kcal": 403,
+   "hesap_toplam": "Toplam 1248 g · 3 porsiyona bölündü",
+   "hesap": [
+    {
+     "ad": "Ton Balığı (suda)",
+     "gram": "342 g",
+     "besin": "ton-baligi-suda",
+     "kaynak": "USDA FoodData Central",
+     "kaynak_url": "https://fdc.nal.usda.gov/fdc-app.html#/food-details/171986/nutrients"
+    },
+    {
+     "ad": "Tatlı Mısır (konserve)",
+     "gram": "82 g",
+     "besin": "tatli-misir-konserve",
+     "kaynak": "TürKomp — Ulusal Gıda Kompozisyon Veri Tabanı",
+     "kaynak_url": "https://turkomp.tarimorman.gov.tr/food-misir-tatli-konserve-140"
+    },
+    {
+     "ad": "Marul (kıvırcık)",
+     "gram": "192 g",
+     "besin": "marul-kivircik",
+     "kaynak": "TürKomp — Ulusal Gıda Kompozisyon Veri Tabanı",
+     "kaynak_url": "https://turkomp.tarimorman.gov.tr/food-marul-kivircik-salata-239"
+    },
+    {
+     "ad": "Soğan (mor)",
+     "gram": "55 g",
+     "besin": "sogan-mor",
+     "kaynak": "TürKomp — Ulusal Gıda Kompozisyon Veri Tabanı",
+     "kaynak_url": "https://turkomp.tarimorman.gov.tr/food-sogan-mor-kuru-231"
+    },
+    {
+     "ad": "Salatalık",
+     "gram": "301 g",
+     "besin": "salatalik",
+     "kaynak": "TürKomp — Ulusal Gıda Kompozisyon Veri Tabanı",
+     "kaynak_url": "https://turkomp.tarimorman.gov.tr/food-salatalik-203"
+    },
+    {
+     "ad": "Kiraz Domates",
+     "gram": "204 g",
+     "besin": "kiraz-domates",
+     "kaynak": "TürKomp — Ulusal Gıda Kompozisyon Veri Tabanı",
+     "kaynak_url": "https://turkomp.tarimorman.gov.tr/food-domates-sofralik-kiraz-169"
+    },
+    {
+     "ad": "Zeytinyağı",
+     "gram": "13,5 g",
+     "besin": "zeytinyagi",
+     "kaynak": "TürKomp — Ulusal Gıda Kompozisyon Veri Tabanı",
+     "kaynak_url": "https://turkomp.tarimorman.gov.tr/food-zeytinyagi-sizma-103"
+    },
+    {
+     "ad": "Limon",
+     "gram": "58 g",
+     "besin": "limon",
+     "kaynak": "TürKomp — Ulusal Gıda Kompozisyon Veri Tabanı",
+     "kaynak_url": "https://turkomp.tarimorman.gov.tr/food-limon-interdonato-309"
+    }
+   ],
+   "hesap_not": "Porsiyon başına, malzemelerin Besin Kütüphanesi değerlerinden hesaplanmıştır (USDA, TürKomp). Karbonhidrat değerleri iki ayrı tanımdan gelir: TürKomp lifi hariç, USDA lifi dahil sayar.",
+   "malzeme_gruplari": [
+    {
+     "ad": "Salata için",
+     "satirlar": [
+      {
+       "miktar": 342.0,
+       "birim": "g",
+       "ad": "Ton Balığı (suda)",
+       "not": "2 kutu, suyu süzülmüş",
+       "besin": "ton-baligi-suda"
+      },
+      {
+       "miktar": 82.0,
+       "birim": "g",
+       "ad": "Tatlı Mısır (konserve)",
+       "not": "½ su bardağı, süzülmüş",
+       "besin": "tatli-misir-konserve"
+      },
+      {
+       "miktar": 192.0,
+       "birim": "g",
+       "ad": "Marul (kıvırcık)",
+       "not": "8 yaprak, doğranmış",
+       "besin": "marul-kivircik"
+      },
+      {
+       "miktar": 55.0,
+       "birim": "g",
+       "ad": "Soğan (mor)",
+       "not": "½ adet, ince doğranmış",
+       "besin": "sogan-mor"
+      },
+      {
+       "miktar": 301.0,
+       "birim": "g",
+       "ad": "Salatalık",
+       "not": "1 adet, küp doğranmış",
+       "besin": "salatalik"
+      },
+      {
+       "miktar": 204.0,
+       "birim": "g",
+       "ad": "Kiraz Domates",
+       "not": "12 adet, ikiye bölünmüş",
+       "besin": "kiraz-domates"
+      }
+     ]
+    },
+    {
+     "ad": "Sosu için",
+     "satirlar": [
+      {
+       "miktar": 13.5,
+       "birim": "g",
+       "ad": "Zeytinyağı",
+       "not": "1 yemek kaşığı",
+       "besin": "zeytinyagi"
+      },
+      {
+       "miktar": 58.0,
+       "birim": "g",
+       "ad": "Limon",
+       "not": "1 adet, suyu sıkılmış",
+       "besin": "limon"
+      },
+      {
+       "miktar": null,
+       "birim": null,
+       "ad": "Tuz, karabiber",
+       "not": "birer tutam",
+       "besin": null
+      }
+     ]
+    }
+   ],
+   "malzeme_sayisi": 9,
+   "programlar": [
+    {
+     "slug": "ofis-ogunleri",
+     "ad": "Glütensiz Hafta"
+    }
+   ],
+   "benzer": [
+    "sebzeli-makarna-salatasi",
+    "kisir",
+    "piyaz",
+    "nohut-salatasi"
+   ],
+   "gastro": null
+  },
+  "yesil-mercimek-yemegi": {
+   "kategori": {
+    "slug": "bakliyat",
+    "ad": "Bakliyat"
+   },
+   "kategoriler": [
+    {
+     "slug": "bakliyat",
+     "ad": "Bakliyat"
+    },
+    {
+     "slug": "ana-yemek",
+     "ad": "Ana Yemek"
+    }
+   ],
+   "yayin": "28 Ekim 2026",
+   "giris": "Dağılmadan yumuşayan yeşil mercimek ve kimyon bu yemeğin kendisi; ikisi de kalır. Değişen yağ, salça ve tencereye eklenen sebze.",
+   "alerjen": "AB alerjen listesinden içerik yok.",
+   "ipucu": "Tuzu mercimekler yumuşadıktan sonra ekleyin; erken tuz taneleri sertleştirir ve dağıtır.",
+   "neler_degisti": "Zeytinyağı 4 yemek kaşığından 1 yemek kaşığına indi; soğan birkaç kaşık suyla yumuşatılır. Domates salçası 1 yemek kaşığından 1 tatlı kaşığına indi; sosa 1 rendelenmiş domates eklendi. Tencereye 1 küp doğranmış havuç eklendi. Tuz 1 tatlı kaşığından 1 çay kaşığına indi.",
+   "klasik_kcal": 354,
+   "hesap_toplam": "Toplam 611 g · 4 porsiyona bölündü",
+   "hesap": [
+    {
+     "ad": "Mercimek (yeşil · kuru)",
+     "gram": "288 g",
+     "besin": "mercimek-yesil-kuru",
+     "kaynak": "TürKomp — Ulusal Gıda Kompozisyon Veri Tabanı",
+     "kaynak_url": "https://turkomp.tarimorman.gov.tr/food-mercimek-yesil-kuru-157"
+    },
+    {
+     "ad": "Soğan (sarı)",
+     "gram": "110 g",
+     "besin": "sogan-sari",
+     "kaynak": "TürKomp — Ulusal Gıda Kompozisyon Veri Tabanı",
+     "kaynak_url": "https://turkomp.tarimorman.gov.tr/food-sogan-sari-kuru-230"
+    },
+    {
+     "ad": "Sarımsak",
+     "gram": "6 g",
+     "besin": "sarimsak",
+     "kaynak": "TürKomp — Ulusal Gıda Kompozisyon Veri Tabanı",
+     "kaynak_url": "https://turkomp.tarimorman.gov.tr/food-sarimsak-kuru-233"
+    },
+    {
+     "ad": "Havuç",
+     "gram": "61 g",
+     "besin": "havuc",
+     "kaynak": "TürKomp — Ulusal Gıda Kompozisyon Veri Tabanı",
+     "kaynak_url": "https://turkomp.tarimorman.gov.tr/food-havuc-turuncu-258"
+    },
+    {
+     "ad": "Domates",
+     "gram": "123 g",
+     "besin": "domates",
+     "kaynak": "TürKomp — Ulusal Gıda Kompozisyon Veri Tabanı",
+     "kaynak_url": "https://turkomp.tarimorman.gov.tr/food-domates-sofralik-168"
+    },
+    {
+     "ad": "Domates Salçası",
+     "gram": "9 g",
+     "besin": "domates-salcasi",
+     "kaynak": "TürKomp — Ulusal Gıda Kompozisyon Veri Tabanı",
+     "kaynak_url": "https://turkomp.tarimorman.gov.tr/food-domates-salcasi-170"
+    },
+    {
+     "ad": "Zeytinyağı",
+     "gram": "13,5 g",
+     "besin": "zeytinyagi",
+     "kaynak": "TürKomp — Ulusal Gıda Kompozisyon Veri Tabanı",
+     "kaynak_url": "https://turkomp.tarimorman.gov.tr/food-zeytinyagi-sizma-103"
+    }
+   ],
+   "hesap_not": "Porsiyon başına, malzemelerin Besin Kütüphanesi değerlerinden hesaplanmıştır (TürKomp).",
+   "malzeme_gruplari": [
+    {
+     "ad": "Yemek için",
+     "satirlar": [
+      {
+       "miktar": 288.0,
+       "birim": "g",
+       "ad": "Mercimek (yeşil · kuru)",
+       "not": "1½ su bardağı, yıkanıp süzülmüş",
+       "besin": "mercimek-yesil-kuru"
+      },
+      {
+       "miktar": 110.0,
+       "birim": "g",
+       "ad": "Soğan (sarı)",
+       "not": "1 adet, yemeklik doğranmış",
+       "besin": "sogan-sari"
+      },
+      {
+       "miktar": 6.0,
+       "birim": "g",
+       "ad": "Sarımsak",
+       "not": "2 diş, ince doğranmış",
+       "besin": "sarimsak"
+      },
+      {
+       "miktar": 61.0,
+       "birim": "g",
+       "ad": "Havuç",
+       "not": "1 adet, küp doğranmış",
+       "besin": "havuc"
+      },
+      {
+       "miktar": 123.0,
+       "birim": "g",
+       "ad": "Domates",
+       "not": "1 adet, rendelenmiş",
+       "besin": "domates"
+      },
+      {
+       "miktar": 9.0,
+       "birim": "g",
+       "ad": "Domates Salçası",
+       "not": "1 tatlı kaşığı",
+       "besin": "domates-salcasi"
+      },
+      {
+       "miktar": 13.5,
+       "birim": "g",
+       "ad": "Zeytinyağı",
+       "not": "1 yemek kaşığı",
+       "besin": "zeytinyagi"
+      },
+      {
+       "miktar": null,
+       "birim": null,
+       "ad": "Sıcak su",
+       "not": "4 su bardağı",
+       "besin": null
+      },
+      {
+       "miktar": null,
+       "birim": null,
+       "ad": "Kimyon",
+       "not": "1 çay kaşığı",
+       "besin": null
+      },
+      {
+       "miktar": null,
+       "birim": null,
+       "ad": "Tuz",
+       "not": "1 çay kaşığı",
+       "besin": null
+      },
+      {
+       "miktar": null,
+       "birim": null,
+       "ad": "Pul biber",
+       "not": "isteğe göre",
+       "besin": null
+      }
+     ]
+    }
+   ],
+   "malzeme_sayisi": 11,
+   "programlar": [
+    {
+     "slug": "bitkisel-dort-hafta",
+     "ad": "Glütensiz Hafta"
+    }
+   ],
+   "benzer": [
+    "nohutlu-pirinc-pilavi",
+    "mercimekli-bulgur-pilavi",
+    "yesil-mercimek-corbasi",
+    "piyaz"
+   ],
+   "gastro": null
+  },
+  "yogurtlu-tavuk-sis": {
+   "kategori": {
+    "slug": "tavuk-ve-hindi",
+    "ad": "Tavuk ve Hindi"
+   },
+   "kategoriler": [
+    {
+     "slug": "tavuk-ve-hindi",
+     "ad": "Tavuk ve Hindi"
+    },
+    {
+     "slug": "kofte-ve-kebap",
+     "ad": "Köfte ve Kebap"
+    }
+   ],
+   "yayin": "28 Ekim 2026",
+   "giris": "Klasik tavuk şişin marinesi aynı kalır: yoğurt, sarımsak, salça, kekik. Değişen etin türü, marinedeki yağ ve servis.",
+   "alerjen": "Süt (yoğurt) içerir (AB alerjen listesi). Laktoz için: laktozsuz yoğurtla aynı marine hazırlanabilir.",
+   "ipucu": "Şişleri sıkıştırmadan dizin; parçalar arasına giren ısı tavuğun her yanının aynı anda pişmesini sağlar.",
+   "neler_degisti": "Porsiyon başına farkın çoğu zeytinyağından gelir: marinedeki yağ 2 yemek kaşığından 1 yemek kaşığına iner; porsiyon başına yaklaşık 30 kcal ve 3,4 g yağ eksilir. Yoğurt yarım yağlı: porsiyon başına yaklaşık 3 kcal daha az. Tabağa eklenen 150 g marul ve 150 g domates porsiyon başına yaklaşık 13 kcal ekler; toplam fark bu yüzden yaklaşık 21 kcal'de kalır (klasik 305, bu tarif 284 kcal). Klasik tarif \"göğüs veya but\" der; karşılaştırma göğüsle yapıldı. Bu tarifte yalnız derisiz göğüs kullanılır. Klasik serviste lavaş var, ancak lavaş klasik malzeme listesinde yer almadığı için karşılaştırmaya girmedi; bu tarifte lavaş yerine salatayla servis edilir.",
+   "klasik_kcal": 305,
+   "hesap_toplam": "Toplam 1284 g · 4 porsiyona bölündü",
+   "hesap": [
+    {
+     "ad": "Piliç Göğsü (derisiz · çiğ)",
+     "gram": "700 g",
+     "besin": "pilic-gogsu-cig",
+     "kaynak": "TürKomp — Ulusal Gıda Kompozisyon Veri Tabanı",
+     "kaynak_url": "https://turkomp.tarimorman.gov.tr/food-pilic-eti-gogus-derisiz-64"
+    },
+    {
+     "ad": "Yoğurt (yarım yağlı)",
+     "gram": "64 g",
+     "besin": "yogurt-yarim-yagli",
+     "kaynak": "TürKomp — Ulusal Gıda Kompozisyon Veri Tabanı",
+     "kaynak_url": "https://turkomp.tarimorman.gov.tr/food-yogurt-homojenize-yarim-yagli--2--sut-yagi---1-5-3"
+    },
+    {
+     "ad": "Zeytinyağı",
+     "gram": "13,5 g",
+     "besin": "zeytinyagi",
+     "kaynak": "TürKomp — Ulusal Gıda Kompozisyon Veri Tabanı",
+     "kaynak_url": "https://turkomp.tarimorman.gov.tr/food-zeytinyagi-sizma-103"
+    },
+    {
+     "ad": "Sarımsak",
+     "gram": "6 g",
+     "besin": "sarimsak",
+     "kaynak": "TürKomp — Ulusal Gıda Kompozisyon Veri Tabanı",
+     "kaynak_url": "https://turkomp.tarimorman.gov.tr/food-sarimsak-kuru-233"
+    },
+    {
+     "ad": "Domates Salçası",
+     "gram": "9 g",
+     "besin": "domates-salcasi",
+     "kaynak": "TürKomp — Ulusal Gıda Kompozisyon Veri Tabanı",
+     "kaynak_url": "https://turkomp.tarimorman.gov.tr/food-domates-salcasi-170"
+    },
+    {
+     "ad": "Soğan (sarı)",
+     "gram": "110 g",
+     "besin": "sogan-sari",
+     "kaynak": "TürKomp — Ulusal Gıda Kompozisyon Veri Tabanı",
+     "kaynak_url": "https://turkomp.tarimorman.gov.tr/food-sogan-sari-kuru-230"
+    },
+    {
+     "ad": "Sivri Biber",
+     "gram": "81 g",
+     "besin": "sivri-biber",
+     "kaynak": "TürKomp — Ulusal Gıda Kompozisyon Veri Tabanı",
+     "kaynak_url": "https://turkomp.tarimorman.gov.tr/food-biber-sivri-174"
+    },
+    {
+     "ad": "Marul (kıvırcık)",
+     "gram": "150 g",
+     "besin": "marul-kivircik",
+     "kaynak": "TürKomp — Ulusal Gıda Kompozisyon Veri Tabanı",
+     "kaynak_url": "https://turkomp.tarimorman.gov.tr/food-marul-kivircik-salata-239"
+    },
+    {
+     "ad": "Domates",
+     "gram": "150 g",
+     "besin": "domates",
+     "kaynak": "TürKomp — Ulusal Gıda Kompozisyon Veri Tabanı",
+     "kaynak_url": "https://turkomp.tarimorman.gov.tr/food-domates-sofralik-168"
+    }
+   ],
+   "hesap_not": "Porsiyon başına, malzemelerin Besin Kütüphanesi değerlerinden hesaplanmıştır (TürKomp).",
+   "malzeme_gruplari": [
+    {
+     "ad": "Tavuk için",
+     "satirlar": [
+      {
+       "miktar": 700.0,
+       "birim": "g",
+       "ad": "Piliç Göğsü (derisiz · çiğ)",
+       "not": "derisiz, iri kuşbaşı",
+       "besin": "pilic-gogsu-cig"
+      }
+     ]
+    },
+    {
+     "ad": "Marine için",
+     "satirlar": [
+      {
+       "miktar": 64.0,
+       "birim": "g",
+       "ad": "Yoğurt (yarım yağlı)",
+       "not": "4 yemek kaşığı",
+       "besin": "yogurt-yarim-yagli"
+      },
+      {
+       "miktar": 13.5,
+       "birim": "g",
+       "ad": "Zeytinyağı",
+       "not": "1 yemek kaşığı",
+       "besin": "zeytinyagi"
+      },
+      {
+       "miktar": 6.0,
+       "birim": "g",
+       "ad": "Sarımsak",
+       "not": "2 diş, ezilmiş",
+       "besin": "sarimsak"
+      },
+      {
+       "miktar": 9.0,
+       "birim": "g",
+       "ad": "Domates Salçası",
+       "not": "1 tatlı kaşığı",
+       "besin": "domates-salcasi"
+      },
+      {
+       "miktar": null,
+       "birim": null,
+       "ad": "Kuru kekik, pul biber, karabiber",
+       "not": "birer çay kaşığı",
+       "besin": null
+      },
+      {
+       "miktar": null,
+       "birim": null,
+       "ad": "Tuz",
+       "not": "½ çay kaşığı",
+       "besin": null
+      }
+     ]
+    },
+    {
+     "ad": "Şiş için",
+     "satirlar": [
+      {
+       "miktar": 110.0,
+       "birim": "g",
+       "ad": "Soğan (sarı)",
+       "not": "1 adet, iri parçalar",
+       "besin": "sogan-sari"
+      },
+      {
+       "miktar": 81.0,
+       "birim": "g",
+       "ad": "Sivri Biber",
+       "not": "3 adet, parçalanmış",
+       "besin": "sivri-biber"
+      }
+     ]
+    },
+    {
+     "ad": "Servis için",
+     "satirlar": [
+      {
+       "miktar": 150.0,
+       "birim": "g",
+       "ad": "Marul (kıvırcık)",
+       "not": "yaprakları ayrılmış",
+       "besin": "marul-kivircik"
+      },
+      {
+       "miktar": 150.0,
+       "birim": "g",
+       "ad": "Domates",
+       "not": "dilimlenmiş",
+       "besin": "domates"
+      }
+     ]
+    }
+   ],
+   "malzeme_sayisi": 11,
+   "programlar": [
+    {
+     "slug": "antrenman-gunleri-iki-hafta",
+     "ad": "Ofis Öğünleri"
+    }
+   ],
+   "benzer": [
+    "sebzeli-tavuk-suyu-corbasi",
+    "sebzeli-tavuk-sote",
+    "kabakli-tavuk-kofte",
+    "firinda-sebzeli-tavuk"
+   ],
+   "gastro": {
+    "id": 506,
+    "url": "https://dadagastro.com/tarif/tavuk-sis-yogurtlu-marine-izgara"
+   }
+  },
+  "zeytinyagli-pirasa": {
+   "kategori": {
+    "slug": "zeytinyaglilar",
+    "ad": "Zeytinyağlılar"
+   },
+   "kategoriler": [
+    {
+     "slug": "zeytinyaglilar",
+     "ad": "Zeytinyağlılar"
+    },
+    {
+     "slug": "sebze",
+     "ad": "Sebze"
+    }
+   ],
+   "yayin": "28 Ekim 2026",
+   "giris": "Kendi suyunda kısık ateşte pişen pırasa, havuç ve bir avuç pirinç, sonunda eklenen limon zeytinyağlı pırasanın kendisi; aynı kalır. Değişen yağ, sebzenin payı ve şeker.",
+   "alerjen": "AB alerjen listesinden içerik yok.",
+   "ipucu": "Pırasayı yıkamadan önce halkalara kesin; toprak katların arasından daha kolay çıkar.",
+   "neler_degisti": "Zeytinyağı ½ su bardağından 3 yemek kaşığına indi. Pırasa 3 adetten 4 adede, havuç 1 adetten 2 adede çıktı; pirinç 3 yemek kaşığından 2 yemek kaşığına indi. 1 çay kaşığı şeker eklenmez; tuz 1 tatlı kaşığından 1 çay kaşığına indi.",
+   "klasik_kcal": 342,
+   "hesap_toplam": "Toplam 711 g · 4 porsiyona bölündü",
+   "hesap": [
+    {
+     "ad": "Pırasa (çiğ)",
+     "gram": "356 g",
+     "besin": "pirasa-cig",
+     "kaynak": "USDA FoodData Central",
+     "kaynak_url": "https://fdc.nal.usda.gov/fdc-app.html#/food-details/169246/nutrients"
+    },
+    {
+     "ad": "Havuç",
+     "gram": "122 g",
+     "besin": "havuc",
+     "kaynak": "TürKomp — Ulusal Gıda Kompozisyon Veri Tabanı",
+     "kaynak_url": "https://turkomp.tarimorman.gov.tr/food-havuc-turuncu-258"
+    },
+    {
+     "ad": "Pirinç (Osmancık · çiğ)",
+     "gram": "24,4 g",
+     "besin": "pirinc-cig",
+     "kaynak": "TürKomp — Ulusal Gıda Kompozisyon Veri Tabanı",
+     "kaynak_url": "https://turkomp.tarimorman.gov.tr/food-pirinc-osmancik-144"
+    },
+    {
+     "ad": "Soğan (sarı)",
+     "gram": "110 g",
+     "besin": "sogan-sari",
+     "kaynak": "TürKomp — Ulusal Gıda Kompozisyon Veri Tabanı",
+     "kaynak_url": "https://turkomp.tarimorman.gov.tr/food-sogan-sari-kuru-230"
+    },
+    {
+     "ad": "Zeytinyağı",
+     "gram": "40,5 g",
+     "besin": "zeytinyagi",
+     "kaynak": "TürKomp — Ulusal Gıda Kompozisyon Veri Tabanı",
+     "kaynak_url": "https://turkomp.tarimorman.gov.tr/food-zeytinyagi-sizma-103"
+    },
+    {
+     "ad": "Limon",
+     "gram": "58 g",
+     "besin": "limon",
+     "kaynak": "TürKomp — Ulusal Gıda Kompozisyon Veri Tabanı",
+     "kaynak_url": "https://turkomp.tarimorman.gov.tr/food-limon-interdonato-309"
+    }
+   ],
+   "hesap_not": "Porsiyon başına, malzemelerin Besin Kütüphanesi değerlerinden hesaplanmıştır (USDA, TürKomp). Karbonhidrat değerleri iki ayrı tanımdan gelir: TürKomp lifi hariç, USDA lifi dahil sayar.",
+   "malzeme_gruplari": [
+    {
+     "ad": "Yemek için",
+     "satirlar": [
+      {
+       "miktar": 356.0,
+       "birim": "g",
+       "ad": "Pırasa (çiğ)",
+       "not": "4 adet, kalın halka doğranmış",
+       "besin": "pirasa-cig"
+      },
+      {
+       "miktar": 122.0,
+       "birim": "g",
+       "ad": "Havuç",
+       "not": "2 adet, yarım ay doğranmış",
+       "besin": "havuc"
+      },
+      {
+       "miktar": 24.4,
+       "birim": "g",
+       "ad": "Pirinç (Osmancık · çiğ)",
+       "not": "2 yemek kaşığı, yıkanmış",
+       "besin": "pirinc-cig"
+      },
+      {
+       "miktar": 110.0,
+       "birim": "g",
+       "ad": "Soğan (sarı)",
+       "not": "1 adet, ince doğranmış",
+       "besin": "sogan-sari"
+      },
+      {
+       "miktar": 40.5,
+       "birim": "g",
+       "ad": "Zeytinyağı",
+       "not": "3 yemek kaşığı",
+       "besin": "zeytinyagi"
+      },
+      {
+       "miktar": 58.0,
+       "birim": "g",
+       "ad": "Limon",
+       "not": "1 adet, suyu sıkılmış",
+       "besin": "limon"
+      },
+      {
+       "miktar": null,
+       "birim": null,
+       "ad": "Sıcak su",
+       "not": "1 su bardağı",
+       "besin": null
+      },
+      {
+       "miktar": null,
+       "birim": null,
+       "ad": "Tuz",
+       "not": "1 çay kaşığı",
+       "besin": null
+      }
+     ]
+    }
+   ],
+   "malzeme_sayisi": 8,
+   "programlar": [
+    {
+     "slug": "bitkisel-dort-hafta",
+     "ad": "Akdeniz Tipi Dört Hafta"
+    }
+   ],
+   "benzer": [
+    "mercimekli-biber-dolmasi",
+    "imambayildi",
+    "bulgurlu-yaprak-sarma",
+    "zeytinyagli-lahana-sarmasi"
+   ],
+   "gastro": null
+  }
+ }
+}
