@@ -1,27 +1,48 @@
 /* Reklam önizlemesi (prototip). Canlıda misafire reklam basılmaz (config/reklam.php bayrakları kapalı); prototipte de varsayılan
    görünümde hiçbir alan basılmaz, kancalar <template data-rk-yer="KOD"> olarak durur (_src/parcalar/reklam.mjs).
    Açma yolları: ?reklam=KOD (tek alan, o alana kaydırır; virgülle birden çok kod), ?reklam=hepsi (sayfadaki tümü) ve ekranlar
-   sayfasındaki "Reklamlı görünüm" anahtarı (localStorage dd-reklam-onizleme, site genelinde tümü). Açıkken her sayfada kapatılabilir
-   bir "Reklam önizlemesi açık" şeridi durur. Canlı modülün CSS'i ve betikleri (assets/css/reklam, assets/js/reklam) yalnız önizleme
-   açıkken ve yalnız kancası olan sayfaya yüklenir. Gösterim ya da tıklama sayılmaz, hiçbir istek gönderilmez. */
+   sayfasındaki "Reklamlı görünüm" anahtarı (site genelinde tümü). Seçilen kip bu sekmenin oturumuna yazılır (sessionStorage
+   dd-reklam-mod) ve bütün iç gezinmede (panel ve hesabım dahil) korunur; kapatma ?reklam=kapali, şeritteki "Kapat" ya da anahtar.
+   Panel ve tam ekran düzeninde reklam yüzeyi yoktur: betik orada yalnız kipi okur ya da yazar, sayfaya dokunmaz. Açıkken public ve
+   üye sayfalarında kapatılabilir bir "Reklam önizlemesi açık" şeridi durur. Canlı modülün CSS'i ve betikleri (assets/css/reklam,
+   assets/js/reklam) yalnız önizleme açıkken ve yalnız kancası olan sayfaya yüklenir. Gösterim ya da tıklama sayılmaz, istek gitmez. */
 (function () {
   'use strict';
-  var ANAHTAR = 'dd-reklam-onizleme';
+  var MOD = 'dd-reklam-mod';
+  var ESKI = 'dd-reklam-onizleme'; /* eski anahtar (localStorage, site geneli): bir kez oturuma taşınır ve silinir */
   var kok = document.documentElement.dataset.kok || './';
+  /* Dinamik yüklenen reklam dosyalarının önbellek sürümü (kabuk: reklam klasörlerinin içerik özeti) */
+  var surum = document.currentScript && document.currentScript.dataset.rkSurum ? '?v=' + document.currentScript.dataset.rkSurum : '';
   var adres = new URL(location.href);
-  var param = adres.searchParams.get('reklam');
-  var genel = false;
-  try { genel = localStorage.getItem(ANAHTAR) === '1'; } catch (e) { /* depo kapalı */ }
+  var param = (adres.searchParams.get('reklam') || '').trim();
+  /* Satış vitrinindeki ölçekli önizleme çerçeveleri (?reklam=KOD) sekmenin kipini değiştirmez */
   var cerceve = window.self !== window.top;
+  var oku = function () { try { return sessionStorage.getItem(MOD) || ''; } catch (e) { return ''; } };
+  var yaz = function (v) { try { if (v) sessionStorage.setItem(MOD, v); else sessionStorage.removeItem(MOD); } catch (e) { /* depo kapalı */ } };
+  var eskiSil = function () { try { localStorage.removeItem(ESKI); } catch (e) { /* depo kapalı */ } };
 
   window.DD_REKLAM = {
-    acik: function () { try { return localStorage.getItem(ANAHTAR) === '1'; } catch (e) { return false; } },
-    ac: function () { try { localStorage.setItem(ANAHTAR, '1'); } catch (e) { /* yok say */ } },
-    kapat: function () { try { localStorage.removeItem(ANAHTAR); } catch (e) { /* yok say */ } },
+    acik: function () { return !!oku(); },
+    ac: function () { yaz('hepsi'); eskiSil(); },
+    kapat: function () { yaz(''); eskiSil(); },
   };
 
-  /* Önizleme kapalıysa sayfaya tek bayt dokunulmaz */
-  if (!param && !genel) return;
+  if (param === 'kapali') {
+    if (cerceve) return;
+    window.DD_REKLAM.kapat();
+    adres.searchParams.delete('reklam');
+    history.replaceState(history.state, '', adres.pathname + adres.search + adres.hash);
+    return;
+  }
+  if (!cerceve) {
+    try { if (localStorage.getItem(ESKI) === '1') { if (!oku()) yaz('hepsi'); eskiSil(); } } catch (e) { /* depo kapalı */ }
+    if (param) yaz(param);
+  }
+  /* Kip: adresteki parametre, yoksa bu sekmenin oturumu. Tek alana kaydırma yalnız adresten gelince yapılır. */
+  var urlden = !!param;
+  param = param || (cerceve ? '' : oku());
+  /* Önizleme kapalıysa ya da sayfanın reklam yüzeyi yoksa (panel, tam ekran) sayfaya tek bayt dokunulmaz */
+  if (!param || !document.querySelector('[data-site-header]')) return;
   var hepsi = !param || param === 'hepsi';
   var istenen = hepsi ? null : param.split(',').map(function (s) { return s.trim(); }).filter(Boolean);
   var kancalar = [].slice.call(document.querySelectorAll('template[data-rk-yer]'));
@@ -38,7 +59,7 @@
     var s = document.createElement('div');
     s.className = 'rk-onizleme-serit';
     s.setAttribute('role', 'status');
-    var ne = hepsi ? (secili.length ? 'Reklam önizlemesi açık' : 'Reklam önizlemesi açık · bu sayfada reklam alanı yok') : 'Reklam önizlemesi açık · ' + istenen.join(', ');
+    var ne = hepsi ? (secili.length ? 'Reklam önizlemesi açık' : 'Reklam önizlemesi açık · bu sayfada reklam alanı yok') : 'Reklam önizlemesi açık · ' + istenen.join(', ') + (secili.length ? '' : ' · bu sayfada yok');
     s.innerHTML = '<div class="kap"><i class="fa-solid fa-rectangle-ad" aria-hidden="true"></i><span>' + ne + '</span><span class="rk-onizleme-not">prototip örneği, kurgu markalar</span><button type="button" class="dugme hayalet kucuk" data-rk-onizleme-kapat>Kapat</button></div>';
     document.body.prepend(s);
     /* Şerit sabit başlığın hemen altında, küçük bir hap olarak durur */
@@ -58,7 +79,7 @@
     return new Promise(function (tamam) {
       var l = document.createElement('link');
       l.rel = 'stylesheet';
-      l.href = kok + 'assets/css/reklam/' + ad + '.css';
+      l.href = kok + 'assets/css/reklam/' + ad + '.css' + surum;
       l.onload = l.onerror = function () { tamam(); };
       document.head.appendChild(l);
     });
@@ -66,7 +87,7 @@
   function betik(ad, modul) {
     return new Promise(function (tamam) {
       var s = document.createElement('script');
-      s.src = kok + 'assets/js/reklam/' + ad + '.js';
+      s.src = kok + 'assets/js/reklam/' + ad + '.js' + surum;
       if (modul) s.type = 'module';
       s.onload = s.onerror = function () { tamam(); };
       document.body.appendChild(s);
@@ -164,7 +185,7 @@
 
   /* Tek alan: o alana kaydır; menü alanlarında ilk mega menü açılır */
   function odakla() {
-    if (hepsi) return;
+    if (hepsi || !urlden) return;
     var kod = istenen[0];
     var el = document.getElementById('rk-' + kod);
     if (!el) return;
