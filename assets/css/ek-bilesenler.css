@@ -3724,3 +3724,11 @@ body:has(.cookie-banner.show),body.cerez-acik{padding-bottom:var(--cerez-boy,0px
 .sohbet-ek-resim{display:block;width:220px;max-width:100%;aspect-ratio:4/3;object-fit:cover;border-radius:var(--yuvarlak-sm);background:var(--zemin-2)}
 .sohbet-ek.gorsel.yok .sohbet-ek-resim{display:none}
 /* --- sr-saglik sonu --- */
+
+/* ── GS1 (genel revize S1): form yardım satırı ve kart alt boşluğu, Gastro kanonu.
+   Kanon: alan ile yardım satırı arası 8 px (.alan-yardim / panelde --kit-bagli), yardımdan sonraki alana alanın kendi alt boşluğu
+   (public 22, panel --kit-grup 16), ikon ilk satırla hizalı (margin-top 2). Panelde `.yetkili .panel-sayfa p{margin:0 0 16px}` daha özgül
+   olduğu için <p class="alan-yardim"> üstte 0, altta 16 alıyordu: yardım alana yapışıyor, kartın son alanında alt boşluk 16 px uzuyordu.
+   Kart gövdesinde son görünen öğe alt boşluk taşımaz (kanon `.yetkili .kart-govde > :last-child`; gizli kardeşler ve public kartlar dahil). */
+.yetkili .panel-sayfa .alan-yardim{margin-top:var(--kit-bagli);margin-bottom:0}
+.kart-govde > :nth-last-child(1 of :not([hidden],template,script)){margin-bottom:0}
