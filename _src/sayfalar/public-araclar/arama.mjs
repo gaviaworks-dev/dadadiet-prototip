@@ -1,10 +1,10 @@
-// Arama: GET ?q= sonuç kabuğu. Dizin derlemede sayfaya gömülür, besin DD_VERI'den okunur.
+// Arama: GET ?q= sonuç kabuğu. Dizin derlemede sayfaya gömülür, besin ve tarif DD_VERI'den okunur.
 import { K, JS, kirinti, ikon, jsonGom, DETAY } from '../../parcalar/public-araclar/ortak.mjs';
 import { reklamYeri as rk } from '../../parcalar/reklam.mjs';
 const ustSerit = (...k) => k.map((x) => rk(x, { tur: 'bant', kap: false })).join('');
 const sonSerit = (...k) => k.map((x) => rk(x, { tur: 'bant', konum: 'alt' })).join('');
 
-const SEKMELER = [['tumu', 'Tümü', 'fa-layer-group'], ['hesap', 'Araçlar', 'fa-calculator'], ['besin', 'Besinler', 'fa-leaf'], ['program', 'Programlar', 'fa-list-check'], ['rehber', 'Rehber', 'fa-book-open'], ['diyetisyen', 'Diyetisyenler', 'fa-user-doctor']];
+const SEKMELER = [['tumu', 'Tümü', 'fa-layer-group'], ['hesap', 'Araçlar', 'fa-calculator'], ['besin', 'Besinler', 'fa-leaf'], ['program', 'Programlar', 'fa-list-check'], ['tarif', 'Tarifler', 'fa-utensils'], ['rehber', 'Rehber', 'fa-book-open'], ['diyetisyen', 'Diyetisyenler', 'fa-user-doctor']];
 /* Boş sonuçta türün kendi listesi: aranan şey o listede süzgeçle bulunur */
 const TURLER = [['Besin Kütüphanesi', 'besin-kutuphanesi/', 'fa-leaf'], ['Hesaplayıcılar', 'hesaplayicilar/', 'fa-calculator'], ['Sağlık Testleri', 'saglik-testleri/', 'fa-clipboard-question'], ['Programlar', 'programlar/', 'fa-list-check'], ['İpuçları & Püf Noktaları', 'ipuclari-ve-puf-noktalari/', 'fa-lightbulb'], ['Kaç Kalori?', 'kac-kalori/', 'fa-fire'], ['Diyetisyenler', 'diyetisyenler/', 'fa-user-doctor']];
 const POPULER = ['avokado', 'kalori', 'akdeniz', 'kilo', 'çorba', 'protein', 'aralıklı oruç', 'diyetisyen'];
@@ -33,6 +33,6 @@ ${kirinti(['Arama'])}<span class="ust-etiket">${ikon('fa-seedling')} Dada Diet �
 <section class="sonuc-bant" id="aramaSonuc" hidden aria-live="polite"><div class="kap"><p class="sonuc-not" id="aramaNot"></p><div class="sonuc-izgara" id="aramaIzgara"></div><div class="bos-durum kart-ici" id="aramaBos" hidden><span class="bos-ikon">${ikon('fa-magnifying-glass')}</span><h3>Bu aramada sonuç yok</h3><p>Yazımı kontrol et ya da daha genel bir kelime dene.</p><div class="bos-oneri"><span class="alan-etiket">Bunları dene</span><div class="cipler">${POPULER.slice(0, 6).map((p) => `<a class="cip hap" href="${K}arama/?q=${encodeURIComponent(p)}">${p}</a>`).join('')}</div><span class="alan-etiket">Türüne göre göz at</span><div class="cipler">${TURLER.map(([a, h, i]) => `<a class="cip" href="${K}${h}">${ikon(i)} ${a}</a>`).join('')}</div></div></div></div></section>
 <div class="uyari-serit"><div class="kap">${ikon('fa-circle-info')}<p>Arama sonuçları genel bilgi amaçlıdır; kişiye özel tıbbi ya da beslenme önerisi değildir.</p></div></div>
 ${sonSerit('AR-B1-END')}
-${jsonGom('aramaDizin', { dizin, besinDetay: DETAY.besin })}`;
+${jsonGom('aramaDizin', { dizin, besinDetay: DETAY.besin, tarifDetay: 'tarif/' })}`;
   return [{ yol: 'arama', meta: { baslik: 'Arama', duzen: 'public', hero: true, js: [JS, 'assets/js/tercih-uyum.js', 'assets/js/sayfa/public-araclar-arama.js'] }, govde }];
 };

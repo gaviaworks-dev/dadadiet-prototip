@@ -23,7 +23,7 @@ const hafta = `<div class="yigin">
 ${kart({
     ikon: 'fa-calendar-week', baslik: '7 Günlük Öğün Dökümü', metin: 'Bugünün satırı işaretli. Porsiyonlar plan kalemlerinin ölçüsüyle verilir.', bosluksuz: true,
     govde: '<ol class="hafta-plan" id="bpHafta" aria-label="Haftanın günlük öğünleri"></ol>',
-    alt: `${dugme('Menüyü yazdır', { ikon: 'fa-print', ek: ' id="bpYazdir"' })}${dugme('PDF indir', { ikon: 'fa-file-pdf', ek: ' id="bpPdf"' })}${dugme('Alışveriş listesi oluştur', { sinif: 'birincil', ikon: 'fa-basket-shopping', ek: ' data-ac="#bpAlisveris"' })}${rk('TD-LISTE-PARTNER')}`,
+    alt: `${dugme('Menüyü yazdır', { ikon: 'fa-print', ek: ' id="bpYazdir"' })}${dugme('PDF indir', { ikon: 'fa-file-pdf', ek: ' id="bpPdf"' })}${dugme('Alışveriş listesi oluştur', { sinif: 'birincil', ikon: 'fa-basket-shopping', ek: ' data-ac="#bpAlisveris"' })}`,
   })}
 </div>`;
 
@@ -63,7 +63,7 @@ const sonEk = modal({
   ayak: dugme('Vazgeç', { ek: ' data-kapat' }) + dugme('Gönder', { sinif: 'birincil', tur: 'submit' }),
 }) + modal({
   id: 'bpAlisveris', baslik: 'Haftalık Alışveriş Listen',
-  govde: '<p class="alan-yardim"><span id="bpAlisverisMetin"></span> <span class="durum-hapi bekleyen" id="bpAlisverisSayac"></span></p><div class="kalem-liste" id="bpAlisverisListe"></div><div class="bilgi-notu"><i class="fa-solid fa-cart-shopping" aria-hidden="true"></i><p><b>Dada Market (prototip örneği):</b> sepet simgesine bastığın malzemeler anlaşmalı market sepetine gider. Bu prototipte gerçek mağaza, fiyat ya da ödeme yok; sepetin yalnız bu tarayıcıda tutulur. <span id="bpSepetSayi"></span> <button class="dugme hayalet kucuk" type="button" id="bpSepetGor"><i class="fa-solid fa-cart-shopping" aria-hidden="true"></i> Sepeti gör</button></p></div>' + rk(['AL-P1', 'AL-P2', 'AL-P3', 'AL-P4']) + rk('TD-SHOP', { tur: 'pano' }) + rk('TD-SIPARIS-YS') + rk('TD-SIPARIS-A101'),
+  govde: '<p class="alan-yardim"><span id="bpAlisverisMetin"></span> <span class="durum-hapi bekleyen" id="bpAlisverisSayac"></span></p><div class="kalem-liste" id="bpAlisverisListe"></div><div class="bilgi-notu"><i class="fa-solid fa-cart-shopping" aria-hidden="true"></i><p><b>Dada Market (prototip örneği):</b> sepet simgesine bastığın malzemeler anlaşmalı market sepetine gider. Bu prototipte gerçek mağaza, fiyat ya da ödeme yok; sepetin yalnız bu tarayıcıda tutulur. <span id="bpSepetSayi"></span> <button class="dugme hayalet kucuk" type="button" id="bpSepetGor"><i class="fa-solid fa-cart-shopping" aria-hidden="true"></i> Sepeti gör</button></p></div>' + rk(['AL-P1', 'AL-P2', 'AL-P3', 'AL-P4']),
   ayak: dugme('Kapat', { ek: ' data-kapat' }) + dugme('Hepsini alındı işaretle', { sinif: 'birincil', ikon: 'fa-check-double', ek: ' id="bpAlisverisHepsi"' }),
 }) + modal({
   id: 'bpSepet', baslik: 'Dada Market Sepetin',

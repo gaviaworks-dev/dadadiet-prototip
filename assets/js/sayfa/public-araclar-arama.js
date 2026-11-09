@@ -12,7 +12,8 @@
   const aykiri = (k) => k.tur === 'program' && !TU.programUygunMu(k);
   const gizli = V.dizin.filter(aykiri);
   const dizin = V.dizin.filter((k) => !aykiri(k)).map((k) => (k.tur === 'program' ? { ...k, metin: TU.aciklama(k.metin, k) } : k)).concat(
-    (veri.besinler ? veri.besinler.besinler : []).map((b) => ({ tur: 'besin', ad: b.ad, metin: DD.bicim.kcal(b.kcal) + ' / 100 g · ' + b.kategori, href: V.besinDetay, ikon: 'fa-leaf', etiket: 'Besin' })));
+    (veri.besinler ? veri.besinler.besinler : []).map((b) => ({ tur: 'besin', ad: b.ad, metin: DD.bicim.kcal(b.kcal) + ' / 100 g · ' + b.kategori, href: V.besinDetay, ikon: 'fa-leaf', etiket: 'Besin' })),
+    (veri.tarifler ? veri.tarifler.tarifler : []).map((t) => ({ tur: 'tarif', ad: t.ad, metin: t.ozet, href: V.tarifDetay + t.slug + '/', gorsel: t.gorsel_dosya, etiket: 'Tarif' })));
 
   const eslesen = (sorgu) => {
     const kelimeler = kucult(sorgu).split(/\s+/).filter(Boolean);

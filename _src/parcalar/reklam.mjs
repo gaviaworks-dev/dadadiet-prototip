@@ -49,15 +49,20 @@ const ATAMA = {
   'PD-END': 'ornek-su', 'PD-R1': 'ornek-su', 'PD-END-END': 'demo-spor', 'TD-SB1': 'ornek-sut',
   'PL-N1': 'ornek-su', 'TL-M1': 'ornek-glutensiz', 'TL-M2': 'demo-spor', 'PL-B1': 'demo-market', 'MG-KONU': 'ornek-mutfak', 'PL-B1-END': 'ornek-su', 'MG-KONU-END': 'ornek-sut',
   'KT-HERO': 'ornek-glutensiz', 'KT-M1': 'ornek-sut', 'SD-B1': 'demo-market', 'SD-B1-END': 'ornek-su',
-  'AS-SEF-2': 'demo-spor', 'AS-CHEF': 'ornek-glutensiz', 'ana-sayfa.marka-sef-karti': 'ornek-sut', 'AS-DAY': 'ornek-su', 'HD-WEEK': 'ornek-glutensiz', 'HD-MEGA': 'ornek-sut', 'menu.secki-hucresi': 'ornek-glutensiz',
+  'AS-SEF-2': 'demo-spor', 'AS-CHEF': 'ornek-glutensiz', 'ana-sayfa.marka-sef-karti': 'ornek-glutensiz', 'AS-DAY': 'ornek-su', 'HD-WEEK': 'ornek-glutensiz', 'HD-MEGA': 'ornek-sut', 'menu.secki-hucresi': 'ornek-glutensiz',
   'STD-ALTBAR': 'demo-market', 'STD-SIDE': 'demo-spor', 'STD-SIDE-LEFT': 'ornek-su', 'STD-POPUP': 'ornek-glutensiz', 'STD-VIDEO': 'demo-spor',
 };
+/* kod: katalog kodu ya da doğrudan kurgu marka anahtarı (marka yüzeyleri, ör. 'ornek-glutensiz') */
 export function kreatif(kod) {
-  let slug = ATAMA[kod];
+  let slug = MARKALAR[kod] ? kod : ATAMA[kod];
   if (!slug) { let h = 0; for (const c of kod) h = (h * 31 + c.charCodeAt(0)) >>> 0; slug = SIRA[h % SIRA.length]; }
   const m = MARKALAR[slug];
   return { slug, ...m, renkSinif: 'rk-renk-' + m.renk, cta: m.tur === 'urun' ? 'İncele' : 'Keşfet', logo: `${K}assets/img/reklam/demo/${slug}.svg`, amblem: `${K}assets/img/reklam/demo/${slug}-amblem.svg`, resim: `${K}assets/img/${m.gorsel}` };
 }
+
+/* Marka yüzeyleri (örnek sayfalar, _src/sayfalar/public-beslenme/marka.mjs): seçki hücresi seçkiye, marka diyetisyen kartı profile gider (iç bağ, canlıdaki gibi) */
+const SECKI_YOLU = 'tarifler/seckiler/ornek-glutensiz-ile-glutensiz-sofralar/';
+const PROFIL_YOLU = 'markalar/ornek-glutensiz/';
 
 /* Ortak parçalar */
 const ORNEK = '<span class="rk-ornek"> · prototip örneği</span>';
@@ -100,7 +105,7 @@ function gununSponsoru(kod) {
 function menu(kod) {
   const k = kreatif(kod);
   const baslik = kod === 'menu.secki-hucresi' ? `${k.marka} Seçkisi` : k.baslik;
-  return `<a ${kok(kod, null, `rk-slot rk-menu${kod === 'menu.secki-hucresi' ? ' rk-secki-menu' : ''}`)} ${bag(kod)} aria-label="Sponsorlu · ${kac(k.marka)}" title="${kac(baslik)}"><span class="rk-menu-logo">${amblem(k)}</span><span><b>${baslik}</b><small class="rk-etiket">Sponsorlu${ORNEK}</small></span></a>`;
+  return `<a ${kok(kod, null, `rk-slot rk-menu${kod === 'menu.secki-hucresi' ? ' rk-secki-menu' : ''}`)} ${kod === 'menu.secki-hucresi' ? `href="${K}${SECKI_YOLU}" rel="sponsored"` : bag(kod)} aria-label="Sponsorlu · ${kac(k.marka)}" title="${kac(baslik)}"><span class="rk-menu-logo">${amblem(k)}</span><span><b>${baslik}</b><small class="rk-etiket">Sponsorlu${ORNEK}</small></span></a>`;
 }
 // x-reklam.hafta (HD-WEEK): organik vitrin kartının yerine
 function hafta(kod) {
@@ -126,7 +131,7 @@ function nativeKart(kod, tur) {
 // x-reklam.slot bicim=kart-sef (AS-SEF-*, AS-CHEF, marka diyetisyen kartı): ana sayfa uzman listesindeki satırın anatomisi
 function sefKart(kod) {
   const k = kreatif(kod);
-  return `<div ${kok(kod, k, `satir-baglanti diet-doc rk-slot rk-kucuk-kart${kod === 'ana-sayfa.marka-sef-karti' ? ' rk-marka-sef' : ''} ${k.renkSinif}`)}><span class="av rk-sef-logo kisi-avatar" aria-hidden="true">${amblem(k)}</span><span class="di"><b>${k.marka}</b><span class="rk-etiket">Sponsorlu${ORNEK}</span></span><span class="rk-sef-eylem"><a class="tag rk-sef-cta" ${bag(kod)}>${k.cta}</a></span></div>`;
+  return `<div ${kok(kod, k, `satir-baglanti diet-doc rk-slot rk-kucuk-kart${kod === 'ana-sayfa.marka-sef-karti' ? ' rk-marka-sef' : ''} ${k.renkSinif}`)}><span class="av rk-sef-logo kisi-avatar" aria-hidden="true">${amblem(k)}</span><span class="di"><b>${k.marka}</b><span class="rk-etiket">Sponsorlu${ORNEK}</span></span><span class="rk-sef-eylem"><a class="tag rk-sef-cta" ${kod === 'ana-sayfa.marka-sef-karti' ? `href="${K}${PROFIL_YOLU}" rel="sponsored"` : bag(kod)}>${kod === 'ana-sayfa.marka-sef-karti' ? 'Keşfet' : k.cta}</a></span></div>`;
 }
 // Ana sayfa kategori ve video kartları (AS-CAT, AS-VID): komşu kartın anatomisi
 function kucukKart(kod, tur) {
@@ -146,12 +151,27 @@ function besinSatiri(kod) {
   const k = kreatif(kod);
   return `<a ${kok(kod, null, `veri-satir food-row rk-dolap-kart rk-slot ${k.renkSinif}`)} ${bag(kod)} aria-label="Sponsorlu ürün · ${kac(k.baslik)} · ${k.cta}"><span class="ikon-kutu fr-ico rk-dolap-marka">${amblem(k)}</span><span class="veri-satir-ad fr-name"><b>${k.baslik}</b>${etiket()}</span><span class="veri-satir-sutun fr-m"></span><span class="veri-satir-sutun fr-m"></span><span class="veri-satir-kalori fr-kcal">${k.cta}</span>${ik('fa-chevron-right veri-satir-ok fr-go')}</a>`;
 }
+// x-reklam.slot bicim=filtre (TL-FILTER, KT-FILTER): süzgeç kartı, şeridin anatomisiyle
+function filtre(kod) {
+  const k = kreatif(kod);
+  return `<aside ${kok(kod, k, `fct rk-slot rk-filtre ${k.renkSinif} rk-gorsel-${k.tur}`)}>${etiket()}<a class="rk-serit-bag" ${bag(kod)}><img class="rk-serit-urun" src="${k.resim}" alt="" loading="lazy"><span class="rk-zemin-perde" aria-hidden="true"></span><span class="rk-serit-kimlik">${logo(k)}</span><span class="rk-serit-metin"><b>${k.baslik}</b><span>${k.metin}</span></span><span class="rk-serit-cta">${k.cta} ${ik('fa-arrow-right')}</span></a></aside>`;
+}
+// x-reklam.slot bicim=tema (TL-THEME): alt kategori şeridinde marka kalemi
+function tema(kod) {
+  const k = kreatif(kod);
+  return `<a ${kok(kod, null, `rk-slot subcat rk-tema ${k.renkSinif}`)} ${bag(kod)} aria-label="Sponsorlu · ${kac(k.marka)}" title="${kac(k.baslik)}"><span class="rk-menu-logo">${amblem(k)}</span><span><b>${k.baslik}</b><span class="rk-etiket">Sponsorlu${ORNEK}</span></span></a>`;
+}
+// x-reklam.pisirme (CM-TOP): adımların üstünde kapatılabilir şerit
+function pisirme(kod) {
+  const k = kreatif(kod);
+  return `<aside ${kok(kod, null, `rk-slot rk-pisirme ${k.renkSinif}`)}><span class="rk-pisirme-logo">${logo(k)}</span><span class="rk-pisirme-metin">${etiket()}<b>${k.baslik}</b></span><a ${bag(kod)}>${k.cta} →</a><button type="button" aria-label="Reklamı kapat" data-rk-kapat>×</button></aside>`;
+}
 // x-reklam.malzeme (TD-ING): malzeme satırı sponsoru + "Sipariş Et" penceresi
 function malzeme(kod) {
   const k = kreatif(kod), id = 'rk-siparis-' + kod.toLowerCase();
-  const kanal = (kk, alt) => `<a class="rk-siparis-kanal rk-siparis-partner rk-slot ${kk.renkSinif}" ${bag(kod)}><span class="rk-siparis-logo">${logo(kk)}</span><span>${kk.marka}<small>${alt}</small></span>${ik('fa-arrow-up-right-from-square')}</a>`;
-  /* Prototipte malzeme listesi yok (K13.2): sponsor satırı Besin Kütüphanesi satırının içinde, canlının .rk-malzeme kabıyla */
-  return `<div ${kok(kod, k, 'veri-satir rk-malzeme rk-slot')}><div class="ing-sponsor sp-line"><span class="sp-logo rk-harf" aria-hidden="true">${amblem(k)}</span><div class="sp-info"><b title="${kac(k.baslik)}">${k.baslik}</b><span>${k.metin}</span>${etiket()}</div><div class="rk-malzeme-sag"><span class="rk-malzeme-urun" aria-hidden="true"><img class="rk-logo" src="${k.resim}" alt="" loading="lazy"></span><button class="sp-go" type="button" data-rk-siparis-ac aria-haspopup="dialog" aria-expanded="false" aria-controls="${id}">Sipariş Et ${ik('fa-arrow-right')}</button></div><dialog id="${id}" class="rk-siparis-kart ${k.renkSinif}" aria-labelledby="${id}-baslik"><div class="rk-siparis-baslik"><div><b id="${id}-baslik">Hemen sipariş ver</b><small>Teslimat kanalı seç</small></div><button type="button" data-rk-siparis-kapat aria-label="Sipariş seçeneklerini kapat"><svg width="12" height="12" viewBox="0 0 16 16" aria-hidden="true"><path d="M4 4l8 8M12 4l-8 8" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg></button></div>${kanal(kreatif('AL-P1'), 'prototip örneği')}${kanal(kreatif('AL-P2'), 'hızlı teslimat · prototip örneği')}</dialog></div></div>`;
+  const kanal = (p, kk, alt) => `<a class="rk-siparis-kanal rk-siparis-partner rk-slot ${kk.renkSinif}" id="rk-${p}" data-rk-slot="${p}" ${bag(p)}><span class="rk-siparis-logo">${logo(kk)}</span><span>${kk.marka}<small>${alt}</small></span>${ik('fa-arrow-up-right-from-square')}</a>`;
+  /* Sağlıklı Tarif malzeme listesinde satır sponsoru; "Sipariş Et" penceresinde canlının üç partneri (x-reklam.malzeme :partnerler) */
+  return `<div ${kok(kod, k, 'veri-satir rk-malzeme rk-slot')}><div class="ing-sponsor sp-line"><span class="sp-logo rk-harf" aria-hidden="true">${amblem(k)}</span><div class="sp-info"><b title="${kac(k.baslik)}">${k.baslik}</b><span>${k.metin}</span>${etiket()}</div><div class="rk-malzeme-sag"><span class="rk-malzeme-urun" aria-hidden="true"><img class="rk-logo" src="${k.resim}" alt="" loading="lazy"></span><button class="sp-go" type="button" data-rk-siparis-ac aria-haspopup="dialog" aria-expanded="false" aria-controls="${id}">Sipariş Et ${ik('fa-arrow-right')}</button></div><dialog id="${id}" class="rk-siparis-kart ${k.renkSinif}" aria-labelledby="${id}-baslik"><div class="rk-siparis-baslik"><div><b id="${id}-baslik">Hemen sipariş ver</b><small>Teslimat kanalı seç</small></div><button type="button" data-rk-siparis-kapat aria-label="Sipariş seçeneklerini kapat"><svg width="12" height="12" viewBox="0 0 16 16" aria-hidden="true"><path d="M4 4l8 8M12 4l-8 8" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg></button></div>${['TD-LISTE-PARTNER', 'TD-SIPARIS-YS', 'TD-SIPARIS-A101'].map((p) => kanal(p, kreatif(p), 'Sponsorlu · prototip örneği')).join('')}</dialog></div></div>`;
 }
 // x-reklam.nokta-katmani + foto-etiket (TD-PHOTO): fotoğraf üstü nokta ve açılır kart
 function fotoNokta(kod, { x = 500, y = 500, mx, my, gorsel } = {}) {
@@ -217,8 +237,12 @@ export function reklamHtml(kod, s = {}) {
   const f = a.format;
   if (s.tur === 'bant') return `<div class="rk-yayilim-alan${s.kap === false ? '' : ' kap'} rk-yayilim-bant" data-rk-yayilim="${kac(a.aile)}" data-rk-konum="${s.konum ?? 'ust'}" aria-label="Sponsorlu içerik">${serit(kod)}</div>`;
   if (s.tur === 'yan') return `<div class="rk-yayilim-alan rk-yayilim-side" data-rk-yayilim="${kac(a.aile)}" data-rk-konum="sidebar" aria-label="Sponsorlu içerik">${rectangle(kod)}</div>`;
+  if (s.tur === 'liste-sira') return `<div class="rk-liste-sira" data-rk-yer-kap="${kac(kod)}">${serit(kod)}</div>`;
   let ic;
-  if (kod === 'AS-DAY') ic = gununSponsoru(kod);
+  if (s.tur === 'filtre') ic = filtre(kod);
+  else if (s.tur === 'tema') ic = tema(kod);
+  else if (s.tur === 'pisirme') ic = pisirme(kod);
+  else if (kod === 'AS-DAY') ic = gununSponsoru(kod);
   else if (kod === 'HD-WEEK') ic = hafta(kod);
   else if (kod === 'HD-DOLAP-SPON') ic = dolapMenu(kod);
   else if (kod === 'HD-MEGA' || kod === 'menu.secki-hucresi') ic = menu(kod);

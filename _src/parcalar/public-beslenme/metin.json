@@ -2494,7 +2494,7 @@
    {
     "kod": "urun",
     "ad": "Ürün markası",
-    "aciklama": "Gıda ve malzeme markaları için: ürünün listede ve besin kütüphanesinde kendisi olarak görünür; üst pakette markanın seçkisi ve profil sayfası eklenir.",
+    "aciklama": "Gıda ve malzeme markaları için: ürünün tarifte, listede ve besin kütüphanesinde kendisi olarak görünür; üst pakette markanın seçkisi ve profil sayfası eklenir.",
     "paketler": [
      {
       "ad": "Basic",
@@ -2503,15 +2503,15 @@
       "sayi": "3 alan · 6 ay",
       "kalemler": [
        {
-        "ad": "İpuçları sayfası · Kenar kutusu 1",
+        "ad": "Sağlıklı Tarif sayfası · Kenar kutusu 1",
         "pay": "%25"
        },
        {
-        "ad": "İpuçları listesi · Liste kartı 1",
+        "ad": "Sağlıklı Tarifler listesi · Liste kartı 1",
         "pay": "%25"
        },
        {
-        "ad": "Program sayfası · Liste kartı 1",
+        "ad": "Tarif kategorisi sayfası · Liste kartı 1",
         "pay": "%25"
        }
       ],
@@ -2524,23 +2524,23 @@
       "sayi": "6 alan · 6 ay",
       "kalemler": [
        {
-        "ad": "İpuçları sayfası · Kenar kutusu 1",
+        "ad": "Sağlıklı Tarif sayfası · Kenar kutusu 1",
         "pay": "%50"
        },
        {
-        "ad": "İpuçları listesi · Liste kartı 1",
+        "ad": "Sağlıklı Tarifler listesi · Liste kartı 1",
         "pay": "%50"
        },
        {
-        "ad": "Program sayfası · Liste kartı 1",
+        "ad": "Tarif kategorisi sayfası · Liste kartı 1",
         "pay": "%50"
        },
        {
-        "ad": "Besin Kütüphanesi · Besin satırı",
+        "ad": "Sağlıklı Tarif sayfası · Malzeme satırı",
         "pay": "%100"
        },
        {
-        "ad": "Besin Kütüphanesi · Kapak noktası",
+        "ad": "Sağlıklı Tarif sayfası · Kapak noktası",
         "pay": "%100"
        },
        {
@@ -2557,23 +2557,23 @@
       "sayi": "12 alan · içerik üretimi · 6 ay",
       "kalemler": [
        {
-        "ad": "İpuçları sayfası · Kenar kutusu 1",
+        "ad": "Sağlıklı Tarif sayfası · Kenar kutusu 1",
         "pay": "%100"
        },
        {
-        "ad": "İpuçları listesi · Liste kartı 1",
+        "ad": "Sağlıklı Tarifler listesi · Liste kartı 1",
         "pay": "%100"
        },
        {
-        "ad": "Program sayfası · Liste kartı 1",
+        "ad": "Tarif kategorisi sayfası · Liste kartı 1",
         "pay": "%100"
        },
        {
-        "ad": "Besin Kütüphanesi · Besin satırı",
+        "ad": "Sağlıklı Tarif sayfası · Malzeme satırı",
         "pay": "%100"
        },
        {
-        "ad": "Besin Kütüphanesi · Kapak noktası",
+        "ad": "Sağlıklı Tarif sayfası · Kapak noktası",
         "pay": "%100"
        },
        {
@@ -2581,7 +2581,7 @@
         "pay": "%100"
        },
        {
-        "ad": "Program sayfası · \"… sunar\" hapı",
+        "ad": "Tarif kategorisi sayfası · \"… sunar\" hapı",
         "pay": "%100"
        },
        {
@@ -2620,7 +2620,7 @@
    {
     "kod": "kanal",
     "ad": "Kanal markası",
-    "aciklama": "Market ve teslimat markaları için: malzemeyi sipariş edilebilir yapan kanal; alışveriş listesindeki \"Sipariş et\" bölümünde senin adın.",
+    "aciklama": "Market ve teslimat markaları için: malzemeyi sipariş edilebilir yapan kanal; tarifteki \"Sipariş et\" bölümünde ve alışveriş listesinde senin adın.",
     "paketler": [
      {
       "ad": "Basic",
@@ -2629,7 +2629,7 @@
       "sayi": "2 alan · 6 ay",
       "kalemler": [
        {
-        "ad": "Alışveriş listesi · Sipariş et 2",
+        "ad": "Sağlıklı Tarif sayfası · Sipariş et 2",
         "pay": "%100"
        },
        {
@@ -2646,7 +2646,7 @@
       "sayi": "4 alan · 6 ay",
       "kalemler": [
        {
-        "ad": "Alışveriş listesi · Sipariş et 1",
+        "ad": "Sağlıklı Tarif sayfası · Sipariş et 1",
         "pay": "%100"
        },
        {
@@ -2654,11 +2654,11 @@
         "pay": "%100"
        },
        {
-        "ad": "Alışveriş listesi · Listeye ekleme partneri",
+        "ad": "Sağlıklı Tarif sayfası · Listeye ekleme partneri",
         "pay": "%100"
        },
        {
-        "ad": "Alışveriş listesi · Market panosu",
+        "ad": "Sağlıklı Tarif sayfası · Market panosu",
         "pay": "%50"
        }
       ],
@@ -2671,7 +2671,7 @@
       "sayi": "7 alan · 6 ay",
       "kalemler": [
        {
-        "ad": "Alışveriş listesi · Sipariş et 1",
+        "ad": "Sağlıklı Tarif sayfası · Sipariş et 1",
         "pay": "%100"
        },
        {
@@ -2679,11 +2679,11 @@
         "pay": "%100"
        },
        {
-        "ad": "Alışveriş listesi · Listeye ekleme partneri",
+        "ad": "Sağlıklı Tarif sayfası · Listeye ekleme partneri",
         "pay": "%100"
        },
        {
-        "ad": "Alışveriş listesi · Market panosu",
+        "ad": "Sağlıklı Tarif sayfası · Market panosu",
         "pay": "%100"
        },
        {
@@ -2707,7 +2707,7 @@
    {
     "kod": "ev",
     "ad": "Ev ekipmanı",
-    "aciklama": "Mutfak ve spor ekipmanı markaları için: ürün hesaplayıcı sonucunda, Kaç Kalori porsiyon tablosunda, besin kartında ve klinik koridorunda.",
+    "aciklama": "Mutfak ve spor ekipmanı markaları için: ürün hesaplayıcı sonucunda, Kaç Kalori porsiyon tablosunda, tarif fotoğrafında ve klinik koridorunda.",
     "paketler": [
      {
       "ad": "Basic",
@@ -2720,7 +2720,7 @@
         "pay": "%100"
        },
        {
-        "ad": "İpuçları sayfası · Kenar kutusu 2",
+        "ad": "Sağlıklı Tarif sayfası · Kenar kutusu 2",
         "pay": "%25"
        }
       ],
@@ -2737,7 +2737,7 @@
         "pay": "%100"
        },
        {
-        "ad": "İpuçları sayfası · Kenar kutusu 2",
+        "ad": "Sağlıklı Tarif sayfası · Kenar kutusu 2",
         "pay": "%50"
        },
        {
@@ -2749,7 +2749,7 @@
         "pay": "%100"
        },
        {
-        "ad": "Besin Kütüphanesi · Kapak noktası",
+        "ad": "Sağlıklı Tarif sayfası · Kapak noktası",
         "pay": "%100"
        }
       ],
@@ -2766,7 +2766,7 @@
         "pay": "%100"
        },
        {
-        "ad": "İpuçları sayfası · Kenar kutusu 2",
+        "ad": "Sağlıklı Tarif sayfası · Kenar kutusu 2",
         "pay": "%100"
        },
        {
@@ -2778,7 +2778,7 @@
         "pay": "%100"
        },
        {
-        "ad": "Besin Kütüphanesi · Kapak noktası",
+        "ad": "Sağlıklı Tarif sayfası · Kapak noktası",
         "pay": "%100"
        },
        {
@@ -2806,7 +2806,7 @@
    {
     "kod": "icerik",
     "ad": "Genel içerik",
-    "aciklama": "Marka içeriği için: her ay markan için beslenme içeriği üretilir ve listede öne çıkar; üst paketlerde seçki, profil sayfası ve dönem sonu raporu eklenir.",
+    "aciklama": "Marka içeriği için: her ay markan için sağlıklı tarif üretilir ve listede öne çıkar; üst paketlerde seçki, profil sayfası ve dönem sonu raporu eklenir.",
     "paketler": [
      {
       "ad": "Basic",
@@ -2819,7 +2819,7 @@
         "pay": null
        },
        {
-        "ad": "İpuçları listesi · Liste kartı 2",
+        "ad": "Sağlıklı Tarifler listesi · Liste kartı 2",
         "pay": "%25"
        }
       ],
@@ -2836,7 +2836,7 @@
         "pay": null
        },
        {
-        "ad": "İpuçları listesi · Liste kartı 2",
+        "ad": "Sağlıklı Tarifler listesi · Liste kartı 2",
         "pay": "%50"
        },
        {
@@ -2861,7 +2861,7 @@
         "pay": null
        },
        {
-        "ad": "İpuçları listesi · Liste kartı 2",
+        "ad": "Sağlıklı Tarifler listesi · Liste kartı 2",
         "pay": "%100"
        },
        {
