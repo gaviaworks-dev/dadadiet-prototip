@@ -37,7 +37,8 @@ ${bolumBas({ etiket: 'Belgelerin', ikon: 'fa-file-prescription', baslik: 'Reçet
 ${bolumBas({ etiket: 'Raporların', ikon: 'fa-chart-column', baslik: 'Gelişim Raporların', metin: 'Seçtiğin dönemin özetini oluştur, yazdır ya da diyetisyeninle paylaş.' })}
 ${kart({
     ikon: 'fa-file-circle-plus', baslik: 'Yeni Gelişim Raporu Oluştur', form: ' id="sdRaporForm"',
-    govde: `<div class="satir-form">${alan({ ad: 'rBas', etiket: 'Başlangıç', tur: 'date', zorunlu: true })}${alan({ ad: 'rBit', etiket: 'Bitiş', tur: 'date', zorunlu: true })}${alan({ ad: 'rAd', etiket: 'Rapor adı', zorunlu: true, deger: 'Gelişim raporum' })}${dugme('Raporu oluştur', { sinif: 'birincil', tur: 'submit' })}</div>`,
+    govde: `<div class="yigin sik"><div class="alan"><span class="alan-etiket">Rapora girecek bölümler</span><div class="alan-izgara c2">${[['olcum', 'Vücut ölçümleri'], ['gunluk', 'Günlük takip özetleri'], ['uyum', 'Program uyumu'], ['tahlil', 'Tahlil ve raporlar']].map(([d, a]) => `<label class="onay-kutusu" for="rBol-${d}"><input type="checkbox" id="rBol-${d}" name="rBolum" value="${d}" checked><span>${a}</span></label>`).join('')}</div></div><div class="satir-form">${alan({ ad: 'rBas', etiket: 'Başlangıç', tur: 'date', zorunlu: true })}${alan({ ad: 'rBit', etiket: 'Bitiş', tur: 'date', zorunlu: true })}${alan({ ad: 'rAd', etiket: 'Rapor adı', zorunlu: true, deger: 'Gelişim raporum' })}${dugme('Raporu oluştur', { sinif: 'birincil', tur: 'submit' })}</div></div>`,
+    alt: dugme('Varsayılana dön', { tur: 'reset' }),
   })}
 ${kart({ ikon: 'fa-folder-open', baslik: 'Oluşturduğun Raporlar', bosluksuz: true, govde: '<div class="ayar-liste sarar" id="sdRaporlar"></div>' })}
 <div class="iki-kolon esit esit-boy">${kart({ ikon: 'fa-clipboard-question', baslik: 'Çözdüğün Testler', sag: dugme('Bütün testler', { sinif: 'hayalet kucuk', href: 'saglik-testleri/' }), bosluksuz: true, govde: '<div class="ayar-liste sarar" id="sdTestler"></div>' })}${kart({ ikon: 'fa-calculator', baslik: 'Yaptığın Hesaplar', sag: dugme('Hesaplayıcılar', { sinif: 'hayalet kucuk', href: 'hesaplayicilar/' }), bosluksuz: true, govde: '<div class="ayar-liste sarar" id="sdHesaplar"></div>' })}</div>
@@ -46,7 +47,7 @@ ${kart({ ikon: 'fa-folder-open', baslik: 'Oluşturduğun Raporlar', bosluksuz: t
 
 const sonEk = modal({
   id: 'sdProfilModal', baslik: 'Temel Ölçüler', form: ' id="sdProfilForm"',
-  govde: `<div class="alan-izgara c3">${alan({ ad: 'boy', etiket: 'Boy (cm)', tur: 'number', ek: ' min="100" max="250"' })}${alan({ ad: 'kilo', etiket: 'Güncel kilo (kg)', tur: 'number', ek: ' min="30" max="300" step="0.1"' })}${alan({ ad: 'hedef_kilo', etiket: 'Hedef kilo (kg)', tur: 'number', ek: ' min="30" max="300" step="0.1"' })}</div>${alan({ ad: 'hedef', etiket: 'Hedefin' })}`,
+  govde: `<div class="alan-izgara c3">${alan({ ad: 'boy', etiket: 'Boy (cm)', tur: 'number', ek: ' min="100" max="250"' })}${alan({ ad: 'kilo', etiket: 'Güncel kilo (kg)', tur: 'number', ek: ' min="30" max="300" step="0.1"' })}${alan({ ad: 'hedef_kilo', etiket: 'Hedef kilo (kg)', tur: 'number', ek: ' min="30" max="300" step="0.1"' })}</div><div class="alan-izgara c2">${alan({ ad: 'dogum_yili', etiket: 'Doğum yılı', tur: 'number', ek: ' min="1920" max="2010"' })}<div class="alan"><label class="alan-etiket" for="hareket_duzeyi">Hareket düzeyi</label><select class="alan-secim" id="hareket_duzeyi" name="hareket_duzeyi"><option value="">Kayıtlı değil</option><option>Hareketsiz</option><option>Az hareketli</option><option>Orta düzeyde hareketli</option><option>Çok hareketli</option><option>Sporcu</option></select></div></div>${alan({ ad: 'hedef', etiket: 'Hedefin' })}`,
   ayak: dugme('Vazgeç', { ek: ' data-kapat' }) + dugme('Profili güncelle', { sinif: 'birincil', tur: 'submit' }),
 }) + modal({
   id: 'sdAnamnezModal', baslik: 'Sağlık Öykün', form: ' id="sdAnamnezForm"',
@@ -54,7 +55,7 @@ const sonEk = modal({
   ayak: dugme('Vazgeç', { ek: ' data-kapat' }) + dugme('Kaydet', { sinif: 'birincil', tur: 'submit' }),
 }) + modal({
   id: 'sdOlcumModal', baslik: 'Yeni Ölçüm Ekle', form: ' id="sdOlcumForm"',
-  govde: `<div class="alan-izgara c2">${alan({ ad: 'oKilo', etiket: 'Kilo (kg)', tur: 'number', zorunlu: true, ek: ' min="30" max="300" step="0.1"' })}${alan({ ad: 'oBel', etiket: 'Bel (cm)', tur: 'number', ek: ' min="40" max="200" step="0.1"' })}${alan({ ad: 'oYag', etiket: 'Yağ oranı (%)', tur: 'number', ek: ' min="3" max="70" step="0.1"' })}</div>`,
+  govde: `<div class="alan-izgara c2">${alan({ ad: 'oKilo', etiket: 'Kilo (kg)', tur: 'number', zorunlu: true, ek: ' min="30" max="300" step="0.1"' })}${alan({ ad: 'oBel', etiket: 'Bel (cm)', tur: 'number', ek: ' min="40" max="200" step="0.1"' })}${alan({ ad: 'oYag', etiket: 'Yağ oranı (%)', tur: 'number', ek: ' min="3" max="70" step="0.1"' })}${alan({ ad: 'oKalca', etiket: 'Kalça (cm)', tur: 'number', ek: ' min="50" max="200" step="0.1"' })}${alan({ ad: 'oKas', etiket: 'Kas kütlesi (kg)', tur: 'number', ek: ' min="10" max="120" step="0.1"' })}</div><p class="alan-yardim"><span>Kilo zorunlu; ötekileri ölçtüysen yaz.</span></p>`,
   ayak: dugme('Vazgeç', { ek: ' data-kapat' }) + dugme('Ölçümü kaydet', { sinif: 'birincil', tur: 'submit' }),
 }) + modal({
   id: 'sdBelgeModal', baslik: 'Yeni Belge Yükle', form: ' id="sdBelgeForm"',
