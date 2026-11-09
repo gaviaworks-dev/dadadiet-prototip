@@ -2992,7 +2992,7 @@ html[data-oturum="1"] .head-bell{display:grid}
 @media(max-width:640px){.kimlik-bant~.fit-pane .kart-govde>.kunye.uc-sutun{grid-template-columns:repeat(2,minmax(0,1fr))}}
 
 /* Responsive turu: tablette footer üç sütun, panel başlığı dar ekranda alt satıra iner, kart içi segment kartın içinde kayar. */
-@media(min-width:641px) and (max-width:1024px){.foot-grid{grid-template-columns:repeat(3,minmax(0,1fr))}.foot-app{grid-column:1/-1}}
+/* 9 Kasım T8: tablette footer canlıdaki gibi iki sütun (kabuk.css); 7 Kasım'daki üç sütun kuralı kaldırıldı. */
 @media(max-width:640px){.yetkili .panel-bas{flex-wrap:wrap}.yetkili .panel-bas>:first-child{flex:1 1 220px;max-width:100%}}
 .kart-govde>.segment{max-width:100%;overflow-x:auto;scrollbar-width:none}
 .kart-govde>.segment button{flex:none}
@@ -3621,3 +3621,16 @@ a.rk-gunun-sponsoru.rk-slot{max-width:100%;height:auto;min-height:38px;padding-b
    Tek genel kural; iki kolonlu düzende kolonlardan biri bayrakla kapanınca kalan kart tek kolona yayılır. */
 [data-bayrak]:not([data-bayrak-acik]){display:none!important}
 .iki-kolon:has(>[data-bayrak]:not([data-bayrak-acik])){grid-template-columns:minmax(0,1fr)}
+
+/* ── Sohbet (Çözüm Merkezi) ve yukarı çık düğmeleri (9 Kasım T9): canlı dadadiet.com birebir, kaynak public/assets/diet-public/css/paylasilan/dm-diet-t5d-p.css
+   (#msjFab 54×54, sağ/alt 22; ≤640 sağ 16, alt 85 + güvenli alan; .to-top alt 92 / ≤640 148). Çerez bandı açıkken sohbet düğmesi gizlenir
+   (canlı .msj-cerez: ekranda tek sabit alt şerit). --kenar-engel yalnız alt çubuğun üstündeki şeritleri sayar (kenar-dugmeler.js). */
+.yuzen-dugme{width:54px;height:54px;right:22px;bottom:calc(22px + var(--kenar-engel,0px))}
+.basa-don{right:22px;bottom:calc(92px + var(--kenar-engel,0px))}
+body.cerez-acik .yuzen-dugme{display:none}
+@media(max-width:640px){
+  .yuzen-dugme{width:54px;height:54px;right:16px;bottom:calc(85px + env(safe-area-inset-bottom,0px) + var(--kenar-engel,0px))}
+  .basa-don{right:16px;bottom:calc(148px + env(safe-area-inset-bottom,0px) + var(--kenar-engel,0px))}
+}
+/* T8: çerez bandı açıkken sayfa sonu bandın yüksekliği kadar boşluk bırakır, kapanınca kalkar (kabuk.css'teki sabit 140/370 px yerine) */
+body:has(.cookie-banner.show),body.cerez-acik{padding-bottom:var(--cerez-boy,0px)}

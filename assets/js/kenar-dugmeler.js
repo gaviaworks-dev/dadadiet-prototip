@@ -151,6 +151,10 @@
         const r = o.getBoundingClientRect();
         if (r.right > sol && r.top < innerHeight - 16 && r.bottom > innerHeight - 92) engel = Math.max(engel, Math.round(innerHeight - r.top));
       });
+      /* Canlı kuralı (dm-diet-t5d-p.css): telefonda 85 / 148 px sabitleri alt sekme çubuğunun payını zaten içerir; çubuk ayrıca eklenmez,
+         yalnız onun üstünde duran şerit (çerez bandı, reklam alt bandı) kadar yukarı kaçılır. */
+      const cubuk = document.querySelector('.bottom-nav');
+      if (cubuk && gorunur(cubuk)) { const r = cubuk.getBoundingClientRect(); if (r.top < innerHeight) engel = Math.max(0, engel - Math.round(innerHeight - r.top)); }
       document.documentElement.style.setProperty('--kenar-engel', engel + 'px');
     }
     const iste = () => { if (!bekliyor) { bekliyor = true; requestAnimationFrame(olc); } };
@@ -170,7 +174,11 @@
     const bant = document.getElementById('cookieBanner');
     if (bant) {
       /* Bant açılıp kapanınca yüzen düğmeler (--kenar-engel) yeniden ölçülür; geçiş bitince bir kez daha */
-      const olcTetik = () => { dispatchEvent(new Event('resize')); setTimeout(() => dispatchEvent(new Event('resize')), 400); };
+      /* T8: bant açıkken sayfa altına bandın kapladığı yükseklik kadar boşluk (canlıda sabit 140/370 px; 768'de son satırı örtüyordu) */
+      const boyOlc = () => { const r = bant.getBoundingClientRect(); document.documentElement.style.setProperty('--cerez-boy', bant.classList.contains('show') ? Math.ceil(innerHeight - r.top + 12) + 'px' : '0px'); };
+      if (window.ResizeObserver) new ResizeObserver(boyOlc).observe(bant);
+      addEventListener('resize', boyOlc);
+      const olcTetik = () => { boyOlc(); dispatchEvent(new Event('resize')); setTimeout(() => { boyOlc(); dispatchEvent(new Event('resize')); }, 450); };
       const goster = () => { bant.classList.add('show'); document.body.classList.add('cerez-acik'); olcTetik(); };
       const gizle = () => { bant.classList.remove('show'); document.body.classList.remove('cerez-acik'); olcTetik(); };
       if (!al()) goster();
