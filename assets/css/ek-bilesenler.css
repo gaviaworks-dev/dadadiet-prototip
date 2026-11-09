@@ -3648,4 +3648,13 @@ body:has(.cookie-banner.show),body.cerez-acik{padding-bottom:var(--cerez-boy,0px
 /* === Sayfa Revizesi 1 · sr-saglik (Sağlık Dosyam, Diyetisyenim, Tercihlerim) === */
 /* Satırda yalnız ikon düğmeler varsa dar ekranda alt satıra inmez, sağda kalır */
 @media(max-width:760px){.ayar-liste.sarar .ayar-satir:has(>.as-eylem>.satir-eylem:only-child){flex-wrap:nowrap}.ayar-liste.sarar .as-eylem:has(>.satir-eylem:only-child){flex-basis:auto;margin-left:auto}}
+/* Künye kendi genişliğine göre sarar: hücre sayısı ne olursa olsun satır boş hücre bırakmaz (Tercihlerim grupları) */
+.kunye.oto{display:flex;flex-wrap:wrap}
+.kunye.oto>div{flex:1 1 150px}
+/* Kart başlığının sağında yalnız ikon düğme varsa dar ekranda alta inmez, başlığın yanında kalır */
+@media(max-width:640px){.kart-bas:has(>.as-eylem>.ikon-dugme:only-child){flex-wrap:nowrap}.kart-bas:has(>.as-eylem>.ikon-dugme:only-child)>div:first-child{min-width:0}}
+/* Ölçü girdisi ızgarada (pencerede yan yana doğum yılı, boy, kilo) kolonuna sığar; sihirbazdaki tek başına iri hâli değişmez */
+.alan-izgara>*{min-width:0}
+.alan-izgara .olcu-girdi{display:flex;width:100%;padding:var(--bosluk-10) var(--bosluk-14)}
+.alan-izgara .olcu-girdi input{flex:1;width:auto;min-width:0;font-size:var(--yazi-22)}
 /* --- sr-saglik sonu --- */
