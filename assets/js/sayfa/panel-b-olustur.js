@@ -7,6 +7,8 @@
   let S, kirli = false, secGun = 0, hedefHucre = null, acikKalem = null, menuKalem = null, menuGun = null, acikMenu = null;
   let kaynak = 'tarif', tarifKaynak = 'gastro', duzenTarif = null, ogunKip = 'uygun', kategori = '', gastroKaynak = null, arama = '', mikroSuzgec = null, altHedef = null, degistirHedef = null;
   let gorunum = 'hafta', analizKapsam = 'hafta', analizOge = 'kcal', bosBasladi = false, kopyaKalem = null, sablonGun = null, onizGun = 0;
+  let haftaSayfa = 0, yazdiriliyor = false;
+  const SURELER = [1, 7, 14];
 
   /* ── Durum ─────────────────────────────────────────────────────────── */
   const yeniPlan = () => ({
@@ -73,8 +75,18 @@
       '<button class="plan-mini-dugme plan-kart-menu" type="button" data-plan="kart-menu"' + adr + ' aria-haspopup="menu" aria-label="' + ad + ' işlemleri"><i class="fa-solid fa-ellipsis-vertical" aria-hidden="true"></i></button>' +
       '<span class="yazdirma-metin">' + cumle + (k.alternatif ? ' veya ' + esc(PB.kalemCumle(k.alternatif)) : '') + '</span></div>';
   }
+  /* 7 günden uzun planda ızgara haftalara bölünür; yazdırırken bütün günler basılır */
+  const haftaSayisi = () => Math.ceil(S.gunler.length / 7);
+  function haftaSecCiz() {
+    const n = haftaSayisi();
+    if (haftaSayfa >= n) haftaSayfa = 0;
+    $('#haftaSecKap').hidden = n < 2 || gorunum !== 'hafta';
+    $('#haftaSec').innerHTML = Array.from({ length: n }, (_, i) => '<button type="button" data-deger="' + i + '" aria-pressed="' + (i === haftaSayfa) + '">' + (i + 1) + '. hafta <small>' + gunTarihi(i * 7) + ' – ' + gunTarihi(Math.min(S.gunler.length, i * 7 + 7) - 1) + '</small></button>').join('');
+    $('#planKartBaslik').textContent = S.gunler.length === 1 ? 'Günlük Plan' : S.gunler.length === 7 ? 'Haftalık Plan' : S.gunler.length + ' Günlük Plan';
+  }
   function izgaraCiz() {
-    const kap = $('#planIzgara'), gunler = S.gunler.map((_, i) => i);
+    haftaSecCiz();
+    const tum = S.gunler.map((_, i) => i), kap = $('#planIzgara'), gunler = yazdiriliyor ? tum : tum.slice(haftaSayfa * 7, haftaSayfa * 7 + 7);
     kap.style.setProperty('--plan-gun', gunler.length);
     let h = '<div class="plan-bas plan-kose"></div>';
     gunler.forEach((i) => {
@@ -106,9 +118,9 @@
     const olcu = (sinif, ad, v, hedef, birim) => '<div class="hedef-olcu ' + sinif + '"><span class="ust-satir">' + ad + '<b>' + sayi(v) + ' / ' + sayi(hedef) + ' ' + birim + '</b></span>' +
       '<span class="olcer"><span data-oran="' + (hedef ? Math.min(100, Math.round((v / hedef) * 100)) : 0) + '"></span></span></div>';
     const kap = $('#gunOzet');
-    kap.innerHTML = '<div class="hedef-gun"><button class="plan-mini-dugme" type="button" data-plan="gun-sec" data-g="' + ((secGun + 6) % 7) + '" aria-label="Önceki gün"><i class="fa-solid fa-chevron-left" aria-hidden="true"></i></button>' +
+    kap.innerHTML = '<div class="hedef-gun"><button class="plan-mini-dugme" type="button" data-plan="gun-sec" data-g="' + ((secGun + S.gunler.length - 1) % S.gunler.length) + '" aria-label="Önceki gün"><i class="fa-solid fa-chevron-left" aria-hidden="true"></i></button>' +
       '<span>' + gunAd(secGun) + '<small>' + gunTarihi(secGun) + '</small></span>' +
-      '<button class="plan-mini-dugme" type="button" data-plan="gun-sec" data-g="' + ((secGun + 1) % 7) + '" aria-label="Sonraki gün"><i class="fa-solid fa-chevron-right" aria-hidden="true"></i></button></div>' +
+      '<button class="plan-mini-dugme" type="button" data-plan="gun-sec" data-g="' + ((secGun + 1) % S.gunler.length) + '" aria-label="Sonraki gün"><i class="fa-solid fa-chevron-right" aria-hidden="true"></i></button></div>' +
       olcu('enerji ' + s.durum, 'Enerji', t.kcal, S.hedef_kcal, 'kcal') + olcu('protein', 'Protein', t.protein, h.protein, 'g') + olcu('karb', 'Karb.', t.karb, h.karb, 'g') + olcu('yag', 'Yağ', t.yag, h.yag, 'g');
     $$('[data-oran]', kap).forEach((e) => e.style.setProperty('--oran', e.dataset.oran));
   }
@@ -132,7 +144,7 @@
   }
 
   /* ── Analiz: gün tablosu, katkı listesi, makro ve öğün payı ─────────── */
-  const kapsamGunleri = () => (analizKapsam === 'hafta' ? [0, 1, 2, 3, 4, 5, 6] : analizKapsam === 'hafta-ici' ? gunGrubu(false) : analizKapsam === 'hafta-sonu' ? gunGrubu(true) : [+analizKapsam]);
+  const kapsamGunleri = () => (analizKapsam === 'hafta' ? S.gunler.map((_, i) => i) : analizKapsam === 'hafta-ici' ? gunGrubu(false) : analizKapsam === 'hafta-sonu' ? gunGrubu(true) : [+analizKapsam]);
   function analizCiz() {
     const satir = S.gunler.map((g, i) => ({ i, t: PB.topla(gunKalemleri(g)) }));
     const hucre = (t, ad) => {
@@ -144,7 +156,8 @@
     const ort = doluG.reduce((a, r) => { ['kcal', 'protein', 'karb', 'yag', 'lif'].forEach((k) => { a[k] += r.t[k] / n; }); return a; }, { kcal: 0, protein: 0, karb: 0, yag: 0, lif: 0 });
     $('#analizToplam').innerHTML = '<tr>' + hucre(ort, '<b>Ortalama</b>') + '</tr>';
     const sec = $('#analizKapsam');
-    sec.innerHTML = [['hafta', 'Hafta ortalaması'], ['hafta-ici', 'Hafta içi'], ['hafta-sonu', 'Hafta sonu']].concat(S.gunler.map((_, i) => [String(i), gunAd(i)])).map(([v, a]) => '<option value="' + v + '">' + a + '</option>').join('');
+    if (/^\d+$/.test(analizKapsam) && +analizKapsam >= S.gunler.length) analizKapsam = 'hafta';
+    sec.innerHTML = [['hafta', S.gunler.length === 7 ? 'Hafta ortalaması' : 'Plan ortalaması']].concat(S.gunler.length > 1 ? [['hafta-ici', 'Hafta içi'], ['hafta-sonu', 'Hafta sonu']] : []).concat(S.gunler.map((_, i) => [String(i), gunAd(i)])).map(([v, a]) => '<option value="' + v + '">' + a + '</option>').join('');
     sec.value = analizKapsam;
     const gunler = kapsamGunleri(), harita = new Map();
     gunler.forEach((gi) => gunKalemleri(S.gunler[gi]).forEach((k) => {
@@ -174,6 +187,7 @@
     $('#gunPano').hidden = g !== 'gun';
     $('#analizPano').hidden = g !== 'analiz';
     $$('#planGorunum button').forEach((b) => b.setAttribute('aria-pressed', String(b.dataset.deger === g)));
+    haftaSecCiz();
     if (g === 'gun') gunCiz();
     if (g === 'analiz') analizCiz();
   }
@@ -201,6 +215,7 @@
       '<p class="alan-yardim"><i class="fa-solid fa-bullseye" aria-hidden="true"></i><span>' + esc(d.hedef) + '</span></p>' +
       '<div class="deger-liste"><div class="deger-satir"><span>Hassasiyet</span><span>' + (has || 'Kayıt yok') + '</span></div>' +
       (kr ? '<div class="deger-satir"><span>Kronik</span><span>' + kr + '</span></div>' : '') +
+      (PB.protokoller(d).length ? '<div class="deger-satir"><span>Protokol</span><span>' + PB.protokoller(d).map((p) => '<span class="rozet olumlu">' + esc(p.ad) + '</span>').join(' ') + '</span></div>' : '') +
       (izin ? (tah.length ? tah.map((x) => '<div class="deger-satir"><span>' + esc(x.ad) + '</span><b>' + sayi(x.sonuc, 1) + ' ' + esc(x.birim) + ' <span class="rozet durdu">' + (PB.tahlilDurum(x) === 'dusuk' ? 'Düşük' : 'Yüksek') + '</span></b></div>').join('') : '<div class="deger-satir"><span>Son tahlil</span><span>Referans dışı değer yok</span></div>') : '<div class="deger-satir"><span>Tahlil</span><span>Paylaşılmıyor</span></div>') +
       '<div class="deger-satir"><span>İzinler</span><span>' + izinMetin + '</span></div></div></div>';
   }
@@ -256,9 +271,10 @@
     hap.className = 'durum-hapi ' + d.hap;
     const dn = danisan();
     $('#yazdirmaBaslik').innerHTML = '<h1>' + esc(S.ad || 'Beslenme planı') + '</h1><p>' +
-      [dn ? 'Danışan: ' + esc(dn.ad) : '', 'Hedef: ' + sayi(S.hedef_kcal) + ' kcal/gün', PB.tarih(S.baslangic) + ' – ' + PB.tarih(PB.gunEkle(S.baslangic, 6)), esc(PB.demo().diyetisyen.ad)].filter(Boolean).join(' · ') + '</p>' +
+      [dn ? 'Danışan: ' + esc(dn.ad) : '', 'Hedef: ' + sayi(S.hedef_kcal) + ' kcal/gün', PB.tarih(S.baslangic) + ' – ' + PB.tarih(PB.gunEkle(S.baslangic, S.gunler.length - 1)), esc(PB.demo().diyetisyen.ad)].filter(Boolean).join(' · ') + '</p>' +
       (S.danisana_not ? '<p>' + esc(S.danisana_not) + '</p>' : '');
-    $('#planBitis').textContent = PB.tarih(PB.gunEkle(S.baslangic, 6));
+    $('#planBitis').textContent = PB.tarih(PB.gunEkle(S.baslangic, S.gunler.length - 1)) + ' · ' + S.gunler.length + ' gün';
+    $$('#planSure button').forEach((b) => b.setAttribute('aria-pressed', String(+b.dataset.deger === S.gunler.length)));
   }
   /* Gönderilmiş planda sıradaki iş: danışana haber, kontrol görüşmesi, üyenin gördüğü ekran */
   function sonrakiCiz() {
@@ -637,7 +653,7 @@
   }
   function kopyaHizli(d) {
     const k = +$('#kopyaKaynak').value;
-    const hedef = d === 'tumu' ? [0, 1, 2, 3, 4, 5, 6] : d === 'hafta-ici' ? gunGrubu(false) : [1, 2, 3].map((x) => (k + x) % 7);
+    const n = S.gunler.length, hedef = d === 'tumu' ? S.gunler.map((_, i) => i) : d === 'hafta-ici' ? gunGrubu(false) : [1, 2, 3].filter((x) => x < n).map((x) => (k + x) % n);
     $$('#kopyaHedef .cip').forEach((b) => { const a = hedef.includes(+b.dataset.deger); b.classList.toggle('aktif', a); b.setAttribute('aria-pressed', String(a)); });
     kopyaOnayCiz();
   }
@@ -699,6 +715,33 @@
     PB.liste('sablonlar').push({ id: PB.yeniId('s'), ad, kcal: S.hedef_kcal, aciklama: 'Kendi şablonun · ' + PB.tarih(DD.bugun), ortalama: o.ortalama, gunler: o.gunler, ogun_duzeni: kopya(S.ogun_duzeni), makro: kopya(S.makro), kendi: true });
     PB.kaydet();
     DD.toast('“' + ad + '” kendi şablonlarına eklendi.');
+  }
+  /* Yayındaki programdan başla: gün dökümü sayfaya gömülü (planlar-olustur.mjs) */
+  let programOnbellek = null;
+  const programlar = () => {
+    if (!programOnbellek) { try { programOnbellek = JSON.parse(($('#programGunleri') || {}).textContent || '[]'); } catch (h) { programOnbellek = []; } }
+    return programOnbellek;
+  };
+  function programCiz() {
+    $('#programListe').innerHTML = programlar().map((p) => secenekHtml({ id: p.slug, ad: p.ad, alt: p.sure_gun + ' gün · ' + (p.enerji ? p.enerji + ' · ' : '') + (p.degerli ? 'yayımlanan ' + p.gosterilen + ' gün, besin ve gram ile' : p.gosterilen + ' gün, menü metni (değer girilmeli)') }, 'program-sec')).join('') +
+      '<p class="alan-yardim"><i class="fa-solid fa-circle-info" aria-hidden="true"></i><span>Gün gün menüsü yayında olan programlar listelenir. Öteki programların menüsü üye satın alınca açılır, buraya aktarılamaz.</span></p>';
+  }
+  function programUygula(p) {
+    const n = SURELER.includes(p.sure_gun) ? p.sure_gun : 7;
+    S.gunler = PB.bosGunler(n);
+    p.gunler.slice(0, n).forEach((og, i) => Object.keys(og).forEach((o) => {
+      S.gunler[i].ogunler[o] = og[o].map((k) => {
+        if (k.tur === 'serbest') return kopya(k);
+        if (k.slug && PB.katalog({ tur: 'besin', slug: k.slug })) return { tur: 'besin', slug: k.slug, miktar: k.gram };
+        return { tur: 'serbest', ad: k.ad, olcu: k.olcu || (k.gram + ' g'), miktar: 1, kcal: k.kcal || 0, protein: 0, yag: 0, karb: 0 };
+      });
+    }));
+    S.program_kaynak = p.slug;
+    if (!S.ad) S.ad = p.ad;
+    secGun = 0; haftaSayfa = 0; kirli = true;
+    DD.kapat($('#programModal')); formDoldur(); ciz();
+    const bosKalan = n - Math.min(n, p.gosterilen);
+    DD.toast(p.degerli ? '“' + p.ad + '”: yayımlanan ' + p.gosterilen + ' gün aktarıldı' + (bosKalan ? ', kalan ' + bosKalan + ' gün boş.' : '.') : '“' + p.ad + '” menüsü serbest kalem olarak aktarıldı. Programda besin değeri yayımlanmadığı için değerleri gir ya da kalemi katalogdan değiştir.', p.degerli ? undefined : 'uyari');
   }
   function oncekiCiz() {
     const dn = S.danisan_id, l = PB.liste('planlar').filter((p) => p.id !== S.id).sort((a, b) => (b.danisan_id === dn ? 1 : 0) - (a.danisan_id === dn ? 1 : 0));
@@ -826,6 +869,9 @@
     if (u.bos.length) h += '<div class="uyari-kutu uyari"><i class="fa-solid fa-calendar-xmark" aria-hidden="true"></i><span><b>' + u.bos.length + ' gün boş:</b> ' + gunListe(u.bos) + '.</span></div>';
     if (u.oneri.length) h += '<div class="bilgi-notu"><i class="fa-solid fa-lightbulb" aria-hidden="true"></i><p><b>Tahlil ve kronik durum notları:</b> ' + esc(u.oneri.map((x) => x.baslik).join(', ')) + '. Önerileri planda kontrol ettiysen devam et.</p></div>';
     if (!u.cakisma.length && !u.sapma.length && !u.bos.length) h += '<div class="bilgi-notu"><i class="fa-solid fa-circle-check" aria-hidden="true"></i><p>Plan kurallardan geçti. Danışan planı Beslenme Planım ekranında görecek.</p></div>';
+    /* ME-1-2: diyetisyen planı Dada Gastro Kiler'e aktarılır. Prototipte aktarım yok; ne gideceği gösterilir */
+    const kacin = PB.kurallar(d).map(PB.hassasiyetAd), mh = makroHedef();
+    h += '<div class="bilgi-notu"><i class="fa-solid fa-kitchen-set" aria-hidden="true"></i><p><b>Dada Gastro Kiler aktarımı</b> <span class="rozet pasif">örnek akış</span><br>Danışan Dada Gastro kullanıyorsa günlük ' + sayi(S.hedef_kcal) + ' kcal sınırı, makro hedefi (P ' + sayi(mh.protein) + ' g · K ' + sayi(mh.karb) + ' g · Y ' + sayi(mh.yag) + ' g)' + (kacin.length ? ', kaçınılacaklar (' + esc(kacin.join(', ')) + ')' : '') + ' ve plandaki malzemeler Kiler\'e aktarılır; tarif önerileri buna göre süzülür. Prototipte aktarım yapılmaz, bağlantı backend ile gelir.</p></div>';
     if (engel) h += '<label class="ayar-satir"><input type="checkbox" id="gonderOnayKutu"><span class="as-metin"><b>Çakışmaları gördüm, yine de göndereceğim.</b></span></label>';
     $('#gonderGovde').innerHTML = h;
     $('#gonderOnay').disabled = engel;
@@ -990,6 +1036,14 @@
         break;
       }
       case 'sablon-kaydet': sablonKaydet(); break;
+      case 'program-ac': programCiz(); DD.ac('#programModal'); break;
+      case 'program-sec': {
+        const p = programlar().find((x) => x.slug === c.dataset.id);
+        if (!p) break;
+        if (dolu()) window.DM_ONAY('Program uygulansın mı?', 'Izgaradaki kalemler “' + p.ad + '” menüsüyle değişir.', 'Uygula', (ok) => { if (ok) programUygula(p); });
+        else programUygula(p);
+        break;
+      }
       case 'onizle-ac': onizGun = secGun; onizleCiz(); DD.ac('#onizleModal'); break;
       case 'oniz-gun': onizGun = g; onizleCiz(); break;
       case 'alisveris-ac': alisverisCiz(); DD.ac('#alisverisModal'); break;
@@ -1016,7 +1070,27 @@
     if (e.target.id === 'tarifKaynak') tarifKaynakSec(e.detail.deger);
     if (e.target.id === 'suzOgunKip') { ogunKip = e.detail.deger; kategori = ''; listeCiz(); }
     if (e.target.id === 'analizOge') { analizOge = e.detail.deger; analizCiz(); }
+    if (e.target.id === 'haftaSec') { haftaSayfa = +e.detail.deger; izgaraCiz(); }
+    if (e.target.id === 'planSure') sureDegistir(+e.detail.deger);
   });
+  /* Plan süresi 1 / 7 / 14 gün: kısalırken dolu gün düşecekse onay ister */
+  function sureDegistir(n) {
+    const eski = S.gunler.length;
+    if (!SURELER.includes(n) || n === eski) return;
+    const uygula = () => {
+      S.gunler = n < eski ? S.gunler.slice(0, n) : S.gunler.concat(Array.from({ length: n - eski }, (_, i) => PB.bosGun(eski + i)));
+      if (secGun >= n) secGun = 0;
+      if (onizGun >= n) onizGun = 0;
+      haftaSayfa = 0;
+      degisti();
+      DD.toast('Plan süresi ' + n + ' gün oldu.');
+    };
+    const dusen = S.gunler.slice(n).filter((g) => Object.values(g.ogunler).some((l) => l.length)).length;
+    if (n < eski && dusen) window.DM_ONAY('Plan kısaltılsın mı?', 'Son ' + (eski - n) + ' gün plandan çıkar; ' + dusen + ' dolu gündeki kalemler silinir.', 'Kısalt', (ok) => { if (ok) uygula(); else baslikCiz(); });
+    else uygula();
+  }
+  window.addEventListener('beforeprint', () => { if (S.gunler.length > 7) { yazdiriliyor = true; izgaraCiz(); } });
+  window.addEventListener('afterprint', () => { if (yazdiriliyor) { yazdiriliyor = false; izgaraCiz(); } });
   /* Drawer kapanınca değiştirme ve alternatif modu düşer, odak hücreye döner */
   new MutationObserver(() => {
     if (!$('#seciciPanel').hidden) return;

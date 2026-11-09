@@ -2,6 +2,7 @@
 <div class="panel-bas">
   <div><h1>Genel Bakış</h1><p id="gunOzeti"></p></div>
   <div class="eylem-satiri">
+    <a class="dugme hayalet" href="{{kok}}diyetisyen-paneli/raporlar/"><i class="fa-solid fa-chart-pie" aria-hidden="true"></i> Raporlar</a>
     <a class="dugme hayalet" href="{{kok}}diyetisyen-paneli/musaitlik/"><i class="fa-solid fa-clock" aria-hidden="true"></i> Müsaitlik</a>
     <a class="dugme hayalet" href="{{kok}}diyetisyen-paneli/takvim/"><i class="fa-solid fa-calendar-days" aria-hidden="true"></i> Takvimi aç</a>
     <button class="dugme birincil" type="button" data-randevu-ac><i class="fa-solid fa-plus" aria-hidden="true"></i> Randevu oluştur</button>
@@ -17,6 +18,10 @@
     <div class="kart panel">
       <div class="kart-bas"><div><h2 class="kart-baslik"><i class="fa-solid fa-calendar-check" aria-hidden="true"></i> Bugünün Randevuları</h2><p>Bugün planlı görüşmeler, saat sırasıyla.</p></div><a class="dugme hayalet kucuk" href="{{kok}}diyetisyen-paneli/takvim/">Takvime git</a></div>
       <div class="kart-govde"><div class="ayar-liste" id="bugunListe"></div></div>
+    </div>
+    <div class="kart panel">
+      <div class="kart-bas"><div><h2 class="kart-baslik"><i class="fa-solid fa-calendar-week" aria-hidden="true"></i> Yaklaşan Randevular</h2><p>Bugünden sonraki ilk beş görüşme.</p></div><a class="dugme hayalet kucuk" href="{{kok}}diyetisyen-paneli/takvim/">Takvime git</a></div>
+      <div class="kart-govde"><div class="ayar-liste" id="yaklasanListe"></div></div>
     </div>
     <div class="kart panel">
       <div class="kart-bas"><div><h2 class="kart-baslik"><i class="fa-solid fa-comments" aria-hidden="true"></i> Son Mesajlar</h2><p>Okunmamış mesajı olan konuşma önce.</p></div><a class="dugme hayalet kucuk" href="{{kok}}diyetisyen-paneli/mesajlar/">Mesajlara git</a></div>
@@ -35,6 +40,7 @@
           <button class="ayar-satir" type="button" data-randevu-ac><span class="as-ikon"><i class="fa-solid fa-calendar-plus" aria-hidden="true"></i></span><span class="as-metin"><b>Randevu oluştur</b><span>Danışan, paket ve saat seç</span></span><i class="fa-solid fa-chevron-right as-ok" aria-hidden="true"></i></button>
           <a class="ayar-satir" href="{{kok}}diyetisyen-paneli/planlar/olustur/"><span class="as-ikon"><i class="fa-solid fa-clipboard-list" aria-hidden="true"></i></span><span class="as-metin"><b>Yeni plan</b><span>Gün gün öğün planı kur</span></span><i class="fa-solid fa-chevron-right as-ok" aria-hidden="true"></i></a>
           <a class="ayar-satir" href="{{kok}}diyetisyen-paneli/mesajlar/?sekme=yeni"><span class="as-ikon"><i class="fa-solid fa-paper-plane" aria-hidden="true"></i></span><span class="as-metin"><b>Mesaj gönder</b><span>Bir danışanla yazışma başlat</span></span><i class="fa-solid fa-chevron-right as-ok" aria-hidden="true"></i></a>
+          <a class="ayar-satir" href="{{kok}}diyetisyen-paneli/hizmet-paketleri/yeni/"><span class="as-ikon"><i class="fa-solid fa-box-open" aria-hidden="true"></i></span><span class="as-metin"><b>Yeni hizmet paketi</b><span>Seans sayısı, süre ve fiyat belirle</span></span><i class="fa-solid fa-chevron-right as-ok" aria-hidden="true"></i></a>
           <a class="ayar-satir" href="{{kok}}diyetisyen-paneli/musaitlik/"><span class="as-ikon"><i class="fa-solid fa-clock" aria-hidden="true"></i></span><span class="as-metin"><b>Müsaitliği düzenle</b><span>Haftalık saatler ve izin günleri</span></span><i class="fa-solid fa-chevron-right as-ok" aria-hidden="true"></i></a>
         </div></div>
       </div>

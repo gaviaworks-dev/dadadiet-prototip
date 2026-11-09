@@ -93,6 +93,8 @@
     $('#fSehir').innerHTML = sehirler.map((s) => '<option>' + esc(s) + '</option>').join('');
     $('#fSehir').value = dyt.sehir; $('#fIlce').value = P.ilce; $('#fDeneyim').value = dyt.deneyim_yil;
     $('#fBaslik').value = P.baslik; $('#fKisa').value = P.kisa; $('#fMetin').value = P.metin;
+    const en = (P.ceviri && P.ceviri.en) || {};
+    $('#fBaslikEn').value = en.baslik || ''; $('#fKisaEn').value = en.kisa || ''; $('#fMetinEn').value = en.metin || '';
     $('#fOnline').checked = !!dyt.online; $('#fYuz').checked = !!dyt.yuz_yuze;
     $('#fSertifika').value = P.sertifika; $('#fDernek').value = P.dernek;
     kisaSayac(); cipCiz(); egitimCiz(); hizmetCiz(); durumCiz(); onizlemeCiz();
@@ -103,6 +105,7 @@
     if (!secUzmanlik.length) { DD.toast('En az bir uzmanlık alanı seç.', 'hata'); $('#t-uzmanlik').click(); return; }
     Object.assign(dyt, { sehir: $('#fSehir').value, deneyim_yil: +$('#fDeneyim').value, uzmanlik: secUzmanlik, online: $('#fOnline').checked, yuz_yuze: $('#fYuz').checked });
     Object.assign(P, { cinsiyet: $('#fCinsiyet').value, ilce: $('#fIlce').value.trim(), baslik: $('#fBaslik').value.trim(), kisa: $('#fKisa').value.trim(), metin: $('#fMetin').value.trim(), diller: secDil, sertifika: $('#fSertifika').value.trim(), dernek: $('#fDernek').value.trim() });
+    P.ceviri = Object.assign({}, P.ceviri, { en: { baslik: $('#fBaslikEn').value.trim(), kisa: $('#fKisaEn').value.trim(), metin: $('#fMetinEn').value.trim() } });
     if (PBD.onayli()) dyt.yeni_randevu = $('#fKabul').checked;
     dyt.profil = JSON.parse(JSON.stringify(P));
     const belgeTamam = PBD.durum() === 'eksik-belge' && P.belgeler.some((b) => b.durum === 'İnceleniyor');

@@ -3521,3 +3521,8 @@ body.cerez-acik #dadaMentor{--mentor-dip:max(var(--mentor-taban),calc(var(--ment
 .kart-eylemli>.sonuc-kart{flex:1}
 .kaydet-yeri{display:contents}
 /* --- dk-public · programlar sonu --- */
+
+/* ── dk-panel (9 Kasım): mesaj eki indirilebilir düğme, balon künyesindeki bildir bağı ── */
+button.sohbet-ek{font-family:inherit;text-align:left;cursor:pointer}
+button.sohbet-ek:hover b{color:var(--aksan-koyu)}
+.sohbet-kunye .bag-dugme{display:inline-flex;align-items:center;gap:var(--bosluk-4);font-weight:var(--agirlik-orta);color:var(--metin-ikincil)}

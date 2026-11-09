@@ -11,8 +11,13 @@
   const gunler = () => (v.gorunum === 'gun' ? [v.tarih] : Array.from({ length: 7 }, (_, i) => PA.ekle(PA.haftaBasi(v.tarih), i)));
   /* Izgara aralığı çalışma düzeninin en erken ve en geç saatidir */
   function aralik() {
-    const l = PA.d().musaitlik.haftalik.filter((g) => g.acik);
-    return { bas: Math.min(...l.map((g) => PA.dakika(g.baslangic))), bit: Math.max(...l.map((g) => PA.dakika(g.bitis))) };
+    const l = PA.d().musaitlik.haftalik.filter((g) => g.acik), gl = gunler();
+    /* Görünen günlerdeki açık seans çalışma saati dışındaysa ızgara ona kadar uzar */
+    const ek = PA.ekSeanslar().filter((e) => gl.includes(e.tarih));
+    return {
+      bas: Math.min(...l.map((g) => PA.dakika(g.baslangic)), ...ek.map((e) => Math.floor(PA.dakika(e.saat) / ADIM) * ADIM)),
+      bit: Math.max(...l.map((g) => PA.dakika(g.bitis)), ...ek.map((e) => Math.ceil((PA.dakika(e.saat) + e.sure) / ADIM) * ADIM)),
+    };
   }
   const yerlestir = (el, sutun, satir, yukseklik) => {
     el.style.setProperty('grid-column', String(sutun));
@@ -36,7 +41,19 @@
       if (bit <= bas) return;
       parca.push(yerlestir(dugum('takvim-hucre' + bugun, `<span class="takvim-slot kapali" role="img" aria-label="${h(metin)}, ${DD.bicim.saat(PA.saat(bas))}-${DD.bicim.saat(PA.saat(bit))}">${h(metin)}</span>`), sutun, satirOf(bas), (bit - bas) / ADIM));
     };
-    if (!g.acik) { kapaliBlok(a.bas, a.bit, g.neden); return parca; }
+    /* Açık seans kapalı bloğun üstüne çizilir: içine düşen randevu varsa randevu, yoksa boş slot */
+    const ekCiz = () => PA.ekSeanslar().filter((e) => e.tarih === iso).forEach((e) => {
+      const b = Math.floor(PA.dakika(e.saat) / ADIM) * ADIM, son = PA.dakika(e.saat) + e.sure;
+      if (g.acik && b >= g.bas && son <= g.bit && PA.aralikta(g, b, son) && !(g.ara && b < g.ara[1] && son > g.ara[0])) return; /* çalışma saatinin içinde: ızgara zaten açık */
+      for (let m = b; m < son;) {
+        const r = rs.find((x) => PA.dakika(x.saat) < m + ADIM && PA.rBitis(x) > m);
+        if (r) { const yuk = Math.max(1, Math.ceil(r.sure / ADIM)); parca.push(yerlestir(dugum('takvim-hucre' + bugun, randevuSlot(r)), sutun, satirOf(m), yuk)); m += yuk * ADIM; continue; }
+        const gecmis = iso + 'T' + PA.saat(m) <= PA.simdi;
+        parca.push(yerlestir(dugum('takvim-hucre' + bugun, gecmis ? '' : `<button class="takvim-slot bos" type="button" data-tarih="${iso}" data-saat="${PA.saat(m)}" aria-label="${PA.tarih(iso)} ${DD.bicim.saat(PA.saat(m))}, açık seans, randevu oluştur"><i class="fa-solid fa-plus" aria-hidden="true"></i> Açık seans</button>`), sutun, satirOf(m), 1));
+        m += ADIM;
+      }
+    });
+    if (!g.acik) { kapaliBlok(a.bas, a.bit, g.neden); ekCiz(); return parca; }
     kapaliBlok(a.bas, g.bas, 'Kapalı');
     kapaliBlok(g.bit, a.bit, 'Kapalı');
     if (g.ara) kapaliBlok(Math.floor(g.ara[0] / ADIM) * ADIM, Math.ceil(g.ara[1] / ADIM) * ADIM, 'Öğle arası');
@@ -68,6 +85,7 @@
       parca.push(yerlestir(dugum('takvim-hucre' + bugun, gecmis ? '' : `<button class="takvim-slot bos" type="button" data-tarih="${iso}" data-saat="${PA.saat(m)}" aria-label="${PA.tarih(iso)} ${DD.bicim.saat(PA.saat(m))}, boş, randevu oluştur"><i class="fa-solid fa-plus" aria-hidden="true"></i></button>`), sutun, satirOf(m), 1));
       m += ADIM;
     }
+    ekCiz();
     return parca;
   }
   function izgaraCiz() {

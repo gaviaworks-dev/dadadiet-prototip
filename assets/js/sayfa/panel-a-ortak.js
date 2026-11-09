@@ -100,6 +100,17 @@
   PA.tahlilYeni = (x) => !x.incelendi && (x.yukleyen === 'uye' || (!x.yukleyen && !(x.degerler || []).length));
   /* Üye anamnezi yarıda bırakabilir: kayıt var diye tamam sayılmaz */
   PA.anamnezEksik = (dn) => ['meslek', 'sikayet', 'uyku', 'su', 'hareket', 'aile_oykusu', 'aliskanliklar'].filter((k) => !(dn.anamnez || {})[k]);
+  /* Beslenme protokolü (ME-3-2): diyetisyen danışana tanımlar; plan oluşturucu uyarı ve önerilere katar.
+     `hassasiyet` kodu olan protokol, kalem uyarısında hassasiyet gibi çalışır. Metinler genel beslenme ilkesidir, tıbbi karar hekimindir. */
+  PA.PROTOKOLLER = [
+    { id: 'dusuk-fodmap', ad: 'Düşük FODMAP', not: 'Eleme döneminde soğan, sarımsak, buğday, baklagil, elma ve armut gibi yüksek FODMAP kaynaklarını sınırla; yeniden ekleme aşamasını takvime bağla.' },
+    { id: 'glutensiz', ad: 'Glütensiz', hassasiyet: 'gluten', not: 'Buğday, arpa ve çavdarı çıkar; pirinç, karabuğday ve kinoa gibi glütensiz tahılları kullan.' },
+    { id: 'laktozsuz', ad: 'Laktozsuz', hassasiyet: 'laktoz', not: 'Laktozlu süt ürünlerini çıkar; kalsiyumu laktozsuz ürünler ve yeşil yapraklılarla karşıla.' },
+    { id: 'diyabetik', ad: 'Diyabetik (düşük glisemik)', not: 'Karbonhidratı öğünlere eşit dağıt, düşük glisemik indeksli kaynakları seç, her öğüne protein ve lif ekle.' },
+    { id: 'dusuk-sodyum', ad: 'Düşük sodyum (DASH)', not: 'Tuzlu peynir, zeytin, turşu ve hazır sosları sınırla; sebze, meyve ve baklagili artır.' },
+    { id: 'yuksek-protein', ad: 'Yüksek protein', not: 'Her öğüne yağsız bir protein kaynağı koy, günlük proteini öğünlere dağıt.' },
+  ];
+  PA.protokoller = (dn) => ((dn && dn.protokol && dn.protokol.idler) || []).map((id) => PA.PROTOKOLLER.find((p) => p.id === id)).filter(Boolean);
   PA.anamnezGorunur = (dn) => !!((dn.izinler || {}).anamnez || dn.anamnez_kaynak === 'gorusme');
 
   /* Sıradaki adım: danışanın durumundan türeyen tek eylem. Kart, liste ve iş listesi aynı sonucu okur.
@@ -233,25 +244,34 @@
   PA.bloklar = () => PA.d().takvim_bloklari || (PA.d().takvim_bloklari = []);
   PA.blokBul = (iso, bas, bit) => PA.bloklar().find((b) => b.tarih === iso && PA.dakika(b.saat) < bit && PA.dakika(b.saat) + b.sure > bas);
   PA.dolulukVar = (iso, bas, bit, haric) => !!PA.blokBul(iso, bas, bit) || PA.d().randevular.some((r) => r.id !== haric && r.tarih === iso && PA.rAcik(r) && PA.dakika(r.saat) < bit && PA.rBitis(r) > bas);
+  /* Tek seferlik açık seans (eski panel "Seans ekle", ES-DP-8): müsaitlik dışındaki bir tarih ve saati yalnız o gün açar */
+  PA.ekSeanslar = () => { const m = PA.d().musaitlik; return m.ek_seanslar || (m.ek_seanslar = []); };
+  PA.ekSeansKapsar = (iso, bas, bit) => PA.ekSeanslar().find((e) => e.tarih === iso && PA.dakika(e.saat) <= bas && PA.dakika(e.saat) + e.sure >= bit);
   PA.slotUygun = (iso, bas, sure, haric) => {
     const g = PA.gunDuzeni(iso), bit = bas + sure;
-    if (!g.acik || bas < g.bas || bit > g.bit) return false;
-    if (g.ara && bas < g.ara[1] && bit > g.ara[0]) return false;
-    if (!PA.aralikta(g, bas, bit)) return false;
+    if (!PA.ekSeansKapsar(iso, bas, bit)) {
+      if (!g.acik || bas < g.bas || bit > g.bit) return false;
+      if (g.ara && bas < g.ara[1] && bit > g.ara[0]) return false;
+      if (!PA.aralikta(g, bas, bit)) return false;
+    }
     if (iso + 'T' + PA.saat(bas) <= PA.simdi) return false;
     const tampon = PA.d().musaitlik.tampon || 0; /* seanslar arası boşluk her iki yöne uygulanır */
     return !PA.dolulukVar(iso, bas - tampon, bit + tampon, haric);
   };
   PA.gunSlotlari = (iso, sure, haric) => {
     const g = PA.gunDuzeni(iso), l = [];
-    if (!g.acik) return l;
-    for (let m = g.bas; m + sure <= g.bit; m += 30) {
+    if (g.acik) for (let m = g.bas; m + sure <= g.bit; m += 30) {
       if (g.ara && m < g.ara[1] && m + sure > g.ara[0]) continue;
       if (!PA.aralikta(g, m, m + sure)) continue;
       if (iso + 'T' + PA.saat(m) <= PA.simdi) continue;
       l.push({ saat: PA.saat(m), uygun: PA.slotUygun(iso, m, sure, haric) });
     }
-    return l;
+    PA.ekSeanslar().filter((e) => e.tarih === iso).forEach((e) => {
+      const m = PA.dakika(e.saat);
+      if (l.some((x) => x.saat === e.saat) || sure > e.sure || iso + 'T' + e.saat <= PA.simdi) return;
+      l.push({ saat: e.saat, uygun: PA.slotUygun(iso, m, sure, haric), ek: true });
+    });
+    return l.sort((a, b) => a.saat.localeCompare(b.saat));
   };
 
   /* ── Mesaj ──────────────────────────────────────────────────────── */
