@@ -4,6 +4,14 @@
   const DD = window.DD, U = window.DDU;
   const $ = (s) => document.querySelector(s);
   const f = $('#hmForm');
+  /* HM1: bütçe segmentten, kısıtlar basılı çiplerden okunur */
+  const butceAl = () => ($('#hmButce [aria-pressed="true"]') || {}).dataset.deger || 'orta';
+  const kisitAl = () => [...document.querySelectorAll('#hmKisit [aria-pressed="true"]')].filter((c) => !c.hidden).map((c) => c.dataset.kisit);
+  const kisitCip = (k) => document.querySelector('#hmKisit [data-kisit="' + k + '"]');
+  function butceKur(d) {
+    document.querySelectorAll('#hmButce button').forEach((x) => x.setAttribute('aria-pressed', String(x.dataset.deger === d)));
+    $('#hmButceMetin').textContent = ($('#hmButce [aria-pressed="true"]') || {}).dataset.aciklama || '';
+  }
   const tarifler = () => { const t = window.DD_VERI.tarifler; return Array.isArray(t) ? t : t.tarifler; };
   const OGUN = [['kahvaltı', 'Kahvaltı'], ['ara', 'Ara Öğün'], ['öğle', 'Öğle'], ['akşam', 'Akşam']];
   const ESLEME = { laktoz: ['laktoz', 'sut'], gluten: ['gluten'], yumurta: ['yumurta'], kuruyemis: ['kuruyemis'], balik: ['balik', 'kabuklu-deniz'], susam: ['susam'], soya: ['soya'] };
@@ -92,18 +100,20 @@
   /* Sağlık dosyasındaki hassasiyet ve kayıtlı seçim forma gelir */
   const m0 = durum();
   const baslangic = m0 ? m0.kisitlar : (U.danisan().hassasiyetler || []);
-  baslangic.forEach((k) => { const c = document.getElementById('hmKisit-' + k); if (c) c.checked = true; });
-  Object.keys(KISIT_ETIKET).filter(tarzKapsar).forEach((k) => { const c = document.getElementById('hmKisit-' + k); if (c) { c.checked = false; c.closest('.onay-kutusu').hidden = true; } });
+  baslangic.forEach((k) => { const c = kisitCip(k); if (c) c.setAttribute('aria-pressed', 'true'); });
+  Object.keys(KISIT_ETIKET).filter(tarzKapsar).forEach((k) => { const c = kisitCip(k); if (c) { c.setAttribute('aria-pressed', 'false'); c.hidden = true; } });
   /* Ekonomik seçeneğin açıklaması tercihe aykırı kalmasın */
-  const ekonomik = document.querySelector('label[for="hmButce-ekonomik"] .as-metin span');
-  if (ekonomik && !TU.uygunMu(ekonomik.textContent)) ekonomik.textContent = 'Baklagil, sebze ve tahıl ağırlıklı.';
+  const ekonomik = $('#hmButce [data-deger="ekonomik"]');
+  if (ekonomik && !TU.uygunMu(ekonomik.dataset.aciklama)) ekonomik.dataset.aciklama = 'Baklagil, sebze ve tahıl ağırlıklı.';
   U.bas('#hmTercih', TU.bilgiHtml({ tur: 'liste' }));
-  if (m0) { const r = document.getElementById('hmButce-' + m0.butce); if (r) r.checked = true; }
+  butceKur(m0 ? m0.butce : 'orta');
+  $('#hmButce').addEventListener('dd:secim', (e) => butceKur(e.detail.deger));
+  /* Gn1: menüsü olmayan üyede sayfa boş kalmaz; kayıtlı seçimlerle bir menü kurulur, üye istediğinde yeniden üretir */
+  if (!m0 && !U.bosKip) { U.d().uyeYerel.haftalikMenu = kur(butceAl(), kisitAl(), false); U.kaydet(); }
 
   f.addEventListener('submit', (e) => {
     e.preventDefault();
-    const v = [...f.querySelectorAll('[name=kisit]:checked')].map((c) => c.value);
-    U.d().uyeYerel.haftalikMenu = kur(f.elements.butce.value, v, !!(durum() || {}).tahlil);
+    U.d().uyeYerel.haftalikMenu = kur(butceAl(), kisitAl(), !!(durum() || {}).tahlil);
     U.kaydet(); ciz(); tahlilCiz();
     $('#hmSonuc').scrollIntoView({ behavior: 'smooth', block: 'start' });
     DD.toast('Haftalık menün hazır.');
@@ -112,8 +122,8 @@
     const y = e.target.closest('#hmYazdir');
     if (y) DD.yazdir(y.closest('.kart'), 'Haftalık Menüm');
     if (e.target.closest('#hmTahlilUygula')) {
-      const v = [...f.querySelectorAll('[name=kisit]:checked')].map((c) => c.value), acik = !(durum() || {}).tahlil;
-      U.d().uyeYerel.haftalikMenu = kur(f.elements.butce.value, v, acik);
+      const acik = !(durum() || {}).tahlil;
+      U.d().uyeYerel.haftalikMenu = kur(butceAl(), kisitAl(), acik);
       U.kaydet(); ciz(); tahlilCiz();
       DD.toast(acik ? 'Tahlil önerileri menüne uygulandı.' : 'Menün tahlil önerileri olmadan yeniden kuruldu.');
     }
