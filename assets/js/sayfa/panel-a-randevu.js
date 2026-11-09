@@ -244,13 +244,25 @@
   PA.siradaBlok = (dn) => `<div class="sirada-blok"><b>Sırada ne var?</b><div class="ayar-liste"><a class="ayar-satir" href="${PA.yol.danisan(dn.id, 'not')}&eylem=not-ekle"><span class="as-ikon"><i class="fa-solid fa-note-sticky" aria-hidden="true"></i></span><span class="as-metin"><b>Not ekle</b><span>İlerleme notunu danışanla paylaşabilirsin</span></span><i class="fa-solid fa-chevron-right as-ok" aria-hidden="true"></i></a><a class="ayar-satir" href="${PA.yol.yeniPlan(dn.id)}"><span class="as-ikon"><i class="fa-solid fa-clipboard-list" aria-hidden="true"></i></span><span class="as-metin"><b>Plan oluştur</b><span>Haftalık planı kur ve gönder</span></span><i class="fa-solid fa-chevron-right as-ok" aria-hidden="true"></i></a><button class="ayar-satir" type="button" data-randevu-ac data-danisan="${dn.id}"><span class="as-ikon"><i class="fa-solid fa-calendar-plus" aria-hidden="true"></i></span><span class="as-metin"><b>Kontrol randevusu</b><span>Bir sonraki görüşmeyi planla</span></span><i class="fa-solid fa-chevron-right as-ok" aria-hidden="true"></i></button></div></div>`;
   const siradaBlok = PA.siradaBlok;
   const satir = (ikon, etiket, deger) => `<div class="ayar-satir"><span class="as-ikon"><i class="fa-solid ${ikon}" aria-hidden="true"></i></span><span class="as-metin"><span>${etiket}</span><b>${deger}</b></span></div>`;
+  /* Ödeme durumu: danışanın ödemesi paket satın alımında tahsil edilir; seans kazanca görüşme sonrası işlenir */
+  const HAKEDIS = { beklemede: 'hakediş bekliyor', odendi: 'hakediş ödendi', 'talep-edildi': 'hakediş talep edildi', iptal: 'kazanca işlenmedi', iade: 'danışana iade edildi' };
+  PA.rOdeme = (r) => {
+    const p = PA.paket(r.paket_id), durum = PA.rDurum(r);
+    const islem = ((PA.d().kazanclar || {}).son_islemler || []).find((x) => x.randevu_id === r.id);
+    if (islem && islem.durum === 'iade') return { etiket: 'İade edildi', sinif: 'kapali', alt: 'Seans ücreti danışana iade edildi' };
+    if (durum === 'iptal') return { etiket: 'Tahsil edilmedi', sinif: 'kapali', alt: p ? 'Seans hakkı pakete geri döndü' : 'İptal edilen görüşmeden ücret alınmaz' };
+    if (!p) return { etiket: 'Ödeme bekliyor', sinif: 'bekleyen', alt: 'Bağlı paket yok, danışan seans ücretini ödemedi' };
+    const hak = islem ? HAKEDIS[islem.durum] || '' : ['tamamlandi', 'sonuc-bekliyor'].includes(durum) ? 'sonuç girilince kazanca işlenir' : 'görüşmeden sonra kazanca işlenir';
+    return { etiket: 'Paketten ödendi', sinif: 'cozulen', alt: 'Paket alımında tahsil edildi, ' + hak };
+  };
+  const odemeSatir = (r) => { const o = PA.rOdeme(r); return `<div class="ayar-satir"><span class="as-ikon"><i class="fa-solid fa-credit-card" aria-hidden="true"></i></span><span class="as-metin"><span>Ödeme durumu</span><b>${o.alt}</b></span><span class="as-eylem">${PA.hap(o.etiket, o.sinif)}</span></div>`; };
   function detayCiz() {
     const r = acik, dn = PA.danisan(r.danisan_id), p = PA.paket(r.paket_id), durum = PA.rDurum(r);
     const sonucGirilir = ['sonuc-bekliyor', 'tamamlandi', 'gelmedi'].includes(durum);
     const gelecek = durum === 'dolu', talepsiz = gelecek && !r.talep;
     const i = PA.ilerleme(dn);
     $('rdGovde').innerHTML = `<div class="ozet-bas"><a class="kisi-hucre" href="${PA.yol.danisan(dn.id)}">${PA.avatar(dn.ad)}<span class="kisi-bilgi"><span class="kisi-ad">${h(dn.ad)}</span><span class="kisi-alt">${h(dn.hedef)}${i ? ' · ' + i.hafta + '. hafta' : ''}</span></span></a>${PA.rHap(r)}</div>
-<div class="ayar-liste">${satir('fa-calendar-day', 'Tarih ve saat', h(PA.uzunTarih(r.tarih)) + ' · ' + DD.bicim.saat(r.saat))}${satir(PA.rIkon(r), 'Görüşme', PA.rTur(r) + ' · ' + r.sure + ' dk')}${satir('fa-box-open', 'Paket', p ? h(p.ad) + ' · ' + PA.kalanSeans(dn, p.id) + ' seans kaldı' : '—')}</div>
+<div class="ayar-liste">${satir('fa-calendar-day', 'Tarih ve saat', h(PA.uzunTarih(r.tarih)) + ' · ' + DD.bicim.saat(r.saat))}${satir(PA.rIkon(r), 'Görüşme', PA.rTur(r) + ' · ' + r.sure + ' dk')}${satir('fa-box-open', 'Paket', p ? h(p.ad) + ' · ' + PA.kalanSeans(dn, p.id) + ' seans kaldı' : '—')}${odemeSatir(r)}</div>
 ${talepKutu(r)}
 ${r.not ? `<div class="not-kutu"><b>Görüşme notu</b>${h(r.not)}</div>` : ''}
 ${r.ozel_not ? `<div class="not-kutu"><b>Özel not</b>${h(r.ozel_not)}</div>` : ''}
