@@ -6,7 +6,7 @@
   const kat = JSON.parse($('#kdKatalog').textContent);
   const TUR = [['tarifler', 'Tarif', 'tarif/'], ['besinler', 'Besin', 'besin/'], ['programlar', 'Program', 'program/'], ['rehberler', 'Rehber', 'besin-rehberi/'], ['diyetisyenler', 'Diyetisyen', 'diyetisyen/'], ['yonlendirmeler', 'Öneri', '']];
   /* Prototipte her türün tek örnek detay sayfası var, ötekiler kendi listesine gider */
-  const DETAY = { besinler: ['avokado'], programlar: ['akdeniz-tipi-beslenme'], rehberler: ['dengeli-tabak'], diyetisyenler: ['dyt-ece-tunali', 'dyt-elif-sahin'] };
+  const DETAY = { besinler: ['avokado'], programlar: ['akdeniz-tipi-beslenme'], rehberler: ['dengeli-tabak'], diyetisyenler: ['dyt-ece-tunali', 'dyt-elif-sahin', 'dyt-mert-aydin', 'uzm-dyt-selin-korkmaz', 'dyt-kerem-polat', 'uzm-dyt-deniz-aksoy', 'uzm-dyt-ayca-yildiz', 'dyt-gizem-celik'] };
   const LISTE = { besinler: 'besin-kutuphanesi/', programlar: 'programlar/', rehberler: 'besin-rehberi/', diyetisyenler: 'diyetisyenler/', yonlendirmeler: 'bana-uygun-olani-bul/' };
   const yolu = (x) => {
     if (x.t === 'tarifler') return U.tarif(x.s) ? 'tarif/' + x.s + '/' : 'tarifler/';
