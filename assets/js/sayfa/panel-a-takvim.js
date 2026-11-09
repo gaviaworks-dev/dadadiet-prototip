@@ -57,6 +57,8 @@
         m += yuk * ADIM;
         continue;
       }
+      /* Müsaitlikte kapatılmış ara saat (öğle arası dışındaki boşluk); alınmış randevu yukarıda yerinde kalır */
+      if (!PA.aralikta(g, m, m + ADIM)) { kapaliBlok(m, m + ADIM, 'Kapalı'); m += ADIM; continue; }
       const gecmis = iso + 'T' + PA.saat(m) <= PA.simdi;
       if (!gecmis && PA.d().musaitlik.tampon && !PA.slotUygun(iso, m, ADIM)) {
         parca.push(yerlestir(dugum('takvim-hucre' + bugun, '<span class="takvim-slot kapali" role="img" aria-label="Seanslar arası tampon">Tampon</span>'), sutun, satirOf(m), 1));
