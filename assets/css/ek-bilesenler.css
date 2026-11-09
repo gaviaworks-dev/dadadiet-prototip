@@ -2647,7 +2647,7 @@ body:not(.yetkili) .kart.panel>.kart-alt{padding:var(--rol-kart-alt-dikey) var(-
 .rc-imlec{position:absolute;top:50%;left:clamp(calc(var(--imlec) / 2),calc(var(--oran,50) * 1%),calc(100% - var(--imlec) / 2));width:var(--imlec);height:var(--imlec);border:2px solid var(--kagit);border-radius:50%;background:var(--aksan-koyu);box-shadow:0 0 0 1px var(--aksan-koyu);transform:translate(-50%,-50%)}
 .referans-satir.disi .rc-imlec{background:var(--uyari);box-shadow:0 0 0 1px var(--uyari)}
 
-@container (max-width:560px){
+@container (max-width:640px){
   .referans-satir{grid-template-columns:minmax(0,1fr) auto;grid-template-areas:"ad deger" "cubuk durum";column-gap:var(--bosluk-16)}
 }
 
