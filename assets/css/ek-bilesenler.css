@@ -3595,3 +3595,19 @@ body.rk-altbar-acik #dadaMentor{--mentor-dip:max(var(--mentor-taban),calc(var(--
 a.rk-gunun-sponsoru.rk-slot{max-width:100%;height:auto;min-height:38px;padding-block:var(--bosluk-4)}
 .ust-etiket+a.rk-gunun-sponsoru.rk-slot{display:flex;width:fit-content;margin:var(--bosluk-8) 0 var(--bosluk-12)}
 .rk-gunun-sponsoru span{min-width:0}
+
+/* ── Çerez bandı (9 Kasım Tur 3, T2): metin ikon ile düğmeler arasındaki bütün genişliği kaplar (max-width yok, flex:1).
+   Masaüstünde bant sayfa genişliğine açılır (en çok 1392 px) ve metin 2 satıra iner; 1024 ve altında düğmeler metnin altına geçer.
+   Ölçü: tek satır metin 2.109 px (13,5 px); 1440'ta düğmeler yanda 2 satır için metin 13 px, iç boşluklar daraltıldı. */
+#cookieBanner{width:min(1392px,calc(100% - 48px))}
+#cookieBanner .cookie-inner{gap:var(--bosluk-20)}
+#cookieBanner .cookie-text{flex:1 1 auto;min-width:0}
+#cookieBanner .cookie-text p{max-width:none;font-size:var(--yazi-13)}
+#cookieBanner .cookie-actions{gap:var(--bosluk-8)}
+#cookieBanner .btn-cookie-reject,#cookieBanner .btn-cookie-accept{padding:11px 18px;line-height:1.55}
+@media(max-width:1024px){
+  #cookieBanner .cookie-inner{flex-direction:column;align-items:stretch;gap:var(--bosluk-13)}
+  #cookieBanner .cookie-text{align-items:flex-start}
+  #cookieBanner .cookie-actions{width:100%}
+  #cookieBanner .cookie-actions button{flex:1}
+}
