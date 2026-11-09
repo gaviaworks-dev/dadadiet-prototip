@@ -1,17 +1,17 @@
-/* Bildirimler sayfası: süzgeç, gün grupları, okundu, sil ve geri al. Veri ve satır DD.bildirim'den, zil paneliyle aynı kaynak. */
+/* Bildirimler sayfası (Gastro g-bildirimler + public/f4/uye-bildirimler.js): Tümü sayaçlı, kategori çipleri sayaçsız; satıra dokunmak okundu işaretler; sil geri alınır. Veri ve satır DD.bildirim'den. */
 (function () {
   'use strict';
   const DD = window.DD, B = DD.bildirim;
   const $ = (s) => document.querySelector(s);
   let suzgec = 'tumu', silinen = null;
-  const cip = (k, ad, ikon, n) => '<button class="cip' + (suzgec === k ? ' aktif' : '') + '" type="button" data-deger="' + k + '" aria-pressed="' + (suzgec === k) + '">' + (ikon ? '<i class="fa-solid ' + ikon + '" aria-hidden="true"></i> ' : '') + ad + ' <span class="cip-sayi">' + n + '</span></button>';
-  const grup = (ad, a) => (a.length ? '<div class="gun-etiketi">' + ad + '</div><div class="bildirim-liste">' + a.map((x) => B.satir(x, true)).join('') + '</div>' : '');
+  const cip = (k, ad, ikon, n) => '<button class="cip' + (suzgec === k ? ' aktif' : '') + '" type="button" data-deger="' + k + '" aria-pressed="' + (suzgec === k) + '">' + (ikon ? '<i class="fa-solid ' + ikon + '" aria-hidden="true"></i> ' : '') + ad + (n != null ? ' <span class="cip-sayi">' + n + '</span>' : '') + '</button>';
+  const grup = (ad, a) => (a.length ? '<div class="gun-etiketi">' + ad + '</div><div class="bildirim-liste">' + a.map((x) => B.satir(x)).join('') + '</div>' : '');
   function ciz() {
     const l = B.liste(), n = l.filter((x) => !x.okundu).length, rozet = $('#bnRozet');
     rozet.hidden = !n;
     rozet.textContent = n + ' okunmamış';
     $('#bnHepsi').disabled = !n;
-    $('#bnSuzgec').innerHTML = cip('tumu', 'Tümü', '', l.length) + Object.keys(B.TUR).map((k) => cip(k, B.TUR[k][0], B.TUR[k][1], l.filter((x) => x.tur === k).length)).join('');
+    $('#bnSuzgec').innerHTML = cip('tumu', 'Tümü', '', l.length) + Object.keys(B.TUR).map((k) => cip(k, B.TUR[k][0], B.TUR[k][1])).join('');
     const g = l.filter((x) => suzgec === 'tumu' || x.tur === suzgec), fark = (x) => B.gunFarki(x.tarih);
     $('#bnListe').innerHTML = grup('Bugün', g.filter((x) => fark(x) <= 0)) + grup('Dün', g.filter((x) => fark(x) === 1)) + grup('Daha Eski', g.filter((x) => fark(x) > 1));
     const bos = $('#bnBos');
@@ -29,7 +29,7 @@
     const s = e.target.closest('.bildirim-satir');
     if (!s) return;
     const id = s.dataset.id, op = e.target.closest('[data-op]');
-    if (!op) { if (e.target.closest('[data-git]')) B.oku(id); return; }
+    if (!op) { if (s.classList.contains('okunmadi')) B.oku(id); return; }
     if (op.dataset.op === 'oku') { B.oku(id); return; }
     silinen = id;
     B.sil(id);

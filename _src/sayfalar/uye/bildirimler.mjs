@@ -1,9 +1,9 @@
-// Bildirimler: Gastro g-bildirimler iskeleti (bant, ortalı süzgeç, gün grupları, alt not). Satır ve veri assets/js/bildirim-zili.js'ten, zil paneliyle aynı.
+// Bildirimler: Gastro g-bildirimler iskeleti (bant + okunmamış rozeti, ortalı Tümü/kategori süzgeci, gün grupları, satır işlemleri, alt not). Zil açılır panel açmaz, bu sayfaya gelir. Satır ve veri assets/js/bildirim-zili.js.
 const K = '{{kok}}';
 
 const govde = `<section class="bant nt-top"><div class="wrap kap">
 <nav class="kirinti" aria-label="Sayfa yolu"><a class="kirinti-ev" href="${K}"><i class="fa-solid fa-house" aria-hidden="true"></i><span class="yalniz-okuyucu">Dada Diet ana sayfa</span></a><i class="fa-solid fa-chevron-right" aria-hidden="true"></i><a href="${K}hesabim/">Hesabım</a><i class="fa-solid fa-chevron-right" aria-hidden="true"></i><span class="kirinti-simdi">Bildirimler</span></nav>
-<div class="bant-bas"><div><h1>Bildirimler <span class="rozet sayac" id="bnRozet" hidden></span></h1><p class="bant-alt">Randevu, mesaj, program ve rozet hareketlerinin hepsi tek akışta.</p></div>
+<div class="bant-bas"><div><h1>Bildirimler <span class="rozet sayac" id="bnRozet" hidden></span></h1><p class="bant-alt">Randevu, mesaj, program ve sistem bildirimlerinin hepsi tek akışta.</p></div>
 <div class="bant-araclar"><button class="dugme orta cam" type="button" id="bnHepsi"><i class="fa-solid fa-check-double" aria-hidden="true"></i> Tümünü Okundu İşaretle</button><a class="dugme orta cam ikon" href="${K}hesabim/ayarlar/#bildirim" aria-label="Bildirim ayarları" title="Bildirim ayarları"><i class="fa-solid fa-gear" aria-hidden="true"></i></a></div></div>
 </div></section>
 <section class="bolum bildirim-govde dikis bant-ustunde"><div class="wrap kap">

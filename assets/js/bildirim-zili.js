@@ -1,12 +1,22 @@
-/* Üst bar bildirim zili ve açılır paneli. Zil rozeti Gastro kuralıyla çalışır (public/kabuk/zil-sayaci.*): sayı yazılana kadar gizli, sıfırda yok.
-   Gastro'da zil yalnız bağlantıdır, açılır paneli yoktur; panel kanonun .acilir-yuzey + .acilir-bas iskeletine §59 .bildirim-satir satırını koyar.
-   DD.bildirim panel ile /hesabim/bildirimler sayfasının tek veri ve satır kaynağıdır. Okunma durumu DD.demo içinde (uyeYerel.bildirimDurum). */
+/* Üst bar bildirim zili: yalnız sayaç. Zil Gastro'daki gibi doğrudan /hesabim/bildirimler sayfasına giden bağlantıdır, açılır paneli yoktur
+   (Gastro resources/views/turetilmis/uye/g-bildirimler.blade.php:124, head-bell bir <a href="/hesabim/bildirimler">).
+   Zil rozeti Gastro kuralıyla çalışır (public/kabuk/zil-sayaci.js): sıfırda gizli.
+   DD.bildirim Bildirimler sayfasının tek veri ve satır kaynağıdır. Okunma durumu DD.demo içinde (uyeYerel.bildirimDurum).
+   Kategoriler Gastro yapısında dörde iner: Randevu, Mesaj, Program, Sistem (kategori() eşlemesi). */
 (function () {
   'use strict';
   const DD = window.DD;
   if (!DD || !DD.demo || !DD.bicim) return;
-  const TUR = { randevu: ['Randevu', 'fa-calendar-check'], mesaj: ['Mesaj', 'fa-comments'], program: ['Program', 'fa-clipboard-list'], diyetisyen: ['Diyetisyen', 'fa-user-doctor'], rozet: ['Rozet', 'fa-award'], sistem: ['Sistem', 'fa-gear'] };
-  const PANEL_SATIR = 6;
+  /* Gastro öbek kalıbı: ikon ve ad g-bildirimler.blade.php:437-438 ($ikonHaritasi, $turHaritasi); sistem ikonu fa-circle-info, karosu .bs-ikon.sistem */
+  const TUR = { randevu: ['Randevu', 'fa-calendar-check'], mesaj: ['Mesaj', 'fa-comments'], program: ['Program', 'fa-clipboard-list'], sistem: ['Sistem', 'fa-circle-info'] };
+  /* Türetmedeki ayrıntılı tür dört kategoriye eşlenir: diyetisyen notu ve tahlil isteği diyetisyenden gelen yazılı istektir (Mesaj);
+     veri izni isteği ve rozet hesap olayıdır (Sistem). Gastro'da da rozet bildirimi Sistem etiketiyle görünür
+     (app/Gozlemciler/RozetBildirimiGozlemcisi.php:36 obek 'rozet', görünümde $turHaritasi[...] ?? 'Sistem'). */
+  const kategori = (x) => {
+    if (TUR[x.tur]) return x.tur;
+    if (x.tur === 'diyetisyen') return String(x.id).indexOf('izn-') === 0 ? 'sistem' : 'mesaj';
+    return 'sistem';
+  };
   const kac = (s) => String(s == null ? '' : s).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
   const gun = (t) => { const p = String(t).slice(0, 10).split('-').map(Number); return new Date(p[0], p[1] - 1, p[2]); };
   const gunFarki = (t) => Math.round((gun(DD.bugun) - gun(t)) / 86400000);
@@ -42,7 +52,7 @@
     return l.filter((x) => !dur.silindi[x.id]).map((x) => ({ ...x, okundu: dur.okundu[x.id] != null ? dur.okundu[x.id] : gunFarki(x.tarih) > 14 })).sort((a, c) => c.tarih.localeCompare(a.tarih));
   }
 
-  const liste = () => (window.DDU && window.DDU.bildirimler ? window.DDU.bildirimler() : turet());
+  const liste = () => (window.DDU && window.DDU.bildirimler ? window.DDU.bildirimler() : turet()).map((x) => ({ ...x, tur: kategori(x) }));
   const okunmamis = () => liste().filter((x) => !x.okundu).length;
   /* ?bos=1 kaydı yazmaz: DDU.kaydet bu kuralı taşır */
   const kaydet = () => {
@@ -56,14 +66,12 @@
     if (n < 7) return n + ' gün önce';
     return n < 30 ? Math.floor(n / 7) + ' hafta önce' : Math.floor(n / 30) + ' ay önce';
   };
-  /* Satır biçimi tek yerde. islem: liste sayfasının kalem işlemleri; panelde satırın tamamı bağlantıdır */
-  function satir(x, islem) {
-    const t = TUR[x.tur] || TUR.program, ik = '<i class="fa-solid ' + t[1] + '" aria-hidden="true"></i>', href = DD.kok + x.yol;
-    const ic = '<span class="bs-ikon">' + ik + '</span><div class="bs-metin"><p><b>' + kac(x.baslik) + '</b> ' + kac(x.metin) + '</p><span class="bs-meta"><span class="tur">' + ik + ' ' + t[0] + '</span> · <span>' + zaman(x.tarih) + '</span></span></div>';
+  /* Satır biçimi tek yerde: Gastro g-bildirimler.blade.php:445-458 (ikon, metin, meta, kalem işlemleri, okunmadı beneği) */
+  function satir(x) {
+    const t = TUR[x.tur] || TUR.sistem, ik = '<i class="fa-solid ' + t[1] + '" aria-hidden="true"></i>', href = DD.kok + x.yol;
+    const ic = '<span class="bs-ikon' + (x.tur === 'sistem' ? ' sistem' : '') + '">' + ik + '</span><div class="bs-metin"><p><b>' + kac(x.baslik) + '</b> ' + kac(x.metin) + '</p><span class="bs-meta"><span class="tur">' + ik + ' ' + t[0] + '</span> · <span>' + zaman(x.tarih) + '</span></span></div>';
     const benek = x.okundu ? '' : '<span class="bs-benek" role="img" aria-label="Okunmadı"></span>';
-    const sinif = 'bildirim-satir' + (x.okundu ? '' : ' okunmadi');
-    if (!islem) return '<a class="' + sinif + '" href="' + kac(href) + '" data-id="' + kac(x.id) + '">' + ic + benek + '</a>';
-    return '<div class="' + sinif + '" data-type="' + x.tur + '" data-id="' + kac(x.id) + '">' + ic + '<span class="bs-islemler"><a class="bs-islem" href="' + kac(href) + '" aria-label="İlgili sayfaya git" title="İlgili sayfaya git" data-git><i class="fa-solid fa-arrow-right" aria-hidden="true"></i></a><button class="bs-islem okundu" type="button" data-op="oku" aria-label="Okundu olarak işaretle" title="Okundu olarak işaretle"><i class="fa-solid fa-check" aria-hidden="true"></i></button><button class="bs-islem sil" type="button" data-op="sil" aria-label="Bildirimi sil" title="Bildirimi sil"><i class="fa-solid fa-trash-can" aria-hidden="true"></i></button></span>' + benek + '</div>';
+    return '<div class="bildirim-satir' + (x.okundu ? '' : ' okunmadi') + '" data-type="' + x.tur + '" data-id="' + kac(x.id) + '">' + ic + '<span class="bs-islemler"><a class="bs-islem" href="' + kac(href) + '" aria-label="İlgili sayfaya git" title="İlgili sayfaya git" data-git><i class="fa-solid fa-arrow-right" aria-hidden="true"></i></a><button class="bs-islem okundu" type="button" data-op="oku" aria-label="Okundu işaretle" data-ipucu="Okundu işaretle"><i class="fa-solid fa-check" aria-hidden="true"></i></button><button class="bs-islem sil" type="button" data-op="sil" aria-label="Sil" data-ipucu="Sil"><i class="fa-solid fa-trash" aria-hidden="true"></i></button></span>' + benek + '</div>';
   }
 
   DD.bildirim = {
@@ -74,78 +82,18 @@
     geriAl(id) { delete durum().silindi[id]; kaydet(); },
   };
 
+  /* Zil bağlantı olarak kalır; yalnız okunmamış sayacı yazılır */
   function kur() {
     const zil = document.querySelector('.head-bell');
     if (!zil) return;
     const rozet = zil.querySelector('.hb-badge');
-    const kap = document.createElement('div');
-    kap.className = 'acilir-kap zil-kap oturum-acik';
-    zil.before(kap);
-    kap.append(zil);
-    const yuzey = document.createElement('div');
-    yuzey.className = 'acilir-yuzey saga zil-panel';
-    yuzey.id = 'zilPanel';
-    yuzey.hidden = true;
-    yuzey.tabIndex = -1;
-    yuzey.setAttribute('role', 'dialog');
-    yuzey.setAttribute('aria-label', 'Bildirimler');
-    kap.append(yuzey);
-    zil.setAttribute('role', 'button');
-    zil.setAttribute('aria-haspopup', 'dialog');
-    zil.setAttribute('aria-expanded', 'false');
-    zil.setAttribute('aria-controls', yuzey.id);
-
     function sayac() {
       const n = okunmamis();
       if (rozet) { rozet.textContent = n; rozet.hidden = !n; }
       document.documentElement.dataset.zilSayaci = n ? 'yazildi' : 'sifir';
       zil.setAttribute('aria-label', n ? 'Bildirimler, ' + n + ' okunmamış' : 'Bildirimler');
     }
-    function ciz() {
-      const l = liste(), n = l.filter((x) => !x.okundu).length;
-      const bos = '<div class="bos-durum kart-ici"><span class="bos-ikon"><i class="fa-solid fa-bell-slash" aria-hidden="true"></i></span><h3>Henüz bildirimin yok</h3><p>Randevu, mesaj ve program hareketlerin burada görünecek.</p></div>';
-      yuzey.innerHTML = '<div class="acilir-bas"><span>Bildirimler</span>' + (n ? '<button type="button" data-zil-hepsi>Tümünü okundu işaretle</button>' : '') + '</div>'
-        + '<div class="zil-liste">' + (l.length ? l.slice(0, PANEL_SATIR).map((x) => satir(x)).join('') : bos) + '</div>'
-        + '<a class="zil-alt" href="' + DD.kok + 'hesabim/bildirimler/">Tüm bildirimleri gör <i class="fa-solid fa-arrow-right" aria-hidden="true"></i></a>';
-    }
-    const acik = () => !yuzey.hidden;
-    function kapat(odakGeri) {
-      if (!acik()) return;
-      yuzey.hidden = true;
-      zil.setAttribute('aria-expanded', 'false');
-      if (odakGeri) zil.focus();
-    }
-    function ac() {
-      ciz();
-      const bas = zil.closest('header');
-      if (bas) yuzey.style.setProperty('--zil-ust', Math.round(bas.getBoundingClientRect().bottom) + 'px');
-      yuzey.hidden = false;
-      zil.setAttribute('aria-expanded', 'true');
-      yuzey.focus({ preventScroll: true });
-    }
-
-    zil.addEventListener('click', (e) => {
-      if (e.metaKey || e.ctrlKey || e.shiftKey) return;
-      e.preventDefault();
-      if (acik()) kapat(true); else ac();
-    });
-    zil.addEventListener('keydown', (e) => { if (e.key === ' ') { e.preventDefault(); zil.click(); } });
-    yuzey.addEventListener('click', (e) => {
-      if (e.target.closest('[data-zil-hepsi]')) {
-        DD.bildirim.hepsiniOku();
-        yuzey.focus({ preventScroll: true });
-        DD.toast('Bütün bildirimler okundu.');
-        return;
-      }
-      const s = e.target.closest('.bildirim-satir');
-      if (s) DD.bildirim.oku(s.dataset.id);
-      if (s || e.target.closest('.zil-alt')) kapat(false);
-    });
-    document.addEventListener('keydown', (e) => { if (e.key === 'Escape' && acik()) kapat(true); });
-    /* composedPath: yeniden çizimde DOM'dan çıkan düğme de panelin içi sayılır */
-    document.addEventListener('click', (e) => { if (acik() && !e.composedPath().includes(kap)) kapat(false); });
-    kap.addEventListener('focusout', (e) => { if (e.relatedTarget && !kap.contains(e.relatedTarget)) kapat(false); });
-    document.addEventListener('dd:bildirim', () => { sayac(); if (acik()) ciz(); });
+    document.addEventListener('dd:bildirim', sayac);
     sayac();
   }
   document.addEventListener('DOMContentLoaded', kur);
