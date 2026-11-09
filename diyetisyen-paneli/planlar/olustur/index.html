@@ -228,17 +228,26 @@
         <div class="segment tam-segment" id="tarifKaynak" role="group" aria-label="Yemek kaynağı">
           <button type="button" aria-pressed="true" data-deger="gastro"><i class="fa-solid fa-utensils" aria-hidden="true"></i> Dada Gastro</button>
           <button type="button" aria-pressed="false" data-deger="yeni"><i class="fa-solid fa-plus" aria-hidden="true"></i> Yeni Tarif</button>
-          <button type="button" aria-pressed="false" data-deger="kayitli"><i class="fa-solid fa-bookmark" aria-hidden="true"></i> Tariflerim <span class="sekme-sayi" id="tarifSayi"></span></button>
+          <button type="button" aria-pressed="false" data-deger="kayitli"><i class="fa-solid fa-book-bookmark" aria-hidden="true"></i> Reçetelerim <span class="sekme-sayi" id="tarifSayi"></span></button>
         </div>
         <form id="yeniTarifAlan" novalidate hidden>
+          <div class="bilgi-notu" id="ytKaynakNot" hidden><i class="fa-solid fa-utensils" aria-hidden="true"></i><p id="ytKaynakMetin"></p></div>
           <div class="alan"><label class="alan-etiket" for="ytAd">Tarif adı <span class="zorunlu" aria-hidden="true">*</span></label><input class="alan-girdi" id="ytAd" type="text" maxlength="60" required placeholder="Örn. Fırında sebzeli hindi"></div>
+          <div class="alan">
+            <span class="alan-etiket" id="ytOgunEtiket">Uygun öğünler</span>
+            <div class="cip-sira" id="ytOgunler" role="group" aria-labelledby="ytOgunEtiket">
+              <button class="cip" type="button" data-deger="kahvalti" aria-pressed="false">Kahvaltı</button>
+              <button class="cip" type="button" data-deger="ara" aria-pressed="false">Ara öğün</button>
+              <button class="cip" type="button" data-deger="ogle" aria-pressed="false">Öğle</button>
+              <button class="cip" type="button" data-deger="aksam" aria-pressed="false">Akşam</button>
+            </div>
+          </div>
           <div class="alan-izgara c3">
-            <div class="alan"><label class="alan-etiket" for="ytOgun">Öğün tipi</label><select class="alan-secim" id="ytOgun"><option value="kahvalti">Kahvaltı</option><option value="ara">Ara öğün</option><option value="ogle">Öğle</option><option value="aksam">Akşam</option></select></div>
             <div class="alan"><label class="alan-etiket" for="ytKcal">Enerji (kcal) <span class="zorunlu" aria-hidden="true">*</span></label><input class="alan-girdi" id="ytKcal" type="number" min="0" step="5" required></div>
-            <div class="alan"><label class="alan-etiket" for="ytLif">Lif (g)</label><input class="alan-girdi" id="ytLif" type="number" min="0" step="0.5"></div>
             <div class="alan"><label class="alan-etiket" for="ytP">Protein (g)</label><input class="alan-girdi" id="ytP" type="number" min="0" step="0.5"></div>
             <div class="alan"><label class="alan-etiket" for="ytK">Karb. (g)</label><input class="alan-girdi" id="ytK" type="number" min="0" step="0.5"></div>
             <div class="alan"><label class="alan-etiket" for="ytY">Yağ (g)</label><input class="alan-girdi" id="ytY" type="number" min="0" step="0.5"></div>
+            <div class="alan"><label class="alan-etiket" for="ytLif">Lif (g)</label><input class="alan-girdi" id="ytLif" type="number" min="0" step="0.5"></div>
           </div>
           <div class="alan"><label class="alan-etiket" for="ytMalzeme">Malzemeler <span class="istege-bagli">her satıra bir malzeme</span></label><textarea class="alan-metin" id="ytMalzeme" rows="4" maxlength="800" placeholder="120 g Hindi göğsü&#10;100 g Kabak"></textarea></div>
           <div class="alan"><label class="alan-etiket" for="ytAdim">Hazırlanışı <span class="istege-bagli">(isteğe bağlı)</span></label><textarea class="alan-metin" id="ytAdim" rows="3" maxlength="800"></textarea></div>
@@ -254,9 +263,10 @@
               <button class="cip" type="button" data-deger="susam" aria-pressed="false">Susam</button>
             </div>
           </div>
-          <p class="alan-yardim"><i class="fa-solid fa-circle-info" aria-hidden="true"></i><span>Değerler ve malzemeler bir porsiyon içindir. Tarif öğüne eklenir, Tariflerim listesine de kaydedilir.</span></p>
+          <p class="alan-yardim"><i class="fa-solid fa-circle-info" aria-hidden="true"></i><span>Değerler ve malzemeler bir porsiyon içindir. Reçete yalnız sana görünür; Reçetelerim listende kalır, danışanın onu planındaki kalem olarak görür.</span></p>
           <div class="eylem-satiri">
             <button class="dugme hayalet" type="button" data-plan="tarif-vazgec" id="ytVazgec" hidden>Vazgeç</button>
+            <button class="dugme hayalet" type="button" data-plan="tarif-yalniz" id="ytYalniz"><i class="fa-solid fa-book-bookmark" aria-hidden="true"></i> Yalnız Reçetelerime kaydet</button>
             <button class="dugme birincil" type="submit" id="ytKaydet"><i class="fa-solid fa-plus" aria-hidden="true"></i> Plana ekle ve kaydet</button>
           </div>
         </form>
@@ -280,11 +290,11 @@
               <input class="panel-arama-girdi" id="sheetAra" type="search" placeholder="Ara" autocomplete="off">
             </div>
             <div class="secim-suzgec" id="suzgecAlan">
-            <div class="alan-izgara c3">
-              <div class="alan"><label class="alan-etiket" for="suzOgun">Öğün tipi</label><select class="alan-secim" id="suzOgun"><option value="">Tümü</option><option value="kahvalti">Kahvaltı</option><option value="ara">Ara öğün</option><option value="ogle">Öğle</option><option value="aksam">Akşam</option></select></div>
+            <div class="alan-izgara ogun-suzgec">
+              <div class="alan"><span class="alan-etiket" id="suzOgunEtiket">Öğün</span><div class="segment" id="suzOgunKip" role="group" aria-labelledby="suzOgunEtiket"><button type="button" aria-pressed="true" data-deger="uygun"><span data-rol="uygun-ad">Bu öğüne uygun</span> <span class="sekme-sayi" id="suzUygunSayi"></span></button><button type="button" aria-pressed="false" data-deger="tum">Tüm yemekler <span class="sekme-sayi" id="suzTumSayi"></span></button></div></div>
               <div class="alan"><label class="alan-etiket" for="suzKcal">Kalori</label><select class="alan-secim" id="suzKcal"><option value="">Tümü</option><option value="0-150">150 altı</option><option value="150-300">150–300</option><option value="300-500">300–500</option><option value="500-9999">500 üstü</option></select></div>
-              <div class="alan"><label class="alan-etiket" for="suzKategori">Kategori</label><select class="alan-secim" id="suzKategori"></select></div>
             </div>
+            <div class="cip-sira tek-satir" id="suzKategori" role="group" aria-label="Kategori"></div>
             <div class="cipler" id="suzDiyet" aria-label="Diyet süzgeci">
               <button class="cip" type="button" data-deger="Vegan" aria-pressed="false">Vegan</button>
               <button class="cip" type="button" data-deger="Vejetaryen" aria-pressed="false">Vejetaryen</button>
@@ -298,7 +308,7 @@
             <span class="bos-ikon"><i class="fa-solid fa-magnifying-glass" aria-hidden="true"></i></span>
             <h3>Sonuç bulunamadı</h3>
             <p>Süzgeci gevşet ya da serbest kalem olarak ekle.</p>
-            <button class="dugme hayalet" type="button" data-plan="serbest-gec">Serbest kalem ekle</button>
+            <div class="eylem-satiri"><button class="dugme hayalet" type="button" data-plan="ogun-tum" id="sheetBosOgun">Tüm yemekleri göster</button><button class="dugme hayalet" type="button" data-plan="serbest-gec">Serbest kalem ekle</button></div>
           </div>
         </div>
       </div>

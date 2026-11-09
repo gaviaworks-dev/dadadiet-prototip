@@ -133,7 +133,7 @@ const sonEk = ''
   + modal({ id: 'kodModal', baslik: 'Kurtarma Kodların', govde: '<div class="cipler" id="kodListe"></div>', ayak: dugme('Kopyala', { ikon: 'fa-copy', ek: ' id="kodKopyala"' }) + dugme('Kapat', { sinif: 'birincil', ek: ' data-kapat' }) });
 
 export default () => [uyeKabuk({
-  yol: 'hesabim/ayarlar', baslik: 'Hesap Ayarlarım',
+  yol: 'hesabim/ayarlar', baslik: 'Hesap Ayarları',
   aciklama: 'Profilin, bildirimlerin, güvenliğin, birim tercihlerin ve bağlı uygulamaların burada; hesabını dondurma ve silme de. Paketin ve kademelerin Paketlerim’de, tahsilat ve kartların Ödemelerim’de.',
   muhur: 'Hesabın · kişisel alanın', ikon: 'fa-sliders', duzenle: true,
   grup: 'hs',

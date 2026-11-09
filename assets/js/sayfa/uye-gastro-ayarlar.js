@@ -1,4 +1,4 @@
-/* Hesap Ayarlarım (fotoğraf ve kapak örtüleri kabukta): profil, güvenlik, bağlı uygulamalar, veri, dondurma ve silme */
+/* Hesap Ayarları (fotoğraf ve kapak örtüleri kabukta): profil, güvenlik, bağlı uygulamalar, veri, dondurma ve silme */
 (function () {
   'use strict';
   const DD = window.DD, U = window.DDU, G = window.DDG;
