@@ -294,7 +294,7 @@ a.baglanti-kart .kart-metin,.muadil-kart .kart-metin{text-align:left;text-align-
 
 /* Yığma çubuk: toplamı 100 olan parçalar, parça arası 2 px */
 .yigma-cubuk{display:flex;gap:2px;height:12px;border-radius:var(--yuvarlak-hap);overflow:hidden;background:var(--olcer-zemin)}
-.yigma-cubuk>span{display:block;flex:0 0 auto;width:calc(var(--oran,0)*1%);background:var(--renk,var(--aksan));transition:width var(--sure) var(--yumusama)}
+.yigma-cubuk>span{display:block;flex:0 1 auto;min-width:0;width:calc(var(--oran,0)*1%);background:var(--renk,var(--aksan));transition:width var(--sure) var(--yumusama)}
 .lejant-kalem.m-protein{--lejant-renk:var(--makro-protein)}
 .lejant-kalem.m-karb{--lejant-renk:var(--makro-karb)}
 .lejant-kalem.m-yag{--lejant-renk:var(--makro-yag)}
