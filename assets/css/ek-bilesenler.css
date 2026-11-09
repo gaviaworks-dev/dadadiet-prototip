@@ -3595,3 +3595,10 @@ body.rk-altbar-acik #dadaMentor{--mentor-dip:max(var(--mentor-taban),calc(var(--
 a.rk-gunun-sponsoru.rk-slot{max-width:100%;height:auto;min-height:38px;padding-block:var(--bosluk-4)}
 .ust-etiket+a.rk-gunun-sponsoru.rk-slot{display:flex;width:fit-content;margin:var(--bosluk-8) 0 var(--bosluk-12)}
 .rk-gunun-sponsoru span{min-width:0}
+
+/* === Tarif ekibi (9 Kasım T1): Sağlıklı Tarifler, seçki, marka profili === */
+/* Kart içinde açılan dikdörtgen reklam (TD-TIP): kenar kutusu ölçüsünde kalır */
+.kart-govde>.rk-rectangle{max-width:360px}
+/* Liste ızgarasında tam satır şerit (TL-T1, KT-T1; canlı .rk-liste-sira) */
+.kart-izgara>.rk-liste-sira{grid-column:1/-1;min-width:0}
+/* tarif-son */
