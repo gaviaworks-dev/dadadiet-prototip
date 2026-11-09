@@ -363,6 +363,8 @@
   --eko-akademi-3:#4aa6b6;                     /* petrol rampasının PARLAK adımı (§63d) */
   --durum-acik-metin:var(--eko-akademi);        /* #006072 · beyazla 7.20:1 */
   --durum-acik-zemin:var(--eko-akademi-yikama); /* #e6f1f4 · metinle 6.26:1 */
+  /* Bilgi mavisi: mobil kanonun --dd-bilgi ailesi (dadadiet-mobil kanon/dd-tokens.css). Su kartı bunu kullanır. */
+  --bilgi:#0093d0; --bilgi-koyu:#006289; --bilgi-zemin:#e0f2fa; --bilgi-cizgi:#b5def0;
 
   --durum-bekleyen-metin:var(--uyari);          /* #8a4b00 — kaynakla birebir */
   --durum-bekleyen-zemin:var(--uyari-yikama);   /* #fdf3e4 — kaynakla birebir */
