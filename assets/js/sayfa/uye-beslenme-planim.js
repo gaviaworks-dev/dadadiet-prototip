@@ -28,12 +28,13 @@
     const dongu = sure(k) + ' günlük döngü hâlinde ilerliyor.';
     const alt = k.tip === 'plan'
       ? '<i class="fa-solid fa-user-doctor" aria-hidden="true"></i> Diyetisyenin: ' + U.kac(dy ? dy.ad : '') + ' · ' + U.tarih(k.plan.tarih) + ' · Başlangıç ' + U.tarih(U.planBas(k.plan)) + (duyarli ? '' : ' · ' + DD.bicim.kcal(k.plan.hedef_kcal) + ' hedef') + '. ' + dongu
-      : dongu + ' ' + U.kac(U.enerjisiz(TU.aciklama(k.program.aciklama || '', k.program)));
+      : dongu + ' ' + U.kac(U.enerjisiz(TU.aciklama(k.program.aciklama || '', k.program))) + (U.olcekMetin(k.program) ? ' ' + U.olcekMetin(k.program) : '');
     U.bas('#bpBas', bolumBas('fa-seedling', 'Yürüyen program', k.ad, alt, U.bag('Program kütüphanesine git', 'programlar/', 'hayalet')));
     U.bas('#bpNotKap', k.tip === 'plan' && k.plan.danisana_not
       ? '<div class="kart panel tam-kolon"><div class="kart-bas"><div><h3 class="kart-baslik"><i class="fa-solid fa-comment-medical" aria-hidden="true"></i> Diyetisyeninin Notu</h3><p>' + U.kac(dy ? dy.ad : '') + ' · ' + U.tarih(k.plan.tarih) + '</p></div></div><div class="kart-govde okuma"><p>' + U.kac(k.plan.danisana_not) + '</p></div></div>'
       : '');
     U.bas('#bpUyum', U.uyumGovde(k));
+    bitisCiz(k);
     const u = U.uyum(k);
     $('#bpUyumMetin').textContent = u.tamam ? u.toplam + ' öğünün ' + u.tamam + ' tanesinde plana uydun.' : 'Henüz işaretlenmiş bir öğün yok.';
     U.bas('#bpDurumHap', durakli(k) ? U.durum('bekleyen', 'Duraklatıldı', 'fa-pause') : U.durum('cozulen', 'Yürüyor', 'fa-play'));
@@ -41,6 +42,32 @@
     d.innerHTML = durakli(k) ? '<i class="fa-solid fa-play" aria-hidden="true"></i> Programa devam et' : '<i class="fa-solid fa-pause" aria-hidden="true"></i> Programı duraklat';
     dokumCiz();
     notlarCiz();
+  }
+
+  /* Program bitince: ilerleme özeti ve sıradaki program önerisi */
+  const katalog = JSON.parse(($('#bpKatalog') || {}).textContent || '[]');
+  function olcumFarki(bas, son) {
+    if (duyarli) return '';
+    const l = (U.danisan().olcumler || []).filter((x) => x.kilo != null).sort((x, y) => x.tarih.localeCompare(y.tarih));
+    const ilk = l.filter((x) => x.tarih <= bas).slice(-1)[0] || l.find((x) => x.tarih >= bas && x.tarih <= son), sn = l.filter((x) => x.tarih <= son).slice(-1)[0];
+    if (!ilk || !sn || ilk === sn) return 'Bu aralıkta iki ölçüm olmadığı için kilo değişimi hesaplanmadı.';
+    const f = sn.kilo - ilk.kilo;
+    return 'Kilon ' + U.tarih(ilk.tarih) + ' ile ' + U.tarih(sn.tarih) + ' arasında ' + (Math.abs(f) < 0.05 ? 'değişmedi' : U.sayi(Math.abs(f), 1) + ' kg ' + (f < 0 ? 'azaldı' : 'arttı')) + '.';
+  }
+  function benzerler(p) {
+    const bitti = U.programlar().map((x) => x.slug), puan = (x) => (x.hedef || []).filter((h) => (p.hedef || []).includes(h)).length * 2 + (x.tercih || []).filter((h) => (p.tercih || []).includes(h)).length;
+    return katalog.filter((x) => x.slug !== p.slug && !bitti.includes(x.slug)).map((x) => [puan(x), x]).filter((x) => x[0] > 0).sort((a, c) => c[0] - a[0]).slice(0, 2).map((x) => x[1]);
+  }
+  function bitisCiz(k) {
+    const bas = U.kaynakBas(k), son = U.gunEkle(bas, sure(k) - 1);
+    if (b <= son || (k.tip === 'program' && k.program.durum === 'tamamlandi')) { U.bas('#bpBitis', ''); return; }
+    const u = U.uyum(k), p = k.tip === 'program' ? k.program : null, oneri = p ? benzerler(p) : [];
+    const sat = (i, m) => '<div class="ayar-satir"><span class="as-ikon"><i class="fa-solid ' + i + '" aria-hidden="true"></i></span><div class="as-metin"><b>' + m[0] + '</b><span>' + m[1] + '</span></div>' + (m[2] || '') + '</div>';
+    const satirlar = sat('fa-percent', ['Uyumun %' + u.oran, u.toplam + ' öğünün ' + u.tamam + ' tanesinde plana uydun.'])
+      + (duyarli ? '' : sat('fa-weight-scale', ['Ölçüm', olcumFarki(bas, son), '<div class="as-eylem"><a class="dugme hayalet kucuk" href="' + DD.kok + 'hesabim/saglik-dosyam/#olcum">Ölçüm ekle</a></div>']))
+      + oneri.map((x) => sat('fa-arrow-right', ['Sıradaki için: ' + U.kac(x.ad), x.sure_gun + ' günlük, hedefi ya da tarzı bitirdiğin programa yakın.', '<div class="as-eylem"><a class="dugme hayalet kucuk" href="' + DD.kok + 'program/' + x.slug + '/">İncele</a></div>'])).join('');
+    const eylem = p ? '<button class="dugme hayalet" type="button" id="bpArsivle"><i class="fa-solid fa-box-archive" aria-hidden="true"></i> Arşive al</button>' + U.bag('<i class="fa-solid fa-compass" aria-hidden="true"></i> Program Bul', 'programlar/program-bul/') : '<button class="dugme birincil" type="button" data-not-ac><i class="fa-solid fa-pen" aria-hidden="true"></i> Diyetisyenimden yeni plan iste</button>';
+    U.bas('#bpBitis', '<div class="kart panel tam-kolon"><div class="kart-bas"><div><h3 class="kart-baslik"><i class="fa-solid fa-flag-checkered" aria-hidden="true"></i> Program Tamamlandı</h3><p>' + U.kac(k.ad) + ' · ' + U.tarih(bas) + ' – ' + U.tarih(son) + '. Özetin işaretlediğin öğünlerden ve ölçümlerinden çıkar; bir sağlık değerlendirmesi değildir.</p></div></div><div class="kart-govde bosluksuz"><div class="ayar-liste">' + satirlar + '</div></div><div class="kart-alt eylem">' + eylem + '</div></div>');
   }
 
   /* Uyum dökümü hafta hafta: program başından bugüne, süren hafta da sayılır */
@@ -103,13 +130,51 @@
     for (let i = 0; i < 7; i++) U.secilenOgunler(k, U.gunEkle(bas, i)).forEach((o) => o.kalemler.forEach((x) => { const a = U.kalemAd(x); top[a] = top[a] || { tarif: x.tur === 'tarif', m: 0 }; if (x.slug) top[a].m += Number(x.miktar || x.gram) || 0; top[a].olcu = x.olcu; }));
     alisverisAdlar = Object.keys(top).sort((x, y) => x.localeCompare(y, 'tr'));
     const al = alinan();
-    U.bas('#bpAlisverisListe', alisverisAdlar.map((a, n) => '<div class="kalem-satiri"><div class="ks-metin"><b>' + U.kac(a) + '</b><small>' + (top[a].m ? U.sayi(top[a].m) + (top[a].tarif ? ' porsiyon' : ' g') : U.kac(top[a].olcu || '')) + '</small></div><div class="as-eylem">' + (al[a] ? U.durum('cozulen', 'Alındı') : U.durum('bekleyen', 'Bekliyor')) + '<label class="anahtar"><input type="checkbox" data-alindi="' + n + '"' + (al[a] ? ' checked' : '') + ' aria-label="' + U.kac(a) + ' alındı"><span class="anahtar-ray"></span></label></div></div>').join(''));
+    const sp = sepet();
+    alisverisMiktar = (a) => (top[a].m ? U.sayi(top[a].m) + (top[a].tarif ? ' porsiyon' : ' g') : top[a].olcu || '');
+    U.bas('#bpAlisverisListe', alisverisAdlar.map((a, n) => '<div class="kalem-satiri"><div class="ks-metin"><b>' + U.kac(a) + '</b><small>' + U.kac(alisverisMiktar(a)) + '</small></div><div class="as-eylem">' + (al[a] ? U.durum('cozulen', 'Alındı') : U.durum('bekleyen', 'Bekliyor')) + '<button class="dugme ' + (sp[a] ? 'birincil' : 'hayalet') + ' kucuk" type="button" data-sepet="' + n + '" aria-pressed="' + !!sp[a] + '" aria-label="' + U.kac(a) + (sp[a] ? ' sepette, çıkar' : ' Dada Market sepetine ekle') + '"><i class="fa-solid fa-cart-' + (sp[a] ? 'arrow-down' : 'plus') + '" aria-hidden="true"></i></button><label class="anahtar"><input type="checkbox" data-alindi="' + n + '"' + (al[a] ? ' checked' : '') + ' aria-label="' + U.kac(a) + ' alındı"><span class="anahtar-ray"></span></label></div></div>').join(''));
     $('#bpAlisverisMetin').textContent = U.kisaTarih(bas) + ' – ' + U.kisaTarih(U.gunEkle(bas, 6)) + ' menüsündeki öğünlerden çıkarıldı. Aldıklarını işaretle.';
     const n = alisverisAdlar.filter((a) => al[a]).length;
     $('#bpAlisverisSayac').textContent = n + ' / ' + alisverisAdlar.length + ' tamamlandı';
     $('#bpAlisverisSayac').className = 'durum-hapi ' + (n === alisverisAdlar.length && n ? 'cozulen' : 'bekleyen');
     $('#bpAlisverisHepsi').disabled = n === alisverisAdlar.length;
+    sepetSayi();
   }
+  /* Dada Market sepeti: prototip örneği, yalnız bu tarayıcıda; ürün ve fiyat yok */
+  const sepet = () => U.yerel('marketSepet', {});
+  let alisverisMiktar = () => '';
+  function sepetSayi() {
+    const n = Object.keys(sepet()).length;
+    $('#bpSepetSayi').textContent = n ? 'Sepette ' + n + ' malzeme var.' : '';
+    $('#bpSepetGor').disabled = !n;
+  }
+  function sepetCiz() {
+    const s = sepet(), l = Object.keys(s);
+    U.bas('#bpSepetListe', l.map((a) => '<div class="kalem-satiri"><div class="ks-metin"><b>' + U.kac(a) + '</b><small>' + U.kac(s[a]) + '</small></div><div class="as-eylem"><button class="dugme hayalet kucuk" type="button" data-sepet-cikar="' + U.kac(a) + '">Çıkar</button></div></div>').join('') || U.bos({ ikon: 'fa-cart-shopping', baslik: 'Sepetin boş', metin: 'Alışveriş listesindeki sepet simgesiyle malzeme ekle.' }));
+    $('#bpSepetBosalt').disabled = !l.length;
+  }
+  document.addEventListener('click', (e) => {
+    const d = e.target.closest('[data-sepet]');
+    if (d) {
+      const a = alisverisAdlar[Number(d.dataset.sepet)], s = sepet(), var_ = !!s[a];
+      if (var_) delete s[a]; else s[a] = alisverisMiktar(a);
+      U.kaydet(); haftaCiz();
+      DD.toast(var_ ? a + ' sepetten çıkarıldı.' : a + ' Dada Market sepetine eklendi (prototip örneği).');
+      return;
+    }
+    const c = e.target.closest('[data-sepet-cikar]');
+    if (c) { delete sepet()[c.dataset.sepetCikar]; U.kaydet(); sepetCiz(); haftaCiz(); return; }
+    if (e.target.closest('#bpSepetGor')) { sepetCiz(); DD.kapat($('#bpAlisveris')); DD.ac('#bpSepet'); return; }
+    if (e.target.closest('#bpSepetBosalt')) { U.yerel('marketSepet', {}); U.d().uyeYerel.marketSepet = {}; U.kaydet(); sepetCiz(); haftaCiz(); DD.toast('Sepetin boşaltıldı.'); return; }
+    if (e.target.closest('#bpArsivle')) {
+      const k = kk();
+      k.program.durum = 'tamamlandi';
+      hareketler().push({ tarih: b, ad: k.ad, hareket: 'Tamamlandı' });
+      U.yerel('gorunum', {}).kaynak = null;
+      U.kaydet(); ciz();
+      DD.toast(k.ad + ' arşive alındı.');
+    }
+  });
 
   function ogunCiz() {
     const k = kk();
@@ -151,8 +216,9 @@
     U.bas('#bpTamamBas', bolumBas('fa-box-archive', 'Arşiv', 'Tamamladığın Programlar', 'Sonuna kadar uyguladığın programlar ve uyum oranların.', ''));
     U.bas('#bpTamam', bitti.map((x, n) => {
       const k = { anahtar: x.slug, tip: 'program', program: x }, u = U.uyum(k), son = U.gunEkle(x.baslangic, x.sure_gun - 1);
+      const sonraki = benzerler(x)[0], olc = olcumFarki(x.baslangic, son);
       return '<tr><td><span class="no">' + U.kac(x.ad) + '<small>' + x.sure_gun + ' günlük döngü</small></span></td><td class="tarih">' + U.kisaTarih(x.baslangic) + ' – ' + U.kisaTarih(son) + '</td><td>' + U.durum(u.oran >= 80 ? 'cozulen' : 'bekleyen', '%' + u.oran) + '</td><td class="eylem-kolon"><button class="dugme hayalet kucuk" type="button" data-dokum-ac="' + n + '" aria-expanded="false" aria-controls="bpTamamDokum' + n + '">Dökümü aç</button></td></tr>'
-        + '<tr id="bpTamamDokum' + n + '" hidden><td colspan="4"><p class="alan-yardim"><span><b>' + U.kac(x.ad) + ' · program dökümü.</b> ' + x.sure_gun + ' gün, ' + U.tarih(x.baslangic) + ' – ' + U.tarih(son) + ', uyum %' + u.oran + '. Planlanan öğün ' + u.toplam + ', tamamlanan ' + u.tamam + '; program döngüsü ' + x.sure_gun + ' gün. Bu döküm yalnız işaretlediğin öğünlerden çıkarıldı; bir sağlık değerlendirmesi değildir.</span></p></td></tr>';
+        + '<tr id="bpTamamDokum' + n + '" hidden><td colspan="4"><p class="alan-yardim"><span><b>' + U.kac(x.ad) + ' · program dökümü.</b> ' + x.sure_gun + ' gün, ' + U.tarih(x.baslangic) + ' – ' + U.tarih(son) + ', uyum %' + u.oran + '. Planlanan öğün ' + u.toplam + ', tamamlanan ' + u.tamam + '; program döngüsü ' + x.sure_gun + ' gün. ' + (olc ? olc + ' ' : '') + 'Bu döküm yalnız işaretlediğin öğünlerden çıkarıldı; bir sağlık değerlendirmesi değildir.' + (sonraki ? ' Sıradaki için öneri: <a href="' + DD.kok + 'program/' + sonraki.slug + '/">' + U.kac(sonraki.ad) + '</a>.' : '') + '</span></p></td></tr>';
     }).join('') || '<tr><td colspan="4" class="bos-hucre">Henüz tamamlanmış bir programın yok.</td></tr>');
     U.sayac('tamamlanan', bitti.length);
     const p = U.plan();

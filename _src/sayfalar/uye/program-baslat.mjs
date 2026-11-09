@@ -4,6 +4,8 @@ export default ({ veri }) => {
   const ornek = veri.programlar.gun_ornegi;
   const katalog = veri.programlar.programlar.map(({ slug, ad, aciklama, sure_gun, enerji, zorluk, tercih, hedef }) => ({ slug, ad, aciklama, sure_gun, enerji, zorluk, tercih, hedef, ...(slug === ornek.slug ? { ornekGunler: ornek.gunler } : {}) }));
   const govde = `<div class="yigin" id="pbKap">
+<div id="pbOnay"></div>
+<div class="yigin" id="pbAktif">
 <div class="bilgi-notu" id="pbBildirim" hidden><i class="fa-solid fa-circle-check" aria-hidden="true"></i><p id="pbBildirimMetin"></p></div>
 <div id="pbBas"></div>
 <div class="uyum-yer" id="pbTercih"></div>
@@ -14,10 +16,11 @@ ${kart({
     alt: `${dugme('Programlarım', { href: 'hesabim/programlarim/' })}${dugme('Günlük takip', { ikon: 'fa-clipboard-list', href: 'hesabim/gunluk-takibim/' })}${dugme('Planıma git', { sinif: 'birincil', ikon: 'fa-arrow-right', href: 'hesabim/beslenme-planim/#ogun' })}`,
   })}
 </div>
+</div>
 <script type="application/json" id="programKatalog">${JSON.stringify(katalog).replace(/</g, '\\u003c')}</script>`;
   return [uyeSayfa({
     yol: 'hesabim/program-baslat', ad: 'Program Başlat', aktif: 'hesabim/programlarim/', ust: [['Programlarım', 'hesabim/programlarim/']],
-    giris: 'Seçtiğin program beslenme planına eklenir; bugünün öğünleri hemen hazır olur.',
+    giris: 'Programın özetine bak, başlangıç gününü seç; onayladığında beslenme planına eklenir.',
     govde, js: ['assets/js/tercih-uyum.js', 'assets/js/sayfa/uye-program-baslat.js'],
   })];
 };

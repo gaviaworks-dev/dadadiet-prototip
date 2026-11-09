@@ -3,6 +3,7 @@ import { uyeSayfa, kart, dugme, bilgi, modal } from '../../parcalar/uye/ust.mjs'
 const aktif = `<div class="yigin" id="bpAktif">
 <div class="cipler" id="bpKaynak" role="group" aria-label="Aktif program seçimi" data-suzgec hidden></div>
 <div id="bpBas"></div>
+<div id="bpBitis"></div>
 <div id="bpNotKap"></div>
 ${kart({
     ikon: 'fa-chart-line', baslik: 'Programa Uyum Durumun', metin: '<span id="bpUyumMetin"></span>',
@@ -61,15 +62,19 @@ const sonEk = modal({
   ayak: dugme('Vazgeç', { ek: ' data-kapat' }) + dugme('Gönder', { sinif: 'birincil', tur: 'submit' }),
 }) + modal({
   id: 'bpAlisveris', baslik: 'Haftalık Alışveriş Listen',
-  govde: '<p class="alan-yardim"><span id="bpAlisverisMetin"></span> <span class="durum-hapi bekleyen" id="bpAlisverisSayac"></span></p><div class="kalem-liste" id="bpAlisverisListe"></div>',
+  govde: '<p class="alan-yardim"><span id="bpAlisverisMetin"></span> <span class="durum-hapi bekleyen" id="bpAlisverisSayac"></span></p><div class="kalem-liste" id="bpAlisverisListe"></div><div class="bilgi-notu"><i class="fa-solid fa-cart-shopping" aria-hidden="true"></i><p><b>Dada Market (prototip örneği):</b> sepet simgesine bastığın malzemeler anlaşmalı market sepetine gider. Bu prototipte gerçek mağaza, fiyat ya da ödeme yok; sepetin yalnız bu tarayıcıda tutulur. <span id="bpSepetSayi"></span> <button class="dugme hayalet kucuk" type="button" id="bpSepetGor"><i class="fa-solid fa-cart-shopping" aria-hidden="true"></i> Sepeti gör</button></p></div>',
   ayak: dugme('Kapat', { ek: ' data-kapat' }) + dugme('Hepsini alındı işaretle', { sinif: 'birincil', ikon: 'fa-check-double', ek: ' id="bpAlisverisHepsi"' }),
+}) + modal({
+  id: 'bpSepet', baslik: 'Dada Market Sepetin',
+  govde: '<div class="bilgi-notu"><i class="fa-solid fa-flask" aria-hidden="true"></i><p><b>Prototip örneği.</b> Dada Market henüz yayında değil; ürün, fiyat ve mağaza gösterilmez. Canlıda sepetteki malzemeler anlaşmalı marketin ödeme sayfasına aktarılır.</p></div><div class="kalem-liste" id="bpSepetListe"></div>',
+  ayak: dugme('Sepeti boşalt', { ek: ' id="bpSepetBosalt"' }) + dugme('Kapat', { sinif: 'birincil', ek: ' data-kapat' }),
 }) + modal({
   id: 'bpDurakModal', baslik: '<span id="bpDurakBaslik">Programı duraklatmak üzeresin</span>', form: ' id="bpDurakForm"',
   govde: '<p class="alan-yardim"><span id="bpDurakOzet"></span></p><label class="onay-kutusu" for="bpDurakOnay"><input type="checkbox" id="bpDurakOnay"><span id="bpDurakOnayMetin"></span></label><p class="durum-satir kapali" id="bpDurakKilit"><i class="fa-solid fa-lock" aria-hidden="true"></i> <span>Kutuyu işaretlemeden işlem yapılamaz.</span></p>',
   ayak: dugme('Vazgeç', { ek: ' data-kapat' }) + dugme('Programı duraklat', { sinif: 'birincil', tur: 'submit', ek: ' id="bpDurakUygula" disabled' }),
 });
 
-export default () => [uyeSayfa({
+export default ({ veri }) => [uyeSayfa({
   yol: 'hesabim/beslenme-planim', ad: 'Beslenme Planım',
   giris: 'Aktif programın, haftalık menün ve günlük öğünlerin burada. Öğünü işaretle, alternatifini seç, programa uyumunu izle; geçmiş programların da bu sayfada arşivlenir.',
   eylem: dugme('Haftalık Menüm', { sinif: 'hayalet', ikon: 'fa-calendar-week', href: 'hesabim/haftalik-menum/' }),
@@ -82,5 +87,6 @@ export default () => [uyeSayfa({
     { id: 'tamamlanan', ad: 'Tamamlanan Programlar', ikon: 'fa-box-archive', sayi: 'tamamlanan', govde: tamamlanan },
     { id: 'gecmis', ad: 'Program Geçmişim', ikon: 'fa-clock-rotate-left', govde: gecmis },
   ],
-  sonEk, js: ['assets/js/tercih-uyum.js', 'assets/js/sayfa/uye-menu-pdf.js', 'assets/js/sayfa/uye-beslenme-planim.js'],
+  sonEk: sonEk + `<script type="application/json" id="bpKatalog">${JSON.stringify(veri.programlar.programlar.map(({ slug, ad, hedef, tercih, sure_gun }) => ({ slug, ad, hedef, tercih, sure_gun }))).replace(/</g, '\\u003c')}</script>`,
+  js: ['assets/js/tercih-uyum.js', 'assets/js/sayfa/uye-menu-pdf.js', 'assets/js/sayfa/uye-beslenme-planim.js'],
 })];

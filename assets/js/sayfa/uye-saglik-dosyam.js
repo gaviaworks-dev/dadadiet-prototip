@@ -13,6 +13,22 @@
   const belgeler = () => U.yerel('saglikBelge', []);
   /* Demonun örnek belgesi listeye bir kez girer; üye kaldırırsa geri gelmez */
   if (!U.bosKip && !U.yerel('saglikBelgeTohum', false)) { belgeler().push(...(dn.ornek_belgeler || [])); U.d().uyeYerel.saglikBelgeTohum = true; }
+  /* Örnek test sonuçları (prototip örneği) önceki tarayıcı durumuna bir kez katılır */
+  if (!U.bosKip && !U.yerel('testTohum', false)) {
+    const ilk = ((((window.DD_VERI || {}).demo || {}).uye || {}).test_sonuclari) || [], l = (u.test_sonuclari = u.test_sonuclari || []);
+    ilk.forEach((x) => { if (!l.some((y) => y.test === x.test && y.tarih === x.tarih)) l.push({ ...x }); });
+    l.sort((a, c) => String(a.tarih).localeCompare(String(c.tarih)));
+    U.d().uyeYerel.testTohum = true;
+  }
+  const testAd = JSON.parse(($('#sdTestKatalog') || {}).textContent || '{}');
+  const HEDEF = [...pf.elements.hedef.options].filter((o) => o.value).map((o) => [o.value, o.textContent]);
+  const hedefAd = (v) => (HEDEF.find((x) => x[0] === v) || [])[1] || v;
+  /* Sağlık profili değişiklik kaydı (ES-HS-35): her kayıtta değişen alan eski → yeni yazılır */
+  const hareket = () => U.yerel('profilHareket', []);
+  const degisti = (alan, eski, yeni) => {
+    const e = Array.isArray(eski) ? eski.join(', ') : eski == null ? '' : String(eski), y = Array.isArray(yeni) ? yeni.join(', ') : yeni == null ? '' : String(yeni);
+    if (e !== y) hareket().push({ tarih: b, alan, eski: e, yeni: y });
+  };
   /* Yüklenen dosya bu tarayıcının IndexedDB'sinde (belge-kasa.js) saklanır; yenilemeden sonra önizleme ve indirme çalışır.
      Depo açılamazsa dosya yalnız bu oturumda bellekte kalır. */
   const kasa = DD.belgeKasa, dosyalar = new Map(), dosyaAnahtar = kasa.anahtar;
@@ -52,7 +68,15 @@
     U.bas('#sdIzinler', tur.map((x) => U.durum(iz[x[0]] ? 'cozulen' : 'kapali', x[1], iz[x[0]] ? 'fa-eye' : 'fa-eye-slash')).join(''));
   }
 
-  function profilForm() { ['boy', 'kilo', 'hedef_kilo', 'hedef', 'dogum_yili', 'hareket_duzeyi'].forEach((k) => { pf.elements[k].value = dn[k] ?? ''; }); }
+  /* Hedef seçenek listesi: Tercihlerim hedefi önce; eski serbest metin hedef seçenekle eşleşmezse listenin başına "kayıtlı" olarak girer */
+  function profilForm() {
+    ['boy', 'kilo', 'hedef_kilo', 'dogum_yili', 'hareket_duzeyi'].forEach((k) => { pf.elements[k].value = dn[k] ?? ''; });
+    const sec = pf.elements.hedef, th = ((u.tercihler || {}).hedef === 'kilo' ? 'kilo-vermek' : (u.tercihler || {}).hedef) || '';
+    sec.querySelectorAll('[data-eski]').forEach((o) => o.remove());
+    const es = HEDEF.find((x) => x[1] === dn.hedef);
+    if (dn.hedef && !es && !th) sec.insertAdjacentHTML('beforeend', '<option value="__eski" data-eski>' + U.kac(dn.hedef) + ' (kayıtlı)</option>');
+    sec.value = th || (es ? es[0] : dn.hedef ? '__eski' : '');
+  }
 
   const TARZ = { dengeli: 'Dengeli', akdeniz: 'Akdeniz tipi', 'ev-yemekleri': 'Pratik ev yemekleri', vejetaryen: 'Vejetaryen', bitkisel: 'Vegan (bitkisel)', 'yuksek-protein': 'Yüksek protein', glutensiz: 'Glütensiz' };
   function profil() {
@@ -60,15 +84,22 @@
     const s = olcumler()[olcumler().length - 1];
     $('#sdSon').textContent = (s ? 'Son güncelleme: ' + U.tarih(s.tarih) : 'Henüz ölçüm yok') + ' · Hareket düzeyi: ' + (dn.hareket_duzeyi || 'kayıtlı değil');
     /* Duyarlı üyede kilo ve hedef bu özette görünmez; kayıtlı değerler düzenleme penceresinde korunur */
-    const temel = [['Boy', dn.boy ? dn.boy + ' cm' : '—'], ['Yaş', dn.yas || '—']].concat(duyarli ? [] : [['Güncel Kilo', dn.kilo ? U.sayi(dn.kilo, 1) + ' kg' : '—'], ['Hedef Kilo', dn.hedef_kilo ? kg(dn.hedef_kilo) : '—'], ['Hedefin', dn.hedef || 'Belirtilmedi']]);
+    const th = (u.tercihler || {}).hedef, hedefMetin = th ? hedefAd(th === 'kilo' ? 'kilo-vermek' : th) : dn.hedef;
+    const temel = [['Boy', dn.boy ? dn.boy + ' cm' : '—'], ['Yaş', dn.yas || '—']].concat(duyarli ? [] : [['Güncel Kilo', dn.kilo ? U.sayi(dn.kilo, 1) + ' kg' : '—'], ['Hedef Kilo', dn.hedef_kilo ? kg(dn.hedef_kilo) : '—'], ['Hedefin', hedefMetin || 'Belirtilmedi']]);
     U.bas('#sdTemel', temel.map((x) => '<div><dt>' + x[0] + '</dt><dd>' + U.kac(x[1]) + '</dd></div>').join(''));
     const yok = 'Kayıtlı değil.';
+    /* Satır başına ekle / düzenle (ES-HS-36): rıza yoksa düzenleme penceresi rıza kutusunu ister */
+    const dz = (a, dolu) => '<button class="dugme hayalet kucuk" type="button" data-dikkat="' + a + '">' + (dolu ? 'Düzenle' : 'Ekle') + '</button>';
+    const has = (dn.hassasiyetler || []).map((x) => (HASSAS.find((y) => y[0] === x) || [x, U.basHarf(x)])[1]);
     U.bas('#sdDikkat', [
-      satir('fa-wheat-awn-circle-exclamation', 'Besin alerjileri ve hassasiyetler', (dn.hassasiyetler || []).map(U.basHarf).join(', ') || yok),
+      satir('fa-wheat-awn-circle-exclamation', 'Besin alerjileri ve hassasiyetler', has.join(', ') || yok, dz('hassasiyet', has.length)),
       satir('fa-utensils', 'Beslenme tercihi', TARZ[(u.tercihler || {}).beslenme_tarzi] || yok, '<a class="dugme hayalet kucuk" href="' + DD.kok + 'hesabim/tercihlerim/">Düzenle</a>'),
-      satir('fa-pills', 'Düzenli kullanılan ilaç veya takviye', (an.ilaclar || []).join(', ') || yok),
-      satir('fa-stethoscope', 'Bilinen kronik rahatsızlık', (dn.kronik || []).join(', ') || yok),
+      satir('fa-pills', 'Düzenli kullanılan ilaç veya takviye', (an.ilaclar || []).join(', ') || yok, dz('ilac', (an.ilaclar || []).length)),
+      satir('fa-stethoscope', 'Bilinen kronik rahatsızlık', (dn.kronik || []).join(', ') || yok, dz('kronik', (dn.kronik || []).length)),
     ].join(''));
+    U.bas('#sdProfilRiza', U.rizaVar('profil') ? '' : U.rizaKart('profil', 'Alerji, ilaç ve kronik rahatsızlık kayıtların sağlık verisidir. Eklemek ya da düzenlemek için açık rızan gerekir.'));
+    const ph = hareket().slice().reverse().filter((h) => !(duyarli && /kilo/i.test(h.alan)));
+    U.bas('#sdProfilKayit', ph.map((h) => '<tr><td class="tarih">' + U.noktaliTarih(h.tarih) + '</td><td>' + U.kac(h.alan) + '</td><td>' + (h.eski ? '<s>' + U.kac(h.eski) + '</s> → ' : '') + (h.yeni ? U.kac(h.yeni) : '<span class="bos-hucre">silindi</span>') + '</td></tr>').join('') || '<tr><td colspan="3" class="bos-hucre">Henüz değişiklik yok. Profilini düzenlediğinde burada görünür.</td></tr>');
     const k = U.ANAMNEZ.map(([a, e]) => [e, an[a]]).filter((x) => x[1]);
     const eksik = U.anamnezEksik().length;
     $('#sdAnamnezOzet').textContent = eksik ? eksik + ' alan eksik. Yarıda bırakabilirsin, kaldığın yerden devam edersin.' : 'Diyetisyeninle paylaştığın anamnez özeti.';
@@ -191,14 +222,68 @@
     if (t.kcal && !duyarli) l.push(satir('fa-fire', 'Günlük enerji hedefi', DD.bicim.kcal(t.kcal) + ' · ' + t.protein + ' g protein, ' + t.karb + ' g karbonhidrat, ' + t.yag + ' g yağ', '<a class="dugme hayalet kucuk" href="' + DD.kok + 'hesaplayicilar/">Yeniden hesapla</a>'));
     U.bas('#sdHesaplar', l.join('') || U.bos({ ikon: 'fa-calculator', baslik: 'Henüz hesap yok', metin: 'Hesaplayıcıları kullandığında sonuçların burada listelenir.', eylem: U.bag('Hesaplayıcılara git', 'hesaplayicilar/') }));
     const tl = (U.uye().test_sonuclari || []).slice().reverse();
-    U.bas('#sdTestler', tl.map((t) => satir('fa-clipboard-check', t.sonuc || t.test, U.tarih(t.tarih) + ' · ' + t.puan + ' puan', '<a class="dugme hayalet kucuk" href="' + DD.kok + 'saglik-testleri/' + t.test + '/">Yeniden çöz</a>')).join('') || U.bos({ ikon: 'fa-clipboard-question', baslik: 'Henüz test çözmedin', metin: 'Bir sağlık testi çözdüğünde sonucun burada saklanır.', eylem: U.bag('Teste başla', 'saglik-testleri/') }));
+    U.bas('#sdTestler', tl.map((t) => satir('fa-clipboard-check', t.sonuc || t.test, U.tarih(t.tarih) + ' · ' + t.puan + ' puan' + (t.ornek ? ' · prototip örneği' : ''), '<a class="dugme hayalet kucuk" href="' + DD.kok + 'saglik-testleri/' + t.test + '/">Yeniden çöz</a>')).join('') || U.bos({ ikon: 'fa-clipboard-question', baslik: 'Henüz test çözmedin', metin: 'Bir sağlık testi çözdüğünde sonucun burada saklanır.', eylem: U.bag('Teste başla', 'saglik-testleri/') }));
   }
 
   function raporlar() {
     const l = U.yerel('gelisimRapor', []).slice().reverse();
-    U.bas('#sdRaporlar', l.map((r) => satir('fa-file-lines', r.ad, U.tarih(r.bas) + ' – ' + U.tarih(r.bit) + ' · ' + (duyarli ? r.ozet.replace(/^.* kg değişim, /, '') : r.ozet), '<button class="dugme hayalet kucuk" type="button" data-yazdir>Yazdır</button>')).join('') || U.bos({ ikon: 'fa-chart-column', baslik: 'Henüz rapor yok', metin: 'Yukarıdan bir dönem seçip ilk raporunu oluştur.' }));
+    U.bas('#sdRaporlar', l.map((r, n) => satir('fa-file-lines', r.ad, U.tarih(r.bas) + ' – ' + U.tarih(r.bit) + ' · ' + (duyarli ? r.ozet.replace(/^.* kg değişim, /, '') : r.ozet), '<button class="dugme hayalet kucuk" type="button" data-yazdir>Yazdır</button><button class="dugme hayalet kucuk" type="button" data-rapor-pdf="' + (l.length - 1 - n) + '"><i class="fa-solid fa-file-pdf" aria-hidden="true"></i> PDF indir</button>')).join('') || U.bos({ ikon: 'fa-chart-column', baslik: 'Henüz rapor yok', metin: 'Yukarıdan bir dönem seçip ilk raporunu oluştur.' }));
   }
-  const ciz = () => { ozet(); profil(); olcum(); tahlil(); notlar(); belge(); hesaplar(); raporlar(); };
+  /* Test gelişimi (WKA-2-5): aynı testin puanları zaman içinde; iki ve daha çok sonucu olan testler seçilir */
+  let secTest = null;
+  function testGelisim() {
+    const l = U.uye().test_sonuclari || [], g = {};
+    l.forEach((x) => { (g[x.test] = g[x.test] || []).push(x); });
+    const testler = Object.keys(g).filter((t) => g[t].length > 1);
+    if (!testler.length) { U.bas('#sdTestGelisim', l.length ? '<div class="kart panel tam-kolon">' + U.bos({ ikon: 'fa-chart-line', baslik: 'Gelişim için ikinci sonuç gerekiyor', metin: 'Aynı testi yeniden çözdüğünde puanların zaman çizgisinde burada görünür.', eylem: U.bag('Testlere git', 'saglik-testleri/', 'hayalet') }) + '</div>' : ''); return; }
+    if (!testler.includes(secTest)) secTest = testler[0];
+    const s = g[secTest].slice().sort((a, c) => String(a.tarih).localeCompare(String(c.tarih))), ilk = s[0], son = s[s.length - 1], fark = son.puan - ilk.puan;
+    const ornek = s.some((x) => x.ornek);
+    U.bas('#sdTestGelisim', '<div class="kart panel tam-kolon"><div class="kart-bas"><div><h3 class="kart-baslik"><i class="fa-solid fa-chart-line" aria-hidden="true"></i> Test Gelişimin</h3><p>' + U.kac(testAd[secTest] || secTest) + ' · ' + s.length + ' sonuç · ilk ' + ilk.puan + ', son ' + son.puan + ' puan (' + (fark > 0 ? '+' : fark < 0 ? '−' : '±') + Math.abs(fark) + ')</p></div><div class="as-eylem">' + (ornek ? U.durum('kapali', 'Prototip örneği') : '') + '</div></div>'
+      + (testler.length > 1 ? '<div class="kart-govde"><div class="cipler" data-tek-secim id="sdTestSec">' + testler.map((t) => '<button class="cip" type="button" data-deger="' + t + '" aria-pressed="' + (t === secTest) + '">' + U.kac(testAd[t] || t) + '</button>').join('') + '</div></div>' : '')
+      + '<div class="kart-govde"><div class="grafik-kaydir" id="sdTestGrafik" tabindex="0"></div><p class="alan-yardim"><span>Son sonucun: <b>' + U.kac(son.sonuc || '') + '</b>. Puanlar test sayfasındaki bantlara göre yorumlanır; bir sağlık değerlendirmesi değildir.</span></p></div><div class="kart-alt eylem"><a class="dugme hayalet" href="' + DD.kok + 'saglik-testleri/' + secTest + '/">Yeniden çöz</a></div></div>');
+    DD.grafik.cizgi($('#sdTestGrafik'), { baslik: (testAd[secTest] || secTest) + ' puanları', etiketler: s.map((x) => U.noktaliTarih(x.tarih).slice(0, 5)), seriler: [{ ad: 'Puan', degerler: s.map((x) => x.puan) }], basamak: 1 });
+  }
+  document.addEventListener('dd:secim', (e) => { if (e.target.id === 'sdTestSec') { secTest = e.detail.deger; testGelisim(); } });
+  /* Tahlil yükleme sağlık verisi rızasına bağlı */
+  function tahlilRiza() { U.bas('#sdTahlilRiza', U.rizaVar('tahlil') ? '' : U.rizaKart('tahlil', 'Tahlil ve belge yüklemek için bu verinin işlenmesine açık rıza vermen gerekiyor. Yüklü kayıtların silinmez.')); }
+  const ciz = () => { ozet(); profil(); olcum(); tahlil(); tahlilRiza(); notlar(); belge(); hesaplar(); raporlar(); testGelisim(); };
+  document.addEventListener('dd:riza', ciz);
+
+  /* Dikkat edilecekler: satır başına pencere */
+  const HASSAS = [...document.querySelectorAll('[name=dHas]')].map((c) => [c.value, c.nextElementSibling.textContent]);
+  const DIKKAT = { hassasiyet: 'Besin Alerjileri ve Hassasiyetler', ilac: 'Düzenli Kullanılan İlaç veya Takviye', kronik: 'Bilinen Kronik Rahatsızlık' };
+  let dikkatAlan = null;
+  const df = $('#sdDikkatForm');
+  document.addEventListener('click', (e) => {
+    const d = e.target.closest('[data-dikkat]');
+    if (!d) return;
+    dikkatAlan = d.dataset.dikkat;
+    $('#sdDikkatBaslik').textContent = DIKKAT[dikkatAlan];
+    U.gizle($('#sdDikkatHassasiyet'), dikkatAlan !== 'hassasiyet'); U.gizle($('#sdDikkatMetinAlan'), dikkatAlan === 'hassasiyet');
+    df.querySelectorAll('[name=dHas]').forEach((c) => { c.checked = (dn.hassasiyetler || []).includes(c.value); });
+    $('#sdDikkatEtiket').textContent = dikkatAlan === 'ilac' ? 'İlaç ve takviyelerin' : 'Kronik rahatsızlıkların';
+    $('#sdDikkatMetin').value = (dikkatAlan === 'ilac' ? ((dn.anamnez || {}).ilaclar || []) : (dn.kronik || [])).join(', ');
+    U.bas('#sdDikkatRiza', U.rizaVar('profil') ? '' : U.rizaKutu('profil'));
+    DD.ac('#sdDikkatModal');
+  });
+  df.addEventListener('submit', (e) => {
+    e.preventDefault();
+    const rk = df.querySelector('[data-riza-onay]');
+    if (rk && !rk.checked) { DD.toast('Kaydetmek için açık rıza kutusunu işaretle.', 'hata'); return; }
+    if (rk) U.rizaVer('profil', true);
+    if (dikkatAlan === 'hassasiyet') {
+      const y = [...df.querySelectorAll('[name=dHas]:checked')].map((c) => c.value), ad = (l) => l.map((x) => (HASSAS.find((h) => h[0] === x) || [x, x])[1]);
+      degisti('Alerji ve hassasiyet', ad(dn.hassasiyetler || []), ad(y));
+      dn.hassasiyetler = y;
+    } else {
+      const y = $('#sdDikkatMetin').value.split(',').map((x) => x.trim()).filter(Boolean);
+      if (dikkatAlan === 'ilac') { dn.anamnez = dn.anamnez || {}; degisti('İlaç ve takviye', dn.anamnez.ilaclar || [], y); dn.anamnez.ilaclar = y; }
+      else { degisti('Kronik rahatsızlık', dn.kronik || [], y); dn.kronik = y; }
+    }
+    U.kaydet(); DD.kapat($('#sdDikkatModal')); ciz();
+    DD.toast(DIKKAT[dikkatAlan] + ' güncellendi.');
+  });
 
   /* Duyarlı üye: hedef alanları ve kilo farkı görünmez, kayıtlı değerler formda korunur.
      Özet varsayılan sekme olduğu için orada kilo ve BKİ yok; ölçümleri üye Ölçümlerim'den kendi açar */
@@ -213,12 +298,22 @@
 
   pf.addEventListener('submit', (e) => {
     e.preventDefault();
-    dn.boy = Number(pf.elements.boy.value) || dn.boy;
-    dn.kilo = Number(pf.elements.kilo.value) || dn.kilo;
-    dn.hedef_kilo = Number(pf.elements.hedef_kilo.value) || dn.hedef_kilo;
-    dn.hedef = pf.elements.hedef.value.trim();
+    const yeni = (a) => Number(pf.elements[a].value) || dn[a];
+    degisti('Boy', dn.boy ? dn.boy + ' cm' : '', yeni('boy') ? yeni('boy') + ' cm' : '');
+    if (!duyarli) { degisti('Güncel kilo', dn.kilo ? dn.kilo + ' kg' : '', yeni('kilo') ? yeni('kilo') + ' kg' : ''); degisti('Hedef kilo', dn.hedef_kilo ? dn.hedef_kilo + ' kg' : '', yeni('hedef_kilo') ? yeni('hedef_kilo') + ' kg' : ''); }
+    dn.boy = yeni('boy');
+    dn.kilo = yeni('kilo');
+    dn.hedef_kilo = yeni('hedef_kilo');
+    const hv = pf.elements.hedef.value;
+    if (hv !== '__eski') {
+      degisti('Hedef', dn.hedef || '', hv ? hedefAd(hv) : '');
+      dn.hedef = hv ? hedefAd(hv) : '';
+      u.tercihler = u.tercihler || {};
+      if (hv) u.tercihler.hedef = hv; else delete u.tercihler.hedef;
+    }
     const dy = Number(pf.elements.dogum_yili.value);
-    if (dy) { dn.dogum_yili = dy; dn.yas = Number(b.slice(0, 4)) - dy; }
+    if (dy) { degisti('Doğum yılı', dn.dogum_yili || '', dy); dn.dogum_yili = dy; dn.yas = Number(b.slice(0, 4)) - dy; }
+    degisti('Hareket düzeyi', dn.hareket_duzeyi || '', pf.elements.hareket_duzeyi.value);
     dn.hareket_duzeyi = pf.elements.hareket_duzeyi.value;
     U.kaydet(); DD.kapat($('#sdProfilModal')); ciz();
     DD.toast('Sağlık profilin güncellendi.');
@@ -229,7 +324,7 @@
   af.addEventListener('submit', (e) => {
     e.preventDefault();
     dn.anamnez = dn.anamnez || {};
-    U.ANAMNEZ.forEach(([a]) => { const v = af.elements[a].value.trim(); if (v) dn.anamnez[a] = v; else delete dn.anamnez[a]; });
+    U.ANAMNEZ.forEach(([a, e]) => { const v = af.elements[a].value.trim(); degisti(e, dn.anamnez[a] || '', v); if (v) dn.anamnez[a] = v; else delete dn.anamnez[a]; });
     if (!U.anamnezEksik().length) delete dn.anamnez_hatirlatma;
     U.kaydet(); DD.kapat($('#sdAnamnezModal')); ozet(); profil();
     DD.toast(U.anamnezEksik().length ? 'Kaydedildi; kalan alanlara sonra dönebilirsin.' : 'Sağlık öykün tamamlandı.');
@@ -275,6 +370,7 @@
     return kasa.koy(k, d).then((ok) => { if (!ok) DD.toast('Dosya bu tarayıcıya kaydedilemedi; sayfayı yenileyene kadar açılır.', 'uyari'); });
   }
   function tahlilYukle(d, kaynak) {
+    if (!U.rizaVar('tahlil')) { DD.toast('Tahlil yüklemek için önce açık rıza ver.', 'hata'); U.sekmeAc('tahlil'); return false; }
     dn.tahliller = dn.tahliller || [];
     if (dn.tahliller.some((t) => t.dosya_adi === d.name)) { DD.toast('Bu dosya zaten yüklü: ' + d.name, 'hata'); return false; }
     if (d.size > SINIR) { DD.toast('Dosya 10 MB’tan büyük olamaz.', 'hata'); return false; }
@@ -298,6 +394,7 @@
     const d = $('#bDosya').files[0], tur = e.target.elements.bTur.value;
     if (!d) return;
     if (tur === 'Tahlil') { if (tahlilYukle(d)) { e.target.reset(); DD.kapat($('#sdBelgeModal')); } return; }
+    if (!U.rizaVar('tahlil')) { DD.toast('Belge yüklemek için önce açık rıza ver.', 'hata'); return; }
     dosyaSakla(d);
     belgeler().push({ ad: d.name, tur, tarih: b });
     U.kaydet(); e.target.reset(); DD.kapat($('#sdBelgeModal')); ciz();
@@ -310,6 +407,8 @@
     if (ot) { const t = (dn.tahliller || []).find((x) => x.dosya_adi === ot.dataset.onizleTahlil); if (t) onizle({ ad: t.dosya_adi, tur: 'Tahlil', tarih: t.tarih }); return; }
     const s = e.target.closest('[data-belge-sil]');
     if (s) { const x = belgeler().splice(Number(s.dataset.belgeSil), 1)[0]; if (x) { const k = dosyaAnahtar(x.ad, x.tarih); kasa.sil(k); dosyalar.delete(k); } U.kaydet(); belge(); ozet(); DD.toast('Belge kaldırıldı.', 'uyari'); return; }
+    const rp = e.target.closest('[data-rapor-pdf]');
+    if (rp) { raporPdf(U.yerel('gelisimRapor', [])[Number(rp.dataset.raporPdf)]); return; }
     const yz = e.target.closest('[data-yazdir]');
     if (yz) { DD.yazdir(yz.closest('.ayar-satir'), 'Gelişim Raporu'); return; }
     const m = e.target.closest('[data-metrik]');
@@ -318,6 +417,28 @@
     if (dg) { donem = Number(dg.dataset.donem); grafik(); return; }
     if (e.target.closest('#sdOlcumHepsi')) { hepsi = !hepsi; olcum(); }
   });
+  /* Rapor PDF'i: oluşturulurken seçilen bölümler, dönemin kayıtlarından yeniden çıkarılır */
+  function raporPdf(r) {
+    if (!r) return;
+    const bol = r.bolumler || ['olcum', 'gunluk', 'uyum', 'tahlil'], a = r.bas, z = r.bit, l = [];
+    if (bol.includes('olcum')) {
+      const o = olcumler().filter((x) => x.tarih >= a && x.tarih <= z);
+      l.push({ baslik: 'Vücut ölçümleri', satirlar: o.length ? o.map((x) => [U.noktaliTarih(x.tarih), (duyarli ? '' : U.sayi(x.kilo, 1) + ' kg · ') + (x.bel ? 'bel ' + U.sayi(x.bel, 1) + ' cm' : '') + (x.yag_orani ? ' · yağ %' + U.sayi(x.yag_orani, 1) : '')]) : [['Ölçüm', 'Bu dönemde ölçüm yok']], not: !duyarli && o.length > 1 ? 'Dönemde kilo değişimi: ' + U.sayi(o[o.length - 1].kilo - o[0].kilo, 1) + ' kg.' : '' });
+    }
+    if (bol.includes('gunluk')) {
+      const su = (u.su.hafta || []).filter((x) => x.tarih >= a && x.tarih <= z);
+      l.push({ baslik: 'Günlük takip', satirlar: su.length ? [['Su ortalaması', U.sayi(Math.round(su.reduce((t, x) => t + x.ml, 0) / su.length)) + ' ml / gün (' + su.length + ' gün)'], ['Su hedefi', U.sayi(u.su.hedef_ml) + ' ml']] : [['Kayıt', 'Bu dönemde günlük takip kaydı yok']] });
+    }
+    if (bol.includes('uyum')) { const k = U.aktifKaynak(); l.push({ baslik: 'Program uyumu', satirlar: k ? [['Program', k.ad], ['Uyum', '%' + U.uyum(k).oran + ' · ' + U.uyum(k).tamam + ' / ' + U.uyum(k).toplam + ' öğün']] : [['Program', 'Aktif program yok']] }); }
+    if (bol.includes('tahlil')) {
+      const t = (dn.tahliller || []).filter((x) => x.tarih >= a && x.tarih <= z);
+      const ad = { dusuk: 'Düşük', yuksek: 'Yüksek', normal: 'Normal' };
+      l.push({ baslik: 'Tahliller', satirlar: t.length ? t.flatMap((x) => (x.degerler || []).map((d) => [U.noktaliTarih(x.tarih) + ' · ' + d.ad, DD.bicim.sayi(d.sonuc, 2) + ' ' + (d.birim || '') + (T.durum(d) ? ' · ' + ad[T.durum(d)] : '')])) : [['Tahlil', 'Bu dönemde tahlil yok']], not: t.some((x) => x.ornek) ? 'Bazı değerler prototip örneğidir.' : '' });
+    }
+    DD.raporPdf({ ad: r.ad, uye: u.ad, aralik: U.tarih(a) + ' – ' + U.tarih(z), bolumler: l })
+      .then(() => DD.toast('Gelişim raporun PDF olarak indirildi.'))
+      .catch(() => DD.toast('PDF hazırlanamadı, tekrar dene.', 'hata'));
+  }
   const rf = $('#sdRaporForm');
   rf.elements.rBas.value = (olcumler()[0] || {}).tarih || b;
   rf.elements.rBit.value = b;

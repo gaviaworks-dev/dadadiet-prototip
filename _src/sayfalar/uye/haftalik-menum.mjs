@@ -11,6 +11,7 @@ ${kart({
     alt: dugme('Menümü üret', { sinif: 'birincil', ikon: 'fa-wand-magic-sparkles', tur: 'submit' }),
   })}
 <div class="uyum-yer" id="hmTercih"></div>
+<div id="hmTahlil"></div>
 <div id="hmSonuc"></div>
 ${bilgi('fa-user-doctor', 'Bu menü yapay zekâ yardımıyla hazırlanmış örnek bir düzendir; kişiye özel plan yalnızca yetkili bir diyetisyen tarafından hazırlanır.')}
 </div>`;
@@ -19,5 +20,5 @@ export default () => [uyeSayfa({
   yol: 'hesabim/haftalik-menum', ad: 'Haftalık Menüm', aktif: 'hesabim/beslenme-planim/', ust: [['Beslenme Planım', 'hesabim/beslenme-planim/']],
   eylem: dugme('Beslenme Planım', { sinif: 'hayalet', href: 'hesabim/beslenme-planim/#hafta' }),
   giris: 'Bütçene ve kısıtlarına göre bir haftalık menü üret; her kalem tarif verisine bağlıdır.',
-  govde, js: ['assets/js/tercih-uyum.js', 'assets/js/sayfa/uye-haftalik-menum.js'],
+  govde, js: ['assets/js/tercih-uyum.js', 'assets/js/tahlil-deger.js', 'assets/js/sayfa/uye-haftalik-menum.js'],
 })];

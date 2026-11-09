@@ -21,9 +21,44 @@
   }
   const bas = U.gunEkle(U.bugun(), -((U.gun(U.bugun()).getDay() + 6) % 7));
 
-  function kur(butce, kisitlar) {
+  /* Kan tahlilinden menüne (EG-5-3, EG-6-1): son tahlildeki referans dışı değer, kural tablosundaki tarifleri menüde öne alır.
+     Durum tahlil-deger.js ile okunur (raporun aralığı, yoksa varsayılan tablo; ferritinde ASH 2026 alt sınırı).
+     Öneriler genel beslenme önerisidir; ilaç ya da takviye kararı hekim ve diyetisyendedir. Kural tablosu uzman onayı bekliyor */
+  const TUBER = 'Türkiye Beslenme Rehberi (TÜBER) 2022, T.C. Sağlık Bakanlığı';
+  const KURAL = [
+    { id: 'demir', adlar: ['ferritin', 'hemoglobin'], yon: 'dusuk', baslik: 'Demir depoların düşük', metin: 'Baklagil, yeşil yapraklı sebze ve kırmızı et öğünlerini artır; bitkisel demiri C vitaminli besinlerle (limon, biber, domates) birlikte ye, çayı ve kahveyi öğünden uzak tut.', tarifler: ['mercimek-corbasi', 'yesil-mercimek-yemegi', 'nohut-salatasi', 'ispanakli-omlet', 'izgara-sebzeli-dana-bonfile'] },
+    { id: 'dvit', adlar: ['25-oh d vitamini', 'd vitamini', '25(oh)d'], yon: 'dusuk', baslik: 'D vitaminin düşük', metin: 'Haftada en az iki kez balık ye, yumurtayı düzenli tüket. D vitaminini yalnız besinle karşılamak zordur; takviye kararını hekimin ya da diyetisyenin verir.', tarifler: ['sebzeli-levrek-bugulama', 'ton-balikli-salata', 'menemen'] },
+    { id: 'b12', adlar: ['b12 vitamini', 'b12'], yon: 'dusuk', baslik: 'B12 vitaminin düşük', metin: 'B12 hayvansal besinlerde bulunur: yumurta, süt ürünleri, et ve balık öğünlerini artır.', tarifler: ['menemen', 'yogurtlu-tavuk-sis', 'izgara-sebzeli-dana-bonfile'] },
+    { id: 'seker', adlar: ['açlık glukozu', 'hba1c'], yon: 'yuksek', baslik: 'Kan şekerin yüksek', metin: 'Lifli tahıl, baklagil ve sebzeyi öne al; şekerli içecek ve beyaz unlu ürünleri azalt.', tarifler: ['yesil-mercimek-yemegi', 'nohut-salatasi', 'mevsim-salatasi'] },
+  ];
+  const sonTahlil = () => (U.danisan().tahliller || []).slice().sort((a, c) => String(c.tarih).localeCompare(String(a.tarih)))[0] || null;
+  function tahlilKurallari() {
+    const t = sonTahlil(), TD = DD.tahlilDeger;
+    if (!t || !TD) return [];
+    return KURAL.map((r) => {
+      const d = (t.degerler || []).filter((x) => r.adlar.includes(String(x.ad).toLocaleLowerCase('tr').trim()) && TD.durum(x) === r.yon);
+      return d.length ? { ...r, degerler: d } : null;
+    }).filter(Boolean);
+  }
+  function tahlilCiz() {
+    const t = sonTahlil(), l = tahlilKurallari(), m = durum(), acik = !!(m && m.tahlil);
+    if (!t) { U.bas('#hmTahlil', ''); return; }
+    const TD = DD.tahlilDeger, n = (v) => DD.bicim.sayi(v, 2);
+    const kural = (r) => {
+      const tl = r.tarifler.map(U.tarif).filter((x) => x && TU.tarifUyarla(x));
+      return '<div class="ayar-satir sarmali"><span class="as-ikon"><i class="fa-solid ' + (r.yon === 'dusuk' ? 'fa-arrow-down' : 'fa-arrow-up') + '" aria-hidden="true"></i></span><div class="as-metin"><b>' + r.baslik + '</b><span>' + r.degerler.map((d) => U.kac(d.ad) + ' ' + n(d.sonuc) + ' ' + U.kac(d.birim || '')).join(', ') + '. ' + r.metin + (tl.length ? ' Menüne girecek tarifler: ' + tl.map((x) => U.kac(x.ad)).join(', ') + '.' : '') + '</span></div></div>';
+    };
+    U.bas('#hmTahlil', '<div class="kart panel tam-kolon"><div class="kart-bas"><div><h3 class="kart-baslik"><i class="fa-solid fa-flask-vial" aria-hidden="true"></i> Kan Tahlilinden Menüne</h3><p>' + U.tarih(t.tarih) + ' tarihli tahlilin. ' + (l.length ? l.length + ' değer referans dışında; menün bunlara göre ayarlanabilir.' : 'Menüyü değiştirecek referans dışı değer yok.') + '</p></div>' + (l.length ? '<div class="as-eylem">' + U.durum(acik ? 'cozulen' : 'bekleyen', acik ? 'Menüne uygulandı' : 'Uygulanmadı') + '</div>' : '') + '</div>'
+      + (l.length ? '<div class="kart-govde bosluksuz"><div class="ayar-liste">' + l.map(kural).join('') + '</div></div>' : '')
+      + '<div class="kart-govde"><p class="alan-yardim"><i class="fa-solid fa-book-medical" aria-hidden="true"></i> <span>Referans dışı karar, raporun kendi aralığından ya da varsayılan tablodan (ferritinde ' + TD.KAYNAK.ash.kisa + ', ' + TD.KAYNAK.ash.tarih + '). Besin önerileri: ' + TUBER + '. Kural tablosu ' + TD.DERLEME + ' tarihinde derlendi, ' + TD.ONAY.toLocaleLowerCase('tr') + '. İlaç ya da takviye yerine geçmez; diyetisyeninle konuş.</span></p></div>'
+      + (l.length ? '<div class="kart-alt eylem"><a class="dugme hayalet" href="' + DD.kok + 'hesabim/saglik-dosyam/#tahlil">Tahlilimi aç</a><button class="dugme ' + (acik ? 'hayalet' : 'birincil') + '" type="button" id="hmTahlilUygula">' + (acik ? 'Menüden çıkar' : '<i class="fa-solid fa-wand-magic-sparkles" aria-hidden="true"></i> Menüme uygula') + '</button></div>' : '') + '</div>');
+  }
+
+  function kur(butce, kisitlar, tahlil) {
     const yasak = kisitlar.flatMap((k) => ESLEME[k] || []);
     const uygun = tarifler().filter((t) => !t.hassasiyet.some((h) => yasak.includes(h))).map(TU.tarifUyarla).filter(Boolean);
+    /* Tahlil kuralları açıksa: kuralın tarifleri gün aşırı kendi öğününe yerleşir */
+    const once = tahlil ? [...new Set(tahlilKurallari().flatMap((r) => r.tarifler))].map((s) => uygun.find((t) => t.slug === s)).filter(Boolean) : [];
     /* Ekonomik seçimde enerjisi yüksek tarifler sona kalır, sıralama bütçeye göre değişir */
     const sira = butce === 'genis' ? 3 : butce === 'orta' ? 2 : 1;
     const gunler = [];
@@ -32,10 +67,12 @@
       OGUN.forEach(([tip], i) => {
         const l = uygun.filter((t) => t.ogun === tip);
         o[tip] = l.length ? l[(g * sira + i) % l.length].slug : null;
+        const ol = once.filter((t) => t.ogun === tip);
+        if (ol.length && (g + i) % 2 === 0) o[tip] = ol[Math.floor((g + i) / 2) % ol.length].slug;
       });
       gunler.push(o);
     }
-    return { butce, kisitlar, gunler, tarih: U.bugun() };
+    return { butce, kisitlar, gunler, tarih: U.bugun(), tahlil: !!(tahlil && once.length) };
   }
 
   function ciz() {
@@ -66,11 +103,21 @@
   f.addEventListener('submit', (e) => {
     e.preventDefault();
     const v = [...f.querySelectorAll('[name=kisit]:checked')].map((c) => c.value);
-    U.d().uyeYerel.haftalikMenu = kur(f.elements.butce.value, v);
-    U.kaydet(); ciz();
+    U.d().uyeYerel.haftalikMenu = kur(f.elements.butce.value, v, !!(durum() || {}).tahlil);
+    U.kaydet(); ciz(); tahlilCiz();
     $('#hmSonuc').scrollIntoView({ behavior: 'smooth', block: 'start' });
     DD.toast('Haftalık menün hazır.');
   });
-  document.addEventListener('click', (e) => { const y = e.target.closest('#hmYazdir'); if (y) DD.yazdir(y.closest('.kart'), 'Haftalık Menüm'); });
+  document.addEventListener('click', (e) => {
+    const y = e.target.closest('#hmYazdir');
+    if (y) DD.yazdir(y.closest('.kart'), 'Haftalık Menüm');
+    if (e.target.closest('#hmTahlilUygula')) {
+      const v = [...f.querySelectorAll('[name=kisit]:checked')].map((c) => c.value), acik = !(durum() || {}).tahlil;
+      U.d().uyeYerel.haftalikMenu = kur(f.elements.butce.value, v, acik);
+      U.kaydet(); ciz(); tahlilCiz();
+      DD.toast(acik ? 'Tahlil önerileri menüne uygulandı.' : 'Menün tahlil önerileri olmadan yeniden kuruldu.');
+    }
+  });
   ciz();
+  tahlilCiz();
 })();

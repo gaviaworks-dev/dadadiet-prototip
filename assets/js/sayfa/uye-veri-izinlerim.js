@@ -48,9 +48,10 @@
     U.bas('#viErisim', l.length
       ? l.map((t) => '<div class="ayar-satir"><span class="as-ikon"><i class="fa-solid ' + t[1] + '" aria-hidden="true"></i></span><div class="as-metin"><b>' + U.kac(dy ? dy.ad : 'Diyetisyenin') + '</b><span>' + t[2] + ' · ' + U.kac(sureler()[t[0]] || 'Ben geri çekene kadar') + '</span></div><span class="as-eylem">' + U.durum('cozulen', 'Açık') + '<button class="dugme hayalet tehlike kucuk" type="button" data-kapat-izin="' + t[0] + '">Geri çek</button></span></div>').join('')
       : U.bos({ ikon: 'fa-user-shield', baslik: 'Açık erişim yok', metin: 'Diyetisyenin şu an sağlık verilerini göremez.', eylem: '<button class="dugme birincil" type="button" data-ac="#viYeni">Yeni izin ver</button>' }));
-    const sec = $('#viYeniForm').elements.tur;
-    const kapali = TUR.filter((t) => !iz[t[0]]);
-    sec.innerHTML = (kapali.length ? kapali : TUR).map((t) => '<option value="' + t[0] + '">' + t[2] + '</option>').join('');
+    /* Yeni izin: tek diyetisyen (K22.6), çok tür, süre ya da bitiş tarihi */
+    $('#viYeniDyt').textContent = dy ? dy.ad : 'Etkin diyetisyenin yok; izin diyetisyen seçtiğinde geçerli olur.';
+    U.bas('#viYeniTurler', TUR.map((t) => '<label class="onay-kutusu" for="viT-' + t[0] + '"><input type="checkbox" id="viT-' + t[0] + '" name="tur" value="' + t[0] + '"' + (iz[t[0]] ? ' checked disabled' : '') + '><span>' + t[2] + (iz[t[0]] ? ' (açık)' : '') + '</span></label>').join(''));
+    $('#viYeniBitis').min = U.gunEkle(U.bugun(), 1);
   }
 
   function belgeCiz() {
@@ -73,7 +74,46 @@
     U.bas('#viHareket', hareket().slice().reverse().map((h) => '<tr><td class="tarih">' + U.noktaliTarih(h.tarih) + '</td><td class="sol">' + U.kac(h.metin) + '</td></tr>').join('') || bosSatir(2, 'Henüz izin hareketin yok.'));
   }
 
-  function ciz() { aktifCiz(); erisimCiz(); belgeCiz(); olcumCiz(); kayitCiz(); }
+  /* Sağlık verisi rızası: kapsam başına ver, geri al, verilerimi sil */
+  const SIL = {
+    profil: ['alerji ve hassasiyet kayıtların, ilaç ve takviyelerin, kronik rahatsızlıkların ve sağlık öykün', () => { dn.hassasiyetler = []; dn.kronik = []; dn.anamnez = {}; }],
+    tahlil: ['yüklediğin tahliller, okunan değerler ve sağlık belgelerin', () => { dn.tahliller = []; U.d().uyeYerel.saglikBelge = []; }],
+    his: ['bütün his kayıtların', () => { dn.his_kayitlari = []; }],
+    grup: ['sağlık gruplarındaki üyeliğin ve gönderilerin', () => { const u = U.yerel('grupUyelik', {}), a = U.yerel('grupAkis', {}); ['pcos-ile-savasanlar'].forEach((g) => { delete u[g]; delete a[g]; }); }],
+  };
+  function rizaCiz() {
+    const r = U.riza(), n = U.RIZA.filter(([k]) => U.rizaVar(k)).length;
+    $('#viRizaOzet').textContent = U.RIZA.length + ' kapsamın ' + n + ' tanesinde açık rızan var.';
+    U.bas('#viRiza', U.RIZA.map(([k, ikon, ad, metin]) => {
+      const x = r[k], var_ = U.rizaVar(k);
+      const hap = var_ ? U.durum('cozulen', 'Rıza verildi · ' + U.noktaliTarih(x.tarih)) : x ? U.durum('kapali', 'Geri alındı · ' + U.noktaliTarih(x.tarih)) : U.durum('bekleyen', 'Rıza verilmedi');
+      return '<div class="ayar-satir"><span class="as-ikon"><i class="fa-solid ' + ikon + '" aria-hidden="true"></i></span><div class="as-metin"><b>' + ad + '</b><span>' + metin + '</span></div><div class="as-eylem">' + hap + (var_ ? '<button class="dugme hayalet kucuk" type="button" data-riza-geri="' + k + '">Rızamı geri al</button>' : '<button class="dugme birincil kucuk" type="button" data-riza-ver="' + k + '">Rıza ver</button>') + '<button class="dugme hayalet tehlike kucuk" type="button" data-riza-sil="' + k + '">Verilerimi sil</button></div></div>';
+    }).join(''));
+  }
+  function ciz() { aktifCiz(); rizaCiz(); erisimCiz(); belgeCiz(); olcumCiz(); kayitCiz(); }
+  document.addEventListener('dd:riza', ciz);
+  let silKapsam = null;
+  document.addEventListener('click', (e) => {
+    const g = e.target.closest('[data-riza-geri]');
+    if (g) { U.rizaVer(g.dataset.rizaGeri, false); bitir(U.rizaAd(g.dataset.rizaGeri) + ' için rızan geri alındı; yeni kayıt yapılmaz.', 'uyari'); return; }
+    const s = e.target.closest('[data-riza-sil]');
+    if (s) {
+      silKapsam = s.dataset.rizaSil;
+      $('#viRizaSilBaslik').textContent = U.rizaAd(silKapsam) + ' Verilerimi Sil';
+      $('#viRizaSilMetin').textContent = 'Bu kapsamdaki verilerin (' + SIL[silKapsam][0] + ') hesabından silinir ve rızan geri alınır. Prototipte silme bu tarayıcıdaki demo kaydında yapılır; canlıda talep kimlik doğrulamasından sonra işlenir.';
+      $('#viRizaSilOnay').checked = false; $('#viRizaSilUygula').disabled = true;
+      DD.ac('#viRizaSil');
+    }
+  });
+  $('#viRizaSilOnay').addEventListener('change', (e) => { $('#viRizaSilUygula').disabled = !e.target.checked; });
+  $('#viRizaSilUygula').addEventListener('click', () => {
+    if (!silKapsam || !$('#viRizaSilOnay').checked) return;
+    SIL[silKapsam][1]();
+    if (U.rizaVar(silKapsam)) U.rizaVer(silKapsam, false);
+    yaz(U.rizaAd(silKapsam) + ' verileri silindi.');
+    DD.kapat($('#viRizaSil'));
+    bitir(U.rizaAd(silKapsam) + ' verilerin silindi.', 'uyari');
+  });
   const bitir = (m, t) => { U.kaydet(); ciz(); DD.toast(m, t); };
 
   function hepsiniKapat() {
@@ -103,13 +143,18 @@
     if (r) { const t = r.dataset.istekRed; delete dn.izin_talepleri[t]; (dn.izin_cevap = dn.izin_cevap || {})[t] = 'red'; yaz(adi(t) + ' isteği reddedildi.'); bitir('İzin isteği reddedildi.', 'uyari'); }
   });
   $('#viGeriCekOnay').addEventListener('click', () => { hepsiniKapat(); DD.kapat($('#viGeriCek')); bitir('Bütün izinler geri çekildi.', 'uyari'); });
+  $('#viYeniForm').elements.sure.addEventListener('change', (e) => { const t = e.target.value === 'Belirli bir tarihe kadar'; U.gizle($('#viYeniBitisAlan'), !t); $('#viYeniBitis').required = t; });
   $('#viYeniForm').addEventListener('submit', (e) => {
     e.preventDefault();
-    const f = e.target, k = f.elements.tur.value;
-    if (!iz[k]) turDegis(k, true);
-    sureler()[k] = f.elements.sure.value;
+    const f = e.target, l = [...f.querySelectorAll('[name=tur]:checked:not(:disabled)')].map((c) => c.value);
+    if (!l.length) { DD.toast('En az bir veri türü seç.', 'hata'); return; }
+    const s = f.elements.sure.value, bit = $('#viYeniBitis').value;
+    if (s === 'Belirli bir tarihe kadar' && !bit) { DD.toast('Bitiş tarihini seç.', 'hata'); return; }
+    const sure = s === 'Belirli bir tarihe kadar' ? U.noktaliTarih(bit) + ' tarihine kadar' : s === 'Ben geri çekene kadar' ? s : s + ' (' + U.noktaliTarih(U.gunEkle(U.bugun(), parseInt(s, 10))) + ' tarihine kadar)';
+    l.forEach((k) => { turDegis(k, true); sureler()[k] = sure; });
+    f.reset(); U.gizle($('#viYeniBitisAlan'), true);
     DD.kapat($('#viYeni'));
-    bitir(adi(k) + ' için izin verildi.');
+    bitir(l.length === 1 ? adi(l[0]) + ' için izin verildi.' : l.length + ' veri türü için izin verildi.');
   });
   $('#viIndir').addEventListener('click', () => {
     const a = document.createElement('a');

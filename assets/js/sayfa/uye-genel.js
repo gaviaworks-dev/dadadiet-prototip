@@ -31,6 +31,11 @@
       U.bas('#gbGun', duyarli ? '<div class="yigin">' + U.uzmanNot() + kart + '</div>' : kart);
     } else U.bas('#gbGun', '');
 
+    ilkCiz(k);
+    /* Yeni üyede İlk Adımlar kartı sıradaki adımı zaten içerir: üstteki tekrar etmesin */
+    if (yeni && $('#gbIlk').innerHTML) U.bas('#gbSiradaki', '');
+    grafikCiz();
+
     const su = u.su;
     U.bas('#gbKayit', [
       ['fa-utensils', 'Öğün', k ? 'Plana uyduysan tek dokunuşla işaretle.' : 'Yediklerini günlüğe ekle.', bag('Ekle', 'hesabim/gunluk-takibim/', 'hayalet kucuk')],
@@ -51,6 +56,26 @@
     /* Yapılacaklar: en çok üç satır, ilki yukarıda önerildi */
     const kalan = l.slice(1, 4);
     U.bas('#gbGorev', kalan.length ? kartHtml('fa-list-check', 'Yapılacaklar', '', '', '<div class="kart-govde bosluksuz"><div class="ayar-liste">' + kalan.map((x) => '<a class="ayar-satir" href="' + DD.kok + x.yol + '"><span class="as-ikon"><i class="fa-solid ' + x.ikon + '" aria-hidden="true"></i></span><span class="as-metin"><b>' + U.kac(x.baslik) + '</b><span>' + U.kac(x.metin) + '</span></span><i class="fa-solid fa-chevron-right" aria-hidden="true"></i></a>').join('') + '</div></div>') : '');
+  }
+  /* İlk adımlar (SH-6-12): üç boş durum aynı kartta; tamamlanan adım işaretlenir, üçü bitince kart kalkar */
+  function ilkCiz(k) {
+    const t = u.tercihler || {}, ek = U.yerel('gunlukEk', {});
+    const adim = [
+      ['fa-bullseye', 'İlk hedefini belirle', 'Birkaç soruyla hedefini ve tercihlerini seç; önerilerin buna göre kurulur.', !!(t.hedef || t.kcal), 'Hedef belirle', 'hesabim/hos-geldin/'],
+      ['fa-list-check', 'Bir program seç', 'Sana uygun programı bul; bugünün öğünleri hemen hazır olsun.', !!k, 'Program bul', 'programlar/program-bul/'],
+      ['fa-utensils', 'İlk öğününü ekle', 'Yediğini günlüğe ekle; Akıllı Tabak’tan ya da yalnız kaloriyle de olur.', Object.keys(ek).some((x) => ek[x].length) || (k && Object.keys(U.isaret(k, b)).length > 0), 'Öğün ekle', 'hesabim/gunluk-takibim/'],
+    ];
+    const kalan = adim.filter((x) => !x[3]).length;
+    U.bas('#gbIlk', kalan ? kartHtml('fa-flag', 'İlk Adımların', (3 - kalan) + ' / 3 tamamlandı', '', '<div class="kart-govde bosluksuz"><div class="ayar-liste">' + adim.map((x) => '<div class="ayar-satir sarmali"><span class="as-ikon"><i class="fa-solid ' + (x[3] ? 'fa-check' : x[0]) + '" aria-hidden="true"></i></span><div class="as-metin"><b>' + x[1] + '</b><span>' + x[2] + '</span></div><span class="as-eylem">' + (x[3] ? U.durum('cozulen', 'Tamam') : bag(x[4], x[5], 'hayalet kucuk')) + '</span></div>').join('') + '</div></div>') : '');
+  }
+  /* Kısa ilerleme grafiği (SH-11-7): son 8 ölçümün kilosu; yeme bozukluğu öyküsünde gösterilmez (K21.10) */
+  function grafikCiz() {
+    const l = (U.danisan().olcumler || []).filter((x) => x.kilo != null).slice(-8);
+    if (duyarli || l.length < 2) { U.bas('#gbGrafik', ''); return; }
+    const f = l[l.length - 1].kilo - l[0].kilo;
+    U.bas('#gbGrafik', kartHtml('fa-chart-line', 'Kilo Gidişatın', 'Son ' + l.length + ' ölçüm · ' + U.tarih(l[0].tarih) + ' – ' + U.tarih(l[l.length - 1].tarih) + ' · ' + (Math.abs(f) < 0.05 ? 'değişim yok' : U.sayi(Math.abs(f), 1) + ' kg ' + (f < 0 ? 'azaldı' : 'arttı')), '', '<div class="kart-govde"><div id="gbGrafikCizim"></div></div>', bag('Bütün ölçümler', 'hesabim/saglik-dosyam/#olcum', 'hayalet')));
+    const hk = U.danisan().hedef_kilo;
+    DD.grafik.cizgi($('#gbGrafikCizim'), { baslik: 'Son ölçümlerde kilo', etiketler: l.map((x) => U.tarih(x.tarih).slice(0, 5)), seriler: [{ ad: 'Kilo', degerler: l.map((x) => x.kilo) }], hedef: hk || undefined });
   }
   document.addEventListener('dd:ogun', ciz);
   document.addEventListener('click', (e) => {

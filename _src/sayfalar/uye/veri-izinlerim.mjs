@@ -15,6 +15,12 @@ ${kart({
   })}
 </div>`;
 
+const riza = `<div class="yigin">
+${bolumBas({ etiket: 'KVKK açık rıza', ikon: 'fa-file-signature', baslik: 'Sağlık Verisi Rızan', metin: 'Sağlık verilerin özel nitelikli kişisel veridir; Dada Diet bunları yalnız açık rızanla işler. Rızayı kapsam kapsam verir, geri alır ya da o kapsamdaki verilerinin silinmesini istersin. Diyetisyenle paylaşım ayrı bir izindir.' })}
+${kart({ ikon: 'fa-list-check', baslik: 'Rıza Kapsamları', metin: '<span id="viRizaOzet"></span>', bosluksuz: true, govde: '<div class="ayar-liste sarar" id="viRiza"></div>' })}
+<div class="bilgi-notu"><i class="fa-solid fa-scale-balanced" aria-hidden="true"></i><p>Rızanı geri alırsan o kapsamda yeni kayıt yapılmaz; mevcut kayıtların sen silmedikçe saklanır. Ayrıntı: <a href="{{kok}}yasal/saglik-verisi/">Sağlık Verisi Politikası</a>, <a href="{{kok}}yasal/kvkk/">KVKK Aydınlatma Metni</a>.</p></div>
+</div>`;
+
 const erisim = `<div class="yigin">
 ${bolumBas({ etiket: 'Yürürlükte', ikon: 'fa-user-doctor', baslik: 'Diyetisyen Erişimleri', metin: 'Verilerine şu an kimin, hangi kapsamda ve ne kadar süreyle eriştiği.', arac: dugme('Yeni izin ver', { sinif: 'birincil', ikon: 'fa-plus', ek: ' data-ac="#viYeni"' }) })}
 ${kart({ ikon: 'fa-user-check', baslik: 'Yürürlükteki Erişimler', bosluksuz: true, govde: '<div class="ayar-liste" id="viErisim"></div>' })}
@@ -52,8 +58,12 @@ const sonEk = modal({
   govde: '<div class="okuma"><p>Diyetisyenin ölçüm, tahlil, günlük takip, belge ve sağlık profiline erişemez. Erişimi istediğin zaman yeniden açabilirsin.</p></div>',
   ayak: dugme('Vazgeç', { ek: ' data-kapat' }) + dugme('İzinleri geri çek', { sinif: 'tehlike', ek: ' id="viGeriCekOnay"' }),
 }) + modal({
+  id: 'viRizaSil', baslik: '<span id="viRizaSilBaslik">Verilerimi Sil</span>',
+  govde: '<div class="okuma"><p id="viRizaSilMetin"></p></div><label class="onay-kutusu"><input type="checkbox" id="viRizaSilOnay"><span>Silinen verinin geri getirilemeyeceğini anladım.</span></label>',
+  ayak: dugme('Vazgeç', { ek: ' data-kapat' }) + dugme('Verilerimi sil', { sinif: 'tehlike', ek: ' id="viRizaSilUygula" disabled' }),
+}) + modal({
   id: 'viYeni', baslik: 'Yeni İzin Ver', form: ' id="viYeniForm"',
-  govde: `${secim({ ad: 'tur', etiket: 'Veri türü', secenekler: [] })}${secim({ ad: 'sure', etiket: 'İzin süresi', secenekler: ['30 gün', '90 gün', 'Ben geri çekene kadar'] })}`,
+  govde: `<div class="alan"><span class="alan-etiket">Diyetisyen</span><p class="kart-metin" id="viYeniDyt"></p></div><div class="alan"><span class="alan-etiket">Veri türleri <span class="zorunlu">*</span></span><div class="alan-izgara c2" id="viYeniTurler"></div></div>${secim({ ad: 'sure', etiket: 'İzin süresi', secenekler: ['30 gün', '90 gün', 'Belirli bir tarihe kadar', 'Ben geri çekene kadar'] })}<div id="viYeniBitisAlan" hidden><div class="alan"><label class="alan-etiket" for="viYeniBitis">Bitiş tarihi</label><input class="alan-girdi" id="viYeniBitis" name="bitis" type="date"></div></div>`,
   ayak: dugme('Vazgeç', { ek: ' data-kapat' }) + dugme('İzni ver', { sinif: 'birincil', tur: 'submit' }),
 });
 
@@ -63,6 +73,7 @@ export default () => [uyeSayfa({
   grup: 'vi',
   sekmeler: [
     { id: 'aktif', ad: 'Aktif İzinler', ikon: 'fa-shield-halved', govde: aktif },
+    { id: 'riza', ad: 'Sağlık Verisi Rızası', ikon: 'fa-file-signature', govde: riza },
     { id: 'erisim', ad: 'Diyetisyen Erişimleri', ikon: 'fa-user-doctor', govde: erisim },
     { id: 'belge', ad: 'Paylaşılan Belgeler', ikon: 'fa-file-shield', govde: belge },
     { id: 'olcum', ad: 'Paylaşılan Ölçümler', ikon: 'fa-weight-scale', govde: olcum },
