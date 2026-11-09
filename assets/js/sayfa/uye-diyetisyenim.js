@@ -68,8 +68,10 @@
   }
 
   function hizmet() {
-    const satir = (k) => '<tr><td><span class="no">' + U.kac(k.paket.ad) + '<small>' + U.kac(k.ad) + (k.durum === 'gecmis' ? ' · Tamamlandı' : '') + ' · ' + U.kac(k.paket.aciklama) + '</small></span></td><td>' + U.kac(U.basHarf(k.paket.tur)) + '</td><td class="sag">' + k.paket.seans + '</td><td class="tutar sag">' + U.tl(k.paket.fiyat) + '</td></tr>';
-    U.bas('#dyHizmet', kisiler().filter((k) => k.paket).map(satir).join('') || bosSatir(4, 'Henüz bir hizmet almadın.'));
+    const satir = (k) => '<tr><td><span class="no">' + U.kac(k.paket.ad) + '<small>' + U.kac(k.ad) + ' · ' + U.kac(k.paket.aciklama) + '</small></span></td><td>' + U.kac(U.basHarf(k.paket.tur)) + '</td><td class="sag">' + k.paket.seans + '</td><td class="tutar sag">' + U.tl(k.paket.fiyat) + '</td><td>' + (k.durum === 'gecmis' ? U.durum('kapali', 'Tamamlandı') : U.durum('cozulen', 'Aktif')) + '</td><td class="eylem-kolon"><a class="dugme hayalet kucuk" href="' + DD.kok + 'hesabim/odemelerim/#faturalar">Fatura</a></td></tr>';
+    const l = kisiler().filter((k) => k.paket), aktif = l.filter((k) => k.durum !== 'gecmis').length;
+    $('#dyHizmetOzet').textContent = l.length ? aktif + ' aktif paket, ' + (l.length - aktif) + ' tamamlanmış hizmet. Fatura belgesi Ödemelerim’den indirilir.' : 'Henüz hizmet kaydın yok.';
+    U.bas('#dyHizmet', l.map(satir).join('') || bosSatir(6, 'Henüz bir hizmet almadın.'));
   }
 
   function randevu() {
@@ -84,6 +86,16 @@
     U.bas('#dyRandevular', U.tumRandevular().slice().reverse().map((r) => '<tr><td class="tarih">' + U.noktaliTarih(r.tarih) + '</td><td>' + DD.bicim.saat(r.saat) + '</td><td><span class="no">' + U.kac(U.basHarf(r.tur)) + ' görüşme<small>' + U.kac(sahip(r).ad) + ' · ' + r.sure + ' dakika</small></span></td><td>' + durumHucre(r) + '</td><td class="eylem-kolon"><div class="tablo-eylem">' + (r.tarih >= b && U.rAcik(r) && r !== s ? eylemler(r, true) + katil(r, 'birincil kucuk') : '') + '</div></td></tr>').join('') || bosSatir(5, 'Henüz randevun yok.'));
     U.bas('#dyGorusme', U.tumRandevular().filter(gecen).reverse().map((r) => '<tr><td class="tarih">' + U.noktaliTarih(r.tarih) + '</td><td>' + U.rHap(r) + '</td><td class="sol"><span class="no">' + U.kac(gorusmeMetni(r) || '—') + '<small>' + U.kac(sahip(r).ad) + '</small></span></td></tr>').join('') || bosSatir(3, 'Henüz tamamlanan görüşmen yok.'));
     hak();
+    /* İstek ve hareketler: randevu kayıtlarından türer, en yeni üstte */
+    const HR = [];
+    U.tumRandevular().forEach((r) => {
+      const ne = U.tarih(r.tarih) + ', ' + DD.bicim.saat(r.saat) + ' · ' + sahip(r).ad;
+      HR.push({ t: r.olusturma || r.tarih, i: 'fa-calendar-plus', b: 'Randevu oluşturuldu', m: ne, h: U.rHap(r) });
+      if (r.talep) HR.push({ t: r.tarih, i: r.talep.tur === 'iptal' ? 'fa-calendar-xmark' : 'fa-clock-rotate-left', b: r.talep.tur === 'iptal' ? 'İptal talebi' : 'Saat değişikliği talebi', m: ne, h: r.talep.durum === 'bekliyor' ? U.durum('bekleyen', 'Onay bekliyor') : U.durum('kapali', 'Sonuçlandı') });
+      if (r.talep_sonuc) HR.push({ t: r.tarih, i: 'fa-reply', b: r.talep_sonuc === 'kabul' ? 'Talebin kabul edildi' : 'Talebin reddedildi', m: ne, h: U.durum(r.talep_sonuc === 'kabul' ? 'cozulen' : 'hata', r.talep_sonuc === 'kabul' ? 'Kabul' : 'Red') });
+      if (U.rDurum(r) === 'iptal') HR.push({ t: r.tarih, i: 'fa-ban', b: 'Randevu iptal edildi', m: ne, h: U.durum('kapali', r.iptal_eden === 'diyetisyen' ? 'Diyetisyen iptal etti' : 'İptal') });
+    });
+    U.bas('#dyRandevuHareket', HR.sort((a, c) => String(c.t).localeCompare(String(a.t))).slice(0, 8).map((x) => satirKur(x.i, x.b, x.m, x.h)).join('') || U.bos({ ikon: 'fa-timeline', baslik: 'Henüz randevu hareketin yok', metin: 'Randevu oluşturduğunda ya da değişiklik istediğinde burada görünür.' }));
   }
 
   const boyut = (n) => (n >= 1048576 ? U.sayi(n / 1048576, 1) + ' MB' : U.sayi(Math.max(1, n / 1024)) + ' KB');
@@ -140,7 +152,7 @@
       .concat(...U.uzmanlar().map((k) => (k.dosyalar || []).map((x) => satirKur('fa-file-pdf', x.ad, U.tarih(x.tarih) + ' · ' + x.tur + ' · ' + k.ad))));
     U.bas('#dyGelen', gelen.join('') || U.bos({ ikon: 'fa-inbox', baslik: 'Henüz dosya yok', metin: 'Diyetisyenin dosya gönderdiğinde burada listelenir.' }));
     const l = (dn.tahliller || []).map((t) => satirKur('fa-file-pdf', t.dosya_adi, U.tarih(t.tarih) + ' · Tahlil'))
-      .concat(U.yerel('paylasilanDosya', []).map((d) => satirKur('fa-file-arrow-up', d.ad, U.tarih(d.tarih) + ' · Sen paylaştın')));
+      .concat(U.yerel('paylasilanDosya', []).map((d) => satirKur('fa-file-arrow-up', d.ad, U.tarih(d.tarih) + ' · ' + (d.tur ? d.tur + ' · ' : '') + 'Sen paylaştın', U.durum('acik', 'Giden'))));
     U.bas('#dyGiden', l.join('') || U.bos({ ikon: 'fa-folder-open', baslik: 'Henüz paylaşmadın', metin: 'Tahlil ya da belge paylaşabilirsin.', eylem: '<button class="dugme hayalet" type="button" data-ac="#dyDosya">Dosya paylaş</button>' }));
   }
 
@@ -242,6 +254,7 @@
       secili = i.dataset.iptal;
       const r = seciliR();
       $('#dyIptalMetin').textContent = U.tarih(r.tarih) + ', ' + DD.bicim.saat(r.saat) + ' görüşmen için iptal talebi gönderilecek. Diyetisyenin onayladığında randevu iptal olur ve seans hakkın geri yüklenir.';
+      $('#dyIptalKutu').checked = false; $('#dyIptalOnay').disabled = true; U.gizle($('#dyIptalKilit'), false);
       DD.ac('#dyIptal');
     }
     const t = e.target.closest('[data-ertele]');
@@ -254,7 +267,9 @@
     }
   });
   /* Randevu değişmez; talep panelde onaylanınca uygulanır */
+  $('#dyIptalKutu').addEventListener('change', (e) => { $('#dyIptalOnay').disabled = !e.target.checked; U.gizle($('#dyIptalKilit'), e.target.checked); });
   $('#dyIptalOnay').addEventListener('click', () => {
+    if (!$('#dyIptalKutu').checked) return;
     seciliR().talep = { tur: 'iptal', durum: 'bekliyor' };
     delete seciliR().talep_sonuc;
     U.kaydet(); DD.kapat($('#dyIptal')); ciz();
@@ -285,7 +300,7 @@
     const f = $('#dyDosyaGirdi').files[0];
     if (!f) return;
     if (f.size > 10 * 1024 * 1024) { DD.toast('Dosya 10 MB sınırını aşıyor.', 'hata'); return; }
-    U.yerel('paylasilanDosya', []).push({ ad: f.name, tarih: b });
+    U.yerel('paylasilanDosya', []).push({ ad: f.name, tarih: b, tur: $('#dyDosyaTur').value });
     U.kaydet(); e.target.reset(); DD.kapat($('#dyDosya')); dosyalar();
     DD.toast('Dosyan paylaşıldı.');
   });
