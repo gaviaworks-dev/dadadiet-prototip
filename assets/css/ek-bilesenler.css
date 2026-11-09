@@ -3583,3 +3583,7 @@ body.rk-altbar-acik #dadaMentor{--mentor-dip:max(var(--mentor-taban),calc(var(--
 .akordeon.tablolu,.akordeon.tablolu .akordeon-kalem,.akordeon.tablolu .akordeon-govde{min-width:0;max-width:100%}
 .akordeon.tablolu .tablo-kap{max-width:100%;overflow-x:auto}
 .akordeon.tablolu .akordeon-bas small{overflow-wrap:anywhere}
+/* Günün özeti hapı (AS-DAY) dar ekranda tek satıra sığmazsa yüksekliği uzar, metin üst üste binmez */
+a.rk-gunun-sponsoru.rk-slot{max-width:100%;height:auto;min-height:38px;padding-block:var(--bosluk-4)}
+.ust-etiket+a.rk-gunun-sponsoru.rk-slot{display:flex;width:fit-content;margin:var(--bosluk-8) 0 var(--bosluk-12)}
+.rk-gunun-sponsoru span{min-width:0}

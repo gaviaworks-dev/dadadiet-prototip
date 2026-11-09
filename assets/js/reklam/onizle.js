@@ -146,6 +146,9 @@
         var n = 0;
         try { n = (+sessionStorage.getItem('dd-rk-sayfa') || 0) + 1; sessionStorage.setItem('dd-rk-sayfa', String(n)); } catch (e) { /* yok say */ }
         katman.dataset.rkSayfa = String(n);
+        /* Canlıda çerez bandı açıkken standart biçimler basılmaz; yönetici önizlemesi (data-rk-cookie-exempt) bandın üstünde
+           görünür kalır ve alt bant bandın üstüne çıkar (standart.js alignAltbar). Prototip önizlemesi yönetici önizlemesidir. */
+        katman.setAttribute('data-rk-cookie-exempt', '1');
         if (istenen && istenen.indexOf('STD-POPUP') !== -1) katman.setAttribute('data-rk-popup-force', '');
       }
       var sira = Promise.resolve();
