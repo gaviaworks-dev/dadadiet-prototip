@@ -7,7 +7,7 @@ export const anaMenu = [
     { ad: 'Aralıklı Oruç Rehberi', alt: 'Protokolünü ve saatlerini seç', href: 'aralikli-oruc-rehberi/', ikon: 'fa-clock' },
     { ad: 'Dışarıda Ne Yesem?', alt: 'Dada Gourmet mekanlarını keşfet', href: 'disarida-ne-yesem/', ikon: 'fa-location-dot' },
   ] },
-  { ad: 'Beslenme', href: 'besin-kutuphanesi/', ikon: 'fa-book-open', kalemler: [
+  { ad: 'Beslenme', href: 'besin-rehberi/', ikon: 'fa-book-open', kalemler: [
     { ad: 'Besin Kütüphanesi', alt: '541 besinin değeri', href: 'besin-kutuphanesi/', ikon: 'fa-magnifying-glass' },
     { ad: 'Besin Karşılaştır', alt: 'İki besini yan yana gör', href: 'besin-karsilastir/', ikon: 'fa-scale-balanced' },
     { ad: 'Kaç Kalori?', alt: 'Porsiyon karşılıkları', href: 'kac-kalori/', ikon: 'fa-fire' },
