@@ -1885,7 +1885,7 @@ body:not(.yetkili) .tablo.panel thead th{color:var(--murekkep-yumusak)}
 .kirinti-simdi,.kimlik-bant .kirinti-simdi,.giris-hero .kirinti .kirinti-simdi{font-weight:var(--agirlik-orta)}
 
 /* ── Büyük sayı ve küçük sayı ───────────────────────────────────────────── */
-.kart.kpi .sayi,.sayac b,.giris-sayilar b,.skor-kisa b,.kademe-fiyat b,.paket-fiyat b,.plan-fiyat,.sonuc-sayi.kucuk,.puan-sayi,.paket-satiri .fiyat b{
+.kart.kpi .sayi,.giris-sayilar b,.skor-kisa b,.kademe-fiyat b,.paket-fiyat b,.plan-fiyat,.sonuc-sayi.kucuk,.puan-sayi,.paket-satiri .fiyat b{
   font-size:var(--rol-metrik-boyut);font-weight:var(--rol-metrik-agirlik);line-height:var(--rol-metrik-satir);letter-spacing:var(--aralik-baslik)}
 .kunye dd,.kunye.belge dd,.kunye dd.karsi-deger,.deger-satir dd,.deger-satir b,.kart-bas .deger-vurgu,.yetkili .as-saat,.as-metin b,.as-metin>a,.ks-metin b,.secim-metin b,.gun-baslik,.ara-baslik h4,.plan-baslangic p{
   font-size:var(--rol-deger-boyut);font-weight:var(--rol-deger-agirlik)}
@@ -3789,3 +3789,13 @@ body:has(.cookie-banner.show),body.cerez-acik{padding-bottom:var(--cerez-boy,0px
    JS'le çizilen ekranlarda örnek kayıtlar demo.js'te süzülür. Boş durum tasarımı silinmez, bu kipte görünür. */
 html.bos-kip [data-ornek]{display:none!important}
 html:not(.bos-kip) [data-bos]{display:none!important}
+
+/* ── S4: istatistik kutusu (.sayac) değeri Gastro kanonu ölçüsünde. Rol bloğu .sayac b'yi pano KPI rolüne (--rol-metrik, 24/800)
+   bağlıyordu; Gastro'da 24 yalnız .kart.kpi .sayi'dir, .sayac b 16,5/700 (kanon/bilesenler.css .sayac b). Rol bağı kalktı, taban ölçü geçerli.
+   Izgaradaki değer tek satır, sığmazsa "…". .sayac.vurgu değeri aksan rengiyle (boyut aynı). .yigin.ayracli: bloklar arasında çizgi. */
+.sayac-izgara .sayac b{white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.sayac.vurgu b{color:var(--aksan-koyu);font-weight:var(--agirlik-ekstra)}
+.olcum-satir+.sayac-izgara{margin-top:var(--bosluk-16)}
+.olcum-satir>.olcer.hap{margin-top:var(--bosluk-4)}
+.yigin.ayracli>*+*{padding-top:var(--bosluk-20);border-top:var(--cizgi-1) solid var(--cizgi)}
+.yigin.ayracli{gap:var(--bosluk-20)}

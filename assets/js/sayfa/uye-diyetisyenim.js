@@ -203,11 +203,11 @@
     const l = aktifler().filter((k) => k.paket);
     if (!l.length) { U.bas('#dyHak', '<p class="alan-yardim"><span>Aktif paketin yok.</span></p>'); return; }
     const kullanim = (k) => k.randevular.filter((r) => r.paket_id === k.paket.id && r.durum !== 'iptal');
-    const s = (i, e, d) => '<div class="sayac"><i class="fa-solid ' + i + '" aria-hidden="true"></i><div><span>' + e + '</span><b>' + d + '</b></div></div>';
-    U.bas('#dyHak', '<div class="yigin">' + l.map((k) => {
+    const s = (i, e, d, ek) => '<div class="sayac' + (ek ? ' ' + ek : '') + '"><i class="fa-solid ' + i + '" aria-hidden="true"></i><div><span>' + e + '</span><b>' + d + '</b></div></div>';
+    U.bas('#dyHak', '<div class="yigin ayracli">' + l.map((k) => {
       const kull = kullanim(k), biten = kull.filter(gecen).length, ayrilan = kull.length - biten, kalan = Math.max(0, k.paket.seans - kull.length);
       const oran = Math.min(100, Math.round((kull.length / k.paket.seans) * 100));
-      return '<div><p class="kart-metin"><b>' + U.kac(k.ad) + '</b></p><div class="olcer hap" role="img" aria-label="' + U.kac(k.ad) + ' paket kullanımı: yüzde ' + oran + '"><span data-oran="' + oran + '"></span></div><div class="sayac-izgara">' + s('fa-box-open', 'Paket', U.kac(k.paket.ad)) + s('fa-circle-check', 'Kullanılan', biten + ' seans') + s('fa-calendar-check', 'Ayrılan', ayrilan + ' seans') + s('fa-ticket', 'Kalan', kalan + ' seans') + '</div></div>';
+      return '<div><div class="olcum-satir"><div class="olcum-bas"><span>' + U.kac(k.ad) + '</span><b>' + kull.length + ' / ' + k.paket.seans + ' seans <small>· %' + oran + '</small></b></div><div class="olcer hap" role="img" aria-label="' + U.kac(k.ad) + ' paket kullanımı: yüzde ' + oran + '"><span data-oran="' + oran + '"></span></div></div><div class="sayac-izgara">' + s('fa-box-open', 'Paket', U.kac(k.paket.ad)) + s('fa-circle-check', 'Kullanılan', biten + ' seans') + s('fa-calendar-check', 'Ayrılan', ayrilan + ' seans') + s('fa-ticket', 'Kalan', kalan + ' seans', 'vurgu') + '</div></div>';
     }).join('') + '</div>');
     const gecmis = l.reduce((t, k) => t.concat(kullanim(k)), []).sort((x, y) => (y.tarih + y.saat).localeCompare(x.tarih + x.saat));
     U.bas('#dyHakGecmis', gecmis.map((r) => '<tr><td class="tarih">' + U.noktaliTarih(r.tarih) + '</td><td><span class="no">' + U.kac(U.basHarf(r.tur)) + ' görüşme · ' + DD.bicim.saat(r.saat) + '<small>' + U.kac(sahip(r).ad) + '</small></span></td><td>' + (gecen(r) ? U.durum(U.rDurum(r) === 'gelmedi' ? 'hata' : 'cozulen', U.rDurum(r) === 'gelmedi' ? 'Gelmedi, hak düştü' : 'Kullanıldı') : U.durum('acik', 'Ayrıldı')) + '</td></tr>').join('') || bosSatir(3, 'Henüz hak kullanmadın.'));
