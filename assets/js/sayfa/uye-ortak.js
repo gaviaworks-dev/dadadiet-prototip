@@ -80,6 +80,21 @@
     if (d.uyeYerel[ad] === undefined) d.uyeYerel[ad] = varsayilan;
     return d.uyeYerel[ad];
   };
+  /* Örnek kayıt tohumu (Gn1): demo.json uyeYerel[ad] içindeki id'li örnekler önceki tarayıcı durumuna bir kez katılır; silinen geri gelmez, ?bos=1 yeni üyede hiç gelmez */
+  U.tohumla = (ad) => {
+    const l = U.yerel(ad, []);
+    if (U.bosKip || !Array.isArray(l)) return l;
+    const ilk = ((((window.DD_VERI || {}).demo || {}).uyeYerel || {})[ad]) || [], bayrak = U.yerel('tohumBayrak', {});
+    let degisti = false;
+    ilk.forEach((x) => {
+      const id = ad + ':' + x.id;
+      if (!x.id || bayrak[id]) return;
+      bayrak[id] = true; degisti = true;
+      if (!l.some((y) => y.id === x.id)) l.push(JSON.parse(JSON.stringify(x)));
+    });
+    if (degisti) { l.sort((x, y) => String(x.tarih).localeCompare(String(y.tarih))); DD.demo.kaydet(); }
+    return l;
+  };
   const gun = (t) => { const p = String(t).slice(0, 10).split('-').map(Number); return new Date(p[0], p[1] - 1, p[2]); };
   U.gun = gun;
   U.tarih = (t) => (t ? DD.bicim.tarih(String(t)) : '');
@@ -247,6 +262,10 @@
   /* Öğün satırı: çip ve anahtar .as-eylem içinde aynı eksende */
   U.ogunDurum = (i, o) => (i[o.anahtar] ? 'uydu' : i[o.anahtar + '_atla'] ? 'atladi' : '');
   U.ogunSatir = (o, durum) => '<div class="kalem-satiri' + (durum === 'atladi' ? ' atlandi' : '') + '" data-ogun="' + o.anahtar + '"><span class="ks-ikon"><i class="fa-solid ' + (durum === 'uydu' ? 'fa-check' : durum === 'atladi' ? 'fa-xmark' : o.ikon) + '" aria-hidden="true"></i></span><div class="ks-metin"><b>' + U.kac(o.ad) + ' · ' + DD.bicim.saat(o.saat) + '</b><small>' + U.kac(o.metin) + (o.degisti ? ' (alternatif)' : '') + '</small>' + U.veyaSatir(o) + (o.olcek ? '<small>Porsiyon ×' + DD.bicim.sayi(o.olcek, 1, 1) + ', enerji hedefine göre</small>' : '') + '</div><div class="as-eylem"><div class="segment" role="group" aria-label="' + U.kac(o.ad) + ' durumu"><button class="olumsuz" type="button" data-ogun-durum="atladi" data-ogun-kalem="' + o.anahtar + '" aria-pressed="' + (durum === 'atladi') + '">Atladım</button><button type="button" data-ogun-durum="uydu" data-ogun-kalem="' + o.anahtar + '" aria-pressed="' + (durum === 'uydu') + '">Plana uydum</button></div></div></div>';
+  /* Sayfa Revizesi 1 (G1, B2): öğün satırının kısa hâli. İşlemler ikon düğme (eylemler: hazır HTML), durum küçük Uydum/Atladım segmenti.
+     Aynı data-ogun-durum düğmeleri: işaret yazımı aşağıdaki ortak dinleyicide, panel planlar[].ogun_isaret'ten okur */
+  U.ikonDugme = (ikon, ad, ek) => '<button class="ikon-dugme" type="button" aria-label="' + U.kac(ad) + '"' + (ek ? ' ' + ek : '') + '><i class="fa-solid ' + ikon + '" aria-hidden="true"></i></button>';
+  U.ogunSatirKisa = (o, durum, eylemler) => U.ogunSatir(o, durum).replace(/<div class="segment"[\s\S]*<\/div><\/div><\/div>$/, '<div class="segment kucuk ogun-durum" role="group" aria-label="' + U.kac(o.ad) + ' durumu"><button class="olumsuz" type="button" data-ogun-durum="atladi" data-ogun-kalem="' + o.anahtar + '" aria-pressed="' + (durum === 'atladi') + '"><i class="fa-solid fa-xmark" aria-hidden="true"></i> Atladım</button><button type="button" data-ogun-durum="uydu" data-ogun-kalem="' + o.anahtar + '" aria-pressed="' + (durum === 'uydu') + '"><i class="fa-solid fa-check" aria-hidden="true"></i> Uydum</button></div></div></div>').replace('<div class="as-eylem">', '<div class="as-eylem">' + (eylemler ? '<span class="ikon-eylemler">' + eylemler + '</span>' : ''));
   /* Tek dokunuş: gram istemez; aynı seçime tekrar basmak geri alır */
   document.addEventListener('click', (e) => {
     const d = e.target.closest('[data-ogun-durum]');
