@@ -6,7 +6,7 @@
   const DD = window.DD;
   const HARIC = ['giris', 'kayit', 'sifremi-unuttum', 'eposta-dogrula', 'pro'];
   /* Düğmeyle aynı sütunda dipten yer kaplayan yüzeyler; düğme bunların üstüne oturur */
-  const ENGEL = '#cookieBanner,.alt-cubuk,.bottom-nav,.sihirbaz-ayak,.rd-actbar,.actbar';
+  const ENGEL = '#cookieBanner,.alt-cubuk,.bottom-nav,.sihirbaz-ayak,.alt-yapiskan,.rd-actbar,.actbar';
   /* Akışta duran denetimler: kapalı düğmenin dinlenme kutusuna girince düğme üstüne çıkar, kutudan çıkınca iner */
   const AKIS = '.sohbet-yaz-satir,.suzme-ac,.filtre-ac';
 
@@ -43,8 +43,9 @@
       let engel = 0;
       document.querySelectorAll(ENGEL).forEach((o) => {
         if (!gorunur(o)) return;
-        const r = o.getBoundingClientRect(), konum = getComputedStyle(o).position;
-        const dipte = konum === 'fixed' || (konum === 'sticky' && r.bottom >= innerHeight - 2);
+        /* Alttan yapışan öğe kendi bottom payıyla (ör. alt sekme çubuğunun üstünde) yapışmış olabilir */
+        const st = getComputedStyle(o), r = o.getBoundingClientRect(), konum = st.position, alt = st.bottom === 'auto' ? null : parseFloat(st.bottom) || 0;
+        const dipte = konum === 'fixed' || (konum === 'sticky' && alt !== null && r.bottom >= innerHeight - alt - 2);
         if (dipte && r.height > 0 && r.top < innerHeight && r.left < sag && r.right > sol) engel = Math.max(engel, Math.round(innerHeight - r.top));
       });
       if (!acik) {
