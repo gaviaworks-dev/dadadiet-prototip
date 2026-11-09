@@ -9,19 +9,28 @@ const BESIN_IKON = { Sebzeler: 'fa-carrot', Meyveler: 'fa-apple-whole', 'Et & Ta
 /* Canlı sekme sayıları (541'e toplanır). Örnek kaydı olmayan Baharatlar ve İçecekler çipte gösterilmez. */
 const BESIN_SAYI = { Sebzeler: 74, Meyveler: 50, 'Et & Tavuk': 65, 'Balık & Deniz': 49, Baklagiller: 32, Tahıllar: 62, 'Süt Ürünleri & Yumurta': 62, Kuruyemiş: 31, 'Yağlar & Soslar': 27, 'Tatlılar & Atıştırmalıklar': 75 };
 
-const besinSatir = (b, i) => `<a class="veri-satir" href="${K}${DETAY.besin}" data-kart data-kategori="${b.kategori_kodu}" data-ara="${araMetni(b.ad, b.kategori)}"${i >= 24 ? ' hidden' : ''}>
+/* Alfabetik erişim (site haritası 8.9): baş harf süzgeci */
+const basHarf = (ad) => ad.charAt(0).toLocaleUpperCase('tr');
+const besinSatir = (b, i) => `<a class="veri-satir" href="${K}${DETAY.besin}" data-kart data-kategori="${b.kategori_kodu}" data-kategori-ad="${kac(b.kategori)}" data-harf="${basHarf(b.ad)}" data-ara="${araMetni(b.ad, b.kategori)}"${i >= 24 ? ' hidden' : ''}>
 <span class="ikon-kutu">${ikon(BESIN_IKON[b.kategori] ?? 'fa-leaf')}</span><span class="veri-satir-ad"><b>${kac(b.ad)}</b><span>100 g</span></span><span class="veri-satir-sutun">${deger(b.protein, 'g', 1)}<small>Pro</small></span><span class="veri-satir-sutun">${deger(b.karb, 'g', 1)}<small>Karb</small></span><span class="veri-satir-kalori">${b.kcal === null ? '<span class="veri-yok">veri yok</span>' : `${sayi(b.kcal, 0)} <small>kcal</small>`}</span>${ikon('fa-chevron-right veri-satir-ok')}
 </a>`;
+
+const harfler = (l) => {
+  const say = new Map();
+  l.forEach((b) => say.set(basHarf(b.ad), (say.get(basHarf(b.ad)) || 0) + 1));
+  const sira = [...say.keys()].sort((a, b) => a.localeCompare(b, 'tr'));
+  return `<div class="liste-satir">${cipler('harf', 'Baş harfe göre', [{ ad: 'A–Z', deger: '' }, ...sira.map((h) => ({ ad: h, deger: h, sayi: say.get(h) }))], { sinif: 'tek-satir harf-dizin' })}</div>`;
+};
 
 function besinKutuphanesi(veri) {
   const l = [...veri.besinler.besinler].sort((a, b) => a.ad.localeCompare(b.ad, 'tr'));
   const kodlar = new Map(l.map((b) => [b.kategori, b.kategori_kodu]));
   const kalem = Object.keys(BESIN_SAYI).filter((k) => kodlar.has(k)).map((k) => ({ ad: k, deger: kodlar.get(k), sayi: BESIN_SAYI[k], ikon: BESIN_IKON[k] }));
-  const ust = `<div class="liste-satir">${cipler('kategori', 'Besin kategorisi', [{ ad: 'Tümü', deger: '', sayi: veri.sayaclar.besin, ikon: 'fa-layer-group' }, ...kalem], { sinif: 'serit' })}${aramaKutusu('besinAra', 'Besin ara', 'Örneğin avokado, kinoa')}${dugme('Besin Karşılaştır', 'besin-karsilastir/', 'birincil', 'fa-scale-balanced')}</div>`;
+  const ust = `<div class="liste-satir">${cipler('kategori', 'Besin kategorisi', [{ ad: 'Tümü', deger: '', sayi: veri.sayaclar.besin, ikon: 'fa-layer-group' }, ...kalem], { sinif: 'serit' })}${aramaKutusu('besinAra', 'Besin ara', 'Örneğin avokado, kinoa')}${dugme('Besin Karşılaştır', 'besin-karsilastir/', 'birincil', 'fa-scale-balanced')}</div>${harfler(l)}`;
   const kapBas = '<div class="veri-liste-bas" aria-hidden="true"><span class="veri-liste-ad">Besin</span><span class="veri-satir-sutun">Protein</span><span class="veri-satir-sutun">Karb.</span><span class="veri-satir-kalori">Kalori</span><span class="veri-satir-ok"></span></div>';
   return sayfa('besin-kutuphanesi', 'Besin Kütüphanesi',
     bant({ yol: [['Besin Kütüphanesi']], etiket: 'BESİN KÜTÜPHANESİ', h1: 'Besin değerlerini keşfet', alt: `${veri.sayaclar.besin} besinin kalori, protein, yağ ve karbonhidrat değerini ara; her değerin hangi kaynaktan geldiğini gör.`, gorsel: 'assets/img/hero/besin-kutuphanesi-canli.webp' })
-    + dizi(bolum(liste({ toplam: veri.sayaclar.besin, birim: 'besinden', ust, ustNot: '<p class="liste-not"><span><span data-liste-sayac role="status"></span> 100 g başına değerler.</span></p>', kapBas, kapSinif: 'veri-liste', sarmal: 'veri-kart', kartlar: l.map(besinSatir).join(''), boyut: 24, bosMetin: 'Aradığın besin bu listede yok. Farklı bir kelime dene ya da süzgeçleri temizle.' }) + bilgiNot(), { ilk: true })), L);
+    + dizi(bolum(liste({ toplam: veri.sayaclar.besin, birim: 'besinden', ust, ustNot: '<p class="liste-not"><span><span data-liste-sayac role="status"></span> 100 g başına değerler.</span></p>', kapBas, kapSinif: 'veri-liste', sarmal: 'veri-kart', kartlar: l.map(besinSatir).join(''), boyut: 24, bosMetin: 'Aradığın besin bu listede yok. Farklı bir kelime dene ya da süzgeçleri temizle.' }).replace('<div class="yigin" data-liste ', '<div class="yigin" data-liste data-benzer ') + bilgiNot(), { ilk: true })), L);
 }
 
 const AVOKADO_OZET = 'Tekli doymamış yağ ve lif açısından zengin taze meyve.';
