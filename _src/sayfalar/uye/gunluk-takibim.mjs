@@ -37,7 +37,7 @@ ${kart({ ikon: 'fa-clock-rotate-left', baslik: 'Önceki Notların', bosluksuz: t
 </div>` },
   { id: 'ozet', ad: 'Haftalık Özetim', ikon: 'fa-calendar-week', govde: `<div class="yigin">
 ${bolumBas({ etiket: 'Son 7 gün', ikon: 'fa-calendar-week', baslik: 'Haftalık Özetin', metin: 'Enerji, öğün, su ve adım ortalamaların; gün gün kayıtların ve hissin.' })}
-${kart({ ikon: 'fa-gauge-high', baslik: 'Haftanın Ortalamaları', govde: '<div class="sayac-izgara" id="gtOrtalama"></div>' })}
+${kart({ ikon: 'fa-gauge-high', baslik: 'Haftanın Ortalamaları', metin: 'Her ortalama hedefinle birlikte. Su ve adım ortalaması tamamlanan günlerden, şeritler son yedi günden.', govde: '<div id="gtOrtalama"></div>' })}
 ${kart({ ikon: 'fa-table-list', baslik: 'Gün Gün Döküm', bosluksuz: true, govde: tablo({ id: 'gtHafta', etiket: 'Son yedi günün enerji, öğün, su, adım ve his kayıtları', basliklar: ['Gün', ['Enerji', 'kisa-kolon sag'], ['Öğün ve uyum', 'dar-kolon'], ['His', 'dar-kolon'], ['Su', 'kisa-kolon sag'], ['Adım', 'kisa-kolon sag'], ['Hedef', 'kisa-kolon']] }) })}
 </div>` },
 ];

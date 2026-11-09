@@ -6,6 +6,8 @@
   const b = U.bugun(), TU = DD.tercihUyum, duyarli = U.yemeDuyarli();
   TU.uyeBagla(U);
   const kk = () => U.aktifKaynak();
+  /* Öğün Alternatifleri sekmesi kalktı (B2): eski #alternatif adresi Günlük Öğünlerim'e iner, kabuk sekmeyi DOMContentLoaded'da açar */
+  if (location.hash === '#alternatif') history.replaceState(null, '', location.pathname + location.search + '#ogun');
   const bolumBas = (i, e, h, m, a) => '<div class="bolum-bas"><div><span class="ust-etiket"><i class="fa-solid ' + i + '" aria-hidden="true"></i> ' + e + '</span><h2>' + U.kac(h) + '</h2>' + (m ? '<p class="giris-metni">' + m + '</p>' : '') + (a ? '<div class="bolum-araclar">' + a + '</div>' : '') + '</div></div>';
   const tarihEtiket = U.tarih(b).replace(/ \d{4}$/, '') + ' ' + U.gunAdi(b);
   const hareketler = () => U.yerel('programHareket', []);
@@ -33,7 +35,7 @@
     U.bas('#bpNotKap', k.tip === 'plan' && k.plan.danisana_not
       ? '<div class="kart panel tam-kolon"><div class="kart-bas"><div><h3 class="kart-baslik"><i class="fa-solid fa-comment-medical" aria-hidden="true"></i> Diyetisyeninin Notu</h3><p>' + U.kac(dy ? dy.ad : '') + ' · ' + U.tarih(k.plan.tarih) + '</p></div></div><div class="kart-govde okuma"><p>' + U.kac(k.plan.danisana_not) + '</p></div></div>'
       : '');
-    U.bas('#bpUyum', U.uyumGovde(k));
+    U.bas('#bpUyum', uyumKisa(k));
     bitisCiz(k);
     const u = U.uyum(k);
     $('#bpUyumMetin').textContent = u.tamam ? u.toplam + ' öğünün ' + u.tamam + ' tanesinde plana uydun.' : 'Henüz işaretlenmiş bir öğün yok.';
@@ -42,6 +44,15 @@
     d.innerHTML = durakli(k) ? '<i class="fa-solid fa-play" aria-hidden="true"></i> Programa devam et' : '<i class="fa-solid fa-pause" aria-hidden="true"></i> Programı duraklat';
     dokumCiz();
     notlarCiz();
+  }
+
+  /* Uyum durumu (B1): ince ölçer ve tek satırda küçük değerler; ayrıntı uyum dökümünde */
+  function uyumKisa(k) {
+    const u = U.uyum(k), bas = U.kaynakBas(k), s = sure(k), gun = Math.max(0, Math.min(s, U.gunFarki(bas, b) + 1));
+    const d = (e, v) => '<div><dt>' + e + '</dt><dd>' + v + '</dd></div>';
+    return '<div class="olcer-satir"><div class="olcer hap" role="img" aria-label="Programa uyum: yüzde ' + u.oran + '"><span data-oran="' + u.oran + '"></span></div><b>%' + u.oran + '</b></div>'
+      + '<dl class="kisa-degerler">' + d('Gün', gun ? gun + ' / ' + s : 'Başlamadı') + d('Öğün', u.tamam + ' / ' + u.toplam) + d('Kalan', (s - gun) + ' gün') + d('Bitiş', U.tarih(U.gunEkle(bas, s - 1))) + '</dl>'
+      + '<p class="alan-yardim"><span>Uyum, tamamlanan öğünlerin planlanan öğünlere oranıdır; duraklatırsan kalan günler ileri kayar.</span></p>';
   }
 
   /* Program bitince: ilerleme özeti ve sıradaki program önerisi */
@@ -92,9 +103,9 @@
   }
 
   function notlarCiz() {
-    const k = kk(), l = U.yerel('planNotlari', []).filter((n) => n.kaynak === (k && k.anahtar));
+    const k = kk(), l = U.tohumla('planNotlari').filter((n) => n.kaynak === (k && k.anahtar));
     U.bas('#bpNotlar', l.length
-      ? '<div class="ayar-liste">' + l.slice().reverse().map((n) => '<div class="ayar-satir"><span class="as-ikon"><i class="fa-solid fa-paper-plane" aria-hidden="true"></i></span><div class="as-metin"><b>' + U.tarih(n.tarih) + (n.konu ? ' · ' + U.kac(n.konu) : '') + '</b><span>' + U.kac(n.metin) + '</span></div><span class="as-eylem">' + U.durum('bekleyen', 'Gönderildi') + '</span></div>').join('') + '</div>'
+      ? '<div class="ayar-liste">' + l.slice().reverse().map((n) => '<div class="ayar-satir sarmali"><span class="as-ikon"><i class="fa-solid fa-paper-plane" aria-hidden="true"></i></span><div class="as-metin"><b>' + U.tarih(n.tarih) + (n.konu ? ' · ' + U.kac(n.konu) : '') + '</b><span>' + U.kac(n.metin) + '</span></div><span class="as-eylem">' + (n.ornek ? U.durum('kapali', 'Prototip örneği') : '') + U.durum('cozulen', 'Gönderildi') + '</span></div>').join('') + '</div>'
       : U.bos({ ikon: 'fa-comments', baslik: 'Henüz not göndermedin', metin: 'Planla ilgili sorun ya da değişiklik isteğin varsa buradan ilet.', eylem: '<button class="dugme hayalet" type="button" data-not-ac>Not yaz</button>' }));
   }
 
@@ -110,7 +121,7 @@
     if (!k) { U.bas('#bpHaftaBas', ''); U.bas('#bpHafta', '<li>' + U.bos({ ikon: 'fa-calendar-week', baslik: 'Haftalık menün yok', metin: 'Bir program başlattığında öğünlerin gün gün burada görünür.', eylem: U.bag('Program seç', 'programlar/') }) + '</li>'); return; }
     /* Hafta, programın başladığı günden sayılır */
     const kb = U.kaynakBas(k), bas = U.gunEkle(kb, Math.max(0, Math.floor(U.gunFarki(kb, b) / 7)) * 7);
-    U.bas('#bpHaftaBas', bolumBas('fa-calendar-week', U.kisaTarih(bas) + ' – ' + U.kisaTarih(U.gunEkle(bas, 6)), 'Haftalık Menün', 'Gün gün öğünlerin. Porsiyonlar plan kalemlerinin ölçüsüyle verilir; değiştirmek için Öğün Alternatifleri sekmesini kullan.', U.bag('<i class="fa-solid fa-wand-magic-sparkles" aria-hidden="true"></i> Yapay zekâ haftalık menüm', 'hesabim/haftalik-menum/', 'hayalet')));
+    U.bas('#bpHaftaBas', bolumBas('fa-calendar-week', U.kisaTarih(bas) + ' – ' + U.kisaTarih(U.gunEkle(bas, 6)), 'Haftalık Menün', 'Gün gün öğünlerin. Porsiyonlar plan kalemlerinin ölçüsüyle verilir; bugünün öğününü değiştirmek için Günlük Öğünlerim’de satırdaki alternatif düğmesini kullan.', U.bag('<i class="fa-solid fa-wand-magic-sparkles" aria-hidden="true"></i> Yapay zekâ haftalık menüm', 'hesabim/haftalik-menum/', 'hayalet')));
     haftaBas = bas;
     /* Kapatılan öğün o günün kaydında yer almaz; kolon haftanın herhangi bir gününde varsa görünür */
     const haftaGunleri = [0, 1, 2, 3, 4, 5, 6].map((i) => U.gunOgunleri(k, U.gunEkle(bas, i)));
@@ -182,7 +193,7 @@
     const l = U.secilenOgunler(k, b);
     if (!k) { U.bas('#bpOgunler', U.bos({ ikon: 'fa-utensils', baslik: 'Bugün için öğün yok', metin: 'Aktif bir programın olduğunda öğünlerin burada listelenir.', eylem: U.bag('Program seç', 'programlar/') })); return; }
     const i = U.isaret(k, b);
-    U.bas('#bpOgunler', l.map((o) => U.ogunSatir(o, U.ogunDurum(i, o))).join('') || U.bugunBos(k));
+    U.bas('#bpOgunler', l.map((o) => U.ogunSatirKisa(o, U.ogunDurum(i, o), U.alternatif(U.gunOgunleri(k, b).find((x) => x.anahtar === o.anahtar) || o).length ? U.ikonDugme('fa-right-left', 'Alternatif seç', 'data-alt-ac="' + o.anahtar + '"') : '')).join('') || U.bugunBos(k));
     const n = l.filter((o) => i[o.anahtar]).length;
     $('#bpOgunOzet').textContent = k.ad + ' · ' + l.length + ' öğün planlandı.';
     $('#bpOgunSayac').textContent = n + ' / ' + l.length + ' tamamlandı';
@@ -199,16 +210,18 @@
     U.bas('#bpMakro', satir('Enerji', 'kcal', 'kcal', 0) + satir('Protein', 'protein', 'g', 1) + satir('Karbonhidrat', 'karb', 'g', 1) + satir('Yağ', 'yag', 'g', 1));
   }
 
+  /* Alternatif seçimi (B2): öğün satırındaki ikon düğme pencereyi açar. Plandaki öğün ve enerjisi en yakın iki tarif; seçim bugünün planına yazılır */
+  let altOgun = '';
   function alternatifCiz() {
     const k = kk();
-    U.bas('#bpAltBas', bolumBas('fa-calendar-day', tarihEtiket, 'Öğün Alternatifleri', 'Her öğünün, programın makro dengesini bozmayan karşılıkları. Seçtiğin alternatif bugünün planına yazılır.', ''));
-    if (!k) { U.bas('#bpAlternatif', U.bos({ ikon: 'fa-right-left', baslik: 'Alternatif yok', metin: 'Aktif programın olduğunda her öğün için alternatifler burada görünür.', eylem: U.bag('Program seç', 'programlar/') })); return; }
-    const sec = (U.yerel('alternatifler', {})[k.anahtar] || {})[b] || {};
-    if (!U.gunOgunleri(k, b).length) { U.bas('#bpAlternatif', U.bugunBos(k)); return; }
-    U.bas('#bpAlternatif', U.gunOgunleri(k, b).map((o) => {
-      const cip = U.alternatif(o).map((t) => '<button class="cip' + (sec[o.anahtar] === t.slug ? ' aktif' : '') + '" type="button" data-alt-ogun="' + o.anahtar + '" data-alt="' + t.slug + '" aria-pressed="' + (sec[o.anahtar] === t.slug) + '">' + U.kac(t.ad) + (duyarli ? '' : ' · ' + DD.bicim.kcal(t.kcal)) + '</button>').join('');
-      return '<div class="kalem-satiri"><span class="ks-ikon"><i class="fa-solid ' + o.ikon + '" aria-hidden="true"></i></span><div class="ks-metin"><b>' + o.ad + (duyarli ? '' : ' · ' + DD.bicim.kcal(o.kcal)) + '</b><small>' + U.kac(o.metin) + '</small>' + U.veyaSatir(o) + '</div><div class="as-eylem"><div class="cipler">' + cip + '</div></div></div>';
-    }).join(''));
+    if (!k || !altOgun) return;
+    const o = U.gunOgunleri(k, b).find((x) => x.anahtar === altOgun);
+    if (!o) return;
+    const sec = ((U.yerel('alternatifler', {})[k.anahtar] || {})[b] || {})[o.anahtar] || '';
+    const kc = (v) => (duyarli ? '' : ' · ' + DD.bicim.kcal(v));
+    const sat = (slug, ikon, ad, alt) => '<button class="secenek" type="button" data-alt-ogun="' + o.anahtar + '" data-alt="' + slug + '" aria-pressed="' + (sec === slug) + '"><i class="fa-solid ' + ikon + '" aria-hidden="true"></i><span>' + ad + '<small>' + alt + '</small></span></button>';
+    $('#bpAltBaslik').textContent = o.ad + ' · Alternatif Seç';
+    U.bas('#bpAlternatif', sat('', o.ikon, 'Plandaki öğün' + kc(o.kcal), U.kac(o.metin)) + U.alternatif(o).map((t) => sat(t.slug, 'fa-right-left', U.kac(t.ad) + kc(t.kcal), 'Plandaki öğünün yerine geçen tarif')).join(''));
   }
 
   function arsivCiz() {
@@ -237,7 +250,7 @@
     document.querySelectorAll('[data-bp-tercih]').forEach((e) => U.bas(e, h));
   }
 
-  function ciz() { kaynakCiz(); aktifCiz(); haftaCiz(); ogunCiz(); alternatifCiz(); arsivCiz(); tercihCiz(); }
+  function ciz() { kaynakCiz(); aktifCiz(); haftaCiz(); ogunCiz(); arsivCiz(); tercihCiz(); }
 
   document.addEventListener('dd:suzgec', (e) => {
     if (e.target.id !== 'bpKaynak') return;
@@ -245,14 +258,18 @@
   });
   document.addEventListener('dd:ogun', () => { ogunCiz(); aktifCiz(); });
   document.addEventListener('click', (e) => {
+    const ac = e.target.closest('[data-alt-ac]');
+    if (ac) { altOgun = ac.dataset.altAc; alternatifCiz(); DD.ac('#bpAltModal'); return; }
     const a = e.target.closest('[data-alt]');
     if (a) {
       const k = kk(), s = U.yerel('alternatifler', {});
       s[k.anahtar] = s[k.anahtar] || {}; s[k.anahtar][b] = s[k.anahtar][b] || {};
-      const o = a.dataset.altOgun, ayni = s[k.anahtar][b][o] === a.dataset.alt;
-      if (ayni) delete s[k.anahtar][b][o]; else s[k.anahtar][b][o] = a.dataset.alt;
-      U.kaydet(); ogunCiz(); alternatifCiz(); haftaCiz();
-      DD.toast(ayni ? 'Öğün plana geri döndü.' : 'Alternatif bugünün planına yazıldı.');
+      const o = a.dataset.altOgun, once = s[k.anahtar][b][o] || '';
+      if (a.dataset.alt) s[k.anahtar][b][o] = a.dataset.alt; else delete s[k.anahtar][b][o];
+      U.kaydet(); ogunCiz(); haftaCiz(); DD.kapat($('#bpAltModal'));
+      const d = document.querySelector('[data-alt-ac="' + o + '"]');
+      if (d) d.focus();
+      if (once !== a.dataset.alt) DD.toast(a.dataset.alt ? 'Alternatif bugünün planına yazıldı.' : 'Öğün plana geri döndü.');
       return;
     }
     if (e.target.closest('[data-not-ac]')) {
@@ -331,7 +348,7 @@
   /* Duyarlı üye: alınan, hedef ve kalan tablosu yerine uzman notu */
   if (duyarli) {
     $('#bpMakroKart').outerHTML = U.uzmanNot();
-    $('#bpAltMetin').textContent = 'Seçtiğin alternatif bugünün planına yazılır; aynı düğmeye basmak geri alır.';
+    $('#bpAltMetin').textContent = 'Seçtiğin alternatif yalnız bugünün planına yazılır.';
   }
   $('#bpNotForm').addEventListener('submit', (e) => {
     e.preventDefault();

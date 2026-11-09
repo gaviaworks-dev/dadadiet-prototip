@@ -8,7 +8,7 @@ const aktif = `<div class="yigin" id="bpAktif">
 <div id="bpNotKap"></div>
 ${kart({
     ikon: 'fa-chart-line', baslik: 'Programa Uyum Durumun', metin: '<span id="bpUyumMetin"></span>',
-    sag: `<div class="as-eylem"><span id="bpDurumHap"></span>${dugme('Uyum dökümünü görüntüle', { sinif: 'hayalet kucuk', ikon: 'fa-table-list', ek: ' id="bpDokumDugme" aria-expanded="false" aria-controls="bpDokum"' })}</div>`,
+    sag: '<div class="as-eylem"><span id="bpDurumHap"></span><button class="ikon-dugme" type="button" id="bpDokumDugme" aria-label="Uyum dökümünü gör" aria-expanded="false" aria-controls="bpDokum"><i class="fa-solid fa-table-list" aria-hidden="true"></i></button></div>',
     govde: '<div id="bpUyum"></div><div id="bpDokum" hidden></div>',
     alt: `${dugme('Programı duraklat', { ikon: 'fa-pause', ek: ' id="bpDuraklat"' })}${dugme('Diyetisyene not gönder', { ikon: 'fa-pen', ek: ' data-not-ac' })}${dugme('Bugünün öğünleri', { sinif: 'birincil', ikon: 'fa-utensils', ek: ' data-sekme-git="ogun"' })}`,
     id: 'bpUyumKart',
@@ -34,17 +34,12 @@ ${kart({
     ikon: 'fa-utensils', baslik: 'Öğün Listesi', metin: '<span id="bpOgunOzet"></span>', bosluksuz: true,
     sag: '<div class="as-eylem"><span class="durum-hapi bekleyen" id="bpOgunSayac"></span></div>',
     govde: '<div class="kalem-liste" id="bpOgunler"></div>',
-    alt: `<span class="eylem-notu" id="bpOgunNot"></span>${dugme('Diyetisyene not gönder', { ikon: 'fa-pen', ek: ' data-not-ac' })}${dugme('Alternatife geç', { ikon: 'fa-right-left', ek: ' data-sekme-git="alternatif"' })}${dugme('Kalan öğünleri işaretle', { sinif: 'birincil', ikon: 'fa-check-double', ek: ' id="bpHepsi"' })}`,
+    alt: `<span class="eylem-notu" id="bpOgunNot"></span>${dugme('Diyetisyene not gönder', { ikon: 'fa-pen', ek: ' data-not-ac' })}${dugme('Kalan öğünleri işaretle', { sinif: 'birincil', ikon: 'fa-check-double', ek: ' id="bpHepsi"' })}`,
   })}
 ${kart({
     ikon: 'fa-chart-pie', baslik: 'Günün Makro Toplamı', metin: 'İşaretlenen öğünlerden hesaplanır. Hedef, günün plan toplamıdır.', bosluksuz: true, id: 'bpMakroKart',
     govde: '<div class="tablo-kap gomulu" tabindex="0" role="region" aria-label="Günün makro toplamı"><table class="tablo panel"><caption class="yalniz-okuyucu">Alınan ve hedeflenen enerji ile makro besin ögeleri</caption><thead><tr><th scope="col">Besin ögesi</th><th scope="col" class="sag">Alınan</th><th scope="col" class="sag">Hedef</th><th scope="col" class="sag">Kalan</th></tr></thead><tbody id="bpMakro"></tbody></table></div>',
   })}
-</div>`;
-
-const alternatif = `<div class="yigin">
-<div id="bpAltBas"></div>
-${kart({ ikon: 'fa-shuffle', baslik: 'Bugünün Öğünleri', metin: '<span id="bpAltMetin">Enerjisi en yakın tarifler. Seçtiğin alternatif bugünün planına yazılır; aynı düğmeye basmak geri alır.</span>', sag: `<div class="as-eylem">${dugme('Besin kütüphanesi', { sinif: 'hayalet kucuk', ikon: 'fa-magnifying-glass', href: 'besin-kutuphanesi/' })}</div>`, bosluksuz: true, govde: '<div class="kalem-liste" id="bpAlternatif"></div>' })}
 </div>`;
 
 const tamamlanan = `<div class="yigin">
@@ -61,6 +56,10 @@ const sonEk = modal({
   id: 'bpNotModal', baslik: 'Diyetisyene Not Gönder', form: ' id="bpNotForm"',
   govde: '<p class="alan-yardim" id="bpNotBaglam"></p><div class="alan"><label class="alan-etiket" for="bpNotKonu">Konu</label><select class="alan-secim" id="bpNotKonu"><option>Öğün porsiyonu ağır geliyor</option><option>Bir öğünü uygulayamadım</option><option>Alternatif öğün talebi</option><option>Programı bir hafta duraklatmak istiyorum</option><option>Diğer</option></select></div><div class="alan"><label class="alan-etiket" for="bpNotMetin">Notun <span class="zorunlu">*</span></label><textarea class="alan-metin" id="bpNotMetin" rows="4" maxlength="4000" required placeholder="Akşam öğünündeki bulgur pilavı porsiyonu bana ağır geliyor."></textarea><p class="alan-yardim"><span>Not, diyetisyeninle mesajlarına da düşer.</span></p></div>',
   ayak: dugme('Vazgeç', { ek: ' data-kapat' }) + dugme('Gönder', { sinif: 'birincil', tur: 'submit' }),
+}) + modal({
+  id: 'bpAltModal', baslik: '<span id="bpAltBaslik">Alternatif Seç</span>',
+  govde: '<p class="alan-yardim"><span id="bpAltMetin">Enerjisi en yakın tarifler; programın makro dengesini bozmaz. Seçtiğin alternatif yalnız bugünün planına yazılır.</span></p><div class="yigin sik" id="bpAlternatif" role="group" aria-labelledby="bpAltBaslik"></div>',
+  ayak: dugme('Besin kütüphanesi', { sinif: 'hayalet', ikon: 'fa-magnifying-glass', href: 'besin-kutuphanesi/' }) + dugme('Kapat', { sinif: 'birincil', ek: ' data-kapat' }),
 }) + modal({
   id: 'bpAlisveris', baslik: 'Haftalık Alışveriş Listen',
   govde: '<p class="alan-yardim"><span id="bpAlisverisMetin"></span> <span class="durum-hapi bekleyen" id="bpAlisverisSayac"></span></p><div class="kalem-liste" id="bpAlisverisListe"></div><div class="bilgi-notu"><i class="fa-solid fa-cart-shopping" aria-hidden="true"></i><p><b>Dada Market (prototip örneği):</b> sepet simgesine bastığın malzemeler anlaşmalı market sepetine gider. Bu prototipte gerçek mağaza, fiyat ya da ödeme yok; sepetin yalnız bu tarayıcıda tutulur. <span id="bpSepetSayi"></span> <button class="dugme hayalet kucuk" type="button" id="bpSepetGor"><i class="fa-solid fa-cart-shopping" aria-hidden="true"></i> Sepeti gör</button></p></div>' + rk(['AL-P1', 'AL-P2', 'AL-P3', 'AL-P4']),
@@ -84,7 +83,6 @@ export default ({ veri }) => [uyeSayfa({
     { id: 'aktif', ad: 'Aktif Programım', ikon: 'fa-clipboard-check', govde: aktif },
     { id: 'hafta', ad: 'Haftalık Menüm', ikon: 'fa-calendar-week', govde: hafta },
     { id: 'ogun', ad: 'Günlük Öğünlerim', ikon: 'fa-utensils', govde: ogun },
-    { id: 'alternatif', ad: 'Öğün Alternatifleri', ikon: 'fa-right-left', govde: alternatif },
     { id: 'tamamlanan', ad: 'Tamamlanan Programlar', ikon: 'fa-box-archive', sayi: 'tamamlanan', govde: tamamlanan },
     { id: 'gecmis', ad: 'Program Geçmişim', ikon: 'fa-clock-rotate-left', govde: gecmis },
   ],

@@ -231,8 +231,10 @@
       if (durum === 'atladi') return html;
       const f = al(o.anahtar), ek = 'data-foto-ac="' + o.anahtar + '" data-foto-ad="' + U.kac(o.ad) + '"';
       const kucuk = f ? '<button class="ks-foto" type="button" ' + ek + ' aria-label="' + U.kac(o.ad) + ' fotoğrafını aç"><img src="' + U.kac(adres(f)) + '" alt=""></button>' : '';
-      const d = '<button class="dugme hayalet kucuk" type="button" ' + ek + '>' + i('fa-image') + ' ' + (f ? 'Fotoğrafı gör' : 'Fotoğraf ekle') + '</button>';
-      return (f ? html.replace(/<span class="ks-ikon">.*?<\/span>/, () => kucuk) : html).replace('<div class="as-eylem">', '<div class="as-eylem">' + d);
+      /* Sayfa Revizesi 1 (G1): ikon düğme, adı ipucunda. Fotoğraf ekle fa-camera, Fotoğrafı gör fa-image; satırda ikon eylem grubu varsa onun başına girer */
+      const d = '<button class="ikon-dugme" type="button" ' + ek + ' aria-label="' + (f ? 'Fotoğrafı gör' : 'Fotoğraf ekle') + '">' + i(f ? 'fa-image' : 'fa-camera') + '</button>';
+      const yer = html.includes('<span class="ikon-eylemler">') ? '<span class="ikon-eylemler">' : '<div class="as-eylem">';
+      return (f ? html.replace(/<span class="ks-ikon">.*?<\/span>/, () => kucuk) : html).replace(yer, yer + d);
     },
   };
 })();
