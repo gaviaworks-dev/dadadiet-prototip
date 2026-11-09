@@ -58,10 +58,10 @@ export function sidePairGeometry(doc,win) {
  const style=n=>win.getComputedStyle(n);
  let header=0;doc.querySelectorAll('header,.header,.topbar').forEach(n=>{const r=n.getBoundingClientRect();if(r.height&&r.top<160)header=Math.max(header,r.bottom)});
  let left=win.innerWidth,right=0;
- doc.querySelectorAll('main .wrap,main>.container,main>.panel-sayfa').forEach(n=>{const r=n.getBoundingClientRect(),s=style(n);if(r.width>600){left=Math.min(left,r.left+parseFloat(s.paddingLeft||0));right=Math.max(right,r.right-parseFloat(s.paddingRight||0))}});
+ doc.querySelectorAll('main .wrap,main .kap,main>.container,main>.panel-sayfa').forEach(n=>{const r=n.getBoundingClientRect(),s=style(n);if(r.width>600){left=Math.min(left,r.left+parseFloat(s.paddingLeft||0));right=Math.max(right,r.right-parseFloat(s.paddingRight||0))}});
  if(right===0)return reject('içerik kolonu ölçülemedi');
  const footer=doc.querySelector('footer.footer,body > footer'),fr=footer?.getBoundingClientRect();
- const footerTop=visibleFooterTop({top:fr?.top??Infinity,fixed:footer&&style(footer).position==='fixed',contentBottom:doc.querySelector('main')?.getBoundingClientRect().bottom??Infinity});
+ const footerTop=visibleFooterTop({top:fr?.top??Infinity,fixed:footer&&['fixed','sticky'].includes(style(footer).position),contentBottom:doc.querySelector('main')?.getBoundingClientRect().bottom??Infinity});
  const hero=doc.querySelector('main [data-rk-hero]');
  const gate=sideContentVisible({scrollY:win.scrollY,heroBottom:sideHeroBottom(hero),headerBottom:header,footerTop,viewportHeight:win.innerHeight});
  if(!gate)return reject(footerTop<win.innerHeight?'footer görünür':'hero header çizgisini geçmedi');
@@ -74,6 +74,11 @@ export function sidePairGeometry(doc,win) {
  const layout=sideLayout({viewport:win.innerWidth,left,right,top,height,obstacles});
  if(!layout)return reject('120 px side için içerik dışında yeterli yan alan yok');
  if(pair.querySelectorAll('.rk-std-side').length===1){layout.count=1;layout.variant=`sağ 120×${height}`;}
+ // Prototip uyarlaması: yan kart içerik kolonuna ve sağ kenardaki "Görüş Bildir" sekmesine binmez (canlı satış metni: ≥1600 px ekran).
+ const sekme=doc.querySelector('.feedback-tab'),sekmeEn=sekme&&style(sekme).display!=='none'?sekme.getBoundingClientRect().width:0;
+ if(win.innerWidth-right<layout.width+layout.inset*2+sekmeEn)return reject('yan kart içerik kolonuna biner');
+ if(layout.count===2&&left<layout.width+layout.inset*2){layout.count=1;layout.variant=`sağ 120×${height}`;pair.dataset.rkSideTek='1'}else delete pair.dataset.rkSideTek;
+ pair.style.setProperty('--rk-kenar-sekme',sekmeEn+'px');
  pair.style.setProperty('--rk-side-inset',layout.inset+'px');pair.style.setProperty('--rk-side-top',top+'px');pair.style.setProperty('--rk-side-width',layout.width+'px');pair.style.setProperty('--rk-side-height',height+'px');
  pair.dataset.rkSideCount=String(layout.count);pair.dataset.rkSideVariant=layout.variant;pair.dataset.rkSideReason=layout.variant;
  pair.dataset.rkSideGap=String(layout.gap);

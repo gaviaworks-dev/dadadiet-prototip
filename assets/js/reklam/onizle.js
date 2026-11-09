@@ -30,6 +30,7 @@
     return t.dataset.rkYer.split(' ').some(function (k) { return istenen.indexOf(k) !== -1; });
   });
   document.documentElement.classList.add('rk-onizleme');
+  if (!hepsi) document.documentElement.classList.add('rk-tek');
   if (cerceve) document.documentElement.classList.add('rk-cerceve');
 
   function serit() {
@@ -166,11 +167,30 @@
     if (!el) return;
     var mega = el.closest('.nav-item');
     if (mega) { mega.classList.add('open'); return; }
+    /* Mobilde menü hücreleri çekmecede: çekmece ve ilgili alt menü açılır */
+    var cekmece = el.closest('.drawer');
+    if (cekmece) {
+      var h = document.getElementById('hamburger');
+      if (h) h.click();
+      var alt = el.closest('.d-item');
+      var t = alt && alt.querySelector('.d-toggle');
+      if (t && t.getAttribute('aria-expanded') !== 'true') setTimeout(function () { t.click(); }, 300);
+      return;
+    }
     if (el.closest('[data-rk-standart]')) return;
+    /* Yatay kart rayındaki alan: ray o karta kayar */
+    var ray = el.closest('.kart-ray');
+    if (ray) ray.scrollLeft = el.offsetLeft - ray.offsetLeft;
+    /* Koridor kapısı: kapının kartı açılır */
+    if (el.tagName === 'DETAILS') setTimeout(function () { el.open = true; }, 400);
     var ust = document.querySelector('[data-site-header]');
-    var pay = (ust ? ust.getBoundingClientRect().bottom : 0) + 72;
-    var y = el.getBoundingClientRect().top + scrollY - pay;
-    scrollTo({ top: Math.max(0, y), behavior: 'auto' });
+    var git = function () {
+      var pay = (ust ? ust.getBoundingClientRect().bottom : 0) + 72;
+      scrollTo({ top: Math.max(0, el.getBoundingClientRect().top + scrollY - pay), behavior: 'auto' });
+    };
+    git();
+    /* Görseller yüklendikçe sayfa uzar: yükleme bitince bir kez daha */
+    if (document.readyState !== 'complete') addEventListener('load', function () { setTimeout(git, 50); }); else setTimeout(git, 300);
     el.classList.add('rk-vurgu');
   }
 

@@ -372,6 +372,8 @@ document.querySelectorAll('.mz-grid:has(> .rk-dolap-kart)').forEach(function (ra
   }
   function duzenle() {
     [].slice.call(document.querySelectorAll('[' + NITELIK + ']')).forEach(function (n) { n.removeAttribute(NITELIK); });
+    // Prototip uyarlaması: tek alan önizlemesinde (?reklam=KOD) istenen kart her zaman görünür; kural "hepsi" görünümünde canlıdaki gibi.
+    if (document.documentElement.classList.contains('rk-tek')) return;
     var izgaralar = [];
     [].slice.call(document.querySelectorAll('[data-rk-slot]')).forEach(function (n) {
       var kap = n.parentElement;
