@@ -37,8 +37,8 @@ ${sosyal('kayıt ol')}<p class="giris-alt-not">Diyetisyen misin? <a href="${K}di
 
   /* E-posta doğrulama (eski sitede /eposta/dogrula): kayıttan sonra, hoş geldin sihirbazından önce */
   const dogrula = sayfa('E-posta Doğrulama', `<div class="giris-bas"><h1>E-postanı doğrula</h1><p>Hesabını etkinleştirmek için gelen kutuna bir doğrulama bağlantısı gönderdik.</p></div>
-<div class="bilgi-notu"><i class="fa-solid fa-circle-info" aria-hidden="true"></i><p><span class="rozet bekleme">Örnek akış</span> Prototipte e-posta gönderilmez; Devam et ile doğrulanmış sayılırsın.</p></div>
-<div class="giris-serit acik" role="status"><span class="serit-ikon">${ikon('fa-envelope-circle-check')}</span><div class="serit-govde"><h4>Bağlantı Gönderildi</h4><p><b id="dogrulaAdres">E-posta adresine</b> gelen bağlantıya tıkla. Birkaç dakika içinde gelmezse spam klasörüne bak ya da yeniden gönder.</p></div></div>
+<div class="bilgi-notu" role="status">${ikon('fa-envelope-circle-check')}<p><b>Bağlantı gönderildi.</b> <b id="dogrulaAdres">E-posta adresine</b> gelen bağlantıya tıkla. Birkaç dakika içinde gelmezse spam klasörüne bak ya da yeniden gönder.</p></div>
+<p class="alan-yardim"><span><span class="rozet bekleme">Örnek akış</span> Prototipte e-posta gönderilmez; Devam et ile doğrulanmış sayılırsın.</span></p>
 <div class="eylem-satiri"><button class="dugme hayalet" type="button" id="dogrulaYeniden">${ikon('fa-rotate-right')} Bağlantıyı yeniden gönder</button><a class="dugme birincil" id="dogrulaDevam" href="${K}hesabim/hos-geldin/">Doğruladım, devam et ${ikon('fa-arrow-right')}</a></div>
 <p class="giris-alt-not">Yanlış adres mi yazdın? <a href="${K}kayit/">Kayda dön</a></p>`, pano(s, 'giris-pano-kayit.webp'));
 

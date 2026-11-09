@@ -3473,6 +3473,7 @@ body.cerez-acik #dadaMentor{--mentor-dip:max(var(--mentor-taban),calc(var(--ment
 .alan-yardim+.alan{margin-top:var(--bosluk-16)}
 @media(max-width:480px){.kart-alt.yigilir>.dugme{flex:1 1 100%;margin-left:0}}
 .mekan-kart-ornek-satir.hedef-ustu b{color:var(--uyari)}
+.giris-kart .alan-yardim+.eylem-satiri{margin-top:var(--bosluk-16)}
 /* --- dk-public · misafir akışı sonu --- */
 /* --- dk-public · diyetisyen ve arama --- */
 /* Son aramalar başlığı: başlık solda, temizle sağda */
