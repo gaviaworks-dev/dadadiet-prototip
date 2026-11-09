@@ -3,7 +3,7 @@
 (function () {
   'use strict';
   const DD = (window.DD = window.DD || {});
-  const ANAHTAR = 'dd-demo-durum-v6'; /* veri değişince sürüm artar, eski tarayıcı durumu okunmaz */
+  const ANAHTAR = 'dd-demo-durum-v7'; /* veri değişince sürüm artar, eski tarayıcı durumu okunmaz */
   const bas = () => JSON.parse(JSON.stringify((window.DD_VERI && window.DD_VERI.demo) || {}));
   let durum;
   try { durum = JSON.parse(localStorage.getItem(ANAHTAR)) || bas(); } catch (e) { durum = bas(); }
