@@ -5,14 +5,19 @@
   const $ = (s) => document.querySelector(s);
   const { aileler, kademeler } = JSON.parse($('#rzKatalog').textContent);
   const u = U.uye(), b = U.bugun();
-  const kazanilan = {};
-  (u.rozetler || []).forEach((r) => { kazanilan[r.ad] = r; });
   const hepsi = aileler.flatMap((a) => a.rozetler.map((r) => ({ ...r, aile: a.ad })));
-  const puan = hepsi.filter((r) => kazanilan[r.ad]).reduce((t, r) => t + r.puan, 0);
   const gun = (U.danisan().olcumler || []).length ? U.gunFarki(U.danisan().olcumler[0].tarih, U.bugun()) : 0;
-  const hedef = (u.rozetler || []).filter((r) => r.slug === 'ilk-hedef').length;
-  const suanki = kademeler.filter((k) => puan >= k[1] && gun >= k[2] && hedef >= k[3]).pop() || kademeler[0];
-  const sonraki = kademeler[kademeler.indexOf(suanki) + 1];
+  /* Kazanılanlar, puan ve kademe: meydan okuma rozeti verilince yeniden hesaplanır */
+  let kazanilan, puan, hedef, suanki, sonraki;
+  function hesapla() {
+    kazanilan = {};
+    (u.rozetler || []).forEach((r) => { kazanilan[r.ad] = r; });
+    puan = hepsi.filter((r) => kazanilan[r.ad]).reduce((t, r) => t + r.puan, 0);
+    hedef = (u.rozetler || []).filter((r) => r.slug === 'ilk-hedef').length;
+    suanki = kademeler.filter((k) => puan >= k[1] && gun >= k[2] && hedef >= k[3]).pop() || kademeler[0];
+    sonraki = kademeler[kademeler.indexOf(suanki) + 1];
+  }
+  hesapla();
   let suzgec = 'kazanilan';
 
   const pk = (i, b, s, a) => '<div class="puan-karti"><span class="puan-bas"><i class="fa-solid ' + i + '" aria-hidden="true"></i> ' + b + '</span><b class="puan-sayi">' + s + '</b><span class="puan-alt">' + a + '</span></div>';
@@ -103,7 +108,25 @@
     }
     return '<div class="kart panel tam-kolon"><div class="kart-bas"><div><h3 class="kart-baslik"><i class="fa-solid ' + m.ikon + '" aria-hidden="true"></i> ' + m.ad + '</h3><p>' + U.kac(m.aciklama) + '</p></div><div class="as-eylem">' + hap + '</div></div><div class="kart-govde">' + govde + '</div>' + (alt ? '<div class="kart-alt eylem">' + alt + '</div>' : '') + '</div>';
   }
-  function meydan() { U.bas('#rzMeydan', MEYDAN.map(meydanKart).join('')); }
+  /* Meydan okuma bitince rozet (ES-HS-68): gün sayısı dolan meydan okumanın katalogdaki rozeti kazanılmış yazılır; bildirim U.bildirimler'den türer */
+  const ROZET = { '21-gun-sekersiz-yasam': '21 Gün Şekersiz Yaşam', '14-gunluk-su-icme-serueni': '14 Günlük Su Serüveni' };
+  function rozetVer() {
+    const yeni = [];
+    MEYDAN.forEach((m) => {
+      const d = meydanDurum(m), c = hepsi.find((x) => x.ad === ROZET[m.slug]);
+      if (!d.k || d.durum !== 'tamam' || !c || kazanilan[c.ad]) return;
+      (u.rozetler = u.rozetler || []).push({ slug: m.slug, ad: c.ad, ikon: 'fa-solid ' + c.ikon, aciklama: c.aciklama, tarih: b });
+      yeni.push(c);
+    });
+    if (!yeni.length) return false;
+    U.kaydet(); hesapla();
+    yeni.forEach((c) => DD.toast('Yeni rozet: ' + c.ad + ' (+' + c.puan + ' puan).'));
+    return true;
+  }
+  function meydan() {
+    if (rozetVer()) { koleksiyon(); kademe(); defter(); }
+    U.bas('#rzMeydan', MEYDAN.map(meydanKart).join(''));
+  }
   document.addEventListener('click', (e) => {
     const k = e.target.closest('[data-meydan-katil]'), bi = e.target.closest('[data-meydan-birak]'), is = e.target.closest('[data-meydan-isaret]');
     if (!k && !bi && !is) return;
