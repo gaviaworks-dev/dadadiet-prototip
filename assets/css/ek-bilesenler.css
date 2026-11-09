@@ -3543,6 +3543,8 @@ button.sohbet-ek:hover b{color:var(--aksan-koyu)}
 html.rk-cerceve #cookieBanner,html.rk-cerceve .feedback-tab,html.rk-cerceve .fb-rail,html.rk-cerceve .edge-rail,html.rk-cerceve #dadaMentor,html.rk-cerceve .yuzen-dugme,html.rk-cerceve .basa-don{display:none!important}
 .kap>.rk-yayilim-side,.yigin>.rk-yayilim-side{width:100%;max-width:360px;margin-inline:auto}
 .kap>.rk-yayilim-alan.rk-yayilim-bant{padding-inline:0}
+/* Dikey yığının içindeki yayılım şeridi (üye sayfaları MN-B1, DF-B1): .kap'ın otomatik kenar boşluğu esnemeyi kesmesin, kolonu doldursun */
+.yigin>.rk-yayilim-alan.rk-yayilim-bant{width:100%}
 [data-native-sponsor] .sonuc-gorsel,[data-native-sponsor] .yatay-kart-gorsel,[data-native-sponsor] .medya-kart-gorsel{position:relative}
 .rk-ikon-logo img,.yatay-kart-ikon img,.rk-dolap-marka img,.sp-logo img{width:100%;height:100%;object-fit:contain}
 .rk-kat-sponsor{display:inline-flex;align-items:center;gap:var(--bosluk-8);flex-wrap:wrap}

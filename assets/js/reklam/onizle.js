@@ -202,6 +202,18 @@
       return;
     }
     if (el.closest('[data-rk-standart]')) return;
+    /* Kapalı yüzeydeki alan kendi düğmesiyle açılır: sekme paneli (sekmesi), modal (data-ac), dialog (aria-controls) */
+    var tikla = function (q) {
+      var d = document.querySelector(q);
+      if (d) { d.click(); setTimeout(function () { el.scrollIntoView({ block: 'center' }); }, 350); }
+      return !!d;
+    };
+    var pano = el.closest('[role="tabpanel"][hidden]');
+    if (pano && pano.id) tikla('[role="tab"][aria-controls="' + pano.id + '"]');
+    var modal = el.closest('.modal-ortu[hidden]');
+    if (modal && modal.id && tikla('[data-ac="#' + modal.id + '"]')) { el.classList.add('rk-vurgu'); return; }
+    var dlg = el.closest('dialog:not([open])');
+    if (dlg && dlg.id && tikla('[aria-controls="' + dlg.id + '"]')) { el.classList.add('rk-vurgu'); return; }
     /* Yatay kart rayındaki alan: ray o karta kayar */
     var ray = el.closest('.kart-ray');
     if (ray) ray.scrollLeft = el.offsetLeft - ray.offsetLeft;

@@ -19,7 +19,7 @@ const seckiTarifleri = (veri) => birlestir(veri).filter((t) => t.etiketler.inclu
 function secki(veri) {
   const k = kreatif(SECKI.marka);
   const l = seckiTarifleri(veri);
-  const kimlik = `<span class="marka-kimlik ${k.renkSinif}"><img src="${k.logo}" alt="${kac(k.marka)}"><span class="rozet dolu">Sponsorlu</span></span>${ORNEK}<a class="dugme hayalet kucuk" href="${K}${PROFIL_YOL}/">${ikon('fa-store')} Marka profilini gör</a>`;
+  const kimlik = `<span class="marka-kimlik ${k.renkSinif}" id="rk-secki.sayfa"><img src="${k.logo}" alt="${kac(k.marka)}"><span class="rozet dolu">Sponsorlu</span></span>${ORNEK}<a class="dugme hayalet kucuk" href="${K}${PROFIL_YOL}/">${ikon('fa-store')} Marka profilini gör</a>`;
   return sayfa(SECKI_YOL, SECKI.ad,
     bant({ yol: [['Tarifler', 'tarifler/'], [kac(SECKI.ad)]], etiket: 'MARKA SEÇKİSİ', etiketIkon: SECKI.ikon, h1: kac(SECKI.ad), alt: `${kac(k.marka)} sponsorluğunda glütensiz tarifler: her biri Dada Diet'in kendi tarifi, değerleri besin kütüphanesinden.`, gorsel: k.resim.replace(K, ''), sayilar: [[l.length, 'tarif']], eylem: kimlik })
     + dizi(bolum(dizin(l, null, { kategoriCip: false, imza: imza(k), not: NOT }), { ilk: true, sinif: 'marka-secki' })), { aktif: 'Beslenme', js: ['liste'] });
@@ -30,8 +30,8 @@ function profil(veri) {
   const l = seckiTarifleri(veri);
   const kirinti = `<nav class="kirinti" aria-label="Sayfa yolu"><a class="kirinti-ev" href="${K}">${ikon('fa-house')}<span class="yalniz-okuyucu">Dada Diet ana sayfa</span></a>${ikon('fa-chevron-right')}<span>Markalar</span>${ikon('fa-chevron-right')}<span class="kirinti-simdi">${kac(k.marka)}</span></nav>`;
   const sayac = (i, et, deger, ek = '') => `<div class="sayac"${ek}>${ikon(i)}<div><span>${et}</span><b>${deger}</b></div></div>`;
-  const eylem = `<button class="dugme birincil" type="button" data-marka-takip="${SECKI.marka}" aria-pressed="false">${ikon('fa-user-plus')} <span>Takip Et</span></button><a class="dugme hayalet" href="${K}${SECKI_YOL}/">${ikon(SECKI.ikon)} Seçkiyi Gör</a>${paylas.replace(' tam-en', '')}`;
-  const bas = `<section class="bolum kimlik-bant kabuk-alti"><div class="kap">${kirinti}<div class="kapak" data-kapak data-arkaplan="${k.resim}"><span class="kapak-muhur">${ikon(SECKI.ikon)} ${kac(SECKI.ad)}</span></div>
+  const eylem = `<button class="dugme birincil" type="button" id="rk-marka-profil.takip" data-marka-takip="${SECKI.marka}" aria-pressed="false">${ikon('fa-user-plus')} <span>Takip Et</span></button><a class="dugme hayalet" href="${K}${SECKI_YOL}/">${ikon(SECKI.ikon)} Seçkiyi Gör</a>${paylas.replace(' tam-en', '')}`;
+  const bas = `<section class="bolum kimlik-bant kabuk-alti" id="rk-marka-profil.sayfa"><div class="kap">${kirinti}<div class="kapak" data-kapak data-arkaplan="${k.resim}"><span class="kapak-muhur">${ikon(SECKI.ikon)} ${kac(SECKI.ad)}</span></div>
 <div class="kimlik"><span class="kimlik-avatar marka-avatar ${k.renkSinif}"><img src="${k.amblem}" alt="${kac(k.marka)}"></span><div class="kimlik-govde"><h1>${kac(k.marka)} <span class="rozet dolu">${ikon('fa-bullhorn')} Sponsorlu</span> ${ORNEK}</h1><span class="kimlik-kullanici"><span class="kimlik-uad">Marka profili</span></span><p class="kimlik-giris">${kac(k.metin)}</p></div><div class="eylem-satiri">${eylem}</div></div>
 <p class="durum-satir" data-marka-takip-sonuc hidden>${ikon('fa-circle-check')}<span></span></p>
 <div class="sayac-serit" role="group" aria-label="Marka özeti">${sayac('fa-utensils', 'Tarif', l.length)}${sayac('fa-user-group', 'Takipçi', '<span data-marka-takipci>0</span>')}</div></div></section>`;
