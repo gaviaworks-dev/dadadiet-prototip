@@ -63,7 +63,9 @@
     YAN.forEach((s) => v.add(s));
     return fav.concat(yan, M.besinler().filter((b) => !v.has(b.slug)));
   };
-  const olcuAdi = (b) => (b.porsiyon && b.porsiyon.ad ? b.porsiyon.ad.replace(/^1\s+/, '') : 'porsiyon');
+  /* Tabakta girdi ölçüsü: besinin ev ölçüsü varsa o (yoğurtta yemek kaşığı, USDA FNDDS 2705464: 1 tablespoon = 15 g), yoksa porsiyonu */
+  const olcuAdi = (b) => (b.ev_olcusu ? b.ev_olcusu.ad : b.porsiyon && b.porsiyon.ad ? b.porsiyon.ad : 'porsiyon').replace(/^1\s+/, '');
+  const olcuGram = (b) => (b.ev_olcusu && b.ev_olcusu.gram) || M.porsiyonGram(b);
   /* Eksik bölme için tek dokunuşluk öneri ve tek tıkla değişim */
   const ONERI = { sebze: ['roka', 75, 'bol yeşillik ve limon', 'Yeşillik ekle'], protein: ['yogurt-yarim-yagli', 120, 'yoğurt', 'Yoğurt ekle'], karb: ['kepekli-ekmek', 50, 'iki dilim kepekli ekmek', 'Ekmek ekle'], yag: ['zeytinyagi', 10, 'iki tatlı kaşığı zeytinyağı', 'Zeytinyağı ekle'] };
   /* Tek tıkla muadil. Değer dizi olabilir: skoru en çok yükselten aday seçilir, eşitlikte lifi yüksek olan (AT §5 örnekleri: beyaz pirinç → esmer pirinç
@@ -145,7 +147,7 @@
     }
     kap.innerHTML = '<div class="ayar-liste porsiyonlu">' + kalemler.map((k, i) => {
       const b = M.besin(k.slug), bo = BOLME[bolmesi(b)], o = olcusu(b);
-      const y = yemekBilgi(b), pg = M.porsiyonGram(b);
+      const y = yemekBilgi(b), pg = olcuGram(b);
       const gramBag = '<button class="metin-bag" type="button" data-gram-ac>' + (k.gram ? 'Porsiyona dön' : 'Gramajı kendim girmek istiyorum') + '</button>';
       const sil = '<button class="kapat-dugme" type="button" data-sil="' + i + '" aria-label="' + kac(M.kisaAd(b)) + ' kalemini sil"><i class="fa-solid fa-xmark" aria-hidden="true"></i></button>';
       const metin = (bag) => '<div class="as-metin"><b>' + kac(b.ad) + '</b><span data-kalem-alt="' + i + '">' + kac(altMetin(b, k, bo)) + '</span>' + bag + '</div>';
@@ -367,7 +369,7 @@
     if (!satir || e.target.tagName !== 'INPUT') return;
     const i = +satir.dataset.sira, v = parseFloat(e.target.value);
     if (!(v > 0)) return;
-    const k = kalemler[i], b = M.besin(k.slug), y = yemekBilgi(b), pg = M.porsiyonGram(b);
+    const k = kalemler[i], b = M.besin(k.slug), y = yemekBilgi(b), pg = olcuGram(b);
     k.miktar = y ? v / y.gram : !k.gram && pg ? v * pg : v; hazirNo = -1;
     satir.querySelector('[data-kalem-alt]').textContent = altMetin(b, k, BOLME[bolmesi(b)]);
     ozetCiz(); hazirCiz();
