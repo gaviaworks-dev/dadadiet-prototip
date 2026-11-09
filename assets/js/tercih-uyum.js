@@ -366,6 +366,14 @@
     return '<div class="uyari-kutu" role="note"><i class="fa-solid fa-triangle-exclamation" aria-hidden="true"></i><span><b>Planında ' + gore.replace(/<\/?b>/g, '') + ' uymayan ' + l.length + ' kalem var:</b> ' + gorunen + '. Planı diyetisyenin hazırladığı için değiştirmedik; uygun bulursan diyetisyenine not gönder.</span></div>';
   }
 
-  DD.tercihUyum = { aktif, kisitlar, etiketler, uygunMu, uyarla, cozumle, tarifUygunMu, tarifUyarla, tarifHavuzu, kalemUyarla, programUygunMu, aciklama, bilgiMetni, bilgiHtml, uyeBagla, ogunOzeti, planDenetle, planUyariHtml };
+  /* Kaloriye göre porsiyon (EK-2-1): üyenin günlük enerji hedefi / programın enerji aralığının ortası ("~1.500–1.700 kcal" → 1.600).
+     0,7–1,5 arasında 0,1 adımla; ±%10 içinde ölçek yok. Program kartı ve üye planı aynı hesabı kullanır */
+  function porsiyonOlcek(enerji, hedefKcal) {
+    const hedef = Number(hedefKcal) || 0, m = String(enerji || '').replace(/\./g, '').match(/(\d{3,})(?:\D+(\d{3,}))?/);
+    if (!hedef || !m) return null;
+    const orta = m[2] ? (Number(m[1]) + Number(m[2])) / 2 : Number(m[1]), f = Math.round(Math.min(1.5, Math.max(0.7, hedef / orta)) * 10) / 10;
+    return Math.abs(f - 1) < 0.1 ? null : { f, hedef, orta: Math.round(orta) };
+  }
+  DD.tercihUyum = { porsiyonOlcek, aktif, kisitlar, etiketler, uygunMu, uyarla, cozumle, tarifUygunMu, tarifUyarla, tarifHavuzu, kalemUyarla, programUygunMu, aciklama, bilgiMetni, bilgiHtml, uyeBagla, ogunOzeti, planDenetle, planUyariHtml };
   sayfaUyarla();
 })();

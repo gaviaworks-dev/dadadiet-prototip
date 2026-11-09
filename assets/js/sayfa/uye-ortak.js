@@ -175,6 +175,7 @@
   };
   /* Porsiyon ölçeği: üyenin günlük enerji hedefi (Tercihlerim) / programın enerji aralığının ortası.
      0,7–1,5 arasında, 0,1 adımla; ±%10 içinde ölçeklenmez. Diyetisyen planı ölçeklenmez (enerjisini diyetisyen belirler); yeme bozukluğu öyküsünde kaloriye dayalı ölçek yok */
+  /* Kural tercih-uyum.js porsiyonOlcek ile aynı (public program kartları onu kullanır); üye kabuğu her sayfada tercih-uyum yüklemediği için burada da durur */
   U.olcek = function (p) {
     const hedef = Number((U.uye().tercihler || {}).kcal) || 0;
     const m = String((p && p.enerji) || '').replace(/\./g, '').match(/(\d{3,})(?:\D+(\d{3,}))?/);
