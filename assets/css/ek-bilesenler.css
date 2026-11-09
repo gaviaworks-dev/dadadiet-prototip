@@ -3854,3 +3854,4 @@ html:not(.bos-kip) [data-bos]{display:none!important}
 .mesafe-uc{font-size:var(--yazi-11);font-weight:var(--agirlik-orta);color:var(--metin-ikincil);white-space:nowrap}
 .mesafe-not{font-size:var(--yazi-11);color:var(--metin-ikincil)}
 @media(max-width:640px){.mesafe-cubuk{padding:var(--bosluk-12) var(--bosluk-14)}.mesafe-ray{flex-basis:100%}}
+.onizleme-serit.alt{top:auto;bottom:var(--bosluk-16)}

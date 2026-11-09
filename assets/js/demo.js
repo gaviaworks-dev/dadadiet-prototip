@@ -3,7 +3,7 @@
 (function () {
   'use strict';
   const DD = (window.DD = window.DD || {});
-  const ANAHTAR = 'dd-demo-durum-v9'; /* veri değişince sürüm artar, eski tarayıcı durumu okunmaz */
+  const ANAHTAR = 'dd-demo-durum-v10'; /* veri değişince sürüm artar, eski tarayıcı durumu okunmaz */
   const bas = () => JSON.parse(JSON.stringify((window.DD_VERI && window.DD_VERI.demo) || {}));
   let durum;
   try { durum = JSON.parse(localStorage.getItem(ANAHTAR)) || bas(); } catch (e) { durum = bas(); }
@@ -61,7 +61,9 @@
     s.setAttribute('role', 'status');
     s.innerHTML = '<div class="kap"><i class="fa-solid fa-box-open" aria-hidden="true"></i><span>Boş durum önizlemesi açık</span><span class="onizleme-not">örnek veri gizli</span><button type="button" class="dugme hayalet kucuk">Kapat</button></div>';
     document.body.prepend(s);
+    /* Panelde site başlığı yok: şerit içeriğin üstüne binmesin diye altta durur */
     const ust = document.querySelector('[data-site-header]');
+    if (!ust) s.classList.add('alt');
     const konumla = () => { if (ust) document.documentElement.style.setProperty('--rk-serit-ust', Math.max(8, Math.round(ust.getBoundingClientRect().bottom + 8)) + 'px'); };
     konumla(); addEventListener('scroll', konumla, { passive: true }); addEventListener('resize', konumla);
     s.querySelector('button').addEventListener('click', () => { const u = new URL(location.href); u.searchParams.delete('bos'); location.replace(u.toString()); });
