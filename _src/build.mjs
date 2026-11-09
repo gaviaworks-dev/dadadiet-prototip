@@ -129,7 +129,7 @@ if (!alan) {
 
 // İstemci verisi: modüllerin okuduğu katalog + ortak demo (tek kaynak _src/veri)
 const istemci = {};
-for (const a of ['besinler', 'tarifler', 'demo']) if (veri[a]) istemci[a] = veri[a];
+for (const a of ['besinler', 'tarifler', 'demo', 'bayraklar']) if (veri[a]) istemci[a] = veri[a];
 fs.mkdirSync(path.join(KOK, 'assets/js'), { recursive: true });
 fs.writeFileSync(path.join(KOK, 'assets/js/veri.js'), 'window.DD_VERI=' + JSON.stringify(istemci) + ';\n');
 for (const y of yazilanHtml) fs.writeFileSync(y, surumle(fs.readFileSync(y, 'utf8')));

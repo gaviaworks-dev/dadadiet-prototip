@@ -100,7 +100,7 @@ export function kabukla(s, { istekler }) {
   const fa = `<link rel="stylesheet" href="${K}assets/fontawesome/css/all.min.css">`;
   const js = [
     ...(panel ? ['assets/js/panel/panel.js', 'assets/js/panel/admin-kit.js'] : []),
-    'assets/js/veri.js', 'assets/js/demo.js', 'assets/js/ortak.js', 'assets/js/bildirim-zili.js', 'assets/js/mentor.js', 'assets/js/kenar-dugmeler.js',
+    'assets/js/veri.js', 'assets/js/demo.js', 'assets/js/ortak.js', 'assets/js/bildirim-zili.js', 'assets/js/mentor.js', 'assets/js/kenar-dugmeler.js', 'assets/js/bayrak.js',
     ...(panel ? ['assets/js/sayfa/panel-a-ortak.js'] : []),
     ...(panel || duzen === 'tam' ? [] : ['assets/js/reklam/onizle.js', 'assets/js/misafir.js']),
     ...(m.js ?? []).filter((j) => !(panel && j.endsWith('panel-a-ortak.js'))),

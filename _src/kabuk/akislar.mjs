@@ -18,6 +18,6 @@ export const akislar = [
       ['Plan listesi', 'diyetisyen-paneli/planlar/'], ['Tam dolu plan', 'diyetisyen-paneli/planlar/olustur/?plan=pl3'], ['Yarım plan', 'diyetisyen-paneli/planlar/olustur/?plan=pl6'],
       ['Şablondan başla', 'diyetisyen-paneli/planlar/olustur/?sablon=s5&danisan=d1'], ['Üyede gör', 'hesabim/beslenme-planim/'], ['Plan geçmişi', 'diyetisyen-paneli/danisanlar/d1/?sekme=plan'] ] },
     { ad: 'Profil durumu', adimlar: [
-      ['Onay bekliyor', 'diyetisyen-paneli/profil/?durum=onay-bekliyor'], ['Eksik belge', 'diyetisyen-paneli/profil/?durum=eksik-belge'], ['Onaylı', 'diyetisyen-paneli/profil/?durum=onayli'], ['Public önizleme', 'diyetisyen/dyt-ece-tunali/?onizleme=1'] ] },
+      ['İncelemede', 'diyetisyen-paneli/profil/?durum=onay-bekliyor'], ['Revizyon istendi', 'diyetisyen-paneli/profil/?durum=eksik-belge'], ['Onaylandı', 'diyetisyen-paneli/profil/?durum=onayli'], ['Public önizleme', 'diyetisyen/dyt-ece-tunali/?onizleme=1'] ] },
   ] },
 ];
