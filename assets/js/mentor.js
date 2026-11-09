@@ -4,7 +4,7 @@
 (function () {
   'use strict';
   const DD = window.DD;
-  const HARIC = ['giris', 'kayit', 'sifremi-unuttum', 'pro'];
+  const HARIC = ['giris', 'kayit', 'sifremi-unuttum', 'eposta-dogrula', 'pro'];
   /* Düğmeyle aynı sütunda dipten yer kaplayan yüzeyler; düğme bunların üstüne oturur */
   const ENGEL = '#cookieBanner,.alt-cubuk,.bottom-nav,.sihirbaz-ayak,.rd-actbar,.actbar';
   /* Akışta duran denetimler: kapalı düğmenin dinlenme kutusuna girince düğme üstüne çıkar, kutudan çıkınca iner */

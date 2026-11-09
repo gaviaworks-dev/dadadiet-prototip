@@ -9,19 +9,28 @@ const BESIN_IKON = { Sebzeler: 'fa-carrot', Meyveler: 'fa-apple-whole', 'Et & Ta
 /* Canlı sekme sayıları (541'e toplanır). Örnek kaydı olmayan Baharatlar ve İçecekler çipte gösterilmez. */
 const BESIN_SAYI = { Sebzeler: 74, Meyveler: 50, 'Et & Tavuk': 65, 'Balık & Deniz': 49, Baklagiller: 32, Tahıllar: 62, 'Süt Ürünleri & Yumurta': 62, Kuruyemiş: 31, 'Yağlar & Soslar': 27, 'Tatlılar & Atıştırmalıklar': 75 };
 
-const besinSatir = (b, i) => `<a class="veri-satir" href="${K}${DETAY.besin}" data-kart data-kategori="${b.kategori_kodu}" data-ara="${araMetni(b.ad, b.kategori)}"${i >= 24 ? ' hidden' : ''}>
+/* Alfabetik erişim (site haritası 8.9): baş harf süzgeci */
+const basHarf = (ad) => ad.charAt(0).toLocaleUpperCase('tr');
+const besinSatir = (b, i) => `<a class="veri-satir" href="${K}${DETAY.besin}" data-kart data-kategori="${b.kategori_kodu}" data-kategori-ad="${kac(b.kategori)}" data-harf="${basHarf(b.ad)}" data-ara="${araMetni(b.ad, b.kategori)}"${i >= 24 ? ' hidden' : ''}>
 <span class="ikon-kutu">${ikon(BESIN_IKON[b.kategori] ?? 'fa-leaf')}</span><span class="veri-satir-ad"><b>${kac(b.ad)}</b><span>100 g</span></span><span class="veri-satir-sutun">${deger(b.protein, 'g', 1)}<small>Pro</small></span><span class="veri-satir-sutun">${deger(b.karb, 'g', 1)}<small>Karb</small></span><span class="veri-satir-kalori">${b.kcal === null ? '<span class="veri-yok">veri yok</span>' : `${sayi(b.kcal, 0)} <small>kcal</small>`}</span>${ikon('fa-chevron-right veri-satir-ok')}
 </a>`;
+
+const harfler = (l) => {
+  const say = new Map();
+  l.forEach((b) => say.set(basHarf(b.ad), (say.get(basHarf(b.ad)) || 0) + 1));
+  const sira = [...say.keys()].sort((a, b) => a.localeCompare(b, 'tr'));
+  return `<div class="liste-satir">${cipler('harf', 'Baş harfe göre', [{ ad: 'A–Z', deger: '' }, ...sira.map((h) => ({ ad: h, deger: h, sayi: say.get(h) }))], { sinif: 'tek-satir harf-dizin' })}</div>`;
+};
 
 function besinKutuphanesi(veri) {
   const l = [...veri.besinler.besinler].sort((a, b) => a.ad.localeCompare(b.ad, 'tr'));
   const kodlar = new Map(l.map((b) => [b.kategori, b.kategori_kodu]));
   const kalem = Object.keys(BESIN_SAYI).filter((k) => kodlar.has(k)).map((k) => ({ ad: k, deger: kodlar.get(k), sayi: BESIN_SAYI[k], ikon: BESIN_IKON[k] }));
-  const ust = `<div class="liste-satir">${cipler('kategori', 'Besin kategorisi', [{ ad: 'Tümü', deger: '', sayi: veri.sayaclar.besin, ikon: 'fa-layer-group' }, ...kalem], { sinif: 'serit' })}${aramaKutusu('besinAra', 'Besin ara', 'Örneğin avokado, kinoa')}${dugme('Besin Karşılaştır', 'besin-karsilastir/', 'birincil', 'fa-scale-balanced')}</div>`;
+  const ust = `<div class="liste-satir">${cipler('kategori', 'Besin kategorisi', [{ ad: 'Tümü', deger: '', sayi: veri.sayaclar.besin, ikon: 'fa-layer-group' }, ...kalem], { sinif: 'serit' })}${aramaKutusu('besinAra', 'Besin ara', 'Örneğin avokado, kinoa')}${dugme('Besin Karşılaştır', 'besin-karsilastir/', 'birincil', 'fa-scale-balanced')}</div>${harfler(l)}`;
   const kapBas = '<div class="veri-liste-bas" aria-hidden="true"><span class="veri-liste-ad">Besin</span><span class="veri-satir-sutun">Protein</span><span class="veri-satir-sutun">Karb.</span><span class="veri-satir-kalori">Kalori</span><span class="veri-satir-ok"></span></div>';
   return sayfa('besin-kutuphanesi', 'Besin Kütüphanesi',
     bant({ yol: [['Besin Kütüphanesi']], etiket: 'BESİN KÜTÜPHANESİ', h1: 'Besin değerlerini keşfet', alt: `${veri.sayaclar.besin} besinin kalori, protein, yağ ve karbonhidrat değerini ara; her değerin hangi kaynaktan geldiğini gör.`, gorsel: 'assets/img/hero/besin-kutuphanesi-canli.webp' })
-    + dizi(bolum(liste({ toplam: veri.sayaclar.besin, birim: 'besinden', ust, ustNot: '<p class="liste-not"><span><span data-liste-sayac role="status"></span> 100 g başına değerler.</span></p>', kapBas, kapSinif: 'veri-liste', sarmal: 'veri-kart', kartlar: l.map(besinSatir).join(''), boyut: 24, bosMetin: 'Aradığın besin bu listede yok. Farklı bir kelime dene ya da süzgeçleri temizle.' }) + bilgiNot(), { ilk: true })), L);
+    + dizi(bolum(liste({ toplam: veri.sayaclar.besin, birim: 'besinden', ust, ustNot: '<p class="liste-not"><span><span data-liste-sayac role="status"></span> 100 g başına değerler.</span></p>', kapBas, kapSinif: 'veri-liste', sarmal: 'veri-kart', kartlar: l.map(besinSatir).join(''), boyut: 24, bosMetin: 'Aradığın besin bu listede yok. Farklı bir kelime dene ya da süzgeçleri temizle.' }).replace('<div class="yigin" data-liste ', '<div class="yigin" data-liste data-benzer ') + bilgiNot(), { ilk: true })), L);
 }
 
 const AVOKADO_OZET = 'Tekli doymamış yağ ve lif açısından zengin taze meyve.';
@@ -32,20 +41,28 @@ function besinDetay(veri) {
   const yuzde = (kcal) => Math.round((kcal / b.kcal) * 100);
   const makro = [['Protein', b.protein, yuzde(b.protein * 4)], ['Karbonhidrat', b.karb, yuzde(b.karb * 4)], ['Yağ', b.yag, yuzde(b.yag * 9)]];
   const satir = (a, v) => `<tr><th scope="row">${a}</th><td class="sag">${v}</td></tr>`;
+  /* Porsiyonlu satır: ham değer data-deger ile gider, seçilen miktar sütununu betik doldurur */
+  const psatir = (a, n, br = 'g', bs = 2) => `<tr><th scope="row">${a}</th><td class="sag">${deger(n, br, bs)}</td><td class="sag" data-porsiyon${n === null || n === undefined ? '' : ` data-deger="${n}" data-birim="${br}" data-basamak="${bs}"`}>${deger(n, br, bs)}</td></tr>`;
+  const pGram = b.porsiyon && b.porsiyon.gram ? b.porsiyon.gram : 100;
   const birim = veri.besinler.birimler;
   const sol = `<div class="yigin">
-<div class="kart tasma-kapali"><div class="kart-bas"><h2 class="kart-baslik">${ikon('fa-table-list')} Besin Değerleri · 100 G</h2></div><div class="tablo-kap cerceve-yok"><table class="tablo"><thead><tr><th>Besin ögesi</th><th class="sag"><span class="birim">100 g</span></th></tr></thead><tbody>
-${satir('Enerji', deger(b.kcal, 'kcal', 0))}${satir('Protein', deger(b.protein))}${satir('Yağ', deger(b.yag))}${satir('Doymuş yağ', deger(b.doymus_yag))}${satir(`Karbonhidrat (${b.karb_lif_dahil ? 'lif dahil' : 'lif hariç'})`, deger(b.karb))}${satir('Lif', deger(b.lif))}${satir('Şeker', deger(b.seker))}
-</tbody></table></div></div>
+<div class="kart tasma-kapali" id="besinPorsiyon" data-slug="${b.slug}" data-ad="${kac(b.ad)}"><div class="kart-bas"><h2 class="kart-baslik">${ikon('fa-table-list')} Besin Değerleri</h2></div>
+<div class="kart-govde"><div class="alan-izgara c2"><div class="alan"><label class="alan-etiket" for="porsiyonGram">Miktar</label><div class="alan-birimli"><input class="alan-girdi" id="porsiyonGram" type="number" inputmode="decimal" min="1" max="2000" step="5" value="${pGram}"><span>g</span></div></div><div class="alan"><span class="alan-etiket" id="porsiyonHizliEtiket">Hızlı seçim</span><div class="cipler" id="porsiyonHizli" role="group" aria-labelledby="porsiyonHizliEtiket">${[...new Set([50, 100, 150, ...(b.porsiyon && b.porsiyon.gram ? [b.porsiyon.gram] : [])])].sort((x, y) => x - y).map((g) => `<button class="cip${g === pGram ? ' aktif' : ''}" type="button" data-gram="${g}">${b.porsiyon && b.porsiyon.gram === g ? kac(b.porsiyon.ad) + ' · ' : ''}${g} g</button>`).join('')}</div></div></div>
+<p class="alan-yardim"><span>${b.porsiyon && b.porsiyon.gram ? `Kaynağın porsiyon ölçüsü: ${kac(b.porsiyon.ad)} = ${b.porsiyon.gram} g.` : 'Bu kayıtta adet, kase ya da dilim ölçüsü yayımlanmıyor; gramı kendin gir. Değerler 100 g kaydından orantılanır.'}</span></p></div>
+<div class="tablo-kap cerceve-yok"><table class="tablo"><thead><tr><th>Besin ögesi</th><th class="sag"><span class="birim">100 g</span></th><th class="sag"><span class="birim" id="porsiyonBaslik">${pGram} g</span></th></tr></thead><tbody>
+${psatir('Enerji', b.kcal, 'kcal', 0)}${psatir('Protein', b.protein)}${psatir('Yağ', b.yag)}${psatir('Doymuş yağ', b.doymus_yag)}${psatir(`Karbonhidrat (${b.karb_lif_dahil ? 'lif dahil' : 'lif hariç'})`, b.karb)}${psatir('Lif', b.lif)}${psatir('Şeker', b.seker)}
+</tbody></table></div>
+<div class="kart-govde ust-cizgili"><div class="alan"><label class="alan-etiket" for="besinOgun">Hangi öğünün?</label><select class="alan-secim" id="besinOgun"><option value="kahvalti">Kahvaltı</option><option value="ara1">Ara Öğün</option><option value="ogle" selected>Öğle Yemeği</option><option value="ara2">İkindi</option><option value="aksam">Akşam Yemeği</option></select></div><button class="dugme birincil tam-en" type="button" id="besinOgunEkle">${ikon('fa-calendar-plus')} Bugünkü öğünüme ekle</button><p class="sonuc-kayit" id="besinOgunDurum" role="status" hidden></p></div></div>
 <div class="kart tasma-kapali"><div class="kart-bas"><div><h2 class="kart-baslik">${ikon('fa-flask')} Vitamin ve Mineraller</h2><p>Bu kayıtta mikro değer yayımlanmıyor; kaynağı olmayan değer yazılmaz.</p></div></div><div class="tablo-kap cerceve-yok"><table class="tablo"><thead><tr><th>Besin ögesi</th><th class="sag"><span class="birim">100 g</span></th></tr></thead><tbody>${MIKRO.map(([k, a]) => satir(a, deger(b.mikrolar[k], birim[k], 2))).join('')}</tbody></table></div></div>
 </div>`;
   const sag = `<div class="yigin yapiskan">
 <div class="kart"><img class="kart-ust-gorsel" src="${K}assets/img/besin/avokado.webp" alt="Avokado"><div class="kart-bas"><h2 class="kart-baslik">${ikon('fa-chart-pie')} Makro Dağılımı (100 G)</h2></div><div class="kart-govde yigin sik">${makro.map(([a, g, y]) => `<div class="olcu-satir"><span>${a}</span><div class="olcer hap"><span data-oran="${y}"></span></div><span>${deger(g)} · %${y}</span></div>`).join('')}<p class="alan-yardim"><span>Yüzdeler kaydın kendi enerji değeri (${bicim.kcal(b.kcal)}) taban alınarak hesaplanır: protein ve karbonhidrat 4 kcal/g, yağ 9 kcal/g. Bu kayıtta karbonhidrat lif hariç verildiği için lif üç dilimin dışında kalır; tabloda kendi satırında listelenir. Günlük ihtiyaç kişiye göre değişir.</span></p></div></div>
 ${kunyeKart('Kaynak', [['Veri tabanı', kac(b.kaynak.ad)], ['Kayıt kodu', kac(b.kaynak.kod)]], `<a class="dugme hayalet kucuk tam-en" href="${kac(b.kaynak.url)}" target="_blank" rel="noopener">${ikon('fa-arrow-up-right-from-square')} Kaydı aç</a><a class="dugme birincil kucuk tam-en" href="${K}besin-karsilastir/?a=${b.slug}">${ikon('fa-scale-balanced')} Başka besinle karşılaştır</a>`)}
+<div class="kart"><div class="kart-bas"><h2 class="kart-baslik">${ikon('fa-heart')} Sık Tükettiklerin</h2></div><div class="kart-govde yigin sik"><p class="kart-metin">Favorilerin Akıllı Tabak'ın tek besin aramasında önce gelir.</p><button class="dugme hayalet kucuk tam-en" type="button" data-kaydet="besinler" data-slug="${b.slug}" data-ad="${kac(b.ad)}" data-ikon="fa-heart" data-etiket="Favori besinlerime ekle" data-etiket-tamam="Favori besinlerimde" data-tamam-metin="favori besinlerine eklendi.">${ikon('fa-heart')} Favori besinlerime ekle</button><a class="dugme hayalet kucuk tam-en" href="${K}akilli-tabak-ve-degisim/?besin=${b.slug}">${ikon('fa-chart-pie')} Tabağıma ekle</a></div></div>
 </div>`;
   return sayfa('besin/avokado', 'Avokado',
     bant({ yol: [['Besin Kütüphanesi', 'besin-kutuphanesi/'], ['Avokado']], etiket: 'MEYVELER', etiketIkon: 'fa-apple-whole', h1: 'Avokado', alt: AVOKADO_OZET, gorsel: 'assets/img/besin/avokado-hero.webp', sayilar: [[sayi(b.kcal, 0), '<span class="birim">kcal / 100 g</span>'], [`${bicim.gram(b.yag)}`, 'yağ'], [`${sayi(b.lif, 1)} g`, 'lif']] })
-    + dizi(bolum(`<div class="iki-kolon">${sol}${sag}</div>${bilgiNot('Bu sayfadaki içerik genel bilgilendirme amaçlıdır; <b>tıbbi teşhis veya tedavi yerine geçmez</b>. Kişiye özel beslenme planı yalnızca <b>yetkili bir diyetisyen</b> tarafından hazırlanır. Gebelik, kronik hastalık, düzenli ilaç kullanımı, çocuk beslenmesi veya klinik bir durum varsa plana başlamadan önce <b>hekim ve diyetisyen kontrolü zorunludur</b>.', false)}`, { ilk: true })), A);
+    + dizi(bolum(`<div class="iki-kolon">${sol}${sag}</div>${bilgiNot('Bu sayfadaki içerik genel bilgilendirme amaçlıdır; <b>tıbbi teşhis veya tedavi yerine geçmez</b>. Kişiye özel beslenme planı yalnızca <b>yetkili bir diyetisyen</b> tarafından hazırlanır. Gebelik, kronik hastalık, düzenli ilaç kullanımı, çocuk beslenmesi veya klinik bir durum varsa plana başlamadan önce <b>hekim ve diyetisyen kontrolü zorunludur</b>.', false)}`, { ilk: true })), { ...A, onJs: ['assets/js/misafir.js'], js: ['besin'] });
 }
 
 /* Kaç Kalori */

@@ -52,6 +52,7 @@
     degerlendirme: (a, b) => b.dataset.degerlendirme - a.dataset.degerlendirme,
     fiyat: (a, b) => (sayi(a.dataset.fiyat) ?? Infinity) - (sayi(b.dataset.fiyat) ?? Infinity) || 0,
     deneyim: (a, b) => b.dataset.deneyim - a.dataset.deneyim,
+    uygunluk: (a, b) => String(a.dataset.uygun || '9999').localeCompare(String(b.dataset.uygun || '9999')),
   };
   function siraMenu(ac) {
     $('siraKutu').classList.toggle('acik', ac);
@@ -72,6 +73,8 @@
     }
     const secim = e.target.closest('[data-sira]');
     if (secim) {
+      /* En yakın uygunluk: kartta açık saat tarihi (data-uygun) yoksa sıra değişmez, neden söylenir */
+      if (secim.dataset.sira === 'uygunluk' && !kartlar.some((k) => k.dataset.uygun)) DD.toast('Uzmanlar açık saatlerini yayınladığında bu sıralama en yakın randevuya göre dizer. Şimdilik önerilen sıra gösteriliyor.', 'uyari');
       const f = SIRA[secim.dataset.sira];
       (f ? ilkSira.slice().sort(f) : ilkSira).forEach((k) => izgara.append(k));
       kok.querySelectorAll('[data-sira]').forEach((b) => b.classList.toggle('aktif', b === secim));

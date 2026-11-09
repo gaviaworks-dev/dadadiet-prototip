@@ -18,7 +18,11 @@
       if (n) n.textContent = kartlar.filter((k) => !s.dataset.deger || (k.dataset[alan] || '').split(' ').includes(s.dataset.deger)).length;
     });
 
-    const uyan = () => kartlar.filter((k) => !deger || (k.dataset[alan] || '').split(' ').includes(deger));
+    /* Ek süzgeçler (program listesi: zorluk, günlük enerji, günlük öğün): [data-ek-suzgec] select[data-alan] */
+    const ekler = [...kok.querySelectorAll('[data-ek-suzgec] select[data-alan]')];
+    const ekUyar = (k) => ekler.every((s) => !s.value || k.dataset[s.dataset.alan] === s.value);
+    const uyan = () => kartlar.filter((k) => (!deger || (k.dataset[alan] || '').split(' ').includes(deger)) && ekUyar(k));
+    ekler.forEach((s) => s.addEventListener('change', () => { sayfa = 1; ciz(); adresYaz(); }));
 
     function adresYaz() {
       const u = new URLSearchParams(location.search);
