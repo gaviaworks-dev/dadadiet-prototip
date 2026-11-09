@@ -3354,3 +3354,21 @@ html:has(#pageMain .modal-ortu:not([hidden]),#pageMain .sheet-ortu:not([hidden])
   .iki-sutun-pano>aside{grid-template-columns:repeat(2,minmax(0,1fr))}
   .iki-sutun-pano>aside>:last-child:nth-child(odd){grid-column:1/-1}
 }
+
+/* ── saglik ekibi (revize 9 Kasım F3–F6) ── */
+
+/* Referans satırının kaynak satırı: laboratuvar dışı (tablo ya da kılavuz) aralık vurgulu yazılır */
+.rs-ad small.rs-kaynak{font-size:var(--yazi-12);color:var(--murekkep-yumusak)}
+.rs-ad small.rs-kaynak.vurgu{color:var(--altin-metin);font-weight:var(--agirlik-kalin)}
+
+/* Liste altındaki kaynak notu: ikon + metin, kart altı ya da akordeon içinde */
+.referans-kaynak{display:flex;align-items:flex-start;gap:var(--bosluk-8);margin:0;font-size:var(--yazi-12);line-height:var(--satir-sik);color:var(--murekkep-yumusak);text-align:left}
+.referans-kaynak i{flex:none;margin-top:2px;color:var(--aksan-koyu)}
+.kart-alt>.referans-kaynak{flex:1;min-width:0}
+.tahlil-eski>.referans-kaynak{margin-top:var(--bosluk-12)}
+
+/* Ayar satırının altında açıklama paragrafı (hatırlatma ayarının ne yaptığı) */
+.ayar-aciklama{margin:0;padding:0 var(--bosluk-24) var(--bosluk-16);font-size:var(--yazi-12);line-height:var(--satir-sik);color:var(--murekkep-yumusak)}
+/* Varsayılan referans tablosu satırındaki kaynak ve tarih */
+.as-metin .referans-kaynak-satir{display:block;margin-top:var(--bosluk-4);font-size:var(--yazi-12);color:var(--murekkep-yumusak)}
+.kart-govde>.belge-not:only-child{margin-bottom:0}

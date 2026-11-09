@@ -1,4 +1,4 @@
-import { uyeSayfa, bolumBas, kart, dugme, modal, tablo, alan, secim } from '../../parcalar/uye/ust.mjs';
+import { uyeSayfa, bolumBas, kart, dugme, modal, tablo, alan, secim, bilgi } from '../../parcalar/uye/ust.mjs';
 
 /* Sekme sırası genelden ayrıntıya: özet, kişisel kayıt, ölçüm, tahlil, belge, üretilen raporlar.
    Eski #not, #test, #hesap adresleri uye-saglik-dosyam.js içinde yeni yerine yönlenir. */
@@ -27,7 +27,12 @@ ${kart({ ikon: 'fa-table-list', sinif: 'sik-tablo', baslik: 'Ölçüm Geçmişin
 ${bolumBas({ etiket: 'Tahlillerin', ikon: 'fa-flask-vial', baslik: 'Tahlil ve Raporların', metin: 'Yüklediğin tahlillerin değerleri referans aralığıyla karşılaştırılır. Yorum için diyetisyenine ya da hekimine danış.', arac: dugme('Yeni belge yükle', { sinif: 'birincil', ikon: 'fa-upload', ek: ' data-ac="#sdBelgeModal"' }) })}
 <div id="sdTahlilIstek"></div>
 <div id="sdIzinNot"></div>
+${kart({
+    ikon: 'fa-file-arrow-up', baslik: 'e-Nabız Tahlilini Yükle', metin: 'e-Nabız’dan indirdiğin tahlil PDF’ini bırak; değerler aşağıdaki tabloya düşer, PDF’in kendisi de saklanır ve açılır.',
+    govde: `<div class="yigin sik"><label class="birak-alani" for="sdENabizDosya" id="sdENabizAlan"><input class="dosya-sec yalniz-okuyucu" id="sdENabizDosya" type="file" accept="application/pdf,.pdf"><span class="birak-ikon"><i class="fa-solid fa-cloud-arrow-up" aria-hidden="true"></i></span><b>PDF’i buraya sürükle ya da seç</b><span>e-Nabız’da Tahlillerim ekranından indirdiğin PDF. En çok 10 MB; dosya yalnız bu tarayıcıda durur.</span><span class="eylem-satiri"><span class="dugme hayalet kucuk"><i class="fa-solid fa-upload" aria-hidden="true"></i> Dosya seç</span></span></label>${bilgi('fa-circle-info', '<b>Prototip:</b> PDF’in içi okunmaz. Yüklediğin dosya saklanır ve açılır; tabloya “Prototip örneği” etiketli bir e-Nabız değer seti düşer.')}</div>`,
+  })}
 <div class="yigin" id="sdTahliller"></div>
+${kart({ ikon: 'fa-book-medical', baslik: 'Varsayılan Referans Tablosu', metin: 'Rapor kendi laboratuvar aralığını vermediğinde ya da güncel kılavuz daha sıkıysa kullanılır. Tablo 9 Kasım 2026’da derlendi.', sag: '<span class="rozet bekleme">Uzman onayı bekliyor</span>', bosluksuz: true, govde: '<div id="sdReferansTablo"></div>' })}
 </div>` },
   { id: 'recete', ad: 'Belgelerim', ikon: 'fa-file-prescription', sayi: 'belge', govde: `<div class="yigin">
 ${bolumBas({ etiket: 'Belgelerin', ikon: 'fa-file-prescription', baslik: 'Reçete ve Belgelerin', metin: 'Yüklediğin belgeler ve düzenli kullandıkların.', arac: dugme('Yeni belge yükle', { sinif: 'birincil', ikon: 'fa-upload', ek: ' data-ac="#sdBelgeModal"' }) })}
@@ -58,7 +63,7 @@ const sonEk = modal({
   ayak: dugme('Vazgeç', { ek: ' data-kapat' }) + dugme('Ölçümü kaydet', { sinif: 'birincil', tur: 'submit' }),
 }) + modal({
   id: 'sdBelgeModal', baslik: 'Yeni Belge Yükle', form: ' id="sdBelgeForm"',
-  govde: `${secim({ ad: 'bTur', etiket: 'Belge türü', secenekler: ['Tahlil', 'Reçete', 'Epikriz', 'Diğer'] })}<div class="alan"><label class="alan-etiket" for="bDosya">Dosya <span class="zorunlu">*</span></label><input class="alan-girdi" id="bDosya" type="file" required><p class="alan-yardim"><span>Belge yalnız sende durur; diyetisyenin Veri İzinlerim’den açtığın izinle görür.</span></p></div>`,
+  govde: `${secim({ ad: 'bTur', etiket: 'Belge türü', secenekler: ['Tahlil', 'Reçete', 'Epikriz', 'Diğer'] })}<div class="alan"><label class="alan-etiket" for="bDosya">Dosya <span class="zorunlu">*</span></label><input class="alan-girdi" id="bDosya" type="file" accept="application/pdf,image/*" required><p class="alan-yardim"><span>Belge yalnız sende durur; diyetisyenin Veri İzinlerim’den açtığın izinle görür. Tahlil PDF’inde tabloya prototip örneği değerler düşer.</span></p></div>`,
   ayak: dugme('Vazgeç', { ek: ' data-kapat' }) + dugme('Yükle', { sinif: 'birincil', tur: 'submit' }),
 }) + modal({
   id: 'sdOnizleme', baslik: '<span id="sdOnizlemeBaslik">Belge</span>', govde: '<div id="sdOnizlemeGovde"></div>',
@@ -68,5 +73,5 @@ const sonEk = modal({
 export default () => [uyeSayfa({
   yol: 'hesabim/saglik-dosyam', ad: 'Sağlık Dosyam',
   giris: 'Sağlık profilin, ölçümlerin, tahlillerin, belgelerin ve raporların tek ve güvenli alanda.',
-  grup: 'sd', sekmeler, sonEk, js: ['assets/js/tahlil-deger.js', 'assets/js/sayfa/uye-saglik-dosyam.js'],
+  grup: 'sd', sekmeler, sonEk, js: ['assets/js/tahlil-deger.js', 'assets/js/belge-kasa.js', 'assets/js/sayfa/uye-saglik-dosyam.js'],
 })];

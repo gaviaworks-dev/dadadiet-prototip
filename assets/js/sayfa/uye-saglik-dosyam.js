@@ -13,32 +13,16 @@
   const belgeler = () => U.yerel('saglikBelge', []);
   /* Demonun örnek belgesi listeye bir kez girer; üye kaldırırsa geri gelmez */
   if (!U.bosKip && !U.yerel('saglikBelgeTohum', false)) { belgeler().push(...(dn.ornek_belgeler || [])); U.d().uyeYerel.saglikBelgeTohum = true; }
-  /* Yüklenen dosyanın kendisi yalnız bu oturumda bellekte durur; kayda ad, tür ve tarih yazılır */
-  const dosyalar = new Map();
-  const dosyaAnahtar = (ad, tarih) => ad + '|' + tarih;
-  /* Yüklenen dosya bu tarayıcının IndexedDB'sinde saklanır; yenilemeden sonra önizleme ve indirme çalışır.
-     Depo açılamazsa (gizli pencere, engelli site verisi) dosya yalnız bu oturumda kalır. */
-  const kasa = (() => {
-    let db;
-    const ac = () => db || (db = new Promise((ok, red) => {
-      try { const r = indexedDB.open('dd-saglik-belgeleri', 1); r.onupgradeneeded = () => r.result.createObjectStore('dosya'); r.onsuccess = () => ok(r.result); r.onerror = () => red(r.error); } catch (h) { red(h); }
-    }));
-    const is = (kip, f) => ac().then((v) => new Promise((ok, red) => { const t = v.transaction('dosya', kip); const s = f(t.objectStore('dosya')); t.oncomplete = () => ok(s && s.result); t.onerror = () => red(t.error); }));
-    return {
-      koy: (k, d) => is('readwrite', (s) => s.put({ dosya: d, tip: d.type }, k)).catch(() => false),
-      sil: (k) => is('readwrite', (s) => s.delete(k)).catch(() => false),
-      yukle: () => ac().then((v) => new Promise((ok) => {
-        const r = v.transaction('dosya').objectStore('dosya').openCursor();
-        r.onsuccess = () => { const c = r.result; if (!c) { ok(); return; } if (!dosyalar.has(c.key)) dosyalar.set(c.key, { url: URL.createObjectURL(c.value.dosya), tip: c.value.tip }); c.continue(); };
-        r.onerror = () => ok();
-      })).catch(() => {}),
-    };
-  })();
-  kasa.yukle();
+  /* Yüklenen dosya bu tarayıcının IndexedDB'sinde (belge-kasa.js) saklanır; yenilemeden sonra önizleme ve indirme çalışır.
+     Depo açılamazsa dosya yalnız bu oturumda bellekte kalır. */
+  const kasa = DD.belgeKasa, dosyalar = new Map(), dosyaAnahtar = kasa.anahtar;
+  kasa.yukle(dosyalar);
+  /* Referans ve durum üyenin cinsiyetine göre (varsayılan tablodaki hemoglobin eşiği) */
+  const T = DD.tahlilDeger.kisi({ cinsiyet: dn.cinsiyet });
   const tahlilListe = () => (dn.tahliller || []).slice().reverse();
   /* Yeni yüklenen belgenin değerleri henüz okunmamış olabilir; özet değer taşıyan son tahlile bakar */
   const degerli = () => tahlilListe().filter((t) => (t.degerler || []).length);
-  const tahlilSay = (t) => ({ disi: t.degerler.filter(DD.tahlilDeger.disi).length, normal: t.degerler.filter((d) => DD.tahlilDeger.durum(d) === 'normal').length });
+  const tahlilSay = (t) => ({ disi: t.degerler.filter(T.disi).length, normal: t.degerler.filter((d) => T.durum(d) === 'normal').length });
   const kutu = ({ ikon, etiket, deger, alt, ek = '' }) => '<button class="veri-kutu" type="button"' + ek + '><span class="vk-bas"><i class="fa-solid ' + ikon + '" aria-hidden="true"></i>' + etiket + '</span><b class="vk-deger">' + deger + '</b><span class="vk-alt">' + alt + '</span></button>';
   /* Ölçüm kutuları grafiğin seçicisidir; fark birimi yağ oranında yüzde değil puandır */
   const METRIK = {
@@ -59,9 +43,9 @@
       kutu({ ikon: 'fa-file-prescription', etiket: 'Belgeler', deger: bn ? bn + ' belge' : 'Kayıt yok', alt: 'Reçete ve tahlil dosyaların', ek: ' data-sekme-git="recete"' }),
       kutu({ ikon: 'fa-notes-medical', etiket: 'Sağlık Öykün', deger: eksik ? eksik + ' alan eksik' : 'Tamamlandı', alt: eksik ? 'Kaldığın yerden devam et' : 'Profilim’de güncelleyebilirsin', ek: ' data-sekme-git="profil"' }),
     ].join(''));
-    const disi = t ? t.degerler.filter(DD.tahlilDeger.disi) : [];
+    const disi = t ? t.degerler.filter(T.disi) : [];
     $('#sdTakipMetin').textContent = t ? 'Son tahlilin: ' + U.tarih(t.tarih) : 'Tahlil yüklediğinde burada görünür.';
-    U.bas('#sdTakip', disi.length ? DD.tahlilDeger.liste(disi, { onceki: (degerli()[1] || {}).degerler }) : U.bos(t ? { ikon: 'fa-circle-check', baslik: 'Takip edilecek değer yok', metin: 'Son tahlilinde bütün değerlerin referans aralığında.' } : { ikon: 'fa-flask-vial', baslik: 'Henüz tahlil yok', metin: 'Tahlil belgeni yüklediğinde referans dışı değerlerin burada görünür.' }));
+    U.bas('#sdTakip', disi.length ? T.liste(disi, { onceki: (degerli()[1] || {}).degerler }) : U.bos(t ? { ikon: 'fa-circle-check', baslik: 'Takip edilecek değer yok', metin: 'Son tahlilinde bütün değerlerin referans aralığında.' } : { ikon: 'fa-flask-vial', baslik: 'Henüz tahlil yok', metin: 'Tahlil belgeni yüklediğinde referans dışı değerlerin burada görünür.' }));
     const iz = dn.izinler || {}, tur = [['olcum', 'Ölçümler'], ['tahlil', 'Tahliller'], ['gunluk', 'Günlük takip'], ['anamnez', 'Sağlık profili'], ['belge', 'Belgeler']];
     const acik = tur.filter((x) => iz[x[0]]).length;
     $('#sdIzinMetin').textContent = U.diyetisyen() ? tur.length + ' veri türünün ' + acik + ' tanesi paylaşılıyor.' : 'Bir diyetisyenle çalıştığında paylaştıkların burada görünür.';
@@ -146,12 +130,16 @@
       : '<div class="uyari-kutu"><i class="fa-solid fa-user-shield" aria-hidden="true"></i><span><b>Tahlillerin paylaşılmıyor.</b> Diyetisyeninin görebilmesi için izin ver. <a href="' + DD.kok + 'hesabim/veri-izinlerim/">Veri İzinlerim</a></span></div>');
     /* En yeni tahlil açık kartta, önceki değerlerle karşılaştırmalı; eskiler akordeonda */
     const rozetler = (t) => { if (!(t.degerler || []).length) return ''; const y = tahlilSay(t); return (y.disi ? '<span class="rozet bekleme">' + y.disi + ' referans dışı</span>' : '') + (y.normal ? '<span class="rozet olumlu">' + y.normal + ' normal</span>' : ''); };
-    const degerler = (t, i) => ((t.degerler || []).length ? DD.tahlilDeger.liste(t.degerler, { onceki: (l.slice(i + 1).find((x) => (x.degerler || []).length) || {}).degerler }) : '<p class="alan-yardim"><span>Bu belgenin değerleri henüz okunmadı.</span></p>');
+    const degerler = (t, i) => ((t.degerler || []).length ? T.liste(t.degerler, { onceki: (l.slice(i + 1).find((x) => (x.degerler || []).length) || {}).degerler }) : '<p class="alan-yardim"><span>Bu belgenin değerleri henüz okunmadı.</span></p>');
+    /* e-Nabız örnek setiyle dolan tahlil: değerlerin PDF'ten okunmadığı açıkça yazar */
+    const ornekNot = (t) => (t.ornek ? '<div class="belge-not"><span class="rozet bekleme">Prototip örneği</span><p>Bu değerler PDF’ten okunmadı. Prototipte PDF okuma yok: yüklediğin dosya saklanır ve açılır, tabloya örnek bir e-Nabız değer seti düşer.</p></div>' : '');
+    const kaynakAlt = (t) => ((t.degerler || []).length ? '<div class="kart-alt">' + T.kaynakNotu(t.degerler) + '</div>' : '');
     const tahlilGor = (t) => gorDugme('data-onizle-tahlil="' + U.kac(t.dosya_adi) + '"');
+    const alt = (t) => U.kac(t.dosya_adi) + ' · ' + U.tarih(t.tarih) + (t.kaynak ? ' · ' + U.kac(t.kaynak) : '');
     const [son, ...eski] = l;
-    U.bas('#sdTahliller', !son ? U.bos({ ikon: 'fa-flask-vial', baslik: 'Henüz tahlil yok', metin: 'Tahlil belgeni yüklediğinde değerlerin burada görünür.', eylem: '<button class="dugme birincil" type="button" data-ac="#sdBelgeModal">Belge yükle</button>' })
-      : '<div class="kart panel tam-kolon"><div class="kart-bas"><div><h3 class="kart-baslik"><i class="fa-solid fa-file-waveform" aria-hidden="true"></i> Son Tahlilin</h3><p>' + U.kac(son.dosya_adi) + ' · ' + U.tarih(son.tarih) + '</p></div><div class="as-eylem">' + rozetler(son) + tahlilGor(son) + '</div></div><div class="kart-govde' + ((son.degerler || []).length ? ' bosluksuz' : '') + '">' + degerler(son, 0) + '</div></div>'
-      + (eski.length ? '<div class="kart panel tam-kolon"><div class="kart-bas"><div><h3 class="kart-baslik"><i class="fa-solid fa-clock-rotate-left" aria-hidden="true"></i> Önceki Tahlillerin</h3></div></div><div class="kart-govde"><div class="akordeon tam-genis">' + eski.map((t, i) => '<div class="akordeon-kalem"><button class="akordeon-bas" type="button" aria-expanded="false"><span class="akordeon-ikon"><i class="fa-solid fa-file-waveform" aria-hidden="true"></i></span> ' + U.tarih(t.tarih) + ' · ' + U.kac(t.dosya_adi) + ' <i class="fa-solid fa-chevron-down akordeon-ok" aria-hidden="true"></i></button><div class="akordeon-govde"><div class="tahlil-eski"><div class="as-eylem">' + rozetler(t) + tahlilGor(t) + '</div>' + degerler(t, i + 1) + '</div></div></div>').join('') + '</div></div></div>' : ''));
+    U.bas('#sdTahliller', !son ? '' : '<div class="kart panel tam-kolon"><div class="kart-bas"><div><h3 class="kart-baslik"><i class="fa-solid fa-file-waveform" aria-hidden="true"></i> Son Tahlilin</h3><p>' + alt(son) + '</p></div><div class="as-eylem">' + rozetler(son) + tahlilGor(son) + '</div></div>' + (son.ornek ? '<div class="kart-govde">' + ornekNot(son) + '</div>' : '') + '<div class="kart-govde' + ((son.degerler || []).length ? ' bosluksuz' : '') + '">' + degerler(son, 0) + '</div>' + kaynakAlt(son) + '</div>'
+      + (eski.length ? '<div class="kart panel tam-kolon"><div class="kart-bas"><div><h3 class="kart-baslik"><i class="fa-solid fa-clock-rotate-left" aria-hidden="true"></i> Önceki Tahlillerin</h3></div></div><div class="kart-govde"><div class="akordeon tam-genis">' + eski.map((t, i) => '<div class="akordeon-kalem"><button class="akordeon-bas" type="button" aria-expanded="false"><span class="akordeon-ikon"><i class="fa-solid fa-file-waveform" aria-hidden="true"></i></span> ' + U.tarih(t.tarih) + ' · ' + U.kac(t.dosya_adi) + ' <i class="fa-solid fa-chevron-down akordeon-ok" aria-hidden="true"></i></button><div class="akordeon-govde"><div class="tahlil-eski"><div class="as-eylem">' + rozetler(t) + tahlilGor(t) + '</div>' + ornekNot(t) + degerler(t, i + 1) + (t.degerler.length ? T.kaynakNotu(t.degerler) : '') + '</div></div></div>').join('') + '</div></div></div>' : ''));
+    U.bas('#sdReferansTablo', DD.tahlilDeger.tablo());
   }
 
   function notlar() {
@@ -259,16 +247,53 @@
     a.click();
     DD.toast('Ölçümlerin indirildi.');
   });
+  /* e-Nabız PDF'i: prototipte içi okunmaz. Dosya kasaya girer, tabloya etiketli örnek değer seti düşer.
+     Raporun kendi aralığı olan satırlar onu kullanır; aralığı olmayan iki satır (glukoz, HbA1c) varsayılan tabloya düşer. */
+  const ENABIZ_ORNEK = [
+    { ad: 'Ferritin', sonuc: 22, birim: 'ng/mL', ref_alt: 13, ref_ust: 150 },
+    { ad: 'Hemoglobin', sonuc: 12.4, birim: 'g/dL', ref_alt: 12, ref_ust: 15.5 },
+    { ad: '25-OH D vitamini', sonuc: 24, birim: 'ng/mL', ref_alt: 30, ref_ust: 100 },
+    { ad: 'B12 vitamini', sonuc: 356, birim: 'pg/mL', ref_alt: 197, ref_ust: 771 },
+    { ad: 'TSH', sonuc: 1.9, birim: 'mIU/L', ref_alt: 0.27, ref_ust: 4.2 },
+    { ad: 'Açlık glukozu', sonuc: 94, birim: 'mg/dL' },
+    { ad: 'HbA1c', sonuc: 5.4, birim: '%' },
+  ];
+  const pdfMi = (d) => d.type === 'application/pdf' || /\.pdf$/i.test(d.name);
+  const SINIR = 10 * 1024 * 1024;
+  /* Dosyayı kasaya koyar; kasa açılamazsa dosya bu oturumda kalır ve üye bunu duyar */
+  function dosyaSakla(d) {
+    const k = dosyaAnahtar(d.name, b);
+    dosyalar.set(k, { url: URL.createObjectURL(d), tip: d.type });
+    return kasa.koy(k, d).then((ok) => { if (!ok) DD.toast('Dosya bu tarayıcıya kaydedilemedi; sayfayı yenileyene kadar açılır.', 'uyari'); });
+  }
+  function tahlilYukle(d, kaynak) {
+    dn.tahliller = dn.tahliller || [];
+    if (dn.tahliller.some((t) => t.dosya_adi === d.name)) { DD.toast('Bu dosya zaten yüklü: ' + d.name, 'hata'); return false; }
+    if (d.size > SINIR) { DD.toast('Dosya 10 MB’tan büyük olamaz.', 'hata'); return false; }
+    dosyaSakla(d);
+    const pdf = pdfMi(d), t = { tarih: b, dosya_adi: d.name, degerler: pdf ? ENABIZ_ORNEK.map((x) => ({ ...x })) : [], yukleyen: 'uye' };
+    if (pdf) { t.ornek = true; if (kaynak) t.kaynak = kaynak; }
+    dn.tahliller.push(t);
+    delete dn.tahlil_istegi;
+    U.kaydet(); ciz(); U.sekmeAc('tahlil');
+    DD.toast((pdf ? 'Tahlilin yüklendi; ' + ENABIZ_ORNEK.length + ' değer tabloya eklendi (prototip örneği).' : 'Tahlilin yüklendi.') + (!(dn.izinler || {}).tahlil && U.diyetisyen() ? ' Diyetisyenin görebilmesi için izin ver.' : ''));
+    return true;
+  }
+  const birak = $('#sdENabizAlan'), girdi = $('#sdENabizDosya');
+  const enabizAl = (d) => { if (!d) return; if (!pdfMi(d)) { DD.toast('e-Nabız’dan indirdiğin PDF dosyasını seç.', 'hata'); return; } tahlilYukle(d, 'e-Nabız'); };
+  girdi.addEventListener('change', () => { enabizAl(girdi.files[0]); girdi.value = ''; });
+  ['dragenter', 'dragover'].forEach((t) => birak.addEventListener(t, (e) => { e.preventDefault(); birak.classList.add('uzerinde'); }));
+  ['dragleave', 'drop'].forEach((t) => birak.addEventListener(t, (e) => { e.preventDefault(); birak.classList.remove('uzerinde'); }));
+  birak.addEventListener('drop', (e) => enabizAl(e.dataTransfer.files[0]));
   $('#sdBelgeForm').addEventListener('submit', (e) => {
     e.preventDefault();
     const d = $('#bDosya').files[0], tur = e.target.elements.bTur.value;
     if (!d) return;
-    dosyalar.set(dosyaAnahtar(d.name, b), { url: URL.createObjectURL(d), tip: d.type });
-    kasa.koy(dosyaAnahtar(d.name, b), d);
-    if (tur === 'Tahlil') { dn.tahliller = dn.tahliller || []; dn.tahliller.push({ tarih: b, dosya_adi: d.name, degerler: [], yukleyen: 'uye' }); delete dn.tahlil_istegi; } else belgeler().push({ ad: d.name, tur, tarih: b });
+    if (tur === 'Tahlil') { if (tahlilYukle(d)) { e.target.reset(); DD.kapat($('#sdBelgeModal')); } return; }
+    dosyaSakla(d);
+    belgeler().push({ ad: d.name, tur, tarih: b });
     U.kaydet(); e.target.reset(); DD.kapat($('#sdBelgeModal')); ciz();
-    DD.toast(tur === 'Tahlil' && !(dn.izinler || {}).tahlil ? 'Tahlilin yüklendi. Diyetisyenin görebilmesi için izin ver.' : 'Belgen yüklendi.');
-    if (tur === 'Tahlil') U.sekmeAc('tahlil');
+    DD.toast('Belgen yüklendi.');
   });
   document.addEventListener('click', (e) => {
     const ob = e.target.closest('[data-onizle-belge]');
