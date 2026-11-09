@@ -1,5 +1,6 @@
 // Sayfa kabukları: public, uye, panel, tam (sihirbaz/giriş). Tek yazar: lead.
 import fs from 'node:fs';
+import crypto from 'node:crypto';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { anaMenu, footerKolonlar, footerKurumsal, footerYasal, uyeMenu, panelMenu } from './menu.mjs';
@@ -7,6 +8,15 @@ import { dilMenusu, cekmeceDil, gorusBildir, cerezBandi } from './canli-ogeler.m
 import { reklamYeri, standartKatman } from '../parcalar/reklam.mjs';
 
 const BU = path.dirname(fileURLToPath(import.meta.url));
+/* Önizlemede dinamik yüklenen reklam CSS/JS'inin önbellek sürümü (build'in ?v= özeti gibi): klasörlerin içerik özeti */
+const RK_SURUM = (() => {
+  const h = crypto.createHash('md5');
+  for (const d of ['assets/css/reklam', 'assets/js/reklam']) {
+    const k = path.join(BU, '../..', d);
+    for (const f of fs.readdirSync(k).filter((f) => /\.(css|js)$/.test(f)).sort()) h.update(f).update(fs.readFileSync(path.join(k, f)));
+  }
+  return h.digest('hex').slice(0, 8);
+})();
 const logo = fs.readFileSync(path.join(BU, 'logo.svg'), 'utf8');
 const K = '{{kok}}';
 const kacis = (s = '') => String(s).replace(/&/g, '&amp;').replace(/"/g, '&quot;').replace(/</g, '&lt;');
@@ -102,9 +112,11 @@ export function kabukla(s, { istekler }) {
     ...(panel ? ['assets/js/panel/panel.js', 'assets/js/panel/admin-kit.js'] : []),
     'assets/js/veri.js', 'assets/js/demo.js', 'assets/js/ortak.js', 'assets/js/bildirim-zili.js', 'assets/js/mentor.js', 'assets/js/kenar-dugmeler.js', 'assets/js/bayrak.js',
     ...(panel ? ['assets/js/sayfa/panel-a-ortak.js'] : []),
-    ...(panel || duzen === 'tam' ? [] : ['assets/js/reklam/onizle.js', 'assets/js/misafir.js']),
+    /* Reklam önizleme kipi bütün düzenlerde okunur (panel ve tam ekranda yalnız oturum kipi; yüzey yok) */
+    'assets/js/reklam/onizle.js',
+    ...(panel || duzen === 'tam' ? [] : ['assets/js/misafir.js']),
     ...(m.js ?? []).filter((j) => !(panel && j.endsWith('panel-a-ortak.js'))),
-  ].filter((j, i, l) => l.indexOf(j) === i).map((j) => `<script src="${K}${j}" defer></script>`).join('\n');
+  ].filter((j, i, l) => l.indexOf(j) === i).map((j) => `<script src="${K}${j}"${j.endsWith('reklam/onizle.js') ? ` data-rk-surum="${RK_SURUM}"` : ''} defer></script>`).join('\n');
   const govde = duzen === 'panel' ? panelKabuk(m, s.govde)
     : duzen === 'tam' ? `${s.govde}<footer class="footer orange tam-uyari">${uyariBandi}</footer>`
     : `${ust(m, s.yol)}${altCubuk(m, s.yol)}<main class="page-main" id="pageMain" tabindex="-1">${s.govde}</main>${dip()}${gorusBildir}${cerezBandi}${standartKatman()}`;

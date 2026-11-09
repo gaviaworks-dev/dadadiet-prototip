@@ -2369,10 +2369,10 @@
    "kademe": "3",
    "katalog": "giris-rota.ust",
    "aciklama": "Rehber kategori sayfası · üst şerit",
-   "yol": null,
-   "bolum": "",
-   "durum": "yok",
-   "gerekce": "Rehber kategori rotası (/ipuclari/kategori/{k}) prototipte yok; en yakın yüzey İpuçları ve Püf Noktaları süzgeci",
+   "yol": "ipuclari-ve-puf-noktalari/kategori/ogun",
+   "bolum": "İpucu kategorisi (Öğün Düzeni) · bant altı ilk bölümün üstü (üst şerit)",
+   "durum": "yerlesik",
+   "gerekce": "",
    "sekme": "rehber"
   },
   {
@@ -3294,10 +3294,10 @@
    "kademe": "3",
    "katalog": "giris-rota.alt",
    "aciklama": "Rehber kategori sayfası · alt şerit",
-   "yol": null,
-   "bolum": "",
-   "durum": "yok",
-   "gerekce": "Rehber kategori rotası (/ipuclari/kategori/{k}) prototipte yok; en yakın yüzey İpuçları ve Püf Noktaları süzgeci",
+   "yol": "ipuclari-ve-puf-noktalari/kategori/ogun",
+   "bolum": "İpucu kategorisi (Öğün Düzeni) · sayfa sonu (son şerit)",
+   "durum": "yerlesik",
+   "gerekce": "",
    "sekme": "rehber"
   },
   {

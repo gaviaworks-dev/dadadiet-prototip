@@ -180,10 +180,26 @@ function kutuphane(veri) {
   const karisik = a.flatMap((x, i) => [x, b[i]].filter(Boolean)).map((h, i) => (i >= 12 ? h.replace(' data-kart', ' data-kart hidden') : h)).join('');
   const toplam = s.ipucu + s.puf;
   const ust = `<div class="liste-satir">${cipler('tur', 'İçerik türü', [{ ad: 'Tümü', deger: '', sayi: toplam, ikon: 'fa-layer-group' }, { ad: 'İpucu', deger: 'ipucu', sayi: s.ipucu, ikon: 'fa-lightbulb' }, { ad: 'Püf Noktası', deger: 'puf', sayi: s.puf, ikon: 'fa-wand-magic-sparkles' }], { sinif: 'serit' })}${aramaKutusu('ipAra', 'İpucu ve püf noktası ara', 'Örneğin su, porsiyon, buzdolabı')}${siralama}</div>
-${cipler('kategori', 'Kategori', [{ ad: 'Tüm kategoriler', deger: '', sayi: toplam, ikon: 'fa-layer-group' }, ...ip.kategoriler.map((c) => ({ ad: c.ad, deger: c.slug, sayi: c.sayi, tur: 'ipucu', ikon: IP_IKON[c.slug] })), ...pu.kategoriler.map((c) => ({ ad: c.ad, deger: c.slug, sayi: c.sayi, tur: 'puf', ikon: IP_IKON[c.slug] }))], { sinif: 'serit' })}`;
+${cipler('kategori', 'Kategori', [{ ad: 'Tüm kategoriler', deger: '', sayi: toplam, ikon: 'fa-layer-group' }, ...ip.kategoriler.map((c) => ({ ad: c.ad, deger: c.slug, sayi: c.sayi, tur: 'ipucu', ikon: IP_IKON[c.slug], href: c.slug === IP_KATEGORI ? `${IP_KATEGORI_YOL}/` : undefined })), ...pu.kategoriler.map((c) => ({ ad: c.ad, deger: c.slug, sayi: c.sayi, tur: 'puf', ikon: IP_IKON[c.slug] }))], { sinif: 'serit' })}`;
   return sayfa('ipuclari-ve-puf-noktalari', 'İpuçları & Püf Noktaları',
     bant({ yol: [['Beslenme', 'besin-rehberi/'], ['İpuçları ve Püf Noktaları']], etiket: 'BESLENME İPUÇLARI VE PÜF NOKTALARI', etiketIkon: 'fa-lightbulb', h1: 'Küçük değişiklikler, <span class="vurgu">kalıcı</span> alışkanlıklar', alt: 'Uzun rehber okumaya vaktin yoksa buradan başla. Her yazı tek bir soruyu yanıtlar, kısa sürede okunur ve bugün uygulanabilir.', gorsel: 'assets/img/hero/beslenme-ipuclari-canli.avif', sayilar: [[s.ipucu, 'ipucu'], [s.puf, 'püf noktası'], [ip.kategoriler.length + pu.kategoriler.length, 'kategori']] })
     + dizi(bolum(ustSerit('PL-B1', 'MG-KONU') + liste({ toplam, birim: 'yazıdan', ust, kapSinif: 'yatay-izgara', kartlar: karisik + rk('PL-N1', { tur: 'yatay', sira: 4 }), bosMetin: 'Aradığın kelime bu yazılarda geçmiyor. Farklı bir kelime dene ya da süzgeçleri temizle.' }) + bilgiNot('Buradaki ipuçları ve püf noktaları pratik bilgilerdir ve <b>genel bilgi amaçlıdır</b>; <b>tıbbi teşhis veya tedavi yerine geçmez</b>, kişisel beslenme tavsiyesi değildir. Kişiye özel plan yalnızca <b>yetkili bir diyetisyen</b> tarafından hazırlanır; gebelik, kronik hastalık, düzenli ilaç kullanımı, çocuk beslenmesi veya klinik bir durum varsa plana başlamadan önce <b>hekim ve diyetisyen kontrolü zorunludur</b>.'), { ilk: true }), sonSerit('PL-B1-END', 'MG-KONU-END')), L);
+}
+
+/* İpucu kategori sayfası (canlı /ipuclari/kategori/{k}, aile-liste.blade.php): kaç kalori kategorisi gibi tek örnek kategori.
+   Reklam: canlı "rehber-kategori" yayılımı (config/reklam-yayilim.php): üst şerit MG-ROTA, sayfa sonu MG-ROTA-END.
+   Başlık, açıklama ve sayaçlar canlı sayfadan (dadadiet.com/ipuclari/kategori/ogun, 9 Kasım GET); kartlar örnek kayıtlardan. */
+const IP_KATEGORI = 'ogun';
+const IP_KATEGORI_YOL = 'ipuclari-ve-puf-noktalari/kategori/ogun';
+function ipucuKategori(veri) {
+  const ip = veri.ipuclari;
+  const k = ip.kategoriler.find((c) => c.slug === IP_KATEGORI);
+  const kartlar = ip.ipuclari.filter((y) => y.kategori === k.ad).map((y) => yatayKart({ href: DETAY.ipucu, gorsel: icerik(y.gorsel_dosya), ikon: y.ikon ?? 'fa-lightbulb', baslik: kac(y.ad), metin: kac(y.ozet), etiket: `İpucu · ${kac(y.kategori)}`, meta: `${y.okuma_dk ? `~${y.okuma_dk} dk · ` : ''}${y.okunma} okunma`, metaIkon: y.okuma_dk ? 'fa-clock' : 'fa-eye', veri: ` data-kart data-okunma="${y.okunma}" data-ara="${araMetni(y.ad, y.ozet, y.kategori)}"` })).join('');
+  const kalem = [{ ad: 'Tümü', deger: 'tumu', href: 'ipuclari-ve-puf-noktalari/?tur=ipucu' }, ...ip.kategoriler.map((c) => ({ ad: c.ad, deger: c.slug, sayi: c.sayi, href: c.slug === IP_KATEGORI ? `${IP_KATEGORI_YOL}/` : `ipuclari-ve-puf-noktalari/?tur=ipucu&kategori=${c.slug}` }))];
+  const ust = `<div class="liste-satir"><div class="cipler serit" role="group" aria-label="İpucu kategorisi">${kalem.map((c) => `<a class="cip${c.deger === IP_KATEGORI ? ' aktif' : ''}" href="${K}${c.href}"${c.deger === IP_KATEGORI ? ' aria-current="page"' : ''}>${ikon(c.deger === 'tumu' ? 'fa-layer-group' : IP_IKON[c.deger] ?? 'fa-tag')} ${kac(c.ad)}${c.sayi !== undefined ? ` <span class="cip-sayi">${c.sayi}</span>` : ''}</a>`).join('')}</div>${aramaKutusu('ipkAra', 'Yazılarda ara', 'Örneğin kahvaltı, ara öğün')}${siralama}</div>`;
+  return sayfa(IP_KATEGORI_YOL, k.ad,
+    bant({ yol: [['Beslenme', 'besin-rehberi/'], ['İpuçları ve Püf Noktaları', 'ipuclari-ve-puf-noktalari/'], [kac(k.ad)]], etiket: 'BESLENME İPUÇLARI', etiketIkon: 'fa-lightbulb', h1: kac(k.ad), alt: 'Kahvaltı atlanınca günün nasıl değiştiği, akşam geç yemenin neyi etkilediği ve öğün arasının ne kadar açık kalabileceği gibi kısa sorular bu başlıkta toplanır.', gorsel: 'assets/img/hero/beslenme-ipuclari-canli.avif', sayilar: [[k.sayi, 'yazı'], ['~2 dk', 'ortalama okuma']] })
+    + dizi(bolum(ustSerit('MG-ROTA') + liste({ toplam: k.sayi, birim: 'yazıdan', ust, kapSinif: 'yatay-izgara', kartlar, bosMetin: 'Aradığın kelime bu yazılarda geçmiyor. Farklı bir kelime dene.' }) + bilgiNot('Buradaki ipuçları pratik bilgilerdir ve <b>genel bilgi amaçlıdır</b>; <b>tıbbi teşhis veya tedavi yerine geçmez</b>, kişisel beslenme tavsiyesi değildir.'), { ilk: true }), sonSerit('MG-ROTA-END')), L);
 }
 
 function ipucuDetay(veri) {
@@ -209,4 +225,4 @@ function pufDetay(veri) {
   });
 }
 
-export default ({ veri }) => [besinKutuphanesi(veri), besinDetay(veri), kacKalori(veri), kacKaloriKategori(veri), kacKaloriDetay(veri), besinRehberi(veri), dengeliTabak(), makroRehberi(veri), makroDetay(), kutuphane(veri), ipucuDetay(veri), pufDetay(veri)];
+export default ({ veri }) => [besinKutuphanesi(veri), besinDetay(veri), kacKalori(veri), kacKaloriKategori(veri), kacKaloriDetay(veri), besinRehberi(veri), dengeliTabak(), makroRehberi(veri), makroDetay(), kutuphane(veri), ipucuKategori(veri), ipucuDetay(veri), pufDetay(veri)];

@@ -3543,6 +3543,8 @@ button.sohbet-ek:hover b{color:var(--aksan-koyu)}
 html.rk-cerceve #cookieBanner,html.rk-cerceve .feedback-tab,html.rk-cerceve .fb-rail,html.rk-cerceve .edge-rail,html.rk-cerceve #dadaMentor,html.rk-cerceve .yuzen-dugme,html.rk-cerceve .basa-don{display:none!important}
 .kap>.rk-yayilim-side,.yigin>.rk-yayilim-side{width:100%;max-width:360px;margin-inline:auto}
 .kap>.rk-yayilim-alan.rk-yayilim-bant{padding-inline:0}
+/* Dikey yığının içindeki yayılım şeridi (üye sayfaları MN-B1, DF-B1): .kap'ın otomatik kenar boşluğu esnemeyi kesmesin, kolonu doldursun */
+.yigin>.rk-yayilim-alan.rk-yayilim-bant{width:100%}
 [data-native-sponsor] .sonuc-gorsel,[data-native-sponsor] .yatay-kart-gorsel,[data-native-sponsor] .medya-kart-gorsel{position:relative}
 .rk-ikon-logo img,.yatay-kart-ikon img,.rk-dolap-marka img,.sp-logo img{width:100%;height:100%;object-fit:contain}
 .rk-kat-sponsor{display:inline-flex;align-items:center;gap:var(--bosluk-8);flex-wrap:wrap}
@@ -3567,10 +3569,9 @@ body.rk-altbar-acik #dadaMentor{--mentor-dip:max(var(--mentor-taban),calc(var(--
 .kk-ust .kirinti,.kk-ust .kirinti a,.kk-ust .kirinti i{color:var(--kagit)}
 /* "… sunar" hapı (KT-HERO) bant rozetlerinin yanında: satır yüksekliğini rozetlere göre korur */
 .bant-eylem:has(>.rk-eslik){align-items:center}
-/* Yan yapışkanlar: sağdaki "Görüş Bildir" sekmesinin içinde kalır; tek kart kendi kenarında, sol kart dar ekranda gizlenir (standart.js ölçer) */
-[data-rk-side-pair]>.rk-std-side.rk-std[data-rk-slot="STD-SIDE"]{left:auto;right:calc(var(--rk-side-inset,8px) + var(--rk-kenar-sekme,0px))}
-[data-rk-side-pair]>.rk-std-side.rk-std[data-rk-slot="STD-SIDE-LEFT"]{right:auto;left:var(--rk-side-inset,8px)}
-[data-rk-side-pair][data-rk-side-tek]>.rk-std-side[data-rk-slot="STD-SIDE-LEFT"]{display:none!important}
+/* Yan yapışkanlar canlı kuralla (standart.css, standart.js sidePairGeometry): 1280–1366 px tek kart sağda, üstünde iki taraf.
+   Prototipte yalnız tek alan önizlemesi (?reklam=STD-SIDE-LEFT) sol kartı kendi kenarında gösterir; canlıda tek kart hep sağdadır. */
+html.rk-tek [data-rk-side-pair]>.rk-std-side.rk-std[data-rk-slot="STD-SIDE-LEFT"]:only-of-type{right:auto;left:var(--rk-side-inset,8px)}
 /* Satış vitrini: alan önizlemesi prototip sayfasının ölçekli iframe'i (vitrin.js ölçer), paket kalemindeki "Önizle" bağı */
 .vt-vp:has(>.vt-iframe){overflow:hidden}
 .vt-iframe{display:block;border:0;transform-origin:0 0;background:var(--kagit)}
