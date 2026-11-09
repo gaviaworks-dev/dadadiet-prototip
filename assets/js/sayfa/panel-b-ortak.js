@@ -71,7 +71,7 @@
      2) Etiketi olmayan tarif kategorisinden okunur (TARIF_KATEGORI).
      3) Besin kategorisinden okunur, kategori dışına düşen besin slug ile yazılır (BESIN_KATEGORI, BESIN_ISTISNA).
      4) Reçete diyetisyenin işaretlediği öğünlerdir (ogunler, eski kayıtta ogun).
-     Bilinmeyen kategori hiçbir öğünden saklanmaz. Kullanıcı seçicide "Tüm yemekler"e geçebilir. */
+     Bilinmeyen kategori hiçbir öğünden saklanmaz. Seçicinin süzgeci öğün değil kategori listesidir (PB.KATEGORILER). */
   PB.OGUN_TIPLERI = [{ id: 'kahvalti', ad: 'Kahvaltı', uygun: 'Kahvaltıya uygun' }, { id: 'ara', ad: 'Ara öğün', uygun: 'Ara öğüne uygun' }, { id: 'ogle', ad: 'Öğle', uygun: 'Öğleye uygun' }, { id: 'aksam', ad: 'Akşam', uygun: 'Akşama uygun' }];
   PB.ogunTipi = (planOgunId) => ({ kahvalti: 'kahvalti', ara1: 'ara', ogle: 'ogle', ara2: 'ara', aksam: 'aksam' }[planOgunId] || '');
   const HEPSI = ['kahvalti', 'ara', 'ogle', 'aksam'], ANA = ['ogle', 'aksam'];
@@ -102,6 +102,31 @@
   };
   PB.ogunUygun = (tur, x, tip) => !tip || PB.ogunleri(tur, x).includes(tip);
   PB.ogunAd = (tip) => (PB.OGUN_TIPLERI.find((o) => o.id === tip) || {}).ad || '';
+
+  /* ── Yemek kategorisi: seçicinin "Kategori" listesi ─────────────────
+     Gruplar Dada Gastro "Ne pişirsem" kap türlerinden (config/bnp.php ogun_options: Kahvaltılık, Çorba,
+     Ana Yemek, Tatlı, İçecek; "Yan Lezzet"in salatası ayrı) ve Gastro öğün ekseninin "Ara Öğün" değerinden.
+     Üyeler Gastro'nun 33 kategorisidir; kanon kümesi dar olduğu için (yumurta, pilav, makarna dışarıda) her
+     Gastro kategorisi bir gruba yazıldı. Sos, Turşu ve Konserve, Bebek ve Çocuk Tarifleri yalnız "Tümü"de çıkar.
+     Varsayılan grup hedef öğünden gelir: kahvaltıda Kahvaltılık, ara öğünde Ara öğün, öğle ve akşamda Ana yemek.
+     Reçetede kategori diyetisyenin seçtiğidir; eski kayıtta öğününden okunur. */
+  PB.KATEGORILER = [
+    { id: 'kahvaltilik', ad: 'Kahvaltılık', gastro: ['Kahvaltılık', 'Yumurta Tarifleri', 'Ekmek', 'Reçel'], ogunler: ['kahvalti'] },
+    { id: 'corba', ad: 'Çorba', gastro: ['Çorba'], ogunler: ANA },
+    { id: 'ana-yemek', ad: 'Ana yemek', gastro: ['Kırmızı Et', 'Tavuk ve Hindi', 'Balık ve Deniz Ürünleri', 'Köfte ve Kebap', 'Sebze', 'Zeytinyağlılar', 'Mantı ve Dolgulu Hamurlar', 'Pilav', 'Makarna', 'Bakliyat', 'Dolma ve Sarma', 'Sakatat', 'Pizza ve Pide'], ogunler: ANA },
+    { id: 'salata', ad: 'Salata', gastro: ['Salata'], ogunler: ['ara', 'ogle', 'aksam'] },
+    { id: 'ara-ogun', ad: 'Ara öğün', gastro: ['Atıştırmalık', 'Meze', 'Meyve Tarifleri', 'Sandviç, Burger ve Dürüm', 'Hamur İşi'], ogunler: ['ara'] },
+    { id: 'tatli', ad: 'Tatlı', gastro: ['Tatlı', 'Kek ve Pasta', 'Kurabiye', 'Dondurma ve Soğuk Tatlılar'], ogunler: ['ara'] },
+    { id: 'icecek', ad: 'İçecek', gastro: ['İçecek'], ogunler: ['kahvalti', 'ara'] },
+  ];
+  const OGUN_KATEGORI = { kahvalti: 'kahvaltilik', ara: 'ara-ogun', ogle: 'ana-yemek', aksam: 'ana-yemek' };
+  PB.ogunKategori = (tip) => OGUN_KATEGORI[tip] || '';
+  PB.kategoriAd = (id) => (PB.KATEGORILER.find((k) => k.id === id) || {}).ad || '';
+  PB.kategorisi = (tur, x) => {
+    if (!x) return '';
+    if (tur === 'recete') return x.kategori || OGUN_KATEGORI[PB.ogunleri('recete', x)[0]] || '';
+    return (PB.KATEGORILER.find((k) => k.gastro.includes(x.kategori)) || {}).id || '';
+  };
   /* Kayıtlı tarif plana serbest kalem olarak geçer: üye tarafı bu biçimi zaten okur, değerler kalemin kendisindedir */
   PB.tarifOlcekle = (k, m) => {
     const b = k.baz, r = (v) => Math.round(v * m * 10) / 10;

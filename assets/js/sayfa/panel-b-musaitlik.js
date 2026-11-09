@@ -1,4 +1,4 @@
-/* Müsaitlik: hızlı kural + fırçalı 30 dakikalık ızgara.
+/* Müsaitlik: hızlı kural + 30 dakikalık ızgara. Hücre tıklamayla sırayla kapalı, online, yüz yüze olur.
    Hücre değeri '' (kapalı), 'online' ya da 'yuzyuze'. Kayıtta demo.musaitlik.haftalik türetilir:
    gün aralığı, en geniş boşluk "ara", her açık parça biçimiyle "araliklar". Takvim, randevu,
    public profil ve üye ekranları haftalik alanını okur; araliklar yeni ve ek alandır. */
@@ -12,7 +12,7 @@
   const saat = (n) => String(Math.floor(n / 60)).padStart(2, '0') + ':' + String(n % 60).padStart(2, '0');
   const kopya = (x) => JSON.parse(JSON.stringify(x));
   const m = PB.nesne('musaitlik');
-  let I, kayitli, kuralKayitli, sonKural, firca = 'online';
+  let I, kayitli, kuralKayitli, sonKural;
   const gecmis = [];
 
   /* Kayıtlı ızgara yoksa aralıklardan kurulur; gün biçimi o gündeki randevuların çoğunluğundan gelir */
@@ -251,61 +251,33 @@
     DD.toast(PB.GUNLER[pano.gi] + ' düzeni ' + l.map((g) => PB.GUN_KISA[g]).join(', ') + ' günlerine yapıştırıldı.');
   }
 
-  /* ---------- Boyama: fare sürükleme, dokunmatik basılı tutma, klavye ---------- */
-  let boya = null, tikYut = false, zincir = false;
-  const hedefDeger = (gi, i) => (firca && I[gi][i] === firca ? '' : firca);
-  function boyaBasla(b) {
-    adimAc();
-    boya = hedefDeger(+b.dataset.g, +b.dataset.i);
-    hucreYaz(+b.dataset.g, +b.dataset.i, boya);
-  }
-  function boyaBitir() {
-    if (boya === null) return;
-    boya = null;
-    adimKapat();
-  }
+  /* ---------- Hücre işaretleme: 7e0a04d öncesi davranış ----------
+     Tıklama hücreyi sırayla kapalı, online, yüz yüze yapar. Fareyle sürüklemede ilk hücrenin yeni değeri
+     üzerinden geçilen hücrelere yazılır. Dokunmatikte ve klavyede tıklama döndürür.
+     Her tıklama ve her sürükleme tek geri alma adımıdır. */
+  const DURUM = ['', 'online', 'yuzyuze'];
+  const sonraki = (d) => DURUM[(DURUM.indexOf(d) + 1) % 3];
+  let boya = null, tikYut = false;
   const izgara = $('#musaitIzgara');
   const slot = (el) => el && el.closest && el.closest('#musaitIzgara .takvim-slot');
   izgara.addEventListener('pointerdown', function (e) {
     const b = slot(e.target);
-    if (!b || e.pointerType === 'touch' || e.button !== 0) return;
+    if (!b || e.pointerType !== 'mouse' || e.button !== 0) return;
     e.preventDefault();
-    odakKoy(+b.dataset.g, +b.dataset.i, false);
-    boyaBasla(b); tikYut = true;
+    const g = +b.dataset.g, i = +b.dataset.i;
+    odakKoy(g, i, false);
+    adimAc();
+    boya = sonraki(I[g][i]); tikYut = true;
+    hucreYaz(g, i, boya);
   });
   izgara.addEventListener('pointerover', function (e) {
     const b = slot(e.target);
-    if (b && boya !== null && e.pointerType !== 'touch') hucreYaz(+b.dataset.g, +b.dataset.i, boya);
+    if (b && boya !== null) hucreYaz(+b.dataset.g, +b.dataset.i, boya);
   });
-  document.addEventListener('pointerup', (e) => { if (e.pointerType !== 'touch') boyaBitir(); });
-  /* Dokunmatik: kısa dokunuş tek hücre (click), 300 ms basılı tutup sürükleme boyar, hızlı kaydırma sayfayı kaydırır */
-  let dokun = null;
-  izgara.addEventListener('touchstart', function (e) {
-    const b = slot(e.target);
-    if (!b || e.touches.length > 1) return;
-    const t = e.touches[0];
-    dokun = { x: t.clientX, y: t.clientY, b, zaman: setTimeout(() => { if (dokun) { dokun.boyuyor = true; boyaBasla(dokun.b); } }, 300) };
-  }, { passive: true });
-  izgara.addEventListener('touchmove', function (e) {
-    if (!dokun) return;
-    const t = e.touches[0];
-    if (dokun.boyuyor) {
-      e.preventDefault();
-      const b = slot(document.elementFromPoint(t.clientX, t.clientY));
-      if (b) hucreYaz(+b.dataset.g, +b.dataset.i, boya);
-    } else if (Math.abs(t.clientX - dokun.x) + Math.abs(t.clientY - dokun.y) > 8) { clearTimeout(dokun.zaman); dokun = null; }
-  }, { passive: false });
-  const dokunBitir = () => {
-    if (!dokun) return;
-    clearTimeout(dokun.zaman);
-    if (dokun.boyuyor) { tikYut = true; boyaBitir(); }
-    dokun = null;
-  };
-  izgara.addEventListener('touchend', dokunBitir);
-  izgara.addEventListener('touchcancel', dokunBitir);
-  izgara.addEventListener('contextmenu', (e) => { if (slot(e.target)) e.preventDefault(); });
+  /* Hücre basılınca yeniden çizildiği için tarayıcı click'i hiç göndermeyebilir: yutma bayrağı bu görevden sonra düşer */
+  document.addEventListener('pointerup', () => { if (boya === null) return; boya = null; adimKapat(); setTimeout(() => { tikYut = false; }); });
 
-  /* Klavye: gezici tabindex, oklar gezer, Shift+ok boyayarak ilerler */
+  /* Klavye: gezici tabindex, oklar gezer; Boşluk ve Enter düğmeye tıklar */
   function odakKoy(g, i, odakla) {
     const once = $(hucreSec(odak.g, odak.i));
     if (once) once.tabIndex = -1;
@@ -320,29 +292,13 @@
     const yon = { ArrowLeft: [-1, 0], ArrowRight: [1, 0], ArrowUp: [0, -1], ArrowDown: [0, 1] }[e.key];
     if (yon) {
       e.preventDefault();
-      const ng = Math.max(0, Math.min(6, g + yon[0])), ni = Math.max(0, Math.min(SATIR - 1, i + yon[1]));
-      if (e.shiftKey) {
-        if (!zincir) { zincir = true; adimAc(); boya = hedefDeger(g, i); hucreYaz(g, i, boya); }
-        hucreYaz(ng, ni, boya);
-        odakKoy(ng, ni);
-      } else odakKoy(ng, ni);
+      odakKoy(Math.max(0, Math.min(6, g + yon[0])), Math.max(0, Math.min(SATIR - 1, i + yon[1])));
       return;
     }
     if (e.key === 'Home' || e.key === 'End') { e.preventDefault(); odakKoy(g, e.key === 'Home' ? 0 : SATIR - 1); }
   });
-  izgara.addEventListener('keyup', function (e) {
-    if (e.key === 'Shift' && zincir) { zincir = false; boyaBitir(); }
-  });
-  function fircaSec(d) {
-    firca = d;
-    $$('#firca button').forEach((b) => b.setAttribute('aria-pressed', String(b.dataset.deger === d)));
-    izgara.dataset.firca = d || 'kapat';
-  }
   document.addEventListener('keydown', function (e) {
-    if ((e.ctrlKey || e.metaKey) && !e.shiftKey && e.key.toLowerCase() === 'z' && !e.target.closest('input,select,textarea')) { e.preventDefault(); geriAl(); return; }
-    if (!slot(e.target) || e.ctrlKey || e.metaKey || e.altKey) return;
-    const f = { 1: 'online', 2: 'yuzyuze', 3: '' }[e.key];
-    if (f !== undefined) { e.preventDefault(); fircaSec(f); DD.toast('Fırça: ' + AD[f] + '.'); }
+    if ((e.ctrlKey || e.metaKey) && !e.shiftKey && e.key.toLowerCase() === 'z' && !e.target.closest('input,select,textarea')) { e.preventDefault(); geriAl(); }
   });
   document.addEventListener('keydown', function (e) {
     if (e.key === 'Escape' && !$('#kopyaSerit').hidden && $('#kopyaSerit').contains(e.target)) { $('#kopyaSerit').hidden = true; }
@@ -354,7 +310,7 @@
     if (s) {
       if (tikYut) { tikYut = false; return; }
       const g = +s.dataset.g, i = +s.dataset.i;
-      adimAc(); hucreYaz(g, i, hedefDeger(g, i)); adimKapat();
+      adimAc(); hucreYaz(g, i, sonraki(I[g][i])); adimKapat();
       odakKoy(g, i);
       return;
     }
@@ -369,8 +325,6 @@
       kk.setAttribute('aria-pressed', 'false');
       return;
     }
-    const fb = e.target.closest('#firca button');
-    if (fb) { fircaSec(fb.dataset.deger); return; }
     const d = e.target.closest('[data-musait]');
     if (!d) return;
     switch (d.dataset.musait) {
@@ -443,7 +397,6 @@
   I = izgaraKur();
   kayitli = kopya(I);
   kuralSecenek();
-  fircaSec('online');
   ciz();
   sayac();
   izinCiz();

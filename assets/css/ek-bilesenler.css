@@ -3419,11 +3419,6 @@ body.cerez-acik #dadaMentor{--mentor-dip:max(var(--mentor-taban),calc(var(--ment
 .anahtar-etiketli{display:inline-flex;align-items:center;gap:var(--bosluk-8);font-size:var(--yazi-13-5);font-weight:var(--agirlik-kalin);color:var(--murekkep);cursor:pointer}
 @media(max-width:900px){.kural-izgara{grid-template-columns:repeat(2,minmax(0,1fr))}}
 @media(max-width:480px){.kural-izgara{grid-template-columns:minmax(0,1fr)}.kural-alt>.dugme{width:100%;margin-left:0}}
-/* Fırça çubuğu: ızgara uzunken üstte yapışık kalır */
-.firca-cubuk{position:sticky;top:var(--kit-ust-h,64px);z-index:var(--kat-icerik);display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:var(--bosluk-8) var(--bosluk-16);margin:0 0 var(--bosluk-12);padding:var(--bosluk-8) 0;background:var(--kagit)}
-.firca-sec{display:flex;align-items:center;gap:var(--bosluk-8)}
-.yetkili .firca-sec>.alan-etiket{margin:0}
-.firca-sec .segment button{display:inline-flex;align-items:center;gap:var(--bosluk-6)}
 .takvim-lejant.musait-lejant{margin-top:0;gap:var(--bosluk-12)}
 .lejant-kalem.online::before{background:var(--aksan-yikama);border:1px solid var(--aksan-koyu)}
 .lejant-kalem.yuzyuze::before{background:var(--durum-acik-zemin);border:1px solid var(--durum-acik-metin)}
@@ -3460,14 +3455,6 @@ body.cerez-acik #dadaMentor{--mentor-dip:max(var(--mentor-taban),calc(var(--ment
 /* Sabit eylem çubuğu menü çekmeceye inince içerikle birlikte sola kayar (önceden 1100 altında 340 px boşluk kalıyordu) */
 @media(max-width:1100px){.yetkili .form-eylem.cubuk-sabit,.yetkili.panel-katli .form-eylem.cubuk-sabit{left:var(--kit-ray-w)}}
 @media(max-width:900px){.yetkili .form-eylem.cubuk-sabit,.yetkili.panel-katli .form-eylem.cubuk-sabit{left:0}}
-@media(max-width:480px){.yetkili .firca-sec>.alan-etiket{display:none}.firca-sec,.firca-sec .segment{width:100%}.firca-sec .segment button{flex:1 1 0;justify-content:center;padding:0 var(--bosluk-8)}}
-/* Seçicide öğün süzgeci ve tek satır kaydırılan kategori çipleri */
-.yetkili .secim-suzgec>.alan-izgara.ogun-suzgec{grid-template-columns:minmax(0,1fr);gap:var(--bosluk-8)}
-.ogun-suzgec .segment{display:flex;width:100%}
-.ogun-suzgec .segment button{flex:1 1 auto;white-space:nowrap;padding:0 var(--bosluk-8)}
-.ogun-suzgec .alan[hidden]{display:none}
-.cip-sira.tek-satir{flex-wrap:nowrap;overflow-x:auto;scrollbar-width:thin;padding-bottom:var(--bosluk-4)}
-.cip-sira.tek-satir>.cip{flex:none}
 .cip-sira[hidden]{display:none}
 .cip-sira .cip .sekme-sayi{margin-left:var(--bosluk-4);color:inherit;opacity:.75}
 @media(max-width:480px){.segment.tam-segment button>i{display:none}}

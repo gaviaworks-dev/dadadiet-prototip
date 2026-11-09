@@ -15,19 +15,19 @@
   <div class="yigin">
     <div class="kart panel">
       <div class="kart-bas">
-        <div><h2 class="kart-baslik">Hızlı Kural</h2><p>Seçtiğin günlere aynı saat aralığını tek seferde yaz. Sonra ızgarada fırçayla ince ayar yapabilirsin.</p></div>
+        <div><h2 class="kart-baslik">Hızlı Kural</h2><p>Seçtiğin günlere aynı saat aralığını tek seferde yaz. Sonra ızgarada hücre hücre ince ayar yapabilirsin.</p></div>
       </div>
       <div class="kart-govde">
         <div class="kural-form">
           <div class="alan">
             <span class="alan-etiket" id="hkGunEtiket">Günler</span>
             <div class="gun-secim">
-              <div class="cip-sira" id="hkGunler" role="group" aria-labelledby="hkGunEtiket" data-coklu-secim></div>
               <div class="cip-sira kisayol" role="group" aria-label="Gün kısayolları">
                 <button class="cip" type="button" aria-pressed="false" data-kisayol="0,1,2,3,4">Hafta içi</button>
                 <button class="cip" type="button" aria-pressed="false" data-kisayol="5,6">Hafta sonu</button>
                 <button class="cip" type="button" aria-pressed="false" data-kisayol="0,1,2,3,4,5,6">Her gün</button>
               </div>
+              <div class="cip-sira" id="hkGunler" role="group" aria-labelledby="hkGunEtiket" data-coklu-secim></div>
             </div>
           </div>
           <div class="kural-izgara">
@@ -46,18 +46,10 @@
     </div>
     <div class="kart panel">
       <div class="kart-bas">
-        <div><h2 class="kart-baslik">Haftalık Çalışma Saatleri</h2><p>Fırçayı seç, hücreye tıkla ya da basılı tutup sürükle. Aynı biçimdeki hücreye tıklamak onu kapatır. Gün başlığındaki menüden günü kopyalayabilir ya da temizleyebilirsin.</p></div>
+        <div><h2 class="kart-baslik">Haftalık Çalışma Saatleri</h2><p>Hücreye tıkla ya da sürükle: kapalı, online, yüz yüze. Gün başlığındaki menüden günü kopyalayabilir ya da temizleyebilirsin.</p></div>
       </div>
       <div class="kart-govde">
-        <div class="firca-cubuk" id="fircaCubuk">
-          <div class="firca-sec">
-            <span class="alan-etiket" id="fircaEtiket">Fırça</span>
-            <div class="segment" id="firca" role="group" aria-labelledby="fircaEtiket">
-              <button type="button" aria-pressed="true" data-deger="online" aria-keyshortcuts="1"><i class="fa-solid fa-video" aria-hidden="true"></i> Online</button>
-              <button type="button" aria-pressed="false" data-deger="yuzyuze" aria-keyshortcuts="2"><i class="fa-solid fa-location-dot" aria-hidden="true"></i> Yüz yüze</button>
-              <button type="button" aria-pressed="false" data-deger="" aria-keyshortcuts="3"><i class="fa-solid fa-eraser" aria-hidden="true"></i> Kapat</button>
-            </div>
-          </div>
+        <div class="takvim-cubuk">
           <div class="takvim-lejant musait-lejant" aria-label="Lejant">
             <span class="lejant-kalem online">Online</span>
             <span class="lejant-kalem yuzyuze">Yüz yüze</span>
@@ -77,7 +69,7 @@
           </div>
         </div>
         <div class="takvim-kap musait-kap"><div class="takvim-izgara sik musait-izgara" id="musaitIzgara" role="grid" aria-label="Haftalık müsaitlik ızgarası" aria-describedby="izgaraIpucu"></div></div>
-        <p class="alan-yardim" id="izgaraIpucu"><i class="fa-solid fa-keyboard" aria-hidden="true"></i><span>Klavyede ok tuşlarıyla gez, Boşluk ya da Enter ile boya, Shift ve ok ile boyayarak ilerle. 1, 2 ve 3 fırçayı değiştirir. Telefonda hücreye dokun ya da basılı tutup sürükle.</span></p>
+        <p class="alan-yardim" id="izgaraIpucu"><i class="fa-solid fa-keyboard" aria-hidden="true"></i><span>Her tıklama hücreyi sırayla kapalı, online ve yüz yüze yapar. Klavyede ok tuşlarıyla gez, Boşluk ya da Enter ile değiştir.</span></p>
         <p class="alan-yardim"><i class="fa-solid fa-clock" aria-hidden="true"></i><span>Haftada <b id="haftaSaat">0</b> saat randevuya açıksın: <b id="haftaOnline">0</b> saat online, <b id="haftaYuz">0</b> saat yüz yüze.</span></p>
       </div>
     </div>
