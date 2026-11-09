@@ -128,8 +128,14 @@
   };
 
   /* Öğün modeli: plan ve başlatılan program aynı şekle iner */
-  const OGUN = [['kahvalti', 'Kahvaltı', '08:00', 'fa-mug-saucer'], ['ara1', 'Ara Öğün', '10:30', 'fa-apple-whole'], ['ogle', 'Öğle Yemeği', '13:00', 'fa-utensils'], ['ara2', 'İkindi', '16:00', 'fa-seedling'], ['aksam', 'Akşam Yemeği', '19:30', 'fa-bowl-food']];
+  /* Öğün türleri, adları ve ikonları; saatler sabit değil, Öğün Hatırlatıcı motorundan gelir (assets/js/ogun-zamanlayici.js, PLAN §3.1).
+     [2] yalnız şablonun varsayılan günüdür (kahvaltı 09.00 zinciri); güne özel saat için U.ogunHesap / U.ogunSaati. */
+  const OG = window.DDOgun;
   const veri = () => window.DD_VERI || {};
+  U.ogunSablonu = () => veri()['ogun-sablonu'] || { kurallar: [] };
+  const sablonGunu = OG ? OG.hesapla({ sablon: U.ogunSablonu(), uye: { ara_sayisi: 2 } }).ogunler : [];
+  const OGUN = [['kahvalti', 'Kahvaltı', 'fa-mug-saucer'], ['ara1', 'Ara Öğün', 'fa-apple-whole'], ['ogle', 'Öğle Yemeği', 'fa-utensils'], ['ara2', 'İkindi', 'fa-seedling'], ['aksam', 'Akşam Yemeği', 'fa-bowl-food']]
+    .map(([t, a, i]) => { const o = sablonGunu.find((x) => x.tur === t); return [t, o ? o.ad : a, o ? o.planlanan : '12:00', o ? o.ikon : i]; });
   const dizi = (x, k) => (Array.isArray(x) ? x : (x && x[k]) || []);
   U.besin = (slug) => dizi(veri().besinler, 'besinler').find((b) => b.slug === slug);
   U.tarif = (slug) => dizi(veri().tarifler, 'tarifler').find((t) => t.slug === slug);
@@ -170,23 +176,43 @@
   const tarifKalem = (t) => ({ tur: 'tarif', slug: t.slug, ad: t.ad, miktar: 1, kcal: t.kcal, protein: t.protein, yag: t.yag, karb: t.karb });
   const ogunTarifi = (tip, sira) => { const l = dizi(veri().tarifler, 'tarifler').filter((t) => t.ogun === tip); return l.length ? l[sira % l.length] : null; };
   const TARIF_OGUN = { kahvalti: 'kahvaltı', ara1: 'ara', ogle: 'öğle', ara2: 'ara', aksam: 'akşam' };
+  /* Plan ya da programın o günkü öğün kümesi: motorun girdisi. Saat yalnız diyetisyen planının öğün düzeninde doludur (öncelik plan > üye > şablon);
+     programın örnek günlerindeki saatler öneridir, üyenin düzeni geçerli olur. Planın o günü yoksa null: üyenin kendi düzeni kullanılır */
+  U.ogunKumesi = function (k, tarih) {
+    if (!k) return null;
+    if (k.tip === 'plan') {
+      const g = k.plan.gunler[U.gunFarki(U.planBas(k.plan), tarih)];
+      if (!g) return null;
+      const duzen = k.plan.ogun_duzeni || [];
+      return OGUN.filter((o) => g.ogunler[o[0]]).map((o) => { const d = duzen.find((x) => x.id === o[0]) || {}; return { tur: o[0], saat: d.saat || null, ad: d.ad || null }; });
+    }
+    const p = k.program, no = U.gunFarki(p.baslangic, tarih);
+    if (p.ornekGunler && p.ornekGunler.length) {
+      const g = p.ornekGunler[((no % p.ornekGunler.length) + p.ornekGunler.length) % p.ornekGunler.length];
+      return g.ogunler.map((o, i) => ({ tur: (OGUN.find((x) => x[1] === o.tur) || OGUN[i])[0], saat: null }));
+    }
+    return OGUN.map((o) => ({ tur: o[0], saat: null }));
+  };
+  /* Günün saatleri sıralı: öğle ara öğünden önce gelebilir (şablonda ara öğün penceresi öğleden sonradır) */
+  const saatSirala = (l) => l.map((o, i) => ({ o, i })).sort((a, b) => String(a.o.saat).localeCompare(String(b.o.saat)) || a.i - b.i).map((x) => x.o);
   U.gunOgunleri = function (k, tarih) {
     if (!k) return [];
+    const saat = U.ogunSaatleri(k, tarih);
     if (k.tip === 'plan') {
       /* Gün tarihten bulunur: 1. gün başlangıç tarihidir, gün adı kaydı etiket değildir */
       const g = k.plan.gunler[U.gunFarki(U.planBas(k.plan), tarih)];
       if (!g) return [];
       const duzen = k.plan.ogun_duzeni || [];
-      return OGUN.filter((o) => g.ogunler[o[0]]).map((o) => { const d = duzen.find((x) => x.id === o[0]) || {}; return ogunKur(o[0], d.ad || o[1], d.saat || o[2], o[3], g.ogunler[o[0]]); });
+      return saatSirala(OGUN.filter((o) => g.ogunler[o[0]]).map((o) => { const d = duzen.find((x) => x.id === o[0]) || {}; return ogunKur(o[0], d.ad || o[1], saat[o[0]] || o[2], o[3], g.ogunler[o[0]]); }));
     }
     const p = k.program, no = U.gunFarki(p.baslangic, tarih), ol = U.olcek(p);
     /* Kaloriye göre porsiyon: kalemler üyenin enerji hedefine ölçeklenir, öğün ölçeği taşır */
     const kur = (a, ad, saat, ikon, l) => { const o = ogunKur(a, ad, saat, ikon, ol ? olcekle(l, ol.f) : l); if (ol) o.olcek = ol.f; return o; };
     if (p.ornekGunler && p.ornekGunler.length) {
       const g = p.ornekGunler[((no % p.ornekGunler.length) + p.ornekGunler.length) % p.ornekGunler.length];
-      return g.ogunler.map((o, i) => { const t = OGUN.find((x) => x[1] === o.tur) || OGUN[i]; return kur(t[0], o.tur, o.saat, t[3], o.kalemler); });
+      return saatSirala(g.ogunler.map((o, i) => { const t = OGUN.find((x) => x[1] === o.tur) || OGUN[i]; return kur(t[0], o.tur, saat[t[0]] || o.saat, t[3], o.kalemler); }));
     }
-    return OGUN.map((o, i) => { const t = ogunTarifi(TARIF_OGUN[o[0]], karma(p.slug) + no + i); return kur(o[0], o[1], o[2], o[3], t ? [tarifKalem(t)] : []); });
+    return saatSirala(OGUN.map((o, i) => { const t = ogunTarifi(TARIF_OGUN[o[0]], karma(p.slug) + no + i); return kur(o[0], o[1], saat[o[0]] || o[2], o[3], t ? [tarifKalem(t)] : []); }));
   };
   /* Porsiyon ölçeği: üyenin günlük enerji hedefi (Tercihlerim) / programın enerji aralığının ortası.
      0,7–1,5 arasında, 0,1 adımla; ±%10 içinde ölçeklenmez. Diyetisyen planı ölçeklenmez (enerjisini diyetisyen belirler); yeme bozukluğu öyküsünde kaloriye dayalı ölçek yok */
@@ -238,6 +264,66 @@
     i[tarih] = i[tarih] || {};
     return i[tarih];
   };
+  /* ── Öğün Hatırlatıcı (PLAN §3). Kural motoru DDOgun; bu katman yalnız demo durumunu motorun girdisine çevirir.
+     uyeYerel.ogunHatirlatma = { acik, once_dk, ara_sayisi, sablon_kodu }   (canlıda tercihler.bildirim.ogun_hatirlatma; opt-in, varsayılan kapalı)
+     uyeYerel.ogunSaatleri   = [{ tur, saat | null, aktif, kaynak: 'uye' }]  (canlıda uye_ogun_saatleri; yalnız üyenin değiştirdiği öğünler)
+     uyeYerel.ogunZaman      = { 'YYYY-MM-DD': { <tur>: 'SS:DD' | true, '<tur>_atla': true } }
+       Öğünün gerçek yenme saati. Plan ya da program varken Uydum / Atladım işareti yine onun kaydındadır (planlar[].ogun_isaret);
+       burası saat ekler. Kaynak yoksa "Yedim" yalnız buraya yazılır. Kahvaltı oruçta Tercihlerim'deki ilk_ogun_saati'dir (tek kaynak). */
+  U.ogunAyar = () => { const s = U.ogunSablonu(); return U.yerel('ogunHatirlatma', { acik: false, once_dk: s.varsayilan_once_dk || 0, ara_sayisi: s.varsayilan_ara_sayisi == null ? 1 : s.varsayilan_ara_sayisi, sablon_kodu: s.kod || 'varsayilan' }); };
+  U.ogunUyeSaatleri = () => U.yerel('ogunSaatleri', []);
+  U.ogunZamanGun = (t) => { const z = U.yerel('ogunZaman', {}); z[t] = z[t] || {}; return z[t]; };
+  U.oruc = () => { const t = U.uye().tercihler || {}; return t.oruc_protokol && t.oruc_protokol !== 'yok' ? { protokol: t.oruc_protokol, ilk_ogun_saati: t.ilk_ogun_saati || '12:00' } : null; };
+  /* Sessiz saatler: Ayarlar › Bildirim Tercihleri seçimi; kaydedilmemişse ekrandaki ilk seçenek (şablonun varsayılanı) */
+  U.sessizSaat = () => { const v = (U.yerel('ayarlar', {}).bildirim || {}).sessiz; return v ? (v === 'Kapalı' ? null : v) : U.ogunSablonu().varsayilan_sessiz; };
+  U.sessizMetin = () => { const a = OG && OG.sessizAralik(U.sessizSaat() || ''); return a ? OG.bicim(a.bas) + '–' + OG.bicim(a.bit) : 'kapalı'; };
+  /* Şimdi: cihaz saati. ?saat=SS:DD yalnız prototipte ekran görüntüsü için günün saatini sabitler */
+  const saatParam = (new URLSearchParams(location.search).get('saat') || '').match(/^\d{1,2}[:.]\d{2}$/);
+  U.simdi = () => { if (saatParam) return saatParam[0].replace('.', ':').padStart(5, '0'); const n = new Date(); return String(n.getHours()).padStart(2, '0') + ':' + String(n.getMinutes()).padStart(2, '0'); };
+  /* Günün işaretleri motor biçiminde: plan / program işareti + gerçek saat + günlüğe eklenen besin (öğünü yenmiş sayar, saati planlanandır) */
+  U.ogunIsaretleri = function (k, t) {
+    const i = k ? U.isaret(k, t) : {}, z = (U.yerel('ogunZaman', {})[t]) || {}, ek = (U.yerel('gunlukEk', {})[t]) || [], l = {};
+    OGUN.forEach(([a]) => {
+      const zs = typeof z[a] === 'string' ? z[a] : null;
+      if (i[a] || z[a] || ek.some((x) => x.ogun === a)) l[a] = { durum: 'yedi', saat: zs };
+      else if (i[a + '_atla'] || z[a + '_atla']) l[a] = { durum: 'atladi', saat: null };
+    });
+    return l;
+  };
+  /* Bütün ekranların tek çağrısı. o: { tarih, kaynak, ayar, saatler, oruc, isaretsiz }. Form önizlemesi taslağı verir, işaret ve şimdi olmadan (düz düzen) */
+  U.ogunHesap = function (o = {}) {
+    if (!OG) return { ogunler: [], oruc: null, odak: null, kahvalti: '09:00' };
+    const t = o.tarih || U.bugun(), k = o.kaynak !== undefined ? o.kaynak : U.aktifKaynak(), a = o.ayar || U.ogunAyar();
+    return OG.hesapla({
+      sablon: U.ogunSablonu(), uye: { ara_sayisi: a.ara_sayisi, saatler: o.saatler || U.ogunUyeSaatleri() }, plan: U.ogunKumesi(k, t),
+      isaretler: o.isaretsiz ? {} : U.ogunIsaretleri(k, t), oruc: o.oruc !== undefined ? o.oruc : U.oruc(), once_dk: a.once_dk, sessiz: U.sessizSaat(), simdi: !o.isaretsiz && t === U.bugun() ? U.simdi() : null,
+    });
+  };
+  /* tur → 'SS:DD'; gunOgunleri öğün saatini buradan alır */
+  U.ogunSaatleri = (k, t) => { const l = {}; U.ogunHesap({ tarih: t, kaynak: k }).ogunler.forEach((o) => { l[o.tur] = o.planlanan; }); return l; };
+  /* Öğün yendi: gerçek saat yalnız planlanana yakınsa (±3 sa) yazılır; sonradan işaretlenen geçmiş öğün zinciri kaydırmasın */
+  U.ogunSaatYaz = function (tur, zamansiz) {
+    const z = U.ogunZamanGun(U.bugun()), o = U.ogunHesap().ogunler.find((x) => x.tur === tur), s = U.simdi();
+    z[tur] = !zamansiz && o && OG && Math.abs(OG.dk(s) - OG.dk(o.planlanan)) <= 180 ? s : true;
+    delete z[tur + '_atla'];
+  };
+  /* Sıradaki öğün için öneri: plan ya da programın o öğünü; yoksa günün kalan enerjisine göre genel öneri */
+  U.ogunOneri = function (ogun, hesap) {
+    const k = U.aktifKaynak(), b = U.bugun(), duyarli = U.yemeDuyarli();
+    const p = k ? U.secilenOgunler(k, b).find((x) => x.anahtar === ogun.tur) : null;
+    if (p && p.metin) return p.metin + (p.kcal && !duyarli ? ' · ' + DD.bicim.kcal(p.kcal) : '');
+    const ara = /^ara/.test(ogun.tur);
+    const tabak = ara ? 'Bir meyve ya da bir kâse yoğurt, yanında bir avuç kuruyemiş.' : 'Tabağın yarısı sebze, çeyreği protein, çeyreği tam tahıl.';
+    const hedef = Number((U.uye().tercihler || {}).kcal) || (k && k.tip === 'plan' ? k.plan.hedef_kcal : 0);
+    if (duyarli || !hedef || !OG) return tabak;
+    const kalan = Math.round(hedef - U.gunToplam().kcal);
+    const turler = hesap.ogunler.filter((x) => ['simdi', 'siradaki', 'sonra'].includes(x.durum)).map((x) => x.tur);
+    const pay = OG.enerjiPayi(U.ogunSablonu(), turler, ogun.tur, kalan);
+    return pay ? 'Günün kalan enerjisi ' + DD.bicim.kcal(kalan) + '; bu öğüne yaklaşık ' + DD.bicim.kcal(pay) + ' düşüyor. ' + tabak : tabak;
+  };
+  /* Öğün saatlerinin tek satırlık özeti: Tercihlerim ve Ayarlar önizlemesi */
+  U.ogunOzet = (h) => h.ogunler.filter((o) => o.durum !== 'kapali').map((o) => o.ad + ' ' + DD.bicim.saat(o.planlanan)).join(' · ');
+
   /* Uyum: başlangıçtan bugüne planlanan öğünlerin tamamlanma oranı */
   U.uyum = function (k) {
     if (!k) return { tamam: 0, toplam: 0, oran: 0 };
@@ -270,11 +356,16 @@
   document.addEventListener('click', (e) => {
     const d = e.target.closest('[data-ogun-durum]');
     if (!d) return;
-    const k = U.aktifKaynak(), i = U.isaret(k, U.bugun()), a = d.dataset.ogunKalem, uydu = d.dataset.ogunDurum === 'uydu';
+    const k = U.aktifKaynak(), z = U.ogunZamanGun(U.bugun()), i = k ? U.isaret(k, U.bugun()) : z, a = d.dataset.ogunKalem, uydu = d.dataset.ogunDurum === 'uydu';
     const onceki = uydu ? i[a] : i[a + '_atla'];
-    /* Yalnız işaretli durum yazılır: kayıt panelde okunurken boş anahtar kalmaz */
-    delete i[a]; delete i[a + '_atla'];
-    if (!onceki) i[uydu ? a : a + '_atla'] = true;
+    /* Yalnız işaretli durum yazılır: kayıt panelde okunurken boş anahtar kalmaz. Plan ya da program yoksa kayıt ogunZaman'dır */
+    delete i[a]; delete i[a + '_atla']; delete z[a]; delete z[a + '_atla'];
+    if (!onceki) {
+      i[uydu ? a : a + '_atla'] = true;
+      /* Öğün Hatırlatıcı: yenme saati sıradaki öğünü kaydırır (PLAN §3.1 "son öğüne göre") */
+      if (uydu) U.ogunSaatYaz(a, d.hasAttribute('data-ogun-zamansiz'));
+      else if (k) z[a + '_atla'] = true;
+    }
     U.kaydet();
     document.dispatchEvent(new CustomEvent('dd:ogun'));
   });
@@ -304,6 +395,12 @@
     if (dn.tahlil_istegi) l.push({ id: 'thl-' + dn.tahlil_istegi.tarih, tur: 'diyetisyen', tarih: dn.tahlil_istegi.tarih, baslik: 'Tahlil isteği', metin: dn.tahlil_istegi.not || dyAd + ' güncel tahlilini istiyor.', yol: 'hesabim/saglik-dosyam/#tahlil' });
     (dn.klinik_notlar || []).filter((x) => x.paylasildi).forEach((x) => l.push({ id: 'not-' + x.tarih, tur: 'diyetisyen', tarih: x.tarih, baslik: 'Diyetisyeninden not', metin: x.metin, yol: 'hesabim/saglik-dosyam/#not' }));
     (u.rozetler || []).forEach((r) => l.push({ id: 'roz-' + r.slug, tur: 'rozet', tarih: r.tarih, baslik: 'Yeni rozet: ' + r.ad, metin: r.aciklama, yol: 'hesabim/rozetlerim/' }));
+    /* Öğün Hatırlatıcı: site içi kanal. Saati gelmiş, işaretlenmemiş ve sessiz saate düşmeyen öğün akışta durur */
+    if (U.ogunAyar().acik && OG) {
+      const s = OG.dk(U.simdi());
+      U.ogunHesap().ogunler.filter((o) => o.hatirlatma && !o.sessiz && OG.dk(o.hatirlatma) <= s && ['simdi', 'gecti', 'siradaki', 'sonra'].includes(o.durum))
+        .forEach((o) => l.push({ id: 'ogn-' + b + '-' + o.tur, tur: 'program', tarih: b, baslik: 'Öğün zamanı: ' + o.ad, metin: DD.bicim.saat(o.planlanan) + ' · ' + U.ogunOneri(o, { ogunler: [] }), yol: 'hesabim/' }));
+    }
     const dur = U.yerel('bildirimDurum', { okundu: {}, silindi: {} });
     /* Son iki haftadan eskiler başlangıçta okunmuş sayılır */
     return l.filter((x) => !dur.silindi[x.id]).map((x) => ({ ...x, okundu: dur.okundu[x.id] != null ? dur.okundu[x.id] : U.gunFarki(x.tarih, b) > 14 })).sort((a, c) => c.tarih.localeCompare(a.tarih));
@@ -375,8 +472,10 @@
     if (u.okunmamis_mesaj) ekle('fa-comments', 'Diyetisyeninden Yeni Mesaj Var', u.okunmamis_mesaj + ' okunmamış mesajın bekliyor.', 'Mesajı aç', 'hesabim/diyetisyenim/#mesaj');
     if (!Object.keys(u.tercihler || {}).length) ekle('fa-user-pen', 'Seni biraz tanıyalım', 'Birkaç soruyla planını ve önerilerini sana göre kuralım.', 'Başla', 'hesabim/hos-geldin/');
     if (k) {
-      const i = U.isaret(k, b), bekleyen = U.secilenOgunler(k, b).find((o) => !U.ogunDurum(i, o));
-      if (bekleyen) ekle('fa-utensils', 'Sıradaki öğünün: ' + bekleyen.ad, DD.bicim.saat(bekleyen.saat) + ' · plana uydun mu?', 'Öğünü işaretle', 'hesabim/gunluk-takibim/');
+      /* Sıradaki öğün saate göre: Öğün Hatırlatıcı motorunun odağı (şimdi ya da ilk gelecek öğün), yoksa işaretlenmemiş ilk öğün */
+      const i = U.isaret(k, b), h = U.ogunHesap(), od = h.ogunler.find((o) => o.tur === h.odak);
+      const bekleyen = od ? { ad: od.ad, saat: od.planlanan } : U.secilenOgunler(k, b).find((o) => !U.ogunDurum(i, o));
+      if (bekleyen) { ekle('fa-utensils', 'Sıradaki öğünün: ' + bekleyen.ad, DD.bicim.saat(bekleyen.saat) + ' · plana uydun mu?', 'Öğünü işaretle', 'hesabim/gunluk-takibim/'); l[l.length - 1].ogun = true; }
     } else ekle('fa-list-check', 'Kendine bir program seç', 'Sana uygun programı bul, bugünün öğünleri hemen hazır olsun.', 'Program bul', 'programlar/program-bul/');
     if (U.anamnezEksik().length && (dn.anamnez_hatirlatma || U.diyetisyen())) ekle('fa-notes-medical', 'Sağlık öykünü tamamla', U.anamnezEksik().length + ' alan eksik; yarıda bırakabilirsin.', 'Devam et', 'hesabim/saglik-dosyam/#profil');
     const s = (dn.olcumler || []).slice(-1)[0];

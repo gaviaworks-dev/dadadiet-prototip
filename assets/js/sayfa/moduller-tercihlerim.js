@@ -33,7 +33,8 @@
     beslenme_tarzi: { ad: 'Beslenme tarzı', ikon: 'fa-seedling', coklu: true, deger: () => liste('beslenme_tarzi', t.beslenme_tarzi) },
     ogun_sayisi: { ad: 'Günlük öğün sayısı', ikon: 'fa-utensils', deger: () => (t.ogun_sayisi ? t.ogun_sayisi + ' öğün' : null) },
     oruc_protokol: { ad: 'Aralıklı oruç', ikon: 'fa-hourglass-half', deger: () => (!t.oruc_protokol || t.oruc_protokol === 'yok' ? 'Oruç istemiyorum' : S.etiket('oruc_protokol', t.oruc_protokol)) },
-    ilk_ogun_saati: { ad: 'İlk öğün saati', ikon: 'fa-clock', kosul: () => t.oruc_protokol && t.oruc_protokol !== 'yok', deger: () => t.ilk_ogun_saati },
+    /* Öğün Hatırlatıcı ile tek kayıt: kahvaltı bu saattir, pencere motordan (DDOgun) */
+    ilk_ogun_saati: { ad: 'İlk öğün saati', ikon: 'fa-clock', kosul: () => t.oruc_protokol && t.oruc_protokol !== 'yok', deger: () => { if (!t.ilk_ogun_saati) return null; const p = window.DDOgun && DDOgun.orucPencere(U.ogunSablonu(), { protokol: t.oruc_protokol, ilk_ogun_saati: t.ilk_ogun_saati }); return DD.bicim.saat(t.ilk_ogun_saati) + (p ? ' · yeme penceren ' + DDOgun.bicim(p.bas) + '–' + DDOgun.bicim(p.bit) : ''); } },
     hassasiyet: { ad: 'Hassasiyet ve kronik durum', ikon: 'fa-shield-halved', coklu: true, kosul: () => t.kvkk_riza, deger: () => liste('hassasiyet', t.hassasiyet) },
   };
   const KART = { hedef: ['hedef', 'tempo', 'hedef_kilo_kg'], olcu: ['cinsiyet', 'dogum_yili', 'boy_cm', 'kilo_kg', 'aktivite'], ritim: ['beslenme_tarzi', 'ogun_sayisi', 'oruc_protokol', 'ilk_ogun_saati'], saglik: ['hassasiyet'] };
@@ -78,6 +79,14 @@
     const b = ayar().bildirim || {};
     document.querySelectorAll('[data-bildirim]').forEach((g) => { if (g.dataset.bildirim in b) g.checked = Boolean(b[g.dataset.bildirim]); });
     hatirlatmaCiz();
+    ogunCiz();
+  }
+  /* Öğün Hatırlatıcı özeti: aynı motor, Ayarlar › Öğün Saatlerim ile aynı saatler */
+  function ogunCiz() {
+    const e = $('tercihOgunMetin');
+    if (!e || !U.ogunHesap) return;
+    const a = U.ogunAyar(), h = U.ogunHesap({ kaynak: null, isaretsiz: true });
+    e.textContent = (a.acik ? 'Açık' : 'Kapalı') + ' · ' + U.ogunOzet(h) + (h.oruc ? '. Kahvaltı ilk öğün saatindir, öğünler yeme pencerene sığar.' : '.');
   }
   /* Su hatırlatması: uye.su.hatirlatma. Anahtar kapalıyken sessiz saatler pasiftir */
   const hatirlatma = () => { const s = U.uye().su; s.hatirlatma = s.hatirlatma || { acik: false, sessiz_bas: '23:00', sessiz_bit: '08:00' }; return s.hatirlatma; };

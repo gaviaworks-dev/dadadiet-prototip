@@ -34,7 +34,7 @@ export function uyeKabuk({ yol, baslik, aciklama = '', eylem = '', aktif, ust = 
     : `<div class="fit-pane"><section class="bolum"><div class="wrap kap">${govde}</div></section></div>`;
   return {
     yol,
-    meta: { baslik, duzen: 'uye', js: ['assets/js/sayfa/uye-ortak.js', ...js] },
+    meta: { baslik, duzen: 'uye', js: ['assets/js/ogun-zamanlayici.js', 'assets/js/sayfa/uye-ortak.js', ...js] },
     govde: `<div class="modul-govde"><div class="zebra">${bant}${orta}</div></div>${duzenle ? kabukOrtu : ''}${sonEk}`,
   };
 }

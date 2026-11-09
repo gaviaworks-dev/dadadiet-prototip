@@ -292,7 +292,8 @@
   if (duyarli) U.gizle($('#gtKip').closest('.alan'), true);
   kipKur('liste');
   /* Saate göre sıradaki öğün: öneri kartından açılan pencere bunu seçer */
-  const siradakiOgun = () => { const s = new Date().getHours() * 60 + new Date().getMinutes(); const o = U.ogunTanimi.find((x) => { const p = x[2].split(':'); return p[0] * 60 + Number(p[1]) >= s; }); return o ? o[0] : 'aksam'; };
+  /* Öğün Hatırlatıcı motoru: şimdi ya da ilk gelecek öğün; gün bittiyse akşam */
+  const siradakiOgun = () => U.ogunHesap().odak || 'aksam';
   /* Düzelt: miktarı olan kalemde değerler oranla ölçeklenir; serbest ve hızlı kalemde ad ile enerji düzeltilir */
   let duzeltNo = -1;
   const birimAd = (x) => (x.tur === 'tarif' && x.kaynak !== 'akilli-tabak' ? 'porsiyon' : 'g');

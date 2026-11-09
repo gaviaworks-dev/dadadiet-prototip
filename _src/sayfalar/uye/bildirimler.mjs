@@ -18,6 +18,6 @@ const govde = `<section class="bant nt-top"><div class="wrap kap">
 
 export default () => [{
   yol: 'hesabim/bildirimler',
-  meta: { baslik: 'Bildirimler', duzen: 'uye', hero: true, js: ['assets/js/sayfa/uye-ortak.js', 'assets/js/sayfa/uye-bildirimler.js'] },
+  meta: { baslik: 'Bildirimler', duzen: 'uye', hero: true, js: ['assets/js/ogun-zamanlayici.js', 'assets/js/sayfa/uye-ortak.js', 'assets/js/sayfa/uye-bildirimler.js'] },
   govde,
 }];

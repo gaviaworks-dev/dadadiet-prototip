@@ -42,13 +42,29 @@ const kanalSatir = ([k, b, m, e, u]) => `<div class="kanal-satir"><div class="ka
 const kategoriler = [['randevu', 'Görüşme ve randevu', 'Görüşmenden önce tek hatırlatma'], ['menu', 'Haftalık menü günü', 'Gün başında tek bildirim'], ['mesaj', 'Diyetisyen mesajı', 'Diyetisyenin yazdığında'], ['odeme', 'Ödeme ve fatura', 'Yalnız işlem gerektiğinde']];
 
 const bildirim = `<div class="yigin">
-${kart({ ikon: 'fa-bell', baslik: 'Bildirim Tercihlerim', metin: 'Hangi bildirimi hangi kanaldan alacağını seç. Öğün hatırlatmaları planındaki saate göre gönderilir.', form: ' data-ayar-form="bildirim" data-mesaj="Bildirim tercihlerin kaydedildi."', govde: `<div class="kanal-matris"><div class="kanal-satir bas"><span>Bildirim</span><span>E-posta</span><span>Uygulama</span></div>${kanallar.map(kanalSatir).join('')}</div>
+${kart({ ikon: 'fa-bell', baslik: 'Bildirim Tercihlerim', metin: `Hangi bildirimi hangi kanaldan alacağını seç. Öğün hatırlatmaları ${sekmeGit('Öğün Saatlerim', 'ogun')} sekmesindeki saatlere göre yalnız site içinde gönderilir; diyetisyen planında öğün saati varsa plan önce gelir.`, form: ' data-ayar-form="bildirim" data-mesaj="Bildirim tercihlerin kaydedildi."', govde: `<div class="kanal-matris"><div class="kanal-satir bas"><span>Bildirim</span><span>E-posta</span><span>Uygulama</span></div>${kanallar.map(kanalSatir).join('')}</div>
 <div class="ayar-liste">
 ${ayarSatir({ ikon: 'fa-shield-halved', baslik: 'Güvenlik uyarıları', metin: 'Yeni cihazdan giriş, şifre değişikliği ve iki adımlı doğrulama işlemleri her zaman e-posta ile bildirilir. Bu bildirim kapatılamaz.', sag: `<span class="as-acik">${ikon('fa-lock')} Her zaman açık</span>` })}
 ${ayarSatir({ ikon: 'fa-clock', baslik: 'Hatırlatma saati', metin: 'Günlük takip hatırlatmasının varsayılan saati.', sag: '<input class="alan-girdi" name="saat" type="time" value="20:00" aria-label="Hatırlatma saati">' })}
 ${ayarSatir({ ikon: 'fa-moon', baslik: 'Sessiz saatler', metin: 'Bu aralıkta uygulama bildirimi gönderilmez; e-posta etkilenmez.', sag: secenek('sessiz', 'Sessiz saatler', ['22.00–08.00', '23.00–07.00', '00.00–06.00', 'Kapalı']) })}
-</div>${altNot('fa-bell', `Gelen bildirimlerini görmek için ${bag('bildirim akışına git', 'hesabim/bildirimler/')}. Öğün hatırlatmalarının hangi günlere düştüğü ${bag('Beslenme Planım', 'hesabim/beslenme-planim/')} sayfasından gelir.`)}`, alt: kartAlt('Bu tercihler yalnız Dada Diet bildirimlerini kapsar.') })}
+</div>${altNot('fa-bell', `Gelen bildirimlerini görmek için ${bag('bildirim akışına git', 'hesabim/bildirimler/')}. Öğün saatlerini ve hatırlatıcını ${sekmeGit('Öğün Saatlerim', 'ogun')} sekmesinde yönetirsin; hangi günün hangi öğünü olduğu ${bag('Beslenme Planım', 'hesabim/beslenme-planim/')} sayfasından gelir.`)}`, alt: kartAlt('Bu tercihler yalnız Dada Diet bildirimlerini kapsar.') })}
 ${kart({ ikon: 'fa-bell', baslik: 'Bildirim Kategorileri', metin: 'Her kategori ayrı kapatılabilir; sıklığı da kanal ayarlarından belirlersin.', sag: `<a class="dugme hayalet kucuk" href="#bildirim">Kanal ayarları ${ikon('fa-arrow-right')}</a>`, form: ' data-ayar-form="bildirimKategori" data-mesaj="Kategori tercihlerin kaydedildi."', bosluksuz: true, govde: `<div class="ayar-liste">${kategoriler.map(([k, b, m]) => ayarSatir({ baslik: b, metin: m, sag: anahtar(k, b, true) })).join('')}</div>`, alt: kartAlt('Kapattığın kategori yalnız bu hesapta geçerlidir.') })}
+</div>`;
+
+// Öğün Hatırlatıcı (PLAN §3.3): satırlar, notlar ve önizleme uye-ogun-saatleri.js içinde DDOgun motoruyla çizilir
+const ogunSaatleri = `<div class="yigin">
+${kart({ ikon: 'fa-bell', baslik: 'Öğün Hatırlatıcım', metin: 'Öğün saatin geldiğinde site içinde haber verir; günün öğünleri Genel Bakış’ta sıralanır. E-posta ile öğün hatırlatması gönderilmez.', bosluksuz: true, govde: `<div class="ayar-liste">
+${ayarSatir({ ikon: 'fa-bell', baslik: 'Öğün hatırlatıcısı', metin: '<span id="ohDurumMetin"></span>', sag: anahtar('ohAcik', 'Öğün hatırlatıcısı', false, ' id="ohAcik"') })}
+${ayarSatir({ ikon: 'fa-stopwatch', baslik: 'Ne zaman hatırlatsın?', metin: 'Öğünün planlanan saatine göre.', sag: `<div class="as-eylem"><div class="segment" role="group" aria-label="Hatırlatma zamanı" id="ohOnce">${[[0, 'Saatinde'], [15, '15 dk önce'], [30, '30 dk önce']].map(([d, m], i) => `<button type="button" data-deger="${d}" aria-pressed="${!i}">${m}</button>`).join('')}</div></div>` })}
+${ayarSatir({ ikon: 'fa-display', baslik: 'Site içi', metin: 'Bildirimler akışında ve zilde görünür.', sag: `<span class="as-acik">${ikon('fa-circle-check')} Açık</span>` })}
+${ayarSatir({ ikon: 'fa-mobile-screen', baslik: 'Telefon bildirimi', metin: 'Mobil uygulamayla gelecek.', sag: anahtar('ohTelefon', 'Telefon bildirimi, mobil uygulamayla gelecek', false, ' disabled') })}
+${ayarSatir({ ikon: 'fa-moon', baslik: 'Sessiz saatler', metin: '<span id="ohSessiz"></span>', sag: `<div class="as-eylem"><a class="satir-dugme" href="#bildirim" data-sekme-git="bildirim">Değiştir</a></div>` })}
+</div>` })}
+${kart({ ikon: 'fa-clock', baslik: 'Öğün Saatlerim', metin: 'Kahvaltı çapadır: onu değiştirdiğinde elle girmediğin öğünler zincirle kayar. Bir öğünün saatini değiştirirsen yalnız o öğün sabitlenir.', form: ' id="ohForm" novalidate', govde: `<div class="yigin sik" id="ohNotlar"></div>
+<div class="alan"><label class="alan-etiket" for="ohKahvalti" id="ohKahvaltiEtiket">Kahvaltı saatin</label><div class="saat-satir"><input class="alan-girdi saat-girdi" id="ohKahvalti" type="time" step="300"><label class="anahtar"><input type="checkbox" id="ohKahvaltiAktif" data-oh-aktif="kahvalti" aria-label="Kahvaltı hatırlatması"><span class="anahtar-ray"></span></label></div><p class="alan-yardim"><span id="ohKahvaltiYardim"></span></p></div>
+<div class="ayar-liste" id="ohListe"></div>
+<div class="eylem-satiri">${dugme('Ara öğün ekle', { sinif: 'hayalet kucuk', ikon: 'fa-plus', ek: ' id="ohAraEkle"' })}</div>
+<p class="durum-satir" id="ohOnizleme" role="status">${ikon('fa-eye')} <span></span></p>`, alt: `<span class="not">Kaydedince Genel Bakış kartı ve hatırlatmalar yeni saatlerle kurulur.</span>${kaydedildi}${dugme('Şablona döndür', { ikon: 'fa-rotate-left', ek: ' id="ohSablon"' })}${dugme('Kaydet', { sinif: 'birincil', tur: 'submit' })}` })}
 </div>`;
 
 const guvenlik = `<div class="yigin">
@@ -134,12 +150,13 @@ const sonEk = ''
 
 export default () => [uyeKabuk({
   yol: 'hesabim/ayarlar', baslik: 'Hesap Ayarları',
-  aciklama: 'Profilin, bildirimlerin, güvenliğin, birim tercihlerin ve bağlı uygulamaların burada; hesabını dondurma ve silme de. Paketin ve kademelerin Paketlerim’de, tahsilat ve kartların Ödemelerim’de.',
+  aciklama: 'Profilin, bildirimlerin, öğün saatlerin, güvenliğin, birim tercihlerin ve bağlı uygulamaların burada; hesabını dondurma ve silme de. Paketin ve kademelerin Paketlerim’de, tahsilat ve kartların Ödemelerim’de.',
   muhur: 'Hesabın · kişisel alanın', ikon: 'fa-sliders', duzenle: true,
   grup: 'hs',
   sekmeler: [
     { id: 'profil', ad: 'Profil', ikon: 'fa-id-card', govde: okumaBolum(profil) },
     { id: 'bildirim', ad: 'Bildirim Tercihleri', ikon: 'fa-bell', govde: okumaBolum(bildirim) },
+    { id: 'ogun', ad: 'Öğün Saatlerim', ikon: 'fa-clock', govde: okumaBolum(ogunSaatleri) },
     { id: 'guvenlik', ad: 'Güvenlik', ikon: 'fa-lock', govde: okumaBolum(guvenlik) },
     { id: 'dil', ad: 'Dil ve Bölge', ikon: 'fa-globe', govde: okumaBolum(dil) },
     { id: 'baglanti', ad: 'Bağlı Uygulamalar', ikon: 'fa-plug-circle-check', govde: duzBolum(baglanti) },
@@ -147,5 +164,5 @@ export default () => [uyeKabuk({
     { id: 'dondurma', ad: 'Hesabı Dondurma / Silme', ikon: 'fa-circle-pause', govde: okumaBolum(dondurma) },
   ],
   sonEk,
-  js: ['assets/js/sayfa/uye-gastro-ortak.js', 'assets/js/sayfa/uye-gastro-destek.js', 'assets/js/sayfa/uye-gastro-ayarlar.js'],
+  js: ['assets/js/sayfa/uye-gastro-ortak.js', 'assets/js/sayfa/uye-gastro-destek.js', 'assets/js/sayfa/uye-gastro-ayarlar.js', 'assets/js/sayfa/uye-ogun-saatleri.js'],
 })];

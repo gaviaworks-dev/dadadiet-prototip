@@ -3855,3 +3855,12 @@ html:not(.bos-kip) [data-bos]{display:none!important}
 .mesafe-not{font-size:var(--yazi-11);color:var(--metin-ikincil)}
 @media(max-width:640px){.mesafe-cubuk{padding:var(--bosluk-12) var(--bosluk-14)}.mesafe-ray{flex-basis:100%}}
 .onizleme-serit.alt{top:auto;bottom:var(--bosluk-16)}
+
+/* ── ÖH: Öğün Hatırlatıcı (PLAN §3.2–3.3). Zaman çizelgesi kaleminde hızlı işaret segmenti; ayar satırı başlığındaki rozet
+   (.as-metin span blok kuralı rozeti satıra yayıyordu); kart gövdesinde not yığınından sonra gelen alan. */
+.zc-kalem>.segment{margin-top:var(--bosluk-8)}
+.as-metin b>.rozet{display:inline-flex;margin:0 0 0 var(--bosluk-4);vertical-align:1px;font-size:var(--yazi-11-5);font-weight:var(--agirlik-ekstra);line-height:normal}
+.kart-govde>.yigin.sik+.alan{margin-top:var(--bosluk-24)}
+.eylem-satiri+.durum-satir{margin-top:var(--bosluk-12)}
+/* Dar ekranda satır eylemi (ikon düğmeler + saat + anahtar) tek satıra sığsın */
+@media(max-width:640px){.ayar-satir.sarmali .as-eylem>.saat-girdi{min-width:0;width:116px;padding-left:var(--bosluk-12);padding-right:var(--bosluk-8)}.ayar-satir.sarmali .as-eylem:has(>.saat-girdi){gap:var(--bosluk-4)}}

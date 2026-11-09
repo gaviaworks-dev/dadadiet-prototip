@@ -3,7 +3,7 @@ import { uyeKabuk } from '../../parcalar/uye/kabuk.mjs';
 import { kart, ayarSatir, anahtar, dugme, modal } from '../../parcalar/uye/ust.mjs';
 
 const bildirimler = [
-  ['takip_uygulama', 'fa-utensils', 'Öğün hatırlatması', 'Öğün girmediğin günlerde akşam hatırlatması.', true],
+  ['takip_uygulama', 'fa-utensils', 'Günlük takip hatırlatması', 'Öğün girmediğin günlerde akşam hatırlatması.', true],
   ['su_uygulama', 'fa-droplet', 'Su hatırlatması', 'Günlük su hedefine ulaşmadığında hatırlatma.', true],
   ['oruc_uygulama', 'fa-hourglass-half', 'Oruç penceresi hatırlatması', 'Yeme penceren açılmadan ve kapanmadan önce haber verir.', false],
   ['rapor_eposta', 'fa-chart-line', 'Haftalık Özet', 'Pazar akşamı e-postayla öğün, su ve ölçüm özeti.', true],
@@ -32,7 +32,7 @@ ${kart({ ikon: 'fa-gauge-high', baslik: 'Günlük Hedefin', metin: 'Bir diyetisy
 ${kart({
     ikon: 'fa-bell', baslik: 'Bildirimler', metin: 'Tüm kanallar Hesap Ayarları içinde.', bosluksuz: true,
     sag: dugme('Tümünü yönet', { sinif: 'hayalet kucuk', href: 'hesabim/ayarlar/#bildirim' }),
-    govde: `<div class="ayar-liste">${bildirimler.map(([ad, ikon, b, m, acik]) => (ad === 'su_uygulama' ? suSatiri : ayarSatir({ ikon, baslik: b, metin: m, sag: anahtar(ad, b, acik, ` data-bildirim="${ad}"`) }))).join('')}</div>`,
+    govde: `<div class="ayar-liste">${ayarSatir({ ikon: 'fa-clock', baslik: 'Öğün hatırlatıcısı', metin: '<span id="tercihOgunMetin"></span>', sag: `<div class="as-eylem"><a class="satir-dugme" href="{{kok}}hesabim/ayarlar/#ogun">Saatleri düzenle</a></div>` })}${bildirimler.map(([ad, ikon, b, m, acik]) => (ad === 'su_uygulama' ? suSatiri : ayarSatir({ ikon, baslik: b, metin: m, sag: anahtar(ad, b, acik, ` data-bildirim="${ad}"`) }))).join('')}</div>`,
   })}
 ${kart({ ikon: 'fa-ruler', baslik: 'Birimler', metin: 'Değerler bu birimlerle gösterilir.', bosluksuz: true, govde: `<div class="ayar-liste">${birimler.map((b) => ayarSatir({ id: `birim-${b[0]}`, ikon: b[1], baslik: b[2], metin: b[3], sag: `<div class="as-eylem">${segment(b)}</div>` })).join('')}</div>` })}
 ${kart({

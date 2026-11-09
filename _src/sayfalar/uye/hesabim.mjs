@@ -6,8 +6,10 @@ const kisayol = [['fa-calendar-week', 'Haftalık Menüm', 'hesabim/haftalik-menu
 const govde = `<div class="yigin baslik-belirgin">
 <div id="gbSiradaki"></div>
 <div id="gbIlk"></div>
+<div id="gbOgunYeni"></div>
 <div class="iki-kolon" id="gbKolon">
 <div class="yigin">
+<div id="gbOgun"></div>
 <div id="gbGun"></div>
 <div id="gbGrafik"></div>
 ${kart({ ikon: 'fa-bolt', baslik: 'Hızlı Kayıt', metin: 'Bugünün kaydını iki dokunuşta tamamla.', bosluksuz: true, govde: '<div class="ayar-liste" id="gbKayit"></div>' })}
