@@ -1,5 +1,5 @@
 /* Raporlar (SH-13-12): randevu, danışan, plan, gelir ve memnuniyet. Hepsi demo durumundan anlık hesaplanır;
-   rakam üretilmez. Memnuniyet verisi yok (puanlama yayında değil), boş durum gösterilir. */
+   rakam üretilmez. Memnuniyet örnek değerlendirmelerden hesaplanır; kayıt yoksa (?bos=1) sayfadaki boş durum kalır. */
 (function () {
   'use strict';
   const DD = window.DD, PA = window.PA, UY = window.UYUM, h = PA.h;
@@ -82,7 +82,31 @@ ${kart('fa-box-open', 'Paketlere Göre', 'Son işlemler listesindeki seanslar; s
     return [kpi('fa-sack-dollar', 'Toplam net', PA.para((k.toplam || {}).net || 0), PA.sayi((k.toplam || {}).seans || 0, 0) + ' seans'), kpi('fa-calendar', 'Bu ay net', PA.para(son.net || 0), (son.seans || 0) + ' seans'), kpi('fa-percent', 'Komisyon', PA.para((k.toplam || {}).komisyon || 0), '%' + Math.round((k.komisyon_orani || 0) * 100) + ' oran'), kpi('fa-rotate-left', 'İade', PA.para(Math.abs(iadeNet)), iade.length + ' işlem')];
   }
 
-  const RAPOR = { randevu, danisan, plan, gelir, memnuniyet: () => [kpi('fa-star', 'Ortalama puan', 'Henüz yok', 'puanlama yayında değil'), kpi('fa-comment', 'Değerlendirme', '0', 'kayıt yok'), kpi('fa-circle-check', 'Tamamlanan görüşme', (d.randevular || []).filter((r) => PA.rDurum(r) === 'tamamlandi').length, 'değerlendirilebilecek'), kpi('fa-clipboard-check', 'Gönderilen plan', (d.planlar || []).filter((p) => p.durum === 'gonderildi').length, 'değerlendirilebilecek')] };
+  /* ── Memnuniyet: danışan değerlendirmeleri (demo.diyetisyen.yorumlar, profil sayfasıyla aynı kayıt).
+     Kayıtlar prototip örneğidir; ?bos=1'de süzülür, sayfadaki boş durum görünür. */
+  function memnuniyet() {
+    const l = ((d.diyetisyen || {}).yorumlar || []).slice().sort((a, b) => b.tarih.localeCompare(a.tarih));
+    const tamam = (d.randevular || []).filter((r) => PA.rDurum(r) === 'tamamlandi').length, gonderilen = (d.planlar || []).filter((p) => p.durum === 'gonderildi').length;
+    const sonKpi = [kpi('fa-circle-check', 'Tamamlanan görüşme', tamam, 'değerlendirilebilecek'), kpi('fa-clipboard-check', 'Gönderilen plan', gonderilen, 'değerlendirilebilecek')];
+    if (!l.length) return [kpi('fa-star', 'Ortalama puan', 'Henüz yok', 'puanlama yayında değil'), kpi('fa-comment', 'Değerlendirme', '0', 'kayıt yok')].concat(sonKpi);
+    const ort = l.reduce((t, y) => t + y.puan, 0) / l.length, ornek = l.some((y) => y.ornek) ? '<span class="ornek-etiket satir-ici">prototip örneği</span>' : '';
+    const yildiz = (n) => `<span class="yildizlar" role="img" aria-label="5 üzerinden ${n}">${[1, 2, 3, 4, 5].map((i) => `<i class="fa-solid fa-star${i > n ? ' bos' : ''}" aria-hidden="true"></i>`).join('')}</span>`;
+    const bicim = (y) => (y.tur === 'online' ? 'Online' : 'Yüz yüze');
+    const konular = [...new Set(l.map((y) => y.konu))].map((k) => [h(k), l.filter((y) => y.konu === k).length]).sort((a, b) => b[1] - a[1]);
+    const tur = [['Online', l.filter((y) => y.tur === 'online').length], ['Yüz yüze', l.filter((y) => y.tur !== 'online').length]];
+    const yorum = (y) => `<div class="ayar-satir"><span class="as-metin"><b>${h(y.konu)} · ${bicim(y)} · ${y.sure_hafta} hafta</b><span>${h(y.metin)}</span><span>${h(y.danisan_etiket)} · ${PA.tarih(y.tarih)}</span></span><span class="as-eylem">${yildiz(y.puan)}</span></div>`;
+    $('p-memnuniyet').innerHTML = `<div class="yigin"><div class="iki-kolon">
+${kart('fa-star', 'Puan Dağılımı', l.length + ' değerlendirme · ortalama ' + PA.sayi(ort, 1), dagilim([5, 4, 3, 2, 1].map((n) => [n + ' yıldız', l.filter((y) => y.puan === n).length]), l.length), ornek)}
+<div class="yigin">
+${kart('fa-tags', 'Konulara Göre', 'Değerlendirilen takibin konusu', dagilim(konular, l.length))}
+${kart('fa-video', 'Görüşme Biçimi', 'Değerlendirilen takiplerin biçimi', dagilim(tur, l.length))}
+</div></div>
+${kart('fa-comment-dots', 'Son Değerlendirmeler', 'Danışan adı gösterilmez; yaş aralığı, konu ve takip süresi görünür', `<div class="ayar-liste">${l.map(yorum).join('')}</div>`, `<a class="dugme hayalet kucuk" href="${DD.kok}diyetisyen/${h(d.diyetisyen.slug)}/#yorumlar">Profilde gör</a>`)}</div>`;
+    csv.memnuniyet = [['Tarih', 'Puan', 'Konu', 'Biçim', 'Süre (hafta)', 'Danışan', 'Yorum']].concat(l.map((y) => [y.tarih, y.puan, y.konu, bicim(y), y.sure_hafta, y.danisan_etiket, y.metin]));
+    return [kpi('fa-star', 'Ortalama puan', PA.sayi(ort, 1), '5 üzerinden · prototip örneği'), kpi('fa-comment', 'Değerlendirme', l.length, 'son ' + PA.tarih(l[0].tarih))].concat(sonKpi);
+  }
+
+  const RAPOR = { randevu, danisan, plan, gelir, memnuniyet };
   const kpiler = {};
   Object.keys(RAPOR).forEach((r) => { kpiler[r] = RAPOR[r](); });
   PA.oranlar();

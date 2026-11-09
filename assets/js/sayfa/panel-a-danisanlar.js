@@ -57,7 +57,10 @@
     const ic = `${PA.avatar(x.ad)}<span class="kisi-bilgi"><span class="kisi-ad">${h(x.ad)}${x.yeni ? ' <span class="rozet olumlu">Yeni</span>' : ''}</span><span class="kisi-alt">${h(eposta(x))}</span></span>`;
     return x.davet ? `<span class="kisi-hucre">${ic}</span>` : `<a class="kisi-hucre" href="${PA.yol.danisan(x.id)}">${ic}</a>`;
   };
-  const sonGorusme = (x) => (x.son_gorusme ? `<b>${PA.tarih(x.son_gorusme)}</b><small>${PA.gunFarki(x.son_gorusme, DD.bugun)} gün önce</small>` : '<b>—</b><small>Henüz yok</small>');
+  /* Yeni talepte görüşme olmaz: talebin geldiği gün gösterilir */
+  const once = (t) => { const n = PA.gunFarki(t, DD.bugun); return n ? n + ' gün önce' : 'bugün'; };
+  const sonGorusme = (x) => (x.son_gorusme ? `<b>${PA.tarih(x.son_gorusme)}</b><small>${once(x.son_gorusme)}</small>`
+    : x.talep_bilgi && x.talep_bilgi.tarih ? `<b>${PA.tarih(x.talep_bilgi.tarih)}</b><small>Talep geldi · ${once(x.talep_bilgi.tarih)}</small>` : '<b>—</b><small>Henüz yok</small>');
 
   /* Sıralama tüm süzülmüş liste üstünde yapılır: sayfalar arası sıra kopmaz */
   const SIRA_ANAHTAR = { Danışan: (x) => x.ad, Durum: (x) => (PA.durumlar[x.durum] || [x.durum])[0], 'Son görüşme': (x) => x.son_gorusme || '' };

@@ -115,7 +115,8 @@
     { id: 'yuksek-protein', ad: 'Yüksek protein', not: 'Her öğüne yağsız bir protein kaynağı koy, günlük proteini öğünlere dağıt.' },
   ];
   PA.protokoller = (dn) => ((dn && dn.protokol && dn.protokol.idler) || []).map((id) => PA.PROTOKOLLER.find((p) => p.id === id)).filter(Boolean);
-  PA.anamnezGorunur = (dn) => !!((dn.izinler || {}).anamnez || dn.anamnez_kaynak === 'gorusme');
+  /* Görüşmede alınan ya da talep formunda üyenin kendisinin gönderdiği ön anamnez izin olmadan da görünür */
+  PA.anamnezGorunur = (dn) => !!((dn.izinler || {}).anamnez || dn.anamnez_kaynak === 'gorusme' || (dn.anamnez_kaynak === 'talep' && dn.anamnez));
 
   /* Sıradaki adım: danışanın durumundan türeyen tek eylem. Kart, liste ve iş listesi aynı sonucu okur.
      {oncelik, ikon, baslik, metin, etiket, href | is, randevu} ; etiket yoksa bekleme durumudur */

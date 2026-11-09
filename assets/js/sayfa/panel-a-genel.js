@@ -30,6 +30,7 @@
     const kalan = bugun.filter((r) => PA.rDurum(r) === 'dolu').length;
     const okunmamis = PA.okunmamis();
     const onay = bugun.filter((r) => PA.rDurum(r) === 'onay-bekliyor').length;
+    const yorum = (d.diyetisyen || {}).yorumlar || []; /* örnek değerlendirmeler; ?bos=1'de süzülür */
     isCiz();
     const eskiMesaj = d.mesajlar.filter((k) => k.okunmamis).map((k) => k.mesajlar[k.mesajlar.length - 1].zaman).sort()[0];
     $('gunOzeti').textContent = 'Günaydın ' + d.diyetisyen.ad.replace(/^Dyt\.\s*/, '').split(' ')[0] + '. ' + PA.gunAdi(DD.bugun) + ', ' + PA.tarih(DD.bugun) + '. Bugün ' + kalan + ' görüşmen kaldı, ' + okunmamis + ' okunmamış mesajın var.';
@@ -37,7 +38,8 @@
       kpi('fa-calendar-check', 'Bugünkü randevu', bugun.length, '', 'fa-hourglass-half', kalan + ' görüşme kaldı' + (onay ? ', ' + onay + ' onay' : '')) +
       kpi('fa-user-check', 'Aktif danışan', aktif.length, 'iyi', 'fa-users', d.danisanlar.length + ' kayıtlı danışan') +
       kpi('fa-comments', 'Okunmamış mesaj', okunmamis, okunmamis ? 'kotu' : '', 'fa-clock', eskiMesaj ? 'En eskisi ' + PA.tarih(eskiMesaj) + ' ' + DD.bicim.saat(eskiMesaj.slice(11, 16)) : 'Hepsi okundu') +
-      kpi('fa-star', 'Profil puanı', 'Henüz yok', 'notr', 'fa-comment-dots', 'Puanlama yayında değil · prototip örneği');
+      (yorum.length ? kpi('fa-star', 'Profil puanı', PA.sayi(yorum.reduce((t, y) => t + y.puan, 0) / yorum.length, 1), 'notr', 'fa-comment-dots', yorum.length + ' değerlendirme · prototip örneği')
+        : kpi('fa-star', 'Profil puanı', 'Henüz yok', 'notr', 'fa-comment-dots', 'Puanlama yayında değil · prototip örneği'));
 
     $('bugunListe').innerHTML = bugun.length ? bugun.map((r) => {
       const dn = PA.danisan(r.danisan_id), durum = PA.rDurum(r);

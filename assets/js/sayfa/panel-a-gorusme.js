@@ -3,7 +3,16 @@
   'use strict';
   const DD = window.DD, PA = window.PA, h = PA.h;
   const $ = (id) => document.getElementById(id);
-  const r = PA.d().randevular.find((x) => x.id === PA.parametre('randevu'));
+  /* Adreste randevu yoksa en yakın görüşülebilir randevu açılır (önce bugünün ve sonrasının ilki, yoksa en son geçen).
+     Geçersiz numara ve ?bos=1 boş durumu gösterir. */
+  const enYakin = () => {
+    const l = PA.d().randevular.filter((x) => PA.rDurum(x) === 'dolu' && !x.talep && PA.takipte(PA.danisan(x.danisan_id) || {}))
+      .sort((a, b) => (a.tarih + a.saat).localeCompare(b.tarih + b.saat));
+    return l.find((x) => x.tarih + 'T' + x.saat >= PA.simdi) || l[l.length - 1];
+  };
+  const param = PA.parametre('randevu');
+  const r = param ? PA.d().randevular.find((x) => x.id === param) : DD.bosKip ? null : enYakin();
+  if (r && !param) { const u = new URL(location.href); u.searchParams.set('randevu', r.id); history.replaceState(null, '', u); }
   const dn = r && PA.danisan(r.danisan_id);
   const uygun = r && dn && PA.rDurum(r) === 'dolu';
 
