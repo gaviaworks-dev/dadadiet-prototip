@@ -3644,3 +3644,8 @@ body:has(.cookie-banner.show),body.cerez-acik{padding-bottom:var(--cerez-boy,0px
 .ikon-dugme[data-ipucu-alt]::after{bottom:auto;top:calc(100% + var(--bosluk-6))}
 @media (hover:none){.ikon-dugme[data-ipucu]:hover::after{opacity:0;visibility:hidden}}
 .head-actions .ikon-dugme[data-ipucu]::after{bottom:auto;top:calc(100% + var(--bosluk-6))}
+
+/* === Sayfa Revizesi 1 · sr-saglik (Sağlık Dosyam, Diyetisyenim, Tercihlerim) === */
+/* Satırda yalnız ikon düğmeler varsa dar ekranda alt satıra inmez, sağda kalır */
+@media(max-width:760px){.ayar-liste.sarar .ayar-satir:has(>.as-eylem>.satir-eylem:only-child){flex-wrap:nowrap}.ayar-liste.sarar .as-eylem:has(>.satir-eylem:only-child){flex-basis:auto;margin-left:auto}}
+/* --- sr-saglik sonu --- */
