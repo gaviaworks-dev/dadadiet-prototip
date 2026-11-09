@@ -8,6 +8,8 @@ const HASSASIYET = [['laktoz', 'Laktoz'], ['gluten', 'Gluten'], ['yumurta', 'Yum
 
 /* Sekme sırası genelden ayrıntıya: özet, kişisel kayıt, ölçüm, tahlil, belge, üretilen raporlar.
    Eski #not, #test, #hesap adresleri uye-saglik-dosyam.js içinde yeni yerine yönlenir. */
+// Sayfa Revizesi 1: işlem düğmesi ikon düğmedir; ipucu aria-label'dan gelir (ortak.js)
+const ikonDugme = (ad, ikon, ek = '') => `<button class="ikon-dugme" type="button" aria-label="${ad}"${ek}><i class="fa-solid ${ikon}" aria-hidden="true"></i></button>`;
 const donem = `<div class="segment" role="group" aria-label="Grafik dönemi" id="sdDonem"><button type="button" data-donem="4" aria-pressed="false">Son 4</button><button type="button" data-donem="8" aria-pressed="false">Son 8</button><button type="button" data-donem="0" aria-pressed="true">Tümü</button></div>`;
 
 const sekmeler = [
@@ -20,16 +22,16 @@ ${kart({ ikon: 'fa-user-shield', baslik: 'Diyetisyeninin Görebildikleri', metin
 </div>` },
   { id: 'profil', ad: 'Profilim', ikon: 'fa-id-badge', govde: `<div class="yigin">
 ${bolumBas({ etiket: 'Temel bilgiler', ikon: 'fa-id-card', baslik: 'Sağlık Profilin', metin: 'Program önerileri ve hesaplayıcılar bu bilgileri kullanır. Diyetisyenin bunları ancak sen izin verirsen görür.' })}
-${kart({ ikon: 'fa-ruler', baslik: 'Temel Ölçüler', metin: '<span id="sdSon"></span>', sag: '<div class="as-eylem"><button class="dugme hayalet kucuk" type="button" id="sdProfilDugme">Düzenle</button></div>', govde: '<dl class="kunye temel-kunye" id="sdTemel"></dl>' })}
+${kart({ ikon: 'fa-ruler', baslik: 'Temel Ölçüler', metin: '<span id="sdSon"></span>', sag: `<div class="as-eylem">${ikonDugme('Düzenle', 'fa-pen', ' id="sdProfilDugme"')}</div>`, govde: '<dl class="kunye temel-kunye" id="sdTemel"></dl>' })}
 <div id="sdProfilRiza"></div>
-<div class="iki-kolon esit-boy">${kart({ ikon: 'fa-notes-medical', baslik: 'Sağlık Öykün', metin: '<span id="sdAnamnezOzet"></span>', sag: '<div class="as-eylem"><button class="dugme hayalet kucuk" type="button" id="sdAnamnezDugme">Düzenle</button></div>', govde: '<dl class="kunye oyku-kunye" id="sdAnamnez"></dl>' })}${kart({ ikon: 'fa-triangle-exclamation', baslik: 'Dikkat Edilmesi Gerekenler', metin: 'Öneriler bu kayıtlara göre süzülür.', bosluksuz: true, govde: '<div class="ayar-liste" id="sdDikkat"></div>' })}</div>
+<div class="iki-kolon esit-boy">${kart({ ikon: 'fa-notes-medical', baslik: 'Sağlık Öykün', metin: '<span id="sdAnamnezOzet"></span>', sag: `<div class="as-eylem">${ikonDugme('Düzenle', 'fa-pen', ' id="sdAnamnezDugme"')}</div>`, govde: '<dl class="kunye oyku-kunye" id="sdAnamnez"></dl>' })}${kart({ ikon: 'fa-triangle-exclamation', baslik: 'Dikkat Edilmesi Gerekenler', metin: 'Öneriler bu kayıtlara göre süzülür.', bosluksuz: true, govde: '<div class="ayar-liste" id="sdDikkat"></div>' })}</div>
 ${kart({ ikon: 'fa-clock-rotate-left', baslik: 'Profil Değişiklik Kaydı', metin: 'Sağlık profilinde yaptığın her değişiklik tarihiyle; en yenisi üstte.', bosluksuz: true, govde: tablo({ id: 'sdProfilKayit', etiket: 'Sağlık profili değişiklikleri', basliklar: [['Tarih', 'dar-kolon'], ['Alan', 'dar-kolon'], 'Değişiklik'] }) })}
 </div>` },
   { id: 'olcum', ad: 'Ölçümlerim', ikon: 'fa-weight-scale', sayi: 'olcum', govde: `<div class="yigin">
 ${bolumBas({ etiket: 'Ölçümlerin', ikon: 'fa-weight-scale', baslik: 'Vücut Ölçümlerin', metin: 'Grafikte görmek istediğin ölçüyü kutulardan seç. Yeni ölçüm diyetisyen panelinde de görünür.', arac: dugme('Yeni ölçüm ekle', { sinif: 'birincil', ikon: 'fa-plus', ek: ' data-ac="#sdOlcumModal"' }) })}
 <div class="veri-kutular" id="sdOlcumKutular"></div>
 <div class="iki-kolon esit-boy" id="sdOlcumGovde">${kart({ ikon: 'fa-chart-line', baslik: '<span id="sdGrafikBaslik">Kilo Seyri</span>', metin: '<span id="sdGrafikNot"></span>', sag: donem, sinif: 'donemli', govde: '<div class="grafik-kaydir" id="sdGrafik" tabindex="0"></div>' })}${kart({ ikon: 'fa-bullseye', baslik: 'Hedefine Yolculuk', metin: '<span id="sdHedefMetin"></span>', id: 'sdHedefKart', govde: '<div class="yolculuk" id="sdHedef"></div>' })}</div>
-${kart({ ikon: 'fa-table-list', sinif: 'sik-tablo', baslik: 'Ölçüm Geçmişin', metin: '<span id="sdOlcumTarih"></span>', sag: dugme('Ölçümleri indir', { sinif: 'hayalet kucuk', ikon: 'fa-download', ek: ' id="sdOlcumIndir"' }), bosluksuz: true, govde: tablo({ id: 'sdOlcumler', etiket: 'Tarihe göre kilo, BKİ, bel ve yağ oranı', basliklar: ['Tarih', ['Kilo', 'sag'], ['BKİ', 'sag'], ['Bel', 'sag'], ['Yağ oranı', 'sag']] }), alt: dugme('Bütün ölçümleri göster', { ek: ' id="sdOlcumHepsi"' }) })}
+${kart({ ikon: 'fa-table-list', sinif: 'sik-tablo', baslik: 'Ölçüm Geçmişin', metin: '<span id="sdOlcumTarih"></span>', sag: `<div class="as-eylem">${dugme('Tümünü gör', { sinif: 'hayalet kucuk', ek: ' id="sdOlcumHepsi" aria-controls="sdOlcumler" aria-expanded="false"' })}${ikonDugme('Ölçümleri indir', 'fa-download', ' id="sdOlcumIndir"')}</div>`, bosluksuz: true, govde: tablo({ id: 'sdOlcumler', etiket: 'Tarihe göre kilo, BKİ, bel ve yağ oranı', basliklar: ['Tarih', ['Kilo', 'sag'], ['BKİ', 'sag'], ['Bel', 'sag'], ['Yağ oranı', 'sag']] }) })}
 </div>` },
   { id: 'tahlil', ad: 'Tahlillerim', ikon: 'fa-flask-vial', sayi: 'tahlil', govde: `<div class="yigin">
 ${bolumBas({ etiket: 'Tahlillerin', ikon: 'fa-flask-vial', baslik: 'Tahlil ve Raporların', metin: 'Yüklediğin tahlillerin değerleri referans aralığıyla karşılaştırılır. Yorum için diyetisyenine ya da hekimine danış.', arac: dugme('Yeni belge yükle', { sinif: 'birincil', ikon: 'fa-upload', ek: ' data-ac="#sdBelgeModal"' }) })}

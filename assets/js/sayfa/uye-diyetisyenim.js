@@ -3,6 +3,8 @@
   'use strict';
   const DD = window.DD, U = window.DDU;
   const $ = (s) => document.querySelector(s);
+  /* Pencereler #pageMain'in kendi yığın bağlamından (kabuk .page-main z-index:2) çıkıp gövdeye taşınır; Tercihlerim T1 ile aynı kök neden */
+  document.querySelectorAll('#pageMain > .modal-ortu').forEach((m) => document.body.appendChild(m));
   /* Diyetisyen profilinden paket seçilerek gelindi: ilişki ve paket kurulur, randevu formu açılır */
   const paketId = new URLSearchParams(location.search).get('paket');
   const secilen = paketId && (U.d().paketler || []).find((p) => p.id === paketId);
@@ -37,31 +39,36 @@
   const eylemler = (r, kucuk) => {
     const k = kucuk ? ' kucuk' : '';
     if (bekleyenTalep(r)) return '<button class="dugme hayalet' + k + '" type="button" data-talep-geri="' + r.id + '">Talebi geri al</button>';
-    return '<button class="dugme hayalet tehlike' + k + '" type="button" data-iptal="' + r.id + '">İptal talebi</button><button class="dugme ' + (kucuk ? 'hayalet' : 'birincil') + k + '" type="button" data-ertele="' + r.id + '">Saat değişikliği talebi</button>';
+    /* Tablo satırında ikon düğme (üç yazılı düğme satırı üç kat uzatıyordu); Sıradaki Görüşmen kartında yazılı kalır */
+    if (kucuk) return ikonDugme('İptal talebi', 'fa-ban', 'data-iptal="' + r.id + '"', 'yikici') + ikonDugme('Saat değişikliği talebi', 'fa-clock-rotate-left', 'data-ertele="' + r.id + '"');
+    return '<button class="dugme hayalet tehlike" type="button" data-iptal="' + r.id + '">İptal talebi</button><button class="dugme birincil" type="button" data-ertele="' + r.id + '">Saat değişikliği talebi</button>';
   };
   const satirKur = (i, baslik, metin, sag) => '<div class="ayar-satir"><span class="as-ikon"><i class="fa-solid ' + i + '" aria-hidden="true"></i></span><div class="as-metin"><b>' + U.kac(baslik) + '</b><span>' + U.kac(metin) + '</span></div>' + (sag ? '<span class="as-eylem">' + sag + '</span>' : '') + '</div>';
 
-  const kunyeHtml = (l, sinif) => '<dl class="kunye' + (sinif ? ' ' + sinif : '') + '">' + l.map((x) => '<div><dt>' + x[0] + '</dt><dd>' + U.kac(x[1]) + '</dd></div>').join('') + '</dl>';
+  /* Sayfa Revizesi 1: işlem düğmeleri ikon düğmedir; ad aria-label'da, ipucu ortak.js'ten. Aynı işlev her yerde aynı ikon */
+  const ikonDugme = (ad, ikon, ek, sinif) => '<button class="ikon-dugme' + (sinif ? ' ' + sinif : '') + '" type="button" aria-label="' + U.kac(ad) + '" ' + (ek || '') + '><i class="fa-solid ' + ikon + '" aria-hidden="true"></i></button>';
+  const ikonBag = (ad, ikon, href) => '<a class="ikon-dugme" href="' + href + '" aria-label="' + U.kac(ad) + '"><i class="fa-solid ' + ikon + '" aria-hidden="true"></i></a>';
+  /* Kompakt bilgi satırı: Unvan, paket, sıradaki görüşme tek satırda ikonlu */
+  const metaHtml = (l) => '<div class="kimlik-meta">' + l.map((x) => '<span><i class="fa-solid ' + x[0] + '" aria-hidden="true"></i> <span>' + x[1] + '</span></span>').join('') + '</div>';
   const kartBas = (ikon, k, sag) => '<div class="kart-bas"><div><h3 class="kart-baslik"><i class="fa-solid ' + ikon + '" aria-hidden="true"></i> ' + U.kac(k.ad) + '</h3><p>' + U.kac((k.uzmanlik || []).join(' · ')) + '</p></div><div class="as-eylem">' + sag + '</div></div>';
-  const profilBag = (k, metin) => '<a class="dugme hayalet" href="' + DD.kok + k.profil + '">' + metin + '</a>';
+  const profilBag = (k) => ikonBag('Profili gör', 'fa-user', DD.kok + k.profil);
   /* Diploma doğrulaması (ES-HS-50): tarih yalnız kayıtta varsa yazılır; kurgu diyetisyenin tarihi prototip örneği */
   const dogrulama = (k) => k.dogrulama || (k.ana ? (((window.DD_VERI || {}).demo || {}).diyetisyen || {}).dogrulama : null);
   const aktifKart = (k) => {
     const y = yaklasan().find((r) => sahip(r).slug === k.slug), dg = dogrulama(k);
-    return '<div class="kart panel tam-kolon">' + kartBas('fa-id-card', k, '<span class="durum-hapi cozulen">Doğrulanmış</span>')
-      + '<div class="kart-govde">' + kunyeHtml([['Unvan', k.unvan], ['Paket', k.paket ? k.paket.ad : 'Paket yok'], ['Sıradaki görüşme', y ? U.tarih(y.tarih) + ', ' + DD.bicim.saat(y.saat) : 'Planlı görüşme yok']], 'uc-sutun')
-      + '<p class="alan-yardim"><i class="fa-solid fa-shield-halved" aria-hidden="true"></i> <span>' + (dg ? U.kac(dg.kapsam) + ' Dada Diet tarafından <b>' + U.tarih(dg.tarih) + '</b> tarihinde doğrulandı' + (dg.ornek ? ' (prototip örneği)' : '') + '.' : 'Diploması Dada Diet tarafından doğrulandı; doğrulama tarihi kayıtta yok.') + '</span></p></div>'
-      + '<div class="kart-alt eylem">' + profilBag(k, 'Profili gör') + '<button class="dugme hayalet" type="button" data-sohbet-git="' + k.slug + '"><i class="fa-solid fa-paper-plane" aria-hidden="true"></i> Mesaj gönder</button><button class="dugme birincil" type="button" data-randevu-al="' + k.slug + '"><i class="fa-solid fa-calendar-plus" aria-hidden="true"></i> Randevu oluştur</button></div></div>';
+    const eylem = '<span class="durum-hapi cozulen">Doğrulanmış</span><span class="satir-eylem">' + profilBag(k) + ikonDugme('Mesaj', 'fa-comment', 'data-sohbet-git="' + k.slug + '"') + ikonDugme('Randevu oluştur', 'fa-calendar-plus', 'data-randevu-al="' + k.slug + '"') + '</span>';
+    return '<div class="kart panel tam-kolon">' + kartBas('fa-id-card', k, eylem)
+      + '<div class="kart-govde">' + metaHtml([['fa-id-badge', U.kac(k.unvan)], ['fa-box-open', k.paket ? U.kac(k.paket.ad) + ' paketi' : 'Paket yok'], ['fa-calendar-day', y ? 'Sıradaki görüşme <b>' + U.tarih(y.tarih) + ', ' + DD.bicim.saat(y.saat) + '</b>' : 'Planlı görüşme yok']])
+      + '<p class="alan-yardim"><i class="fa-solid fa-shield-halved" aria-hidden="true"></i> <span>' + (dg ? U.kac(dg.kapsam) + ' Dada Diet tarafından <b>' + U.tarih(dg.tarih) + '</b> tarihinde doğrulandı' + (dg.ornek ? ' (prototip örneği)' : '') + '.' : 'Diploması Dada Diet tarafından doğrulandı; doğrulama tarihi kayıtta yok.') + '</span></p></div></div>';
   };
   /* Geçmiş kart: yeni talep varsa düğme geri alma olur */
   const gecmisKart = (k) => {
     const talep = k.randevular.find((r) => r.tarih >= b && U.rAcik(r));
     const gorusme = k.randevular.filter(gecen).length;
-    return '<div class="kart panel soluk">' + kartBas('fa-user-clock', k, U.durum('kapali', 'Sona erdi'))
-      + '<div class="kart-govde">' + kunyeHtml([['Çalışma tarihi', aralik(k)], ['Görüşme sayısı', String(gorusme)]]) + '</div>'
-      + '<div class="kart-alt eylem">' + (talep ? '<span class="eylem-notu">Randevu talebin ' + U.tarih(talep.tarih) + ', ' + DD.bicim.saat(talep.saat) + ' için onay bekliyor.</span>' : '')
-      + '<button class="dugme hayalet" type="button" data-sohbet-git="' + k.slug + '">Geçmiş mesajlar</button>' + profilBag(k, 'Profili gör')
-      + (talep ? '<button class="dugme hayalet" type="button" data-randevu-geri="' + talep.id + '">Talebi geri al</button>' : '<button class="dugme birincil" type="button" data-randevu-al="' + k.slug + '"><i class="fa-solid fa-calendar-plus" aria-hidden="true"></i> Tekrar randevu al</button>') + '</div></div>';
+    const eylem = U.durum('kapali', 'Sona erdi') + '<span class="satir-eylem">' + profilBag(k) + ikonDugme('Geçmiş mesajlar', 'fa-comment', 'data-sohbet-git="' + k.slug + '"') + (talep ? '' : ikonDugme('Tekrar randevu al', 'fa-calendar-plus', 'data-randevu-al="' + k.slug + '"')) + '</span>';
+    return '<div class="kart panel soluk">' + kartBas('fa-user-clock', k, eylem)
+      + '<div class="kart-govde">' + metaHtml([['fa-calendar', 'Çalışma tarihi ' + aralik(k)], ['fa-comments', gorusme + ' görüşme']]) + '</div>'
+      + (talep ? '<div class="kart-alt eylem"><span class="eylem-notu">Randevu talebin ' + U.tarih(talep.tarih) + ', ' + DD.bicim.saat(talep.saat) + ' için onay bekliyor.</span><button class="dugme hayalet kucuk" type="button" data-randevu-geri="' + talep.id + '">Talebi geri al</button></div>' : '') + '</div>';
   };
   function bilgi() {
     U.bas('#dyAktifler', aktifler().map(aktifKart).join(''));
@@ -71,7 +78,7 @@
   }
 
   function hizmet() {
-    const satir = (k) => '<tr><td><span class="no">' + U.kac(k.paket.ad) + '<small>' + U.kac(k.ad) + ' · ' + U.kac(k.paket.aciklama) + '</small></span></td><td>' + U.kac(U.basHarf(k.paket.tur)) + '</td><td class="sag">' + k.paket.seans + '</td><td class="tutar sag">' + U.tl(k.paket.fiyat) + '</td><td>' + (k.durum === 'gecmis' ? U.durum('kapali', 'Tamamlandı') : U.durum('cozulen', 'Aktif')) + '</td><td class="eylem-kolon"><a class="dugme hayalet kucuk" href="' + DD.kok + 'hesabim/odemelerim/#faturalar">Fatura</a></td></tr>';
+    const satir = (k) => '<tr><td><span class="no">' + U.kac(k.paket.ad) + '<small>' + U.kac(k.ad) + ' · ' + U.kac(k.paket.aciklama) + '</small></span></td><td>' + U.kac(U.basHarf(k.paket.tur)) + '</td><td class="sag">' + k.paket.seans + '</td><td class="tutar sag">' + U.tl(k.paket.fiyat) + '</td><td>' + (k.durum === 'gecmis' ? U.durum('kapali', 'Tamamlandı') : U.durum('cozulen', 'Aktif')) + '</td><td class="eylem-kolon"><span class="satir-eylem">' + ikonBag('Faturayı gör', 'fa-eye', DD.kok + 'hesabim/odemelerim/#faturalar') + '</span></td></tr>';
     const l = kisiler().filter((k) => k.paket), aktif = l.filter((k) => k.durum !== 'gecmis').length;
     $('#dyHizmetOzet').textContent = l.length ? aktif + ' aktif paket, ' + (l.length - aktif) + ' tamamlanmış hizmet. Fatura belgesi Ödemelerim’den indirilir.' : 'Henüz hizmet kaydın yok.';
     U.bas('#dyHizmet', l.map(satir).join('') || bosSatir(6, 'Henüz bir hizmet almadın.'));
@@ -86,7 +93,7 @@
       ? '<div class="kart panel tam-kolon"><div class="kart-bas"><div><h3 class="kart-baslik"><i class="fa-solid fa-calendar-day" aria-hidden="true"></i> Sıradaki Görüşmen</h3><p>' + U.tarih(s.tarih) + ' ' + U.gunAdi(s.tarih) + ', ' + DD.bicim.saat(s.saat) + ' · ' + s.sure + ' dakika · ' + U.kac(s.tur) + ' · ' + U.kac(sahip(s).ad) + '</p></div><div class="as-eylem">' + U.rHap(s) + U.durum('acik', U.gunFarki(b, s.tarih) === 0 ? 'Bugün' : U.gunFarki(b, s.tarih) + ' gün sonra') + '</div></div>' + (s.not ? '<div class="kart-govde okuma"><p>' + U.kac(s.not) + '</p></div>' : '') + hazirlik(s) + '<div class="kart-alt eylem">' + (talep ? '<span class="eylem-notu">' + talep + '</span>' : '') + takvimDugme(s, false) + eylemler(s, false) + katil(s, 'birincil') + '</div></div>'
       : '');
     const durumHucre = (r) => { const m = U.rTalepMetin(r); return U.rHap(r) + (m ? '<small class="eylem-notu">' + m + '</small>' : ''); };
-    U.bas('#dyRandevular', U.tumRandevular().slice().reverse().map((r) => '<tr><td class="tarih">' + U.noktaliTarih(r.tarih) + '</td><td>' + DD.bicim.saat(r.saat) + '</td><td><span class="no">' + U.kac(U.basHarf(r.tur)) + ' görüşme<small>' + U.kac(sahip(r).ad) + ' · ' + r.sure + ' dakika</small></span></td><td>' + durumHucre(r) + '</td><td class="eylem-kolon"><div class="tablo-eylem">' + (r.tarih >= b && U.rAcik(r) && r !== s ? takvimDugme(r, true) + eylemler(r, true) + katil(r, 'birincil kucuk') : '') + '</div></td></tr>').join('') || bosSatir(5, 'Henüz randevun yok.'));
+    U.bas('#dyRandevular', U.tumRandevular().slice().reverse().map((r) => '<tr><td class="tarih">' + U.noktaliTarih(r.tarih) + '</td><td>' + DD.bicim.saat(r.saat) + '</td><td><span class="no">' + U.kac(U.basHarf(r.tur)) + ' görüşme<small>' + U.kac(sahip(r).ad) + ' · ' + r.sure + ' dakika</small></span></td><td>' + durumHucre(r) + '</td><td class="eylem-kolon"><div class="satir-eylem">' + (r.tarih >= b && U.rAcik(r) && r !== s ? takvimDugme(r, true) + eylemler(r, true) + katil(r, 'birincil kucuk') : '') + '</div></td></tr>').join('') || bosSatir(5, 'Henüz randevun yok.'));
     /* Son iki görüşme özet kartı (ES-HS-53): panelin yazdığı görüşme özeti, yoksa randevu notu */
     const son2 = U.tumRandevular().filter(gecen).slice(-2).reverse();
     U.bas('#dyGorusmeSon', son2.map((r) => '<div class="kart panel"><div class="kart-bas"><div><h3 class="kart-baslik"><i class="fa-solid fa-clipboard-check" aria-hidden="true"></i> ' + U.tarih(r.tarih) + ' Görüşmesi</h3><p>' + U.kac(U.basHarf(r.tur)) + ' · ' + r.sure + ' dakika · ' + U.kac(sahip(r).ad) + '</p></div><div class="as-eylem">' + U.rHap(r) + '</div></div><div class="kart-govde okuma"><p>' + U.kac(gorusmeMetni(r) || 'Bu görüşme için not yazılmadı.') + '</p></div><div class="kart-alt eylem"><button class="dugme hayalet" type="button" data-sekme-git="not">Diyetisyen notları</button></div></div>').join(''));
@@ -105,6 +112,17 @@
     U.bas('#dyRandevuHareket', HR.sort((a, c) => String(c.t).localeCompare(String(a.t))).slice(0, 8).map((x) => satirKur(x.i, x.b, x.m, x.h)).join('') || U.bos({ ikon: 'fa-timeline', baslik: 'Henüz randevu hareketin yok', metin: 'Randevu oluşturduğunda ya da değişiklik istediğinde burada görünür.' }));
   }
 
+  /* Mesaj eki (Dy2): dosya bu tarayıcının belge kasasına (IndexedDB) yazılır, mesaj adı, boyutu, türü ve anahtarı taşır.
+     Diyetisyen paneli aynı tarayıcıda eki indirir; başka cihazda yalnız adı görünür. */
+  const kasa = DD.belgeKasa || null, resimler = new Map();
+  const gorselMi = (ek) => /^image\//.test(ek.tip || '') || /\.(png|jpe?g|webp|gif)$/i.test(ek.ad || '');
+  function resimYukle() {
+    document.querySelectorAll('#dyAkis img[data-ek-resim]').forEach((img) => {
+      const k = img.dataset.ekResim;
+      if (resimler.has(k)) { img.src = resimler.get(k); return; }
+      if (kasa) kasa.al(k).then((v) => { if (v) { resimler.set(k, v.url); img.src = v.url; } else img.closest('.sohbet-ek').classList.add('yok'); });
+    });
+  }
   const boyut = (n) => (n >= 1048576 ? U.sayi(n / 1048576, 1) + ' MB' : U.sayi(Math.max(1, n / 1024)) + ' KB');
   const okunmamis = (k) => (k.ana ? U.uye().okunmamis_mesaj || 0 : k.okunmamis || 0);
   function kisiSerit() {
@@ -127,10 +145,12 @@
       gun = t;
       /* Diyetisyenin eki bu tarayıcının belge kasasındaysa indirilir (panel sohbeti yazar); yoksa adı ve boyutu görünür */
       const ek = !m.ek ? '' : m.ek.kaldirildi ? '<span class="sohbet-ek"><i class="fa-solid fa-file-circle-xmark" aria-hidden="true"></i><small>' + U.kac(m.ek.ad) + ' kaldırıldı</small></span>'
+        : m.ek.anahtar && gorselMi(m.ek) ? '<button class="sohbet-ek gorsel" type="button" data-ek-gor="' + U.kac(m.ek.anahtar) + '" data-ek-ad="' + U.kac(m.ek.ad) + '" aria-label="' + U.kac(m.ek.ad) + ' görselini aç"><img class="sohbet-ek-resim" data-ek-resim="' + U.kac(m.ek.anahtar) + '" alt=""><small>' + U.kac(m.ek.ad) + (m.ek.boyut ? ' · ' + boyut(m.ek.boyut) : '') + '</small></button>'
         : m.ek.anahtar ? '<button class="sohbet-ek" type="button" data-ek-indir="' + U.kac(m.ek.anahtar) + '" data-ek-ad="' + U.kac(m.ek.ad) + '" aria-label="' + U.kac(m.ek.ad) + ' dosyasını indir"><i class="fa-solid fa-file-arrow-down" aria-hidden="true"></i><b>' + U.kac(m.ek.ad) + '</b>' + (m.ek.boyut ? '<small>' + boyut(m.ek.boyut) + '</small>' : '') + '</button>'
         : '<span class="sohbet-ek"><i class="fa-solid fa-paperclip" aria-hidden="true"></i><b>' + U.kac(m.ek.ad) + '</b>' + (m.ek.boyut ? '<small>' + boyut(m.ek.boyut) + '</small>' : '') + '</span>';
       return ayrac + '<div class="sohbet-balon ' + (m.kimden === 'danisan' ? 'uye' : 'karsi') + '">' + (m.metin && !(m.ek && m.metin === m.ek.ad) ? '<p>' + U.kac(m.metin) + '</p>' : '') + ek + '<span class="sohbet-kunye">' + DD.bicim.saat(m.zaman.slice(11, 16)) + (m.kimden === 'danisan' ? '' : m.uye_bildirdi ? ' · <span class="rozet bekleme"><i class="fa-solid fa-flag" aria-hidden="true"></i> Bildirildi</span>' : ' · <button class="bag-dugme" type="button" data-mesaj-bildir="' + i + '" aria-label="Bu mesajı bildir"><i class="fa-solid fa-flag" aria-hidden="true"></i> Bildir</button>') + '</span></div>';
     }).join('') || U.bos({ ikon: 'fa-comments', baslik: 'Henüz mesaj yok', metin: acik ? 'Diyetisyenine ilk mesajını aşağıdan yaz.' : 'Bu uzmanla yazışman olmadı.' }));
+    resimYukle();
     const a = $('#dyAkis'); a.scrollTop = a.scrollHeight;
     /* Geçmiş ilişkide yazma alanı yerine sebebi söyleyen not */
     U.gizle($('#dyMesajForm'), !acik);
@@ -169,12 +189,13 @@
     const p = U.plan();
     /* Gelen dosyada Görüntüle / İndir (ES-HS-57): plan PDF'i istemcide üretilir, mesaj eki belge kasasından açılır;
        içeriği prototipte olmayan örnek dosya Görüntüle'de bunu söyler */
-    const gelen = (p ? [satirKur('fa-file-pdf', p.ad + '.pdf', U.tarih(U.planBas(p)) + ' · Beslenme planı · ' + dy.ad, '<a class="dugme hayalet kucuk" href="' + DD.kok + 'hesabim/beslenme-planim/#hafta">Görüntüle</a><button class="dugme hayalet kucuk" type="button" data-plan-pdf>İndir</button>')] : [])
-      .concat((U.sohbet().mesajlar || []).filter((m) => m.kimden === 'diyetisyen' && m.ek && !m.ek.kaldirildi).reverse().map((m) => satirKur('fa-paperclip', m.ek.ad, U.tarih(m.zaman.slice(0, 10)) + ' · Mesaj eki · ' + dy.ad, m.ek.anahtar ? '<button class="dugme hayalet kucuk" type="button" data-ek-gor="' + U.kac(m.ek.anahtar) + '" data-ek-ad="' + U.kac(m.ek.ad) + '">Görüntüle</button><button class="dugme hayalet kucuk" type="button" data-ek-indir="' + U.kac(m.ek.anahtar) + '" data-ek-ad="' + U.kac(m.ek.ad) + '">İndir</button>' : '<button class="dugme hayalet kucuk" type="button" data-ornek-dosya="' + U.kac(m.ek.ad) + '" data-kimden="' + U.kac(dy.ad) + '">Görüntüle</button>')))
-      .concat(...U.uzmanlar().map((k) => (k.dosyalar || []).map((x) => satirKur('fa-file-pdf', x.ad, U.tarih(x.tarih) + ' · ' + x.tur + ' · ' + k.ad, '<button class="dugme hayalet kucuk" type="button" data-ornek-dosya="' + U.kac(x.ad) + '" data-kimden="' + U.kac(k.ad) + '">Görüntüle</button>'))));
+    const gelen = (p ? [satirKur('fa-file-pdf', p.ad + '.pdf', U.tarih(U.planBas(p)) + ' · Beslenme planı · ' + dy.ad, '<span class="satir-eylem">' + ikonBag('Görüntüle', 'fa-eye', DD.kok + 'hesabim/beslenme-planim/#hafta') + ikonDugme('İndir', 'fa-download', 'data-plan-pdf') + '</span>')] : [])
+      .concat((U.sohbet().mesajlar || []).filter((m) => m.kimden === 'diyetisyen' && m.ek && !m.ek.kaldirildi).reverse().map((m) => satirKur('fa-paperclip', m.ek.ad, U.tarih(m.zaman.slice(0, 10)) + ' · Mesaj eki · ' + dy.ad, '<span class="satir-eylem">' + (m.ek.anahtar ? ikonDugme('Görüntüle', 'fa-eye', 'data-ek-gor="' + U.kac(m.ek.anahtar) + '" data-ek-ad="' + U.kac(m.ek.ad) + '"') + ikonDugme('İndir', 'fa-download', 'data-ek-indir="' + U.kac(m.ek.anahtar) + '" data-ek-ad="' + U.kac(m.ek.ad) + '"') : ikonDugme('Görüntüle', 'fa-eye', 'data-ornek-dosya="' + U.kac(m.ek.ad) + '" data-kimden="' + U.kac(dy.ad) + '"')) + '</span>')))
+      .concat(...U.uzmanlar().map((k) => (k.dosyalar || []).map((x) => satirKur('fa-file-pdf', x.ad, U.tarih(x.tarih) + ' · ' + x.tur + ' · ' + k.ad, '<span class="satir-eylem">' + ikonDugme('Görüntüle', 'fa-eye', 'data-ornek-dosya="' + U.kac(x.ad) + '" data-kimden="' + U.kac(k.ad) + '"') + '</span>'))));
     U.bas('#dyGelen', gelen.join('') || U.bos({ ikon: 'fa-inbox', baslik: 'Henüz dosya yok', metin: 'Diyetisyenin dosya gönderdiğinde burada listelenir.' }));
     const l = (dn.tahliller || []).map((t) => satirKur('fa-file-pdf', t.dosya_adi, U.tarih(t.tarih) + ' · Tahlil'))
-      .concat(U.yerel('paylasilanDosya', []).map((d) => satirKur('fa-file-arrow-up', d.ad, U.tarih(d.tarih) + ' · ' + (d.tur ? d.tur + ' · ' : '') + 'Sen paylaştın', U.durum('acik', 'Giden'))));
+      .concat(U.yerel('paylasilanDosya', []).map((d) => satirKur('fa-file-arrow-up', d.ad, U.tarih(d.tarih) + ' · ' + (d.tur ? d.tur + ' · ' : '') + 'Sen paylaştın', U.durum('acik', 'Giden'))))
+      .concat((U.sohbet().mesajlar || []).filter((m) => m.kimden === 'danisan' && m.ek && !m.ek.kaldirildi).reverse().map((m) => satirKur(gorselMi(m.ek) ? 'fa-image' : 'fa-paperclip', m.ek.ad, U.tarih(m.zaman.slice(0, 10)) + ' · Mesaj eki · ' + dy.ad, m.ek.anahtar ? '<span class="satir-eylem">' + ikonDugme('Görüntüle', 'fa-eye', 'data-ek-gor="' + U.kac(m.ek.anahtar) + '" data-ek-ad="' + U.kac(m.ek.ad) + '"') + '</span>' : '')));
     U.bas('#dyGiden', l.join('') || U.bos({ ikon: 'fa-folder-open', baslik: 'Henüz paylaşmadın', metin: 'Tahlil ya da belge paylaşabilirsin.', eylem: '<button class="dugme hayalet" type="button" data-ac="#dyDosya">Dosya paylaş</button>' }));
   }
 
@@ -268,7 +289,7 @@
     DD.toast(otomatik(k) ? 'Randevun oluşturuldu: ' + U.tarih(t) + ', ' + s + '.' : 'Randevu talebin ' + k.ad + ' için iletildi, onay bekliyor.');
   });
   /* Takvime ekle (SH-10-22): .ics dosyası; saat Türkiye saatiyle yazılır */
-  function takvimDugme(r, kucuk) { return '<button class="dugme hayalet' + (kucuk ? ' kucuk' : '') + '" type="button" data-takvim="' + r.id + '"><i class="fa-solid fa-calendar-plus" aria-hidden="true"></i> Takvime ekle</button>'; }
+  function takvimDugme(r, kucuk) { return kucuk ? ikonDugme('Takvime ekle', 'fa-calendar-check', 'data-takvim="' + r.id + '"') : '<button class="dugme hayalet" type="button" data-takvim="' + r.id + '"><i class="fa-solid fa-calendar-check" aria-hidden="true"></i> Takvime ekle</button>'; }
   function ics(r) {
     const k = sahip(r), z = (t, s) => t.replace(/-/g, '') + 'T' + s.replace(':', '') + '00';
     const bas = new Date(r.tarih + 'T' + r.saat + ':00'), son = new Date(bas.getTime() + (r.sure || 45) * 60000);
@@ -348,7 +369,8 @@
     const al = e.target.closest('[data-randevu-al]');
     if (al) { uzSec.value = al.dataset.randevuAl; uzmanUygula(); DD.ac('#dyRandevu'); }
     const git = e.target.closest('[data-sohbet-git]');
-    if (git) { sohbetKisi = git.dataset.sohbetGit; mesaj(); U.sekmeAc('mesaj'); okundu(); }
+    /* Mesaj düğmesi sekmeyi değiştirince tıklanan düğme gizlenir ve odak gövdeye düşüyordu; odak yazma alanına (geçmişte kişi düğmesine) geçer */
+    if (git) { sohbetKisi = git.dataset.sohbetGit; mesaj(); U.sekmeAc('mesaj'); okundu(); const hedef = kisi(sohbetKisi).durum === 'aktif' ? $('#dyMesaj') : document.querySelector('[data-sohbet-sec="' + sohbetKisi + '"]'); if (hedef) hedef.focus({ preventScroll: true }); }
     const sec = e.target.closest('[data-sohbet-sec]');
     if (sec) { sohbetKisi = sec.dataset.sohbetSec; mesaj(); okundu(); }
     const rg = e.target.closest('[data-randevu-geri]');
@@ -405,15 +427,47 @@
     U.kaydet(); DD.kapat($('#dyErtele')); ciz();
     DD.toast('Saat değişikliği talebin iletildi: ' + U.tarih(t) + ', ' + s + '.');
   });
+  /* Ek seçimi: gönderilmeden önce yazma alanının üstünde önizlenir (görselse küçük resim), kaldırılabilir */
+  let ekDosya = null, ekUrl = null;
+  const EK_SINIR = 10 * 1024 * 1024;
+  function ekCiz() {
+    const o = $('#dyEkOnizleme');
+    U.gizle(o, !ekDosya);
+    if (!ekDosya) { o.innerHTML = ''; return; }
+    const g = /^image\//.test(ekDosya.type);
+    o.innerHTML = (g ? '<img class="sohbet-ek-onizleme" src="' + ekUrl + '" alt="">' : '<span class="as-ikon"><i class="fa-solid fa-file-lines" aria-hidden="true"></i></span>')
+      + '<span class="sohbet-ek-ad"><b>' + U.kac(ekDosya.name) + '</b><small>' + boyut(ekDosya.size) + ' · dosya bu tarayıcıda saklanır, diyetisyenin aynı tarayıcıdaki panelde açar (prototip)</small></span>'
+      + ikonDugme('Eki kaldır', 'fa-trash', 'id="dyEkKaldir"', 'yikici');
+  }
+  function ekBirak() { if (ekUrl && !resimlerdeMi(ekUrl)) URL.revokeObjectURL(ekUrl); ekDosya = null; ekUrl = null; $('#dyEkDosya').value = ''; ekCiz(); }
+  const resimlerdeMi = (u) => [...resimler.values()].includes(u);
+  $('#dyEkSec').addEventListener('click', () => $('#dyEkDosya').click());
+  $('#dyEkDosya').addEventListener('change', (e) => {
+    const f = e.target.files[0];
+    if (!f) return;
+    if (f.size > EK_SINIR) { DD.toast('Dosya 10 MB sınırını aşıyor.', 'hata'); e.target.value = ''; return; }
+    if (ekUrl) URL.revokeObjectURL(ekUrl);
+    ekDosya = f; ekUrl = URL.createObjectURL(f); ekCiz();
+    $('#dyMesaj').focus({ preventScroll: true }); yazmaYerlestir();
+  });
+  $('#dyEkOnizleme').addEventListener('click', (e) => { if (e.target.closest('#dyEkKaldir')) { ekBirak(); $('#dyMesaj').focus(); } });
   $('#dyMesajForm').addEventListener('submit', (e) => {
     e.preventDefault();
     const m = $('#dyMesaj'), metin = m.value.trim();
-    if (!metin) return;
+    if (!metin && !ekDosya) return;
     const k = kisi(sohbetKisi), s = sohbetAl(k);
     if (k.durum !== 'aktif') return;
-    s.mesajlar.push({ kimden: 'danisan', zaman: b + 'T' + new Date().toTimeString().slice(0, 5), metin });
+    const zaman = b + 'T' + new Date().toTimeString().slice(0, 5), kayit = { kimden: 'danisan', zaman, metin: metin || (ekDosya ? ekDosya.name : '') };
+    const f = ekDosya;
+    if (f) {
+      kayit.ek = { ad: f.name, boyut: f.size, tip: f.type };
+      const anahtar = 'mesaj|' + U.uyeId() + '|' + zaman + '|' + Date.now();
+      if (kasa) { kayit.ek.anahtar = anahtar; resimler.set(anahtar, ekUrl); kasa.koy(anahtar, f).then((ok) => { if (!ok) { delete kayit.ek.anahtar; U.kaydet(); mesaj(); DD.toast('Dosya bu tarayıcıya kaydedilemedi; yalnız adı gönderildi.', 'uyari'); } }); }
+    }
+    s.mesajlar.push(kayit);
     if (k.ana) s.okunmamis = (s.okunmamis || 0) + 1; /* panelde okunmamış olarak görünür */
-    U.kaydet(); m.value = ''; mesaj();
+    ekDosya = null; ekUrl = null; $('#dyEkDosya').value = ''; ekCiz();
+    U.kaydet(); m.value = ''; mesaj(); dosyalar();
   });
   $('#dyMesaj').addEventListener('keydown', (e) => { if (e.key === 'Enter' && !e.shiftKey) { e.preventDefault(); $('#dyMesajForm').requestSubmit(); } });
   $('#dyDosyaForm').addEventListener('submit', (e) => {
@@ -425,7 +479,20 @@
     U.kaydet(); e.target.reset(); DD.kapat($('#dyDosya')); dosyalar();
     DD.toast('Dosyan paylaşıldı.');
   });
-  document.addEventListener('dd:sekme', (e) => { if (e.detail.id === 'dy-tab-mesaj') { okundu(); const a = $('#dyAkis'); a.scrollTop = a.scrollHeight; } });
+  /* Mesajlar sekmesi açılınca akış yeniden çizilir (yüzen sohbet panelinden yazılan mesaj da görünür) ve en son mesaja iner */
+  /* Yazma alanı ekranda kalsın: form, alttaki sabit yüzeylerin (mobil sekme çubuğu, köşedeki Mentör ve kenar düğmeleri) üstüne getirilir.
+     Bu yüzeylerin kendi kaçınma ölçüsü yazma satırını yalnız ekranın en dibindeyken görüyor (mentor.js, kenar-dugmeler.js) */
+  function yazmaYerlestir() {
+    const f = $('#dyMesajForm').hidden ? $('#dyMesajKapali') : $('#dyMesajForm'), r = f.getBoundingClientRect();
+    const ust = [...document.querySelectorAll('.bottom-nav,.alt-cubuk,#dadaMentor,#msjFab,.basa-don')].filter((o) => o.getClientRects().length && getComputedStyle(o).visibility !== 'hidden' && getComputedStyle(o).opacity !== '0').map((o) => o.getBoundingClientRect()).filter((o) => o.top > innerHeight / 2 && o.left < r.right && o.right > r.left).map((o) => o.top);
+    const alt = Math.min(innerHeight, ...ust) - 12;
+    if (r.bottom > alt) window.scrollBy({ top: r.bottom - alt, behavior: 'smooth' });
+  }
+  function yazmaGoster() {
+    const yap = yazmaYerlestir;
+    if ('onscrollend' in window) { let bitti = false; window.addEventListener('scrollend', () => { if (!bitti) { bitti = true; yap(); } }, { once: true }); setTimeout(() => { if (!bitti) { bitti = true; yap(); } }, 700); } else setTimeout(yap, 500);
+  }
+  document.addEventListener('dd:sekme', (e) => { if (e.detail.id === 'dy-tab-mesaj') { mesaj(); okundu(); yazmaGoster(); } });
 
   ciz();
 

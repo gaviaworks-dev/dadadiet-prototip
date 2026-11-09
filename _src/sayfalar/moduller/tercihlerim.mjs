@@ -16,12 +16,14 @@ const birimler = [
 // Saat başı hatırlatmanın sessiz aralığı tam saatlerden seçilir. Değer 23:00, görünen 23.00.
 const saatSecim = (id, etiket) => `<select class="alan-secim" id="${id}" aria-label="${etiket}">${Array.from({ length: 24 }, (_, i) => String(i).padStart(2, '0')).map((s) => `<option value="${s}:00">${s}.00</option>`).join('')}</select>`;
 const suSatiri = `<div class="ayar-satir sarmali"><span class="as-ikon"><i class="fa-solid fa-droplet" aria-hidden="true"></i></span><div class="as-metin"><b>Su hatırlatması</b><span id="suSessizMetin"></span></div><div class="as-eylem"><div class="saat-aralik">${saatSecim('suSessizBas', 'Sessiz saatlerin başlangıcı')}<span aria-hidden="true">–</span>${saatSecim('suSessizBit', 'Sessiz saatlerin bitişi')}</div>${anahtar('su_saat_basi', 'Su hatırlatması', false, ' id="suHatirlatma"')}</div></div>`;
+// Sayfa Revizesi 1: Düzenle ikon düğmedir, ipucu aria-label'dan gelir (ortak.js). Bir grup tek pencerede düzenlenir.
+const grupDuzenle = (grup, ad) => `<div class="as-eylem"><button class="ikon-dugme" type="button" data-grup-duzenle="${grup}" aria-label="${ad}"><i class="fa-solid fa-pen" aria-hidden="true"></i></button></div>`;
 const segment = ([ad, , etiket, , l]) => `<div class="segment" role="group" aria-label="${etiket} birimi" data-birim="${ad}">${l.map(([d, k], i) => `<button type="button" data-deger="${d}" aria-pressed="${i === 0}">${k}</button>`).join('')}</div>`;
 
 const govde = `<div class="yigin">
-${kart({ ikon: 'fa-bullseye', baslik: 'Hedefin', bosluksuz: true, govde: '<div class="ayar-liste" data-kart="hedef"></div>' })}
-${kart({ ikon: 'fa-person-walking', baslik: 'Ölçülerin ve Hareketin', metin: '<span id="tercihOlcuMetin">Enerji ihtiyacın bu değerlerle hesaplanır.</span>', bosluksuz: true, govde: '<div class="ayar-liste" data-kart="olcu"></div>' })}
-${kart({ ikon: 'fa-seedling', baslik: 'Beslenme ve Öğün Ritmin', bosluksuz: true, govde: '<div class="ayar-liste" data-kart="ritim"></div>' })}
+${kart({ ikon: 'fa-bullseye', baslik: 'Hedefin', metin: 'Hedef, tempo ve hedef kilo birlikte düzenlenir.', sag: grupDuzenle('hedef', 'Düzenle'), govde: '<div data-kart="hedef"></div>' })}
+${kart({ ikon: 'fa-person-walking', baslik: 'Ölçülerin ve Hareketin', metin: '<span id="tercihOlcuMetin">Enerji ihtiyacın bu değerlerle hesaplanır.</span>', sag: grupDuzenle('olcu', 'Düzenle'), govde: '<div data-kart="olcu"></div>' })}
+${kart({ ikon: 'fa-seedling', baslik: 'Beslenme ve Öğün Ritmin', metin: 'Beslenme tarzın, öğün sayın ve oruç düzenin.', sag: grupDuzenle('ritim', 'Düzenle'), govde: '<div data-kart="ritim"></div>' })}
 ${kart({
     ikon: 'fa-notes-medical', baslik: 'Sağlık Verilerin', metin: 'Yalnız açık rızanla işlenir, rızanı istediğin an geri alabilirsin.', bosluksuz: true,
     govde: `<div class="ayar-liste">${ayarSatir({ ikon: 'fa-file-signature', baslik: 'Sağlık verisi açık rızası', metin: 'Hassasiyetlerinin önerilerde kullanılmasına izin verir.', sag: anahtar('kvkk_riza', 'Sağlık verisi açık rızası', false, ' id="rizaAnahtar"') })}</div><div class="ayar-liste" data-kart="saglik"></div>`,
@@ -34,9 +36,8 @@ ${kart({
   })}
 ${kart({ ikon: 'fa-ruler', baslik: 'Birimler', metin: 'Değerler bu birimlerle gösterilir.', bosluksuz: true, govde: `<div class="ayar-liste">${birimler.map((b) => ayarSatir({ id: `birim-${b[0]}`, ikon: b[1], baslik: b[2], metin: b[3], sag: `<div class="as-eylem">${segment(b)}</div>` })).join('')}</div>` })}
 ${kart({
-    ikon: 'fa-rotate-left', baslik: 'Tercihlerimi Sıfırla', metin: 'Boy ve kilo dışındaki bütün cevapların silinir.', sinif: 'tehlike-kart',
-    govde: `<label class="onay-kutusu"><input type="checkbox" id="sifirlaOnay"><span>Tercihlerimin sıfırlanacağını anladım.</span></label>`,
-    alt: dugme('Tercihlerimi sıfırla', { sinif: 'tehlike', ikon: 'fa-rotate-left', ek: ' id="sifirla" disabled' }),
+    ikon: 'fa-wand-magic-sparkles', baslik: 'Soruları Baştan Yanıtla', metin: 'Hoş geldin sihirbazı hedef, ölçü, beslenme ve sağlık sorularını yeniden sorar. Sihirbazı bitirdiğinde cevapların ve günlük hedefin yenilenir; yarıda bırakırsan bugünkü tercihlerin olduğu gibi kalır.',
+    alt: dugme('Soruları baştan yanıtla', { sinif: 'birincil', ikon: 'fa-wand-magic-sparkles', href: 'hesabim/hos-geldin/' }),
   })}
 </div>`;
 
@@ -45,6 +46,5 @@ const duzenle = modal({ id: 'tercihModal', baslik: '<span id="tercihModalBaslik"
 export default () => [uyeKabuk({
   yol: 'hesabim/tercihlerim', baslik: 'Tercihlerim',
   aciklama: 'Planın ve önerilerin bu cevaplardan hesaplanır.<span id="tercihGirisHedef"> Bir değeri değiştirdiğinde günlük hedefin de güncellenir.</span>',
-  eylem: dugme('Soruları baştan yanıtla', { ikon: 'fa-wand-magic-sparkles', href: 'hesabim/hos-geldin/' }),
   govde, sonEk: duzenle, js: ['assets/js/sayfa/moduller-ortak.js', 'assets/js/sayfa/moduller-soru.js', 'assets/js/sayfa/moduller-tercihlerim.js'],
 })];

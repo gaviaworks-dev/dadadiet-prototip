@@ -29,6 +29,12 @@
     const e = Array.isArray(eski) ? eski.join(', ') : eski == null ? '' : String(eski), y = Array.isArray(yeni) ? yeni.join(', ') : yeni == null ? '' : String(yeni);
     if (e !== y) hareket().push({ tarih: b, alan, eski: e, yeni: y });
   };
+  /* Örnek profil değişiklikleri (prototip örneği) bir kez kayda girer; değerler profildeki kayıtlarla aynıdır */
+  if (!U.bosKip && !U.yerel('profilHareketTohum', false)) {
+    const ilk = ((((window.DD_VERI || {}).demo || {}).uye || {}).ornek_profil_hareket) || [], l = hareket();
+    ilk.slice().reverse().forEach((x) => { if (!l.some((y) => y.alan === x.alan && y.tarih === x.tarih)) l.unshift({ ...x, ornek: true }); });
+    U.d().uyeYerel.profilHareketTohum = true;
+  }
   /* Yüklenen dosya bu tarayıcının IndexedDB'sinde (belge-kasa.js) saklanır; yenilemeden sonra önizleme ve indirme çalışır.
      Depo açılamazsa dosya yalnız bu oturumda bellekte kalır. */
   const kasa = DD.belgeKasa, dosyalar = new Map(), dosyaAnahtar = kasa.anahtar;
@@ -89,21 +95,23 @@
     U.bas('#sdTemel', temel.map((x) => '<div><dt>' + x[0] + '</dt><dd>' + U.kac(x[1]) + '</dd></div>').join(''));
     const yok = 'Kayıtlı değil.';
     /* Satır başına ekle / düzenle (ES-HS-36): rıza yoksa düzenleme penceresi rıza kutusunu ister */
-    const dz = (a, dolu) => '<button class="dugme hayalet kucuk" type="button" data-dikkat="' + a + '">' + (dolu ? 'Düzenle' : 'Ekle') + '</button>';
+    const dz = (a, dolu) => (dolu ? ikonDugme('Düzenle', 'fa-pen', 'data-dikkat="' + a + '"') : ikonDugme('Ekle', 'fa-plus', 'data-dikkat="' + a + '"'));
     const has = (dn.hassasiyetler || []).map((x) => (HASSAS.find((y) => y[0] === x) || [x, U.basHarf(x)])[1]);
     U.bas('#sdDikkat', [
       satir('fa-wheat-awn-circle-exclamation', 'Besin alerjileri ve hassasiyetler', has.join(', ') || yok, dz('hassasiyet', has.length)),
-      satir('fa-utensils', 'Beslenme tercihi', TARZ[(u.tercihler || {}).beslenme_tarzi] || yok, '<a class="dugme hayalet kucuk" href="' + DD.kok + 'hesabim/tercihlerim/">Düzenle</a>'),
+      satir('fa-utensils', 'Beslenme tercihi', TARZ[(u.tercihler || {}).beslenme_tarzi] || yok, '<a class="ikon-dugme" href="' + DD.kok + 'hesabim/tercihlerim/" aria-label="Düzenle"><i class="fa-solid fa-pen" aria-hidden="true"></i></a>'),
       satir('fa-pills', 'Düzenli kullanılan ilaç veya takviye', (an.ilaclar || []).join(', ') || yok, dz('ilac', (an.ilaclar || []).length)),
       satir('fa-stethoscope', 'Bilinen kronik rahatsızlık', (dn.kronik || []).join(', ') || yok, dz('kronik', (dn.kronik || []).length)),
     ].join(''));
     U.bas('#sdProfilRiza', U.rizaVar('profil') ? '' : U.rizaKart('profil', 'Alerji, ilaç ve kronik rahatsızlık kayıtların sağlık verisidir. Eklemek ya da düzenlemek için açık rızan gerekir.'));
     const ph = hareket().slice().reverse().filter((h) => !(duyarli && /kilo/i.test(h.alan)));
-    U.bas('#sdProfilKayit', ph.map((h) => '<tr><td class="tarih">' + U.noktaliTarih(h.tarih) + '</td><td>' + U.kac(h.alan) + '</td><td>' + (h.eski ? '<s>' + U.kac(h.eski) + '</s> → ' : '') + (h.yeni ? U.kac(h.yeni) : '<span class="bos-hucre">silindi</span>') + '</td></tr>').join('') || '<tr><td colspan="3" class="bos-hucre">Henüz değişiklik yok. Profilini düzenlediğinde burada görünür.</td></tr>');
+    U.bas('#sdProfilKayit', ph.map((h) => '<tr><td class="tarih">' + U.noktaliTarih(h.tarih) + '</td><td>' + U.kac(h.alan) + '</td><td>' + (h.eski ? '<s>' + U.kac(h.eski) + '</s> → ' : '') + (h.yeni ? U.kac(h.yeni) : '<span class="bos-hucre">silindi</span>') + (h.ornek ? ' · prototip örneği' : '') + '</td></tr>').join('') || '<tr><td colspan="3" class="bos-hucre">Henüz değişiklik yok. Profilini düzenlediğinde burada görünür.</td></tr>');
     const k = U.ANAMNEZ.map(([a, e]) => [e, an[a]]).filter((x) => x[1]);
     const eksik = U.anamnezEksik().length;
     $('#sdAnamnezOzet').textContent = eksik ? eksik + ' alan eksik. Yarıda bırakabilirsin, kaldığın yerden devam edersin.' : 'Diyetisyeninle paylaştığın anamnez özeti.';
-    $('#sdAnamnezDugme').textContent = eksik ? 'Tamamla' : 'Düzenle';
+    /* İkon düğmenin adı durumla değişir; ipucu da aynı adı taşır */
+    const ad = eksik ? 'Tamamla' : 'Düzenle', ab = $('#sdAnamnezDugme');
+    ab.setAttribute('aria-label', ad); ab.setAttribute('data-ipucu', ad);
     U.bas('#sdAnamnez', k.length ? k.map((x) => '<div><dt>' + x[0] + '</dt><dd>' + U.kac(x[1]) + '</dd></div>').join('') : '');
     U.gizle($('#sdAnamnez'), !k.length);
   }
@@ -147,8 +155,10 @@
     grafik(); yolculuk();
     const r = l.slice().reverse(), gorunen = hepsi ? r : r.slice(0, ACIK_SATIR), d = $('#sdOlcumHepsi');
     U.bas('#sdOlcumler', gorunen.map((x) => '<tr><td class="tarih">' + U.noktaliTarih(x.tarih) + '</td><td class="tutar sag">' + U.sayi(x.kilo, 1) + ' kg</td><td class="tutar sag">' + U.sayi(bki(x.kilo), 1) + '</td><td class="tutar sag">' + (x.bel ? U.sayi(x.bel, 1) + ' cm' : '—') + '</td><td class="tutar sag">' + (x.yag_orani ? '%' + U.sayi(x.yag_orani, 1) : '—') + '</td></tr>').join('') || '<tr><td colspan="5" class="bos-hucre">Henüz ölçüm yok.</td></tr>');
-    U.gizle(d.parentElement, r.length <= ACIK_SATIR);
-    d.textContent = hepsi ? 'Son ' + ACIK_SATIR + ' ölçümü göster' : 'Bütün ölçümleri göster (' + r.length + ')';
+    /* Tümünü gör kart başlığında (kanon §1 .kart-bas sağı); altı ölçüm ve azında gerek yok */
+    U.gizle(d, r.length <= ACIK_SATIR);
+    d.textContent = hepsi ? 'Daha az göster' : 'Tümünü gör (' + r.length + ')';
+    d.setAttribute('aria-expanded', String(hepsi));
   }
 
   function tahlil() {
@@ -180,7 +190,9 @@
     U.bas('#sdNotlar', l.length ? '<div class="zaman-cizelgesi">' + l.map((x) => '<div class="zc-kalem"><div class="zc-zaman">' + U.tarih(x.tarih) + '</div><div class="zc-metin">' + U.kac(x.metin) + '</div></div>').join('') + '</div>' : U.bos({ ikon: 'fa-comment-medical', baslik: 'Paylaşılan not yok', metin: U.diyetisyen() ? 'Diyetisyenin seninle bir değerlendirme paylaştığında burada görünür.' : 'Bir diyetisyenle çalıştığında değerlendirmeleri burada görünür.', eylem: U.diyetisyen() ? U.bag('Diyetisyenim', 'hesabim/diyetisyenim/', 'hayalet') : U.bag('Diyetisyen bul', 'diyetisyen-bul-sihirbazi/') }));
   }
 
-  const gorDugme = (ek) => '<button class="dugme hayalet kucuk" type="button" ' + ek + '><i class="fa-solid fa-eye" aria-hidden="true"></i> Görüntüle</button>';
+  /* İşlem düğmeleri ikon düğmedir (Sayfa Revizesi 1); ad aria-label'da, ipucu ortak.js'ten */
+  const ikonDugme = (ad, ikon, ek, sinif) => '<button class="ikon-dugme' + (sinif ? ' ' + sinif : '') + '" type="button" aria-label="' + U.kac(ad) + '" ' + (ek || '') + '><i class="fa-solid ' + ikon + '" aria-hidden="true"></i></button>';
+  const gorDugme = (ek) => ikonDugme('Görüntüle', 'fa-eye', ek);
   const belgeSay = () => belgeler().length + (dn.tahliller || []).length;
   const TUR_IKON = { Tahlil: 'fa-flask-vial', 'Reçete': 'fa-file-prescription', Epikriz: 'fa-file-medical' };
 
@@ -190,7 +202,7 @@
     U.sayac('belge', belgeSay());
     /* Tahlil dosyaları da listede; onlar tahlil kaydına bağlı olduğu için buradan silinmez */
     const l = belgeler().map((d, i) => ({ ...d, sira: i })).concat((dn.tahliller || []).map((t) => ({ ad: t.dosya_adi, tur: 'Tahlil', tarih: t.tarih }))).sort((a, z) => String(z.tarih).localeCompare(String(a.tarih)));
-    U.bas('#sdBelgeler', l.map((d) => satir(TUR_IKON[d.tur] || 'fa-file-lines', d.ad, d.tur + ' · ' + U.tarih(d.tarih) + (d.ornek ? ' · Prototip örneği' : ''), (d.sira == null ? gorDugme('data-onizle-tahlil="' + U.kac(d.ad) + '"') + '<button class="dugme hayalet kucuk" type="button" data-sekme-git="tahlil">Değerleri gör</button>' : gorDugme('data-onizle-belge="' + d.sira + '"') + '<button class="dugme hayalet tehlike kucuk" type="button" data-belge-sil="' + d.sira + '">Kaldır</button>'))).join('') || U.bos({ ikon: 'fa-folder-open', baslik: 'Henüz belge yok', metin: 'Reçete ya da raporlarını buraya yükleyebilirsin.', eylem: '<button class="dugme birincil" type="button" data-ac="#sdBelgeModal">Belge yükle</button>' }));
+    U.bas('#sdBelgeler', l.map((d) => satir(TUR_IKON[d.tur] || 'fa-file-lines', d.ad, d.tur + ' · ' + U.tarih(d.tarih) + (d.ornek ? ' · Prototip örneği' : ''), '<span class="satir-eylem">' + (d.sira == null ? gorDugme('data-onizle-tahlil="' + U.kac(d.ad) + '"') + ikonDugme('Değerleri gör', 'fa-table-list', 'data-sekme-git="tahlil"') : gorDugme('data-onizle-belge="' + d.sira + '"') + ikonDugme('Kaldır', 'fa-trash', 'data-belge-sil="' + d.sira + '"', 'yikici')) + '</span>')).join('') || U.bos({ ikon: 'fa-folder-open', baslik: 'Henüz belge yok', metin: 'Reçete ya da raporlarını buraya yükleyebilirsin.', eylem: '<button class="dugme birincil" type="button" data-ac="#sdBelgeModal">Belge yükle</button>' }));
   }
 
   /* Örnek belge: gerçek kayıttaki değerlerden kurulur, uydurma içerik eklenmez */
@@ -227,7 +239,7 @@
 
   function raporlar() {
     const l = U.yerel('gelisimRapor', []).slice().reverse();
-    U.bas('#sdRaporlar', l.map((r, n) => satir('fa-file-lines', r.ad, U.tarih(r.bas) + ' – ' + U.tarih(r.bit) + ' · ' + (duyarli ? r.ozet.replace(/^.* kg değişim, /, '') : r.ozet), '<button class="dugme hayalet kucuk" type="button" data-yazdir>Yazdır</button><button class="dugme hayalet kucuk" type="button" data-rapor-pdf="' + (l.length - 1 - n) + '"><i class="fa-solid fa-file-pdf" aria-hidden="true"></i> PDF indir</button>')).join('') || U.bos({ ikon: 'fa-chart-column', baslik: 'Henüz rapor yok', metin: 'Yukarıdan bir dönem seçip ilk raporunu oluştur.' }));
+    U.bas('#sdRaporlar', l.map((r, n) => satir('fa-file-lines', r.ad, U.tarih(r.bas) + ' – ' + U.tarih(r.bit) + ' · ' + (duyarli ? r.ozet.replace(/^.* kg değişim, /, '') : r.ozet) + (r.ornek ? ' · prototip örneği' : ''), '<span class="satir-eylem">' + ikonDugme('Yazdır', 'fa-print', 'data-yazdir') + ikonDugme('PDF indir', 'fa-download', 'data-rapor-pdf="' + (l.length - 1 - n) + '"') + '</span>')).join('') || U.bos({ ikon: 'fa-chart-column', baslik: 'Henüz rapor yok', metin: 'Yukarıdan bir dönem seçip ilk raporunu oluştur.' }));
   }
   /* Test gelişimi (WKA-2-5): aynı testin puanları zaman içinde; iki ve daha çok sonucu olan testler seçilir */
   let secTest = null;
@@ -439,6 +451,21 @@
       .then(() => DD.toast('Gelişim raporun PDF olarak indirildi.'))
       .catch(() => DD.toast('PDF hazırlanamadı, tekrar dene.', 'hata'));
   }
+  /* Rapor özeti: seçilen bölümler dönemin kayıtlarından çıkar (ölçüm, günlük su ortalaması, program uyumu, dönemdeki tahliller) */
+  function raporOzet(a, z, bol) {
+    const l = olcumler().filter((o) => o.tarih >= a && o.tarih <= z), p = [];
+    if (bol.includes('olcum')) p.push(l.length > 1 ? U.sayi(l[l.length - 1].kilo - l[0].kilo, 1) + ' kg değişim, ' + l.length + ' ölçüm' : l.length + ' ölçüm');
+    if (bol.includes('gunluk')) { const su = (u.su.hafta || []).filter((x) => x.tarih >= a && x.tarih <= z); p.push(su.length ? 'su ortalaması ' + U.sayi(Math.round(su.reduce((t, x) => t + x.ml, 0) / su.length)) + ' ml' : 'günlük takip kaydı yok'); }
+    if (bol.includes('uyum')) { const k = U.aktifKaynak(); p.push(k ? 'program uyumu %' + U.uyum(k).oran : 'aktif program yok'); }
+    if (bol.includes('tahlil')) p.push((dn.tahliller || []).filter((t) => t.tarih >= a && t.tarih <= z).length + ' tahlil');
+    return p.join(', ');
+  }
+  /* Örnek raporlar (prototip örneği) bir kez listeye girer; özetleri uydurulmaz, ölçüm ve tahlil kayıtlarından hesaplanır */
+  if (!U.bosKip && !U.yerel('raporTohum', false)) {
+    const ilk = ((((window.DD_VERI || {}).demo || {}).uye || {}).ornek_gelisim_raporlari) || [], l = U.yerel('gelisimRapor', []);
+    ilk.forEach((r) => { if (!l.some((y) => y.ad === r.ad && y.bas === r.bas)) l.unshift({ ...r, ozet: raporOzet(r.bas, r.bit, r.bolumler), ornek: true }); });
+    U.d().uyeYerel.raporTohum = true;
+  }
   const rf = $('#sdRaporForm');
   rf.elements.rBas.value = (olcumler()[0] || {}).tarih || b;
   rf.elements.rBit.value = b;
@@ -448,17 +475,9 @@
     e.preventDefault();
     const a = rf.elements.rBas.value, z = rf.elements.rBit.value;
     if (a > z) { DD.toast('Başlangıç bitişten sonra olamaz.', 'hata'); return; }
-    const l = olcumler().filter((o) => o.tarih >= a && o.tarih <= z);
-    /* Seçilen bölümler özete girer: ölçüm, günlük su ortalaması, program uyumu, dönemdeki tahliller */
     const bol = [...rf.querySelectorAll('[name=rBolum]:checked')].map((c) => c.value);
     if (!bol.length) { DD.toast('Rapora en az bir bölüm seç.', 'hata'); return; }
-    const p = [];
-    if (bol.includes('olcum')) p.push(l.length > 1 ? U.sayi(l[l.length - 1].kilo - l[0].kilo, 1) + ' kg değişim, ' + l.length + ' ölçüm' : l.length + ' ölçüm');
-    if (bol.includes('gunluk')) { const su = (u.su.hafta || []).filter((x) => x.tarih >= a && x.tarih <= z); p.push(su.length ? 'su ortalaması ' + U.sayi(Math.round(su.reduce((t, x) => t + x.ml, 0) / su.length)) + ' ml' : 'günlük takip kaydı yok'); }
-    if (bol.includes('uyum')) { const k = U.aktifKaynak(); p.push(k ? 'program uyumu %' + U.uyum(k).oran : 'aktif program yok'); }
-    if (bol.includes('tahlil')) p.push((dn.tahliller || []).filter((t) => t.tarih >= a && t.tarih <= z).length + ' tahlil');
-    const ozet = p.join(', ');
-    U.yerel('gelisimRapor', []).push({ ad: rf.elements.rAd.value.trim(), bas: a, bit: z, ozet, bolumler: bol });
+    U.yerel('gelisimRapor', []).push({ ad: rf.elements.rAd.value.trim(), bas: a, bit: z, ozet: raporOzet(a, z, bol), bolumler: bol });
     U.kaydet(); raporlar();
     DD.toast('Gelişim raporun oluşturuldu.');
   });
