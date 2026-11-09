@@ -3732,3 +3732,55 @@ body:has(.cookie-banner.show),body.cerez-acik{padding-bottom:var(--cerez-boy,0px
    Kart gövdesinde son görünen öğe alt boşluk taşımaz (kanon `.yetkili .kart-govde > :last-child`; gizli kardeşler ve public kartlar dahil). */
 .yetkili .panel-sayfa .alan-yardim{margin-top:var(--kit-bagli);margin-bottom:0}
 .kart-govde > :nth-last-child(1 of :not([hidden],template,script)){margin-bottom:0}
+
+/* ── S2 (genel revize): randevu seçici. Yeni bileşen yok; var olanların kipleri.
+   .secenek (sihirbaz seçim kartı) .dolu-secim kipi: seçili kart .cip.aktif'in renk çiftiyle dolar, sağdaki .secenek-ek ücret ve süre taşır.
+   .gun-serit-liste (program gün şeridi) .secilir kipi: günler düğme, seçili gün dolu, seçilemeyen gün soluk.
+   .saat-izgara.esit: saat çipleri eşit genişlikte. Özet Gastro sipariş özetinin satırları (.ozet-satir, .ozet-satir.toplam);
+   .yapiskan.alt-yapiskan: ≥1025 sağda üstten yapışır, ≤1024 içeriğin altında alttan yapışır, telefonda alt sekme çubuğunun üstünde. */
+.secenek-izgara.dolu-secim .secenek{min-height:76px}
+.secenek>span:not(.secenek-ek){flex:1;min-width:0}
+.dolu-secim .secenek-ek{display:flex;flex-direction:column;align-items:flex-end;flex:none;text-align:right}
+.dolu-secim .secenek-ek b{font-size:var(--yazi-15);font-weight:var(--agirlik-kalin);color:var(--murekkep)}
+.secenek:disabled{opacity:.45;cursor:not-allowed}
+.secenek:focus-visible{outline:var(--odak-kalinlik) solid var(--odak-renk);outline-offset:var(--odak-ofset)}
+.secenek-izgara.dolu-secim .secenek[aria-checked="true"]{background:var(--aksan-koyu);border-color:var(--aksan-koyu);color:var(--kagit)}
+.secenek-izgara.dolu-secim .secenek[aria-checked="true"] small,.secenek-izgara.dolu-secim .secenek[aria-checked="true"] .secenek-ek,.secenek-izgara.dolu-secim .secenek[aria-checked="true"] .secenek-ek b{color:var(--kagit)}
+.secenek-izgara.dolu-secim .secenek[aria-checked="true"] i{background:var(--kagit);color:var(--aksan-koyu)}
+.gun-secici-bas{display:flex;align-items:center;justify-content:space-between;gap:var(--bosluk-12)}
+.gun-secici-bas .alan-etiket{margin:0}
+.alan-etiket>.kart-metin{font-weight:var(--agirlik-govde)}
+.gun-serit-liste.secilir{margin-top:var(--bosluk-12)}
+.gun-serit-liste.secilir .gun-kutu{align-items:center;text-align:center;gap:2px;padding:var(--bosluk-10) var(--bosluk-6);background:var(--kagit);border:1.5px solid var(--cizgi);font:inherit;cursor:pointer;transition:border-color var(--sure),background var(--sure)}
+.gun-serit-liste.secilir .gun-kutu small:last-child{font-weight:var(--agirlik-kalin);color:var(--aksan-koyu)}
+.gun-serit-liste.secilir .gun-kutu:hover:not(:disabled){border-color:var(--aksan);background:var(--aksan-yikama)}
+.gun-serit-liste.secilir .gun-kutu[aria-checked="true"],.gun-serit-liste.secilir .gun-kutu[aria-checked="true"]:hover{background:var(--aksan-koyu);border-color:var(--aksan-koyu)}
+.gun-serit-liste.secilir .gun-kutu[aria-checked="true"] b,.gun-serit-liste.secilir .gun-kutu[aria-checked="true"] small{color:var(--kagit)}
+.gun-serit-liste.secilir .gun-kutu:disabled{background:var(--zemin);border-color:var(--zemin);cursor:not-allowed}
+.gun-serit-liste.secilir .gun-kutu:disabled b,.gun-serit-liste.secilir .gun-kutu:disabled small:last-child{color:var(--metin-ikincil);font-weight:var(--agirlik-govde)}
+.gun-serit-liste.secilir .gun-kutu:focus-visible{outline:var(--odak-kalinlik) solid var(--odak-renk);outline-offset:-4px}
+@media(max-width:860px){.gun-serit-liste.secilir{grid-template-columns:repeat(7,minmax(84px,1fr));scroll-snap-type:x proximity}.gun-serit-liste.secilir .gun-kutu{scroll-snap-align:start}}
+.gun-baslik>i{color:var(--aksan-koyu);margin-right:var(--bosluk-4)}
+.saat-izgara.esit .cip{min-width:72px;justify-content:center;text-align:center}
+.secim-ozet .ozet-satir>span:first-child{color:var(--metin-ikincil)}
+.secim-ozet .ozet-satir>span:last-child{font-weight:var(--agirlik-kalin);color:var(--murekkep);text-align:right}
+.secim-ozet .ozet-satir.toplam>span{color:var(--murekkep);font-weight:var(--agirlik-kalin)}
+.secim-ozet .yigin{margin-top:var(--bosluk-16)}
+.secim-ozet-satir{display:none}
+@media(max-width:1024px){
+  .iki-kolon>.yapiskan.alt-yapiskan{order:0;position:sticky;bottom:var(--bosluk-12);z-index:var(--kat-yapiskan)}
+  .alt-yapiskan .secim-ozet{box-shadow:var(--golge-yuzen)}
+  .alt-yapiskan .secim-ozet>.kart-bas,.alt-yapiskan .secim-ozet-liste,.alt-yapiskan .secim-ozet .yigin>.kart-metin{display:none}
+  .alt-yapiskan .secim-ozet>.kart-govde{display:flex;align-items:center;gap:var(--bosluk-12);padding:var(--bosluk-12) var(--bosluk-16)}
+  .secim-ozet-satir{display:flex;flex-direction:column;gap:2px;flex:1;min-width:0;margin:0}
+  .secim-ozet-satir b{font-size:var(--yazi-14);color:var(--murekkep)}
+  .secim-ozet-satir span{font-size:var(--yazi-12-5);color:var(--metin-ikincil)}
+  .alt-yapiskan .secim-ozet .yigin{margin:0;flex:none}
+  .alt-yapiskan .secim-ozet .dugme.tam-en{width:auto}
+}
+@media(max-width:640px){
+  .iki-kolon>.yapiskan.alt-yapiskan{bottom:calc(var(--alt-cubuk-h,64px) + var(--alt-cubuk-dip,14px) + var(--bosluk-8))}
+  .alt-yapiskan .secim-ozet>.kart-govde{padding:var(--bosluk-10) var(--bosluk-12)}
+  .alt-yapiskan .secim-ozet .dugme.tam-en{padding-left:var(--bosluk-16);padding-right:var(--bosluk-16)}
+  .alt-yapiskan .secim-ozet .dugme.tam-en>i{display:none}
+}

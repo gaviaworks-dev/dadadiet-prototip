@@ -506,8 +506,8 @@
     $('#yeniTarih').value = tarih;
     yeniYenile();
     if (!/^\d{2}:\d{2}$/.test(saat || '')) return;
-    /* Saat seçili türün aralığında yoksa diğer tür denenir */
-    const tur = [turSec.value, ...[...turSec.options].map((o) => o.value)].find((t) => saatler(seciliKisi(), tarih, slot(seciliKisi(), t)).includes(saat));
+    /* Profilde seçilen tür (?tur=) önce denenir; saat o türün aralığında yoksa diğer tür */
+    const tur = [q.get('tur'), turSec.value, ...[...turSec.options].map((o) => o.value)].filter((t) => t && [...turSec.options].some((o) => o.value === t && !o.disabled)).find((t) => saatler(seciliKisi(), tarih, slot(seciliKisi(), t)).includes(saat));
     if (!tur) { DD.toast(U.tarih(tarih) + ', ' + saat + ' uygun değil; aynı günden başka bir saat seç.', 'uyari'); return; }
     turSec.value = tur;
     yeniYenile();
