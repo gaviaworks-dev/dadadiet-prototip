@@ -1,0 +1,35 @@
+<!--{"baslik":"Raporlar","yol":"diyetisyen-paneli/raporlar","duzen":"panel","aktif":"raporlar","js":["assets/js/sayfa/panel-b-ortak.js","assets/js/sayfa/panel-b-durum.js","assets/js/uyum.js","assets/js/sayfa/panel-a-randevu.js","assets/js/sayfa/panel-b-raporlar.js"]}-->
+<div class="panel-bas">
+  <div>
+    <h1>Raporlar</h1>
+    <p>Randevu, danışan, plan, gelir ve memnuniyet özetin. Rakamlar paneldeki kayıtlardan anlık hesaplanır; her sekme CSV olarak indirilir.</p>
+  </div>
+  <div class="eylem-satiri">
+    <button class="dugme hayalet" type="button" data-rapor="csv"><i class="fa-solid fa-download" aria-hidden="true"></i> Bu raporu indir</button>
+  </div>
+</div>
+<div class="kart-izgara c4" id="raporKpi"></div>
+<div class="sekmeler" role="tablist" aria-label="Rapor türleri" id="raporSekme">
+  <button class="sekme aktif" type="button" role="tab" id="t-randevu" aria-controls="p-randevu" aria-selected="true"><i class="fa-solid fa-calendar-check" aria-hidden="true"></i> Randevu</button>
+  <button class="sekme" type="button" role="tab" id="t-danisan" aria-controls="p-danisan" aria-selected="false"><i class="fa-solid fa-users" aria-hidden="true"></i> Danışan</button>
+  <button class="sekme" type="button" role="tab" id="t-plan" aria-controls="p-plan" aria-selected="false"><i class="fa-solid fa-clipboard-list" aria-hidden="true"></i> Plan</button>
+  <button class="sekme" type="button" role="tab" id="t-gelir" aria-controls="p-gelir" aria-selected="false"><i class="fa-solid fa-wallet" aria-hidden="true"></i> Gelir</button>
+  <button class="sekme" type="button" role="tab" id="t-memnuniyet" aria-controls="p-memnuniyet" aria-selected="false"><i class="fa-solid fa-star" aria-hidden="true"></i> Memnuniyet</button>
+</div>
+<section id="p-randevu" role="tabpanel" aria-labelledby="t-randevu"></section>
+<section id="p-danisan" role="tabpanel" aria-labelledby="t-danisan" hidden></section>
+<section id="p-plan" role="tabpanel" aria-labelledby="t-plan" hidden></section>
+<section id="p-gelir" role="tabpanel" aria-labelledby="t-gelir" hidden></section>
+<section id="p-memnuniyet" role="tabpanel" aria-labelledby="t-memnuniyet" hidden>
+  <div class="kart panel">
+    <div class="kart-bas"><div><h2 class="kart-baslik"><i class="fa-solid fa-star" aria-hidden="true"></i> Memnuniyet</h2><p>Danışan değerlendirmeleri ve profil puanı.</p></div></div>
+    <div class="kart-govde">
+      <div class="bos-durum kart-ici">
+        <span class="bos-ikon"><i class="fa-solid fa-comment-dots" aria-hidden="true"></i></span>
+        <h3>Henüz değerlendirme yok</h3>
+        <p>Danışan değerlendirmesi ve puanlama yayında değil. Açıldığında tamamlanan görüşme ve plan sonrası gelen puanlar burada ortalama, dağılım ve yorum olarak listelenir.</p>
+        <a class="dugme hayalet" href="{{kok}}diyetisyen-paneli/profil/">Profilime git</a>
+      </div>
+    </div>
+  </div>
+</section>

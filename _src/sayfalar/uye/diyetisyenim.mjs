@@ -63,5 +63,5 @@ const sonEk = randevuForm('dyRandevu', 'Randevu Oluştur', 'yeni', 'Talebi gönd
 export default () => [uyeSayfa({
   yol: 'hesabim/diyetisyenim', ad: 'Diyetisyenim',
   giris: 'Diyetisyenlerinle olan her şey tek sayfada: hizmetlerin, randevuların, mesajların, notların ve dosyaların.',
-  grup: 'dy', sekmeler, sonEk, js: ['assets/js/sayfa/uye-diyetisyenim.js'],
+  grup: 'dy', sekmeler, sonEk, js: ['assets/js/belge-kasa.js', 'assets/js/sayfa/uye-diyetisyenim.js'],
 })];

@@ -225,6 +225,11 @@
   "duzen": "panel"
  },
  {
+  "yol": "diyetisyen-paneli/raporlar",
+  "baslik": "Raporlar",
+  "duzen": "panel"
+ },
+ {
   "yol": "diyetisyen-paneli/takvim",
   "baslik": "Takvim & Randevular",
   "duzen": "panel"

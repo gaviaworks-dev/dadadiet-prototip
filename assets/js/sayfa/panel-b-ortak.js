@@ -153,11 +153,14 @@
   };
   const ETLI_KATEGORI = ['Et & Tavuk', 'Balık & Deniz', 'Balık ve Deniz Ürünleri', 'Tavuk ve Hindi', 'Kırmızı Et'];
   PB.hassasiyetAd = (kod) => HASSASIYET_AD[kod] || kod;
+  /* Uyarı kodları: danışanın hassasiyetleri ve tanımlı protokolün hassasiyet karşılığı (glütensiz → gluten) */
+  PB.protokoller = (danisan) => (window.PA && PA.protokoller ? PA.protokoller(danisan) : []);
+  PB.kurallar = (danisan) => (danisan ? [...new Set((danisan.hassasiyetler || []).concat(PB.protokoller(danisan).map((p) => p.hassasiyet).filter(Boolean)))] : []);
   PB.kalemUyari = (tur, slug, danisan) => {
     const c = PB.katalog({ tur, slug });
     if (!c || !danisan) return [];
     const et = c.alerjenler || c.hassasiyet || [];
-    return (danisan.hassasiyetler || []).filter((h) => (h === 'vejetaryen' ? ETLI_KATEGORI.includes(c.kategori) : et.includes(h)));
+    return PB.kurallar(danisan).filter((h) => (h === 'vejetaryen' ? ETLI_KATEGORI.includes(c.kategori) : et.includes(h)));
   };
 
   /* Serbest kalem katalogda yok: hassasiyet kuralı ad içindeki kelime başlarıyla çalışır */
@@ -172,7 +175,7 @@
     if (k.tur !== 'serbest') return PB.kalemUyari(k.tur, k.slug, danisan);
     /* Kayıtlı tarifte malzemeler de taranır, diyetisyenin işaretlediği etiket doğrudan sayılır */
     const metin = PB.kucuk([k.ad].concat(k.malzemeler || []).join(' ')), kelime = metin.split(/[\s,()]+/);
-    return ((danisan && danisan.hassasiyetler) || []).filter((h) => (k.alerjenler || []).includes(h) || (SERBEST_ANAHTAR[h] || []).some((a) => (a.includes(' ') ? metin.includes(a) : a.length < 3 ? kelime.includes(a) : kelime.some((w) => w.startsWith(a)))));
+    return PB.kurallar(danisan).filter((h) => (k.alerjenler || []).includes(h) || (SERBEST_ANAHTAR[h] || []).some((a) => (a.includes(' ') ? metin.includes(a) : a.length < 3 ? kelime.includes(a) : kelime.some((w) => w.startsWith(a)))));
   };
 
   /* Tahlil kuralı: her testin son sonucu referans aralığıyla karşılaştırılır, kalem işaretlemez, öneri notu üretir */
@@ -198,7 +201,11 @@
       .forEach((p) => (p.degerler || []).forEach((d) => son.set(d.ad, Object.assign({ tarih: p.tarih }, d))));
     return [...son.values()];
   };
-  PB.tahlilDurum = (d) => (d.ref_alt != null && d.sonuc < d.ref_alt ? 'dusuk' : d.ref_ust != null && d.sonuc > d.ref_ust ? 'yuksek' : '');
+  /* Danışan kartı ve Sağlık Dosyam ile aynı kural (tahlil-deger.js: rapor aralığı, yoksa varsayılan tablo, ferritinde kılavuz sınırı) */
+  PB.tahlilDurum = (d) => {
+    if (DD.tahlilDeger) { const r = DD.tahlilDeger.durum(d); return r === 'dusuk' || r === 'yuksek' ? r : ''; }
+    return d.ref_alt != null && d.sonuc < d.ref_alt ? 'dusuk' : d.ref_ust != null && d.sonuc > d.ref_ust ? 'yuksek' : '';
+  };
   PB.tahlilIzni = (danisan) => !danisan.izinler || danisan.izinler.tahlil !== false;
   PB.oneriler = (danisan) => {
     if (!danisan) return [];
@@ -213,6 +220,7 @@
       const k = KRONIK.find((x) => PB.kucuk(h).includes(x.anahtar));
       if (k && !sonuc.some((s) => s.not === k.not)) sonuc.push({ baslik: h, not: k.not });
     });
+    PB.protokoller(danisan).forEach((p) => sonuc.push({ baslik: 'Protokol: ' + p.ad, not: p.not }));
     return sonuc;
   };
   PB.mikroKaynaklari = (mikro) => PB.besinSec().filter((b) => b.mikrolar && b.mikrolar[mikro])
@@ -242,7 +250,8 @@
   PB.haftaGunu = (iso, i) => (new Date(PB.gunEkle(iso, i) + 'T12:00:00').getDay() + 6) % 7;
   PB.gunAd = (iso, i) => PB.GUNLER[PB.haftaGunu(iso, i)];
   PB.gunKisa = (iso, i) => PB.GUN_KISA[PB.haftaGunu(iso, i)];
-  PB.bosGunler = () => PB.GUNLER.map((ad, i) => ({ gun: i + 1, ad, ogunler: { kahvalti: [], ara1: [], ogle: [], ara2: [], aksam: [] } }));
+  PB.bosGun = (i) => ({ gun: i + 1, ad: PB.GUNLER[i % 7], ogunler: { kahvalti: [], ara1: [], ogle: [], ara2: [], aksam: [] } });
+  PB.bosGunler = (n) => Array.from({ length: n || 7 }, (_, i) => PB.bosGun(i));
   PB.planOzet = (p) => {
     const g = (p.gunler || []).map((x) => PB.topla(Object.values(x.ogunler).flat()));
     const dolu = g.filter((x) => x.kcal > 0);

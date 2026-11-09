@@ -46,6 +46,12 @@
       return `<div class="ayar-satir"><span class="as-saat${sinif}">${DD.bicim.saat(r.saat)}<small>${r.sure} dk</small></span><span class="as-metin"><b><a href="${PA.yol.danisan(dn.id)}">${h(dn.ad)}</a></b><span>${PA.rTur(r)}${r.not ? ' · ' + h(r.not) : ''}</span></span><span class="as-eylem">${PA.talepRozet(r) || PA.rHap(r)}${eylem}</span></div>`;
     }).join('') : bos('fa-calendar-xmark', 'Bugün randevu yok', 'Takvimden yeni bir görüşme oluşturabilirsin.');
 
+    const yaklasan = d.randevular.filter((r) => r.tarih > DD.bugun && ['dolu', 'onay-bekliyor'].includes(PA.rDurum(r))).sort((a, b) => (a.tarih + a.saat).localeCompare(b.tarih + b.saat)).slice(0, 5);
+    $('yaklasanListe').innerHTML = yaklasan.length ? yaklasan.map((r) => {
+      const dn = PA.danisan(r.danisan_id);
+      return `<div class="ayar-satir"><span class="as-ikon"><i class="fa-solid ${PA.rIkon(r)}" aria-hidden="true"></i></span><span class="as-metin"><b><a href="${PA.yol.danisan(dn.id)}">${h(dn.ad)}</a></b><span>${PA.gunKisa(r.tarih)} ${PA.tarih(r.tarih)} · ${DD.bicim.saat(r.saat)} · ${r.sure} dk · ${PA.rTur(r)}</span></span><span class="as-eylem">${PA.talepRozet(r) || PA.rHap(r)}<button class="ikon-dugme" type="button" data-randevu="${r.id}" aria-label="${h(dn.ad)} randevusunu aç"><i class="fa-solid fa-chevron-right" aria-hidden="true"></i></button></span></div>`;
+    }).join('') : bos('fa-calendar-plus', 'Yaklaşan randevu yok', 'Takvimden ya da Randevu oluştur düğmesinden yeni görüşme ekleyebilirsin.');
+
     const konusmalar = d.mesajlar.filter((k) => k.mesajlar.length).sort((a, b) => (b.okunmamis ? 1 : 0) - (a.okunmamis ? 1 : 0) || b.mesajlar[b.mesajlar.length - 1].zaman.localeCompare(a.mesajlar[a.mesajlar.length - 1].zaman)).slice(0, 4);
     $('mesajListe').innerHTML = konusmalar.map((k) => {
       const dn = PA.danisan(k.danisan_id), m = k.mesajlar[k.mesajlar.length - 1];

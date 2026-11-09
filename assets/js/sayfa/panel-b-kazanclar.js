@@ -3,11 +3,15 @@
   'use strict';
   const { $, $$, esc, sayi, tl } = PB;
   const k = PB.nesne('kazanclar');
+  /* Tarayıcıda eski demo durumu varsa başlangıç verisindeki iade örneği eksik kalır: bir kez ekle */
+  const tohumIade = (((window.DD_VERI || {}).demo || {}).kazanclar || {}).son_islemler || [];
+  tohumIade.filter((x) => x.durum === 'iade' && !(k.son_islemler || []).some((y) => y.id === x.id)).forEach((x) => k.son_islemler.push(JSON.parse(JSON.stringify(x))));
   const AY = ['Oca', 'Şub', 'Mar', 'Nis', 'May', 'Haz', 'Tem', 'Ağu', 'Eyl', 'Eki', 'Kas', 'Ara'];
-  const DURUM = { beklemede: ['Beklemede', 'bekleyen'], odendi: ['Ödendi', 'cozulen'], 'talep-edildi': ['Talep edildi', 'acik'], iptal: ['Gerçekleşmedi', 'kapali'] };
+  const DURUM = { beklemede: ['Beklemede', 'bekleyen'], odendi: ['Ödendi', 'cozulen'], 'talep-edildi': ['Talep edildi', 'acik'], iptal: ['Gerçekleşmedi', 'kapali'], iade: ['İade edildi', 'hata'] };
   const ASAMA = [['inceleniyor', 'Talep alındı', 'Ödeme ekibi inceliyor.'], ['onaylandi', 'Onaylandı', 'Hesabına aktarılmak üzere sıraya alındı.'], ['odendi', 'Ödendi', 'Tutar hesabına geçti.']];
   let suzgec = 'hepsi', q = '', seri = 'net';
   const ayAdi = (a) => AY[+a.ay.slice(5) - 1];
+  const tlIsaret = (n) => (n < 0 ? '−' + tl(-n) : tl(n));
 
   function kpiCiz() {
     const son = k.aylik[k.aylik.length - 1], once = k.aylik[k.aylik.length - 2];
@@ -29,6 +33,7 @@
   function bekleyenCiz() {
     const b = k.bekleyen_odeme, son = talepler()[0], sira = son ? ASAMA.findIndex((a) => a[0] === son.durum) : -1, acikTalep = son && son.durum !== 'odendi';
     const sonucsuz = PB.liste('randevular').filter((r) => r.durum === 'sonuc-bekliyor').length;
+    const iadeNet = k.son_islemler.filter((x) => x.durum === 'iade' && x.tarih >= PB.gunEkle(DD.bugun, -30)).reduce((t, x) => t + x.net, 0);
     $('#bekleyenGovde').innerHTML = '<div class="yigin sik"><div class="deger-liste">' +
       '<div class="deger-satir"><span>Bekleyen net</span><b>' + tl(b.tutar) + '</b></div>' +
       '<div class="deger-satir"><span>İşlem sayısı</span><b>' + b.islem_sayisi + '</b></div>' +
@@ -37,7 +42,8 @@
         (acikTalep ? '<button class="sonraki-bag" type="button" data-kazanc="ilerlet">Ödeme ekibi işlemini ilerlet (demo)</button>' : '') : '') +
       '<button class="dugme birincil tam-en" type="button" data-kazanc="talep-ac"' + (b.tutar > 0 && !acikTalep ? '' : ' disabled') + '><i class="fa-solid fa-money-bill-transfer" aria-hidden="true"></i> Ödeme talep et</button>' +
       (sonucsuz ? '<a class="sonraki-bag" href="' + DD.kok + 'diyetisyen-paneli/takvim/">' + sonucsuz + ' görüşmenin sonucu girilmedi <i class="fa-solid fa-arrow-right" aria-hidden="true"></i></a>' : '') +
-      '<p class="alan-yardim"><i class="fa-solid fa-building-columns" aria-hidden="true"></i><span>Talep edilmezse bekleyen tutar hakediş tarihinde otomatik aktarılır.</span></p></div>';
+      '<p class="alan-yardim"><i class="fa-solid fa-building-columns" aria-hidden="true"></i><span>Talep edilmezse bekleyen tutar hakediş tarihinde otomatik aktarılır.</span></p>' +
+      (iadeNet ? '<p class="alan-yardim"><i class="fa-solid fa-rotate-left" aria-hidden="true"></i><span>Son 30 günde ' + tl(Math.abs(iadeNet)) + ' net iade düşüldü. İadeyi danışanın talebiyle Dada Diet ödeme ekibi yapar, tutar sonraki hakedişten düşülür.</span></p>' : '') + '</div>';
   }
   function tabloCiz() {
     const ql = PB.kucuk(q);
@@ -47,7 +53,7 @@
     });
     $('#islemSatirlar').innerHTML = l.map((x) => {
       const d = PB.danisan(x.danisan_id), s = DURUM[x.durum] || DURUM.beklemede;
-      return '<tr><td>' + PB.sira(x.tarih) + PB.tarih(x.tarih) + '</td><td data-etiket="Danışan">' + (d ? '<a href="' + DD.kok + 'diyetisyen-paneli/danisanlar/' + d.id + '/">' + esc(d.ad) + '</a>' : '—') + '</td><td data-etiket="Açıklama">' + esc(x.aciklama) + '</td><td class="num" data-etiket="Tutar">' + tl(x.tutar) + '</td><td class="num" data-etiket="Komisyon">' + tl(x.komisyon) + '</td><td class="num" data-etiket="Net"><b>' + tl(x.net) + '</b></td><td data-etiket="Durum"><span class="durum-hapi ' + s[1] + '">' + s[0] + '</span></td></tr>';
+      return '<tr><td>' + PB.sira(x.tarih) + PB.tarih(x.tarih) + '</td><td data-etiket="Danışan">' + (d ? '<a href="' + DD.kok + 'diyetisyen-paneli/danisanlar/' + d.id + '/">' + esc(d.ad) + '</a>' : '—') + '</td><td data-etiket="Açıklama">' + esc(x.aciklama) + (x.ornek ? ' <span class="rozet pasif">prototip örneği</span>' : '') + (x.neden ? '<small>' + esc(x.neden) + '</small>' : '') + '</td><td class="num" data-etiket="Tutar">' + tlIsaret(x.tutar) + '</td><td class="num" data-etiket="Komisyon">' + tlIsaret(x.komisyon) + '</td><td class="num" data-etiket="Net"><b>' + tlIsaret(x.net) + '</b></td><td data-etiket="Durum"><span class="durum-hapi ' + s[1] + '">' + s[0] + '</span></td></tr>';
     }).join('');
     $('#islemSayac').textContent = l.length;
     $('#islemTablo').hidden = !l.length; $('#islemBos').hidden = l.length > 0;

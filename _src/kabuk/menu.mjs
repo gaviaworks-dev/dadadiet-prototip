@@ -55,5 +55,6 @@ export const panelMenu = [
     ['paketler', 'fa-box-open', 'Hizmet Paketlerim', 'diyetisyen-paneli/hizmet-paketleri/'],
     ['musaitlik', 'fa-clock', 'Müsaitlik', 'diyetisyen-paneli/musaitlik/'],
     ['kazanclar', 'fa-wallet', 'Kazançlarım', 'diyetisyen-paneli/kazanclar/'],
+    ['raporlar', 'fa-chart-pie', 'Raporlar', 'diyetisyen-paneli/raporlar/'],
   ] },
 ];
