@@ -3812,3 +3812,45 @@ html:not(.bos-kip) [data-bos]{display:none!important}
 /* ── S5: referans çipleri (.temel-secici) etiket ve değer dikeyde ortalı: taban çizgisi yerine orta, iki satır kutusu aynı yükseklikte
    (etiket 11 px büyük harf 17 px kutu, değer 15 px 23 px kutu idi; büyük harf etiketi yukarıda duruyordu). Telefonda alt alta, ortalı. */
 .temel-secici button span,.temel-secici button b{line-height:20px}
+/* ── S5-disarida: konsept şeridi ve mesafe çubuğu ─────────────────────────
+   Kaynak: dadagourmet-prototip `assets/o/assets/gourmet-public/css/gourmet-mekan-liste.css`
+   13-46 (.subcat-strip, .subcat, .dist-bar) ve 394-410 (.mkl-type-ico, 170px eşit kart).
+   Ölçüler birebir, renkler Diet tokenı. Oklar `.ray-kap` + `.ray-ok` (public-araclar-ray.js),
+   sağ kenar solması okun görünürlüğüne bağlı (Gourmet `cs-more`). */
+.konsept-serit{margin:0 0 var(--bosluk-22)}
+.konsept-serit-bas{display:flex;flex-wrap:wrap;align-items:baseline;justify-content:space-between;gap:var(--bosluk-4) var(--bosluk-14);margin-bottom:var(--bosluk-14)}
+.konsept-serit-bas .kart-baslik{margin:0;font-size:var(--yazi-17)}
+.konsept-serit-not{font-size:var(--yazi-12-5);font-weight:var(--agirlik-govde);color:var(--metin-ikincil)}
+.konsept-ray{display:flex;gap:var(--bosluk-12);overflow-x:auto;-webkit-overflow-scrolling:touch;scroll-snap-type:x proximity;scrollbar-width:none;padding:var(--bosluk-4) var(--bosluk-2) var(--bosluk-8)}
+.ray-kap:has(>.ray-ok.ileri:not([hidden]))>.konsept-ray{-webkit-mask-image:linear-gradient(90deg,black calc(100% - 46px),transparent);mask-image:linear-gradient(90deg,black calc(100% - 46px),transparent)}
+.konsept-ray[data-surukle]{cursor:grab}
+.konsept-kart{flex:0 0 170px;width:170px;scroll-snap-align:start;display:flex;align-items:center;gap:var(--bosluk-12);padding:var(--bosluk-11) var(--bosluk-16) var(--bosluk-11) var(--bosluk-11);background:var(--zemin);border:1px solid var(--cizgi);border-radius:var(--yuvarlak-md);font:inherit;text-align:left;color:inherit;cursor:pointer;user-select:none;-webkit-user-drag:none;transition:var(--sure) var(--yumusama)}
+.konsept-kart:hover{border-color:color-mix(in srgb,var(--aksan) 40%,transparent);background:var(--aksan-yikama);transform:translateY(-2px)}
+.konsept-kart[aria-pressed="true"]{border-color:color-mix(in srgb,var(--aksan) 32%,transparent);background:var(--aksan-yikama);box-shadow:0 6px 18px -8px color-mix(in srgb,var(--aksan) 45%,transparent),0 1px 3px color-mix(in srgb,var(--aksan) 12%,transparent)}
+.konsept-kart:focus-visible{outline:var(--odak-kalinlik) solid var(--odak-renk);outline-offset:calc(-1 * var(--odak-kalinlik))}
+.konsept-ikon{position:relative;flex:none;width:40px;height:40px;display:grid;place-items:center;border-radius:var(--yuvarlak-sm);background:var(--aksan-yikama);color:var(--aksan-koyu);font-size:var(--yazi-16)}
+.konsept-kart[aria-pressed="true"] .konsept-ikon{background:var(--aksan);color:var(--kagit)}
+.konsept-kart[aria-pressed="true"] .konsept-ikon::after{content:"";position:absolute;left:50%;bottom:-7px;transform:translateX(-50%);width:18px;height:var(--cizgi-2);border-radius:var(--yuvarlak-hap);background:var(--aksan)}
+.konsept-metin{min-width:0}
+.konsept-metin b{font-size:var(--yazi-14);font-weight:var(--agirlik-kalin);color:var(--murekkep);line-height:1.15;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
+.konsept-metin>span{display:block;margin-top:1px;font-size:var(--yazi-11-5);font-weight:var(--agirlik-govde);color:var(--metin-ikincil);white-space:nowrap}
+.konsept-kart[aria-pressed="true"] .konsept-metin b,.konsept-kart[aria-pressed="true"] .konsept-metin>span{color:var(--aksan-koyu)}
+.konsept-kart.soluk:not([aria-pressed="true"]) :is(.konsept-ikon,.konsept-metin){opacity:.55}
+@media(prefers-reduced-motion:reduce){.konsept-kart,.konsept-kart:hover{transition:none;transform:none}}
+
+.mesafe-cubuk{display:flex;flex-wrap:wrap;align-items:center;gap:var(--bosluk-8) var(--bosluk-18);margin-bottom:var(--bosluk-18);padding:var(--bosluk-13) var(--bosluk-18);background:var(--kagit);border:1px solid var(--cizgi);border-radius:var(--yuvarlak-md);box-shadow:var(--golge-sm)}
+.mesafe-etiket{display:inline-flex;align-items:center;gap:var(--bosluk-9);font-size:var(--yazi-13);font-weight:var(--agirlik-kalin);color:var(--murekkep);white-space:nowrap}
+.mesafe-etiket i{font-size:var(--yazi-14);color:var(--aksan)}
+.mesafe-etiket b{min-width:46px;font-size:var(--yazi-15);color:var(--aksan-koyu);text-align:right}
+.mesafe-ray{position:relative;flex:1;min-width:170px;height:22px;display:flex;align-items:center;border-radius:var(--yuvarlak-hap)}
+.mesafe-ray:has(input:focus-visible){outline:var(--odak-kalinlik) solid var(--odak-renk);outline-offset:var(--bosluk-4)}
+.mesafe-iz{position:relative;width:100%;height:6px;background:var(--cizgi);border-radius:var(--yuvarlak-hap)}
+.mesafe-dolgu{position:absolute;inset:0 auto 0 0;width:var(--mesafe-oran,100%);background:var(--aksan);border-radius:var(--yuvarlak-hap);transition:width .07s linear}
+.mesafe-ray input[type=range]{position:absolute;inset:0;width:100%;height:22px;margin:0;-webkit-appearance:none;appearance:none;background:transparent;cursor:pointer}
+.mesafe-ray input[type=range]:focus{outline:none}
+.mesafe-ray input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;appearance:none;width:20px;height:20px;border-radius:var(--yuvarlak-daire);background:var(--kagit);border:2px solid var(--aksan);box-shadow:0 2px 6px color-mix(in srgb,var(--murekkep) 20%,transparent);cursor:grab;transition:transform var(--sure-hizli) var(--yumusama)}
+.mesafe-ray input[type=range]:active::-webkit-slider-thumb{cursor:grabbing;transform:scale(1.1)}
+.mesafe-ray input[type=range]::-moz-range-thumb{width:20px;height:20px;border-radius:var(--yuvarlak-daire);background:var(--kagit);border:2px solid var(--aksan);box-shadow:0 2px 6px color-mix(in srgb,var(--murekkep) 20%,transparent);cursor:grab}
+.mesafe-uc{font-size:var(--yazi-11);font-weight:var(--agirlik-orta);color:var(--metin-ikincil);white-space:nowrap}
+.mesafe-not{font-size:var(--yazi-11);color:var(--metin-ikincil)}
+@media(max-width:640px){.mesafe-cubuk{padding:var(--bosluk-12) var(--bosluk-14)}.mesafe-ray{flex-basis:100%}}

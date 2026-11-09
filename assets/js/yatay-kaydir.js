@@ -1,7 +1,7 @@
-/* Tek satırlı çip şeridi: fareyle sürüklenir. Dokunmatik ekran ve dokunmatik yüzey şeridi kendisi kaydırır */
+/* Tek satırlı çip şeridi ve [data-surukle] taşıyan yatay ray: fareyle sürüklenir. Dokunmatik ekran ve dokunmatik yüzey şeridi kendisi kaydırır */
 (function () {
   'use strict';
-  const SEC = '.cipler.tek-satir';
+  const SEC = '.cipler.tek-satir, [data-surukle]';
   let kap = null, x0 = 0, s0 = 0, kaydi = false;
   document.addEventListener('pointerdown', (e) => {
     const k = e.pointerType === 'mouse' && e.target.closest && e.target.closest(SEC);

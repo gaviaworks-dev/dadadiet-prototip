@@ -9,6 +9,11 @@
   const alanlar = [...panel.querySelectorAll('[data-filtre-grup]')].map((g) => g.dataset.filtreGrup).filter((a) => a !== 'konum');
   const konumGrup = panel.querySelector('[data-filtre-grup="konum"]');
   const yiginlar = [panel.closest('.bolum-dizi'), panel.closest('main')];
+  /* S5-4: beslenme konsepti şeridi (çoklu seçim, Tümü temizler) ve örnek mesafe kaydırıcısı; ikisi de sol süzgeçlerle kesişir. */
+  const konseptRay = al('dzKonseptler'), konseptKartlar = [...konseptRay.querySelectorAll('[data-konsept]')];
+  const mesafeGirdi = al('dzMesafe'), mesafeDeger = al('dzMesafeDeger'), mesafeCubuk = mesafeGirdi.closest('.mesafe-cubuk');
+  const MESAFE_UST = +mesafeGirdi.max;
+  let mesafeZamani = null;
   const harman = new Intl.Collator('tr');
   let sayfa = 1, nokta = null;
 
@@ -25,7 +30,7 @@
   }
 
   const mekanlar = [...document.querySelectorAll('[data-mekan]')].map((k) => {
-    const m = { k, il: k.dataset.il, ilce: k.dataset.ilce, semt: k.dataset.semt, enlem: +k.dataset.enlem, boylam: +k.dataset.boylam };
+    const m = { k, il: k.dataset.il, ilce: k.dataset.ilce, semt: k.dataset.semt, enlem: +k.dataset.enlem, boylam: +k.dataset.boylam, dk: (k.dataset.dietKonsept || '').split('|').filter(Boolean), km: +k.dataset.mesafe };
     alanlar.forEach((a) => { m[a] = k.dataset[a].split('|'); });
     const durum = acikDurum(JSON.parse(k.dataset.saatler));
     if (durum.simdi) m.acik.push('simdi');
@@ -41,6 +46,8 @@
   function secimler() {
     const s = { ulke: ulke.value === ULKE ? null : ulke.value, il: degerler('il'), ilce: degerler('ilce'), semt: degerler('semt') };
     alanlar.forEach((a) => { s[a] = degerler(a); });
+    s.dk = konseptKartlar.filter((b) => b.dataset.konsept && b.getAttribute('aria-pressed') === 'true').map((b) => b.dataset.konsept);
+    s.km = +mesafeGirdi.value;
     s.iller = tekil([...s.il, ...s.ilce.map((d) => uste(d, 1)), ...s.semt.map((d) => uste(d, 1))]);
     s.ilceler = tekil([...s.ilce, ...s.semt.map((d) => uste(d, 2))]);
     return s;
@@ -57,7 +64,10 @@
     return !semtler.length || semtler.includes(m.semt);
   }
 
-  const uyar = (m, s, haric) => (haric === 'konum' || konumUyar(m, s)) && alanlar.every((a) => a === haric || !s[a].length || s[a].some((d) => m[a].includes(d)));
+  const uyar = (m, s, haric) => (haric === 'konum' || konumUyar(m, s))
+    && (haric === 'dk' || !s.dk.length || s.dk.some((d) => m.dk.includes(d)))
+    && m.km <= s.km
+    && alanlar.every((a) => a === haric || !s[a].length || s[a].some((d) => m[a].includes(d)));
 
   function satirSay(c, sayi) {
     c.closest('.filtre-satir').querySelector('.filtre-sayi').textContent = sayi;
@@ -124,8 +134,36 @@
     r.hidden = !sayi;
   }
 
+  /* Konsept kartının sayısı, konsept dışındaki bütün seçimler uygulanmış mekan sayısıdır (sol süzgeç sayaçlarıyla aynı kural). */
+  function konseptCiz(s) {
+    const taban = mekanlar.filter((m) => uyar(m, s, 'dk'));
+    konseptKartlar.forEach((b) => {
+      const d = b.dataset.konsept;
+      const sayi = d ? taban.filter((m) => m.dk.includes(d)).length : taban.length;
+      b.querySelector('[data-konsept-sayi]').textContent = sayi + ' mekan';
+      b.setAttribute('aria-pressed', String(d ? s.dk.includes(d) : !s.dk.length));
+      b.classList.toggle('soluk', sayi === 0);
+    });
+  }
+
+  function mesafeBoya() {
+    const km = +mesafeGirdi.value, min = +mesafeGirdi.min;
+    mesafeCubuk.style.setProperty('--mesafe-oran', ((km - min) / (MESAFE_UST - min) * 100) + '%');
+    mesafeDeger.textContent = km + ' km';
+    mesafeGirdi.setAttribute('aria-valuetext', 'En fazla ' + km + ' km');
+  }
+
+  function mesafeSifirla() {
+    mesafeGirdi.value = MESAFE_UST;
+    mesafeBoya();
+  }
+
+  const konseptBirak = (d) => konseptKartlar.forEach((b) => { if (b.dataset.konsept === d) b.setAttribute('aria-pressed', 'false'); });
+
   function cipCiz(s) {
     const liste = [];
+    s.dk.forEach((d) => liste.push({ ad: konseptKartlar.find((b) => b.dataset.konsept === d).querySelector('b').textContent, sil: () => konseptBirak(d) }));
+    if (s.km < MESAFE_UST) liste.push({ ad: 'En fazla ' + s.km + ' km', sil: mesafeSifirla });
     if (s.ulke) liste.push({ ad: ulke.options[ulke.selectedIndex].textContent, sil: () => { ulke.value = ULKE; } });
     panel.querySelectorAll('input[name]:checked').forEach((c) => liste.push({ ad: c.dataset.etiket, sil: () => dusur(c) }));
     cipler.hidden = !liste.length;
@@ -187,6 +225,7 @@
       grupRozet(panel.querySelector('[data-filtre-grup="' + a + '"]'), s[a].length);
     });
     konumCiz(s);
+    konseptCiz(s);
 
     const secimSayi = cipCiz(s);
     filtreSayi.textContent = secimSayi;
@@ -206,6 +245,8 @@
     panel.querySelectorAll('input:checked').forEach((c) => { c.checked = false; });
     panel.querySelectorAll('.filtre-ara input').forEach((a) => { a.value = ''; aramaSuz(a.closest('.filtre-grup')); });
     ulke.value = ULKE;
+    konseptKartlar.forEach((b) => b.setAttribute('aria-pressed', 'false'));
+    mesafeSifirla();
     nokta = null;
     sayfa = 1;
     ciz();
@@ -291,7 +332,21 @@
     sayfa = +d.dataset.sayfa;
     ciz(true);
   });
+  konseptRay.addEventListener('click', function (e) {
+    const b = e.target.closest('[data-konsept]');
+    if (!b) return;
+    if (b.dataset.konsept) b.setAttribute('aria-pressed', String(b.getAttribute('aria-pressed') !== 'true'));
+    else konseptKartlar.forEach((x) => x.setAttribute('aria-pressed', 'false'));
+    sayfa = 1;
+    ciz();
+  });
+  mesafeGirdi.addEventListener('input', function () {
+    mesafeBoya();
+    clearTimeout(mesafeZamani);
+    mesafeZamani = setTimeout(() => { sayfa = 1; ciz(); }, 120);
+  });
   al('dzTemizle').addEventListener('click', temizle);
   al('dzBosTemizle').addEventListener('click', temizle);
+  mesafeBoya();
   ciz();
 })();

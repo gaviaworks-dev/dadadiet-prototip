@@ -28,6 +28,23 @@ ${altGrup('il', 'Şehir', 'Şehir ara', s.iller.map((x, i) => satir('il', x, i))
 </div></div>`;
 }
 
+/* S5-4: Gourmet /mekanlar "Mekân konseptine göre keşfet" şeridi ve "Yakınımdaki mekanlar" çubuğunun Diet karşılığı.
+   Konsept kartı çoklu seçimdir (aria-pressed), Tümü seçimi temizler; sayılar sol süzgeçlerle kesişimden sayfa betiğinde yenilenir. */
+const konseptKart = (deger, etiket, i, sayi, secili = false) => `<button class="konsept-kart" type="button" data-konsept="${deger}" aria-pressed="${secili}"><span class="konsept-ikon">${ikon(i)}</span><span class="konsept-metin"><b>${kac(etiket)}</b><span data-konsept-sayi>${sayi} mekan</span></span></button>`;
+
+function konseptSerit(d) {
+  const l = d.mekan_ornekleri;
+  const kartlar = konseptKart('', 'Tümü', 'fa-border-all', l.length, true)
+    + d.diet_konseptler.map((k) => konseptKart(k.deger, k.etiket, k.ikon, l.filter((m) => m.diet_konsept.includes(k.deger)).length)).join('');
+  return `<div class="konsept-serit"><div class="konsept-serit-bas"><h2 class="kart-baslik" id="dzKonseptBaslik">Beslenme Konseptine Göre Keşfet</h2><span class="konsept-serit-not">Seçim soldaki filtrelerle birlikte çalışır</span></div>
+<div class="ray-kap" data-ray><button class="ray-ok geri" type="button" aria-label="Geri kaydır" hidden>${ikon('fa-chevron-left')}</button><div class="kart-ray konsept-ray" id="dzKonseptler" role="group" aria-labelledby="dzKonseptBaslik" data-surukle>${kartlar}</div><button class="ray-ok ileri" type="button" aria-label="İleri kaydır">${ikon('fa-chevron-right')}</button></div></div>`;
+}
+
+/* Mesafe kurgu bir konuma göre örnektir; konum izni istenmez. Varsayılan en üst değerdir, bütün mekanlar listede kalır. */
+const mesafeCubuk = ({ min, max, adim }) => `<div class="mesafe-cubuk"><label class="mesafe-etiket" for="dzMesafe">${ikon('fa-location-crosshairs')} Yakınımdaki mekanlar · <b id="dzMesafeDeger">${max} km</b></label>
+<div class="mesafe-ray"><div class="mesafe-iz"><div class="mesafe-dolgu"></div></div><input type="range" id="dzMesafe" min="${min}" max="${max}" step="${adim}" value="${max}" aria-valuetext="En fazla ${max} km"></div>
+<span class="mesafe-uc">en fazla ${max} km</span><span class="mesafe-not">Prototip örneği: konseptler ve mesafeler örnek veridir, konum izni istenmez.</span></div>`;
+
 /* Puanı olmayan mekanda Gourmet'in boş hâli: soluk yıldız ve tire, sahte 0.0 yazılmaz. */
 /* Puanı olmayan mekanda yıldız da çıkmaz; yalnız görüntülenme kalır. */
 const puan = (p) => (p == null ? '' : `<span class="mekan-kart-puan">${ikon('fa-star')} ${p.toFixed(1)}</span>`);
@@ -37,7 +54,7 @@ function disarida(veri) {
   const s = d.gourmet_suzgec;
   const alanlar = s.gruplar.map((g) => g.anahtar);
   /* Sayfa Revizesi 1, D1-D2: kartta tahmini kalori kutusu ve "prototip örneği" etiketi yok. Örnek yemek verisi (disarida.yemekler) yerinde kalır. */
-  const kart = (m) => `<article class="mekan-kart" data-mekan data-il="${m.suzgec.il}" data-ilce="${m.suzgec.ilce}" data-semt="${m.suzgec.semt}" ${alanlar.map((a) => `data-${a}="${m.suzgec[a].join('|')}"`).join(' ')} data-enlem="${m.enlem}" data-boylam="${m.boylam}" data-saatler="${kac(JSON.stringify(m.saatler))}">
+  const kart = (m) => `<article class="mekan-kart" data-mekan data-il="${m.suzgec.il}" data-ilce="${m.suzgec.ilce}" data-semt="${m.suzgec.semt}" ${alanlar.map((a) => `data-${a}="${m.suzgec[a].join('|')}"`).join(' ')} data-diet-konsept="${m.diet_konsept.join('|')}" data-mesafe="${m.mesafe_km}" data-enlem="${m.enlem}" data-boylam="${m.boylam}" data-saatler="${kac(JSON.stringify(m.saatler))}">
 <div class="mekan-kart-gorsel"><img src="${K}${m.gorsel}" alt="${kac(m.ad)} mekanından fotoğraf" loading="lazy"><span class="mekan-kart-fiyat"><b>${m.fiyat}</b>${'₺'.repeat(4 - m.fiyat.length)}</span></div>
 <span class="mekan-kart-tur">${kac(m.kategori)}</span>
 <h3 class="kart-baslik"><a class="kart-tam-baglanti" href="${GOURMET}${m.slug}" target="_blank" rel="noopener">${kac(m.ad)}<span class="sr-only"> (Dada Gourmet'te yeni sekmede açılır)</span></a></h3>
@@ -51,7 +68,9 @@ function disarida(veri) {
 </aside><div class="filtre-perde" id="dzPerde" data-filtre-kapat hidden></div>`;
   return sayfa('disarida-ne-yesem', 'Dışarıda Ne Yesem?',
     bant({ yol: [['Beslenme', 'besin-rehberi/'], ['Dışarıda Ne Yesem?']], etiket: 'RESTORAN VE MENÜ NAVİGATÖRÜ', etiketIkon: 'fa-location-dot', h1: 'Dışarıda ne yesem?', alt: 'Dada Gourmet mekanlarını şehre, mutfağa ve beslenme seçeneklerine göre süz; seçtiğin mekanın detayını Dada Gourmet\'te aç.', gorsel: 'assets/img/program/olculu-porsiyon-programi.jpg', sayilar: [[d.sayaclar.mekan, 'Dada Gourmet mekanı'], [d.sayaclar.sehir, 'şehirde mekan'], [d.sayaclar.mutfak, 'mutfak türü']] })
-    + dizi(bolum(`<div class="mekan-yerlesim">${panel}
+    + dizi(bolum(`${konseptSerit(d)}
+${mesafeCubuk(d.mesafe)}
+<div class="mekan-yerlesim">${panel}
 <div class="yigin" id="dzListe"><div class="mekan-ust"><p class="mekan-ozet" id="dzSayac" role="status"></p><button class="dugme birincil kucuk filtre-ac" type="button" id="dzFiltreAc" aria-controls="dzPanel" aria-expanded="false">${ikon('fa-sliders')} Filtrele <span class="filtre-ac-sayi" id="dzFiltreSayi" hidden>0</span></button></div>
 <div class="filtre-cipler" id="dzCipler" aria-label="Aktif filtreler" hidden></div>
 <div data-kisisel></div>
@@ -61,7 +80,7 @@ function disarida(veri) {
 <p class="alan-yardim"><span>Mekan bilgileri ve görseller Dada Gourmet'ten gelir. Görüntülenme sayısı prototip örneğidir: Dada Gourmet'te 7 Kasım 2026'da görünen değerdir. Henüz değerlendirme almamış mekanda puan gösterilmez. Bu önizlemede Dada Gourmet'teki ${d.sayaclar.mekan} mekandan ${d.mekan_ornekleri.length} tanesi listelenir, süzgeç sayıları bu kartları sayar.</span></p>
 <div class="yigin sik"><h2 class="kart-baslik">Dışarıda Yemek Rehberleri</h2><div class="cipler">${REHBER.map((r) => `<a class="cip" href="${K}${DETAY.rehber}">${r}</a>`).join('')}</div></div>
 ${bilgiNot('Bu sayfa genel bilgilendirme amaçlıdır; <b>tıbbi teşhis veya tedavi yerine geçmez</b>. Alerjin ya da klinik bir durumun varsa siparişten önce mekana danış.', false)}
-</div></div>`, { ilk: true })), { ...A, onJs: ['assets/js/misafir.js'], js: ['disarida', 'kisisel'] });
+</div></div>`, { ilk: true })), { ...A, onJs: ['assets/js/misafir.js', 'assets/js/yatay-kaydir.js', 'assets/js/sayfa/public-araclar-ray.js'], js: ['disarida', 'kisisel'] });
 }
 
 export default ({ veri }) => [disarida(veri)];
