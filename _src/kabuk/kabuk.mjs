@@ -46,10 +46,29 @@ function hesapMenu() {
   return `<div class="acct-item acct-wrap oturum-acik"><button class="acct-btn" type="button" aria-label="Hesabım" aria-haspopup="true" aria-expanded="false"><span class="acct-ava">A</span><i class="fa-solid fa-chevron-down acct-caret"></i></button><div class="acct-menu"><div class="acct-id"><span class="acct-ava">A</span><span class="acct-id-txt"><b>Ayşe Demir</b><small>@aysedemir</small></span></div><div class="acct-div"></div>${gruplar}<div class="acct-div"></div><a href="${K}" data-cikis class="acct-logout"><i class="fa-solid fa-right-from-bracket" aria-hidden="true"></i> <span>Çıkış Yap</span></a></div></div>`;
 }
 
-function ust(meta) {
+/* Giriş sonrası dönüş: misafir giriş yapınca bulunduğu sayfaya döner (public-araclar-kimlik.js ?donus=). Kimlik sayfalarında eklenmez. */
+const donusEki = (yol) => (!yol || /^(giris|kayit|sifremi-unuttum|eposta-dogrula)$/.test(yol) ? '' : `?donus=${encodeURIComponent(yol + '/')}`);
+
+/* Canlı mobil alt sekme çubuğu (bottom-nav, ≤640 px; stil kabuk.css + alt-cubuk.css). Misafirde Günlük Takibim ve Profil girişe, dönüşle. */
+function altCubuk(meta, yol = '') {
+  const uye = (h, ad, i, aktif) => ({ h, ad, i, aktif });
+  const etkin = (k) => {
+    if (k === 'ana') return yol === '';
+    if (k === 'beslenme') return meta.aktif === 'Beslenme';
+    if (k === 'diyetisyen') return meta.aktif === 'Diyetisyenler' || /^diyetisyen(ler|\/|-bul|-ol)/.test(yol);
+    if (k === 'gunluk') return yol.startsWith('hesabim/gunluk-takibim');
+    if (k === 'profil') return yol.startsWith('hesabim') && !yol.startsWith('hesabim/gunluk-takibim');
+    return false;
+  };
+  const a = (k, href, ikon, ad, ek = '') => `<a href="${K}${href}" class="bn-item ac-kalem${etkin(k) ? ' active' : ''}${ek}"${etkin(k) ? ' aria-current="page"' : ''}><i class="fa-solid ${ikon}"></i><span>${ad}</span></a>`;
+  const cift = (k, hedef, ikon, ad) => a(k, hedef, ikon, ad, ' oturum-acik') + a(k, `giris/?donus=${encodeURIComponent(hedef)}`, ikon, ad, ' oturum-kapali');
+  return `<nav class="bottom-nav alt-cubuk" aria-label="Mobil alt navigasyon">${a('ana', '', 'fa-house', 'Ana Sayfa')}${a('beslenme', 'besin-rehberi/', 'fa-seedling', 'Beslenme')}<a href="${K}diyetisyenler/" class="bn-item ac-kalem bn-center ac-orta${etkin('diyetisyen') ? ' active' : ''}"><span class="bn-fab ac-fab"><i class="fa-solid fa-user-doctor"></i></span><span>Diyetisyen</span></a>${cift('gunluk', 'hesabim/gunluk-takibim/', 'fa-utensils', 'Günlük Takibim')}${cift('profil', 'hesabim/', 'fa-user', 'Profil')}</nav>`;
+}
+
+function ust(meta, yol = '') {
   const hero = meta.hero ? ' at-top tepede' : '';
   return `<div class="topbar ust-bant"><div class="wrap kap"><div class="tb-left"><a href="${K}besin-kutuphanesi/"><i class="fa-solid fa-leaf"></i> 541 besin değeri</a></div><div class="tb-right"><nav class="brand-switch" aria-label="DadaMentor dünyaları"><a class="bs-item bs-gastro" href="https://dadagastro.com" title="DadaGastro" rel="external"><i class="fa-solid fa-utensils"></i><span class="bs-name"><span class="bd">dada</span><span class="sf">gastro</span></span></a><a class="bs-item bs-fit" href="https://dadafit.com.tr" title="DadaFit" rel="external"><i class="fa-solid fa-dumbbell"></i><span class="bs-name"><span class="bd">dada</span><span class="sf">fit</span></span></a><a class="bs-item bs-diet is-active" href="${K}" aria-current="page"><i class="fa-solid fa-heart-pulse"></i><span class="bs-name"><span class="bd">dada</span><span class="sf">diet</span></span></a><a class="bs-item bs-gourmet" href="https://dadagourmet.com" title="DadaGourmet" rel="external"><i class="fa-solid fa-map-location-dot"></i><span class="bs-name"><span class="bd">dada</span><span class="sf">gourmet</span></span></a></nav>${dilMenusu}</div></div></div>
-<header class="header${hero}" data-site-header${meta.hero ? ' data-hero="1"' : ''}><div class="h-top"><div class="wrap kap"><a class="brand dd-brand" href="${K}" aria-label="Dada Diet">${logo}</a><nav class="nav ana-menu" aria-label="Menü">${nav(meta.aktif)}</nav><div class="head-actions"><a class="icon-btn ikon-dugme" href="${K}arama/" aria-label="Ara"><i class="fa-solid fa-magnifying-glass"></i></a><a class="icon-btn ikon-dugme head-bell oturum-acik" href="${K}hesabim/bildirimler/" aria-label="Bildirimler"><i class="fa-solid fa-bell"></i><span class="hb-badge">3</span></a><a class="btn-login oturum-kapali" id="btnLogin" href="${K}giris/"><i class="fa-solid fa-user"></i> Giriş Yap</a>${hesapMenu()}<button class="icon-btn ikon-dugme hamburger" id="hamburger" type="button" aria-controls="drawer" aria-expanded="false" aria-label="Menü"><i class="fa-solid fa-bars"></i></button></div></div></div></header>${cekmece()}`;
+<header class="header${hero}" data-site-header${meta.hero ? ' data-hero="1"' : ''}><div class="h-top"><div class="wrap kap"><a class="brand dd-brand" href="${K}" aria-label="Dada Diet">${logo}</a><nav class="nav ana-menu" aria-label="Menü">${nav(meta.aktif)}</nav><div class="head-actions"><a class="icon-btn ikon-dugme" href="${K}arama/" aria-label="Ara"><i class="fa-solid fa-magnifying-glass"></i></a><a class="icon-btn ikon-dugme head-bell oturum-acik" href="${K}hesabim/bildirimler/" aria-label="Bildirimler"><i class="fa-solid fa-bell"></i><span class="hb-badge">3</span></a><a class="btn-login oturum-kapali" id="btnLogin" href="${K}giris/${donusEki(yol)}"><i class="fa-solid fa-user"></i> Giriş Yap</a>${hesapMenu()}<button class="icon-btn ikon-dugme hamburger" id="hamburger" type="button" aria-controls="drawer" aria-expanded="false" aria-label="Menü"><i class="fa-solid fa-bars"></i></button></div></div></div></header>${cekmece()}`;
 }
 
 /* Canlıdaki genel bilgi uyarısı: footer başında; tam ekran düzende tek başına basılır */
@@ -83,12 +102,12 @@ export function kabukla(s, { istekler }) {
     ...(panel ? ['assets/js/panel/panel.js', 'assets/js/panel/admin-kit.js'] : []),
     'assets/js/veri.js', 'assets/js/demo.js', 'assets/js/ortak.js', 'assets/js/bildirim-zili.js', 'assets/js/mentor.js', 'assets/js/kenar-dugmeler.js',
     ...(panel ? ['assets/js/sayfa/panel-a-ortak.js'] : []),
-    ...(panel || duzen === 'tam' ? [] : ['assets/js/reklam/onizle.js']),
+    ...(panel || duzen === 'tam' ? [] : ['assets/js/reklam/onizle.js', 'assets/js/misafir.js']),
     ...(m.js ?? []).filter((j) => !(panel && j.endsWith('panel-a-ortak.js'))),
-  ].map((j) => `<script src="${K}${j}" defer></script>`).join('\n');
+  ].filter((j, i, l) => l.indexOf(j) === i).map((j) => `<script src="${K}${j}" defer></script>`).join('\n');
   const govde = duzen === 'panel' ? panelKabuk(m, s.govde)
     : duzen === 'tam' ? `${s.govde}<footer class="footer orange tam-uyari">${uyariBandi}</footer>`
-    : `${ust(m)}<main class="page-main" id="pageMain" tabindex="-1">${s.govde}</main>${dip()}${gorusBildir}${cerezBandi}${standartKatman()}`;
+    : `${ust(m, s.yol)}${altCubuk(m, s.yol)}<main class="page-main" id="pageMain" tabindex="-1">${s.govde}</main>${dip()}${gorusBildir}${cerezBandi}${standartKatman()}`;
   const bodySinif = panel ? ' class="yetkili" data-marka="diet"' : ` data-brand="diet"${duzen === 'uye' ? ' class="is-auth"' : ''}`;
   const oturum = duzen === 'uye' ? `document.documentElement.dataset.oturum='1'` : `try{if(localStorage.getItem('dd-oturum')==='1')document.documentElement.dataset.oturum='1'}catch(e){}`;
   return `<!doctype html>
