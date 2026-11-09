@@ -3427,3 +3427,7 @@ body.rk-altbar-acik #dadaMentor{--mentor-dip:max(var(--mentor-taban),calc(var(--
 .vt-onizle-bag{padding:0;border:0;background:none;font:inherit;font-size:var(--yazi-12-5);font-weight:var(--agirlik-orta);cursor:pointer}
 .vt-kalem-yok{color:var(--murekkep-yumusak)}
 #alanlar .vt-stat{display:flex;gap:var(--bosluk-24)}
+/* Tablo taşıyan akordeon: geniş tablo kabın içinde yatay kayar, akordeonu genişletmez */
+.akordeon.tablolu,.akordeon.tablolu .akordeon-kalem,.akordeon.tablolu .akordeon-govde{min-width:0;max-width:100%}
+.akordeon.tablolu .tablo-kap{max-width:100%;overflow-x:auto}
+.akordeon.tablolu .akordeon-bas small{overflow-wrap:anywhere}
