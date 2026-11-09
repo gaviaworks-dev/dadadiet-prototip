@@ -1,5 +1,8 @@
 // Dışarıda Ne Yesem: kart ve sol süzgeç dadagourmet.com/mekanlar kalıbıyla kurulur (grup sırası MekanFiltrePaneliServisi). Puan, görüntülenme ve süzgeç üyelikleri Gourmet yayınından okunur.
 import { K, kac, ikon, bant, bolum, DETAY, sayfa, dizi, bilgiNot } from '../../parcalar/public-beslenme/ortak.mjs';
+import { bicim } from '../../parcalar/bicim.mjs';
+/* Yemek adında görünmeyen alerjenler tercih denetimine bu sözcüklerle girer: pirinç pilavı tereyağlı pişer, vegan üyeye çıkmaz. */
+const ALERJEN_METIN = { sut: 'süt', gluten: 'buğday', balik: 'balık', 'kabuklu-deniz': 'karides', yumurta: 'yumurta', susam: 'susam' };
 
 const A = { aktif: 'Beslenme' };
 const REHBER = ['Restoran menüsü nasıl okunur?', 'Paket siparişte neler değişir?', 'Hızlı servis restoranında seçim nasıl yapılır?', 'Seyahatte öğün düzeni nasıl kurulur?', 'Davet sofrasında porsiyon nasıl yönetilir?', 'Dışarıda kahvaltı nasıl seçilir?'];
@@ -36,11 +39,15 @@ function disarida(veri) {
   const d = veri.disarida;
   const s = d.gourmet_suzgec;
   const alanlar = s.gruplar.map((g) => g.anahtar);
+  /* K16.5 / 9 Kasım F2: her kartta mutfağına uyan örnek yemekler tahmini kalorisiyle hep görünür. Kalorisi olmayan yemek basılmaz. */
+  const yemekler = (adlar) => (adlar || []).map((ad) => d.yemekler.find((y) => y.ad === ad)).filter((y) => y?.kcal != null);
+  const ornek = (m) => `<div class="mekan-kart-ornek"><span class="mekan-kart-ornek-baslik">${ikon('fa-fire')} Tahmini kalori</span>${yemekler(m.ornek_yemekler).map((y) => `<span class="mekan-kart-ornek-satir" data-yemek data-tip="${y.diyet_etiketleri.join(' ')}" data-uyum="${kac([y.ad, ...y.alerjenler.map((x) => ALERJEN_METIN[x])].join(' '))}"><span>${kac(y.ad)}, ${kac(y.porsiyon.ad)}</span><b>≈ ${bicim.kcal(y.kcal)}</b></span>`).join('')}<span class="mekan-kart-ornek-satir" data-yemek-yok hidden><span>Seçimine uygun örnek yok, menüyü mekana sor.</span></span></div>`;
   const kart = (m) => `<article class="mekan-kart" data-mekan data-il="${m.suzgec.il}" data-ilce="${m.suzgec.ilce}" data-semt="${m.suzgec.semt}" ${alanlar.map((a) => `data-${a}="${m.suzgec[a].join('|')}"`).join(' ')} data-enlem="${m.enlem}" data-boylam="${m.boylam}" data-saatler="${kac(JSON.stringify(m.saatler))}">
 <div class="mekan-kart-gorsel"><img src="${K}${m.gorsel}" alt="${kac(m.ad)} mekanından fotoğraf" loading="lazy"><span class="mekan-kart-fiyat"><b>${m.fiyat}</b>${'₺'.repeat(4 - m.fiyat.length)}</span></div>
 <span class="mekan-kart-tur">${kac(m.kategori)}</span>
 <h3 class="kart-baslik"><a class="kart-tam-baglanti" href="${GOURMET}${m.slug}" target="_blank" rel="noopener">${kac(m.ad)}<span class="sr-only"> (Dada Gourmet'te yeni sekmede açılır)</span></a></h3>
 <p>${kac(m.ozet)}</p>
+${ornek(m)}
 <div class="mekan-kart-alt"><span class="mekan-kart-konum">${ikon('fa-location-dot')} ${kac(m.ilce)} / ${kac(m.il)}</span><span class="mekan-kart-olcum">${puan(m.puan)}<span class="mekan-kart-goruntulenme" role="img" aria-label="${m.goruntulenme} görüntülenme">${ikon('fa-eye')} <span aria-hidden="true">${m.goruntulenme}</span></span></span></div>
 <span class="ornek-etiket">prototip örneği</span>
 </article>`;
@@ -57,7 +64,7 @@ function disarida(veri) {
 <div class="mekan-izgara izgara-esit-satir" id="dzKartlar">${d.mekan_ornekleri.map(kart).join('')}</div>
 <div class="bos-durum kart-ici" id="dzBos" hidden><span class="bos-ikon">${ikon('fa-location-dot')}</span><h3>Bu filtreyle henüz mekan yok</h3><p>Seçimlerini azaltmayı dene ya da seçili filtreleri temizle.</p><button class="dugme birincil" type="button" id="dzBosTemizle">Seçili Filtreleri Temizle</button></div>
 <nav class="sayfalama" aria-label="Sayfalar" id="dzSayfalama" hidden></nav>
-<p class="alan-yardim"><span>Mekan bilgileri ve görseller Dada Gourmet'ten gelir. Görüntülenme sayısı prototip örneğidir: Dada Gourmet'te 7 Kasım 2026'da görünen değerdir. Henüz değerlendirme almamış mekanda puan gösterilmez. Bu önizlemede Dada Gourmet'teki ${d.sayaclar.mekan} mekandan ${d.mekan_ornekleri.length} tanesi listelenir, süzgeç sayıları bu kartları sayar.</span></p>
+<p class="alan-yardim"><span>Mekan bilgileri ve görseller Dada Gourmet'ten gelir. Görüntülenme sayısı prototip örneğidir: Dada Gourmet'te 7 Kasım 2026'da görünen değerdir. Henüz değerlendirme almamış mekanda puan gösterilmez. Menüler henüz yayımlanmadığı için kalori örnekleri o mutfakta sık bulunan yemeklerdir; değerler tahminidir (kaynak: Dada Diet besin veritabanı). Bu önizlemede Dada Gourmet'teki ${d.sayaclar.mekan} mekandan ${d.mekan_ornekleri.length} tanesi listelenir, süzgeç sayıları bu kartları sayar.</span></p>
 <div class="yigin sik"><h2 class="kart-baslik">Dışarıda Yemek Rehberleri</h2><div class="cipler">${REHBER.map((r) => `<a class="cip" href="${K}${DETAY.rehber}">${r}</a>`).join('')}</div></div>
 ${bilgiNot('Bu sayfa genel bilgilendirme amaçlıdır; <b>tıbbi teşhis veya tedavi yerine geçmez</b>. Alerjin ya da klinik bir durumun varsa siparişten önce mekana danış.', false)}
 </div></div>`, { ilk: true })), { ...A, js: ['disarida'] });
