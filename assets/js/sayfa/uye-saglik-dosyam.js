@@ -99,7 +99,7 @@
     const has = (dn.hassasiyetler || []).map((x) => (HASSAS.find((y) => y[0] === x) || [x, U.basHarf(x)])[1]);
     U.bas('#sdDikkat', [
       satir('fa-wheat-awn-circle-exclamation', 'Besin alerjileri ve hassasiyetler', has.join(', ') || yok, dz('hassasiyet', has.length)),
-      satir('fa-utensils', 'Beslenme tercihi', TARZ[(u.tercihler || {}).beslenme_tarzi] || yok, '<a class="ikon-dugme" href="' + DD.kok + 'hesabim/tercihlerim/" aria-label="Tercihlerim’de düzenle"><i class="fa-solid fa-pen" aria-hidden="true"></i></a>'),
+      satir('fa-utensils', 'Beslenme tercihi', TARZ[(u.tercihler || {}).beslenme_tarzi] || yok, '<a class="ikon-dugme" href="' + DD.kok + 'hesabim/tercihlerim/" aria-label="Düzenle"><i class="fa-solid fa-pen" aria-hidden="true"></i></a>'),
       satir('fa-pills', 'Düzenli kullanılan ilaç veya takviye', (an.ilaclar || []).join(', ') || yok, dz('ilac', (an.ilaclar || []).length)),
       satir('fa-stethoscope', 'Bilinen kronik rahatsızlık', (dn.kronik || []).join(', ') || yok, dz('kronik', (dn.kronik || []).length)),
     ].join(''));
