@@ -1,0 +1,48 @@
+/* kaynak: DadaGastro@9c7ce22275:public/varliklar/build/assets/tokens-n1Tp8NEY.css (yalnız `/marka-is-birlikleri`in bastığı form
+   bileşeni `fk-*` ve `.captcha-note` kuralları, @media sarmalayıcılarıyla) · uyarlama: Diet'e özgü belirteç köprüsü.
+   Gastro'nun vitrin ve form CSS'i sitenin kendi belirteçlerini okur (`--sp-1…8`, `--ctl-h`, `--danger`); Diet kabuğunda bu adlar
+   tanımlı değil ve Diet kabuğu `fk-*` bileşenini hiç yüklemez (Diet'in `kimlik-v1.css`indeki `fk-*` başka bir neslin, hata sınıfı
+   `.fk-error`). Değerler Gastro `tokens-*.css`ten birebir; renkler Diet paletinden (`--danger` → Diet kanonunun `--hata`ı; G'de
+   `--tomato-dark`). Dosya yalnız bu sayfaya bağlanır (`body.pg-reklam-ver`). */
+body.pg-reklam-ver {
+  --sp-1: 4px; --sp-2: 8px; --sp-3: 12px; --sp-4: 16px; --sp-5: 24px; --sp-6: 32px; --sp-7: 48px; --sp-8: 64px;
+  --ctl-h: 48px;
+  --danger: var(--hata, #8c1d18);
+}
+
+.fk-grid{display:grid;gap:var(--sp-4);grid-template-columns:1fr 1fr}
+@media(max-width:640px){.fk-grid{grid-template-columns:1fr}}
+.fk-field{display:grid;gap:var(--sp-2)}
+.fk-label{font-weight:800;font-size:.9rem;color:var(--slate-2);letter-spacing:-.01em}
+.fk-label .req{color:var(--tomato);margin-left:2px}
+.fk-input,.fk-select,.fk-textarea{width:100%;min-height:var(--ctl-h);padding:var(--sp-3) var(--sp-4);background:var(--paper);color:var(--ink);border:1px solid var(--line);border-radius:var(--radius-md);font-weight:500;transition:border-color .2s var(--ease),box-shadow .2s var(--ease)}
+.fk-textarea{min-height:120px;resize:vertical;line-height:1.55}
+.fk-input::placeholder,.fk-textarea::placeholder{color:color-mix(in srgb,var(--muted) 80%,transparent)}
+.fk-input:hover,.fk-select:hover,.fk-textarea:hover{border-color:color-mix(in srgb,var(--ink) 18%,var(--line))}
+.fk-input:focus,.fk-select:focus,.fk-textarea:focus{outline:none;border-color:var(--tomato);box-shadow:0 0 0 3px color-mix(in srgb,var(--tomato) 16%,transparent)}
+.fk-select{appearance:none;-webkit-appearance:none;padding-right:var(--sp-7);background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath fill='%237E7E7E' d='M1 1l5 5 5-5'/%3E%3C/svg%3E");background-repeat:no-repeat;background-position:right var(--sp-4) center}
+.fk-input[aria-invalid=true],.fk-select[aria-invalid=true],.fk-textarea[aria-invalid=true]{border-color:var(--tomato)}
+.fk-help{font-size:.83rem;color:var(--muted)}
+.fk-err,.fk-error{font-size:.83rem;color:var(--danger);font-weight:500;display:inline-flex;align-items:center;gap:var(--sp-2)}
+.fk-count{font-size:.8rem;color:var(--muted);text-align:right}
+.fk-cbx,.fk-agree{display:flex;align-items:flex-start;gap:var(--sp-3);font-size:.95rem;color:var(--slate-2);line-height:1.5}
+.fk-agree{padding:var(--sp-3) var(--sp-4);background:var(--cream-2);border:1px solid var(--line);border-radius:var(--radius-md)}
+.fk-cbx input[type=checkbox],.fk-agree input[type=checkbox]{appearance:none;-webkit-appearance:none;flex:none;width:22px;height:22px;margin-top:1px;border:1.5px solid color-mix(in srgb,var(--ink) 30%,var(--line));border-radius:6px;background:var(--paper);transition:all .15s var(--ease)}
+.fk-cbx input[type=checkbox]:checked,.fk-agree input[type=checkbox]:checked{background:var(--tomato);border-color:var(--tomato);background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='14' height='14' viewBox='0 0 14 14'%3E%3Cpath fill='none' stroke='%23fff' stroke-width='2.4' stroke-linecap='round' stroke-linejoin='round' d='M2.5 7.5l3 3 6-6.5'/%3E%3C/svg%3E");background-repeat:no-repeat;background-position:center}
+.fk-cbx a,.fk-agree a{color:var(--tomato);font-weight:800;text-decoration:underline;text-underline-offset:2px}
+.captcha-note{display:flex;align-items:center;gap:var(--sp-2);font-size:.82rem;color:var(--muted);margin-top:var(--sp-4);padding-top:var(--sp-4);border-top:1px solid var(--line)}
+.captcha-note i{color:var(--tomato)}
+
+/* ── Bant: Gastro'nun bant iskeleti (`kabuk/banner-standart.css` · `dm-hero.css` · `tokens-*.css` `.rd-crumb`) ──
+   Diet kabuğunun genel bant kuralları (`paylasilan/hero.css` blok 4: `h1{margin:14px 0 12px;letter-spacing:-.03em}`)
+   G'nin vitrin kuralından (`satis-vitrini.css` `.rv-hero .vt-hero-g h1`) daha özgül; G'de o genel kural yok. Kırıntı
+   Diet'te bandın üst dolgu çizgisine raptiyeli (hero.css blok 1); yazı ölçüsü ve dizilişi G'nin. Hero ızgarasının dikey
+   payı G'nin `section.below-header > .wrap > nav + .vt-hero-g:last-child` kuralı (14 / 26). */
+body.pg-reklam-ver[data-banner] #pageMain>.rv-hero .vt-hero-g h1{font-size:44px;margin:16px 0 18px;letter-spacing:-.02em}
+@media(max-width:760px){body.pg-reklam-ver[data-banner] #pageMain>.rv-hero .vt-hero-g h1{font-size:31px;margin:12px 0 12px}}
+/* ≤640 bant üst dolgusu G'de bu sayfada başlık payı (`--header-offset` 96; ölçüldü @390), Diet'in genel 74'ü değil. */
+@media(max-width:640px){body.pg-reklam-ver[data-banner]:not([data-banner="detay"]) #pageMain>.rv-hero.px-band{padding-top:96px}}
+body[data-banner] #pageMain>.rv-hero>.wrap>.vt-hero-g{margin-top:auto;margin-bottom:auto;padding-top:14px;padding-bottom:26px}
+.rv-hero .rd-crumb{display:flex;align-items:center;flex-wrap:wrap;gap:var(--sp-2);font-size:13px}
+.rv-hero .rd-crumb a{display:inline-flex;align-items:center;gap:var(--sp-2)}
+.rv-hero .rd-crumb b{font-weight:800}

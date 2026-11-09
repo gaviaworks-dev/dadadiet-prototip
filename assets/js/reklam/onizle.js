@@ -1,0 +1,180 @@
+/* Reklam önizlemesi (prototip). Canlıda misafire reklam basılmaz (config/reklam.php bayrakları kapalı); prototipte de varsayılan
+   görünümde hiçbir alan basılmaz, kancalar <template data-rk-yer="KOD"> olarak durur (_src/parcalar/reklam.mjs).
+   Açma yolları: ?reklam=KOD (tek alan, o alana kaydırır; virgülle birden çok kod), ?reklam=hepsi (sayfadaki tümü) ve ekranlar
+   sayfasındaki "Reklamlı görünüm" anahtarı (localStorage dd-reklam-onizleme, site genelinde tümü). Açıkken her sayfada kapatılabilir
+   bir "Reklam önizlemesi açık" şeridi durur. Canlı modülün CSS'i ve betikleri (assets/css/reklam, assets/js/reklam) yalnız önizleme
+   açıkken ve yalnız kancası olan sayfaya yüklenir. Gösterim ya da tıklama sayılmaz, hiçbir istek gönderilmez. */
+(function () {
+  'use strict';
+  var ANAHTAR = 'dd-reklam-onizleme';
+  var kok = document.documentElement.dataset.kok || './';
+  var adres = new URL(location.href);
+  var param = adres.searchParams.get('reklam');
+  var genel = false;
+  try { genel = localStorage.getItem(ANAHTAR) === '1'; } catch (e) { /* depo kapalı */ }
+  var cerceve = window.self !== window.top;
+
+  window.DD_REKLAM = {
+    acik: function () { try { return localStorage.getItem(ANAHTAR) === '1'; } catch (e) { return false; } },
+    ac: function () { try { localStorage.setItem(ANAHTAR, '1'); } catch (e) { /* yok say */ } },
+    kapat: function () { try { localStorage.removeItem(ANAHTAR); } catch (e) { /* yok say */ } },
+  };
+
+  /* Önizleme kapalıysa sayfaya tek bayt dokunulmaz */
+  if (!param && !genel) return;
+  var hepsi = !param || param === 'hepsi';
+  var istenen = hepsi ? null : param.split(',').map(function (s) { return s.trim(); }).filter(Boolean);
+  var kancalar = [].slice.call(document.querySelectorAll('template[data-rk-yer]'));
+  var secili = kancalar.filter(function (t) {
+    if (hepsi) return true;
+    return t.dataset.rkYer.split(' ').some(function (k) { return istenen.indexOf(k) !== -1; });
+  });
+  document.documentElement.classList.add('rk-onizleme');
+  if (cerceve) document.documentElement.classList.add('rk-cerceve');
+
+  function serit() {
+    if (cerceve || document.querySelector('.rk-onizleme-serit')) return;
+    var s = document.createElement('div');
+    s.className = 'rk-onizleme-serit';
+    s.setAttribute('role', 'status');
+    var ne = hepsi ? (secili.length ? 'Reklam önizlemesi açık' : 'Reklam önizlemesi açık · bu sayfada reklam alanı yok') : 'Reklam önizlemesi açık · ' + istenen.join(', ');
+    s.innerHTML = '<div class="kap"><i class="fa-solid fa-rectangle-ad" aria-hidden="true"></i><span>' + ne + '</span><span class="rk-onizleme-not">prototip örneği, kurgu markalar</span><button type="button" class="dugme hayalet kucuk" data-rk-onizleme-kapat>Kapat</button></div>';
+    document.body.prepend(s);
+    /* Şerit sabit başlığın hemen altında, küçük bir hap olarak durur */
+    var ust = document.querySelector('[data-site-header]');
+    var konumla = function () { if (ust) document.documentElement.style.setProperty('--rk-serit-ust', Math.max(8, Math.round(ust.getBoundingClientRect().bottom + 8)) + 'px'); };
+    konumla();
+    addEventListener('scroll', konumla, { passive: true });
+    addEventListener('resize', konumla);
+    s.querySelector('[data-rk-onizleme-kapat]').addEventListener('click', function () {
+      window.DD_REKLAM.kapat();
+      adres.searchParams.delete('reklam');
+      location.replace(adres.toString());
+    });
+  }
+
+  function stil(ad) {
+    return new Promise(function (tamam) {
+      var l = document.createElement('link');
+      l.rel = 'stylesheet';
+      l.href = kok + 'assets/css/reklam/' + ad + '.css';
+      l.onload = l.onerror = function () { tamam(); };
+      document.head.appendChild(l);
+    });
+  }
+  function betik(ad, modul) {
+    return new Promise(function (tamam) {
+      var s = document.createElement('script');
+      s.src = kok + 'assets/js/reklam/' + ad + '.js';
+      if (modul) s.type = 'module';
+      s.onload = s.onerror = function () { tamam(); };
+      document.body.appendChild(s);
+    });
+  }
+
+  /* Kancayı açar: yerinde, kabın N. öğesi olarak (data-rk-sira) ya da bir hedefe göre (data-rk-hedef + data-rk-yon) */
+  function ac(t) {
+    var parca = t.content.cloneNode(true);
+    if (!hepsi) {
+      /* Tek alan: standart katmanda yalnız istenen biçim kalır */
+      parca.querySelectorAll('[data-rk-bicim]').forEach(function (n) {
+        if (istenen.indexOf(n.dataset.rkSlot) === -1 && !n.closest('.rk-video-slot')) n.remove();
+      });
+    }
+    var hedef = t.dataset.rkHedef, yon = t.dataset.rkYon;
+    if (hedef === 'yayilim') return false;
+    if (hedef) {
+      var el = t.closest(hedef) || (t.parentElement && t.parentElement.querySelector(':scope > ' + hedef)) || document.querySelector(hedef);
+      if (!el) { t.replaceWith(parca); return true; }
+      if (yon === 'yerine') { el.replaceWith(parca); t.remove(); }
+      else if (yon === 'once') { el.before(parca); t.remove(); }
+      else if (yon === 'basa') { el.prepend(parca); t.remove(); }
+      else { el.after(parca); t.remove(); }
+      return true;
+    }
+    if (t.dataset.rkSira) {
+      var kap = t.parentElement;
+      var ogeler = [].slice.call(kap.children).filter(function (c) { return c.tagName !== 'TEMPLATE'; });
+      var once = ogeler[+t.dataset.rkSira - 1];
+      if (once) once.before(parca); else kap.append(parca);
+      t.remove();
+      return true;
+    }
+    t.replaceWith(parca);
+    return true;
+  }
+
+  /* STD-VIDEO: sayfanın ilk yayılım yuvasının yerine basılır (canlı karar 151); yuvanın kendi kreatifi gizli kalır */
+  function video(t) {
+    var parca = t.content.cloneNode(true);
+    var yuva = document.querySelector('main .rk-yayilim-bant, main .rk-sar');
+    if (yuva) {
+      var sakla = document.createElement('div');
+      sakla.setAttribute('data-rk-review-static', '');
+      sakla.hidden = true;
+      yuva.before(parca);
+      yuva.before(sakla);
+      sakla.append(yuva);
+    } else {
+      var bolum = document.querySelector('main .bolum .kap, main section .kap');
+      if (bolum) bolum.prepend(parca); else document.querySelector('main').prepend(parca);
+    }
+    t.remove();
+  }
+
+  function basla() {
+    serit();
+    if (!secili.length) return;
+    var CSS = ['reklam', 'reklam-demo', 'yayilim', 'nokta', 'klinik-koridor', 'firin', 'standart', 'diyetisyen-karti', 'besin-satiri'];
+    var bekle = Promise.all(CSS.map(stil));
+    var zaman = new Promise(function (t) { setTimeout(t, 2500); });
+    Promise.race([bekle, zaman]).then(function () {
+      var videolar = [];
+      secili.forEach(function (t) { if (ac(t) === false) videolar.push(t); });
+      videolar.forEach(video);
+      /* Pop-up sıklığı: canlıda sunucu oturumu sayar; prototipte bu sekmenin oturumu (en az 2. sayfa, 4 sayfada bir) */
+      var katman = document.querySelector('[data-rk-standart]');
+      if (katman) {
+        var n = 0;
+        try { n = (+sessionStorage.getItem('dd-rk-sayfa') || 0) + 1; sessionStorage.setItem('dd-rk-sayfa', String(n)); } catch (e) { /* yok say */ }
+        katman.dataset.rkSayfa = String(n);
+        if (istenen && istenen.indexOf('STD-POPUP') !== -1) katman.setAttribute('data-rk-popup-force', '');
+      }
+      var sira = Promise.resolve();
+      var yukle = function (ad, kosul, modul) { if (kosul) sira = sira.then(function () { return betik(ad, modul); }); };
+      yukle('nokta', document.querySelector('.rk-nk'));
+      yukle('reklam', true);
+      yukle('klinik-koridor', document.querySelector('.kk-koridor'));
+      yukle('firin', document.querySelector('.rk-firin'));
+      yukle('standart', document.querySelector('[data-rk-standart], [data-rk-video]'), true);
+      sira.then(odakla);
+    });
+  }
+
+  /* Tek alan: o alana kaydır; menü alanlarında ilk mega menü açılır */
+  function odakla() {
+    if (hepsi) return;
+    var kod = istenen[0];
+    var el = document.getElementById('rk-' + kod);
+    if (!el) return;
+    var mega = el.closest('.nav-item');
+    if (mega) { mega.classList.add('open'); return; }
+    if (el.closest('[data-rk-standart]')) return;
+    var ust = document.querySelector('[data-site-header]');
+    var pay = (ust ? ust.getBoundingClientRect().bottom : 0) + 72;
+    var y = el.getBoundingClientRect().top + scrollY - pay;
+    scrollTo({ top: Math.max(0, y), behavior: 'auto' });
+    el.classList.add('rk-vurgu');
+  }
+
+  /* Kurgu markaların bağları dış siteye gitmez */
+  document.addEventListener('click', function (e) {
+    var a = e.target.closest('[data-rk-ornek]');
+    if (!a) return;
+    e.preventDefault();
+    var m = 'Prototip örneği: canlıda bu bağlantı markanın sayfasını yeni sekmede açar.';
+    if (window.DD && DD.toast) DD.toast(m); else alert(m);
+  });
+
+  if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', basla); else basla();
+})();

@@ -4,6 +4,7 @@ import path from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { anaMenu, footerKolonlar, footerKurumsal, footerYasal, uyeMenu, panelMenu } from './menu.mjs';
 import { dilMenusu, cekmeceDil, gorusBildir, cerezBandi } from './canli-ogeler.mjs';
+import { reklamYeri, standartKatman } from '../parcalar/reklam.mjs';
 
 const BU = path.dirname(fileURLToPath(import.meta.url));
 const logo = fs.readFileSync(path.join(BU, 'logo.svg'), 'utf8');
@@ -14,12 +15,22 @@ const kalemHtml = (k) => k.sihirbaz
   ? `<a class="mega-cat-all" href="${K}${k.href}"><i class="fa-solid ${k.ikon}"></i><span>${k.ad}<small>${k.alt}</small></span><i class="fa-solid fa-arrow-right mca-arrow"></i></a>`
   : `<a href="${K}${k.href}"><i class="fa-solid ${k.ikon}"></i><span>${k.ad}<small>${k.alt}</small></span></a>`;
 
+/* Reklam kancaları (canlı header_mega ailesi): tarif bağı olan mega menü prototipte yok (K13.2), canlı kural ilk mega menüye düşer.
+   Varsayılan görünümde <template> olarak durur; assets/js/reklam/onizle.js önizlemede açar. */
+const megaReklam = {
+  hucre: reklamYeri('HD-MEGA') + reklamYeri('menu.secki-hucresi'),
+  vitrin: reklamYeri('HD-WEEK', { hedef: '.mf-fig', yon: 'yerine' }) + reklamYeri('HD-DOLAP-SPON'),
+};
+
 function nav(aktif) {
+  let ilkMega = true;
   return anaMenu.map((m) => {
     const ak = aktif === m.ad ? ' class="active"' : '';
     if (!m.kalemler) return `<div class="nav-item"><a${ak} href="${K}${m.href}">${m.ad}</a></div>`;
     if (!m.vitrin) return `<div class="nav-item"><a${ak} href="${K}${m.href}" aria-haspopup="true" aria-expanded="false">${m.ad}<i class="fa-solid fa-chevron-down" aria-hidden="true"></i></a><div class="dropdown dd-col">${m.kalemler.map(kalemHtml).join('')}</div></div>`;
-    return `<div class="nav-item has-mega"><a${ak} href="${K}${m.href}" aria-haspopup="true" aria-expanded="false">${m.ad}<i class="fa-solid fa-chevron-down" aria-hidden="true"></i></a><div class="mega"><div class="wrap"><div class="mega-grid"><div class="mega-cats">${m.kalemler.map(kalemHtml).join('')}</div><div class="mega-feat"><a class="mf-fig" href="${K}${m.vitrin.href}" data-arkaplan="${K}${m.vitrin.gorsel}"><span class="r-chip">${m.vitrin.etiket}</span><h4>${m.vitrin.baslik}</h4></a></div></div></div></div></div>`;
+    const rk = ilkMega ? megaReklam : { hucre: '', vitrin: '' };
+    ilkMega = false;
+    return `<div class="nav-item has-mega"><a${ak} href="${K}${m.href}" aria-haspopup="true" aria-expanded="false">${m.ad}<i class="fa-solid fa-chevron-down" aria-hidden="true"></i></a><div class="mega"><div class="wrap"><div class="mega-grid"><div class="mega-cats">${m.kalemler.map(kalemHtml).join('')}${rk.hucre}</div><div class="mega-feat"><a class="mf-fig" href="${K}${m.vitrin.href}" data-arkaplan="${K}${m.vitrin.gorsel}"><span class="r-chip">${m.vitrin.etiket}</span><h4>${m.vitrin.baslik}</h4></a>${rk.vitrin}</div></div></div></div></div>`;
   }).join('');
 }
 
@@ -72,11 +83,12 @@ export function kabukla(s, { istekler }) {
     ...(panel ? ['assets/js/panel/panel.js', 'assets/js/panel/admin-kit.js'] : []),
     'assets/js/veri.js', 'assets/js/demo.js', 'assets/js/ortak.js', 'assets/js/bildirim-zili.js', 'assets/js/mentor.js', 'assets/js/kenar-dugmeler.js',
     ...(panel ? ['assets/js/sayfa/panel-a-ortak.js'] : []),
+    ...(panel || duzen === 'tam' ? [] : ['assets/js/reklam/onizle.js']),
     ...(m.js ?? []).filter((j) => !(panel && j.endsWith('panel-a-ortak.js'))),
   ].map((j) => `<script src="${K}${j}" defer></script>`).join('\n');
   const govde = duzen === 'panel' ? panelKabuk(m, s.govde)
     : duzen === 'tam' ? `${s.govde}<footer class="footer orange tam-uyari">${uyariBandi}</footer>`
-    : `${ust(m)}<main class="page-main" id="pageMain" tabindex="-1">${s.govde}</main>${dip()}${gorusBildir}${cerezBandi}`;
+    : `${ust(m)}<main class="page-main" id="pageMain" tabindex="-1">${s.govde}</main>${dip()}${gorusBildir}${cerezBandi}${standartKatman()}`;
   const bodySinif = panel ? ' class="yetkili" data-marka="diet"' : ` data-brand="diet"${duzen === 'uye' ? ' class="is-auth"' : ''}`;
   const oturum = duzen === 'uye' ? `document.documentElement.dataset.oturum='1'` : `try{if(localStorage.getItem('dd-oturum')==='1')document.documentElement.dataset.oturum='1'}catch(e){}`;
   return `<!doctype html>

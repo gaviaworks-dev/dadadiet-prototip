@@ -1,0 +1,24 @@
+/* Diet'e özgü (F4): Gastro'nun reklam CSS'i (reklam.css, standart.css) sitenin kendi belirteçlerini okur — Gastro'da
+   `tokens-*.css` (boşluk ölçeği, denetim yüksekliği, başlık satırı, yazı ailesi, başlık payı, dolap seçim rengi).
+   Diet kabuğunda bu adlar tanımlı değil (ölçüldü: K1 tarif detayında `--sp-1…8`, `--ctl-h`, `--font`, `--lh-head`,
+   `--ls-head`, `--header-offset`, `--mode` boş; `.rd-top:has(TD-TOP)` boşluğu `calc()` geçersiz kalıp 0'a düşüyor, TD-TOP
+   başlığın altına giriyordu). Değerler Gastro `tokens-n1Tp8NEY.css`ten birebir; renkler Diet paletinden. Diet'in kendi
+   kuralları bu adları yalnız aynı yedek değerle okur (`var(--sp-2,8px)`, `var(--sp-1,4px)`), sayfa değişmez. Dosya yalnız
+   reklam stili basılan (en az bir slotu dolu) sayfaya bağlanır. */
+:root {
+  --sp-1: 4px; --sp-2: 8px; --sp-3: 12px; --sp-4: 16px; --sp-5: 24px; --sp-6: 32px; --sp-7: 48px; --sp-8: 64px;
+  --ctl-h: 48px;
+  --font: var(--yazi-yuzu, "Gilroy", system-ui, -apple-system, "Segoe UI", Roboto, sans-serif);
+  --lh-head: 1.12; --ls-head: -.02em;
+  --header-offset: 113px;
+  --mode: var(--marka); --mode-deep: var(--aksan-koyu);
+}
+
+/* Diet yerleşimi (F4): Diet içerik detayında kenar sütunu yok — yayılım kenar kutusu (PD-R1, MD-READ-SIDE) yazı gövdesinin
+   ardında durur; G'nin kenar sütunu genişliğinde (≈ 300–360 px) ortalanır, gövde genişliğine yayılmaz. */
+.reh-article > .rk-yayilim-side { max-width: 360px; margin: var(--sp-7) auto 0; }
+.wrap > .rk-yayilim-side { max-width: 360px; margin: var(--sp-7) auto; }
+
+/* TD-STK (künyesiz katalog satırı, plan §3.2 "mobil alt şerit"): künyesinde masaüstü ölçüsü "Yok" — masaüstünde basılır ama
+   gösterilmez; 390'da sayfa sonunda şerit. (Yapışkan alt çubuk STD-ALTBAR'ın işi; Diet'in mobil alt menüsüyle çakışmasın.) */
+@media (min-width: 641px) { .rk-sar[data-rk-yer="TD-STK"] { display: none; } }
