@@ -246,7 +246,8 @@
   PB.haftaGunu = (iso, i) => (new Date(PB.gunEkle(iso, i) + 'T12:00:00').getDay() + 6) % 7;
   PB.gunAd = (iso, i) => PB.GUNLER[PB.haftaGunu(iso, i)];
   PB.gunKisa = (iso, i) => PB.GUN_KISA[PB.haftaGunu(iso, i)];
-  PB.bosGunler = () => PB.GUNLER.map((ad, i) => ({ gun: i + 1, ad, ogunler: { kahvalti: [], ara1: [], ogle: [], ara2: [], aksam: [] } }));
+  PB.bosGun = (i) => ({ gun: i + 1, ad: PB.GUNLER[i % 7], ogunler: { kahvalti: [], ara1: [], ogle: [], ara2: [], aksam: [] } });
+  PB.bosGunler = (n) => Array.from({ length: n || 7 }, (_, i) => PB.bosGun(i));
   PB.planOzet = (p) => {
     const g = (p.gunler || []).map((x) => PB.topla(Object.values(x.ogunler).flat()));
     const dolu = g.filter((x) => x.kcal > 0);

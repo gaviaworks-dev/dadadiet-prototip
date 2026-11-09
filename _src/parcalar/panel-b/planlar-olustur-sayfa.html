@@ -23,7 +23,7 @@
     <div class="kart panel" id="planKart">
       <div class="kart-bas yazdirma-disi">
         <div>
-          <h2 class="kart-baslik">Haftalık Plan</h2>
+          <h2 class="kart-baslik" id="planKartBaslik">Haftalık Plan</h2>
           <div class="takvim-lejant" aria-label="Sapma lejantı">
             <span class="lejant-kalem hedefte">Hedefte ±%5</span>
             <span class="lejant-kalem sinirda">Sınırda ±%15</span>
@@ -43,13 +43,15 @@
 
       <div class="plan-baslangic yazdirma-disi" id="baslangic" hidden>
         <p>Plana nasıl başlayalım?</p>
-        <div class="secenek-izgara c3">
+        <div class="secenek-izgara c4">
           <button class="secenek" type="button" data-plan="bos-basla"><i class="fa-solid fa-table-cells" aria-hidden="true"></i><span>Boş plan<small>Izgarayı kendin doldur.</small></span></button>
           <button class="secenek" type="button" data-plan="sablon-ac"><i class="fa-solid fa-layer-group" aria-hidden="true"></i><span>Şablondan<small>Hazır ya da kendi şablonun.</small></span></button>
           <button class="secenek" type="button" data-plan="onceki-ac"><i class="fa-solid fa-clock-rotate-left" aria-hidden="true"></i><span>Önceki plandan<small>Kayıtlı planı kopyala.</small></span></button>
+          <button class="secenek" type="button" data-plan="program-ac"><i class="fa-solid fa-list-check" aria-hidden="true"></i><span>Programdan<small>Yayındaki programla başla.</small></span></button>
         </div>
       </div>
 
+      <div class="kart-govde yazdirma-disi" id="haftaSecKap" hidden><div class="segment" id="haftaSec" role="group" aria-label="Hafta seç"></div></div>
       <div class="kart-govde bosluksuz tam-kenar" id="haftaPano">
         <div class="plan-kap"><div class="plan-izgara hafta" id="planIzgara"></div></div>
       </div>
@@ -122,6 +124,14 @@
           <label class="alan-etiket" for="planBaslangic">Başlangıç tarihi</label>
           <input class="alan-girdi" id="planBaslangic" type="date">
           <p class="alan-yardim"><i class="fa-solid fa-calendar-check" aria-hidden="true"></i><span>Bitiş <b id="planBitis"></b></span></p>
+        </div>
+        <div class="alan">
+          <span class="alan-etiket" id="planSureE">Plan süresi</span>
+          <div class="segment" id="planSure" role="group" aria-labelledby="planSureE">
+            <button type="button" aria-pressed="false" data-deger="1">1 gün</button>
+            <button type="button" aria-pressed="true" data-deger="7">7 gün</button>
+            <button type="button" aria-pressed="false" data-deger="14">14 gün</button>
+          </div>
         </div>
         <div class="alan">
           <label class="alan-etiket" for="planNot">Danışanın göreceği not</label>
@@ -367,6 +377,13 @@
   <div class="modal-kutu" role="dialog" aria-modal="true" aria-labelledby="oncekiBaslik">
     <div class="modal-bas"><h2 id="oncekiBaslik">Önceki Plandan Kopyala</h2><button class="kapat-dugme" type="button" data-kapat aria-label="Kapat"><i class="fa-solid fa-xmark" aria-hidden="true"></i></button></div>
     <div class="modal-govde"><div class="yigin sik" id="oncekiListe"></div></div>
+  </div>
+</div>
+
+<div class="modal-ortu" id="programModal" hidden>
+  <div class="modal-kutu" role="dialog" aria-modal="true" aria-labelledby="programBaslik">
+    <div class="modal-bas"><h2 id="programBaslik">Programdan Başla</h2><button class="kapat-dugme" type="button" data-kapat aria-label="Kapat"><i class="fa-solid fa-xmark" aria-hidden="true"></i></button></div>
+    <div class="modal-govde"><div class="yigin sik" id="programListe"></div></div>
   </div>
 </div>
 
