@@ -10,6 +10,9 @@
   const DURUM = { beklemede: ['Beklemede', 'bekleyen'], odendi: ['Ödendi', 'cozulen'], 'talep-edildi': ['Talep edildi', 'acik'], iptal: ['Gerçekleşmedi', 'kapali'], iade: ['İade edildi', 'hata'] };
   const ASAMA = [['inceleniyor', 'Talep alındı', 'Ödeme ekibi inceliyor.'], ['onaylandi', 'Onaylandı', 'Hesabına aktarılmak üzere sıraya alındı.'], ['odendi', 'Ödendi', 'Tutar hesabına geçti.']];
   let suzgec = 'hepsi', q = '', seri = 'net';
+  /* Bayraklar (pb-12): grafik ve seri seçimi, ödeme talebi kapalıyken çizilmez ve bağlanmaz (assets/js/bayrak.js) */
+  const bayrak = (ad) => !!(window.DD_BAYRAK && window.DD_BAYRAK.acik(ad));
+  const GRAFIK = bayrak('kazanc-grafik'), TALEP = bayrak('kazanc-odeme-talebi');
   const ayAdi = (a) => AY[+a.ay.slice(5) - 1];
   const tlIsaret = (n) => (n < 0 ? '−' + tl(-n) : tl(n));
 
@@ -38,11 +41,11 @@
       '<div class="deger-satir"><span>Bekleyen net</span><b>' + tl(b.tutar) + '</b></div>' +
       '<div class="deger-satir"><span>İşlem sayısı</span><b>' + b.islem_sayisi + '</b></div>' +
       '<div class="deger-satir"><span>Sıradaki hakediş</span><b>' + PB.tarih(b.odeme_tarihi) + '</b></div></div>' +
-      (son ? '<div class="zaman-cizelgesi" aria-label="' + tl(son.tutar) + ' talebinin durumu">' + ASAMA.map((a, i) => '<div class="zc-kalem' + (i <= sira ? ' gecti' : '') + '"><div class="zc-baslik">' + a[1] + (i === 0 ? ' · ' + tl(son.tutar) : '') + '</div>' + (i === sira ? '<div class="zc-metin">' + a[2] + '</div>' : '') + '</div>').join('') + '</div>' +
+      (TALEP && son ? '<div class="zaman-cizelgesi" aria-label="' + tl(son.tutar) + ' talebinin durumu">' + ASAMA.map((a, i) => '<div class="zc-kalem' + (i <= sira ? ' gecti' : '') + '"><div class="zc-baslik">' + a[1] + (i === 0 ? ' · ' + tl(son.tutar) : '') + '</div>' + (i === sira ? '<div class="zc-metin">' + a[2] + '</div>' : '') + '</div>').join('') + '</div>' +
         (acikTalep ? '<button class="sonraki-bag" type="button" data-kazanc="ilerlet">Ödeme ekibi işlemini ilerlet (demo)</button>' : '') : '') +
-      '<button class="dugme birincil tam-en" type="button" data-kazanc="talep-ac"' + (b.tutar > 0 && !acikTalep ? '' : ' disabled') + '><i class="fa-solid fa-money-bill-transfer" aria-hidden="true"></i> Ödeme talep et</button>' +
+      (TALEP ? '<button class="dugme birincil tam-en" type="button" data-kazanc="talep-ac"' + (b.tutar > 0 && !acikTalep ? '' : ' disabled') + '><i class="fa-solid fa-money-bill-transfer" aria-hidden="true"></i> Ödeme talep et</button>' : '') +
       (sonucsuz ? '<a class="sonraki-bag" href="' + DD.kok + 'diyetisyen-paneli/takvim/">' + sonucsuz + ' görüşmenin sonucu girilmedi <i class="fa-solid fa-arrow-right" aria-hidden="true"></i></a>' : '') +
-      '<p class="alan-yardim"><i class="fa-solid fa-building-columns" aria-hidden="true"></i><span>Talep edilmezse bekleyen tutar hakediş tarihinde otomatik aktarılır.</span></p>' +
+      '<p class="alan-yardim"><i class="fa-solid fa-building-columns" aria-hidden="true"></i><span>' + (TALEP ? 'Talep edilmezse bekleyen tutar' : 'Bekleyen tutar') + ' hakediş tarihinde otomatik aktarılır.</span></p>' +
       (iadeNet ? '<p class="alan-yardim"><i class="fa-solid fa-rotate-left" aria-hidden="true"></i><span>Son 30 günde ' + tl(Math.abs(iadeNet)) + ' net iade düşüldü. İadeyi danışanın talebiyle Dada Diet ödeme ekibi yapar, tutar sonraki hakedişten düşülür.</span></p>' : '') + '</div>';
   }
   function tabloCiz() {
@@ -73,6 +76,7 @@
     const d = e.target.closest('[data-kazanc]');
     if (!d) return;
     if (d.dataset.kazanc === 'csv') csv();
+    if (!TALEP && ['ilerlet', 'talep-ac', 'talep'].includes(d.dataset.kazanc)) return;
     if (d.dataset.kazanc === 'ilerlet') {
       const t = talepler()[0], i = ASAMA.findIndex((a) => a[0] === t.durum);
       t.durum = ASAMA[i + 1][0];
@@ -99,11 +103,11 @@
     }
   });
   document.addEventListener('dd:secim', function (e) {
-    if (e.target.id === 'grafikSeri') { seri = e.detail.deger; grafikCiz(); }
+    if (GRAFIK && e.target.id === 'grafikSeri') { seri = e.detail.deger; grafikCiz(); }
     if (e.target.id === 'islemSuzgec') { suzgec = e.detail.deger; tabloCiz(); }
   });
   $('#islemAra').addEventListener('input', function () { q = this.value.trim(); tabloCiz(); });
   const yeni = PBD.kazancSenkron();
-  kpiCiz(); grafikCiz(); bekleyenCiz(); tabloCiz();
+  kpiCiz(); if (GRAFIK) grafikCiz(); bekleyenCiz(); tabloCiz();
   if (yeni) DD.toast(yeni + ' görüşme sonucu kazanca işlendi.');
 })();
