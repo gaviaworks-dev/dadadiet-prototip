@@ -244,25 +244,34 @@
   PA.bloklar = () => PA.d().takvim_bloklari || (PA.d().takvim_bloklari = []);
   PA.blokBul = (iso, bas, bit) => PA.bloklar().find((b) => b.tarih === iso && PA.dakika(b.saat) < bit && PA.dakika(b.saat) + b.sure > bas);
   PA.dolulukVar = (iso, bas, bit, haric) => !!PA.blokBul(iso, bas, bit) || PA.d().randevular.some((r) => r.id !== haric && r.tarih === iso && PA.rAcik(r) && PA.dakika(r.saat) < bit && PA.rBitis(r) > bas);
+  /* Tek seferlik açık seans (eski panel "Seans ekle", ES-DP-8): müsaitlik dışındaki bir tarih ve saati yalnız o gün açar */
+  PA.ekSeanslar = () => { const m = PA.d().musaitlik; return m.ek_seanslar || (m.ek_seanslar = []); };
+  PA.ekSeansKapsar = (iso, bas, bit) => PA.ekSeanslar().find((e) => e.tarih === iso && PA.dakika(e.saat) <= bas && PA.dakika(e.saat) + e.sure >= bit);
   PA.slotUygun = (iso, bas, sure, haric) => {
     const g = PA.gunDuzeni(iso), bit = bas + sure;
-    if (!g.acik || bas < g.bas || bit > g.bit) return false;
-    if (g.ara && bas < g.ara[1] && bit > g.ara[0]) return false;
-    if (!PA.aralikta(g, bas, bit)) return false;
+    if (!PA.ekSeansKapsar(iso, bas, bit)) {
+      if (!g.acik || bas < g.bas || bit > g.bit) return false;
+      if (g.ara && bas < g.ara[1] && bit > g.ara[0]) return false;
+      if (!PA.aralikta(g, bas, bit)) return false;
+    }
     if (iso + 'T' + PA.saat(bas) <= PA.simdi) return false;
     const tampon = PA.d().musaitlik.tampon || 0; /* seanslar arası boşluk her iki yöne uygulanır */
     return !PA.dolulukVar(iso, bas - tampon, bit + tampon, haric);
   };
   PA.gunSlotlari = (iso, sure, haric) => {
     const g = PA.gunDuzeni(iso), l = [];
-    if (!g.acik) return l;
-    for (let m = g.bas; m + sure <= g.bit; m += 30) {
+    if (g.acik) for (let m = g.bas; m + sure <= g.bit; m += 30) {
       if (g.ara && m < g.ara[1] && m + sure > g.ara[0]) continue;
       if (!PA.aralikta(g, m, m + sure)) continue;
       if (iso + 'T' + PA.saat(m) <= PA.simdi) continue;
       l.push({ saat: PA.saat(m), uygun: PA.slotUygun(iso, m, sure, haric) });
     }
-    return l;
+    PA.ekSeanslar().filter((e) => e.tarih === iso).forEach((e) => {
+      const m = PA.dakika(e.saat);
+      if (l.some((x) => x.saat === e.saat) || sure > e.sure || iso + 'T' + e.saat <= PA.simdi) return;
+      l.push({ saat: e.saat, uygun: PA.slotUygun(iso, m, sure, haric), ek: true });
+    });
+    return l.sort((a, b) => a.saat.localeCompare(b.saat));
   };
 
   /* ── Mesaj ──────────────────────────────────────────────────────── */

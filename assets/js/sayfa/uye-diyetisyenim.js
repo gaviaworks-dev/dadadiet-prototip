@@ -174,8 +174,10 @@
   function saatler(k, tarih, sure, haric) {
     const d = U.d(), m = k.musaitlik || {};
     const g = (m.haftalik || []).find((x) => x.gun === U.gunAdi(tarih));
-    if (!g || !g.acik || (m.kapali_tarihler || []).some((x) => x.tarih === tarih)) return [];
     const dk = (s) => { const p = s.split(':').map(Number); return p[0] * 60 + p[1]; };
+    /* Diyetisyenin tek seferlik açtığı seans (panel Takvim > Açık seans) müsaitlik dışında da seçilir */
+    const ekler = k.ana ? ((d.musaitlik || {}).ek_seanslar || []).filter((e) => e.tarih === tarih && e.sure >= sure) : [];
+    if (!g || !g.acik || (m.kapali_tarihler || []).some((x) => x.tarih === tarih)) return ekSaatler(d, k, tarih, ekler, sure, haric, dk);
     /* Kapalı saat blokları, uzmanın açık randevuları ve üyenin öteki görüşmeleri çakışma sayılır */
     const aralikDk = (r) => [dk(r.saat), dk(r.saat) + r.sure];
     const acikGun = (r) => r.tarih === tarih && U.rAcik(r) && r.id !== haric;
@@ -188,7 +190,15 @@
       if (ara && t < ara[1] && t + sure > ara[0]) continue;
       if (!dolu.some(([a, z]) => t - tampon < z && t + sure + tampon > a)) l.push(String(Math.floor(t / 60)).padStart(2, '0') + ':' + String(t % 60).padStart(2, '0'));
     }
-    return l;
+    ekSaatler(d, k, tarih, ekler, sure, haric, dk).forEach((s) => { if (!l.includes(s)) l.push(s); });
+    return l.sort();
+  }
+  function ekSaatler(d, k, tarih, ekler, sure, haric, dk) {
+    if (!ekler.length) return [];
+    const aralikDk = (r) => [dk(r.saat), dk(r.saat) + r.sure];
+    const acikGun = (r) => r.tarih === tarih && U.rAcik(r) && r.id !== haric;
+    const dolu = (d.randevular || []).filter(acikGun).map(aralikDk).concat(U.tumRandevular().filter(acikGun).map(aralikDk));
+    return ekler.map((e) => e.saat).filter((s) => !dolu.some(([a, z]) => dk(s) < z && dk(s) + sure > a));
   }
   function saatBagla(onek, sure, haric, sahibi) {
     const t = $('#' + onek + 'Tarih'), s = $('#' + onek + 'Saat'), y = $('#' + onek + 'Yardim span');

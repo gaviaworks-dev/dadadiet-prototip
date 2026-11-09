@@ -8,11 +8,12 @@
 <div class="yan-panel-ortu" id="randevuPanel" hidden><aside class="yan-panel" role="dialog" aria-modal="true" aria-labelledby="rpBaslik">
   <div class="yan-panel-bas"><h2 id="rpBaslik">Randevu Oluştur</h2>${kapatDugme}</div>
   <form class="yan-panel-govde" id="rpForm" novalidate>
-    <div class="alan" id="rpKipAlan"><div class="segment" id="rpKip" role="group" aria-label="İşlem türü"><button type="button" data-deger="randevu" aria-pressed="true">Randevu</button><button type="button" data-deger="blok" aria-pressed="false">Saat kapat</button></div></div>
+    <div class="alan" id="rpKipAlan"><div class="segment" id="rpKip" role="group" aria-label="İşlem türü"><button type="button" data-deger="randevu" aria-pressed="true">Randevu</button><button type="button" data-deger="blok" aria-pressed="false">Saat kapat</button><button type="button" data-deger="seans" aria-pressed="false">Açık seans</button></div></div>
+    <div class="bilgi-notu" data-kip="seans" hidden><i class="fa-solid fa-circle-info" aria-hidden="true"></i><p>Müsaitlik dışındaki bir gün ya da saati yalnız bir kez randevuya açar. Danışanlar bu saati randevu ekranında görür; haftalık düzenin değişmez.</p></div>
     <div class="alan oneri-kap" data-kip="randevu"><label class="alan-etiket" for="rpDanisan">Danışan <span class="zorunlu" aria-hidden="true">*</span></label><input class="alan-girdi" id="rpDanisan" type="text" autocomplete="off" placeholder="Ad yaz ya da listeden seç"><div class="oneri-liste" id="rpOneri" role="group" aria-label="Danışan önerileri" hidden></div></div>
     <div class="alan" data-kip="randevu"><label class="alan-etiket" for="rpPaket">Paket</label><select class="alan-secim" id="rpPaket"></select><p class="alan-yardim" id="rpPaketNot"></p></div>
     <div class="alan-izgara c2">
-      <div class="alan" data-kip="randevu"><span class="alan-etiket" id="rpTurE">Görüşme biçimi</span><div class="segment" id="rpTur" role="group" aria-labelledby="rpTurE"><button type="button" data-deger="online" aria-pressed="true">Online</button><button type="button" data-deger="yüz yüze" aria-pressed="false">Yüz yüze</button></div></div>
+      <div class="alan" data-kip="randevu seans"><span class="alan-etiket" id="rpTurE">Görüşme biçimi</span><div class="segment" id="rpTur" role="group" aria-labelledby="rpTurE"><button type="button" data-deger="online" aria-pressed="true">Online</button><button type="button" data-deger="yüz yüze" aria-pressed="false">Yüz yüze</button></div></div>
       <div class="alan"><label class="alan-etiket" for="rpSure">Süre</label><select class="alan-secim" id="rpSure"></select></div>
     </div>
     <div class="alan"><span class="alan-etiket">Tarih <span class="zorunlu" aria-hidden="true">*</span></span><div class="ay-secim" id="rpGunler"></div></div>
@@ -20,6 +21,7 @@
     <div class="alan" data-kip="blok" hidden><label class="alan-etiket" for="rpNeden">Neden <span class="istege-bagli">(isteğe bağlı)</span></label><input class="alan-girdi" id="rpNeden" type="text" autocomplete="off" placeholder="Klinik toplantısı"></div>
     <div class="alan" data-kip="randevu"><label class="alan-etiket" for="rpNot">Özel not <span class="istege-bagli">(isteğe bağlı)</span></label><textarea class="alan-metin" id="rpNot" rows="3"></textarea><p class="alan-yardim"><i class="fa-solid fa-eye-slash" aria-hidden="true"></i><span>Yalnız sen görürsün, danışan görmez.</span></p></div>
     <div class="alan" data-kip="yeni"><label class="onay-kutusu"><input type="checkbox" id="rpTekrar"><span>Haftalık tekrarla</span></label><select class="alan-secim" id="rpHafta" aria-label="Kaç hafta tekrarlansın" hidden><option value="2">2 hafta</option><option value="3">3 hafta</option><option value="4" selected>4 hafta</option><option value="8">8 hafta</option></select></div>
+    <div class="alan" data-kip="seans" hidden><span class="alan-etiket">Açtığın seanslar</span><div class="ayar-liste" id="rpEkListe"></div></div>
     <div class="ayar-liste" data-kip="randevu"><label class="ayar-satir"><span class="as-metin"><b>Danışana mesajla bildir</b><span>Tarih ve saat sohbete düşer.</span></span><span class="as-eylem"><span class="anahtar"><input type="checkbox" id="rpBildir" checked aria-label="Danışana mesajla bildir"><span class="anahtar-ray"></span></span></span></label></div>
   </form>
   <div class="yan-panel-ozet" id="rpOzet" aria-live="polite"></div>
@@ -42,20 +44,21 @@
     $('rpPaket').innerHTML = PA.d().paketler.filter((p) => p.aktif).map((p) => `<option value="${p.id}">${h(p.ad)} · ${p.seans} seans</option>`).join('');
   }
   function sureDoldur() {
-    const l = s.kip === 'blok' ? [30, 60, 90, 120, 180] : [30, 45, 60];
+    const l = s.kip === 'blok' ? [30, 60, 90, 120, 180] : s.kip === 'seans' ? [30, 45, 60, 90, 120] : [30, 45, 60];
     $('rpSure').innerHTML = l.map((n) => `<option value="${n}">${n} dk</option>`).join('');
     $('rpSure').value = String(s.sure);
   }
   function kipGoster() {
-    const blok = s.kip === 'blok', duzen = !!s.duzenlenen;
-    $('rpBaslik').textContent = duzen ? 'Yeniden planla' : blok ? 'Saat kapat' : 'Randevu Oluştur';
-    $('rpGonder').textContent = duzen ? 'Yeni saate al' : blok ? 'Saati kapat' : 'Randevuyu oluştur';
+    const blok = s.kip === 'blok', seans = s.kip === 'seans', duzen = !!s.duzenlenen;
+    $('rpBaslik').textContent = duzen ? 'Yeniden planla' : blok ? 'Saat kapat' : seans ? 'Açık Seans Ekle' : 'Randevu Oluştur';
+    $('rpGonder').textContent = duzen ? 'Yeni saate al' : blok ? 'Saati kapat' : seans ? 'Seansı aç' : 'Randevuyu oluştur';
     $('rpKipAlan').hidden = duzen;
-    form.querySelectorAll('[data-kip]').forEach((e) => { e.hidden = e.dataset.kip === 'yeni' ? blok || duzen : e.dataset.kip !== s.kip; });
+    form.querySelectorAll('[data-kip]').forEach((e) => { e.hidden = e.dataset.kip === 'yeni' ? blok || seans || duzen : !e.dataset.kip.split(' ').includes(s.kip); });
+    if (seans) ekListeCiz();
     $('rpKip').querySelectorAll('button').forEach((b) => b.setAttribute('aria-pressed', String(b.dataset.deger === s.kip)));
   }
   function turAyarla() {
-    const p = PA.paket(s.paket);
+    const p = s.kip === 'seans' ? null : PA.paket(s.paket);
     const sabit = p && p.tur !== 'karma' ? p.tur : null;
     if (sabit && s.tur !== sabit) { s.tur = sabit; s.sure = varsayilanSure(); }
     $('rpTur').querySelectorAll('button').forEach((b) => {
@@ -67,6 +70,20 @@
     const kalan = dn && p ? PA.kalanSeans(dn, p.id) : null;
     $('rpPaketNot').textContent = p ? (kalan != null ? kalan + ' seans hakkı kaldı' : p.seans + ' seanslık paket') : '';
   }
+  /* Seçilebilir saatler: açık seans kipinde yalnız şu an randevuya kapalı ve boş saatler (07.00–22.00) */
+  function adaylar(iso) {
+    if (s.kip !== 'seans') return PA.gunSlotlari(iso, sureOf(), s.haric).filter((x) => x.uygun);
+    const l = [];
+    for (let m = 7 * 60; m + sureOf() <= 22 * 60; m += 30) {
+      if (iso + 'T' + PA.saat(m) <= PA.simdi || PA.dolulukVar(iso, m, m + sureOf()) || PA.slotUygun(iso, m, sureOf())) continue;
+      l.push({ saat: PA.saat(m), uygun: true });
+    }
+    return l;
+  }
+  function ekListeCiz() {
+    const l = PA.ekSeanslar().filter((e) => e.tarih >= DD.bugun).sort((a, b) => (a.tarih + a.saat).localeCompare(b.tarih + b.saat));
+    $('rpEkListe').innerHTML = l.length ? l.map((e) => `<div class="ayar-satir"><span class="as-ikon"><i class="fa-solid ${e.tur === 'online' ? 'fa-video' : 'fa-location-dot'}" aria-hidden="true"></i></span><span class="as-metin"><b>${h(PA.uzunTarih(e.tarih))} · ${DD.bicim.saat(e.saat)}</b><span>${e.sure} dk · ${e.tur === 'online' ? 'Online' : 'Yüz yüze'}</span></span><span class="as-eylem"><button class="ikon-dugme yikici" type="button" data-ek-sil="${e.id}" aria-label="${h(PA.tarih(e.tarih))} ${e.saat} açık seansını kaldır"><i class="fa-solid fa-trash-can" aria-hidden="true"></i></button></span></div>`).join('') : '<p class="alan-yardim"><span>Henüz açık seans yok.</span></p>';
+  }
   /* Ay görünümü: müsait gün dolgulu, öteki gün soluk; seçilen günün saatleri altında */
   function gunleriCiz() {
     const ay = s.ay, ayNo = ay.slice(0, 7), bas = PA.haftaBasi(ay);
@@ -75,7 +92,7 @@
       const iso = PA.ekle(bas, i);
       if (i % 7 === 0 && i && iso.slice(0, 7) !== ayNo) break;
       if (iso.slice(0, 7) !== ayNo) { hucre += '<span class="ay-gun bosluk" aria-hidden="true"></span>'; continue; }
-      const n = iso < DD.bugun ? 0 : PA.gunSlotlari(iso, sureOf(), s.haric).filter((x) => x.uygun).length;
+      const n = iso < DD.bugun ? 0 : adaylar(iso).length;
       hucre += `<button class="ay-gun${n ? ' uygun' : ''}${iso === DD.bugun ? ' bugun' : ''}" type="button" data-tarih="${iso}" aria-pressed="${iso === s.tarih}" aria-label="${h(PA.uzunTarih(iso))}, ${n ? n + ' boş saat' : 'boş saat yok'}"${n ? '' : ' disabled'}>${+iso.slice(8)}</button>`;
     }
     $('rpGunler').innerHTML = `<div class="ay-bas"><button class="ikon-dugme" type="button" data-kay="-1" aria-label="Önceki ay"${ayNo <= DD.bugun.slice(0, 7) ? ' disabled' : ''}><i class="fa-solid fa-chevron-left" aria-hidden="true"></i></button><b>${h(PA.ayAdi(ay))}</b><button class="ikon-dugme" type="button" data-kay="1" aria-label="Sonraki ay"><i class="fa-solid fa-chevron-right" aria-hidden="true"></i></button></div><div class="ay-izgara">${['Pzt', 'Sal', 'Çar', 'Per', 'Cum', 'Cmt', 'Paz'].map((g) => `<span class="ay-etiket">${g}</span>`).join('')}${hucre}</div>`;
@@ -83,7 +100,7 @@
   function saatleriCiz() {
     const kap = $('rpSaatler');
     if (!s.tarih) { kap.innerHTML = ''; $('rpSaatNot').textContent = 'Önce bir gün seç.'; ozetCiz(); return; }
-    const l = PA.gunSlotlari(s.tarih, sureOf(), s.haric).filter((x) => x.uygun);
+    const l = adaylar(s.tarih);
     const onceki = s.saat;
     if (s.saat && !l.some((x) => x.saat === s.saat)) s.saat = null;
     kap.innerHTML = l.map((x) => `<button class="cip${x.saat === s.saat ? ' aktif' : ''}" type="button" data-saat="${x.saat}" aria-pressed="${x.saat === s.saat}">${DD.bicim.saat(x.saat)}</button>`).join('');
@@ -95,6 +112,7 @@
     const dn = PA.danisan(s.danisan), p = PA.paket(s.paket);
     const zaman = s.tarih && s.saat ? h(PA.uzunTarih(s.tarih)) + ' · ' + DD.bicim.saat(s.saat) + '–' + DD.bicim.saat(PA.saat(PA.dakika(s.saat) + sureOf())) : '';
     if (s.kip === 'blok') { $('rpOzet').innerHTML = zaman ? `<b>Kapanacak saat</b><span>${zaman}</span>` : '<span>Gün ve saat seç.</span>'; return; }
+    if (s.kip === 'seans') { $('rpOzet').innerHTML = zaman ? `<b>Açılacak seans</b><span>${zaman}</span><span>${s.tur === 'online' ? 'Online' : 'Yüz yüze'} · ${sureOf()} dk</span>` : '<span>Gün ve saat seç.</span>'; return; }
     if (!dn || !zaman) { $('rpOzet').innerHTML = `<span>${!dn && !zaman ? 'Danışan ve saat seç.' : !dn ? zaman + ' · danışan seç.' : h(dn.ad) + ' için gün ve saat seç.'}</span>`; return; }
     const kalan = p ? PA.kalanSeans(dn, p.id) : null;
     $('rpOzet').innerHTML = `<b>${h(dn.ad)}</b><span>${zaman}</span><span>${s.tur === 'online' ? 'Online' : 'Yüz yüze'} · ${sureOf()} dk${p ? ' · ' + h(p.ad) + (kalan != null ? ', ' + kalan + ' seans hakkı' : '') : ''}</span>`;
@@ -174,7 +192,21 @@
   $('rpKip').addEventListener('dd:secim', (e) => {
     s.kip = e.detail.deger;
     s.sure = s.kip === 'blok' ? 60 : varsayilanSure();
+    s.saat = null;
     tazele();
+  });
+  $('rpEkListe').addEventListener('click', (e) => {
+    const b = e.target.closest('[data-ek-sil]');
+    if (!b) return;
+    const l = PA.ekSeanslar(), i = l.findIndex((x) => x.id === b.dataset.ekSil), es = l[i];
+    if (!es) return;
+    const dolu = PA.d().randevular.some((r) => r.tarih === es.tarih && PA.rAcik(r) && PA.dakika(r.saat) < PA.dakika(es.saat) + es.sure && PA.rBitis(r) > PA.dakika(es.saat));
+    window.DM_ONAY('Açık seans kaldırılsın mı?', dolu ? 'Bu seansa alınmış randevu yerinde kalır; yalnız boş kalan saat kapanır.' : 'Saat yeniden müsaitlik dışına döner.', 'Kaldır', (ok) => {
+      if (!ok) return;
+      l.splice(i, 1); PA.kaydet(); ekListeCiz(); gunleriCiz(); saatleriCiz();
+      DD.toast('Açık seans kaldırıldı.');
+      document.dispatchEvent(new CustomEvent('pa:degisti', { detail: { tarih: es.tarih } }));
+    });
   });
   $('rpPaket').addEventListener('change', (e) => { s.paket = e.target.value; s.sure = varsayilanSure(); tazele(); });
   $('rpTur').addEventListener('dd:secim', (e) => { s.tur = e.detail.deger; s.sure = varsayilanSure(); tazele(); });
@@ -198,6 +230,14 @@
     window.DM_HATA_SIL(dnAlan);
     if (!s.tarih || !s.saat) { window.DM_HATA_YAZ(saatAlan, 'Tarih ve saat seç.'); return; }
     window.DM_HATA_SIL(saatAlan);
+    if (s.kip === 'seans') {
+      PA.ekSeanslar().push({ id: 'es' + Date.now(), tarih: s.tarih, saat: s.saat, sure: s.sure, tur: s.tur });
+      PA.kaydet();
+      DD.kapat($('randevuPanel'));
+      DD.toast('Açık seans eklendi: ' + PA.tarih(s.tarih) + ' ' + DD.bicim.saat(s.saat) + '. Danışanlar bu saati randevu ekranında görür.');
+      document.dispatchEvent(new CustomEvent('pa:degisti', { detail: { tarih: s.tarih } }));
+      return;
+    }
     if (s.kip === 'blok') {
       PA.bloklar().push({ id: 'b' + Date.now(), tarih: s.tarih, saat: s.saat, sure: s.sure, neden: $('rpNeden').value.trim() || 'Kapalı' });
       PA.kaydet();
