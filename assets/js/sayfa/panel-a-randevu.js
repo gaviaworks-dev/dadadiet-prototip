@@ -20,7 +20,7 @@
     <div class="alan"><span class="alan-etiket" id="rpSaatE">Saat <span class="zorunlu" aria-hidden="true">*</span></span><div class="saat-cipleri" id="rpSaatler" role="group" aria-labelledby="rpSaatE"></div><p class="alan-yardim" id="rpSaatNot"></p></div>
     <div class="alan" data-kip="blok" hidden><label class="alan-etiket" for="rpNeden">Neden <span class="istege-bagli">(isteğe bağlı)</span></label><input class="alan-girdi" id="rpNeden" type="text" autocomplete="off" placeholder="Klinik toplantısı"></div>
     <div class="alan" data-kip="randevu"><label class="alan-etiket" for="rpNot">Özel not <span class="istege-bagli">(isteğe bağlı)</span></label><textarea class="alan-metin" id="rpNot" rows="3"></textarea><p class="alan-yardim"><i class="fa-solid fa-eye-slash" aria-hidden="true"></i><span>Yalnız sen görürsün, danışan görmez.</span></p></div>
-    <div class="alan" data-kip="yeni"><label class="onay-kutusu"><input type="checkbox" id="rpTekrar"><span>Haftalık tekrarla</span></label><select class="alan-secim" id="rpHafta" aria-label="Kaç hafta tekrarlansın" hidden><option value="2">2 hafta</option><option value="3">3 hafta</option><option value="4" selected>4 hafta</option><option value="8">8 hafta</option></select></div>
+    <div class="alan" data-kip="yeni"${PA.bayrakOz('takvim-haftalik-tekrar')}><label class="onay-kutusu"><input type="checkbox" id="rpTekrar"><span>Haftalık tekrarla</span></label><select class="alan-secim" id="rpHafta" aria-label="Kaç hafta tekrarlansın" hidden><option value="2">2 hafta</option><option value="3">3 hafta</option><option value="4" selected>4 hafta</option><option value="8">8 hafta</option></select></div>
     <div class="alan" data-kip="seans" hidden><span class="alan-etiket">Açtığın seanslar</span><div class="ayar-liste" id="rpEkListe"></div></div>
     <div class="ayar-liste" data-kip="randevu"><label class="ayar-satir"><span class="as-metin"><b>Danışana mesajla bildir</b><span>Tarih ve saat sohbete düşer.</span></span><span class="as-eylem"><span class="anahtar"><input type="checkbox" id="rpBildir" checked aria-label="Danışana mesajla bildir"><span class="anahtar-ray"></span></span></span></label></div>
   </form>
@@ -255,7 +255,7 @@
       if (r.talep) { r.talep_sonuc = 'kabul'; delete r.talep; } /* talep başka saate alınarak karşılandı */
       metin = 'Randevunuzu ' + PA.ayGun(s.tarih) + ' ' + DD.bicim.saat(s.saat) + ' saatine aldım. ' + PA.rTur(r) + ' görüşeceğiz.';
     } else {
-      const hafta = $('rpTekrar').checked ? +$('rpHafta').value : 1;
+      const hafta = PA.bayrak('takvim-haftalik-tekrar') && $('rpTekrar').checked ? +$('rpHafta').value : 1;
       adet = 0;
       for (let i = 0; i < hafta; i++) {
         const tarih = PA.ekle(s.tarih, i * 7);

@@ -1,8 +1,8 @@
-<!--{"baslik":"Hesap ayarları","yol":"diyetisyen-paneli/hesap-ayarlari","duzen":"panel","aktif":"profil","js":["assets/js/sayfa/panel-b-ortak.js","assets/js/sayfa/panel-b-durum.js","assets/js/sayfa/panel-b-hesap.js"]}-->
+<!--{"baslik":"Hesap ayarları","yol":"diyetisyen-paneli/hesap-ayarlari","duzen":"panel","aktif":"profil","js":["assets/js/bayrak.js","assets/js/sayfa/panel-b-ortak.js","assets/js/sayfa/panel-b-durum.js","assets/js/sayfa/panel-b-hesap.js"]}-->
 <div class="panel-bas">
   <div>
     <h1>Hesap ayarları</h1>
-    <p>Bildirim, hatırlatma, panel dili ve güvenlik tercihlerin. Profil bilgilerin Public profil sekmesinde.</p>
+    <p>Bildirim, panel dili ve şifre tercihlerin. Profil bilgilerin Public profil sekmesinde.</p>
   </div>
 </div>
 <nav class="sekmeler" aria-label="Profil ve ayarlar">
@@ -23,7 +23,7 @@
         </table>
       </div></div>
     </div>
-    <div class="kart panel">
+    <div class="kart panel" data-bayrak="hesap-hatirlatma">
       <div class="kart-bas"><h2 class="kart-baslik">Randevu Hatırlatmaları</h2></div>
       <div class="kart-govde"><div class="ayar-liste" id="hatirlatmaListe"></div></div>
     </div>
@@ -49,7 +49,7 @@
         <button class="dugme hayalet tam-en" type="button" data-ayar="sifre"><i class="fa-solid fa-key" aria-hidden="true"></i> Şifreyi güncelle</button>
       </div>
     </div>
-    <div class="kart panel">
+    <div class="kart panel" data-bayrak="hesap-guvenlik">
       <div class="kart-bas"><h2 class="kart-baslik">Oturum ve Güvenlik</h2></div>
       <div class="kart-govde"><div class="ayar-liste" id="guvenlikListe"></div></div>
     </div>

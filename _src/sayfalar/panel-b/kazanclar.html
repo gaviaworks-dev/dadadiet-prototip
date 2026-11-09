@@ -1,4 +1,4 @@
-<!--{"baslik":"Kazançlarım","yol":"diyetisyen-paneli/kazanclar","duzen":"panel","aktif":"kazanclar","js":["assets/js/sayfa/panel-b-ortak.js","assets/js/sayfa/panel-b-durum.js","assets/js/sayfa/panel-b-kazanclar.js"]}-->
+<!--{"baslik":"Kazançlarım","yol":"diyetisyen-paneli/kazanclar","duzen":"panel","aktif":"kazanclar","js":["assets/js/bayrak.js","assets/js/sayfa/panel-b-ortak.js","assets/js/sayfa/panel-b-durum.js","assets/js/sayfa/panel-b-kazanclar.js"]}-->
 <div class="panel-bas">
   <div>
     <h1>Kazançlarım</h1>
@@ -12,7 +12,7 @@
 <div class="yigin">
   <div class="kart-izgara c4" id="kazancKpi"></div>
   <div class="iki-kolon">
-    <div class="kart panel">
+    <div class="kart panel" data-bayrak="kazanc-grafik">
       <div class="kart-bas">
         <div><h2 class="kart-baslik">Son 12 Ay</h2><p id="grafikNot"></p></div>
         <div class="segment" id="grafikSeri" role="group" aria-label="Grafik serisi">
@@ -69,7 +69,7 @@
   </div>
 </div>
 
-<div class="modal-ortu" id="talepModal" hidden>
+<div class="modal-ortu" id="talepModal" data-bayrak="kazanc-odeme-talebi" hidden>
   <div class="modal-kutu" role="dialog" aria-modal="true" aria-labelledby="talepBaslik">
     <div class="modal-bas"><h2 id="talepBaslik">Ödeme Talebi</h2><button class="kapat-dugme" type="button" data-kapat aria-label="Kapat"><i class="fa-solid fa-xmark" aria-hidden="true"></i></button></div>
     <div class="modal-govde"><div class="yigin sik" id="talepGovde"></div></div>

@@ -7,7 +7,7 @@ export default ({ veri }) => {
     rehberler: Object.fromEntries(veri.rehberler.rehberler.map((r) => [r.slug, r.ad ?? r.baslik])),
     diyetisyenler: Object.fromEntries((Array.isArray(veri.diyetisyenler) ? veri.diyetisyenler : veri.diyetisyenler.diyetisyenler || []).map((d) => [d.slug, d.ad])),
     // Bana Uygun Olanı Bul önerisi: slug sihirbazdaki amaç; ad ve yol sihirbazın birincil rotasıyla aynı
-    yonlendirmeler: { bilgi: ['Besin Rehberi önerisi', 'besin-rehberi/'], hesap: ['Günlük Kalori İhtiyacı önerisi', 'hesaplayici/gunluk-kalori/'], program: ['Program Bul önerisi', 'programlar/program-bul/'], uzman: ['Diyetisyen Bul önerisi', 'diyetisyen-bul-sihirbazi/'] },
+    yonlendirmeler: { bilgi: ['Beslenme Rehberi önerisi', 'besin-rehberi/'], hesap: ['Günlük Kalori İhtiyacı önerisi', 'hesaplayici/gunluk-kalori/'], program: ['Program Bul önerisi', 'programlar/program-bul/'], uzman: ['Diyetisyen Bul önerisi', 'diyetisyen-bul-sihirbazi/'] },
   };
   const govde = `<div class="yigin">${rk('DF-B1', { tur: 'bant', konum: 'alt' })}
 <div class="cipler" id="kdSuzgec" role="group" aria-label="İçerik türü" data-suzgec></div>

@@ -8,20 +8,23 @@
   const V = { kanal: { randevu: { eposta: true, push: true }, mesaj: { eposta: false, push: true }, yorum: { eposta: true, push: false }, ozet: { eposta: true, push: false } }, hatirlat: { danisan: true, ajanda: true, sessiz: false }, dil: 'Türkçe', iki_adim: true, oturumlar: [{ ad: 'Bu cihaz · Chrome, macOS', zaman: 'Şu an etkin', bu: true }, { ad: 'iPhone · Safari', zaman: 'Dün 21.40' }] };
   const A = Object.assign({}, JSON.parse(JSON.stringify(V)), dyt.ayarlar || {});
   const anahtar = (ad, ac, etiket) => '<label class="anahtar"><input type="checkbox" data-anahtar="' + ad + '"' + (ac ? ' checked' : '') + ' aria-label="' + esc(etiket) + '"><span class="anahtar-ray"></span></label>';
+  /* Bayraklar (pb-13): hatırlatma ve sessiz saat, iki adımlı doğrulama ve oturum kapatma kapalıyken çizilmez ve çalışmaz */
+  const bayrak = (ad) => !!(window.DD_BAYRAK && window.DD_BAYRAK.acik(ad));
+  const HATIRLATMA = bayrak('hesap-hatirlatma'), GUVENLIK = bayrak('hesap-guvenlik');
   const degisti = () => { $('#ayarNot').textContent = 'Kaydedilmemiş değişiklik var'; };
 
   function ciz() {
     $('#bildirimSatirlar').innerHTML = BILDIRIM.map(([k, a, m]) => '<tr><td><b>' + a + '</b><small>' + m + '</small></td><td>' + anahtar('kanal.' + k + '.eposta', A.kanal[k].eposta, a + ' e-posta') + '</td><td>' + anahtar('kanal.' + k + '.push', A.kanal[k].push, a + ' push') + '</td></tr>').join('');
-    $('#hatirlatmaListe').innerHTML = HATIRLAT.map(([k, i, a, m]) => '<div class="ayar-satir"><span class="as-ikon"><i class="fa-solid ' + i + '" aria-hidden="true"></i></span><span class="as-metin"><b>' + a + '</b><span>' + m + '</span></span><span class="as-eylem">' + anahtar('hatirlat.' + k, A.hatirlat[k], a) + '</span></div>').join('');
+    if (HATIRLATMA) $('#hatirlatmaListe').innerHTML = HATIRLAT.map(([k, i, a, m]) => '<div class="ayar-satir"><span class="as-ikon"><i class="fa-solid ' + i + '" aria-hidden="true"></i></span><span class="as-metin"><b>' + a + '</b><span>' + m + '</span></span><span class="as-eylem">' + anahtar('hatirlat.' + k, A.hatirlat[k], a) + '</span></div>').join('');
     $('#panelDil').value = A.dil;
     $('#hesapOzet').innerHTML = '<div class="deger-satir"><span>Ad soyad</span><b>' + esc(dyt.ad) + '</b></div><div class="deger-satir"><span>E-posta</span><b>hesap@ornek.com</b></div><div class="deger-satir"><span>Üyelik</span><b>Diyetisyen</b></div><div class="deger-satir"><span>Şifre</span><b>' + (A.sifre_son ? PB.tarihSaat(A.sifre_son) + ' değişti' : 'Son 90 günde değişmedi') + '</b></div>';
     sifreDurum();
-    guvenlikCiz();
+    if (GUVENLIK) guvenlikCiz();
   }
   function sifreDurum() {
     const e = $('#sifreSonuc');
     e.hidden = !A.sifre_son;
-    if (A.sifre_son) e.innerHTML = '<i class="fa-solid fa-circle-check" aria-hidden="true"></i><p><b>Şifren güncellendi.</b> ' + PB.tarihSaat(A.sifre_son) + ' tarihinde değişti; diğer cihazlardaki oturumlar kapatıldı.</p>';
+    if (A.sifre_son) e.innerHTML = '<i class="fa-solid fa-circle-check" aria-hidden="true"></i><p><b>Şifren güncellendi.</b> ' + PB.tarihSaat(A.sifre_son) + ' tarihinde değişti' + (GUVENLIK ? '; diğer cihazlardaki oturumlar kapatıldı' : '') + '.</p>';
   }
   function guvenlikCiz() {
     const digerler = A.oturumlar.filter((o) => !o.bu);
@@ -43,7 +46,7 @@
       $('#ayarNot').textContent = 'Kaydedildi · ' + PB.tarihSaat(PB.simdi());
       DD.toast('Ayarlar kaydedildi.');
     }
-    if (d.dataset.ayar === 'oturum') {
+    if (d.dataset.ayar === 'oturum' && GUVENLIK) {
       window.DM_ONAY('Diğer cihazlardan çıkılsın mı?', 'Bu cihaz dışındaki bütün oturumlar kapanır.', 'Oturumları kapat', (ok) => {
         if (!ok) return;
         A.oturumlar = A.oturumlar.filter((o) => o.bu);
@@ -58,7 +61,7 @@
       if (yeni.value !== tekrar.value) { window.DM_HATA_YAZ(tekrar.closest('.alan'), 'İki şifre aynı değil.'); tekrar.focus(); return; }
       eski.value = yeni.value = tekrar.value = '';
       A.sifre_son = PB.simdi();
-      A.oturumlar = A.oturumlar.filter((o) => o.bu);
+      if (GUVENLIK) A.oturumlar = A.oturumlar.filter((o) => o.bu);
       dyt.ayarlar = JSON.parse(JSON.stringify(A)); PB.kaydet();
       ciz();
       DD.toast('Şifren güncellendi.');

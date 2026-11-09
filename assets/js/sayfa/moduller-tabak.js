@@ -63,10 +63,14 @@
     YAN.forEach((s) => v.add(s));
     return fav.concat(yan, M.besinler().filter((b) => !v.has(b.slug)));
   };
-  const olcuAdi = (b) => (b.porsiyon && b.porsiyon.ad ? b.porsiyon.ad.replace(/^1\s+/, '') : 'porsiyon');
+  /* Tabakta girdi ölçüsü: besinin ev ölçüsü varsa o (yoğurtta yemek kaşığı, USDA FNDDS 2705464: 1 tablespoon = 15 g), yoksa porsiyonu */
+  const olcuAdi = (b) => (b.ev_olcusu ? b.ev_olcusu.ad : b.porsiyon && b.porsiyon.ad ? b.porsiyon.ad : 'porsiyon').replace(/^1\s+/, '');
+  const olcuGram = (b) => (b.ev_olcusu && b.ev_olcusu.gram) || M.porsiyonGram(b);
   /* Eksik bölme için tek dokunuşluk öneri ve tek tıkla değişim */
   const ONERI = { sebze: ['roka', 75, 'bol yeşillik ve limon', 'Yeşillik ekle'], protein: ['yogurt-yarim-yagli', 120, 'yoğurt', 'Yoğurt ekle'], karb: ['kepekli-ekmek', 50, 'iki dilim kepekli ekmek', 'Ekmek ekle'], yag: ['zeytinyagi', 10, 'iki tatlı kaşığı zeytinyağı', 'Zeytinyağı ekle'] };
-  const TAKAS = { 'pirinc-pismis': 'esmer-pirinc-pismis', 'beyaz-ekmek': 'kepekli-ekmek', 'makarna-haslanmis': 'tam-bugday-makarna', tereyagi: 'zeytinyagi' };
+  /* Tek tıkla muadil. Değer dizi olabilir: skoru en çok yükselten aday seçilir, eşitlikte lifi yüksek olan (AT §5 örnekleri: beyaz pirinç → esmer pirinç
+     ya da karabuğday, kızartma yerine fırın; karabuğday ve patates verisi USDA FDC 170686, 170698, 170093, 9 Kasım 2026) */
+  const TAKAS = { 'pirinc-pismis': ['esmer-pirinc-pismis', 'karabugday-pismis'], 'beyaz-ekmek': 'kepekli-ekmek', 'makarna-haslanmis': 'tam-bugday-makarna', tereyagi: 'zeytinyagi', 'patates-kizartmasi': 'patates-firinda' };
   /* Tabakta durması tek başına muadil önerisi doğuran doymuş yağ kalemleri */
   const DOYMUS = ['tereyagi'];
   const olcusu = (b) => {
@@ -143,7 +147,7 @@
     }
     kap.innerHTML = '<div class="ayar-liste porsiyonlu">' + kalemler.map((k, i) => {
       const b = M.besin(k.slug), bo = BOLME[bolmesi(b)], o = olcusu(b);
-      const y = yemekBilgi(b), pg = M.porsiyonGram(b);
+      const y = yemekBilgi(b), pg = olcuGram(b);
       const gramBag = '<button class="metin-bag" type="button" data-gram-ac>' + (k.gram ? 'Porsiyona dön' : 'Gramajı kendim girmek istiyorum') + '</button>';
       const sil = '<button class="kapat-dugme" type="button" data-sil="' + i + '" aria-label="' + kac(M.kisaAd(b)) + ' kalemini sil"><i class="fa-solid fa-xmark" aria-hidden="true"></i></button>';
       const metin = (bag) => '<div class="as-metin"><b>' + kac(b.ad) + '</b><span data-kalem-alt="' + i + '">' + kac(altMetin(b, k, bo)) + '</span>' + bag + '</div>';
@@ -227,11 +231,19 @@
     return k ? kalemler.indexOf(k) : null;
   }
   /* Tek tıkla değişim uygulanmadan önce hesaplanır: skoru düşüren değişim önerilmez */
-  const takasOlur = (i, h) => hesap(kalemler.map((x, n) => (n === i ? { ...x, slug: TAKAS[x.slug] } : x))).skor >= h.skor;
-  const takasDugme = (b, i) => { const yeni = M.besin(TAKAS[b.slug]); return { dugme: M.kisaAd(yeni) + ' ile değiştir', attr: 'data-takas="' + i + '"' }; };
+  const takasOlur = (i, h) => {
+    let en = null, enSkor = h.skor;
+    [].concat(TAKAS[kalemler[i].slug] || []).filter((s) => M.besin(s)).forEach((s) => {
+      const skor = hesap(kalemler.map((x, n) => (n === i ? { ...x, slug: s } : x))).skor;
+      if (en === null ? skor >= enSkor : skor > enSkor || (skor === enSkor && (M.besin(s).lif || 0) > (M.besin(en).lif || 0))) { en = s; enSkor = skor; }
+    });
+    return en;
+  };
+  const takasDugme = (b, i, hedef) => ({ dugme: M.kisaAd(M.besin(hedef)) + ' ile değiştir', attr: 'data-takas="' + i + '" data-takas-hedef="' + hedef + '"' });
   function takasOneri(h) {
     const dy = kalemler.findIndex((k) => DOYMUS.includes(k.slug));
-    if (dy >= 0 && takasOlur(dy, h)) { const b = M.besin(kalemler[dy].slug); return { metin: M.kisaAd(b) + ' doymuş yağı yüksek bir kalem.', ...takasDugme(b, dy) }; }
+    const dyHedef = dy >= 0 ? takasOlur(dy, h) : null;
+    if (dyHedef) { const b = M.besin(kalemler[dy].slug); return { metin: M.kisaAd(b) + ' doymuş yağı yüksek bir kalem.', ...takasDugme(b, dy, dyHedef) }; }
     if (h.skor >= 90) return null;
     const id = h.oran.karb > BOLME.karb.aralik[1] + 5 ? 'karb' : h.oran.yag > BOLME.yag.aralik[1] + 5 ? 'yag' : null;
     if (!id) return null;
@@ -239,7 +251,8 @@
     if (i == null) return null;
     const b = M.besin(kalemler[i].slug);
     const metin = BOLME[id].ad + ' ağırlığı en çok ' + M.kisaAd(b) + ' kaleminden geliyor.';
-    if (TAKAS[b.slug] && takasOlur(i, h)) return { metin, ...takasDugme(b, i) };
+    const hedef = TAKAS[b.slug] ? takasOlur(i, h) : null;
+    if (hedef) return { metin, ...takasDugme(b, i, hedef) };
     /* Bulucu yalnız skoru düşürmeyen bir muadil varsa önerilir */
     const temel = id === 'karb' ? 'karb' : 'kcal';
     if (!muadilVar(b, temel)) return null;
@@ -328,7 +341,7 @@
     if (oe) { const [slug, gram] = ONERI[oe.dataset.onerEkle]; ekle(M.besin(slug), gram, 'g'); return; }
     const tk = e.target.closest('[data-takas]');
     if (tk) {
-      const k = kalemler[+tk.dataset.takas], eski = M.kisaAd(M.besin(k.slug)), yeni = TAKAS[k.slug];
+      const k = kalemler[+tk.dataset.takas], eski = M.kisaAd(M.besin(k.slug)), yeni = tk.dataset.takasHedef;
       const ayni = kalemler.find((x) => x.slug === yeni && x.birim === k.birim);
       if (ayni) { ayni.miktar += k.miktar; kalemler.splice(kalemler.indexOf(k), 1); } else k.slug = yeni;
       hazirNo = -1; yenile();
@@ -356,7 +369,7 @@
     if (!satir || e.target.tagName !== 'INPUT') return;
     const i = +satir.dataset.sira, v = parseFloat(e.target.value);
     if (!(v > 0)) return;
-    const k = kalemler[i], b = M.besin(k.slug), y = yemekBilgi(b), pg = M.porsiyonGram(b);
+    const k = kalemler[i], b = M.besin(k.slug), y = yemekBilgi(b), pg = olcuGram(b);
     k.miktar = y ? v / y.gram : !k.gram && pg ? v * pg : v; hazirNo = -1;
     satir.querySelector('[data-kalem-alt]').textContent = altMetin(b, k, BOLME[bolmesi(b)]);
     ozetCiz(); hazirCiz();

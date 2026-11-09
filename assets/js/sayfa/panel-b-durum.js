@@ -6,10 +6,12 @@
   const d = () => DD.demo.al();
   const kok = DD.kok + 'diyetisyen-paneli/';
   const kaydet = () => { DD.demo.kaydet(); if (window.PA && PA.kabukTazele) PA.kabukTazele(); };
+  /* Başvuru durum adları SH-10-27 ve canlı DiyetisyenBasvurusu ile (c-32, pc-7): incelemede · ek_belge_istendi ("Revizyon istendi") · onaylandi.
+     Anahtarlar (?durum=onay-bekliyor|eksik-belge|onayli) demo bağları kırılmasın diye aynı kaldı. */
   PBD.DURUMLAR = {
-    onayli: { ad: 'Onaylı', hap: 'cozulen', ikon: 'fa-circle-check', baslik: 'Profilin yayında', metin: 'Danışanlar profilini görüyor ve açık saatlerinden randevu alabiliyor.' },
-    'onay-bekliyor': { ad: 'Onay bekliyor', hap: 'bekleyen', ikon: 'fa-hourglass-half', baslik: 'Profilin onay bekliyor', metin: 'Belgelerin inceleniyor. Onaya kadar public profilin yayında değil ve yeni danışandan randevu alamazsın; mevcut danışanlarınla çalışabilirsin.' },
-    'eksik-belge': { ad: 'Eksik belge', hap: 'hata', ikon: 'fa-file-circle-exclamation', baslik: 'Başvurunda eksik belge var', metin: 'Mesleki sorumluluk belgen eksik. Belge tamamlanmadan public profilin açılmaz ve yeni danışandan randevu alamazsın.' },
+    onayli: { ad: 'Onaylandı', hap: 'cozulen', ikon: 'fa-circle-check', baslik: 'Profilin yayında', metin: 'Danışanlar profilini görüyor ve açık saatlerinden randevu alabiliyor.' },
+    'onay-bekliyor': { ad: 'İncelemede', hap: 'bekleyen', ikon: 'fa-hourglass-half', baslik: 'Başvurun incelemede', metin: 'Belgelerin inceleniyor. Onaya kadar public profilin yayında değil ve yeni danışandan randevu alamazsın; mevcut danışanlarınla çalışabilirsin.' },
+    'eksik-belge': { ad: 'Revizyon istendi', hap: 'hata', ikon: 'fa-file-circle-exclamation', baslik: 'Başvurun için ek belge istendi', metin: 'Mesleki sorumluluk belgen eksik. Belge tamamlanmadan public profilin açılmaz ve yeni danışandan randevu alamazsın.' },
   };
   PBD.durum = () => (d().diyetisyen && d().diyetisyen.onay_durumu) || 'onayli';
   PBD.tanim = () => PBD.DURUMLAR[PBD.durum()];

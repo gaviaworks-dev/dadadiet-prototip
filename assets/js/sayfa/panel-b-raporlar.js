@@ -23,7 +23,7 @@
     const gunler = GUN.map((g) => [g, l.filter((r) => r.durum !== 'iptal' && PA.gunAdi(r.tarih) === g).length]);
     const acik = l.filter((r) => r.durum !== 'iptal').length;
     $('p-randevu').innerHTML = `<div class="iki-kolon">
-${kart('fa-chart-simple', 'Durum Dağılımı', ilk ? PA.tarih(ilk) + ' – ' + PA.tarih(son) + ' arası ' + l.length + ' randevu' : '', dagilim([['Tamamlandı', tamam, ''], ['Planlandı', planli, ''], ['Onay bekliyor', onay, ''], ['Sonuç bekliyor', sonuc, ''], ['Gelmedi', gelmedi, ''], ['İptal', iptal, '']], l.length))}
+${kart('fa-chart-simple', 'Durum Dağılımı', ilk ? PA.tarih(ilk) + ' – ' + PA.tarih(son) + ' arası ' + l.length + ' randevu' : '', dagilim([['Tamamlandı', tamam, ''], ['Planlandı', planli, ''], ['Onay bekliyor', onay, ''], ...(PA.bayrak('randevu-sonuc-bekliyor') ? [['Sonuç bekliyor', sonuc, '']] : []), ['Gelmedi', gelmedi, ''], ['İptal', iptal, '']], l.length))}
 <div class="yigin">
 ${kart('fa-video', 'Görüşme Biçimi', 'İptal edilenler hariç', dagilim([['Online', online], ['Yüz yüze', yuz]], online + yuz))}
 ${kart('fa-calendar-week', 'Günlere Göre', 'İptal edilenler hariç', dagilim(gunler.filter((g) => g[1]), acik))}

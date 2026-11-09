@@ -114,7 +114,7 @@
     durumYaz(false);
     durumCiz();
     $('#profilNot').textContent = 'Kaydedildi · ' + PB.tarihSaat(PB.simdi());
-    DD.toast(belgeTamam ? 'Belgen yönetim incelemesine gitti, durumun Onay bekliyor oldu.' : 'Profil kaydedildi.');
+    DD.toast(belgeTamam ? 'Belgen yönetim incelemesine gitti, başvurun yeniden İncelemede.' : 'Profil kaydedildi.');
     onizlemeCiz();
   }
   document.addEventListener('click', function (e) {
