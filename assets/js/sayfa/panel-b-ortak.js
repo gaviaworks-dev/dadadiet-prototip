@@ -114,11 +114,12 @@
     { id: 'kahvaltilik', ad: 'Kahvaltılık', gastro: ['Kahvaltılık', 'Yumurta Tarifleri', 'Ekmek', 'Reçel'], ogunler: ['kahvalti'] },
     { id: 'corba', ad: 'Çorba', gastro: ['Çorba'], ogunler: ANA },
     { id: 'ana-yemek', ad: 'Ana yemek', gastro: ['Kırmızı Et', 'Tavuk ve Hindi', 'Balık ve Deniz Ürünleri', 'Köfte ve Kebap', 'Sebze', 'Zeytinyağlılar', 'Mantı ve Dolgulu Hamurlar', 'Pilav', 'Makarna', 'Bakliyat', 'Dolma ve Sarma', 'Sakatat', 'Pizza ve Pide'], ogunler: ANA },
-    { id: 'salata', ad: 'Salata', gastro: ['Salata'], ogunler: ['ara', 'ogle', 'aksam'] },
-    { id: 'ara-ogun', ad: 'Ara öğün', gastro: ['Atıştırmalık', 'Meze', 'Meyve Tarifleri', 'Sandviç, Burger ve Dürüm', 'Hamur İşi'], ogunler: ['ara'] },
+    { id: 'salata', ad: 'Salata', gastro: ['Salata', 'Meze'], ogunler: ['ara', 'ogle', 'aksam'] },
+    { id: 'ara-ogun', ad: 'Ara öğün', gastro: ['Atıştırmalık', 'Meyve Tarifleri', 'Sandviç, Burger ve Dürüm', 'Hamur İşi'], ogunler: ['ara'] },
     { id: 'tatli', ad: 'Tatlı', gastro: ['Tatlı', 'Kek ve Pasta', 'Kurabiye', 'Dondurma ve Soğuk Tatlılar'], ogunler: ['ara'] },
     { id: 'icecek', ad: 'İçecek', gastro: ['İçecek'], ogunler: ['kahvalti', 'ara'] },
   ];
+  /* Kullanıcı kararı (9 Kasım Tur 4, PB1): öğle varsayılanı Ana yemek; mezeler Salata altında (Gastro'da Yan Lezzet). */
   const OGUN_KATEGORI = { kahvalti: 'kahvaltilik', ara: 'ara-ogun', ogle: 'ana-yemek', aksam: 'ana-yemek' };
   PB.ogunKategori = (tip) => OGUN_KATEGORI[tip] || '';
   PB.kategoriAd = (id) => (PB.KATEGORILER.find((k) => k.id === id) || {}).ad || '';
