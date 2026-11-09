@@ -39,20 +39,36 @@
       '<div class="alt-satir"><a class="dugme hayalet kucuk" href="' + DD.kok + 'diyetisyen-paneli/planlar/olustur/?sablon=' + encodeURIComponent(s.id) + '">Şablondan başlat</a>' +
       (s.kendi || s.ozel ? '<button class="ikon-dugme yikici" type="button" data-liste="sablon-sil" data-id="' + esc(s.id) + '" aria-label="' + esc(s.ad) + ' şablonunu sil"><i class="fa-solid fa-trash-can" aria-hidden="true"></i></button>' : '') + '</div></article>';
   }
+  /* Reçete kartı: değerler bir porsiyon, öğünler ve kaynak rozeti; kullanım plan kalemlerinin tarif_id'sinden */
+  function receteKart(t) {
+    const n = PB.receteKullanim(t.id), ad = esc(t.ad);
+    return '<article class="secenek-kart" data-id="' + esc(t.id) + '"><h3>' + ad + '</h3>' +
+      '<p>' + sayi(t.kcal) + ' kcal · P ' + sayi(t.protein) + ' · K ' + sayi(t.karb) + ' · Y ' + sayi(t.yag) + ' g <span class="istege-bagli">1 porsiyon</span></p>' +
+      '<div class="rozet-sira">' + PB.ogunleri('recete', t).map((o) => '<span class="rozet pasif">' + PB.ogunAd(o) + '</span>').join('') +
+      (t.kaynak && t.kaynak.tur === 'gastro' ? '<span class="rozet olumlu"><i class="fa-solid fa-utensils" aria-hidden="true"></i> ' + esc(t.kaynak.ad) + ' uyarlaması</span>' : '') +
+      (t.ornek ? '<span class="rozet pasif">Prototip örneği</span>' : '') + '</div>' +
+      ((t.malzemeler || []).length ? '<small class="kart-not">' + esc(t.malzemeler.slice(0, 4).join(', ')) + (t.malzemeler.length > 4 ? '…' : '') + '</small>' : '') +
+      '<div class="alt-satir"><small class="kart-not">' + (n ? n + ' planda kullanılıyor' : 'Henüz planda yok') + '</small>' +
+      '<button class="ikon-dugme yikici" type="button" data-liste="recete-sil" data-id="' + esc(t.id) + '" aria-label="' + ad + ' reçetesini sil"><i class="fa-solid fa-trash-can" aria-hidden="true"></i></button></div></article>';
+  }
   function ciz() {
-    const sb = sekme === 'sablon', ql = PB.kucuk(q);
+    const sb = sekme === 'sablon', rc = sekme === 'recete', kart = sb || rc, ql = PB.kucuk(q);
     const eslesir = (metin) => PB.kucuk(metin).includes(ql);
     const liste = sb ? PB.liste('sablonlar').filter((s) => eslesir(s.ad)).sort((a, b) => (b.kendi || b.ozel ? 1 : 0) - (a.kendi || a.ozel ? 1 : 0))
+      : rc ? PB.tariflerim().filter((t) => eslesir(t.ad))
       : planlar().filter(uyar).filter((p) => { const d = PB.danisan(p.danisan_id); return eslesir(p.ad) || (d && eslesir(d.ad)); });
-    $('#tabloGovde').hidden = sb || !liste.length;
+    $('#tabloGovde').hidden = kart || !liste.length;
     $('#sablonGovde').hidden = !sb || !liste.length;
+    $('#receteGovde').hidden = !rc || !liste.length;
     $('#planBos').hidden = liste.length > 0;
     if (sb) $('#sablonKartlar').innerHTML = liste.map(sablonKart).join('');
+    else if (rc) $('#receteKartlar').innerHTML = liste.map(receteKart).join('');
     else $('#planSatirlar').innerHTML = liste.map(satir).join('');
     $('#planSayac').textContent = liste.length;
-    $('#planBosBaslik').textContent = q ? 'Aramayla eşleşen kayıt yok' : sb ? 'Henüz şablon yok' : 'Bu sekmede plan yok';
-    $('#planBosMetin').textContent = q ? 'Aramayı değiştir ya da başka bir sekmeye bak.' : 'Yeni plan oluşturabilir, plan oluşturucudan şablon kaydedebilirsin.';
-    const say = { tumu: planlar().length, sablon: PB.liste('sablonlar').length };
+    $('#planBosBaslik').textContent = q ? 'Aramayla eşleşen kayıt yok' : sb ? 'Henüz şablon yok' : rc ? 'Henüz reçeten yok' : 'Bu sekmede plan yok';
+    $('#planBosMetin').textContent = q ? 'Aramayı değiştir ya da başka bir sekmeye bak.' : rc ? 'Plan oluşturucuda bir öğüne eklerken Yeni Tarif ile reçete yazabilir ya da Dada Gastro tarifinden uyarlayabilirsin.' : 'Yeni plan oluşturabilir, plan oluşturucudan şablon kaydedebilirsin.';
+    $('#planAra').placeholder = rc ? 'Reçete adı ara' : 'Plan ya da danışan adı ara';
+    const say = { tumu: planlar().length, sablon: PB.liste('sablonlar').length, recete: PB.tariflerim().length };
     ['aktif', 'taslak', 'arsiv'].forEach((k) => { say[k] = planlar().filter((p) => PB.planDurum(p.durum).sekme === k).length; });
     $$('[data-say]').forEach((e) => { e.textContent = say[e.dataset.say]; });
   }
@@ -84,6 +100,13 @@
           if (!ok) return; planlar().splice(planlar().indexOf(p), 1); PB.kaydet(); DD.toast('Taslak silindi.'); ciz();
         });
         break;
+      case 'recete-sil': {
+        const l = PB.tariflerim(), i = l.findIndex((x) => x.id === d.dataset.id);
+        window.DM_ONAY('Reçete silinsin mi?', '“' + l[i].ad + '” Reçetelerim listenden kalkar. Planlara eklenmiş kopyalar yerinde kalır.', 'Sil', (ok) => {
+          if (!ok) return; l.splice(i, 1); PB.kaydet(); DD.toast('Reçete silindi.'); ciz();
+        });
+        break;
+      }
       case 'sablon-sil': {
         const l = PB.liste('sablonlar'), i = l.findIndex((x) => x.id === d.dataset.id);
         window.DM_ONAY('Şablon silinsin mi?', '“' + l[i].ad + '” şablonlardan kalkar.', 'Sil', (ok) => {

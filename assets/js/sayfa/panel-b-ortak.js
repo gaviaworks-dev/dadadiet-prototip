@@ -55,12 +55,53 @@
     const l = [...new Set((s.gunler || []).flatMap((g) => Object.values(g.ogunler).flat()).filter((x) => x.tur === 'tarif').map((x) => x.slug))];
     return l.length ? PB.gorsel('tarif', l[[...s.ad].reduce((a, c) => a + c.charCodeAt(0), 0) % l.length]) : '';
   };
-  /* Diyetisyenin kayıtlı tarifleri. Eski tarayıcı durumunda alan yoksa demo verisinden başlar */
+  /* Reçetelerim: diyetisyenin kendi tarifleri, yalnız ona görünür; danışan reçeteyi planındaki kalem olarak görür.
+     Demo anahtarı geriye uyum için `tariflerim` kaldı. Eski tarayıcı durumunda alan yoksa demo verisinden başlar */
   PB.tariflerim = () => {
     const d = PB.demo();
     if (!Array.isArray(d.tariflerim)) d.tariflerim = JSON.parse(JSON.stringify((V.demo && V.demo.tariflerim) || []));
     return d.tariflerim;
   };
+  /* Reçetenin kaç planda kullanıldığı: plan kalemi tarif_id taşır */
+  PB.receteKullanim = (id) => PB.liste('planlar').filter((p) => (p.gunler || []).some((g) => Object.values(g.ogunler || {}).flat().some((k) => k.tarif_id === id))).length;
+
+  /* ── Öğün uygunluğu: TEK KAYNAK ─────────────────────────────────────
+     Öğün tipleri kahvalti, ara, ogle, aksam. Sıra:
+     1) Dada Gastro tarifinde `ogunler` etiketi varsa veri esastır (TARIF_ETIKET).
+     2) Etiketi olmayan tarif kategorisinden okunur (TARIF_KATEGORI).
+     3) Besin kategorisinden okunur, kategori dışına düşen besin slug ile yazılır (BESIN_KATEGORI, BESIN_ISTISNA).
+     4) Reçete diyetisyenin işaretlediği öğünlerdir (ogunler, eski kayıtta ogun).
+     Bilinmeyen kategori hiçbir öğünden saklanmaz. Kullanıcı seçicide "Tüm yemekler"e geçebilir. */
+  PB.OGUN_TIPLERI = [{ id: 'kahvalti', ad: 'Kahvaltı', uygun: 'Kahvaltıya uygun' }, { id: 'ara', ad: 'Ara öğün', uygun: 'Ara öğüne uygun' }, { id: 'ogle', ad: 'Öğle', uygun: 'Öğleye uygun' }, { id: 'aksam', ad: 'Akşam', uygun: 'Akşama uygun' }];
+  PB.ogunTipi = (planOgunId) => ({ kahvalti: 'kahvalti', ara1: 'ara', ogle: 'ogle', ara2: 'ara', aksam: 'aksam' }[planOgunId] || '');
+  const HEPSI = ['kahvalti', 'ara', 'ogle', 'aksam'], ANA = ['ogle', 'aksam'];
+  const TARIF_ETIKET = { kahvalti: ['kahvalti', 'brunch'], ara: ['ara-ogun', 'ikindi-ve-cay-saati', 'beslenme-cantasi'], ogle: ['ogle-yemegi'], aksam: ['aksam-yemegi'] };
+  const TARIF_KATEGORI = {
+    Kahvaltılık: ['kahvalti'], 'Yumurta Tarifleri': ['kahvalti'], 'Meyve Tarifleri': ['kahvalti', 'ara'], İçecek: ['kahvalti', 'ara'],
+    Tatlı: ['ara'], 'Dondurma ve Soğuk Tatlılar': ['ara'], Meze: ['ara', 'aksam'], Salata: ['ara', 'ogle', 'aksam'], 'Sandviç, Burger ve Dürüm': ['ara', 'ogle'],
+    Çorba: ANA, Pilav: ANA, Bakliyat: ANA, Zeytinyağlılar: ANA, Sebze: ANA, 'Tavuk ve Hindi': ANA, 'Kırmızı Et': ANA, 'Balık ve Deniz Ürünleri': ANA, Makarna: ANA, Kebap: ANA, 'Hamur İşi': ['kahvalti', 'ara', 'ogle'],
+  };
+  const BESIN_KATEGORI = {
+    Tahıllar: ANA, Sebzeler: ANA, 'Et & Tavuk': ANA, 'Balık & Deniz': ANA, Baklagiller: ANA,
+    Meyveler: ['kahvalti', 'ara'], 'Süt Ürünleri & Yumurta': ['kahvalti', 'ara'], Kuruyemiş: ['kahvalti', 'ara'], 'Tatlılar & Atıştırmalıklar': ['kahvalti', 'ara'], 'Yağlar & Soslar': HEPSI,
+  };
+  const BESIN_ISTISNA = {
+    'tam-bugday-ekmegi': HEPSI, 'beyaz-ekmek': HEPSI, 'kepekli-ekmek': HEPSI, 'glutensiz-ekmek': HEPSI, 'yulaf-beyaz': ['kahvalti', 'ara'],
+    domates: HEPSI, salatalik: HEPSI, 'carliston-biber': HEPSI, roka: HEPSI, 'marul-kivircik': HEPSI, havuc: ['ara', 'ogle', 'aksam'],
+    'ispanak-haslanmis': ['kahvalti', 'ogle', 'aksam'], 'kultur-mantari-cig': ['kahvalti', 'ogle', 'aksam'], 'patates-haslanmis': ['kahvalti', 'ogle', 'aksam'],
+    'yogurt-yarim-yagli': HEPSI, 'ayran-tam-yagli': HEPSI, avokado: HEPSI, 'humus-ev-yapimi': ['ara', 'ogle', 'aksam'],
+  };
+  PB.ogunleri = (tur, x) => {
+    if (!x) return HEPSI;
+    if (tur === 'recete') return x.ogunler && x.ogunler.length ? x.ogunler : x.ogun ? [x.ogun] : HEPSI;
+    if (tur === 'tarif') {
+      if (x.ogunler && x.ogunler.length) return HEPSI.filter((t) => x.ogunler.some((e) => TARIF_ETIKET[t].includes(e)));
+      return TARIF_KATEGORI[x.kategori] || HEPSI;
+    }
+    return BESIN_ISTISNA[x.slug] || BESIN_KATEGORI[x.kategori] || HEPSI;
+  };
+  PB.ogunUygun = (tur, x, tip) => !tip || PB.ogunleri(tur, x).includes(tip);
+  PB.ogunAd = (tip) => (PB.OGUN_TIPLERI.find((o) => o.id === tip) || {}).ad || '';
   /* Kayıtlı tarif plana serbest kalem olarak geçer: üye tarafı bu biçimi zaten okur, değerler kalemin kendisindedir */
   PB.tarifOlcekle = (k, m) => {
     const b = k.baz, r = (v) => Math.round(v * m * 10) / 10;
