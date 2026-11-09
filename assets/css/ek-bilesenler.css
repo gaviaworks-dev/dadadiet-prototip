@@ -3400,3 +3400,14 @@ html.rk-cerceve #cookieBanner,html.rk-cerceve .feedback-tab,html.rk-cerceve .fb-
 .rk-kat-sponsor img{width:auto;height:var(--bosluk-20)}
 /* Alt bant açıkken sol alttaki Mentör de bandın üstüne çıkar (sağdakiler kenar-dugmeler.js ENGEL listesiyle kalkıyor) */
 body.rk-altbar-acik #dadaMentor{--mentor-dip:max(var(--mentor-taban),calc(var(--mentor-engel,0px) + var(--bosluk-12)),calc(var(--kenar-engel,0px) + var(--bosluk-12)))}
+/* Fotoğraf üstü nokta (TD-PHOTO) bant görselinin üstünde katman olarak durur; ölçü görseli görünmez, yalnız nokta.js kırpımı hesaplar */
+.bant>.rk-foto-katman{position:absolute;inset:0;z-index:2;pointer-events:none}
+.rk-foto-katman .rk-foto-nokta{pointer-events:auto}
+.rk-foto-katman .rk-nk-resim{position:absolute;inset:0;opacity:0}
+.rk-foto-katman .rk-nk-gorsel{width:100%;height:100%;object-fit:cover}
+.veri-satir.rk-malzeme>.ing-sponsor{flex:1;min-width:0}
+.rk-malzeme .sp-logo{flex:none;width:var(--bosluk-40);height:var(--bosluk-40)}
+.rk-malzeme .rk-malzeme-urun{display:none}
+.liste-satir>.rk-kat-rozet{flex:none;flex-wrap:nowrap;gap:var(--bosluk-6)}
+.rk-kat-rozet img{width:var(--bosluk-30);height:var(--bosluk-30)}
+.rk-kat-rozet .rk-etiket{white-space:nowrap}

@@ -1,6 +1,9 @@
 // Programlar: ana liste, beş kırılım (her biri kendi başlığıyla), program detayı, Program Bul sihirbazı.
 import { K, sayfaJs, bant, bolum, bolumBas, dugme, ikon, ikonKart, programKart, programIkon, genelNot, kac, sayi, DETAY, sihirbazBolum, adim, jsonGom, guven } from '../../parcalar/public-araclar/ortak.mjs';
 import { akdenizGunler } from '../../parcalar/public-araclar/akdeniz-gunler.mjs';
+import { reklamYeri as rk } from '../../parcalar/reklam.mjs';
+const ustSerit = (...k) => k.map((x) => rk(x, { tur: 'bant', kap: false })).join('');
+const sonSerit = (...k) => k.map((x) => rk(x, { tur: 'bant', konum: 'alt' })).join('');
 
 const BOYUT = 12;
 const TERCIH_JS = 'assets/js/tercih-uyum.js';
@@ -30,8 +33,8 @@ export default ({ veri }) => {
 
   const ana = `${bant({ yol: [['Programlar']], etiket: 'Beslenme programları', etiketIkon: 'fa-list-check', h1: 'Sana uygun <span class="vurgu">beslenme programı</span>', gorsel: 'hero/programlar-dl-top.jpg', alt: 'Beslenme rehberine dayalı örnek menüler ve günlük listeler. İncele, ister tek öğün olarak uygula ister adım adım takip et.', sayilar })}
 <div class="bolum-dizi">
-${bolum(`${bolumBas({ etiket: 'Nasıl aramak istersin?', ikon: 'fa-compass', baslik: 'Programını Seçmenin Altı Yolu', metin: 'Beş kırılımdan birini aç ya da sihirbaz senin için eşleştirsin.' })}<div class="kart-izgara c3">${ikonKart({ href: 'programlar/program-bul/', ikon: 'fa-wand-magic-sparkles', baslik: 'Program Bul', metin: 'Beş adımda eşleştirme' })}${KIRILIM.map((x) => ikonKart({ href: `programlar/${x.yol}/`, ikon: x.ikon, baslik: x.ad, metin: x.kisa })).join('')}</div>`, { ilk: true })}
-${bolum(`${bolumBas({ etiket: 'Tüm programlar', ikon: 'fa-list-check', baslik: `${s.program} Program Yayında`, metin: 'Tüm menüler genel örnektir, kişiye özel plan değildir.' })}${liste({ P })}`, { id: 'programListe' })}
+${bolum(`${ustSerit('SF-B1')}${bolumBas({ etiket: 'Nasıl aramak istersin?', ikon: 'fa-compass', baslik: 'Programını Seçmenin Altı Yolu', metin: 'Beş kırılımdan birini aç ya da sihirbaz senin için eşleştirsin.' })}<div class="kart-izgara c3">${ikonKart({ href: 'programlar/program-bul/', ikon: 'fa-wand-magic-sparkles', baslik: 'Program Bul', metin: 'Beş adımda eşleştirme' })}${KIRILIM.map((x) => ikonKart({ href: `programlar/${x.yol}/`, ikon: x.ikon, baslik: x.ad, metin: x.kisa })).join('')}</div>`, { ilk: true })}
+${bolum(`${bolumBas({ etiket: 'Tüm programlar', ikon: 'fa-list-check', baslik: `${s.program} Program Yayında`, metin: 'Tüm menüler genel örnektir, kişiye özel plan değildir.' })}${liste({ P })}${rk('SF-N1', { tur: 'sonuc', hedef: '#programListe [data-izgara]', sira: 4 })}${rk('SF-B1-SIDE', { tur: 'yan' })}`, { id: 'programListe' })}
 ${bolum(genelNot)}
 </div>`;
 
@@ -49,13 +52,15 @@ ${bolum(genelNot)}
   const benzer = P.filter((x) => x.slug !== p.slug && x.tercih.includes('akdeniz')).slice(0, 4);
   const OGUN_IKON = { 'Kahvaltı': 'fa-mug-saucer', 'Ara Öğün': 'fa-apple-whole', 'Öğle Yemeği': 'fa-bowl-food', 'İkindi': 'fa-apple-whole', 'Akşam Yemeği': 'fa-utensils' };
   const gunler = akdenizGunler.map((g, i) => `<div class="akordeon-kalem${i === 0 ? ' acik' : ''}"><button class="akordeon-bas gun-bas" type="button" aria-expanded="${i === 0}"><span class="akordeon-ikon gun-cip">${g.kisa}</span><span class="gun-ad">${g.gun}</span><i class="fa-solid fa-chevron-down akordeon-ok" aria-hidden="true"></i></button><div class="akordeon-govde"><div class="ogun-liste hizali">${g.ogunler.map(([o, m]) => `<div class="ogun-satir"><span class="ogun-etiket"><span class="rozet dolu ikonlu">${ikon(OGUN_IKON[o])} ${o}</span></span><span class="ogun-icerik" data-uyum-ogun="${kac(m)}">${kac(m)}</span></div>`).join('')}</div></div></div>`).join('');
-  const detay = `${bant({ yol: [['Programlar', 'programlar/'], [p.ad]], etiket: p.kategori, etiketIkon: programIkon(p), h1: p.ad, gorsel: 'hero/mega-photo-1540420773420-3366772f4999.jpg', alt: `<span data-uyum-cumle data-tercih="${p.tercih.join(' ')}" data-hedef="${p.hedef.join(' ')}" data-sure="${p.sure_gun}">${kac(p.aciklama)}</span>`, eylem: `<span class="rozet olumlu ikonlu">${ikon('fa-fire')} ${p.enerji}</span><span class="rozet olumlu ikonlu">${ikon('fa-calendar')} ${p.sure}</span>`, sayilar: [[p.ogun_sayisi, 'Öğün'], [p.zorluk, 'Zorluk']] })}
+  const detay = `${bant({ yol: [['Programlar', 'programlar/'], [p.ad]], etiket: p.kategori, etiketIkon: programIkon(p), h1: p.ad, gorsel: 'hero/mega-photo-1540420773420-3366772f4999.jpg', alt: `<span data-uyum-cumle data-tercih="${p.tercih.join(' ')}" data-hedef="${p.hedef.join(' ')}" data-sure="${p.sure_gun}">${kac(p.aciklama)}</span>`, eylem: `<span class="rozet olumlu ikonlu">${ikon('fa-fire')} ${p.enerji}</span><span class="rozet olumlu ikonlu">${ikon('fa-calendar')} ${p.sure}</span>${rk('KT-HERO')}`, sayilar: [[p.ogun_sayisi, 'Öğün'], [p.zorluk, 'Zorluk']] })}
 <div class="bolum-dizi">
-${bolum(`<div class="sayac-serit ust-bosluksuz"><div class="sayac">${ikon('fa-fire')}<div><span>Günlük enerji</span><b>${p.enerji}</b></div></div><div class="sayac">${ikon('fa-calendar')}<div><span>Süre</span><b>${p.sure}</b></div></div><div class="sayac">${ikon('fa-utensils')}<div><span>Öğün planı</span><b>${p.ogun_sayisi} öğün</b></div></div><div class="sayac">${ikon('fa-signal')}<div><span>Zorluk</span><b>${p.zorluk}</b></div></div></div>
+${bolum(`${ustSerit('SD-B1')}<div class="sayac-serit ust-bosluksuz"><div class="sayac">${ikon('fa-fire')}<div><span>Günlük enerji</span><b>${p.enerji}</b></div></div><div class="sayac">${ikon('fa-calendar')}<div><span>Süre</span><b>${p.sure}</b></div></div><div class="sayac">${ikon('fa-utensils')}<div><span>Öğün planı</span><b>${p.ogun_sayisi} öğün</b></div></div><div class="sayac">${ikon('fa-signal')}<div><span>Zorluk</span><b>${p.zorluk}</b></div></div></div>
 <div class="bolum-eylem">${dugme('Programa başla', `hesabim/program-baslat/?program=${p.slug}`, 'birincil', 'fa-play')}</div>`, { ilk: true })}
 ${bolum(`${bolumBas({ etiket: 'Örnek akış', ikon: 'fa-calendar-week', baslik: '7 Günlük Öğün Dökümü', metin: 'Gün gün kahvaltı, ara öğün, öğle, ikindi ve akşam yemeği için genel öneriler. Örnek niteliğindedir, uyarlanabilir.' })}<div data-uyum-bilgi="ogun"></div><div class="akordeon">${gunler}</div>`)}
-${bolum(`${bolumBas({ etiket: 'Benzer programlar', ikon: 'fa-list-check', baslik: 'Akdeniz Tipi Başka Menüler', arac: dugme('Tümünü gör', 'programlar/beslenme-tercihine-gore/?tercih=akdeniz', 'hayalet orta', 'fa-arrow-right', true) })}<div class="kart-izgara c3" data-uyum-yedekli="3">${benzer.map((x, i) => programKart(x, { gizli: i >= 3 })).join('')}</div>`)}
+${bolum(`${bolumBas({ etiket: 'Benzer programlar', ikon: 'fa-list-check', baslik: 'Akdeniz Tipi Başka Menüler', arac: dugme('Tümünü gör', 'programlar/beslenme-tercihine-gore/?tercih=akdeniz', 'hayalet orta', 'fa-arrow-right', true) })}<div class="kart-izgara c3" data-uyum-yedekli="3">${benzer.map((x, i) => programKart(x, { gizli: i >= 3 })).join('')}</div>${rk('KT-M1', { tur: 'sonuc', hedef: '[data-uyum-yedekli]', sira: 1 })}`)}
+${rk('KL-PROGRAM', { tur: 'sar' })}
 ${bolum(`${genelNot}<div class="bolum-eylem sayfa-sonu">${dugme('Programlara dön', 'programlar/', 'hayalet', 'fa-arrow-left')}</div>`)}
+${sonSerit('SD-B1-END')}
 </div>`;
 
   const slim = P.map((x) => ({ slug: x.slug, ad: x.ad, aciklama: x.aciklama, kategori: x.kategori, sure: x.sure, sure_gun: x.sure_gun, enerji: x.enerji, zorluk: x.zorluk, ogun_sayisi: x.ogun_sayisi, hedef: x.hedef, yasam: x.yasam, tercih: x.tercih, ihtiyac: x.ihtiyac, gorsel: x.gorsel_dosya }));
@@ -78,6 +83,8 @@ ${adim({ id: 'duzen', baslik: 'Günlük Düzenin Nasıl?', alt: 'Öğün sayıs�
       { ad: 'hazirlik', etiket: 'Hazırlama Süresi', sinif: 'c3', secenekler: [{ deger: 'hizli', baslik: "15 dk'dan az", alt: 'Hızlı olsun' }, { deger: 'orta', baslik: '15–30 dk', alt: 'Dengeli' }, { deger: 'uzun', baslik: '30 dk üzeri', alt: 'Vaktim var' }] }] })}
 ${adim({ id: 'ozel', baslik: 'Alerji ya da Özel Bir Sağlık Durumun Var mı?', alt: 'Varsa program önerisini uzman desteğiyle birlikte veriyoruz.', alanlar: [{ ad: 'ozel', sinif: 'c3', secenekler: [
       { deger: 'yok', baslik: 'Yok', alt: 'Bildiğim bir durum yok', ikon: 'fa-circle-check' }, { deger: 'alerji', baslik: 'Besin alerjim var', alt: 'Alerji veya intolerans', ikon: 'fa-triangle-exclamation' }, { deger: 'saglik', baslik: 'Sağlık durumum var', alt: 'Gebelik, kronik hastalık, ilaç', ikon: 'fa-notes-medical' }] }] })}` })}
+${rk('NP-B1', { tur: 'bant', kap: false, hedef: '#sihirbaz', yon: 'once' })}${rk('NP-B1-SIDE', { tur: 'yan', hedef: '#sihirbaz', yon: 'sonra' })}
+${sonSerit('NP-B1-END')}
 </div>`;
 
   /* Süreye Göre: canlıdaki dört adımlı sihirbaz üstte, süre sekmeli liste altta */

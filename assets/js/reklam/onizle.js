@@ -86,9 +86,16 @@
     if (hedef) {
       var el = t.closest(hedef) || (t.parentElement && t.parentElement.querySelector(':scope > ' + hedef)) || document.querySelector(hedef);
       if (!el) { t.replaceWith(parca); return true; }
+      if (t.dataset.rkSira) {
+        var oge = [].slice.call(el.children).filter(function (c) { return c.tagName !== 'TEMPLATE'; })[+t.dataset.rkSira - 1];
+        if (oge) oge.before(parca); else el.append(parca);
+        t.remove();
+        return true;
+      }
       if (yon === 'yerine') { el.replaceWith(parca); t.remove(); }
       else if (yon === 'once') { el.before(parca); t.remove(); }
       else if (yon === 'basa') { el.prepend(parca); t.remove(); }
+      else if (yon === 'sona') { el.append(parca); t.remove(); }
       else { el.after(parca); t.remove(); }
       return true;
     }
