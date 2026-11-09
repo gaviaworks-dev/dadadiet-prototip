@@ -4,7 +4,7 @@
   const { $, esc } = PB;
   const liste = PB.liste('paketler'), p = liste.find((x) => x.id === PB.parametre('id')) || null;
   const TUR = { online: 'Online', 'yüz yüze': 'Yüz yüze', karma: 'Online ve yüz yüze' };
-  const oku = () => ({ ad: $('#pAd').value.trim(), aciklama: $('#pAciklama').value.trim(), seans: +$('#pSeans').value, sure: +$('#pSure').value, tur: $('#pTur').value, fiyat: +$('#pFiyat').value });
+  const oku = () => ({ ad: $('#pAd').value.trim(), aciklama: $('#pAciklama').value.trim(), seans: +$('#pSeans').value, sure: +$('#pSure').value, tur: $('#pTur').value, fiyat: +$('#pFiyat').value, ceviri: { en: { ad: $('#pAdEn').value.trim(), aciklama: $('#pAciklamaEn').value.trim() } } });
 
   function ciz() {
     const v = oku();
@@ -48,6 +48,8 @@
   if (p) {
     $('#paketBaslik').textContent = p.ad;
     $('#pAd').value = p.ad; $('#pAciklama').value = p.aciklama || ''; $('#pSeans').value = p.seans; $('#pSure').value = p.sure; $('#pTur').value = p.tur; $('#pFiyat').value = p.bekleyen_fiyat || p.fiyat;
+    const en = (p.ceviri && p.ceviri.en) || {};
+    $('#pAdEn').value = en.ad || ''; $('#pAciklamaEn').value = en.aciklama || '';
     $('#pKaydet').textContent = 'Paketi kaydet';
     $('#pNot').textContent = 'Yayındaki fiyat değişikliği onaya gider';
     $('#pKaldir').hidden = !p.aktif;
