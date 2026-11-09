@@ -245,6 +245,11 @@
   "duzen": "public"
  },
  {
+  "yol": "eposta-dogrula",
+  "baslik": "E-posta Doğrulama",
+  "duzen": "public"
+ },
+ {
   "yol": "giris",
   "baslik": "Giriş Yap",
   "duzen": "public"
