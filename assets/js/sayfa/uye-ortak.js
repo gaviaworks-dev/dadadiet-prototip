@@ -164,13 +164,31 @@
       const duzen = k.plan.ogun_duzeni || [];
       return OGUN.filter((o) => g.ogunler[o[0]]).map((o) => { const d = duzen.find((x) => x.id === o[0]) || {}; return ogunKur(o[0], d.ad || o[1], d.saat || o[2], o[3], g.ogunler[o[0]]); });
     }
-    const p = k.program, no = U.gunFarki(p.baslangic, tarih);
+    const p = k.program, no = U.gunFarki(p.baslangic, tarih), ol = U.olcek(p);
+    /* Kaloriye göre porsiyon: kalemler üyenin enerji hedefine ölçeklenir, öğün ölçeği taşır */
+    const kur = (a, ad, saat, ikon, l) => { const o = ogunKur(a, ad, saat, ikon, ol ? olcekle(l, ol.f) : l); if (ol) o.olcek = ol.f; return o; };
     if (p.ornekGunler && p.ornekGunler.length) {
       const g = p.ornekGunler[((no % p.ornekGunler.length) + p.ornekGunler.length) % p.ornekGunler.length];
-      return g.ogunler.map((o, i) => { const t = OGUN.find((x) => x[1] === o.tur) || OGUN[i]; return ogunKur(t[0], o.tur, o.saat, t[3], o.kalemler); });
+      return g.ogunler.map((o, i) => { const t = OGUN.find((x) => x[1] === o.tur) || OGUN[i]; return kur(t[0], o.tur, o.saat, t[3], o.kalemler); });
     }
-    return OGUN.map((o, i) => { const t = ogunTarifi(TARIF_OGUN[o[0]], karma(p.slug) + no + i); return ogunKur(o[0], o[1], o[2], o[3], t ? [tarifKalem(t)] : []); });
+    return OGUN.map((o, i) => { const t = ogunTarifi(TARIF_OGUN[o[0]], karma(p.slug) + no + i); return kur(o[0], o[1], o[2], o[3], t ? [tarifKalem(t)] : []); });
   };
+  /* Porsiyon ölçeği: üyenin günlük enerji hedefi (Tercihlerim) / programın enerji aralığının ortası.
+     0,7–1,5 arasında, 0,1 adımla; ±%10 içinde ölçeklenmez. Diyetisyen planı ölçeklenmez (enerjisini diyetisyen belirler); yeme bozukluğu öyküsünde kaloriye dayalı ölçek yok */
+  U.olcek = function (p) {
+    const hedef = Number((U.uye().tercihler || {}).kcal) || 0;
+    const m = String((p && p.enerji) || '').replace(/\./g, '').match(/(\d{3,})(?:\D+(\d{3,}))?/);
+    if (!hedef || !m || U.yemeDuyarli()) return null;
+    const orta = m[2] ? (Number(m[1]) + Number(m[2])) / 2 : Number(m[1]), f = Math.round(Math.min(1.5, Math.max(0.7, hedef / orta)) * 10) / 10;
+    return Math.abs(f - 1) < 0.1 ? null : { f, hedef, orta: Math.round(orta) };
+  };
+  const olcekle = (l, f) => l.map((x) => {
+    const y = { ...x };
+    ['miktar', 'gram', 'kcal', 'protein', 'yag', 'karb'].forEach((a) => { if (y[a] != null && y[a] !== '') y[a] = Number(y[a]) * f; });
+    if (y.olcu) y.olcu += ' ×' + DD.bicim.sayi(f, 1, 1);
+    return y;
+  });
+  U.olcekMetin = (p) => { const o = U.olcek(p); return o ? 'Porsiyonlar enerji hedefine (' + DD.bicim.kcal(o.hedef) + ') göre ×' + DD.bicim.sayi(o.f, 1, 1) + ' ölçeklendi; programın kendi düzeyi ~' + DD.bicim.kcal(o.orta) + '.' : ''; };
   /* Alternatif: aynı öğün tipinden, enerjisi en yakın tarif */
   U.alternatif = function (o) {
     const adaylar = dizi(veri().tarifler, 'tarifler').filter((t) => t.ogun === TARIF_OGUN[o.anahtar] && !o.kalemler.some((k) => k.slug === t.slug));
@@ -227,7 +245,7 @@
   U.veyaSatir = (o) => (o.veya || []).map((v) => '<small>veya ' + U.kac(v) + '</small>').join('');
   /* Öğün satırı: çip ve anahtar .as-eylem içinde aynı eksende */
   U.ogunDurum = (i, o) => (i[o.anahtar] ? 'uydu' : i[o.anahtar + '_atla'] ? 'atladi' : '');
-  U.ogunSatir = (o, durum) => '<div class="kalem-satiri' + (durum === 'atladi' ? ' atlandi' : '') + '" data-ogun="' + o.anahtar + '"><span class="ks-ikon"><i class="fa-solid ' + (durum === 'uydu' ? 'fa-check' : durum === 'atladi' ? 'fa-xmark' : o.ikon) + '" aria-hidden="true"></i></span><div class="ks-metin"><b>' + U.kac(o.ad) + ' · ' + DD.bicim.saat(o.saat) + '</b><small>' + U.kac(o.metin) + (o.degisti ? ' (alternatif)' : '') + '</small>' + U.veyaSatir(o) + '</div><div class="as-eylem"><div class="segment" role="group" aria-label="' + U.kac(o.ad) + ' durumu"><button class="olumsuz" type="button" data-ogun-durum="atladi" data-ogun-kalem="' + o.anahtar + '" aria-pressed="' + (durum === 'atladi') + '">Atladım</button><button type="button" data-ogun-durum="uydu" data-ogun-kalem="' + o.anahtar + '" aria-pressed="' + (durum === 'uydu') + '">Plana uydum</button></div></div></div>';
+  U.ogunSatir = (o, durum) => '<div class="kalem-satiri' + (durum === 'atladi' ? ' atlandi' : '') + '" data-ogun="' + o.anahtar + '"><span class="ks-ikon"><i class="fa-solid ' + (durum === 'uydu' ? 'fa-check' : durum === 'atladi' ? 'fa-xmark' : o.ikon) + '" aria-hidden="true"></i></span><div class="ks-metin"><b>' + U.kac(o.ad) + ' · ' + DD.bicim.saat(o.saat) + '</b><small>' + U.kac(o.metin) + (o.degisti ? ' (alternatif)' : '') + '</small>' + U.veyaSatir(o) + (o.olcek ? '<small>Porsiyon ×' + DD.bicim.sayi(o.olcek, 1, 1) + ', enerji hedefine göre</small>' : '') + '</div><div class="as-eylem"><div class="segment" role="group" aria-label="' + U.kac(o.ad) + ' durumu"><button class="olumsuz" type="button" data-ogun-durum="atladi" data-ogun-kalem="' + o.anahtar + '" aria-pressed="' + (durum === 'atladi') + '">Atladım</button><button type="button" data-ogun-durum="uydu" data-ogun-kalem="' + o.anahtar + '" aria-pressed="' + (durum === 'uydu') + '">Plana uydum</button></div></div></div>';
   /* Tek dokunuş: gram istemez; aynı seçime tekrar basmak geri alır */
   document.addEventListener('click', (e) => {
     const d = e.target.closest('[data-ogun-durum]');
