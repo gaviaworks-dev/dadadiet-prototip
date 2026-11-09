@@ -10,8 +10,10 @@
   const ARA_YER = { tumu: 'Ad, e-posta ya da hedef ara', talep: 'Talep eden kişiyi ara', aktif: 'Aktif danışan ara', yanit: 'Yanıt bekleyen danışan ara', bitti: 'Biten danışan ara' };
 
   const eposta = PA.eposta;
+  /* Bayraklar (pb-4): danışan ekleme (davet) ve toplu işlem kapalıyken davet satırı ve seçim kolonu basılmaz */
+  const DAVET = PA.bayrak('danisan-ekle'), TOPLU = PA.bayrak('danisan-toplu-islem');
   /* Davetler kart açılana kadar ayrı tutulur; listede aynı satır biçiminde görünür */
-  const kayitlar = () => PA.danisanlar().concat(PA.davetler().map((x) => Object.assign({ davet: true, durum: 'davet', izinler: {}, olcumler: [], son_gorusme: null }, x)));
+  const kayitlar = () => PA.danisanlar().concat((DAVET ? PA.davetler() : []).map((x) => Object.assign({ davet: true, durum: 'davet', izinler: {}, olcumler: [], son_gorusme: null }, x)));
   const suzgecDeger = (id) => { const t = document.querySelector('[aria-controls="' + id + '"]'); const d = t && t.getAttribute('data-deger'); return d && d !== 'hepsi' ? d : ''; };
   const paketAdi = (x) => { const p = PA.paket(x.paket_id); return p ? p.ad : ''; };
   const takipAdi = (x) => (x.davet || !PA.takipte(x) ? '' : PA.takip(x));
@@ -100,7 +102,7 @@
     $('toplamSayi').textContent = sayilar[v.sekme];
     $('baslikSayi').textContent = sayilar.tumu;
     $('ara').placeholder = ARA_YER[v.sekme];
-    $('danisanTablo').innerHTML = l.map((x) => `<tr data-id="${x.id}"><td class="sec"><label><input type="checkbox" data-sec="" aria-label="${h(x.ad)} satırını seç"></label></td><td>${kisi(x)}</td><td data-etiket="Sıradaki Adım">${adimHucre(x)}</td>${v.kolon.hedef ? `<td data-etiket="Hedef">${ilerlemeHucre(x)}</td>` : ''}${v.kolon.paket ? `<td data-etiket="Paket">${h(paketAdi(x) || '—')}</td>` : ''}<td data-etiket="Durum">${PA.danisanHap(x)}</td><td data-etiket="Son görüşme">${sonGorusme(x)}</td><td class="eylem"><span class="satir-eylem">${islemler(x)}</span></td></tr>`).join('');
+    $('danisanTablo').innerHTML = l.map((x) => `<tr data-id="${x.id}">${TOPLU ? `<td class="sec"><label><input type="checkbox" data-sec="" aria-label="${h(x.ad)} satırını seç"></label></td>` : ''}<td>${kisi(x)}</td><td data-etiket="Sıradaki Adım">${adimHucre(x)}</td>${v.kolon.hedef ? `<td data-etiket="Hedef">${ilerlemeHucre(x)}</td>` : ''}${v.kolon.paket ? `<td data-etiket="Paket">${h(paketAdi(x) || '—')}</td>` : ''}<td data-etiket="Durum">${PA.danisanHap(x)}</td><td data-etiket="Son görüşme">${sonGorusme(x)}</td><td class="eylem"><span class="satir-eylem">${islemler(x)}</span></td></tr>`).join('');
     $('danisanKartlar').innerHTML = l.map((x) => {
       const i = PA.ilerleme(x);
       return `<article class="kisi-kart"><div class="kisi-kart-bas">${kisi(x)}${PA.danisanHap(x)}</div><div>${adimHucre(x)}</div>${i ? PA.olcer(i.yuzde) + `<div class="kisi-kart-alt"><span>${PA.kgMetin(i.degisim)} · ${i.hafta}. hafta</span><span>%${i.yuzde}</span></div>` : ''}<div class="kisi-kart-alt"><span>${x.son_gorusme ? 'Son görüşme ' + PA.tarih(x.son_gorusme) : 'Görüşme yok'}</span><span class="satir-eylem">${islemler(x)}</span></div></article>`;
@@ -171,38 +173,43 @@
     }
   });
   $('disaAktar').addEventListener('click', () => { const l = sirala(suzulmus()); PA.csvIndir('danisanlar.csv', csvSatirlari(l)); DD.toast(l.length + ' danışan dışa aktarıldı.'); });
-  $('topluAktar').addEventListener('click', () => { const l = seciliIdler().map((id) => kayitlar().find((x) => x.id === id)); PA.csvIndir('secili-danisanlar.csv', csvSatirlari(l)); DD.toast(l.length + ' danışan dışa aktarıldı.'); });
-  $('topluMesaj').addEventListener('click', () => {
-    const l = seciliDanisanlar();
-    if (!l.length) { DD.toast('Seçilenlerde mesaj gönderilebilecek danışan yok.', 'uyari'); return; }
-    $('tmKime').textContent = l.map((x) => x.ad).join(', ');
-    $('tmMetin').value = '';
-    DD.ac('#topluMesajPanel');
-  });
-  $('topluMesajForm').addEventListener('submit', (e) => {
-    e.preventDefault();
-    if (!PA.formGecerli(e.target)) return;
-    const l = seciliDanisanlar(), metin = $('tmMetin').value.trim();
-    l.forEach((x) => { PA.mesajYaz(x.id, metin); PA.yanitlandi(x.id); });
-    PA.kaydet(); DD.kapat($('topluMesajPanel')); ciz();
-    DD.toast(l.length + ' danışana mesaj gönderildi.');
-  });
-  $('topluHatirlat').addEventListener('click', () => {
-    const l = seciliDanisanlar();
-    if (!l.length) { DD.toast('Seçilenlerde hatırlatma gidecek danışan yok.', 'uyari'); return; }
-    l.forEach((x) => PA.mesajYaz(x.id, 'Merhaba, kontrol zamanınız geldi. Size uygun bir saatte görüşelim.'));
-    PA.kaydet(); ciz();
-    DD.toast(l.length + ' danışana kontrol hatırlatması gönderildi.');
-  });
-  $('danisanEkleForm').addEventListener('submit', (e) => {
-    e.preventDefault();
-    if (!PA.formGecerli(e.target)) return;
-    const ad = $('deAd').value.trim();
-    PA.davetler().push({ id: 'davet' + Date.now(), ad, eposta: $('deEposta').value.trim(), paket_id: $('dePaket').value, hedef: $('deHedef').value.trim() });
-    PA.kaydet(); e.target.reset(); DD.kapat($('danisanEkle'));
-    sekmeSecDisaridan('tumu');
-    DD.toast(ad + ' için davet gönderildi.');
-  });
+  /* Toplu işlem ve davet yalnız bayrakları açıkken bağlanır (pb-4) */
+  if (TOPLU) {
+    $('topluAktar').addEventListener('click', () => { const l = seciliIdler().map((id) => kayitlar().find((x) => x.id === id)); PA.csvIndir('secili-danisanlar.csv', csvSatirlari(l)); DD.toast(l.length + ' danışan dışa aktarıldı.'); });
+    $('topluMesaj').addEventListener('click', () => {
+      const l = seciliDanisanlar();
+      if (!l.length) { DD.toast('Seçilenlerde mesaj gönderilebilecek danışan yok.', 'uyari'); return; }
+      $('tmKime').textContent = l.map((x) => x.ad).join(', ');
+      $('tmMetin').value = '';
+      DD.ac('#topluMesajPanel');
+    });
+    $('topluMesajForm').addEventListener('submit', (e) => {
+      e.preventDefault();
+      if (!PA.formGecerli(e.target)) return;
+      const l = seciliDanisanlar(), metin = $('tmMetin').value.trim();
+      l.forEach((x) => { PA.mesajYaz(x.id, metin); PA.yanitlandi(x.id); });
+      PA.kaydet(); DD.kapat($('topluMesajPanel')); ciz();
+      DD.toast(l.length + ' danışana mesaj gönderildi.');
+    });
+    $('topluHatirlat').addEventListener('click', () => {
+      const l = seciliDanisanlar();
+      if (!l.length) { DD.toast('Seçilenlerde hatırlatma gidecek danışan yok.', 'uyari'); return; }
+      l.forEach((x) => PA.mesajYaz(x.id, 'Merhaba, kontrol zamanınız geldi. Size uygun bir saatte görüşelim.'));
+      PA.kaydet(); ciz();
+      DD.toast(l.length + ' danışana kontrol hatırlatması gönderildi.');
+    });
+  }
+  if (DAVET) {
+    $('danisanEkleForm').addEventListener('submit', (e) => {
+      e.preventDefault();
+      if (!PA.formGecerli(e.target)) return;
+      const ad = $('deAd').value.trim();
+      PA.davetler().push({ id: 'davet' + Date.now(), ad, eposta: $('deEposta').value.trim(), paket_id: $('dePaket').value, hedef: $('deHedef').value.trim() });
+      PA.kaydet(); e.target.reset(); DD.kapat($('danisanEkle'));
+      sekmeSecDisaridan('tumu');
+      DD.toast(ad + ' için davet gönderildi.');
+    });
+  }
   function sekmeSecDisaridan(ad) { const t = $('s-' + ad); if (t) t.click(); }
   document.addEventListener('pa:degisti', ciz);
 

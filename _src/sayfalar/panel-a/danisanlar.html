@@ -1,9 +1,9 @@
-<!--{"baslik":"Danışanlarım","yol":"diyetisyen-paneli/danisanlar","duzen":"panel","aktif":"danisanlar","js":["assets/js/sayfa/panel-a-ortak.js","assets/js/sayfa/panel-b-durum.js","assets/js/sayfa/panel-a-randevu.js","assets/js/sayfa/panel-a-danisanlar.js"]}-->
+<!--{"baslik":"Danışanlarım","yol":"diyetisyen-paneli/danisanlar","duzen":"panel","aktif":"danisanlar","js":["assets/js/bayrak.js","assets/js/sayfa/panel-a-ortak.js","assets/js/sayfa/panel-b-durum.js","assets/js/sayfa/panel-a-randevu.js","assets/js/sayfa/panel-a-danisanlar.js"]}-->
 <div class="panel-bas">
   <div><h1>Danışanlarım</h1><p>Yeni talepler, aktif takipler ve biten ilişkiler tek listede. Her satır o danışanın sıradaki adımını gösterir; satırdaki bağ doğrudan o işi açar. · <b id="baslikSayi"></b> kayıt</p></div>
   <div class="eylem-satiri">
     <button class="dugme hayalet" type="button" id="disaAktar"><i class="fa-solid fa-download" aria-hidden="true"></i> Dışa aktar</button>
-    <button class="dugme birincil" type="button" data-ac="#danisanEkle"><i class="fa-solid fa-user-plus" aria-hidden="true"></i> Danışan ekle</button>
+    <button class="dugme birincil" type="button" data-ac="#danisanEkle" data-bayrak="danisan-ekle"><i class="fa-solid fa-user-plus" aria-hidden="true"></i> Danışan ekle</button>
   </div>
 </div>
 <div class="sekmeler" role="tablist" aria-label="Danışan durumu" id="danisanSekme">
@@ -51,7 +51,7 @@
       </div>
     </div>
   </div>
-  <div class="toplu-islem" id="toplu" hidden>
+  <div class="toplu-islem" id="toplu" data-bayrak="danisan-toplu-islem" hidden>
     <b><span data-rol="secim-sayisi">0</span> danışan seçildi</b>
     <div class="eylem-satiri">
       <button class="dugme hayalet kucuk" type="button" id="topluMesaj"><i class="fa-solid fa-paper-plane" aria-hidden="true"></i> Mesaj gönder</button>
@@ -63,7 +63,7 @@
     <table class="tablo panel sabit-sutun etiketli-yigin">
       <caption class="yalniz-okuyucu">Danışanlar</caption>
       <thead><tr>
-        <th class="sec" scope="col"><label><input type="checkbox" aria-label="Görünen tümünü seç"></label></th>
+        <th class="sec" scope="col" data-bayrak="danisan-toplu-islem"><label><input type="checkbox" aria-label="Görünen tümünü seç"></label></th>
         <th class="sirali" scope="col" data-kolon-tut data-oran="30"><button type="button">Danışan</button></th>
         <th scope="col" data-kolon-tut data-oran="30">Sıradaki adım</th>
         <th scope="col" data-kolon-opsiyon="hedef" data-oran="22" hidden>Hedef ve ilerleme</th>
@@ -92,7 +92,7 @@
     <button class="dugme hayalet" type="button" data-eylem="suzgec-temizle"><i class="fa-solid fa-rotate-left" aria-hidden="true"></i> Süzgeci temizle</button>
   </div>
 </div>
-<div class="yan-panel-ortu" id="danisanEkle" hidden>
+<div class="yan-panel-ortu" id="danisanEkle" data-bayrak="danisan-ekle" hidden>
   <aside class="yan-panel" role="dialog" aria-modal="true" aria-labelledby="deBaslik">
     <div class="yan-panel-bas"><h2 id="deBaslik">Danışan Ekle</h2><button class="ikon-dugme" type="button" aria-label="Kapat" data-kapat><i class="fa-solid fa-xmark" aria-hidden="true"></i></button></div>
     <form class="yan-panel-govde" id="danisanEkleForm" novalidate>
@@ -105,7 +105,7 @@
     <div class="yan-panel-ayak"><button class="dugme hayalet" type="button" data-kapat>Vazgeç</button><button class="dugme birincil" type="submit" form="danisanEkleForm">Davet gönder</button></div>
   </aside>
 </div>
-<div class="yan-panel-ortu" id="topluMesajPanel" hidden>
+<div class="yan-panel-ortu" id="topluMesajPanel" data-bayrak="danisan-toplu-islem" hidden>
   <aside class="yan-panel" role="dialog" aria-modal="true" aria-labelledby="tmBaslik">
     <div class="yan-panel-bas"><h2 id="tmBaslik">Toplu Mesaj</h2><button class="ikon-dugme" type="button" aria-label="Kapat" data-kapat><i class="fa-solid fa-xmark" aria-hidden="true"></i></button></div>
     <form class="yan-panel-govde" id="topluMesajForm" novalidate>
