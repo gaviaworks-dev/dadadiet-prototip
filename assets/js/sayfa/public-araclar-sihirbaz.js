@@ -3,9 +3,11 @@
   'use strict';
   const $ = (id) => document.getElementById(id);
   const kok = $('sihirbaz'), tur = kok.dataset.sihirbaz;
-  const adimlar = [...kok.querySelectorAll('.sihirbaz-adim[data-adim]')];
+  /* Bayrakla kapatılan adım (assets/js/bayrak.js) ne sayılır ne gezilir; ?bayrak= ile açıldıysa sıradaki adımdır */
+  const kapali = (el) => el.matches('[data-bayrak]:not([data-bayrak-acik])');
+  const adimlar = [...kok.querySelectorAll('.sihirbaz-adim[data-adim]')].filter((a) => !kapali(a));
   const sonucEl = kok.querySelector('[data-sonuc]');
-  const akis = $('sihirbazAkis'), yol = [...$('adimYol').children];
+  const akis = $('sihirbazAkis'), yol = [...$('adimYol').children].filter((l) => !kapali(l));
   const V = $('sihirbazVeri') ? JSON.parse($('sihirbazVeri').textContent) : {};
   const hata = $('adimHata'), n = adimlar.length;
   const c = {};

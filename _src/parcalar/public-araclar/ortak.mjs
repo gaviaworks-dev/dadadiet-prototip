@@ -93,7 +93,8 @@ export const uzmanKart = (d, sira = 0, href = DETAY.diyetisyen) => {
 export const ray = (kartlar, kolon = 'c3', etiket = 'Kartlar') => `<div class="ray-kap" data-ray><button class="ray-ok geri" type="button" aria-label="Geri kaydır" hidden>${ikon('fa-chevron-left')}</button><div class="kart-izgara ${kolon} ray-dar kart-ray" tabindex="0" role="group" aria-label="${etiket}">${kartlar}</div><button class="ray-ok ileri" type="button" aria-label="İleri kaydır">${ikon('fa-chevron-right')}</button></div>`;
 
 /* Adım yolu: canlıdaki numaralı adım şeridi. Sihirbazda ve Nasıl Çalışır'da ortak. */
-export const adimYol = (l, id = 'adimYol') => `<ol class="adim-yol" id="${id}">${l.map(([b, m, href], i) => `<li${i === 0 ? ' class="acik"' : ''}><span>${i + 1}</span>${href ? `<a href="${K}${href}">${b}</a>` : b}<small>${m}</small></li>`).join('')}</ol>`;
+/* Kalemin 4. öğesi ek öznitelik (ör. bayrak: data-bayrak="ad") */
+export const adimYol = (l, id = 'adimYol') => `<ol class="adim-yol" id="${id}">${l.map(([b, m, href, ek], i) => `<li${i === 0 ? ' class="acik"' : ''}${ek ? ' ' + ek : ''}><span>${i + 1}</span>${href ? `<a href="${K}${href}">${b}</a>` : b}<small>${m}</small></li>`).join('')}</ol>`;
 
 export const genelNot = `<div class="bilgi-notu"><i class="fa-solid fa-circle-info" aria-hidden="true"></i><p>Bu içerik genel beslenme okuryazarlığını desteklemek amacıyla hazırlanmıştır; <b>tıbbi teşhis veya tedavi yerine geçmez</b>. Kişiye özel plan yalnızca <b>yetkili bir diyetisyen</b> tarafından hazırlanır. Gebelik, kronik hastalık, düzenli ilaç kullanımı, çocuk beslenmesi veya klinik bir durum varsa plana başlamadan önce <b>hekim ve diyetisyen kontrolü zorunludur</b>.</p></div>`;
 
