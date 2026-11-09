@@ -80,8 +80,37 @@
     $('#gtSuBardak').textContent = '1 su bardağı (' + U.sayi(bardakMl()) + ' ml)';
     $('#gtSuGeri').disabled = !suEkler().length;
     bardakCiz();
+    hatirlatCiz();
     if (s.hafta.length) DD.grafik.cizgi($('#gtSuGrafik'), { baslik: 'Son yedi günün su alımı', etiketler: s.hafta.map((x) => kisaGun(x.tarih)), seriler: [{ ad: 'Su', degerler: s.hafta.map(gunSu) }], hedef: s.hedef_ml });
   }
+  /* Su hatırlatması: uye.su.hatirlatma, Tercihlerim ile aynı kayıt. Kapalıyken sessiz saatler pasif */
+  const hatirlatma = () => { u.su.hatirlatma = u.su.hatirlatma || { acik: false, sessiz_bas: '23:00', sessiz_bit: '08:00' }; return u.su.hatirlatma; };
+  const saat = (x) => Number(x.slice(0, 2));
+  /* Saat sessiz aralıkta mı: aralık gece yarısını geçebilir (23–08) */
+  const sessizde = (s, h) => { const a = saat(h.sessiz_bas), z = saat(h.sessiz_bit); return a < z ? s >= a && s < z : s >= a || s < z; };
+  function siradaki(h) {
+    for (let s = new Date().getHours() + 1, n = 0; n < 24; s++, n++) if (!sessizde(s % 24, h)) return (n + new Date().getHours() + 1 >= 24 ? 'yarın ' : '') + String(s % 24).padStart(2, '0') + '.00';
+    return null;
+  }
+  function hatirlatCiz() {
+    const h = hatirlatma(), bas = $('#gtSessizBas'), bit = $('#gtSessizBit');
+    $('#gtHatirlatma').checked = h.acik;
+    bas.value = h.sessiz_bas; bit.value = h.sessiz_bit;
+    bas.disabled = bit.disabled = !h.acik;
+    const aralik = DD.bicim.saat(h.sessiz_bas) + '–' + DD.bicim.saat(h.sessiz_bit) + ' arası sessiz';
+    const sonraki = u.su.bugun_ml >= u.su.hedef_ml ? 'bugünkü hedefine ulaştın, yarın yeniden başlar' : 'sıradaki ' + siradaki(h);
+    $('#gtHatirlatMetin').textContent = h.acik ? 'Açık; ' + aralik + ', ' + sonraki + '.' : 'Kapalı. Açınca ' + aralik + ' kalır.';
+  }
+  $('#gtHatirlatma').addEventListener('change', (e) => {
+    hatirlatma().acik = e.target.checked; U.kaydet(); hatirlatCiz();
+    DD.toast(e.target.checked ? 'Su hatırlatması açıldı. Prototipte bildirim gönderilmez.' : 'Su hatırlatması kapatıldı.');
+  });
+  [['#gtSessizBas', 'sessiz_bas'], ['#gtSessizBit', 'sessiz_bit']].forEach(([id, alan]) => $(id).addEventListener('change', (e) => {
+    const h = hatirlatma();
+    if (e.target.value === h[alan === 'sessiz_bas' ? 'sessiz_bit' : 'sessiz_bas']) { hatirlatCiz(); DD.toast('Başlangıç ve bitiş saati aynı olamaz.', 'hata'); return; }
+    h[alan] = e.target.value; U.kaydet(); hatirlatCiz();
+    DD.toast('Sessiz saatlerin kaydedildi.');
+  }));
   function adimCiz() {
     const a = u.adim, oran = Math.round((a.bugun / a.hedef) * 100);
     $('#gtAdimMetin').textContent = U.sayi(a.bugun) + ' adım / ' + U.sayi(a.hedef) + ' adım hedef';

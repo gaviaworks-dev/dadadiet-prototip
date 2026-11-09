@@ -6,7 +6,7 @@
   /* Revize 20 ve 23: seçenekler emojili. Haftalık haplarda Font Awesome ikonu kalır: [değer, ad, ikon, emoji] */
   const SECENEK = [['iyi', 'İyi', 'fa-face-smile', '😊'], ['normal', 'Normal', 'fa-face-meh', '😐'], ['yorgun', 'Yorgun', 'fa-face-tired', '😴'], ['bitkin', 'Bitkin', 'fa-face-frown', '😞'], ['halsiz', 'Halsiz', 'fa-face-meh-blank', '🤒'], ['bas-donmesi', 'Baş dönmesi', 'fa-face-dizzy', '😵'], ['carpinti', 'Çarpıntı', 'fa-heart-pulse', '💓']];
   const UYARI = {
-    sakin: { sinif: 'uyari-kutu', rol: 'status', ikon: 'fa-circle-info', metin: 'Bu belirtiler sürüyorsa diyete ara ver ve bir diyetisyen ya da hekime danış.' },
+    sakin: { sinif: 'uyari-kutu', rol: 'status', ikon: 'fa-circle-info', metin: 'Diyete ara ver; diyetisyenine ya da hekimine danış.' },
     net: { sinif: 'uyari-kutu hata', rol: 'alert', ikon: 'fa-triangle-exclamation', metin: 'Diyete devam etme, bir hekime başvur.' },
   };
   const DUZEY = { yorgun: 'sakin', bitkin: 'sakin', halsiz: 'sakin', 'bas-donmesi': 'net', carpinti: 'net' };

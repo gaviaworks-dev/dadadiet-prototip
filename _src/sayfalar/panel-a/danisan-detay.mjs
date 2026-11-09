@@ -1,6 +1,6 @@
 // Her danışan için ayrı kart sayfası. İçerik demo durumundan panel-a-danisan.js ile dolar.
 const a = (ad) => `assets/js/sayfa/panel-a-${ad}.js`;
-const JS = [a('ortak'), 'assets/js/sayfa/panel-b-durum.js', a('randevu'), a('sohbet'), 'assets/js/tahlil-deger.js', 'assets/js/uyum.js', a('rapor'), a('danisan')];
+const JS = [a('ortak'), 'assets/js/sayfa/panel-b-durum.js', a('randevu'), a('sohbet'), 'assets/js/tahlil-deger.js', 'assets/js/belge-kasa.js', 'assets/js/uyum.js', a('rapor'), a('danisan')];
 const SEKME = [['ozet', 'Özet'], ['olcum', 'Ölçümler'], ['tahlil', 'Tahliller'], ['not', 'Anamnez'], ['plan', 'Planlar'], ['mesaj', 'Mesajlar'], ['izin', 'İzinler']];
 const sekmeler = SEKME.map(([id, ad], i) => `<button class="sekme${i ? '' : ' aktif'}" type="button" role="tab" id="t-${id}" aria-controls="p-${id}" aria-selected="${i ? 'false' : 'true'}">${ad}<span data-sekme-ek="${id}"></span></button>`).join('');
 const panolar = SEKME.map(([id], i) => `<section id="p-${id}" role="tabpanel" aria-labelledby="t-${id}"${i ? ' hidden' : ''}></section>`).join('');
