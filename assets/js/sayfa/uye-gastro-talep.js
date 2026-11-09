@@ -2,7 +2,8 @@
 (function () {
   'use strict';
   const DD = window.DD, U = window.DDU, G = window.DDG;
-  const no = new URLSearchParams(location.search).get('no');
+  /* Adreste numara yoksa listenin başındaki (son hareketi en yeni) talep açılır; ?bos=1'de liste boştur, boş durum görünür */
+  const no = new URLSearchParams(location.search).get('no') || (G.talepler().slice().sort((a, b) => G.tkSon(b).localeCompare(G.tkSon(a)))[0] || {}).no;
   const bul = () => G.talepler().find((x) => x.no === no);
   const balon = (m) => '<div class="ayar-satir"><span class="as-ikon">' + G.i(m.kimden === 'uye' ? 'fa-user' : 'fa-headset') + '</span><div class="as-metin"><b>' + (m.kimden === 'uye' ? U.kac(U.uye().ad) : 'Dada Diet Destek') + '</b><span>' + U.kac(m.metin).replace(/\n/g, '<br>') + '</span></div><span class="as-acik">' + U.kisaTarih(m.tarih) + '</span></div>';
   function ciz() {

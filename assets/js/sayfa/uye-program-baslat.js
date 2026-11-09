@@ -4,7 +4,9 @@
   const DD = window.DD, U = window.DDU;
   const $ = (s) => document.querySelector(s);
   const katalog = JSON.parse($('#programKatalog').textContent);
-  const slug = new URLSearchParams(location.search).get('program');
+  /* Adreste program yoksa örnek program açılır (günlük öğün örneği olan program); ?bos=1 seçim boş durumunu gösterir */
+  const VARSAYILAN = (katalog.find((x) => x.ornekGunler) || katalog[0] || {}).slug;
+  const slug = new URLSearchParams(location.search).get('program') || (DD.bosKip ? null : VARSAYILAN);
   const p = katalog.find((x) => x.slug === slug);
   const b = U.bugun(), TU = DD.tercihUyum;
   TU.uyeBagla(U);
