@@ -14,17 +14,71 @@
   const dizin = V.dizin.filter((k) => !aykiri(k)).map((k) => (k.tur === 'program' ? { ...k, metin: TU.aciklama(k.metin, k) } : k)).concat(
     (veri.besinler ? veri.besinler.besinler : []).map((b) => ({ tur: 'besin', ad: b.ad, metin: DD.bicim.kcal(b.kcal) + ' / 100 g · ' + b.kategori, href: V.besinDetay, ikon: 'fa-leaf', etiket: 'Besin' })));
 
+  const eslesen = (sorgu) => {
+    const kelimeler = kucult(sorgu).split(/\s+/).filter(Boolean);
+    return dizin.map((k) => {
+      const ad = kucult(k.ad), tum = ad + ' ' + kucult(k.metin);
+      if (!kelimeler.length || !kelimeler.every((w) => tum.includes(w))) return null;
+      return { k, puan: (ad.startsWith(kelimeler[0]) ? 3 : 0) + (kelimeler.every((w) => ad.includes(w)) ? 2 : 0) };
+    }).filter(Boolean).sort((a, b) => b.puan - a.puan).map((x) => x.k);
+  };
+
+  /* Son aramalar: yalnız bu tarayıcıda, en çok 5 terim */
+  const SON = 'dd-son-aramalar';
+  const sonOku = () => { try { const l = JSON.parse(localStorage.getItem(SON)); return Array.isArray(l) ? l.slice(0, 5) : []; } catch (e) { return []; } };
+  const sonYaz = (l) => { try { if (l.length) localStorage.setItem(SON, JSON.stringify(l.slice(0, 5))); else localStorage.removeItem(SON); } catch (e) { /* gizli pencere */ } };
+  const aramaYolu = (t) => DD.kok + 'arama/?q=' + encodeURIComponent(t);
+  function sonCiz() {
+    const l = sonOku();
+    $('sonAramaKap').hidden = !l.length;
+    $('sonArama').innerHTML = l.map((t) => '<a class="son-arama-satir" href="' + aramaYolu(t) + '">' + ikon('fa-clock-rotate-left') + '<span class="terim">' + kac(t) + '</span>' + ikon('fa-arrow-right ok') + '</a>').join('');
+  }
+  $('sonAramaTemizle').addEventListener('click', () => { sonYaz([]); sonCiz(); kutu.classList.remove('oneri-acik'); DD.toast('Son aramaların temizlendi.'); });
+
+  /* Yazarken öneri: dizinden ilk 6 eşleşme; boş kutuda son aramalar */
+  const kutu = $('aramaForm'), girdi = $('aramaGirdi'), oneri = $('aramaOneri');
+  let etkin = -1;
+  const isaretle = (ad, sorgu) => { const i = kucult(ad).indexOf(kucult(sorgu)); return i < 0 || !sorgu ? kac(ad) : kac(ad.slice(0, i)) + '<mark>' + kac(ad.slice(i, i + sorgu.length)) + '</mark>' + kac(ad.slice(i + sorgu.length)); };
+  function oneriCiz() {
+    const v = girdi.value.trim();
+    let html = '';
+    if (v.length >= 2) {
+      const l = eslesen(v).slice(0, 6);
+      if (l.length) html = '<div class="oneri-grup">' + ikon('fa-magnifying-glass') + ' Öneriler</div>' + l.map((k) => '<a class="oneri-kalem" role="option" href="' + DD.kok + k.href + '"><span class="oneri-ikon">' + ikon(k.harf ? 'fa-user-doctor' : k.ikon || (k.tur === 'program' ? 'fa-list-check' : k.tur === 'rehber' ? 'fa-book-open' : 'fa-leaf')) + '</span><span class="oneri-govde"><span class="oneri-baslik">' + isaretle(k.ad, v) + '</span><span class="oneri-alt">' + kac(k.etiket) + '</span></span></a>').join('')
+        + '<a class="oneri-kalem" role="option" href="' + aramaYolu(v) + '"><span class="oneri-ikon">' + ikon('fa-arrow-right') + '</span><span class="oneri-govde"><span class="oneri-baslik">“' + kac(v) + '” için tüm sonuçlar</span></span></a>';
+    } else if (!v) {
+      const l = sonOku();
+      if (l.length) html = '<div class="oneri-grup">' + ikon('fa-clock-rotate-left') + ' Son aramaların</div>' + l.map((t) => '<a class="oneri-kalem" role="option" href="' + aramaYolu(t) + '"><span class="oneri-ikon">' + ikon('fa-clock-rotate-left') + '</span><span class="oneri-govde"><span class="oneri-baslik">' + kac(t) + '</span></span></a>').join('');
+    }
+    oneri.innerHTML = html; etkin = -1;
+    kutu.classList.toggle('oneri-acik', !!html);
+    girdi.setAttribute('aria-expanded', String(!!html));
+  }
+  girdi.addEventListener('input', oneriCiz);
+  girdi.addEventListener('focus', oneriCiz);
+  girdi.addEventListener('keydown', (e) => {
+    const l = [...oneri.querySelectorAll('.oneri-kalem')];
+    if (e.key === 'Escape') { kutu.classList.remove('oneri-acik'); girdi.setAttribute('aria-expanded', 'false'); return; }
+    if (!l.length || !kutu.classList.contains('oneri-acik')) return;
+    if (e.key === 'ArrowDown' || e.key === 'ArrowUp') {
+      e.preventDefault();
+      /* -1 hiçbiri: ok tuşları kalemler ile "hiçbiri" arasında döner */
+      const n = l.length, yer = ((etkin < 0 ? n : etkin) + (e.key === 'ArrowDown' ? 1 : -1) + n + 1) % (n + 1);
+      etkin = yer === n ? -1 : yer;
+      l.forEach((a, i) => { a.classList.toggle('etkin', i === etkin); a.setAttribute('aria-selected', String(i === etkin)); });
+    } else if (e.key === 'Enter' && etkin >= 0) { e.preventDefault(); location.href = l[etkin].href; }
+  });
+  document.addEventListener('click', (e) => { if (!e.target.closest('#aramaForm')) { kutu.classList.remove('oneri-acik'); girdi.setAttribute('aria-expanded', 'false'); } });
+
   const q = (new URLSearchParams(location.search).get('q') || '').trim();
-  $('aramaGirdi').value = q;
+  girdi.value = q;
+  if (q) sonYaz([q].concat(sonOku().filter((t) => kucult(t) !== kucult(q))));
+  sonCiz();
   if (!q) { $('aramaOzet').innerHTML = '<span class="arama-ipucu">Aramak için yukarıya yaz ya da popüler aramalardan birini seç.</span>'; return; }
 
   const kelimeler = kucult(q).split(/\s+/);
   const gizlenen = gizli.filter((k) => kelimeler.every((w) => (kucult(k.ad) + ' ' + kucult(k.metin)).includes(w))).length;
-  const sonuc = dizin.map((k) => {
-    const ad = kucult(k.ad), tum = ad + ' ' + kucult(k.metin);
-    if (!kelimeler.every((w) => tum.includes(w))) return null;
-    return { k, puan: (ad.startsWith(kelimeler[0]) ? 3 : 0) + (kelimeler.every((w) => ad.includes(w)) ? 2 : 0) };
-  }).filter(Boolean).sort((a, b) => b.puan - a.puan).map((x) => x.k);
+  const sonuc = eslesen(q);
 
   function kart(k) {
     const ust = k.gorsel

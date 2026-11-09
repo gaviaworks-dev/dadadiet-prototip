@@ -53,16 +53,51 @@
       return '<div class="oneri-kart"><b>' + kac(s.soru) + '</b><p>' + kac(metin) + '</p><a href="' + DD.kok + yol + '">' + ikon(simge) + ' ' + bag + '</a></div>';
     }).join('');
   }
+  /* Web Kullanıcı Akışı: misafir sonucu tarayıcıda tutulur, davet ile Sağlık Dosyası'na aktarılır; üye sonucu uzmana iletebilir */
+  const uzmanaIlet = () => {
+    const d = DD.demo.al(), u = d.uye || {};
+    if (!u.diyetisyen_slug) return '<a class="dugme hayalet kucuk" href="' + DD.kok + 'diyetisyen-bul-sihirbazi/">' + ikon('fa-user-doctor') + ' Uzmana danış</a>';
+    return '<button class="dugme hayalet kucuk" type="button" id="uzmanaIlet">' + ikon('fa-paper-plane') + ' Uzmana ilet</button>';
+  };
+  function uyeSatiri(puan, onceki) {
+    const fark = onceki ? puan - onceki.puan : 0;
+    return '<p class="sonuc-kayit">' + ikon('fa-circle-check') + '<span>Sonucun Sağlık Dosyana kaydedildi · <a href="' + DD.kok + 'hesabim/saglik-dosyam/">Test geçmişini gör</a></span></p><p class="sonuc-kiyas">' + (onceki ? 'Önceki denemen: ' + onceki.puan + ' / ' + enCok + ' <b>' + (fark > 0 ? '+' : fark < 0 ? '−' : '±') + Math.abs(fark) + '</b>' : 'Bu testteki ilk denemen.') + '</p><div class="sonuc-eylem">' + uzmanaIlet() + '</div>';
+  }
+  let son = null;
   function kayitSatiri(puan, sonuc) {
-    if (!DD.oturum.acik()) return '<p class="sonuc-kayit misafir">' + ikon('fa-lock') + '<span>Sonucun hesabına kaydedilmedi. <a href="' + DD.kok + 'giris/">Kaydetmek için giriş yap</a></span></p>';
+    son = { test: T.slug, ad: T.ad, puan, sonuc, tarih: DD.bugun };
+    if (!DD.oturum.acik()) {
+      DD.misafir.ekle('test', { test: T.slug, puan, sonuc, tarih: DD.bugun }, 'test-' + T.slug);
+      return '<div id="sonucKayit">' + DD.davet.serit({ ikon: 'fa-triangle-exclamation', metin: '<b>Kapatırsan verilerin silinecek;</b> profiline kaydedip gelişimini takip etmek için kaydol.', dugme: 'Sonucumu Sağlık Dosyama kaydet', dugmeIkon: 'fa-folder-plus', davet: 'Sonucun bu tarayıcıda tutuluyor. Kaydolunca Sağlık Dosyana işlenir; uzmanına iletir, zaman içindeki değişimini görürsün.' }) + '</div>';
+    }
     const d = DD.demo.al(); d.uye = d.uye || {};
     const gecmis = d.uye.test_sonuclari = d.uye.test_sonuclari || [];
     const onceki = gecmis.filter((x) => x.test === T.slug).pop();
     gecmis.push({ test: T.slug, puan, sonuc, tarih: DD.bugun });
     DD.demo.kaydet();
-    const fark = onceki ? puan - onceki.puan : 0;
-    return '<p class="sonuc-kayit">' + ikon('fa-circle-check') + '<span>Sonucun profiline kaydedildi · <a href="' + DD.kok + 'hesabim/saglik-dosyam/">Test geçmişini gör</a></span></p><p class="sonuc-kiyas">' + (onceki ? 'Önceki denemen: ' + onceki.puan + ' / ' + enCok + ' <b>' + (fark > 0 ? '+' : fark < 0 ? '−' : '±') + Math.abs(fark) + '</b>' : 'Bu testteki ilk denemen.') + '</p>';
+    return '<div id="sonucKayit">' + uyeSatiri(puan, onceki) + '</div>';
   }
+  /* Davetten kayıt olunca sonuç aktarılmıştır: satır üye görünümüne döner */
+  document.addEventListener('dd:oturum', () => {
+    const k = $('sonucKayit');
+    if (!k || !son) return;
+    const l = (DD.demo.al().uye || {}).test_sonuclari || [];
+    const onceki = l.filter((x) => x.test === T.slug).slice(-2, -1)[0];
+    k.innerHTML = uyeSatiri(son.puan, onceki);
+  });
+  document.addEventListener('click', (e) => {
+    const b = e.target.closest('#uzmanaIlet');
+    if (!b || !son) return;
+    const d = DD.demo.al(), id = (d.uye || {}).danisan_id || 'd1';
+    d.mesajlar = d.mesajlar || [];
+    let s = d.mesajlar.find((m) => m.danisan_id === id);
+    if (!s) { s = { danisan_id: id, okunmamis: 0, mesajlar: [] }; d.mesajlar.push(s); }
+    s.mesajlar.push({ kimden: 'danisan', zaman: DD.bugun + 'T' + new Date().toTimeString().slice(0, 5), metin: 'Test sonucum: ' + son.ad + ', ' + son.puan + ' / ' + enCok + ' (' + son.sonuc + ').' });
+    s.okunmamis = (s.okunmamis || 0) + 1;
+    DD.demo.kaydet();
+    b.disabled = true; b.innerHTML = ikon('fa-circle-check') + ' Uzmana iletildi';
+    DD.toast('Sonucun diyetisyenine mesaj olarak iletildi.');
+  });
   function paylasim(baslik) {
     const adres = location.origin + location.pathname, metin = 'Sonucum: ' + baslik + ' · ' + T.ad;
     const e = encodeURIComponent, dis = (href, ad, simge) => '<a class="paylas-dugme" href="' + href + '" target="_blank" rel="noopener" aria-label="' + ad + '">' + ikon(simge) + '</a>';

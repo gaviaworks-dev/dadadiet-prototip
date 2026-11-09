@@ -73,7 +73,15 @@
   });
 
   /* Kart: ortak.mjs gorselKart ile aynı iskelet */
+  /* Sonuçta kaydet (SH-12-7, ES-PR-11): misafirde misafir deposuna, girişte hesaba aktarılır. Davranış misafir.js [data-kaydet] */
+  function kaydetDugme(grup, slug, ad, etiket, tamam, ek) {
+    const v = DD.kaydet ? DD.kaydet.var(grup, slug) : false;
+    return '<button class="dugme hayalet kucuk' + (ek || '') + '" type="button" data-kaydet="' + grup + '" data-slug="' + kac(slug) + '" data-ad="' + kac(ad) + '" data-etiket="' + kac(etiket) + '" data-etiket-tamam="' + kac(tamam) + '" aria-pressed="' + v + '">' + ikon(v ? 'fa-circle-check' : 'fa-bookmark') + ' ' + kac(v ? tamam : etiket) + '</button>';
+  }
   function programKart(p, nedenler) {
+    return '<div class="kart-eylemli">' + programKartIc(p, nedenler) + kaydetDugme('programlar', p.slug, p.ad, 'Programı kaydet', 'Kaydedildi', ' tam-en') + '</div>';
+  }
+  function programKartIc(p, nedenler) {
     return '<a class="sonuc-kart buyuk" href="' + DD.kok + V.detay + '"><div class="sonuc-gorsel"><img src="' + DD.kok + 'assets/img/icerik/' + p.gorsel + '" alt=""><span class="sonuc-rozet">' + kac(p.kategori) + '</span><span class="sonuc-rozet alt">' + ikon('fa-calendar') + ' ' + kac(p.sure) + '</span></div><div class="sonuc-govde"><h3 class="kart-baslik">' + kac(p.ad) + '</h3><p>' + kac(TU ? TU.aciklama(p.aciklama, p) : p.aciklama) + '</p><div class="sonuc-etiketler"><span class="rozet olumlu ikonlu">' + ikon('fa-fire') + ' ' + kac(p.enerji) + '</span></div><ul class="sonuc-neden">' + nedenler.map((x) => '<li>' + ikon('fa-check') + kac(x) + '</li>').join('') + '</ul><div class="sonuc-alt"><span class="sonuc-not-kisa">' + p.ogun_sayisi + ' öğün planı</span><span class="sonuc-git">İncele ' + ikon('fa-arrow-right') + '</span></div></div></a>';
   }
   function uyariYaz(metin) {
@@ -133,6 +141,9 @@
       $('sonucMetin').textContent = R.metin;
       $('sonucCipler').innerHTML = V.etiketler.map((k) => '<span class="cip">' + kac(k[c[k[0]]] || '') + '</span>').filter((x) => !x.includes('></')).join('');
       const b = R.birincil;
+      /* SH-12-7: önerilen başlangıç adımını kaydet; misafirde davet açılır, girişte hesaba aktarılır */
+      const ky = $('sonucKaydet');
+      if (ky) ky.innerHTML = kaydetDugme('yonlendirmeler', c.amac, b.ad + ' önerisi', 'Önerimi kaydet', 'Önerin kaydedildi');
       $('sonucBirincil').innerHTML = '<a class="kart ikon-kart" href="' + DD.kok + b.href + '"><span class="ikon-kutu">' + ikon(b.ikon) + '</span><span class="ikon-kart-metin"><span class="kart-baslik">' + kac(b.ad) + '</span><span class="kart-metin">' + kac(b.metin) + '</span></span>' + ikon('fa-arrow-right ikon-kart-ok') + '</a>';
       $('sonucIkinci').innerHTML = R.ikinci.map((x) => '<a class="kart ikon-kart" href="' + DD.kok + x.href + '"><span class="ikon-kutu">' + ikon(x.ikon) + '</span><span class="ikon-kart-metin"><span class="kart-baslik">' + kac(x.ad) + '</span><span class="kart-metin">' + kac(x.metin) + '</span></span>' + ikon('fa-arrow-right ikon-kart-ok') + '</a>').join('');
       uyariYaz(c.ozel && c.ozel !== 'yok' ? 'Özel bir durum işaretledin. Burada önerilen içerikler geneldir; plana başlamadan önce bir diyetisyene ve hekimine danış.' : '');

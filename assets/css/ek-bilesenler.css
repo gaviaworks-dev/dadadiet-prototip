@@ -3479,3 +3479,45 @@ body.cerez-acik #dadaMentor{--mentor-dip:max(var(--mentor-taban),calc(var(--ment
 .yetkili .uyum-ozet .alan-yardim,.yetkili .uyum-ozet .mini-liste{margin:0}
 .gs-deger small{font-size:var(--yazi-11);font-weight:var(--agirlik-govde)}
 @media(max-width:520px){.uyum-sayilar{grid-template-columns:repeat(2,minmax(0,1fr))}}
+/* === Revize 9 Kasım · dk-public === */
+/* --- dk-public · misafir akışı --- */
+.sosyal-dugme.tam{grid-column:1/-1;width:100%}
+.modal-govde>.sonuc-kayit{margin:var(--bosluk-4) 0 var(--bosluk-16)}
+.modal-govde>.kart-metin{margin-bottom:var(--bosluk-12)}
+@media(max-width:480px){.modal-ayak-cubuk.yigilir{flex-direction:column-reverse;align-items:stretch;text-align:center}}
+.sso-not{margin-top:var(--bosluk-8)}
+.giris-kart .segment.tam-segment{margin-bottom:var(--bosluk-16)}
+.alan-yardim+.alan{margin-top:var(--bosluk-16)}
+@media(max-width:480px){.kart-alt.yigilir>.dugme{flex:1 1 100%;margin-left:0}}
+.mekan-kart-ornek-satir.hedef-ustu b{color:var(--uyari)}
+.giris-kart .alan-yardim+.eylem-satiri{margin-top:var(--bosluk-16)}
+/* --- dk-public · misafir akışı sonu --- */
+/* --- dk-public · diyetisyen ve arama --- */
+/* Son aramalar başlığı: başlık solda, temizle sağda */
+.son-arama-bas{display:flex;align-items:baseline;justify-content:space-between;gap:var(--bosluk-12)}
+.son-arama-bas h3{margin-bottom:var(--bosluk-12)}
+/* Boş arama sonucu: alternatif kelimeler ve tür bağlantıları */
+.bos-oneri{display:flex;flex-direction:column;align-items:center;width:100%;min-width:0;gap:var(--bosluk-8);margin-top:var(--bosluk-16);max-width:640px;margin-inline:auto}
+.bos-oneri .alan-etiket{margin:var(--bosluk-8) 0 0}
+.bos-oneri .cipler{justify-content:center}
+/* Öneri kutusu açıkken bant kırpmaz ve alttaki dikiş bölümünün üstüne çıkar */
+.bant:has(.arama-kutu.oneri-acik){overflow:visible;z-index:5}
+/* --- dk-public · diyetisyen ve arama sonu --- */
+/* --- dk-public · programlar --- */
+/* Liste üstü ek süzgeçler, öğün alternatif satırı, gün durumu, kilitli gün daveti */
+.liste-suzgec{margin-bottom:var(--bosluk-16)}
+.ogun-veya{display:block;margin-top:var(--bosluk-4);font-size:var(--yazi-12-5);font-style:italic;color:var(--metin-ikincil)}
+.gun-ad .gun-durum{margin-left:var(--bosluk-8)}
+.akordeon-govde .akordeon-davet{padding:0 var(--ogun-kenar,var(--bosluk-24)) var(--bosluk-16)}
+.akordeon-davet .bilgi-notu{margin:0}
+/* Alışveriş listesi: grup başına sütun */
+.alisveris-izgara{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:var(--bosluk-20) var(--bosluk-24);margin-bottom:var(--bosluk-12)}
+.alisveris-grup .kart-baslik{margin-bottom:var(--bosluk-8)}
+.alisveris-grup small{color:var(--metin-ikincil);font-size:var(--yazi-12-5)}
+@media(max-width:1024px){.alisveris-izgara{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media(max-width:560px){.alisveris-izgara{grid-template-columns:minmax(0,1fr)}}
+/* Kartın altında eylem düğmesi (kart bağlantı olduğu için düğme dışarıda) */
+.kart-eylemli{display:flex;flex-direction:column;gap:var(--bosluk-8);min-width:0}
+.kart-eylemli>.sonuc-kart{flex:1}
+.kaydet-yeri{display:contents}
+/* --- dk-public · programlar sonu --- */

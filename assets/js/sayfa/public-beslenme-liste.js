@@ -75,8 +75,33 @@
         h += '<button class="sayfa-dugme ok" type="button" data-sayfa="' + (sayfa + 1) + '" aria-label="Sonraki sayfa"' + (sayfa === sayfaSayi ? ' disabled' : '') + '><i class="fa-solid fa-chevron-right" aria-hidden="true"></i></button>';
         sayfalama.innerHTML = h;
       }
+      if (kok.hasAttribute('data-benzer')) benzerCiz(q, uyan.length);
       if (basaDon) kok.scrollIntoView({ block: 'start' });
     }
+
+    /* Sonuç yoksa (site haritası 8.12): yazılana en yakın 3 kayıt ve kategorileri. Yakınlık iki harfli parça örtüşmesiyle ölçülür */
+    function benzerCiz(q, n) {
+      let k = bos.querySelector('[data-benzer-kap]');
+      if (!k) { k = document.createElement('div'); k.className = 'bos-oneri'; k.dataset.benzerKap = ''; bos.insertBefore(k, bos.querySelector('[data-liste-temizle]')); }
+      if (n || q.length < 2) { k.hidden = true; return; }
+      const parca = (t) => { const l = new Set(); for (let i = 0; i < t.length - 1; i++) l.add(t.slice(i, i + 2)); return l; };
+      const pq = parca(q);
+      const puan = (kart) => { const ad = kucuk(kart.querySelector('b') ? kart.querySelector('b').textContent : ''), pa = parca(ad); let o = 0; pq.forEach((x) => { if (pa.has(x)) o++; }); return o / Math.max(1, pq.size) + (ad.startsWith(q.charAt(0)) ? 0.1 : 0); };
+      const en = kartlar.map((kart) => ({ kart, p: puan(kart) })).filter((x) => x.p > 0.2).sort((a, b) => b.p - a.p).slice(0, 3);
+      if (!en.length) { k.hidden = true; return; }
+      const kac = (t) => String(t).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/"/g, '&quot;');
+      const kat = [...new Map(en.map((x) => [x.kart.dataset.kategori, x.kart.dataset.kategoriAd])).entries()];
+      k.hidden = false;
+      k.innerHTML = '<p class="kart-metin">Bunu mu demek istedin?</p><div class="cipler">' + en.map((x) => '<a class="cip" href="' + x.kart.getAttribute('href') + '">' + kac(x.kart.querySelector('b').textContent) + '</a>').join('') + '</div>'
+        + '<p class="kart-metin">İlgili kategoriler</p><div class="cipler">' + kat.map(([d, a]) => '<button class="cip" type="button" data-benzer-kategori="' + kac(d) + '">' + kac(a || d) + '</button>').join('') + '</div>';
+    }
+    bos.addEventListener('click', (e) => {
+      const c = e.target.closest('[data-benzer-kategori]');
+      if (!c) return;
+      if (ara) ara.value = '';
+      satirlar.forEach((s) => s.querySelectorAll('.cip').forEach((x, i) => x.classList.toggle('aktif', s.dataset.alan === 'kategori' ? x.dataset.deger === c.dataset.benzerKategori : i === 0)));
+      yenile();
+    });
 
     const yenile = () => { sayfa = 1; bagliSuz(); ciz(false); };
 

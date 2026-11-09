@@ -19,7 +19,7 @@ ${bolum(`<div data-liste data-alan="grup" data-param="grup" data-boyut="12" data
   const detay = `${bant({ yol: [['Testler', 'saglik-testleri/'], [kac(d.ad)]], etiket: 'Beslenme testi', etiketIkon: 'fa-circle-question', h1: kac(d.ad), gorsel: 'hero/test-beslenme-tst-top.webp', alt: kac(d.aciklama), alttaki: altSayilar([[d.sorular.length, 'Soru']]) })}
 <div class="bolum-dizi">
 ${bolum(`<div class="soru-kolon" id="testKok">
-<div class="kapak-kart" id="testKapak"><div class="kapak-kart-gorsel"><img src="${icerik(ilk.gorsel_dosya)}" alt=""></div><div class="kapak-kart-govde"><p class="kapak-kart-metin">${kac(d.aciklama)}</p><ul class="kapak-liste">${['Görsel kartlardan seçimini yap, test kendiliğinden ilerler', 'Sonunda seni tanımlayan bir sonuç kartı ve puanına özel bir açıklama çıkar', 'Giriş yaptıysan sonucun hesabına kaydedilir, dilediğin an geri dönüp tekrar bakabilirsin'].map((m) => `<li>${ikon('fa-check')}<span>${m}</span></li>`).join('')}</ul><div class="kapak-eylem"><span class="kapak-not">${ikon('fa-lock-open')} Kayıt gerekmez · sonuç anında</span><button class="dugme birincil" id="testBasla" type="button">${ikon('fa-play')} Teste Başla</button></div></div></div>
+<div class="kapak-kart" id="testKapak"><div class="kapak-kart-gorsel"><img src="${icerik(ilk.gorsel_dosya)}" alt=""></div><div class="kapak-kart-govde"><p class="kapak-kart-metin">${kac(d.aciklama)}</p><ul class="kapak-liste">${['Görsel kartlardan seçimini yap, test kendiliğinden ilerler', 'Sonunda seni tanımlayan bir sonuç kartı ve puanına özel bir açıklama çıkar', 'Kayıt olmadan çözersin; sonucunu Sağlık Dosyana kaydetmek istersen tek adımda üye olursun'].map((m) => `<li>${ikon('fa-check')}<span>${m}</span></li>`).join('')}</ul><div class="kapak-eylem"><span class="kapak-not">${ikon('fa-clock')} ${d.sorular.length} soru · yaklaşık 3 dk · kayıt gerekmez</span><button class="dugme birincil" id="testBasla" type="button">${ikon('fa-play')} Teste Başla</button></div></div></div>
 <div class="soru-kart" id="testOyun" hidden><div class="soru-ust"><span class="soru-adim" id="testMetin"></span><span class="soru-yuzde" id="testYuzde" aria-live="polite"></span></div><div class="soru-cubuk" role="progressbar" aria-label="Test ilerlemesi" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0"><i id="testCubuk"></i></div>
 <div class="soru-sahne" id="soruSahne"><h2 class="soru-baslik" id="soruMetin" tabindex="-1"></h2><div class="sik-izgara" id="soruSecenek" data-tek-secim role="group" aria-labelledby="soruMetin"></div></div>
 <div class="soru-alt"><button class="soru-geri" id="soruGeri" type="button" disabled>${ikon('fa-arrow-left')} Geri</button><span class="soru-ipucu">${ikon('fa-wand-magic-sparkles')} Seçince otomatik ilerler</span></div></div>
@@ -30,6 +30,6 @@ ${bolum(`${bolumBas({ etiket: 'Diğer Testler', ikon: 'fa-layer-group', baslik: 
 
   return [
     { yol: 'saglik-testleri', meta: { baslik: 'Sağlık Testleri', duzen: 'public', aktif: 'Sağlık Araçları', hero: true, js: sayfaJs('liste') }, govde: liste },
-    { yol: 'test/beslenme', meta: { baslik: d.ad, duzen: 'public', aktif: 'Sağlık Araçları', hero: true, js: sayfaJs('test') }, govde: detay },
+    { yol: 'test/beslenme', meta: { baslik: d.ad, duzen: 'public', aktif: 'Sağlık Araçları', hero: true, js: [...sayfaJs('test'), 'assets/js/misafir.js'] }, govde: detay },
   ];
 };

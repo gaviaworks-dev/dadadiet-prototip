@@ -47,12 +47,15 @@ export const gorselKart = ({ href, gorsel, rozet, rozetIkon, altRozet, baslik, m
 const HEDEF_IKON = { dengeli: 'fa-scale-balanced', detoks: 'fa-leaf', oruc: 'fa-hourglass-half', protein: 'fa-drumstick-bite', vegan: 'fa-seedling', seker: 'fa-cubes-stacked', kilo: 'fa-weight-scale', kas: 'fa-dumbbell' };
 export const programIkon = (p) => HEDEF_IKON[p.hedef?.[0]] ?? 'fa-list-check';
 
+/* Liste süzgeci için: günlük enerjinin alt sınırı üç banda, öğün sayısı güne bölünür (veri toplam öğünü taşır) */
+export const enerjiBandi = (p) => { const n = parseInt(String(p.enerji).replace(/\./g, '').match(/\d+/)?.[0] ?? '0', 10); return n < 1500 ? 'alt' : n < 1800 ? 'orta' : 'ust'; };
+export const gunlukOgun = (p) => Math.round(p.ogun_sayisi / (p.sure_gun || 1));
 export const programKart = (p, { gizli = false } = {}) => gorselKart({
   href: DETAY.program, gorsel: icerik(p.gorsel_dosya), rozet: p.kategori, rozetIkon: programIkon(p), altRozet: `${ikon('fa-calendar')} ${p.sure}`,
   baslik: kac(p.ad), metin: kac(p.aciklama),
   etiketler: `<span class="rozet olumlu ikonlu">${ikon('fa-fire')} ${kac(p.enerji)}</span>${p.zorluk !== 'Belirtilmedi' ? `<span class="rozet pasif ikonlu">${ikon('fa-signal')} ${p.zorluk}</span>` : ''}`,
   not: `${p.ogun_sayisi} öğün planı`, sinif: 'buyuk',
-  veri: ` data-kart data-hedef="${p.hedef.join(' ')}" data-yasam="${p.yasam.join(' ')}" data-tercih="${p.tercih.join(' ')}" data-ihtiyac="${p.ihtiyac.join(' ')}" data-sure="${p.sure_gun}"${gizli ? ' hidden' : ''}`,
+  veri: ` data-kart data-hedef="${p.hedef.join(' ')}" data-yasam="${p.yasam.join(' ')}" data-tercih="${p.tercih.join(' ')}" data-ihtiyac="${p.ihtiyac.join(' ')}" data-sure="${p.sure_gun}" data-zorluk="${p.zorluk}" data-enerji="${enerjiBandi(p)}" data-ogun="${gunlukOgun(p)}"${gizli ? ' hidden' : ''}`,
 });
 
 export const testKart = (t) => gorselKart({
