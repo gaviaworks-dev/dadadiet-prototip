@@ -3344,3 +3344,13 @@ html:has(#pageMain .modal-ortu:not([hidden]),#pageMain .sheet-ortu:not([hidden])
   .hafta-gun{grid-template-columns:96px minmax(0,1fr)}
   .hafta-ogun li,.hafta-ogun small{font-size:var(--yazi-11-5)}
 }
+/* Danışan özeti 641–1180: Paket, Ödemeler ve Sağlık Özeti sayfa sonuna düşmez, sekmenin hemen altında eşit boylu tek satır olur.
+   Telefonda randevu önce gelsin diye sırası korunur. */
+@media(min-width:641px) and (max-width:1180px){
+  .iki-sutun-pano>aside{order:-1;align-items:stretch}
+  .iki-sutun-pano>aside>.kart{height:100%}
+}
+@media(min-width:641px) and (max-width:900px){
+  .iki-sutun-pano>aside{grid-template-columns:repeat(2,minmax(0,1fr))}
+  .iki-sutun-pano>aside>:last-child:nth-child(odd){grid-column:1/-1}
+}
