@@ -3015,7 +3015,7 @@ html[data-oturum="1"] .head-bell{display:grid}
 .segment.ortali-segment button{display:inline-flex;align-items:center;justify-content:center;gap:var(--bosluk-8)}
 /* Muadil Bulucu: referans değerleri eşitleme temelini seçer */
 .temel-secici{display:flex;gap:var(--bosluk-8)}
-.temel-secici button{display:inline-flex;align-items:baseline;gap:var(--bosluk-8);min-height:44px;padding:var(--bosluk-6) var(--bosluk-14);border:var(--cizgi-1) solid var(--cizgi);border-radius:var(--yuvarlak-md);background:var(--kagit);color:var(--murekkep-yumusak);font:inherit;cursor:pointer;transition:border-color var(--sure) var(--yumusama),background var(--sure) var(--yumusama)}
+.temel-secici button{display:inline-flex;align-items:center;gap:var(--bosluk-8);min-height:44px;padding:var(--bosluk-6) var(--bosluk-14);border:var(--cizgi-1) solid var(--cizgi);border-radius:var(--yuvarlak-md);background:var(--kagit);color:var(--murekkep-yumusak);font:inherit;cursor:pointer;transition:border-color var(--sure) var(--yumusama),background var(--sure) var(--yumusama)}
 .temel-secici button span{font-size:var(--yazi-11);font-weight:var(--agirlik-kalin);letter-spacing:var(--aralik-vurgu);text-transform:uppercase}
 .temel-secici button b{font-size:var(--yazi-15);font-weight:var(--agirlik-kalin);color:var(--murekkep)}
 .temel-secici button:hover{border-color:var(--aksan)}
@@ -3808,3 +3808,7 @@ html:not(.bos-kip) [data-bos]{display:none!important}
 .tibbi-serit i{flex:none;margin-top:2px;font-size:var(--yazi-17);color:var(--aksan-koyu)}
 .tibbi-serit p{flex:1 1 auto;margin:0;font-size:var(--yazi-13-5);font-weight:var(--agirlik-govde);line-height:1.65;color:var(--murekkep-yumusak);text-align:start}
 .tibbi-serit b{font-weight:var(--agirlik-kalin);color:var(--murekkep)}
+
+/* ── S5: referans çipleri (.temel-secici) etiket ve değer dikeyde ortalı: taban çizgisi yerine orta, iki satır kutusu aynı yükseklikte
+   (etiket 11 px büyük harf 17 px kutu, değer 15 px 23 px kutu idi; büyük harf etiketi yukarıda duruyordu). Telefonda alt alta, ortalı. */
+.temel-secici button span,.temel-secici button b{line-height:20px}
