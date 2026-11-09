@@ -74,9 +74,9 @@ export const testListeKart = (t) => medyaKart(t, { alt: `<span>${ikon('fa-clipbo
 /* Canlı "Diğer Testler" kartı: grup ve soru sayısı görselin üstünde. */
 export const testOneriKart = (t) => medyaKart(t, { ust: `<span class="medya-kart-kategori">${kac(t.grup)}</span><span class="medya-kart-etiket">${ikon('fa-circle-question')} ${t.soru_sayisi} soru</span>`, alt: testGit });
 
-export const ikonKart = ({ href, ikon: i, baslik, metin, rozet = '' }) => `<a class="kart ikon-kart" href="${K}${href}"><span class="ikon-kutu">${ikon(i)}</span><span class="ikon-kart-metin"><span class="kart-baslik">${baslik}${rozet}</span><span class="kart-metin">${metin}</span></span>${ikon('fa-arrow-right ikon-kart-ok')}</a>`;
+export const ikonKart = ({ href, ikon: i, baslik, metin, rozet = '', ek = '' }) => `<a class="kart ikon-kart" href="${K}${href}"${ek}><span class="ikon-kutu">${ikon(i)}</span><span class="ikon-kart-metin"><span class="kart-baslik">${baslik}${rozet}</span><span class="kart-metin">${metin}</span></span>${ikon('fa-arrow-right ikon-kart-ok')}</a>`;
 
-export const hesapKart = (h) => ikonKart({ href: DETAY.hesaplayici, ikon: h.ikon, baslik: kac(h.ad), metin: kac(h.ozet) });
+export const hesapKart = (h, ek = '') => ikonKart({ href: DETAY.hesaplayici, ikon: h.ikon, baslik: kac(h.ad), metin: kac(h.ozet), ek });
 
 export const gorusme = (d) => d.online && d.yuz_yuze ? 'Online ve yüz yüze' : d.online ? 'Online' : 'Yüz yüze';
 
