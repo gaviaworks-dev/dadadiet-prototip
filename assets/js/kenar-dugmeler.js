@@ -5,7 +5,7 @@
   'use strict';
   const DD = window.DD;
   const HARIC = ['giris', 'kayit', 'sifremi-unuttum', 'pro'];
-  const ENGEL = '#cookieBanner,.alt-cubuk,.bottom-nav,.sihirbaz-ayak,.rd-actbar,.actbar';
+  const ENGEL = '#cookieBanner,.alt-cubuk,.bottom-nav,.sihirbaz-ayak,.rd-actbar,.actbar,.rk-std-altbar';
   const AKIS = '.sohbet-yaz-satir,.suzme-ac,.filtre-ac';
   const ESIK = 500;
 

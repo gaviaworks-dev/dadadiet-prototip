@@ -1,0 +1,35 @@
+/* kaynak: DadaGastro@905288b7b2:public/reklam/firin.css · uyarlama: birebir */
+/* Ölçü rehberi fırın alanı (OB-FIRIN · madde 120) — yalnız reklam kapısının içinde basılır.
+   Nokta, balon ve kart foto-etiket ailesinin sınıflarıdır (reklam.css); burada yalnız sahne var.
+   f1 (Beyar seçimi): fotoğraf + köşede "Sponsorlu" + markalı balonlu tek nokta. */
+.rk-firin { margin:0 0 24px; }
+.rk-firin-sahne { position:relative; isolation:isolate; overflow:hidden; border-radius:var(--radius-lg); background:#1d1e20; }
+.rk-firin-foto { display:block; width:100%; height:auto; aspect-ratio:2 / 1; object-fit:cover; }
+.rk-firin-rozet { position:absolute; right:12px; top:12px; display:inline-flex; padding:4px 10px; border-radius:var(--radius-pill); background:var(--rk-dugme); }
+.rk-firin-rozet .rk-etiket { color:#fff; font-size:11px; line-height:16px; }
+
+/* Nokta: yeri kreatiften (karar 156) — `data-x/y` fotoğrafın yüzdesi (panelin foto_x/foto_y'si); firin.js fotoğrafın kırpımına
+   göre sahnedeki yerini hesaplayıp `left/top` yazar (nokta.js kalıbı). Buradaki orta, betik koşana kadarki yer. Kutunun merkezi
+   o noktadadır. */
+.rk-firin .rk-firin-nokta { left:50%; top:50%; translate:-50% -50%; z-index:1; }
+.rk-firin .rk-firin-nokta summary { width:36px; height:36px; }
+.rk-firin-nokta summary .rk-nokta-marka,.rk-firin-nokta.rk-hover summary .rk-nokta-marka { --rk-balon:44px; width:88px; min-width:88px; }
+.rk-firin-nokta summary .rk-nokta-logo,.rk-firin-nokta.rk-hover summary .rk-nokta-logo { width:72px; height:28px; }
+
+/* Kart: ürün görseli yok (sahnenin kendisi ürün); logo · Sponsorlu · ad · kısa açıklama · varsa iç bağ. */
+.rk-firin-kart.rk-foto-kart.rk-slot { width:300px; }
+.rk-firin-kart.rk-foto-kart.rk-slot .rk-foto-metin { height:auto; gap:4px; }
+.rk-firin-kart.rk-foto-kart.rk-slot .rk-foto-metin > p { -webkit-line-clamp:3; }
+.rk-firin-kart .rk-firin-bag { justify-self:start; }
+/* Yatay yazı logo için kare 48 px kutu yerine geniş kutu; logo kutuya `contain` ile sığar (reklam.css). */
+.rk-firin-kart.rk-foto-kart.rk-slot .rk-foto-logo { width:104px; height:40px; padding:4px 8px; }
+.rk-firin-kart.rk-foto-kart.rk-slot .rk-foto-logo img { width:88px; height:32px; max-width:88px; max-height:32px; }
+
+@media (max-width:640px) {
+  /* 3:2 kutuda 2:1 görsel: genişlik ×1,333 ve yatay %62 kırpım (görselin %15,5–%90,5'i görünür); işaretin yerini firin.js bu
+     kırpımla hesaplar (görseldeki %70 kutuda %72,7 olur). */
+  .rk-firin-foto { aspect-ratio:3 / 2; object-position:62% 50%; }
+  .rk-firin-nokta summary .rk-nokta-marka,.rk-firin-nokta.rk-hover summary .rk-nokta-marka { --rk-balon:40px; width:76px; min-width:76px; }
+  .rk-firin-nokta summary .rk-nokta-logo,.rk-firin-nokta.rk-hover summary .rk-nokta-logo { width:62px; height:24px; }
+  .rk-foto-mobil .rk-firin-kart.rk-foto-kart.rk-slot { width:100%; max-width:none; }
+}

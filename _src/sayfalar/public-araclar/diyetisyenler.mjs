@@ -1,6 +1,9 @@
 // Diyetisyenler landing + iki profil: canlı Elif Şahin (yalnız public bilgi) ve panel demosu Ece Tunalı.
 import { K, sayfaJs, bant, bantSayilar, bolum, bolumBas, dugme, ikon, uzmanKart, gorusme, genelNot, kirinti, kac, ikonKart } from '../../parcalar/public-araclar/ortak.mjs';
 import { bicim } from '../../parcalar/bicim.mjs';
+import { reklamYeri as rk } from '../../parcalar/reklam.mjs';
+const ustSerit = (...k) => k.map((x) => rk(x, { tur: 'bant', kap: false })).join('');
+const sonSerit = (...k) => k.map((x) => rk(x, { tur: 'bant', konum: 'alt' })).join('');
 
 
 /* Bant, durum şeridi ve gövde tek .zebra içinde durur: #pageMain'in ikinci çocuğu kabukta bant üstüne biner (-22px, köşe, gölge), profil bandında bu istenmez. */
@@ -47,14 +50,15 @@ export default ({ veri }) => {
   const landing = `${bant({ yol: [['Diyetisyenler']], etiket: 'Uzman Diyetisyenler', etiketIkon: 'fa-stethoscope', h1: 'Sana uygun <span class="vurgu">diyetisyeni</span> bul, randevunu al', gorsel: 'hero/mega-photo-1467453678174-768ec283a940.avif', alt: 'Alanında uzman diyetisyenlerle online ya da yüz yüze görüş. Uzmanlık alanına, şehrine ve bütçene göre filtrele; danışan yorumlarını oku.',
     eylem: dugme('Sana Uygun Diyetisyeni Bul', 'diyetisyen-bul-sihirbazi/', 'birincil', 'fa-wand-magic-sparkles') + dugme('Bana Uygun Olanı Bul', 'bana-uygun-olani-bul/', 'koyu-zemin notr', 'fa-compass') + dugme('Diyetisyen Ol', 'diyetisyen-ol/', 'koyu-zemin notr', 'fa-id-badge'),
     alttaki: bantSayilar([[s.diyetisyen, 'Uzman profili'], [`${s.diyetisyen_il} il`, '+ online Türkiye geneli']]).replace('bant-sayilar', 'bant-sayilar alt-hiza yuksek') })}
-${bolum(`<div class="suzme-yerlesim" id="uzmanListe">${suzmeSutun(sehirler, D.length)}
+${bolum(`${rk(['DN-FRIDGE', 'DN-P1', 'DN-P2', 'DN-P3', 'DN-P4', 'DN-P5'], { hedef: '.bant', yon: 'yerine', ust: kirinti(['Diyetisyenler']) })}${ustSerit('SF-L1')}<div class="suzme-yerlesim" id="uzmanListe">${suzmeSutun(sehirler, D.length)}
 <div class="suzme-ana"><div class="liste-cubuk"><p class="liste-ozet"><b id="uzmanSayi">${D.length} uzman</b> bulundu</p><div class="liste-arac"><button class="suzme-ac" id="suzmeAc" type="button">${ikon('fa-sliders')} Filtrele <span class="suzme-ac-sayi" id="suzmeSayi" hidden>0</span></button>${siraKutu}</div></div>
 <div class="suzme-cipler" id="suzmeCipler" aria-label="Aktif filtreler" hidden></div>
 <p class="dogrulama-notu">${ikon('fa-shield-halved')}<span>Doğrulama: "Doğrulandı" rozeti, diploması ve mesleki kaydı kontrol edilen uzmanları gösterir; kontrol tamamlanmadan rozet verilmez.</span></p>
-<div class="vitrin-izgara" id="uzmanKartlar">${D.map((d, i) => uzmanKart(d, i)).join('')}</div>
+<div class="vitrin-izgara" id="uzmanKartlar">${D.map((d, i) => uzmanKart(d, i)).join('')}</div>${rk('SF-N2', { tur: 'uzman', hedef: '#uzmanKartlar', sira: 4 })}
 <div class="kart suzme-bos" id="uzmanBos" hidden><div class="bos-durum kart-ici"><span class="bos-ikon">${ikon('fa-user-doctor')}</span><h3>Uzman bulunamadı</h3><p>Daha fazla uzman görmek için bir filtreyi temizle.</p></div></div></div></div>`, { ilk: true, sinif: 'suzme-bolum' })}
 <div class="bolum-dizi">
 ${bolum(genelNot)}
+${sonSerit('SF-L1-END')}
 </div>`;
 
   const e = D.find((d) => d.slug === 'dyt-elif-sahin');
@@ -62,14 +66,14 @@ ${bolum(genelNot)}
     eylem: `<a class="dugme birincil" href="${K}giris/" data-randevu>${ikon('fa-calendar-check')} Randevu al</a><div><a class="dugme hayalet" href="${K}giris/" data-mesaj>${ikon('fa-paper-plane')} Mesaj</a>${kaydetDugme(e)}<button class="dugme hayalet" type="button" data-paylas aria-label="Profili paylaş">${ikon('fa-share-nodes')}</button></div>`,
     sayaclar: [['fa-briefcase', 'Deneyim', `${e.deneyim_yil} yıl`], ['fa-video', 'Görüşme kipi', gorusme(e)], ['fa-location-dot', 'Konum', e.sehir], ['fa-star', 'Danışan puanı', 'Henüz puan yok']],
   })}
-<div class="modul-govde">${sekmeRay([['profil', 'Profil', 'fa-user'], ['hakkinda', 'Hakkında', 'fa-circle-info'], ['yorumlar', 'Yorumlar', 'fa-comment-dots', 0], ['icerikler', 'İçerikler', 'fa-newspaper']])}
+<div class="modul-govde">${rk('SF-P1', { tur: 'bant' })}${sekmeRay([['profil', 'Profil', 'fa-user'], ['hakkinda', 'Hakkında', 'fa-circle-info'], ['yorumlar', 'Yorumlar', 'fa-comment-dots', 0], ['icerikler', 'İçerikler', 'fa-newspaper']])}
 ${pano('profil', true, `<div class="kart"><div class="kart-bas"><h2 class="kart-baslik">${ikon('fa-stethoscope')} Çalışma Alanları</h2></div><div class="kart-govde"><div class="sonuc-etiketler">${e.uzmanlik.map((u) => `<span class="rozet olumlu">${kac(u)}</span>`).join('')}</div></div></div>
 <div class="kart" id="randevu"><div class="kart-bas"><div><h2 class="kart-baslik">${ikon('fa-list-check')} Profil Durumu</h2><p>Bu profilde henüz yayınlanmış kayıt olmayan alanlar tek yerde.</p></div></div><div class="kart-govde ayar-liste">${satir('fa-calendar-check', 'Randevu uygunluğu', 'Önümüzdeki yedi gün için açık görüşme saati görünmüyor.', '<span class="durum-hapi">Açık saat yok</span>')}${satir('fa-box-open', 'Hizmet ve paketler', 'Hizmet kataloğu yayına girdiğinde burada görünür.', '<span class="durum-hapi">Yakında</span>')}${satir('fa-comment-dots', 'Danışan yorumları', 'Yorumlar yalnız görüşmesi tamamlanmış danışanlardan alınır.', '<span class="durum-hapi">0 yorum</span>')}</div><div class="kart-alt">${dugme('Doğrulama nasıl yapılıyor?', 'yasal/', 'hayalet')}${dugme('Bütün diyetisyenler', 'diyetisyenler/', 'birincil', 'fa-arrow-right', true)}</div></div>`)}
 ${pano('hakkinda', false, `${bolumBas({ etiket: 'Uzmanlık ve görüşme', ikon: 'fa-circle-info', baslik: `${kac(e.ad)} Hakkında`, metin: 'Hangi alanlarda çalışıyor, görüşmeler hangi kipte yürüyor.' })}<div class="kart"><div class="kart-govde"><dl class="kunye"><div><dt>Unvan</dt><dd>${e.unvan}</dd></div><div><dt>Deneyim</dt><dd>${e.deneyim_yil} yıl</dd></div><div><dt>Görüşme</dt><dd>${gorusme(e)}</dd></div><div><dt>Konum</dt><dd>${e.sehir}</dd></div></dl></div></div>
 <div class="kart"><div class="kart-bas"><div><h2 class="kart-baslik">${ikon('fa-graduation-cap')} Eğitim ve Belgeler</h2><p>Canlı profilde yayınlanan bilgi; eğitim ve belge kaydı henüz paylaşılmadı.</p></div></div><div class="kart-govde ayar-liste">${satir('fa-graduation-cap', 'Eğitim', 'Uzman eğitim bilgisini profiline eklediğinde görünür.', bekliyor)}${satir('fa-file-shield', 'Diploma ve mesleki kayıt', 'Doğrulama tamamlandığında "Doğrulandı" rozetiyle görünür.', bekliyor)}${satir('fa-utensils', 'Örnek menüler', 'Uzman örnek menü yayınladığında İçerikler sekmesinde listelenir.', bekliyor)}</div></div>${genelNot}`)}
 ${pano('yorumlar', false, yorumPano(e.ad))}
 ${pano('icerikler', false, icerikPano(e.ad))}
-</div></div>`;
+</div>${sonSerit('SF-P1-END')}</div>`;
 
   const d = veri.demo.diyetisyen;
   const ece = `<div class="zebra"><div class="uyari-serit" id="onizlemeSerit" hidden><div class="kap">${ikon('fa-eye')}<p>Önizleme, ziyaretçiler bu sayfayı görmüyor. <a class="baglanti-metin" href="${K}diyetisyen-paneli/profil/">Panele dön</a></p></div></div>${profilUst(d, {
@@ -78,14 +82,14 @@ ${pano('icerikler', false, icerikPano(e.ad))}
     sayaclar: [['fa-briefcase', 'Deneyim', `${d.deneyim_yil} yıl`, 'deneyim'], ['fa-star', 'Danışan puanı', 'Henüz puan yok'], ['fa-tag', 'Seans ücreti', `${bicim.para(d.fiyat_araligi.min)}–${bicim.sayi(d.fiyat_araligi.max)}`], ['fa-video', 'Görüşme kipi', gorusme(d), 'gorusme']],
   })}
 <section class="bolum" id="profilKapali" hidden><div class="kap"><div class="kart"><div class="bos-durum kart-ici"><span class="bos-ikon">${ikon('fa-user-clock')}</span><h3>Bu profil henüz yayında değil</h3><p>Uzmanın başvurusu inceleniyor. Yayına girdiğinde hizmetleri ve randevu saatleri burada görünür.</p><a class="dugme birincil" href="${K}diyetisyenler/">Tüm diyetisyenleri gör</a></div></div></div></section>
-<div class="modul-govde" id="profilGovde">${sekmeRay([['hakkinda', 'Hakkında', 'fa-user'], ['paket', 'Hizmet Paketleri', 'fa-box-open', 'paketSayi'], ['randevu', 'Randevu', 'fa-calendar-check'], ['yorumlar', 'Yorumlar', 'fa-comment-dots', 0], ['icerikler', 'İçerikler', 'fa-newspaper']])}
+<div class="modul-govde" id="profilGovde">${rk('SF-P1', { tur: 'bant' })}${sekmeRay([['hakkinda', 'Hakkında', 'fa-user'], ['paket', 'Hizmet Paketleri', 'fa-box-open', 'paketSayi'], ['randevu', 'Randevu', 'fa-calendar-check'], ['yorumlar', 'Yorumlar', 'fa-comment-dots', 0], ['icerikler', 'İçerikler', 'fa-newspaper']])}
 ${pano('hakkinda', true, `<div class="iki-kolon"><div class="kart"><div class="kart-bas"><h2 class="kart-baslik" id="eceBaslik">${ikon('fa-user-doctor')} <span></span></h2></div><div class="kart-govde duz-metin" id="eceMetin"></div></div><div class="kart"><div class="kart-bas"><h2 class="kart-baslik">${ikon('fa-stethoscope')} Çalışma Alanları</h2></div><div class="kart-govde"><div class="sonuc-etiketler" id="eceAlan">${d.uzmanlik.map((u) => `<span class="rozet olumlu">${kac(u)}</span>`).join('')}</div></div></div></div>
 <div class="kart" id="eceEgitim"><div class="kart-bas"><div><h2 class="kart-baslik">${ikon('fa-graduation-cap')} Eğitim ve Doğrulama</h2><p>Uzmanın panelindeki profil kaydından okunur; belgeler yalnız yönetim tarafından açılır.</p></div><span class="ornek-etiket">prototip örneği</span></div><div class="kart-govde ayar-liste" id="eceEgitimListe"></div></div>${genelNot}`)}
 ${pano('paket', false, `${bolumBas({ etiket: 'Hizmetler', ikon: 'fa-box-open', baslik: 'Hizmet Paketleri', metin: 'Paketler diyetisyenin panelinden yönetilir, buraya anında yansır.' })}<div class="kart-izgara c3" id="paketler"></div>`)}
 ${pano('randevu', false, `${bolumBas({ etiket: 'Uygunluk', ikon: 'fa-calendar-check', baslik: 'Önümüzdeki Günler', metin: 'Bir saat seç, randevunu hesabından tamamla. Üstü çizili saatler dolu.' })}<div class="kart"><div class="kart-bas"><span class="kart-metin" id="turEtiket">Görüşme türü</span><div class="segment" id="slotTur" role="group" aria-labelledby="turEtiket"><button type="button" data-deger="online" aria-pressed="true">Online</button><button type="button" data-deger="yüz yüze" aria-pressed="false">Yüz yüze</button></div></div><div class="kart-govde" id="slotlar"></div><div class="kart-alt"><span class="not" id="slotNot">Bir saat seçilmedi.</span><a class="dugme birincil" id="slotDevam" href="${K}hesabim/diyetisyenim/#randevu">Randevuyu tamamla ${ikon('fa-arrow-right')}</a></div></div>`)}
 ${pano('yorumlar', false, yorumPano(d.ad))}
 ${pano('icerikler', false, icerikPano(d.ad))}
-</div></div>`;
+</div>${sonSerit('SF-P1-END')}</div>`;
 
   return [
     { yol: 'diyetisyenler', meta: { baslik: 'Diyetisyenler', duzen: 'public', aktif: 'Diyetisyenler', hero: true, js: sayfaJs('uzman') }, govde: landing },

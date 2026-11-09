@@ -1,6 +1,11 @@
 // Beslenme alanı: besin kütüphanesi, kaç kalori, rehberler, ipuçları ve püf noktaları.
 import { K, kac, ikon, icerik, bant, bolumBas, dugme, bolum, gorselKart, yatayKart, metin, DETAY, sayfa, dizi, sayi, deger, araMetni, bilgiNot, cipler, aramaKutusu, liste, ilgili, bloklar, kaynakListe, kunyeKart, paylas, akordeon } from '../../parcalar/public-beslenme/ortak.mjs';
 import { bicim } from '../../parcalar/bicim.mjs';
+import { reklamYeri as rk } from '../../parcalar/reklam.mjs';
+
+/* Reklam kancaları: yayılım şeritleri (üst ve sayfa sonu) ve kenar kutusu kalıbı */
+const ustSerit = (...k) => k.map((x) => rk(x, { tur: 'bant', kap: false })).join('');
+const sonSerit = (...k) => k.map((x) => rk(x, { tur: 'bant', konum: 'alt' })).join('');
 
 const A = { aktif: 'Beslenme' };
 const L = { ...A, js: ['liste'] };
@@ -30,7 +35,7 @@ function besinKutuphanesi(veri) {
   const kapBas = '<div class="veri-liste-bas" aria-hidden="true"><span class="veri-liste-ad">Besin</span><span class="veri-satir-sutun">Protein</span><span class="veri-satir-sutun">Karb.</span><span class="veri-satir-kalori">Kalori</span><span class="veri-satir-ok"></span></div>';
   return sayfa('besin-kutuphanesi', 'Besin Kütüphanesi',
     bant({ yol: [['Besin Kütüphanesi']], etiket: 'BESİN KÜTÜPHANESİ', h1: 'Besin değerlerini keşfet', alt: `${veri.sayaclar.besin} besinin kalori, protein, yağ ve karbonhidrat değerini ara; her değerin hangi kaynaktan geldiğini gör.`, gorsel: 'assets/img/hero/besin-kutuphanesi-canli.webp' })
-    + dizi(bolum(liste({ toplam: veri.sayaclar.besin, birim: 'besinden', ust, ustNot: '<p class="liste-not"><span><span data-liste-sayac role="status"></span> 100 g başına değerler.</span></p>', kapBas, kapSinif: 'veri-liste', sarmal: 'veri-kart', kartlar: l.map(besinSatir).join(''), boyut: 24, bosMetin: 'Aradığın besin bu listede yok. Farklı bir kelime dene ya da süzgeçleri temizle.' }).replace('<div class="yigin" data-liste ', '<div class="yigin" data-liste data-benzer ') + bilgiNot(), { ilk: true })), L);
+    + dizi(bolum(ustSerit('AN-B1') + liste({ toplam: veri.sayaclar.besin, birim: 'besinden', ust, ustNot: '<p class="liste-not"><span><span data-liste-sayac role="status"></span> 100 g başına değerler.</span></p>', kapBas, kapSinif: 'veri-liste', sarmal: 'veri-kart', kartlar: l.map(besinSatir).join(''), boyut: 24, bosMetin: 'Aradığın besin bu listede yok. Farklı bir kelime dene ya da süzgeçleri temizle.' }).replace('<div class="yigin" data-liste ', '<div class="yigin" data-liste data-benzer ') + rk('DN-RAIL', { hedef: '.veri-liste', sira: 1 }) + rk('TD-ING', { hedef: '.veri-liste', sira: 3 }) + rk('ansiklopedi-liste.kategori-rozeti', { kategori: 'Süt Ürünleri & Yumurta', hedef: '.liste-satir .cipler', yon: 'sonra' }) + rk('AN-N1', { kategori: 'Süt Ürünleri & Yumurta', hedef: '.liste-not', yon: 'sona' }) + rk('TD-PHOTO', { hedef: '.bant', yon: 'basa', nokta: { x: 640, y: 560, mx: 560, my: 600, gorsel: 'assets/img/hero/besin-kutuphanesi-canli.webp' } }) + bilgiNot(), { ilk: true }), sonSerit('AN-B1-END')), L);
 }
 
 const AVOKADO_OZET = 'Tekli doymamış yağ ve lif açısından zengin taze meyve.';
@@ -58,11 +63,11 @@ ${psatir('Enerji', b.kcal, 'kcal', 0)}${psatir('Protein', b.protein)}${psatir('Y
   const sag = `<div class="yigin yapiskan">
 <div class="kart"><img class="kart-ust-gorsel" src="${K}assets/img/besin/avokado.webp" alt="Avokado"><div class="kart-bas"><h2 class="kart-baslik">${ikon('fa-chart-pie')} Makro Dağılımı (100 G)</h2></div><div class="kart-govde yigin sik">${makro.map(([a, g, y]) => `<div class="olcu-satir"><span>${a}</span><div class="olcer hap"><span data-oran="${y}"></span></div><span>${deger(g)} · %${y}</span></div>`).join('')}<p class="alan-yardim"><span>Yüzdeler kaydın kendi enerji değeri (${bicim.kcal(b.kcal)}) taban alınarak hesaplanır: protein ve karbonhidrat 4 kcal/g, yağ 9 kcal/g. Bu kayıtta karbonhidrat lif hariç verildiği için lif üç dilimin dışında kalır; tabloda kendi satırında listelenir. Günlük ihtiyaç kişiye göre değişir.</span></p></div></div>
 ${kunyeKart('Kaynak', [['Veri tabanı', kac(b.kaynak.ad)], ['Kayıt kodu', kac(b.kaynak.kod)]], `<a class="dugme hayalet kucuk tam-en" href="${kac(b.kaynak.url)}" target="_blank" rel="noopener">${ikon('fa-arrow-up-right-from-square')} Kaydı aç</a><a class="dugme birincil kucuk tam-en" href="${K}besin-karsilastir/?a=${b.slug}">${ikon('fa-scale-balanced')} Başka besinle karşılaştır</a>`)}
-<div class="kart"><div class="kart-bas"><h2 class="kart-baslik">${ikon('fa-heart')} Sık Tükettiklerin</h2></div><div class="kart-govde yigin sik"><p class="kart-metin">Favorilerin Akıllı Tabak'ın tek besin aramasında önce gelir.</p><button class="dugme hayalet kucuk tam-en" type="button" data-kaydet="besinler" data-slug="${b.slug}" data-ad="${kac(b.ad)}" data-ikon="fa-heart" data-etiket="Favori besinlerime ekle" data-etiket-tamam="Favori besinlerimde" data-tamam-metin="favori besinlerine eklendi.">${ikon('fa-heart')} Favori besinlerime ekle</button><a class="dugme hayalet kucuk tam-en" href="${K}akilli-tabak-ve-degisim/?besin=${b.slug}">${ikon('fa-chart-pie')} Tabağıma ekle</a></div></div>
+${rk('AD-B1-SIDE', { tur: 'yan' })}<div class="kart"><div class="kart-bas"><h2 class="kart-baslik">${ikon('fa-heart')} Sık Tükettiklerin</h2></div><div class="kart-govde yigin sik"><p class="kart-metin">Favorilerin Akıllı Tabak'ın tek besin aramasında önce gelir.</p><button class="dugme hayalet kucuk tam-en" type="button" data-kaydet="besinler" data-slug="${b.slug}" data-ad="${kac(b.ad)}" data-ikon="fa-heart" data-etiket="Favori besinlerime ekle" data-etiket-tamam="Favori besinlerimde" data-tamam-metin="favori besinlerine eklendi.">${ikon('fa-heart')} Favori besinlerime ekle</button><a class="dugme hayalet kucuk tam-en" href="${K}akilli-tabak-ve-degisim/?besin=${b.slug}">${ikon('fa-chart-pie')} Tabağıma ekle</a></div></div>
 </div>`;
   return sayfa('besin/avokado', 'Avokado',
     bant({ yol: [['Besin Kütüphanesi', 'besin-kutuphanesi/'], ['Avokado']], etiket: 'MEYVELER', etiketIkon: 'fa-apple-whole', h1: 'Avokado', alt: AVOKADO_OZET, gorsel: 'assets/img/besin/avokado-hero.webp', sayilar: [[sayi(b.kcal, 0), '<span class="birim">kcal / 100 g</span>'], [`${bicim.gram(b.yag)}`, 'yağ'], [`${sayi(b.lif, 1)} g`, 'lif']] })
-    + dizi(bolum(`<div class="iki-kolon">${sol}${sag}</div>${bilgiNot('Bu sayfadaki içerik genel bilgilendirme amaçlıdır; <b>tıbbi teşhis veya tedavi yerine geçmez</b>. Kişiye özel beslenme planı yalnızca <b>yetkili bir diyetisyen</b> tarafından hazırlanır. Gebelik, kronik hastalık, düzenli ilaç kullanımı, çocuk beslenmesi veya klinik bir durum varsa plana başlamadan önce <b>hekim ve diyetisyen kontrolü zorunludur</b>.', false)}`, { ilk: true })), { ...A, onJs: ['assets/js/misafir.js'], js: ['besin'] });
+    + dizi(bolum(`${ustSerit('AD-B1')}<div class="iki-kolon">${sol}${sag}</div>${bilgiNot('Bu sayfadaki içerik genel bilgilendirme amaçlıdır; <b>tıbbi teşhis veya tedavi yerine geçmez</b>. Kişiye özel beslenme planı yalnızca <b>yetkili bir diyetisyen</b> tarafından hazırlanır. Gebelik, kronik hastalık, düzenli ilaç kullanımı, çocuk beslenmesi veya klinik bir durum varsa plana başlamadan önce <b>hekim ve diyetisyen kontrolü zorunludur</b>.', false)}`, { ilk: true }), sonSerit('AD-B1-END')), { ...A, onJs: ['assets/js/misafir.js'], js: ['besin'] });
 }
 
 /* Kaç Kalori */
@@ -94,7 +99,9 @@ function kacKaloriKategori(veri) {
 }
 
 /* Makale iskeleti: kaç kalori, ipucu, püf ve makro detayı aynı kalıptır */
-const makale = ({ yol, baslik, bantV, m, yan, not = bilgiNot(), ilgiliHtml = '' }) => sayfa(yol, baslik, bant(bantV) + dizi(bolum(`<div class="iki-kolon"><div class="yigin"><article class="okuma">${bloklar(m.bloklar)}</article>${kaynakListe(m.kaynaklar)}${not}</div><aside class="yigin yan-sabit" aria-label="Yazı bilgileri">${yan}</aside></div>`, { ilk: true }), ilgiliHtml), A);
+/* rk: reklam kancaları (ust: bant altı şerit, yan: kenar sütunu, govdeSonu: yazı gövdesinin ardı, ic: [başlık, html] o başlığın önüne, son: sayfa sonu) */
+const makaleIc = (html, ic) => (ic ? html.replace(`<h2>${ic[0]}</h2>`, `${ic[1]}<h2>${ic[0]}</h2>`) : html);
+const makale = ({ yol, baslik, bantV, m, yan, not = bilgiNot(), ilgiliHtml = '', rk: r = {} }) => sayfa(yol, baslik, bant(bantV) + dizi(bolum(`${r.ust ?? ''}<div class="iki-kolon"><div class="yigin"><article class="okuma">${makaleIc(bloklar(m.bloklar), r.ic)}</article>${r.govdeSonu ?? ''}${kaynakListe(m.kaynaklar)}${not}</div><aside class="yigin yan-sabit" aria-label="Yazı bilgileri">${yan}${r.yan ?? ''}</aside></div>`, { ilk: true }), ilgiliHtml, r.son ?? ''), A);
 
 const ilgiliKart = (y, href, rozet, rozetIkon, git) => gorselKart({ href, gorsel: `${K}${y.gorsel}`, rozet: y.kategori ?? rozet, rozetIkon, baslik: kac(y.ad), metin: kac(y.ozet), not: y.meta?.[0] ?? '', git });
 
@@ -104,6 +111,7 @@ function kacKaloriDetay(veri) {
     yol: 'kac-kalori/bir-avuc-badem-kac-kalori', baslik: y.ad,
     bantV: { yol: [['Beslenme', 'besin-rehberi/'], ['Kaç Kalori?', 'kac-kalori/'], [kac(y.ad)]], etiket: 'KAÇ KALORİ?', etiketIkon: 'fa-fire', h1: kac(y.ad), alt: kac(y.ozet), gorsel: `assets/img/icerik/${y.gorsel_dosya}`, sayilar: [['180', '<span class="birim">kalori / 30 g</span>'], ['600', '<span class="birim">kcal / 100 g</span>'], ['30 g', 'bir avuç']] },
     m: metin.makale['kac-kalori-detay'],
+    rk: { ic: ['Diğer kuruyemişlerle yan yana', rk('OB-FIRIN')] },
     yan: kunyeKart('Besin Kaydı', [['Kayıt', 'Badem (iç · kavrulmuş)'], ['Enerji', '600 kcal / 100 g'], ['Kaynak', 'TürKomp — Ulusal Gıda Kompozisyon Veri Tabanı'], ['Yayın', '13.08.2026'], ['Kategori', kac(y.kategori)]], paylas),
     ilgiliHtml: ilgili({ etiket: 'DEVAM ET', baslik: 'Bunlar da İşine Yarar', metin: 'Aynı mantıkla kurulmuş, yine iki dakikalık kalori soruları.', tumu: 'kac-kalori/', tumuAd: 'Tüm Yazılar', kartlar: metin.kartlar['ilgili-kac-kalori'].map((c) => ilgiliKart(c, DETAY.kacKalori, 'Kaç Kalori?', 'fa-fire', 'Oku')).join('') }),
   });
@@ -123,7 +131,7 @@ function besinRehberi(veri) {
   return sayfa('besin-rehberi', 'Besin Rehberi',
     bant({ yol: [['Besin Rehberi']], etiket: 'BESLENME', h1: 'Ne yediğini <span class="vurgu">bil</span>, nasıl besleneceğini öğren', alt: 'Yayınlanmış besin değerleri ve uygulanabilir beslenme bilgisi tek merkezde.', gorsel: 'assets/img/hero/besin-rehberi-canli.avif', sayilar: [[s.icerik_toplam, 'yayınlanmış rehber'], ['5', 'içerik ailesi']] })
     + dizi(
-      bolum(`${bolumBas({ etiket: 'BESLENME REHBERİ', ikon: 'fa-book-open', baslik: 'Nereden Başlamak İstersin?', metin: 'Hesap yapmadan önce mantığı anla: dengeli tabak, öğün planı, porsiyon, alışveriş, mutfak alışkanlıkları, içecekler, dışarıda yemek ve ara öğünler. Sade, genel ve suçlamasız bir rehber; her başlık kısa ve uygulanabilir, sırayla okumak zorunda değilsin.' })}<div class="kart-izgara c3">${kartlar.map(hubKart(veri)).join('')}</div><p class="liste-aralik">${s.icerik_toplam} rehberden 1–${kartlar.length} arası gösteriliyor</p>${bilgiNot('Bu sayfadaki içerikler <b>genel bilgi amaçlıdır</b>; <b>tıbbi teşhis veya tedavi yerine geçmez</b>, kişisel beslenme tavsiyesi değildir. Kişiye özel plan yalnızca <b>yetkili bir diyetisyen</b> tarafından hazırlanır; gebelik, kronik hastalık, düzenli ilaç kullanımı, çocuk beslenmesi veya klinik bir durum varsa plana başlamadan önce <b>hekim ve diyetisyen kontrolü zorunludur</b>.')}`, { ilk: true }),
+      bolum(`${ustSerit('MG-B1')}${bolumBas({ etiket: 'BESLENME REHBERİ', ikon: 'fa-book-open', baslik: 'Nereden Başlamak İstersin?', metin: 'Hesap yapmadan önce mantığı anla: dengeli tabak, öğün planı, porsiyon, alışveriş, mutfak alışkanlıkları, içecekler, dışarıda yemek ve ara öğünler. Sade, genel ve suçlamasız bir rehber; her başlık kısa ve uygulanabilir, sırayla okumak zorunda değilsin.' })}<div class="kart-izgara c3">${kartlar.map(hubKart(veri)).join('')}${rk('MG-N1', { tur: 'sonuc', sira: 1 })}</div><p class="liste-aralik">${s.icerik_toplam} rehberden 1–${kartlar.length} arası gösteriliyor</p>${rk('MG-B1-SIDE', { tur: 'yan' })}${bilgiNot('Bu sayfadaki içerikler <b>genel bilgi amaçlıdır</b>; <b>tıbbi teşhis veya tedavi yerine geçmez</b>, kişisel beslenme tavsiyesi değildir. Kişiye özel plan yalnızca <b>yetkili bir diyetisyen</b> tarafından hazırlanır; gebelik, kronik hastalık, düzenli ilaç kullanımı, çocuk beslenmesi veya klinik bir durum varsa plana başlamadan önce <b>hekim ve diyetisyen kontrolü zorunludur</b>.')}`, { ilk: true }),
     ), A);
 }
 
@@ -133,10 +141,11 @@ function dengeliTabak() {
   return sayfa('besin-rehberi/dengeli-tabak', 'Dengeli Tabak',
     bant({ yol: [['Besin Rehberi', 'besin-rehberi/'], ['Dengeli Tabak']], etiket: 'BESLENME REHBERİ', etiketIkon: 'fa-book-open', h1: 'Dengeli Tabak', alt: 'Beslenmeyi karmaşık kurallara dönüştürmeden, tabağına bakarak sağlıklı bir denge kurmanın yolları.', gorsel: y.gorsel })
     + dizi(
-      bolum(`${bolumBas({ etiket: 'BU REHBERDE', ikon: 'fa-list-check', baslik: 'Dengeli Tabağın Temelleri', metin: 'Dört soruda dengeli tabak: oran mantığı, besin gruplarının dengesi, ev porsiyonu ve sade akşam yemeği.' })}
+      bolum(`${ustSerit('MD-B1', 'MD-READ')}${bolumBas({ etiket: 'BU REHBERDE', ikon: 'fa-list-check', baslik: 'Dengeli Tabağın Temelleri', metin: 'Dört soruda dengeli tabak: oran mantığı, besin gruplarının dengesi, ev porsiyonu ve sade akşam yemeği.' })}
 <div class="iki-kolon"><div class="yigin">${akordeon(d.qa.map((q, i) => ({ soru: q.soru, ikon: 'fa-utensils', acik: i === 0, govde: `<div class="okuma">${bloklar(q.bloklar.map((b, j, l) => (b.t === 'p' && l[j + 1]?.t === 'ul' ? { ...b, t: 'h3' } : b)))}</div>` })))}<p class="sonuc-not-kisa">${d.dip[0]}</p>${bilgiNot()}</div>
-<aside class="yigin yan-sabit" aria-label="İlgili araç"><div class="kart"><div class="kart-bas"><h2 class="kart-baslik">${ikon('fa-chart-pie')} Tabağını Şimdi Kur</h2></div><div class="kart-govde yigin sik"><p class="kart-metin">Tabağını kur, muadilini bul: bölmeler doldukça denge skorun hemen değişir.</p>${dugme('Akıllı Tabak ve Değişim', 'akilli-tabak-ve-degisim/', 'birincil tam-en', 'fa-arrow-right', true)}</div></div>${kunyeKart('Bu Rehber', [['Başlık', '4 soru'], ['Kaynak', 'TÜBER 2022']], paylas)}</aside></div>`, { ilk: true }),
+<aside class="yigin yan-sabit" aria-label="İlgili araç"><div class="kart"><div class="kart-bas"><h2 class="kart-baslik">${ikon('fa-chart-pie')} Tabağını Şimdi Kur</h2></div><div class="kart-govde yigin sik"><p class="kart-metin">Tabağını kur, muadilini bul: bölmeler doldukça denge skorun hemen değişir.</p>${dugme('Akıllı Tabak ve Değişim', 'akilli-tabak-ve-degisim/', 'birincil tam-en', 'fa-arrow-right', true)}</div></div>${kunyeKart('Bu Rehber', [['Başlık', '4 soru'], ['Kaynak', 'TÜBER 2022']], paylas)}${rk('MD-READ-SIDE', { tur: 'yan' })}</aside></div>`, { ilk: true }),
       ilgili({ etiket: 'SIRADA', baslik: 'Bunlar da İşine Yarar', metin: 'Aynı konuya yakın diğer rehber sayfaları.', tumu: 'besin-rehberi/', tumuAd: 'Tüm Rehberler', kartlar: metin.kartlar['ilgili-rehber'].map((c) => ilgiliKart(c, DETAY.rehber, 'Rehber', 'fa-book-open', 'Rehberi Aç')).join('') }),
+      sonSerit('MD-B1-END', 'MD-READ-END'),
     ), A);
 }
 
@@ -144,7 +153,7 @@ function makroRehberi(veri) {
   const kart = (y) => rehberKart({ href: DETAY.makro, y });
   return sayfa('makro-rehberi', 'Makro Rehberi',
     bant({ yol: [['Besin Rehberi', 'besin-rehberi/'], ['Makro Rehberi']], etiket: 'MAKRO REHBERİ', etiketIkon: 'fa-chart-pie', h1: 'Protein, karbonhidrat, yağ ve lif rehberi', alt: 'Makroların ne anlattığını, hangi besinde bulunduğunu ve etikette nasıl okunduğunu kaynaklarıyla anlatan yazılar.', gorsel: 'assets/img/hero/makro-rehberi-reh-hero.jpg', sayilar: [[veri.sayaclar.makro_rehberi, 'yayınlanmış rehber'], ['~4 dk', 'ortalama okuma']] })
-    + dizi(bolum(`${bolumBas({ etiket: 'MAKRO REHBERİ', ikon: 'fa-chart-pie', baslik: 'Hangi Makroyla Başlamak İstersin?', metin: `${veri.sayaclar.makro_rehberi} rehberden 12 tanesi gösteriliyor.` })}<div class="kart-izgara c3">${metin.kartlar['makro-rehberi'].map(kart).join('')}</div>${bilgiNot('Bu sayfadaki içerikler <b>genel bilgi amaçlıdır</b>; <b>tıbbi teşhis veya tedavi yerine geçmez</b>, kişisel beslenme tavsiyesi değildir. Kişiye özel plan yalnızca <b>yetkili bir diyetisyen</b> tarafından hazırlanır; gebelik, kronik hastalık, düzenli ilaç kullanımı, çocuk beslenmesi veya klinik bir durum varsa plana başlamadan önce <b>hekim ve diyetisyen kontrolü zorunludur</b>.')}`, { ilk: true })), A);
+    + dizi(bolum(`${ustSerit('SZ-B1')}${bolumBas({ etiket: 'MAKRO REHBERİ', ikon: 'fa-chart-pie', baslik: 'Hangi Makroyla Başlamak İstersin?', metin: `${veri.sayaclar.makro_rehberi} rehberden 12 tanesi gösteriliyor.` })}<div class="kart-izgara c3">${metin.kartlar['makro-rehberi'].map(kart).join('')}${rk('SZ-N1', { tur: 'sonuc', sira: 4 })}</div>${bilgiNot('Bu sayfadaki içerikler <b>genel bilgi amaçlıdır</b>; <b>tıbbi teşhis veya tedavi yerine geçmez</b>, kişisel beslenme tavsiyesi değildir. Kişiye özel plan yalnızca <b>yetkili bir diyetisyen</b> tarafından hazırlanır; gebelik, kronik hastalık, düzenli ilaç kullanımı, çocuk beslenmesi veya klinik bir durum varsa plana başlamadan önce <b>hekim ve diyetisyen kontrolü zorunludur</b>.')}`, { ilk: true }), sonSerit('SZ-B1-END')), A);
 }
 
 function makroDetay() {
@@ -153,6 +162,7 @@ function makroDetay() {
     yol: 'makro-rehberi/protein-kaynaklari-hayvansal-bitkisel', baslik: y.ad,
     bantV: { yol: [['Besin Rehberi', 'besin-rehberi/'], ['Makro Rehberi', 'makro-rehberi/'], [kac(y.ad)]], etiket: 'BESİN DEĞERLERİ', etiketIkon: 'fa-chart-pie', h1: kac(y.ad), alt: kac(y.ozet), gorsel: y.gorsel },
     m: metin.makale['makro-rehberi-detay'],
+    rk: { ust: ustSerit('ZD-B1'), son: sonSerit('ZD-B1-END') },
     yan: kunyeKart('Bu Yazı', [['Aile', 'Makro Rehberi'], ['Okuma', '~4 dk'], ['Kaynak', 'TÜBER 2022']], `${paylas}${dugme('Besin Kütüphanesi', 'besin-kutuphanesi/', 'birincil kucuk tam-en', 'fa-arrow-right', true)}`),
   });
 }
@@ -173,7 +183,7 @@ function kutuphane(veri) {
 ${cipler('kategori', 'Kategori', [{ ad: 'Tüm kategoriler', deger: '', sayi: toplam, ikon: 'fa-layer-group' }, ...ip.kategoriler.map((c) => ({ ad: c.ad, deger: c.slug, sayi: c.sayi, tur: 'ipucu', ikon: IP_IKON[c.slug] })), ...pu.kategoriler.map((c) => ({ ad: c.ad, deger: c.slug, sayi: c.sayi, tur: 'puf', ikon: IP_IKON[c.slug] }))], { sinif: 'serit' })}`;
   return sayfa('ipuclari-ve-puf-noktalari', 'İpuçları & Püf Noktaları',
     bant({ yol: [['Beslenme', 'besin-rehberi/'], ['İpuçları ve Püf Noktaları']], etiket: 'BESLENME İPUÇLARI VE PÜF NOKTALARI', etiketIkon: 'fa-lightbulb', h1: 'Küçük değişiklikler, <span class="vurgu">kalıcı</span> alışkanlıklar', alt: 'Uzun rehber okumaya vaktin yoksa buradan başla. Her yazı tek bir soruyu yanıtlar, kısa sürede okunur ve bugün uygulanabilir.', gorsel: 'assets/img/hero/beslenme-ipuclari-canli.avif', sayilar: [[s.ipucu, 'ipucu'], [s.puf, 'püf noktası'], [ip.kategoriler.length + pu.kategoriler.length, 'kategori']] })
-    + dizi(bolum(liste({ toplam, birim: 'yazıdan', ust, kapSinif: 'yatay-izgara', kartlar: karisik, bosMetin: 'Aradığın kelime bu yazılarda geçmiyor. Farklı bir kelime dene ya da süzgeçleri temizle.' }) + bilgiNot('Buradaki ipuçları ve püf noktaları pratik bilgilerdir ve <b>genel bilgi amaçlıdır</b>; <b>tıbbi teşhis veya tedavi yerine geçmez</b>, kişisel beslenme tavsiyesi değildir. Kişiye özel plan yalnızca <b>yetkili bir diyetisyen</b> tarafından hazırlanır; gebelik, kronik hastalık, düzenli ilaç kullanımı, çocuk beslenmesi veya klinik bir durum varsa plana başlamadan önce <b>hekim ve diyetisyen kontrolü zorunludur</b>.'), { ilk: true })), L);
+    + dizi(bolum(ustSerit('PL-B1', 'MG-KONU') + liste({ toplam, birim: 'yazıdan', ust, kapSinif: 'yatay-izgara', kartlar: karisik + rk('TL-M1', { tur: 'yatay', sira: 1 }) + rk('PL-N1', { tur: 'yatay', sira: 4 }) + rk('TL-M2', { tur: 'yatay', sira: 7 }), bosMetin: 'Aradığın kelime bu yazılarda geçmiyor. Farklı bir kelime dene ya da süzgeçleri temizle.' }) + bilgiNot('Buradaki ipuçları ve püf noktaları pratik bilgilerdir ve <b>genel bilgi amaçlıdır</b>; <b>tıbbi teşhis veya tedavi yerine geçmez</b>, kişisel beslenme tavsiyesi değildir. Kişiye özel plan yalnızca <b>yetkili bir diyetisyen</b> tarafından hazırlanır; gebelik, kronik hastalık, düzenli ilaç kullanımı, çocuk beslenmesi veya klinik bir durum varsa plana başlamadan önce <b>hekim ve diyetisyen kontrolü zorunludur</b>.'), { ilk: true }), sonSerit('PL-B1-END', 'MG-KONU-END')), L);
 }
 
 function ipucuDetay(veri) {
@@ -182,6 +192,7 @@ function ipucuDetay(veri) {
     yol: 'ipuclari/gunde-ne-kadar-su-icmek-gerekir', baslik: y.ad,
     bantV: { yol: [['Beslenme', 'besin-rehberi/'], ['İpuçları ve Püf Noktaları', 'ipuclari-ve-puf-noktalari/'], [kac(y.ad)]], etiket: 'BESLENME İPUCU', etiketIkon: 'fa-lightbulb', h1: kac(y.ad), alt: kac(y.ozet), gorsel: `assets/img/icerik/${y.gorsel_dosya}` },
     m: metin.makale['ipuclari-detay'],
+    rk: { ust: ustSerit('PD-END'), yan: rk('TD-SB1') + rk('TD-SB2'), govdeSonu: rk('PD-R1', { tur: 'yan' }), son: sonSerit('PD-END-END') },
     yan: kunyeKart('Bu Yazı', [['Yayın', '22.08.2026'], ['Kategori', kac(y.kategori)], ['Okuma', `~${y.okuma_dk} dk`], ['Okunma', y.okunma]], paylas),
     ilgiliHtml: ilgili({ etiket: 'SIRADA', baslik: 'Bunlar da İşine Yarar', metin: 'Aynı konuya yakın, yine iki dakikalık ipuçları.', tumu: 'ipuclari-ve-puf-noktalari/?tur=ipucu', tumuAd: 'Tüm İpuçları', kartlar: metin.kartlar['ilgili-ipucu'].map((c) => ilgiliKart(c, DETAY.ipucu, 'İpucu', 'fa-lightbulb', 'Oku')).join('') }),
   });

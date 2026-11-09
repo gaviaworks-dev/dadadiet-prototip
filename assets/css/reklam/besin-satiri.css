@@ -1,0 +1,6 @@
+/* kaynak: DadaGastro@905288b7b2:public/reklam/reklam.css `.rk-dolap-kart` · `.rk-dolap-marka` · uyarlama: Diet Besin Kütüphanesi satırına (DN-RAIL, F8) —
+   G'nin kart içi mutlak konumları (etiket görselin köşesinde, logo görselin altında) satırda akışa döner; logo organik `.fr-ico` kutusunda beyaz zeminde */
+.food-row.rk-dolap-kart .rk-dolap-marka { position: static; width: 46px; height: 46px; padding: 6px; background: #fff; border: 1px solid var(--line); box-shadow: none; }
+.food-row.rk-dolap-kart .rk-dolap-marka img, .food-row.rk-dolap-kart .rk-dolap-marka .rk-logo { width: 100%; height: 100%; object-fit: contain; }
+.food-row.rk-dolap-kart .fr-name .rk-etiket { position: static; display: inline; padding: 0; background: none; color: var(--muted); font-size: 12.5px; letter-spacing: normal; }
+.food-row.rk-dolap-kart .fr-kcal { font-size: 13px; }

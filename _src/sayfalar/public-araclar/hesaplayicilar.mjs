@@ -1,6 +1,9 @@
 // Hesaplayıcılar listesi + günlük kalori detayı (sonuç istemcide hesaplanır, formül _src/veri/hesaplayicilar.json).
 import { K, JS, sayfaJs, bant, bolum, bolumBas, dugme, ikon, ikonKart, hesapKart, genelNot, kirinti, kac } from '../../parcalar/public-araclar/ortak.mjs';
 import { bicim } from '../../parcalar/bicim.mjs';
+import { reklamYeri as rk } from '../../parcalar/reklam.mjs';
+const ustSerit = (...k) => k.map((x) => rk(x, { tur: 'bant', kap: false })).join('');
+const sonSerit = (...k) => k.map((x) => rk(x, { tur: 'bant', konum: 'alt' })).join('');
 
 const AKTIVITE = [
   ['1.2', 'Hareketsiz', 'Masa başı, egzersiz yok'], ['1.375', 'Az aktif', 'Haftada 1-3 gün düşük yoğunluklu egzersiz'], ['1.55', 'Orta aktif', 'Haftada 3-5 gün egzersiz'],
@@ -16,10 +19,11 @@ export default ({ veri }) => {
   const h = H.find((x) => x.slug === 'gunluk-kalori'), g = h.girdiler;
   const liste = `${bant({ yol: [['Hesaplayıcılar']], etiket: 'Sağlık araçları', etiketIkon: 'fa-calculator', h1: 'Vücudunu <span class="vurgu">rakamlarla</span> tanı', gorsel: 'hero/hesaplayicilar-tst-top.webp', alt: 'Kalori, makro, su ve kilo hesaplarını birkaç saniyede yap; sonucuna göre program ve porsiyon önerilerine geç.', eylem: dugme('Bana Uygun Olanı Bul', 'bana-uygun-olani-bul/', 'koyu-zemin', 'fa-compass'), sayilar: [[s.hesaplayici, 'Hesaplayıcı'], [s.test, 'Sağlık testi'], [s.besin, 'Besin değeri']] })}
 <div class="bolum-dizi">
-${bolum(`${bolumBas({ etiket: 'Hesaplayıcılar', ikon: 'fa-calculator', baslik: 'Hangi Değerini Öğrenmek İstiyorsun?', metin: 'Her araç referans denklemlere dayanır; sonuçlar tahminidir.' })}${neOgren}<div class="kart-izgara c3">${H.map(hesapKart).join('')}</div>`, { ilk: true })}
+${bolum(`${ustSerit('OB-B1')}${bolumBas({ etiket: 'Hesaplayıcılar', ikon: 'fa-calculator', baslik: 'Hangi Değerini Öğrenmek İstiyorsun?', metin: 'Her araç referans denklemlere dayanır; sonuçlar tahminidir.' })}${neOgren}<div class="kart-izgara c3">${H.map(hesapKart).join('')}</div>${rk('OB-B1-SIDE', { tur: 'yan' })}`, { ilk: true })}
 ${bolum(`${bolumBas({ etiket: 'Kayıtlı sonuçlar', ikon: 'fa-folder-open', baslik: 'Son Sonuçların', metin: 'Kaydettiğin son hesap ve test sonuçları. Tamamı Sağlık Dosyam’da.', arac: dugme('Sağlık Dosyam', 'hesabim/saglik-dosyam/', 'hayalet orta', 'fa-arrow-right', true) })}<div class="kart-izgara c3" data-son-sonuclar></div>`, { sinif: 'oturum-acik' })}
 ${bolum(`${bolumBas({ etiket: 'Sonucu kullan', ikon: 'fa-arrow-right-long', baslik: 'Rakamdan Tabağa Geç', metin: 'Hesapladığın değeri günlük seçimlerine taşı.' })}<div class="kart-izgara c3">${ikonKart({ href: 'akilli-tabak-ve-degisim/', ikon: 'fa-chart-pie', baslik: 'Akıllı Tabak ve Değişim', metin: 'Tabağını kur, muadilini bul' })}${ikonKart({ href: 'saglik-testleri/', ikon: 'fa-clipboard-question', baslik: 'Sağlık Testleri', metin: `${s.test} test ile alışkanlığını ölç` })}${ikonKart({ href: 'programlar/program-bul/', ikon: 'fa-wand-magic-sparkles', baslik: 'Program Bul', metin: 'Beş adımda eşleştirme' })}</div>`)}
 ${bolum(genelNot)}
+${sonSerit('OB-B1-END')}
 </div>`;
 
   const detay = `${bant({ yol: [['Hesaplayıcılar', 'hesaplayicilar/'], [h.ad]], etiket: 'Hesaplayıcı', etiketIkon: 'fa-utensils', h1: kac(h.ad), gorsel: 'hero/hesaplayicilar-tst-top.webp', alt: kac(h.aciklama) })}
@@ -44,6 +48,7 @@ ${bolum(`<div class="sekme-ray liste-ust"><nav class="sekmeler" aria-label="Hesa
 <p class="sonuc-kayit misafir oturum-kapali">${ikon('fa-triangle-exclamation')}<span><b>Kapatırsan verilerin silinecek;</b> profiline kaydedip gelişimini takip etmek için kaydol.</span></p><p class="sonuc-kayit" id="hedefDurum" role="status" hidden></p></div>
 <div class="kart-alt yigilir"><button class="dugme hayalet" id="kaydet" type="button">${ikon('fa-folder-plus')} Sonucumu Sağlık Dosyama kaydet</button><button class="dugme birincil" id="hedefBelirle" type="button">${ikon('fa-bullseye')} Hedefimi belirle</button></div>
 <div class="kart-govde ust-cizgili"><a class="baglanti-metin" href="${K}programlar/program-bul/">Hedefine uygun programları gör ${ikon('fa-arrow-right')}</a></div></div>
+${rk('OB-DONUSTURUCU')}
 <p class="alt-not">${ikon('fa-book')} <span>Kaynak: TÜBER 2022, Türkiye Beslenme Rehberi. Mifflin-St Jeor denklemi, hesaplama sürümü 2 (canlı sitedeki sürüm), prototip verisi ${bicim.tarih(veri.hesaplayicilar.uretim)}. Sonuç tahminidir, tıbbi tavsiye değildir.</span></p>
 </div></div>`, { ilk: true })}
 ${bolum(`${bolumBas({ etiket: 'Diğer araçlar', ikon: 'fa-calculator', baslik: 'Hesaplamaya Devam Et', arac: dugme('Tüm hesaplayıcılar', 'hesaplayicilar/', 'hayalet orta', 'fa-arrow-right', true) })}<div class="kart-izgara c3">${ikonKart({ href: 'akilli-tabak-ve-degisim/', ikon: 'fa-chart-pie', baslik: 'Akıllı Tabak ve Değişim', metin: 'Bu kaloriyi tabağa dök' })}${ikonKart({ href: 'kac-kalori/', ikon: 'fa-fire', baslik: 'Kaç Kalori?', metin: 'Porsiyon karşılıklarını gör' })}${ikonKart({ href: 'diyetisyen-bul-sihirbazi/', ikon: 'fa-user-doctor', baslik: 'Diyetisyene Danış', metin: 'Sonucunu uzmanla yorumla' })}</div>`)}

@@ -3529,3 +3529,57 @@ button.sohbet-ek:hover b{color:var(--aksan-koyu)}
 
 /* ── dk-hesabim (9 Kasım): sabit tabloda sayı kolonu. dar-kolon (160) yanında kısa sayılar için; esnek kolon dar ekranda ezilmesin ── */
 .tablo .kisa-kolon{width:96px}
+
+/* === Reklam (revize 9 Kasım, R1) ===
+   Canlı reklam modülünün CSS'i assets/css/reklam/ altında (canlı public/reklam kopyası) ve yalnız önizleme açıkken yüklenir.
+   Buradakiler prototipin önizleme yüzeyi: şerit, "prototip örneği" ibaresi, tek alan vurgusu, çerçeve (satış vitrini) içi sadeleşme,
+   komşu kart anatomisinde sponsor hapı ve alt bandın yüzen düğmelerle çakışmaması. */
+.rk-ornek{text-transform:none;letter-spacing:0;font-weight:var(--agirlik-govde)}
+.rk-onizleme-serit{position:fixed;z-index:55;top:var(--rk-serit-ust,124px);left:50%;transform:translateX(-50%);max-width:calc(100% - var(--bosluk-32));background:var(--murekkep);color:var(--kagit);border-radius:var(--yuvarlak-hap);box-shadow:var(--golge-md);font-size:var(--yazi-12-5)}
+.rk-onizleme-serit .kap{display:flex;align-items:center;gap:var(--bosluk-8);padding:var(--bosluk-4) var(--bosluk-4) var(--bosluk-4) var(--bosluk-14);max-width:none;width:auto}
+.rk-onizleme-serit span{white-space:nowrap;overflow:hidden;text-overflow:ellipsis;min-width:0}
+.rk-onizleme-serit .rk-onizleme-not{opacity:.72}
+.rk-onizleme-serit .dugme{flex:none;min-height:var(--bosluk-30);padding:0 var(--bosluk-12);background:transparent;color:var(--kagit);border-color:currentColor}
+@media (max-width:640px){.rk-onizleme-serit .rk-onizleme-not{display:none}}
+.rk-vurgu{outline:var(--bosluk-3) solid var(--aksan);outline-offset:var(--bosluk-6)}
+html.rk-cerceve #cookieBanner,html.rk-cerceve .feedback-tab,html.rk-cerceve .fb-rail,html.rk-cerceve .edge-rail,html.rk-cerceve #dadaMentor,html.rk-cerceve .yuzen-dugme,html.rk-cerceve .basa-don{display:none!important}
+.kap>.rk-yayilim-side,.yigin>.rk-yayilim-side{width:100%;max-width:360px;margin-inline:auto}
+.kap>.rk-yayilim-alan.rk-yayilim-bant{padding-inline:0}
+[data-native-sponsor] .sonuc-gorsel,[data-native-sponsor] .yatay-kart-gorsel,[data-native-sponsor] .medya-kart-gorsel{position:relative}
+.rk-ikon-logo img,.yatay-kart-ikon img,.rk-dolap-marka img,.sp-logo img{width:100%;height:100%;object-fit:contain}
+.rk-kat-sponsor{display:inline-flex;align-items:center;gap:var(--bosluk-8);flex-wrap:wrap}
+.rk-kat-sponsor a{display:inline-flex;align-items:center;gap:var(--bosluk-6);color:inherit;text-decoration:none;font-weight:var(--agirlik-orta)}
+.rk-kat-sponsor img{width:auto;height:var(--bosluk-20)}
+/* Alt bant açıkken sol alttaki Mentör de bandın üstüne çıkar (sağdakiler kenar-dugmeler.js ENGEL listesiyle kalkıyor) */
+body.rk-altbar-acik #dadaMentor{--mentor-dip:max(var(--mentor-taban),calc(var(--mentor-engel,0px) + var(--bosluk-12)),calc(var(--kenar-engel,0px) + var(--bosluk-12)))}
+/* Fotoğraf üstü nokta (TD-PHOTO) bant görselinin üstünde katman olarak durur; ölçü görseli görünmez, yalnız nokta.js kırpımı hesaplar */
+.bant>.rk-foto-katman{position:absolute;inset:0;z-index:2;pointer-events:none}
+.rk-foto-katman .rk-foto-nokta{pointer-events:auto}
+.rk-foto-katman .rk-nk-resim{position:absolute;inset:0;opacity:0}
+.rk-foto-katman .rk-nk-gorsel{width:100%;height:100%;object-fit:cover}
+.veri-satir.rk-malzeme>.ing-sponsor{flex:1;min-width:0}
+.rk-malzeme .sp-logo{flex:none;width:var(--bosluk-40);height:var(--bosluk-40)}
+.rk-malzeme .rk-malzeme-urun{display:none}
+.liste-satir>.rk-kat-rozet{flex:none;flex-wrap:nowrap;gap:var(--bosluk-6)}
+.rk-kat-rozet img{width:var(--bosluk-30);height:var(--bosluk-30)}
+.rk-kat-rozet .rk-etiket{white-space:nowrap}
+/* Videolu banner (STD-VIDEO) sayfanın ilk yayılım yuvasının yerinde: altında yuvanın boşluğu kalır */
+.kap>.rk-video-slot,main>.rk-video-slot{margin-block:var(--bosluk-8) var(--bosluk-32)}
+/* Klinik koridoru bandında sayfa yolu görselin üstünde açık renkle */
+.kk-ust .kirinti,.kk-ust .kirinti a,.kk-ust .kirinti i{color:var(--kagit)}
+/* "… sunar" hapı (KT-HERO) bant rozetlerinin yanında: satır yüksekliğini rozetlere göre korur */
+.bant-eylem:has(>.rk-eslik){align-items:center}
+/* Yan yapışkanlar: sağdaki "Görüş Bildir" sekmesinin içinde kalır; tek kart kendi kenarında, sol kart dar ekranda gizlenir (standart.js ölçer) */
+[data-rk-side-pair]>.rk-std-side.rk-std[data-rk-slot="STD-SIDE"]{left:auto;right:calc(var(--rk-side-inset,8px) + var(--rk-kenar-sekme,0px))}
+[data-rk-side-pair]>.rk-std-side.rk-std[data-rk-slot="STD-SIDE-LEFT"]{right:auto;left:var(--rk-side-inset,8px)}
+[data-rk-side-pair][data-rk-side-tek]>.rk-std-side[data-rk-slot="STD-SIDE-LEFT"]{display:none!important}
+/* Satış vitrini: alan önizlemesi prototip sayfasının ölçekli iframe'i (vitrin.js ölçer), paket kalemindeki "Önizle" bağı */
+.vt-vp:has(>.vt-iframe){overflow:hidden}
+.vt-iframe{display:block;border:0;transform-origin:0 0;background:var(--kagit)}
+.vt-onizle-bag{padding:0;border:0;background:none;font:inherit;font-size:var(--yazi-12-5);font-weight:var(--agirlik-orta);cursor:pointer}
+.vt-kalem-yok{color:var(--murekkep-yumusak)}
+#alanlar .vt-stat{display:flex;gap:var(--bosluk-24)}
+/* Tablo taşıyan akordeon: geniş tablo kabın içinde yatay kayar, akordeonu genişletmez */
+.akordeon.tablolu,.akordeon.tablolu .akordeon-kalem,.akordeon.tablolu .akordeon-govde{min-width:0;max-width:100%}
+.akordeon.tablolu .tablo-kap{max-width:100%;overflow-x:auto}
+.akordeon.tablolu .akordeon-bas small{overflow-wrap:anywhere}

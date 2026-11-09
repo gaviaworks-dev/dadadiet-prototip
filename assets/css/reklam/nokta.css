@@ -1,0 +1,99 @@
+/* kaynak: DadaGastro@905288b7b2:public/reklam/nokta.css · uyarlama: birebir */
+/* NOKTA KATMANI (Faz 5a · N4) — `resources/views/components/reklam/nokta-katmani.blade.php`.
+   Katman konumlu ve ölçülü kabını doldurur (`inset: 0`); noktanın yerini betik yazar (`nokta.js`), markup'ta `style=`
+   yoktur.
+   Sitede (kip `site`) kap yalnız konum kabıdır: her nokta foto-etiket bileşenidir (`.rk-foto-nokta`) ve `reklam.css`in
+   kendi kurallarıyla, sitenin token'larıyla çizer; kap yığın bağlamı kurmaz (nokta sahnenin yığınına katılır, kapak
+   künyesi ve başlığının üstünde durur) ve tıklamayı tutmaz (kapak tıklaması görsele iner); kendi bastığı görsel (dolap)
+   tıklamayı canlıdaki dolap görseli gibi alır.
+   Panel kiplerinde sınıflar bu bileşene aittir (`rk-nk-*`), eski foto-etiket kuralları (`.rk-nokta-1`,
+   `.rd-stage .rk-nokta-4` …) buraya değmez; sitenin token adları kökte bağlanır (`reklam.css` `.rk-yayilim-alan`
+   kalıbı): bileşen public'te ve panelde aynı çizer. */
+.rk-nk {
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+}
+.rk-nk:not([data-rk-nk-kip="site"]) {
+  --sp-1: 4px; --sp-2: 8px; --sp-3: 12px; --sp-4: 16px; --sp-6: 32px;
+  --paper: #fff; --ink: #211e16; --line: #ececec; --slate-2: #56514a;
+  --radius-sm: 8px; --radius-md: 12px; --radius-pill: 999px;
+  --sh-sm: 0 1px 2px rgba(33, 30, 22, .04), 0 2px 6px rgba(33, 30, 22, .05);
+  --sh-md: 0 6px 22px rgba(33, 30, 22, .09);
+  --rk-nk-marka: #dc3d17;
+  isolation: isolate;
+  font-family: var(--font, inherit);
+}
+.rk-nk[data-rk-nk-kip="site"] { pointer-events: none; }
+.rk-nk[data-rk-nk-kip="site"] .rk-nk-resim,
+.rk-nk[data-rk-nk-kip="site"] .rk-foto-nokta { pointer-events: auto; }
+.rk-nk-resim,
+.rk-nk-gorsel { position: absolute; inset: 0; display: block; width: 100%; height: 100%; }
+.rk-nk-gorsel { object-fit: cover; object-position: 50% 50%; }
+
+/* Nokta: kap sol üstte, betik merkezin yerini yazar; düğme merkeze oturur. */
+.rk-nk-nokta { position: absolute; left: 0; top: 0; z-index: 1; }
+.rk-nk-nokta[open] { z-index: 3; }
+.rk-nk-nokta > summary {
+  position: absolute; left: 0; top: 0; translate: -50% -50%;
+  display: grid; place-items: center; width: var(--sp-6); height: var(--sp-6);
+  list-style: none; cursor: pointer; border-radius: var(--radius-pill);
+}
+.rk-nk-nokta > summary::-webkit-details-marker { display: none; }
+.rk-nk-nokta > summary:focus-visible { outline: 3px solid var(--ink); outline-offset: 2px; }
+.rk-nk-benek {
+  display: grid; place-items: center; box-sizing: border-box; width: 100%; height: 100%;
+  border: 2px solid var(--paper); border-radius: var(--radius-pill); background: var(--rk-nk-marka);
+  box-shadow: 0 0 0 var(--sp-2) color-mix(in srgb, var(--rk-nk-marka), transparent 75%);
+  animation: rk-nk-nabiz 2s ease-in-out infinite;
+}
+.rk-nk-organik .rk-nk-benek { background: var(--paper); border-color: var(--ink); box-shadow: var(--sh-sm); animation: none; }
+.rk-nk-no { font-size: 12px; font-weight: 700; line-height: 1; color: var(--paper); }
+.rk-nk-organik .rk-nk-no { color: var(--ink); }
+
+/* Balon: satılmamışta "Salça · 12 tarifte", satılmışta ürün adı. Farede üstüne gelince, dokunmada açılınca. */
+.rk-nk-hap {
+  position: absolute; left: calc(100% + var(--sp-2)); top: 50%; translate: 0 -50%;
+  display: flex; align-items: baseline; gap: var(--sp-1); padding: var(--sp-1) var(--sp-2);
+  border-radius: var(--radius-pill); background: var(--paper); color: var(--ink); box-shadow: var(--sh-sm);
+  font-size: 12px; font-weight: 700; line-height: 1.4; white-space: nowrap;
+  opacity: 0; pointer-events: none; transition: opacity .15s;
+}
+.rk-nk-sayi { font-weight: 500; color: var(--slate-2); }
+.rk-nk-sayi::before { content: "· "; }
+.rk-nk-nokta > summary:focus-visible .rk-nk-hap,
+.rk-nk-organik[open] .rk-nk-hap { opacity: 1; }
+@media (hover: hover) and (pointer: fine) { .rk-nk-nokta > summary:hover .rk-nk-hap { opacity: 1; } }
+.rk-nk-sola .rk-nk-hap { left: auto; right: calc(100% + var(--sp-2)); }
+
+/* Kart: yalnız satılmış noktada; "Sponsorlu" etiketi, ürün, tek düğme. */
+.rk-nk-kart {
+  position: absolute; left: calc(-1 * var(--sp-4)); top: calc(var(--sp-6) / 2 + var(--sp-3));
+  box-sizing: border-box; width: 260px; max-width: calc(100vw - 48px);
+  display: flex; flex-direction: column; gap: var(--sp-2); padding: var(--sp-3);
+  border: 1px solid var(--line); border-radius: var(--radius-md); background: var(--paper); color: var(--ink);
+  box-shadow: var(--sh-md); font-size: 12px; line-height: 1.4;
+}
+.rk-nk-sola .rk-nk-kart { left: auto; right: calc(-1 * var(--sp-4)); }
+.rk-nk-yukari .rk-nk-kart { top: auto; bottom: calc(var(--sp-6) / 2 + var(--sp-3)); }
+.rk-nk-kart .rk-etiket { font-size: 10px; font-weight: 600; letter-spacing: .06em; text-transform: uppercase; color: var(--slate-2); }
+.rk-nk-kart-govde { display: grid; grid-template-columns: 64px minmax(0, 1fr); gap: var(--sp-3); align-items: center; }
+.rk-nk-kart-govde:has(> .rk-nk-urun[hidden]) { grid-template-columns: minmax(0, 1fr); }
+.rk-nk-urun {
+  display: grid; place-items: center; box-sizing: border-box; width: 64px; height: 80px; padding: var(--sp-1);
+  border-radius: var(--radius-sm); background: color-mix(in srgb, var(--rk-nk-marka), white 90%);
+}
+.rk-nk-urun img { display: block; width: 100%; height: 100%; object-fit: contain; }
+.rk-nk-urun-adi { font-size: 12px; }
+.rk-nk-cta,
+.rk-nk-cta:hover,
+.rk-nk-cta:focus-visible {
+  align-self: flex-start; display: inline-flex; padding: var(--sp-2) var(--sp-3); border-radius: var(--radius-sm);
+  background: var(--ink); color: var(--paper); font-size: 11px; font-weight: 700; text-decoration: none;
+}
+/* Sınıfın `display`i `hidden`ı ezmesin (panel kipinde boş parçalar gizli basılır). */
+.rk-nk-kart[hidden], .rk-nk-urun[hidden], .rk-nk-cta[hidden], .rk-nk-sayi[hidden] { display: none; }
+.rk-nk-pasif { opacity: .5; }
+
+@keyframes rk-nk-nabiz { 50% { box-shadow: 0 0 0 var(--sp-3) color-mix(in srgb, var(--rk-nk-marka), transparent 92%); } }
+@media (prefers-reduced-motion: reduce) { .rk-nk-benek { animation: none; } .rk-nk-hap { transition: none; } }

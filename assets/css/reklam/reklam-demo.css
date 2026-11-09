@@ -1,0 +1,20 @@
+/* Demo kurgu markaların renk satırları (prototip örneği). Canlıda MarkaRengi::css her kreatif için satır içi <style> basar;
+   prototipte satırlar bir kez üretildi (aynı kontrast hesabı: WCAG AA). Klinik koridorunda sponsor rengi [data-kk-marka] satırından gelir (canlıda satır içi --kk-sponsor).
+   Markalar kurgudur; gerçek marka, logo ya da sponsorluk değildir. */
+.rk-renk-1f5fa8{--rk-marka:#1f5fa8;--rk-dugme:#1f5fa8;--rk-marka-metin:#ffffff;--rk-katman:#1c5699;--rk-yazi:#ffffff}  /* Örnek Süt Markası */
+[data-kk-marka="1f5fa8"]{--kk-sponsor:#1f5fa8}
+.rk-renk-d9531e{--rk-marka:#d9531e;--rk-dugme:#c84c1c;--rk-marka-metin:#000000;--rk-katman:#e1754b;--rk-yazi:#000000}  /* Demo Market */
+[data-kk-marka="d9531e"]{--kk-sponsor:#d9531e}
+.rk-renk-6f3fb0{--rk-marka:#6f3fb0;--rk-dugme:#6f3fb0;--rk-marka-metin:#ffffff;--rk-katman:#6b3ca9;--rk-yazi:#ffffff}  /* Örnek Teslimat */
+[data-kk-marka="6f3fb0"]{--kk-sponsor:#6f3fb0}
+.rk-renk-0e8a7e{--rk-marka:#0e8a7e;--rk-dugme:#0d8378;--rk-marka-metin:#000000;--rk-katman:#41a399;--rk-yazi:#000000}  /* Örnek Klinik */
+[data-kk-marka="0e8a7e"]{--kk-sponsor:#0e8a7e}
+.rk-renk-3a4651{--rk-marka:#3a4651;--rk-dugme:#3a4651;--rk-marka-metin:#ffffff;--rk-katman:#3a4651;--rk-yazi:#ffffff}  /* Örnek Mutfak Ekipmanı */
+[data-kk-marka="3a4651"]{--kk-sponsor:#3a4651}
+.rk-renk-1793c9{--rk-marka:#1793c9;--rk-dugme:#147dab;--rk-marka-metin:#000000;--rk-katman:#2c9dce;--rk-yazi:#000000}  /* Örnek Su Markası */
+[data-kk-marka="1793c9"]{--kk-sponsor:#1793c9}
+.rk-renk-b7791a{--rk-marka:#b7791a;--rk-dugme:#9f6917;--rk-marka-metin:#000000;--rk-katman:#c08935;--rk-yazi:#000000}  /* Örnek Glütensiz Gıda */
+[data-kk-marka="b7791a"]{--kk-sponsor:#b7791a}
+.rk-renk-b8283c{--rk-marka:#b8283c;--rk-dugme:#b8283c;--rk-marka-metin:#ffffff;--rk-katman:#af2639;--rk-yazi:#ffffff}  /* Demo Spor Mağazası */
+[data-kk-marka="b8283c"]{--kk-sponsor:#b8283c}
+.rk-renk-009a44{--rk-marka:#009a44;--rk-dugme:#00863b;--rk-marka-metin:#000000;--rk-katman:#26a960;--rk-yazi:#000000}  /* klinik koridoru nokta ve kart rengi (canlı sabit) */

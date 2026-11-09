@@ -72,14 +72,36 @@ for (const s of sayfalar) {
   if (s.yol === '404') fs.writeFileSync(path.join(KOK, '404.html'), parcalariAc(kabukla(s, { veri, istekler: fs.readdirSync(path.join(SRC, 'istek')).filter((x) => x.endsWith('.css')) })).replaceAll('{{kok}}', '/dadadiet-prototip/'));
   uretilen.push({ yol: s.yol, baslik: s.meta?.baslik ?? '', duzen: s.meta?.duzen ?? 'public' });
 }
+/* Ekran haritasında "Reklam alanları": canlı reklam kataloğunun (146 alan) prototip yerleşimi, sayfa başına. Her yerleşik alan
+   kendi sayfasında ?reklam=KOD ile tek başına açılır; yüzeyi olmayanlar gerekçesiyle, bağsız listelenir. Kaynak _src/parcalar/reklam.mjs. */
+async function reklamBolumu(liste) {
+  const { ALANLAR, reklamOzet, onizlemeYolu } = await import(pathToFileURL(path.join(SRC, 'parcalar', 'reklam.mjs')).href + '?t=' + Date.now());
+  const o = reklamOzet();
+  const baslik = new Map(liste.map((u) => [u.yol, u.yol ? u.baslik : "Ana sayfa"]));
+  const ik = (i) => `<i class="fa-solid ${i}" aria-hidden="true"></i>`;
+  const olcu = (a) => [a.masaustu && `Masaüstü: ${a.masaustu}`, a.mobil && `Mobil: ${a.mobil}`].filter(Boolean).join('<br>') || '<span class="veri-yok">künye yok</span>';
+  const satir = (a, bag) => `<tr><td><code>${a.kod}</code></td><td>${a.ad}${a.canliAd ? `<br><small>canlı adı: ${a.canliAd}</small>` : ''}</td><td>${a.bicim || a.format}</td><td>${olcu(a)}</td><td>${bag}</td></tr>`;
+  const tablo = (l, bag) => `<div class="tablo-kap"><table class="tablo"><thead><tr><th>Kod</th><th>Satış adı</th><th>Biçim</th><th>Ölçü</th><th>${bag === 'bag' ? 'Önizle' : 'Durum'}</th></tr></thead><tbody>${l.map((a) => satir(a, bag === 'bag' ? `<a class="baglanti-metin" href="{{kok}}${onizlemeYolu(a) ? onizlemeYolu(a) + '/' : ''}?reklam=${encodeURIComponent(a.kod)}">/${onizlemeYolu(a)}${onizlemeYolu(a) ? '/' : ''}?reklam=${a.kod}</a>` : `<small>${a.durum === 'uye' ? `Üye sayfası: ${a.bolum}. Kanca lead birleştirince eklenir.` : a.gerekce}</small>`)).join('')}</tbody></table></div>`;
+  const kalem = (ad, alt, l, bag, ikon) => `<div class="akordeon-kalem"><button class="akordeon-bas" type="button" aria-expanded="false"><span class="akordeon-ikon">${ik(ikon)}</span>${ad} <span class="sekme-sayi">${l.length}</span>${alt ? `<small>&nbsp;${alt}</small>` : ''}${ik('fa-chevron-down akordeon-ok')}</button><div class="akordeon-govde">${tablo(l, bag)}</div></div>`;
+  const yerlesik = ALANLAR.filter((a) => a.durum === 'yerlesik');
+  const yollar = [...new Set(yerlesik.map((a) => a.yol))].sort((x, y) => (x === 'kabuk' ? -1 : y === 'kabuk' ? 1 : x.localeCompare(y, 'tr')));
+  const sayfalar = yollar.map((y) => kalem(y === 'kabuk' ? 'Tüm sayfalar (kabuk: menü ve standart katman)' : baslik.get(y) ?? y, y === 'kabuk' ? '' : `/${y}`, yerlesik.filter((a) => a.yol === y), 'bag', y === 'kabuk' ? 'fa-window-maximize' : 'fa-file-lines')).join('');
+  const uye = ALANLAR.filter((a) => a.durum === 'uye'), yok = ALANLAR.filter((a) => a.durum === 'yok');
+  const sayi = [[o.alan, 'alan (canlı katalog)'], [o.format, 'biçim (format_type)'], [o.yerlesik, `yerleşen alan · ${o.sayfa} yüzey`], [o.uye, 'üye sayfasında bekleyen'], [o.yok, 'prototipte yüzeyi olmayan']];
+  return `<div class="kart" id="reklam-alanlari"><div class="kart-bas"><div><h3 class="kart-baslik">${ik('fa-rectangle-ad')} Reklam Alanları <span class="sekme-sayi">${o.alan}</span></h3><p>Canlı dadadiet.com reklam modülü: alanlar, biçimler, sponsorlu içerik ve yapışkan alt bant. Canlıda misafire reklam basılmaz; prototipte de alanlar varsayılan görünümde kapalıdır. Kreatifler kurgu markalardır, prototip örneğidir.</p></div><label class="anahtar"><input type="checkbox" id="reklamAnahtar" aria-label="Reklamlı görünüm: site genelinde bütün reklam alanlarını aç"><span class="anahtar-ray"></span></label></div>
+<div class="kart-govde yigin"><p class="kart-metin"><b>Reklamlı görünüm</b> anahtarı açıkken her sayfada bütün alanlar basılır ve üstte kapatılabilir bir önizleme şeridi durur. Tek bir alanı görmek için satırdaki bağı aç; bağ o alana kaydırır.</p><dl class="kunye c5">${sayi.map(([s, e]) => `<div><dt>${e}</dt><dd>${s}</dd></div>`).join('')}</dl><div class="eylem-satiri"><a class="dugme birincil" href="{{kok}}marka-is-birlikleri/#alanlar">${ik('fa-handshake')} Satış vitrinine git</a><a class="dugme hayalet" href="{{kok}}?reklam=hepsi">${ik('fa-eye')} Ana sayfayı reklamlı aç</a></div>
+<div class="akordeon tablolu">${sayfalar}${kalem('Üye sayfaları', 'kanca bekliyor', uye, 'durum', 'fa-user')}${kalem('Prototipte yüzeyi olmayan alanlar', 'gerekçeli', yok, 'durum', 'fa-ban')}</div></div></div>`;
+}
+
 // Ekran haritası: onay turu için tüm sayfaların gezilebilir listesi
 if (!alan) {
   const gruplar = [['Public', (u) => !u.yol.startsWith('hesabim') && !u.yol.startsWith('diyetisyen-paneli')], ['Üye hesabı', (u) => u.yol.startsWith('hesabim')], ['Diyetisyen paneli', (u) => u.yol.startsWith('diyetisyen-paneli')]];
   const liste = [...uretilen].sort((a, b) => a.yol.localeCompare(b.yol, 'tr'));
   const { akislar } = await import(pathToFileURL(path.join(SRC, 'kabuk', 'akislar.mjs')).href);
+  const reklamHtml = await reklamBolumu(liste);
   const akisHtml = akislar.map((g) => `<div class="kart"><div class="kart-bas"><h3 class="kart-baslik">${g.grup}</h3></div><div class="kart-govde">${g.liste.map((a) => `<div class="akis"><b>${a.ad}</b><ol class="akis-adimlar">${a.adimlar.map(([ad, h], i) => `<li><a href="{{kok}}${h}"><span>${i + 1}</span>${ad}</a></li>`).join('')}</ol></div>`).join('')}</div></div>`).join('');
-  const govde = `<div class="modul-govde"><section class="bolum"><div class="kap"><div class="sayfa-bas"><div><h1>Ekran haritası</h1><p>Prototipteki ${liste.length} ekranın tamamı ve tıklanarak gezilen akışlar.</p></div><div class="eylem-satiri"><button class="dugme hayalet" type="button" data-demo-sifirla><i class="fa-solid fa-rotate-left" aria-hidden="true"></i> Demoyu sıfırla</button></div></div><div class="yigin">${akisHtml}${gruplar.map(([ad, f]) => { const l = liste.filter(f); return `<div class="kart"><div class="kart-bas"><h3 class="kart-baslik">${ad} <span class="sekme-sayi">${l.length}</span></h3></div><div class="kart-govde"><ul class="ekran-liste">${l.map((u) => `<li><a href="{{kok}}${u.yol ? u.yol + '/' : ''}"><b>${u.baslik || 'Ana sayfa'}</b><small>/${u.yol}</small></a></li>`).join('')}</ul></div></div>`; }).join('')}</div></div></section></div>`;
-  const s = { yol: 'ekranlar', meta: { baslik: 'Ekran haritası' }, govde };
+  const govde = `<div class="modul-govde"><section class="bolum"><div class="kap"><div class="sayfa-bas"><div><h1>Ekran haritası</h1><p>Prototipteki ${liste.length} ekranın tamamı ve tıklanarak gezilen akışlar.</p></div><div class="eylem-satiri"><button class="dugme hayalet" type="button" data-demo-sifirla><i class="fa-solid fa-rotate-left" aria-hidden="true"></i> Demoyu sıfırla</button></div></div><div class="yigin">${akisHtml}${gruplar.map(([ad, f]) => { const l = liste.filter(f); return `<div class="kart"><div class="kart-bas"><h3 class="kart-baslik">${ad} <span class="sekme-sayi">${l.length}</span></h3></div><div class="kart-govde"><ul class="ekran-liste">${l.map((u) => `<li><a href="{{kok}}${u.yol ? u.yol + '/' : ''}"><b>${u.baslik || 'Ana sayfa'}</b><small>/${u.yol}</small></a></li>`).join('')}</ul></div></div>`; }).join('')}${reklamHtml}</div></div></section></div>`;
+  const s = { yol: 'ekranlar', meta: { baslik: 'Ekran haritası', js: ['assets/js/reklam/ekranlar.js'] }, govde };
   fs.mkdirSync(path.join(KOK, 'ekranlar'), { recursive: true });
   fs.writeFileSync(path.join(KOK, 'ekranlar/index.html'), parcalariAc(kabukla(s, { veri, istekler: fs.readdirSync(path.join(SRC, 'istek')).filter((x) => x.endsWith('.css')) })).replaceAll('{{kok}}', '../'));
 }

@@ -1,0 +1,177 @@
+/* kaynak: tasks/prototip/klinik-koridor_dosyalar/kk-prototip.css (Beyar onaylı prototip, revize 3, 24 Eki) · uyarlama: revizyon katmanları son
+   hâline indirgendi; görünüm geçişi (`data-kk-gorunum`, geçiş düğmesi) ve sponsor yerleşiminin seçilmeyen B/C alternatifleri basılmaz
+   (Beyar: toggle YOK, yerleşim "a"); A'nın `body[data-kk-sponsor="a"]` seçicisi `.kk-koridor`a bağlandı; Memorial rengi (#C11B3F) sponsorun
+   kreatif rengi `--kk-sponsor`dan (bileşen satır içi yazar), sağ kenar ışığının tonları `color-mix` ile ondan türer. Nokta/kart iskeleti
+   Gastro reklam.css + nokta.css (F4). Dar hâl (`.kk-dar`, KL-ANASAYFA · KL-PROGRAM · KL-TAHLIL) dosyanın sonunda. */
+.kk-koridor { --kk-sponsor: #C11B3F; --kk-sponsor-koyu: color-mix(in srgb, var(--kk-sponsor), #000 18%); }
+
+/* Bant: tam ekran koridor (Gastro .rk-dolap kart kalıbı ve .lst-top zemini sıfırlanır) */
+.kk-koridor.lst-top { padding: 0; background: #15241c; background-image: none; }
+.kk-koridor.rk-dolap { margin: 0; max-width: none; width: 100%; border: 0; border-radius: 0; }
+.kk-koridor .rk-dolap-sahne { position: relative; }
+.kk-koridor .kk-kadraj { aspect-ratio: 21 / 9; max-height: 100vh; min-height: 560px; border-radius: 0; }
+/* Yeni bant kanonu (A10.5, paylasilan/hero.css) .lst-top'a 128px üst boşluk + 552px en az yükseklik verir; koridor bandı tam ekran
+   görseldir, header görselin üstünde saydam durur — kanonun boşluğu koridora uygulanmaz */
+.kk-koridor.lst-top { padding: 0 !important; min-height: 0 !important; }
+
+/* Karartma: üstte header/breadcrumb için hafif, altta ince degrade; sponsor rengi bandın sağ kenarından içeri söner + ince ışık vurması */
+.kk-karartma { position: absolute; inset: 0; z-index: 1; pointer-events: none;
+  background:
+    radial-gradient(120% 90% at 100% 30%, color-mix(in srgb, var(--kk-sponsor) 30%, transparent) 0%, color-mix(in srgb, var(--kk-sponsor) 14%, transparent) 26%, color-mix(in srgb, var(--kk-sponsor) 0%, transparent) 46%),
+    linear-gradient(270deg, color-mix(in srgb, var(--kk-sponsor-koyu) 22%, transparent) 0%, color-mix(in srgb, var(--kk-sponsor-koyu) 8%, transparent) 16%, color-mix(in srgb, var(--kk-sponsor-koyu) 0%, transparent) 34%),
+    linear-gradient(180deg, rgba(18,28,22,.58) 0%, rgba(18,28,22,.26) 20%, rgba(18,28,22,0) 38%),
+    linear-gradient(0deg, rgba(18,28,22,.30) 0%, rgba(18,28,22,0) 16%); }
+.kk-koridor .kk-karartma::after { content: ""; position: absolute; top: 0; right: 0; bottom: 0; width: 34%; pointer-events: none;
+  background: linear-gradient(255deg, rgba(255,226,233,.16) 0%, rgba(255,226,233,0) 42%); mix-blend-mode: screen; }
+
+/* Üst: breadcrumb */
+.kk-ust { position: absolute; inset: 0 0 auto 0; z-index: 3; padding: 112px 0 0; pointer-events: none; }
+.kk-ust a { pointer-events: auto; }
+.kk-ust .rd-crumb { color: #fff; }
+.kk-sponsorlu { border-radius: var(--radius-sm) !important; }
+
+/* Alt orta not — küçük, ince, arka plansız; kart açıkken görünmez */
+.kk-koridor .kk-not { position: absolute; left: 50%; bottom: 46px; z-index: 3; transform: translateX(-50%); margin: 0; padding: 0;
+  background: none; color: rgba(255,255,255,.92); font-size: 13px; font-weight: 300; letter-spacing: .03em; white-space: nowrap;
+  text-shadow: 0 1px 8px rgba(0,0,0,.35); transition: opacity .15s ease; }
+
+/* Kapı noktası: Gastro'daki nokta + kare kart (avatar + küçük ad), buton yarıçapı, noktadan kanonik küçük aralık (8px + ince bağ) */
+.kk-koridor .kk-hap .rk-nokta-logo { display: flex; align-items: center; justify-content: center; padding: 0; width: 34px; height: 34px; }
+.kk-bas { display: inline-flex; align-items: center; justify-content: center; border-radius: 50%; background: #E6F5EE; color: #007f38; font-weight: 800; line-height: 1; }
+.kk-koridor .kk-hap .kk-bas { width: 34px; height: 34px; font-size: 12px; }
+.kk-koridor .rk-foto-nokta { --rk-balon: 64px; z-index: 2; }
+.kk-koridor .rk-foto-nokta[open] { z-index: 40; }
+.kk-koridor .rk-foto-nokta.rk-dinleniyor summary { width: 32px; min-width: 32px; }
+.kk-koridor .rk-foto-nokta .rk-nokta-marka.kk-hap { width: 64px; min-width: 64px; height: auto; min-height: 64px; padding: 7px 4px 6px;
+  display: inline-flex; flex-direction: column; align-items: center; justify-content: center; gap: 4px; border-radius: var(--radius-md); left: calc(100% + 8px); background: #fff; }
+.kk-koridor .rk-foto-nokta.rk-sola .rk-nokta-marka.kk-hap { left: auto; right: calc(100% + 8px); }
+.kk-koridor .rk-nokta-marka.kk-hap::before { width: 8px; background: rgba(255,255,255,.85); }
+.kk-koridor .rk-foto-nokta summary::after { width: 8px; }
+.kk-hap-ad { display: block; max-width: 58px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; color: #23402f; font-size: 10.5px; font-weight: 700; line-height: 1.1; }
+.kk-koridor .rk-foto-nokta.rk-hover summary .rk-nokta-marka.kk-hap { width: 64px; min-width: 64px; padding: 7px 4px 6px; }
+
+/* Kart — Gastro kart iskeleti, Diet dili: ferah, premium */
+.rk-foto-kart.rk-slot.kk-kart { width: 344px; padding: 20px; gap: 16px; border-radius: 16px; }
+.rk-foto-kart.rk-slot.kk-kart .rk-foto-baslik { position: relative; z-index: 1; height: auto; padding-right: 0; }
+.rk-foto-kart.rk-slot.kk-kart .kk-sponsor-logo { width: auto; height: 34px; padding: 0 12px; display: inline-flex; align-items: center; border: 1px solid #eee3e6; border-radius: var(--radius-sm); }
+.rk-foto-kart.rk-slot.kk-kart .kk-sponsor-logo .kk-logo { height: 13px; width: auto; max-width: none; max-height: none; }
+.rk-foto-kart.rk-slot.kk-kart .rk-foto-baslik > .kk-sponsorlu { position: relative; z-index: 1; background: var(--kk-sponsor); color: #fff; }
+.kk-kimlik { display: grid; grid-template-columns: 64px minmax(0, 1fr); gap: 14px; align-items: center; }
+.kk-avatar { width: 64px; height: 64px; font-size: 22px; }
+.kk-ad { display: block; color: var(--ink, #1f2a24); font-size: 16px; line-height: 1.3; font-weight: 700; }
+.kk-unvan { display: block; margin-top: 2px; color: #6b7c72; font-size: 13px; }
+.kk-satirlar { list-style: none; margin: 0; padding: 12px 0 0; border-top: 1px solid #eef1ef; display: grid; gap: 8px; }
+.kk-satirlar li { display: grid; grid-template-columns: 18px minmax(0, 1fr); gap: 8px; align-items: start; color: #44524a; font-size: 13px; line-height: 1.4; }
+.kk-satirlar li i { color: #009A44; font-size: 13px; margin-top: 2px; text-align: center; }
+.kk-satirlar li i.kk-yildiz { color: #f5b301; }
+.kk-satirlar small { color: #7b8a82; font-size: 12px; }
+.rk-foto-kart.rk-slot.kk-kart .kk-ctalar { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+.rk-foto-kart.rk-slot.kk-kart .kk-ctalar .rk-foto-cta { justify-content: center; text-align: center; min-height: 44px; border-radius: var(--radius-sm); font-weight: 700; }
+.rk-foto-kart.rk-slot.kk-kart .kk-cta-birincil { background: #009A44; color: #fff; }
+.rk-foto-kart.rk-slot.kk-kart .kk-cta-ikincil { background: #fff; color: #007f38; box-shadow: inset 0 0 0 1.5px #009A44; }
+
+/* Kart kare avatar kartının kenarından açılır; ok kare karta bakar (klinik-koridor.js yönü yazar) */
+.kk-koridor .rk-foto-nokta.kk-yon-sag .rk-foto-kart::before { top: var(--kk-ok, 20px); left: -8px; right: auto; bottom: auto; transform: rotate(-45deg); }
+.kk-koridor .rk-foto-nokta.kk-yon-sol .rk-foto-kart::before { top: var(--kk-ok, 20px); left: auto; right: -8px; bottom: auto; transform: rotate(135deg); }
+.kk-koridor .rk-foto-nokta.kk-yon-alt .rk-foto-kart::before { top: -8px; left: var(--kk-ok, 20px); right: auto; bottom: auto; transform: rotate(45deg); }
+
+/* Sponsor künyesi — breadcrumb hizasında sağa yaslı ince cam kart (yerleşim "a") */
+.kk-sponsor { position: absolute; z-index: 3; display: flex; text-decoration: none; color: #23402f; }
+.kk-sponsor .kk-logo { display: block; height: 15px; width: auto; }
+.kk-sponsor-alt { font-size: 11px; font-weight: 400; letter-spacing: .04em; color: #5d6b63; }
+.kk-sponsor .kk-sponsorlu { display: inline-block; padding: 2px 7px; border-radius: var(--radius-sm); background: var(--kk-sponsor); color: #fff; font-size: 9.5px; font-weight: 800; letter-spacing: .06em; text-transform: uppercase; }
+.kk-sponsor-metin { display: flex; align-items: center; gap: 8px; }
+.kk-koridor .kk-sponsor { top: 124px; right: max(24px, calc((100% - 1176px) / 2)); flex-direction: column; align-items: flex-start; gap: 7px;
+  padding: 12px 16px 11px; border: 1px solid rgba(255,255,255,.7); backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px); }
+.kk-koridor .kk-sponsor::before { content: ""; position: absolute; left: 0; top: 12px; bottom: 12px; width: 3px; border-radius: 0 3px 3px 0; background: var(--kk-sponsor); }
+/* Gastro künye zemini taşınmaz */
+.kk-koridor .kk-sponsor.rk-dolap-kunye { margin: 0; border-radius: var(--radius-md); background: rgba(255,255,255,.9);
+  box-shadow: 0 12px 34px color-mix(in srgb, var(--kk-sponsor-koyu) 22%, transparent); }
+
+/* Katman sırası: alttaki not kart açıkken görünmez. Tam koridor kart açılınca YÜKSELMEZ (D2-rc, Beyar 26 Eki): bandın ardındaki
+   beyaz panel (`#pageMain > :first-child + *`, z-index 2) bandın alt 22 px'ine biner; koridor z-index 3'e çıktığında görsel o şeridin
+   üstüne basıyor, panelin 22 px köşe yarıçapı ve gölgesi kayboluyordu (ölçüldü @1440: panelin üst 3/15 px'i koridor görseli). Kart
+   kadrajın içinde kalır (`.rk-dolap-kadraj`/`.rk-nk` overflow:hidden), yükselmenin kazandırdığı bir şey yoktu; panele denk gelen alt
+   şerit klinik-koridor.js'te kartın yerleşim sınırından düşülür. Dar hâl sayfa kabının içinde taşar (overflow:visible), orada kalır. */
+.kk-koridor { position: relative; }
+.kk-koridor.kk-dar:has(details.rk-foto-nokta[open]) { z-index: 3; }
+.kk-koridor:has(details.rk-foto-nokta[open]) .kk-not { opacity: 0; }
+.kk-koridor:has(details.rk-foto-nokta[open]) .kk-sponsor { z-index: 3; }
+
+@media (max-width: 640px) {
+  .kk-koridor .kk-kadraj { aspect-ratio: 390 / 640; min-height: 0; max-height: none; }
+  .kk-ust { padding-top: 76px; }
+  .rk-foto-kart.rk-slot.kk-kart { width: auto; }
+  .kk-koridor .kk-not { bottom: 36px; font-size: 12px; }
+  .kk-koridor .rk-foto-nokta { --rk-balon: 54px; }
+  .kk-koridor .rk-foto-nokta .rk-nokta-marka.kk-hap { width: 54px; min-width: 54px; min-height: 54px; }
+  .kk-koridor .kk-hap .kk-bas, .kk-koridor .kk-hap .rk-nokta-logo { width: 28px; height: 28px; font-size: 10.5px; }
+  .kk-hap-ad { max-width: 50px; font-size: 9.5px; }
+  .kk-koridor .kk-sponsor { top: auto; bottom: 74px; right: 16px; padding: 9px 12px 8px; }
+}
+
+/* DAR HÂL (KL-ANASAYFA · KL-PROGRAM · KL-TAHLIL; plan §3.3 "aynı bileşenin dar hâli"): aynı sahne ve kapılar, sayfa kabının içinde,
+   kırıntısız; künye bandın sağ üstüne, not alt ortaya. */
+.kk-koridor.kk-dar { margin: 0 auto; border-radius: 22px; overflow: hidden; }
+.kk-dar .kk-kadraj { aspect-ratio: 21 / 9; min-height: 420px; max-height: 560px; }
+/* Dar sahne kabın genişliğinde (≈1176 px): rozetler mobil boyunda, kapılar birbirine binmez */
+.kk-dar .rk-foto-nokta { --rk-balon: 54px; }
+.kk-dar .rk-foto-nokta .rk-nokta-marka.kk-hap, .kk-dar .rk-foto-nokta.rk-hover summary .rk-nokta-marka.kk-hap { width: 54px; min-width: 54px; min-height: 54px; }
+.kk-dar .kk-hap .kk-bas, .kk-dar .kk-hap .rk-nokta-logo { width: 28px; height: 28px; font-size: 10.5px; }
+.kk-dar .kk-hap-ad { max-width: 50px; font-size: 9.5px; }
+.kk-dar .rk-dolap-kadraj, .kk-dar .rk-nk { border-radius: 22px; }
+.kk-koridor.kk-dar:has(details.rk-foto-nokta[open]) { overflow: visible; }
+.kk-koridor.kk-dar .kk-sponsor { top: 20px; right: 20px; }
+.kk-koridor.kk-dar .kk-not { bottom: 22px; }
+.rk-klinik-oge { padding: 0 0 8px; }
+.rk-klinik-oge > .wrap { display: block; }
+@media (max-width: 640px) {
+  /* Mobil koridorla aynı oran: kapı konumları aynı kırpımda kalır (nokta editörünün mobil çerçevesi) */
+  .kk-dar .kk-kadraj { aspect-ratio: 390 / 640; min-height: 0; max-height: none; }
+  .kk-dar .rk-foto-nokta .rk-nokta-marka.kk-hap, .kk-dar .rk-foto-nokta.rk-hover summary .rk-nokta-marka.kk-hap { width: 50px; min-width: 50px; min-height: 50px; padding: 5px 3px 4px; }
+  .kk-koridor.kk-dar .kk-sponsor { top: auto; bottom: 56px; right: 12px; }
+  .kk-koridor.kk-dar .kk-not { bottom: 20px; }
+}
+
+/* Revize 28 Eki (Beyar madde 3): kapı etiketi "Diyetisyen Ayşe" (unvan + ad, `reklam.koridor.kapi_etiketi`, 5 dil). Tek satırlı 58 px
+   ad kutusu unvanı kesiyordu; etiket iki satıra sarar (unvan / ad), kare kart en çok ~96 px'e (dar hâl ve 390'da ~84 px) büyür,
+   uzun dillerde (de "Ernährungsberater") taşmaz. Avatar ve kart iskeleti aynı kalır. */
+.kk-koridor .rk-foto-nokta .rk-nokta-marka.kk-hap,
+.kk-koridor .rk-foto-nokta.rk-hover summary .rk-nokta-marka.kk-hap { width: auto; min-width: 64px; max-width: 104px; padding: 7px 8px 7px; }
+.kk-koridor .kk-hap-ad { max-width: 88px; white-space: normal; overflow: visible; text-overflow: clip; text-align: center; font-size: 11px; line-height: 1.18; overflow-wrap: break-word; }
+@media (max-width: 640px) {
+  .kk-koridor .rk-foto-nokta .rk-nokta-marka.kk-hap,
+  .kk-koridor .rk-foto-nokta.rk-hover summary .rk-nokta-marka.kk-hap { width: auto; min-width: 54px; max-width: 84px; padding: 6px 6px 6px; }
+  .kk-koridor .kk-hap-ad { max-width: 72px; font-size: 10px; }
+}
+.kk-dar .rk-foto-nokta .rk-nokta-marka.kk-hap, .kk-dar .rk-foto-nokta.rk-hover summary .rk-nokta-marka.kk-hap { width: auto; min-width: 54px; max-width: 84px; padding: 6px 6px 6px; }
+.kk-dar .kk-hap-ad { max-width: 72px; font-size: 10px; }
+
+/* Revize 28 Eki (Beyar madde 1): sponsor logosu okunmuyordu (künyede 15 px, kartta 13 px yükseklik; Memorial yazı markası ~70×15).
+   Logo belirgin: künyede 26 px (Medical Park yatay yazı markası ≈171 px), kart başlığında 20 px; künye logoyla birlikte genişler. */
+.kk-koridor .kk-sponsor .kk-logo { height: 26px; width: auto; max-width: 220px; }
+.kk-koridor .kk-sponsor-logo-alan { display: block; line-height: 0; }
+.rk-foto-kart.rk-slot.kk-kart .kk-sponsor-logo { height: 40px; padding: 0 14px; }
+.rk-foto-kart.rk-slot.kk-kart .kk-sponsor-logo .kk-logo { height: 20px; max-width: 170px; }
+@media (max-width: 640px) {
+  .kk-koridor .kk-sponsor .kk-logo { height: 20px; max-width: 160px; }
+}
+.kk-koridor.kk-dar .kk-sponsor .kk-logo { height: 22px; }
+/* 390 ve dar hâl: noktalar arası dikey mesafe (ör. kapı 5 ↔ 4: 49 px) iki satırlı etiket + baş harf dairesine (68 px) yetmiyor, kartlar
+   üst üste biniyordu (eskiden de 55 px'te 6 px). Dar yüzeyde kapı kartı yalnız etiketi taşır; baş harf açılan kartta durur. */
+@media (max-width: 640px) {
+  .kk-koridor .kk-hap .rk-nokta-logo { display: none; }
+  .kk-koridor .rk-foto-nokta .rk-nokta-marka.kk-hap, .kk-koridor .rk-foto-nokta.rk-hover summary .rk-nokta-marka.kk-hap { min-height: 0; padding: 6px 8px; }
+}
+
+/* Revize 28 Eki (Beyar d): sağ kenar ışığı sponsor rengini almaz, koridorun yeşil tonunda kalır (sahne yumuşak adaçayı / Dada Diet yeşili).
+   Işık Diet jetonlarından (`--marka` #009A44, `--marka-koyu` #00602b, `--marka-yikama` #e3f4ea); sponsor rengi yalnız SPONSORLU
+   rozetinde, künyenin sol çizgisinde ve gölgesinde. Yukarıdaki sponsor renkli katman silinmedi, burada geçersiz kılınır. */
+.kk-koridor { --kk-isik: var(--marka, #009A44); --kk-isik-koyu: var(--marka-koyu, #00602b); }
+.kk-karartma {
+  background:
+    radial-gradient(120% 90% at 100% 30%, color-mix(in srgb, var(--kk-isik) 18%, transparent) 0%, color-mix(in srgb, var(--kk-isik) 8%, transparent) 26%, color-mix(in srgb, var(--kk-isik) 0%, transparent) 46%),
+    linear-gradient(270deg, color-mix(in srgb, var(--kk-isik-koyu) 16%, transparent) 0%, color-mix(in srgb, var(--kk-isik-koyu) 6%, transparent) 16%, color-mix(in srgb, var(--kk-isik-koyu) 0%, transparent) 34%),
+    linear-gradient(180deg, rgba(18,28,22,.58) 0%, rgba(18,28,22,.26) 20%, rgba(18,28,22,0) 38%),
+    linear-gradient(0deg, rgba(18,28,22,.30) 0%, rgba(18,28,22,0) 16%); }
+.kk-koridor .kk-karartma::after { background: linear-gradient(255deg, color-mix(in srgb, var(--marka-yikama, #e3f4ea) 16%, transparent) 0%, transparent 42%); }
