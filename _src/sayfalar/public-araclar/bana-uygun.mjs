@@ -3,7 +3,7 @@ import { K, sayfaJs, bant, sihirbazBolum, adim, jsonGom, ikon, guven } from '../
 
 const ROTALAR = {
   bilgi: { metin: 'Önce mantığı öğrenmek istiyorsun. Rehber içerikleri kısa, genel ve uygulanabilir; hesaplama ve programa oradan geçmek daha kolay olur.',
-    birincil: { ad: 'Besin Rehberi', metin: 'Dengeli tabak, öğün planı, porsiyon: mantığı önce anla.', href: 'besin-rehberi/', ikon: 'fa-book-open' },
+    birincil: { ad: 'Beslenme Rehberi', metin: 'Dengeli tabak, öğün planı, porsiyon: mantığı önce anla.', href: 'besin-rehberi/', ikon: 'fa-book-open' },
     ikinci: [{ ad: 'Besin Kütüphanesi', metin: '541 besinin kalori ve makro değeri.', href: 'besin-kutuphanesi/', ikon: 'fa-magnifying-glass' }, { ad: 'Besin Karşılaştır', metin: 'İki besini yan yana gör.', href: 'besin-karsilastir/', ikon: 'fa-scale-balanced' }, { ad: 'Sağlık Testleri', metin: 'Birkaç soruda alışkanlığını ölç.', href: 'saglik-testleri/', ikon: 'fa-clipboard-question' }] },
   hesap: { metin: 'Önce rakamları görmek istiyorsun. Günlük kalori ihtiyacını hesapla, sonra sonucu tabağına taşı.',
     birincil: { ad: 'Günlük Kalori İhtiyacı', metin: 'Hedefine göre günlük enerji ihtiyacın.', href: 'hesaplayici/gunluk-kalori/', ikon: 'fa-utensils' },

@@ -128,8 +128,8 @@ const hubKart = (veri) => (y) => {
 function besinRehberi(veri) {
   const s = veri.sayaclar;
   const kartlar = metin.kartlar['besin-rehberi'];
-  return sayfa('besin-rehberi', 'Besin Rehberi',
-    bant({ yol: [['Besin Rehberi']], etiket: 'BESLENME', h1: 'Ne yediğini <span class="vurgu">bil</span>, nasıl besleneceğini öğren', alt: 'Yayınlanmış besin değerleri ve uygulanabilir beslenme bilgisi tek merkezde.', gorsel: 'assets/img/hero/besin-rehberi-canli.avif', sayilar: [[s.icerik_toplam, 'yayınlanmış rehber'], ['5', 'içerik ailesi']] })
+  return sayfa('besin-rehberi', 'Beslenme Rehberi',
+    bant({ yol: [['Beslenme Rehberi']], etiket: 'BESLENME', h1: 'Ne yediğini <span class="vurgu">bil</span>, nasıl besleneceğini öğren', alt: 'Yayınlanmış besin değerleri ve uygulanabilir beslenme bilgisi tek merkezde.', gorsel: 'assets/img/hero/besin-rehberi-canli.avif', sayilar: [[s.icerik_toplam, 'yayınlanmış rehber'], ['5', 'içerik ailesi']] })
     + dizi(
       bolum(`${ustSerit('MG-B1')}${bolumBas({ etiket: 'BESLENME REHBERİ', ikon: 'fa-book-open', baslik: 'Nereden Başlamak İstersin?', metin: 'Hesap yapmadan önce mantığı anla: dengeli tabak, öğün planı, porsiyon, alışveriş, mutfak alışkanlıkları, içecekler, dışarıda yemek ve ara öğünler. Sade, genel ve suçlamasız bir rehber; her başlık kısa ve uygulanabilir, sırayla okumak zorunda değilsin.' })}<div class="kart-izgara c3">${kartlar.map(hubKart(veri)).join('')}${rk('MG-N1', { tur: 'sonuc', sira: 1 })}</div><p class="liste-aralik">${s.icerik_toplam} rehberden 1–${kartlar.length} arası gösteriliyor</p>${rk('MG-B1-SIDE', { tur: 'yan' })}${bilgiNot('Bu sayfadaki içerikler <b>genel bilgi amaçlıdır</b>; <b>tıbbi teşhis veya tedavi yerine geçmez</b>, kişisel beslenme tavsiyesi değildir. Kişiye özel plan yalnızca <b>yetkili bir diyetisyen</b> tarafından hazırlanır; gebelik, kronik hastalık, düzenli ilaç kullanımı, çocuk beslenmesi veya klinik bir durum varsa plana başlamadan önce <b>hekim ve diyetisyen kontrolü zorunludur</b>.')}`, { ilk: true }),
     ), A);
@@ -139,7 +139,7 @@ function dengeliTabak() {
   const d = metin.dengeli;
   const y = metin.kartlar['besin-rehberi'][0];
   return sayfa('besin-rehberi/dengeli-tabak', 'Dengeli Tabak',
-    bant({ yol: [['Besin Rehberi', 'besin-rehberi/'], ['Dengeli Tabak']], etiket: 'BESLENME REHBERİ', etiketIkon: 'fa-book-open', h1: 'Dengeli Tabak', alt: 'Beslenmeyi karmaşık kurallara dönüştürmeden, tabağına bakarak sağlıklı bir denge kurmanın yolları.', gorsel: y.gorsel })
+    bant({ yol: [['Beslenme Rehberi', 'besin-rehberi/'], ['Dengeli Tabak']], etiket: 'BESLENME REHBERİ', etiketIkon: 'fa-book-open', h1: 'Dengeli Tabak', alt: 'Beslenmeyi karmaşık kurallara dönüştürmeden, tabağına bakarak sağlıklı bir denge kurmanın yolları.', gorsel: y.gorsel })
     + dizi(
       bolum(`${ustSerit('MD-B1', 'MD-READ')}${bolumBas({ etiket: 'BU REHBERDE', ikon: 'fa-list-check', baslik: 'Dengeli Tabağın Temelleri', metin: 'Dört soruda dengeli tabak: oran mantığı, besin gruplarının dengesi, ev porsiyonu ve sade akşam yemeği.' })}
 <div class="iki-kolon"><div class="yigin">${akordeon(d.qa.map((q, i) => ({ soru: q.soru, ikon: 'fa-utensils', acik: i === 0, govde: `<div class="okuma">${bloklar(q.bloklar.map((b, j, l) => (b.t === 'p' && l[j + 1]?.t === 'ul' ? { ...b, t: 'h3' } : b)))}</div>` })))}<p class="sonuc-not-kisa">${d.dip[0]}</p>${bilgiNot()}</div>
@@ -152,7 +152,7 @@ function dengeliTabak() {
 function makroRehberi(veri) {
   const kart = (y) => rehberKart({ href: DETAY.makro, y });
   return sayfa('makro-rehberi', 'Makro Rehberi',
-    bant({ yol: [['Besin Rehberi', 'besin-rehberi/'], ['Makro Rehberi']], etiket: 'MAKRO REHBERİ', etiketIkon: 'fa-chart-pie', h1: 'Protein, karbonhidrat, yağ ve lif rehberi', alt: 'Makroların ne anlattığını, hangi besinde bulunduğunu ve etikette nasıl okunduğunu kaynaklarıyla anlatan yazılar.', gorsel: 'assets/img/hero/makro-rehberi-reh-hero.jpg', sayilar: [[veri.sayaclar.makro_rehberi, 'yayınlanmış rehber'], ['~4 dk', 'ortalama okuma']] })
+    bant({ yol: [['Beslenme Rehberi', 'besin-rehberi/'], ['Makro Rehberi']], etiket: 'MAKRO REHBERİ', etiketIkon: 'fa-chart-pie', h1: 'Protein, karbonhidrat, yağ ve lif rehberi', alt: 'Makroların ne anlattığını, hangi besinde bulunduğunu ve etikette nasıl okunduğunu kaynaklarıyla anlatan yazılar.', gorsel: 'assets/img/hero/makro-rehberi-reh-hero.jpg', sayilar: [[veri.sayaclar.makro_rehberi, 'yayınlanmış rehber'], ['~4 dk', 'ortalama okuma']] })
     + dizi(bolum(`${ustSerit('SZ-B1')}${bolumBas({ etiket: 'MAKRO REHBERİ', ikon: 'fa-chart-pie', baslik: 'Hangi Makroyla Başlamak İstersin?', metin: `${veri.sayaclar.makro_rehberi} rehberden 12 tanesi gösteriliyor.` })}<div class="kart-izgara c3">${metin.kartlar['makro-rehberi'].map(kart).join('')}${rk('SZ-N1', { tur: 'sonuc', sira: 4 })}</div>${bilgiNot('Bu sayfadaki içerikler <b>genel bilgi amaçlıdır</b>; <b>tıbbi teşhis veya tedavi yerine geçmez</b>, kişisel beslenme tavsiyesi değildir. Kişiye özel plan yalnızca <b>yetkili bir diyetisyen</b> tarafından hazırlanır; gebelik, kronik hastalık, düzenli ilaç kullanımı, çocuk beslenmesi veya klinik bir durum varsa plana başlamadan önce <b>hekim ve diyetisyen kontrolü zorunludur</b>.')}`, { ilk: true }), sonSerit('SZ-B1-END')), A);
 }
 
@@ -160,7 +160,7 @@ function makroDetay() {
   const y = metin.kartlar['makro-rehberi'][1];
   return makale({
     yol: 'makro-rehberi/protein-kaynaklari-hayvansal-bitkisel', baslik: y.ad,
-    bantV: { yol: [['Besin Rehberi', 'besin-rehberi/'], ['Makro Rehberi', 'makro-rehberi/'], [kac(y.ad)]], etiket: 'BESİN DEĞERLERİ', etiketIkon: 'fa-chart-pie', h1: kac(y.ad), alt: kac(y.ozet), gorsel: y.gorsel },
+    bantV: { yol: [['Beslenme Rehberi', 'besin-rehberi/'], ['Makro Rehberi', 'makro-rehberi/'], [kac(y.ad)]], etiket: 'BESİN DEĞERLERİ', etiketIkon: 'fa-chart-pie', h1: kac(y.ad), alt: kac(y.ozet), gorsel: y.gorsel },
     m: metin.makale['makro-rehberi-detay'],
     rk: { ust: ustSerit('ZD-B1'), son: sonSerit('ZD-B1-END') },
     yan: kunyeKart('Bu Yazı', [['Aile', 'Makro Rehberi'], ['Okuma', '~4 dk'], ['Kaynak', 'TÜBER 2022']], `${paylas}${dugme('Besin Kütüphanesi', 'besin-kutuphanesi/', 'birincil kucuk tam-en', 'fa-arrow-right', true)}`),
